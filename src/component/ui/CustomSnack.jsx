@@ -1,0 +1,25 @@
+import React from "react";
+import { Alert, Snackbar } from "@mui/material";
+import { useSnack } from "../../hooks/store/useSnack";
+
+export default function CustomSnack() {
+  const { type, open, message, closeSnack } = useSnack((state) => state);
+
+  const handleClose = (_, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    closeSnack();
+  };
+  return (
+    <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+      <Alert
+        onClose={handleClose}
+        severity={type || "success"}
+        sx={{ width: "100%" }}
+      >
+        {message}
+      </Alert>
+    </Snackbar>
+  );
+}
