@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
-  Divider,
   List,
   ListItem,
   ListItemButton,
@@ -12,6 +11,7 @@ import {
   InputBase,
   Typography,
   Avatar,
+  Grid,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DashboardIcon from "@mui/icons-material/GridViewOutlined";
@@ -30,8 +30,12 @@ const StyledInputBase = styled(InputBase)();
 const sideBarWidth = "240px";
 
 export default function Home() {
+  const [showSidebar, setShowSidebar] = useState(false);
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
+    <Box
+      // className={`${showSidebar ? "show" : "hide"}`}
+      sx={{ display: "flex", height: "100vh" }}
+    >
       <Box
         sx={{
           pt: 3.5,
@@ -39,7 +43,10 @@ export default function Home() {
           height: "100%",
           width: sideBarWidth,
           flexShrink: 0,
-          display: "flex",
+          display: {
+            xxs: showSidebar ? "flex" : "none",
+            lg: "flex",
+          },
           flexDirection: "column",
           bgcolor: "white",
         }}
@@ -138,6 +145,10 @@ export default function Home() {
           width: `calc(100% - ${sideBarWidth})`,
           bgcolor: "transparent",
           boxShadow: "none",
+          width: {
+            xxs: showSidebar ? `calc(100% - ${sideBarWidth})` : "100%",
+            lg: `calc(100% - ${sideBarWidth})`,
+          },
         }}
       >
         <Box
@@ -157,6 +168,9 @@ export default function Home() {
               p: 0,
               minWidth: 0,
               borderRadius: 1,
+            }}
+            onClick={() => {
+              setShowSidebar(!showSidebar);
             }}
           >
             <ToggleIcon
@@ -224,12 +238,14 @@ export default function Home() {
                   borderRadius: 2.5,
                   py: 1,
                   ":hover": { bgcolor: "success.light" },
+                  fontSize: { xxs: "12px", xs: "14px" },
+                  "&>span": { mr: { xxs: 0.5 } },
                 }}
                 endIcon={
                   <PlusIcon
                     sx={{
                       transform: "rotate(45deg)",
-                      fontSize: "18px!important",
+                      fontSize: { xxs: "16px!important", xs: "18px!important" },
                     }}
                   />
                 }
@@ -240,33 +256,33 @@ export default function Home() {
             <Button
               href="javascript:void(0);"
               sx={{
-                py: 0.75,
-                px: 1.5,
                 minWidth: 0,
                 borderWidth: "1px",
                 borderStyle: "solid",
                 borderColor: "grey.light",
                 borderRadius: 6,
                 gap: 1,
+                py: { xxs: 0, xs: 0.75 },
+                px: { xxs: 0, xs: 1.5 },
               }}
             >
               <Typography
                 variant="overline"
-                display="block"
                 sx={{
                   textTransform: "capitalize",
                   color: "text.primary",
                   lineHeight: 1,
+                  display: { xxs: "none", xs: "block" },
                 }}
               >
                 Hi, Aaron Cooper
               </Typography>
               <Avatar
                 sx={{
-                  height: "28px",
                   width: "auto",
                   borderRadius: "100%",
                   bgcolor: "grey.light",
+                  height: { xxs: "32px", xs: "28px" },
                 }}
                 alt="Remy Sharp"
                 src="https://uko-react.vercel.app/static/avatar/001-man.svg"
@@ -279,11 +295,27 @@ export default function Home() {
         component="main"
         sx={{
           flexGrow: 1,
+          pt: 13,
           px: 2.5,
           height: "100%",
           overflowY: "auto",
         }}
-      ></Box>
+      >
+        <Box>
+          <Grid container rowSpacing={1} columnSpacing={1}>
+            <Grid item xs={3}>
+              <Box>
+                <Typography variant="h6" sx={{ textTransform: "capitalize" }}>
+                  Total Employee
+                </Typography>
+                <Typography variant="h4" sx={{ textTransform: "capitalize" }}>
+                  12
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
     </Box>
   );
 }
