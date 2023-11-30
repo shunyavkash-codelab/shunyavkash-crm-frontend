@@ -3,12 +3,12 @@ export const theme = createTheme({
   // breakpoints
   breakpoints: {
     values: {
-      xxs: 0,
-      xs: 576,
-      sm: 640,
+      xs: 0,
+      sm: 575,
       md: 768,
       lg: 992,
-      xl: 1400,
+      xl: 1200,
+      xxl: 1400,
     },
   },
   //   colors
@@ -91,7 +91,7 @@ export const theme = createTheme({
 
   //   typography
   typography: {
-    fontFamily: '"Open Sans", "sans-serif"',
+    fontFamily: '"Open Sans", "sans-serif"!important',
     button: {
       fontWeight: 600,
       textWrap: "nowrap",
@@ -99,7 +99,7 @@ export const theme = createTheme({
     body1: {
       fontSize: "16px",
       fontWeight: 400,
-      lineHeight: 1.5,
+      lineHeight: 1.1,
     },
     body2: {
       fontSize: "14px",
@@ -109,7 +109,7 @@ export const theme = createTheme({
     subtitle1: {
       fontSize: "16px",
       fontWeight: 500,
-      lineHeight: 1.75,
+      lineHeight: 1.25,
     },
     subtitle2: {
       fontSize: "14px",
@@ -150,8 +150,8 @@ export const theme = createTheme({
     },
     h5: {
       fontWeight: 600,
-      fontSize: "24px",
-      lineHeight: 1.375,
+      fontSize: "26px",
+      lineHeight: 1.1,
     },
     h6: {
       fontWeight: 600,

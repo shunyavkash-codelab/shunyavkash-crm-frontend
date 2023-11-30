@@ -12,6 +12,8 @@ import {
   Typography,
   Avatar,
   Grid,
+  Card,
+  Divider,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DashboardIcon from "@mui/icons-material/GridViewOutlined";
@@ -22,6 +24,8 @@ import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
 import ToggleIcon from "@mui/icons-material/MenuOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import PlusIcon from "@mui/icons-material/CloseOutlined";
+import EmployeeIcon from "@mui/icons-material/BadgeOutlined";
+import { height } from "@mui/system";
 
 const Search = styled("div")();
 const SearchIconWrapper = styled("div")();
@@ -31,6 +35,7 @@ const sideBarWidth = "240px";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
+  const [showDorpDownMenu, setShowDorpDownMenu] = useState(false);
   return (
     <Box
       // className={`${showSidebar ? "show" : "hide"}`}
@@ -38,20 +43,23 @@ export default function Home() {
     >
       <Box
         sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          zIndex: 9999,
           pt: 3.5,
-          px: 2,
           height: "100%",
           width: sideBarWidth,
           flexShrink: 0,
           display: {
-            xxs: showSidebar ? "flex" : "none",
+            xs: showSidebar ? "flex" : "none",
             lg: "flex",
           },
           flexDirection: "column",
           bgcolor: "white",
         }}
       >
-        <Box sx={{ flexShrink: 0, display: "flex", mb: 3, px: 1.5 }}>
+        <Box sx={{ flexShrink: 0, display: "flex", mb: 3, px: 3.5 }}>
           <svg
             version="1.2"
             xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +96,7 @@ export default function Home() {
             />
           </svg>
         </Box>
-        <Box sx={{ flexGrow: 1, height: "500px", overflowY: "auto" }}>
+        <Box sx={{ flexGrow: 1, height: "500px", overflowY: "auto", px: 2 }}>
           <List>
             {["DashBoard", "Manager", "Clients", "Projects", "Invoices"].map(
               (text, index) => (
@@ -141,129 +149,108 @@ export default function Home() {
       <AppBar
         position="fixed"
         sx={{
+          py: 2.25,
+          px: 2.5,
           top: 0,
           width: `calc(100% - ${sideBarWidth})`,
-          bgcolor: "transparent",
+          bgcolor: "#f3f4f9",
           boxShadow: "none",
+          border: 0,
+          borderBottom: "1px solid rgba(0,0,0,0.1)",
           width: {
-            xxs: showSidebar ? `calc(100% - ${sideBarWidth})` : "100%",
             lg: `calc(100% - ${sideBarWidth})`,
           },
         }}
       >
         <Box
           sx={{
-            pt: 3,
-            pb: 1.5,
-            px: 2.5,
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <Button
-            sx={{
-              color: "text.primary",
-              display: { lg: "none" },
-              p: 0,
-              minWidth: 0,
-              borderRadius: 1,
-            }}
-            onClick={() => {
-              setShowSidebar(!showSidebar);
-            }}
-          >
-            <ToggleIcon
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Button
               sx={{
-                width: "auto",
-                height: "32px",
+                color: "text.primary",
+                display: { lg: "none" },
+                p: 0,
+                minWidth: 0,
+                borderRadius: 1,
               }}
-            />
-          </Button>
-          <Search
-            sx={{
-              position: "relative",
-              ml: 0,
-              width: "280px",
-              height: "40px",
-              display: { xxs: "none", lg: "inline-flex" },
-            }}
-          >
-            <SearchIconWrapper
-              sx={{
-                zIndex: 1,
-                color: "rgba(42, 64, 98, 50%)",
-                position: "absolute",
-                top: "50%",
-                left: "10px",
-                transform: "translateY(-50%)",
-                height: "24px",
-                "&>svg": {
-                  height: "100%",
-                  width: "auto",
-                },
+              onClick={() => {
+                setShowSidebar(!showSidebar);
               }}
             >
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              sx={{
-                width: "100%",
-                "&>input": {
-                  width: "100%",
-                  borderRadius: 6,
-                  borderWidth: "1px",
-                  borderStyle: "solid",
-                  borderColor: "text.primaryLight",
-                  transition: "all 0.4s ease-in-out",
-                  py: 1,
-                  pl: 5,
-                  pr: 2,
-                  ":focus": {
-                    width: "100%",
-                    borderColor: "text.primary",
-                  },
-                },
-              }}
-            />
-          </Search>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Box sx={{ display: "inline-flex" }}>
-              <Button
-                variant="contained"
-                color="success"
+              <ToggleIcon
                 sx={{
-                  borderRadius: 2.5,
-                  py: 1,
-                  ":hover": { bgcolor: "success.light" },
-                  fontSize: { xxs: "12px", xs: "14px" },
-                  "&>span": { mr: { xxs: 0.5 } },
+                  width: "auto",
+                  height: "32px",
                 }}
-                endIcon={
-                  <PlusIcon
-                    sx={{
-                      transform: "rotate(45deg)",
-                      fontSize: { xxs: "16px!important", xs: "18px!important" },
-                    }}
-                  />
-                }
+              />
+            </Button>
+            <Search
+              sx={{
+                position: "relative",
+                ml: 0,
+                width: "280px",
+                height: "40px",
+                display: { xs: "none", sm: "inline-flex" },
+              }}
+            >
+              <SearchIconWrapper
+                sx={{
+                  zIndex: 1,
+                  color: "rgba(42, 64, 98, 50%)",
+                  position: "absolute",
+                  top: "50%",
+                  left: "10px",
+                  transform: "translateY(-50%)",
+                  height: "24px",
+                  "&>svg": {
+                    height: "100%",
+                    width: "auto",
+                  },
+                }}
               >
-                Add Profile
-              </Button>
-            </Box>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+                sx={{
+                  width: "100%",
+                  "&>input": {
+                    width: "100%",
+                    borderRadius: 6,
+                    border: "1px solid ",
+                    borderColor: "grey.light",
+                    transition: "all 0.4s ease-in-out",
+                    py: 1,
+                    pl: 5,
+                    pr: 2,
+                    ":focus": {
+                      width: "100%",
+                      borderColor: "text.primary",
+                    },
+                  },
+                }}
+              />
+            </Search>
+          </Box>
+          <Box sx={{ position: "relative" }}>
             <Button
-              href="javascript:void(0);"
+              onClick={() => {
+                setShowDorpDownMenu(!showDorpDownMenu);
+              }}
               sx={{
                 minWidth: 0,
-                borderWidth: "1px",
-                borderStyle: "solid",
+                border: "1px solid",
                 borderColor: "grey.light",
                 borderRadius: 6,
                 gap: 1,
-                py: { xxs: 0, xs: 0.75 },
-                px: { xxs: 0, xs: 1.5 },
+                py: { xs: 0, sm: 0.75 },
+                px: { xs: 0, sm: 1.5 },
               }}
             >
               <Typography
@@ -272,7 +259,7 @@ export default function Home() {
                   textTransform: "capitalize",
                   color: "text.primary",
                   lineHeight: 1,
-                  display: { xxs: "none", xs: "block" },
+                  display: { xs: "none", sm: "block" },
                 }}
               >
                 Hi, Aaron Cooper
@@ -282,12 +269,125 @@ export default function Home() {
                   width: "auto",
                   borderRadius: "100%",
                   bgcolor: "grey.light",
-                  height: { xxs: "32px", xs: "28px" },
+                  height: { xs: "36px", sm: "28px" },
                 }}
                 alt="Remy Sharp"
                 src="https://uko-react.vercel.app/static/avatar/001-man.svg"
               />
             </Button>
+            <Box
+              sx={{
+                py: 1,
+                color: "text.primary",
+                position: "absolute",
+                top: "130%",
+                right: 0,
+                bgcolor: "white",
+                minWidth: "240px",
+                borderRadius: 1.5,
+                transition: "all 0.4s ease-in-out",
+                transformOrigin: "top center",
+                transform: showDorpDownMenu ? "scale(1)" : "scale(0)",
+                opacity: showDorpDownMenu ? "1" : "0",
+              }}
+            >
+              <Box
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2.5,
+                }}
+              >
+                <Avatar
+                  sx={{
+                    width: "auto",
+                    borderRadius: "100%",
+                    bgcolor: "grey.light",
+                    height: { xs: "36px" },
+                  }}
+                  alt="Remy Sharp"
+                  src="https://uko-react.vercel.app/static/avatar/001-man.svg"
+                />
+                <Box
+                  sx={{
+                    textAlign: "left",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      mb: 1,
+                      fontWeight: 600,
+                      lineHeight: 1,
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    Aaron Cooper
+                  </Typography>
+                  <Typography
+                    variant="overline"
+                    sx={{
+                      opacity: 0.4,
+                      lineHeight: 1,
+                      textTransform: "lowercase",
+                      display: "block",
+                    }}
+                  >
+                    aaron@example.com
+                  </Typography>
+                </Box>
+              </Box>
+              <Divider sx={{ borderColor: "rgba(0,0,0,10%)" }} />
+              <List
+                sx={{
+                  textTransform: "capitalize",
+                }}
+              >
+                {["Profile"].map((text) => (
+                  <ListItem
+                    key={text}
+                    disablePadding
+                    sx={{
+                      mt: 0.5,
+                      lineHeight: 1,
+                      ":first-child": { mt: 0 },
+                    }}
+                  >
+                    <ListItemButton
+                      sx={{
+                        p: 1.5,
+                        transitionProperty: "all",
+                        ":hover": {
+                          bgcolor: "primary.light",
+                          color: "primary.main",
+                        },
+                      }}
+                    >
+                      {text}
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+              <Divider sx={{ borderColor: "rgba(0,0,0,10%)" }} />
+              <Button
+                sx={{
+                  color: "text.primary",
+                  width: "100%",
+                  justifyContent: "start",
+                  textTransform: "capitalize",
+                  padding: 1.5,
+                  lineHeight: 1,
+                  mt: 1,
+                  ":hover": {
+                    bgcolor: "primary.light",
+                    color: "primary.main",
+                  },
+                }}
+              >
+                Sign Out
+              </Button>
+            </Box>
           </Box>
         </Box>
       </AppBar>
@@ -297,24 +397,207 @@ export default function Home() {
           flexGrow: 1,
           pt: 13,
           px: 2.5,
+          pb: 2.5,
+          ml: { lg: sideBarWidth },
           height: "100%",
           overflowY: "auto",
         }}
       >
         <Box>
+          <Box sx={{ mb: 3.25 }}>
+            <Typography
+              variant="h5"
+              sx={{ mb: 0.75, textTransform: "capitalize" }}
+            >
+              DashBoard
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              sx={{ opacity: 0.4, textTransform: "capitalize" }}
+            >
+              DashBoard
+            </Typography>
+          </Box>
           <Grid container rowSpacing={1} columnSpacing={1}>
-            <Grid item xs={3}>
-              <Box>
-                <Typography variant="h6" sx={{ textTransform: "capitalize" }}>
-                  Total Employee
+            <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
+              <Box
+                sx={{
+                  py: { xs: 3, sm: 3.25 },
+                  px: { xs: 3, sm: 2.5 },
+                  bgcolor: "rgba(22, 119, 255, 10%)",
+                  color: "text.primary",
+                  borderRadius: 2.5,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    textTransform: "capitalize",
+                    mb: { xs: 3.5, sm: 4.5 },
+                    fontSize: { xs: "16px", sm: "18px" },
+                  }}
+                >
+                  Total manager
                 </Typography>
-                <Typography variant="h4" sx={{ textTransform: "capitalize" }}>
+                <Typography
+                  variant="h3"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.75,
+                    fontSize: { xs: "32px", sm: "36px" },
+                  }}
+                >
+                  <ManagerIcon sx={{ fontSize: { xs: "28px", sm: "32px" } }} />
                   12
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
+              <Box
+                sx={{
+                  py: 3.25,
+                  px: 2.5,
+                  bgcolor: "rgb(255, 198, 117, 10%)",
+                  color: "text.primary",
+                  borderRadius: 2.5,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{ textTransform: "capitalize", mb: 4.5 }}
+                >
+                  Total clients
+                </Typography>
+                <Typography
+                  variant="h3"
+                  sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                >
+                  <ClientsIcon sx={{ fontSize: { xs: "32px" } }} />
+                  22
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
+              <Box
+                sx={{
+                  py: 3.25,
+                  px: 2.5,
+                  bgcolor: "rgba(0, 255, 135, 10%)",
+                  color: "text.primary",
+                  borderRadius: 2.5,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{ textTransform: "capitalize", mb: 4.5 }}
+                >
+                  Total projects
+                </Typography>
+                <Typography
+                  variant="h3"
+                  sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                >
+                  <ProjectsIcon sx={{ fontSize: { xs: "32px" } }} />
+                  100+
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
+              <Box
+                sx={{
+                  py: 3.25,
+                  px: 2.5,
+                  bgcolor: "rgba(255, 0, 67, 10%)",
+                  color: "text.primary",
+                  borderRadius: 2.5,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{ textTransform: "capitalize", mb: 4.5 }}
+                >
+                  Total invoices
+                </Typography>
+                <Typography
+                  variant="h3"
+                  sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                >
+                  <InvoicesIcon sx={{ fontSize: { xs: "32px" } }} />
+                  50
                 </Typography>
               </Box>
             </Grid>
           </Grid>
         </Box>
+        {/* <Box sx={{ mt: 6 }}>
+          <Box sx={{ mb: 3.25 }}>
+            <Typography
+              variant="h5"
+              sx={{ mb: 0.75, textTransform: "capitalize" }}
+            >
+              Our Recent invoices
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              sx={{ opacity: 0.4, textTransform: "capitalize" }}
+            >
+              invoices
+            </Typography>
+          </Box>
+          <Box>
+            <Grid container rowSpacing={2} columnSpacing={2}>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={6}
+                xl={4}
+                xxl={3}
+                sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
+              >
+                <Card variant="outlined" sx={{ height: "450px" }}></Card>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={6}
+                xl={4}
+                xxl={3}
+                sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
+              >
+                <Card variant="outlined" sx={{ height: "450px" }}></Card>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={6}
+                xl={4}
+                xxl={3}
+                sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
+              >
+                <Card variant="outlined" sx={{ height: "450px" }}></Card>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={6}
+                xl={4}
+                xxl={3}
+                sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
+              >
+                <Card variant="outlined" sx={{ height: "450px" }}></Card>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box> */}
       </Box>
     </Box>
   );
