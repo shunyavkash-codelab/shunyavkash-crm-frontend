@@ -3,11 +3,12 @@ export const theme = createTheme({
   // breakpoints
   breakpoints: {
     values: {
-      xs: 0,
+      xxs: 0,
+      xs: 575,
       sm: 640,
       md: 768,
-      lg: 1024,
-      xl: 1280,
+      lg: 992,
+      xl: 1400,
     },
   },
   //   colors
@@ -22,12 +23,7 @@ export const theme = createTheme({
       700: "#374151",
       800: "#D0347E",
       900: "#111827",
-      1000: "#fff",
-    },
-    grey: {
-      400: "#8c959f",
-      500: "#6e7781",
-      600: "#57606a",
+      1000: "#ffffff",
     },
     action: {
       active: "#6B7280",
@@ -39,26 +35,50 @@ export const theme = createTheme({
     },
     background: {
       default: "#F9FAFC",
-      paper: "#FFFFFF",
+      white: "#FFFFFF",
       main: "#D0347E",
+      transparent: "transparent",
+    },
+    grey: {
+      main: "#BFC6D0",
+      light: "#e8e8e8",
+      dark: "#5E738D",
     },
     divider: "#E6E8F0",
     primary: {
-      main: "#D0347E",
+      main: "#1677FF",
+      light: "rgb(22 119 255/ 6%)",
+      dark: "#0B815A",
+      contrastText: "#FFFFFF",
+    },
+    secondary: {
+      main: "#FFC675",
       light: "#828DF8",
       dark: "#b50458",
       contrastText: "#FFFFFF",
     },
-    secondary: {
-      main: "#D0347E",
-      light: "#3FC79A",
-      dark: "#0B815A",
-      contrastText: "#FFFFFF",
+    text: {
+      primary: "#2A4062",
+      primaryLight: "rgba(42, 64, 98, 30%)",
+      secondary: "#65748B",
+      disabled: "rgba(55, 65, 81, 0.48)",
     },
     success: {
-      main: "#14B8A6",
-      light: "#43C6B7",
+      main: "#4AD292",
+      light: "rgba(74, 210, 146, 80%)",
       dark: "#0E8074",
+      contrastText: "#FFFFFF",
+    },
+    error: {
+      main: "#FF779B",
+      light: "#FFF0F4",
+      dark: "#B27B16",
+      contrastText: "#FFFFFF",
+    },
+    warning: {
+      main: "#D14343",
+      light: "#DA6868",
+      dark: "#922E2E",
       contrastText: "#FFFFFF",
     },
     info: {
@@ -67,31 +87,15 @@ export const theme = createTheme({
       dark: "#0B79D0",
       contrastText: "#FFFFFF",
     },
-    warning: {
-      main: "#FFB020",
-      light: "#FFBF4C",
-      dark: "#B27B16",
-      contrastText: "#FFFFFF",
-    },
-    error: {
-      main: "#D14343",
-      light: "#DA6868",
-      dark: "#922E2E",
-      contrastText: "#FFFFFF",
-    },
-    text: {
-      primary: "#121828",
-      secondary: "#65748B",
-      disabled: "rgba(55, 65, 81, 0.48)",
-    },
   },
 
   //   typography
   typography: {
+    fontFamily: '"Open Sans", "sans-serif"',
     button: {
       fontWeight: 600,
+      textWrap: "nowrap",
     },
-    // fontFamily: '"DM Sans", "sans-serif"',
     body1: {
       fontSize: "1rem",
       fontWeight: 400,
