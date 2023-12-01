@@ -95,6 +95,7 @@ export default function SideBar({
                 }}
               >
                 <ListItemButton
+                  disableRipple
                   component={Link} // Use Link component for routing
                   to={item.link} // Specify the route to navigate to
                   sx={{
