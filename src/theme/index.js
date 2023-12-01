@@ -91,7 +91,7 @@ export const theme = createTheme({
 
   //   typography
   typography: {
-    fontFamily: '"Open Sans", "sans-serif"!important',
+    fontFamily: '"Open Sans", "sans-serif"',
     button: {
       fontWeight: 600,
       textWrap: "nowrap",
