@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Grid, Card } from "@mui/material";
+import { Box, Typography, Grid, Card, Button } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import CounterCards from "../component/CounterCards";
@@ -7,6 +7,7 @@ import ManagerIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -105,19 +106,49 @@ export default function Home() {
             </Grid>
           </Box>
           <Box sx={{ mt: 6 }}>
-            <Box sx={{ mb: 3.25 }}>
-              <Typography
-                variant="h5"
-                sx={{ mb: 0.75, textTransform: "capitalize" }}
-              >
-                Our Recent invoices
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                invoices
-              </Typography>
+            <Box
+              sx={{
+                mb: 3.25,
+                display: "flex",
+                alignItems: { sm: "center" },
+                justifyContent: { sm: "space-between" },
+                flexDirection: { xs: "column", sm: "row" },
+                columnGap: 2,
+                rowGap: 2.5,
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="h5"
+                  sx={{ mb: 0.75, textTransform: "capitalize" }}
+                >
+                  Our Recent invoices
+                </Typography>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
+                >
+                  invoices
+                </Typography>
+              </Box>
+              <Box>
+                <Link variant="Button" to="./Invoices">
+                  <Button
+                    disableRipple
+                    sx={{
+                      px: 3.5,
+                      py: 1.75,
+                      bgcolor: "primary.main",
+                      color: "white",
+                      lineHeight: 1,
+                      borderRadius: 2.5,
+                      "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
+                    }}
+                  >
+                    View All
+                  </Button>
+                </Link>
+              </Box>
             </Box>
             <Box>
               <Grid container rowSpacing={2} columnSpacing={2}>
