@@ -8,10 +8,47 @@ import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
 import { Link } from "react-router-dom";
+import ToggleIcon from "@mui/icons-material/MenuOutlined";
+import SearchIcon from "@mui/icons-material/Search";
+import PlusIcon from "@mui/icons-material/CloseOutlined";
+import EmployeeIcon from "@mui/icons-material/BadgeOutlined";
+import { height } from "@mui/system";
+import useApi from "../hooks/useApi";
+import {useSnack} from "../hooks/store/useSnack"
+
+const Search = styled("div")();
+const SearchIconWrapper = styled("div")();
+const StyledInputBase = styled(InputBase)();
+
+const sideBarWidth = "240px";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [showDorpDownMenu, setShowDorpDownMenu] = useState(false);
+  const [userAvtar, setUserAvtar] = useState({name:"Aaron Cooper"});
+  const { apiCall, isLoading } = useApi();
+  const { setSnack } = useSnack()
+
+  // const userAvtarCall = async (id) => {
+  //   try {
+  //     const res = await apiCall({
+  //       url: `manager/${id}`,
+  //       method: "get",
+  //     });
+  //     if (res.data.success === true) {
+  //       setSnack(res.data.message);
+  //       setUserAvtar(res.data.data)
+  //       console.log(res.data.data,"userAvtar======54")
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //     // handleApiError(error, setSnack);
+  //   }
+  // };
+  // useEffect(() => {
+  //     userAvtarCall('6569ca3bd8635fedc401bc8b')
+  // }, []);
   return (
     <>
       <SideBar
