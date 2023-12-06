@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   InputBase,
@@ -14,6 +14,8 @@ import {
 import { styled } from "@mui/material/styles";
 import ToggleIcon from "@mui/icons-material/MenuOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import useApi from "../hooks/useApi";
+import {useSnack} from "../hooks/store/useSnack"
 
 const Search = styled("div")();
 const SearchIconWrapper = styled("div")();
@@ -26,6 +28,28 @@ export default function Header({
   setShowSidebar,
 }) {
   const [showDorpDownMenu, setShowDorpDownMenu] = useState(false);
+  const [userAvtar, setUserAvtar] = useState({name:"Aaron Cooper"});
+  const { apiCall, isLoading } = useApi();
+  const { setSnack } = useSnack()
+
+  // const userAvtarCall = async (id) => {
+  //   try {
+  //     const res = await apiCall({
+  //       url: `manager/${id}`,
+  //       method: "get",
+  //     });
+  //     if (res.data.success === true) {
+  //       setSnack(res.data.message);
+  //       setUserAvtar(res.data.data)
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //     // handleApiError(error, setSnack);
+  //   }
+  // };
+  // useEffect(() => {
+  //     userAvtarCall('6569ca3bd8635fedc401bc8b')
+  // }, []);
   return (
     <AppBar
       position="fixed"
@@ -143,7 +167,7 @@ export default function Header({
                 display: { xs: "none", sm: "block" },
               }}
             >
-              Hi, Aaron Cooper
+              Hi, {userAvtar.name.slice(0,6)}
             </Typography>
             <Avatar
               sx={{
@@ -153,7 +177,7 @@ export default function Header({
                 height: { xs: "36px", sm: "28px" },
               }}
               alt="Remy Sharp"
-              src="https://uko-react.vercel.app/static/avatar/001-man.svg"
+              src={userAvtar.profile_img ? userAvtar.profile_img : "https://uko-react.vercel.app/static/avatar/001-man.svg"}
             />
           </Button>
           <Box
@@ -188,7 +212,7 @@ export default function Header({
                   height: { xs: "36px" },
                 }}
                 alt="Remy Sharp"
-                src="https://uko-react.vercel.app/static/avatar/001-man.svg"
+                src={userAvtar.profile_img ? userAvtar.profile_img : "https://uko-react.vercel.app/static/avatar/001-man.svg"}
               />
               <Box
                 sx={{
@@ -204,7 +228,7 @@ export default function Header({
                     textTransform: "capitalize",
                   }}
                 >
-                  Aaron Cooper
+                   {userAvtar.name}
                 </Typography>
                 <Typography
                   variant="overline"
@@ -215,7 +239,7 @@ export default function Header({
                     display: "block",
                   }}
                 >
-                  aaron@example.com
+                    {userAvtar.email ? userAvtar.email : "aaron@example.com"}
                 </Typography>
               </Box>
             </Box>
