@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Grid, Card, Button } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -8,11 +8,35 @@ import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
 import { Link } from "react-router-dom";
+import useApi from "../hooks/useApi";
+import { useSnack } from "../hooks/store/useSnack";
+import { APIS } from "../api/apiList";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  
+  const [dashboardData, setDashboardData] = useState(false);
+  const { apiCall, isLoading } = useApi();
+  const { setSnack } = useSnack();
+
+  const fetchDashboardData = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.DASHBOARD.DATA,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setDashboardData(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+      // handleApiError(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
   return (
     <>
       <SideBar
@@ -59,7 +83,7 @@ export default function Home() {
                 <CounterCards
                   BgColor={"rgb(22, 108, 255, 10%)"}
                   Title={"Total Manager"}
-                  Counter={"12"}
+                  Counter={dashboardData.totalManager}
                   icon={
                     <ManagerIcon
                       sx={{ fontSize: { xs: "28px", sm: "32px" } }}
@@ -71,7 +95,7 @@ export default function Home() {
                 <CounterCards
                   BgColor={"rgb(255, 198, 117, 10%)"}
                   Title={"Total Clients"}
-                  Counter={"22"}
+                  Counter={dashboardData.totalClient || 0}
                   icon={
                     <ClientsIcon
                       sx={{ fontSize: { xs: "28px", sm: "32px" } }}
@@ -83,7 +107,7 @@ export default function Home() {
                 <CounterCards
                   BgColor={"rgba(0, 255, 135, 10%)"}
                   Title={"Total projects"}
-                  Counter={"100+"}
+                  Counter={dashboardData.totalProject || 0}
                   icon={
                     <ProjectsIcon
                       sx={{ fontSize: { xs: "28px", sm: "32px" } }}
@@ -95,7 +119,7 @@ export default function Home() {
                 <CounterCards
                   BgColor={"rgba(255, 0, 67, 10%)"}
                   Title={"Total invoices"}
-                  Counter={"50"}
+                  Counter={dashboardData.totalInvoice || 0}
                   icon={
                     <InvoicesIcon
                       sx={{ fontSize: { xs: "28px", sm: "32px" } }}

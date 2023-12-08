@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
 import {
   Box,
   Typography,
@@ -22,143 +23,40 @@ import CreateIcon from "@mui/icons-material/CreateOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 import AvatarGroup from "@mui/material/AvatarGroup";
-
-const rows = [
-  {
-    name: "CRM-Shunyavkash",
-    employeeId: [
-      { id: "6565810a7374346225094fa7", name: "ravi chodvadiya" },
-      { id: "6565b5f43cf3461aeaff7639", name: "akash hirapra" },
-    ],
-    startDate: "2023-11-29",
-    endDate: "2023-12-29",
-    currency: "Doller",
-    perHourCharge: 40,
-    status: "completed",
-    avatar: "https://mui.com/static/images/avatar/2.jpg",
-  },
-  {
-    name: "Ploom",
-    employeeId: [
-      { id: "6565810a7374346225094fa7", name: "shyam tala" },
-      { id: "6565b5f43cf3461aeaff7639", name: "mohit patel" },
-    ],
-    startDate: "2023-01-01",
-    endDate: "2023-05-15",
-    currency: "Doller",
-    perHourCharge: 50,
-    status: "initial",
-    avatar: "https://mui.com/static/images/avatar/1.jpg",
-  },
-  {
-    name: "automobile-Shunyavkash",
-    employeeId: [
-      { id: "6565810a7374346225094fa7", name: "sujit hirapra" },
-      { id: "6565b5f43cf3461aeaff7639", name: "akash hirapra" },
-    ],
-    startDate: "2023-11-29",
-    endDate: "2023-12-29",
-    currency: "Doller",
-    perHourCharge: 40,
-    status: "initial",
-    avatar: "https://mui.com/static/images/avatar/2.jpg",
-  },
-  {
-    name: "Shunyavkash",
-    employeeId: [
-      { id: "6565810a7374346225094fa7", name: "prince patel" },
-      { id: "6565b5f43cf3461aeaff7639", name: "deep patel" },
-    ],
-    startDate: "2023-11-29",
-    endDate: "2023-12-29",
-    currency: "Doller",
-    perHourCharge: 30,
-    status: "initial",
-    avatar: "https://mui.com/static/images/avatar/1.jpg",
-  },
-  {
-    name: "Shunyavkash 1",
-    employeeId: [
-      { id: "6565810a7374346225094fa7", name: "ravi chodvadiya" },
-      { id: "6565b5f43cf3461aeaff7639", name: "akash hirapra" },
-    ],
-    startDate: "2023-11-29",
-    endDate: "2023-12-29",
-    currency: "Doller",
-    perHourCharge: 40,
-    status: "initial",
-    avatar: "https://mui.com/static/images/avatar/3.jpg",
-  },
-  {
-    name: "Shunyavkash 2",
-    employeeId: [
-      { id: "6565810a7374346225094fa7", name: "ravi chodvadiya" },
-      { id: "6565b5f43cf3461aeaff7639", name: "akash hirapra" },
-    ],
-    startDate: "2023-11-29",
-    endDate: "2023-12-29",
-    currency: "Doller",
-    perHourCharge: 60,
-    status: "inProgress",
-    avatar: "https://mui.com/static/images/avatar/1.jpg",
-  },
-  {
-    name: "Shunyavkash 3",
-    employeeId: [
-      { id: "6565810a7374346225094fa7", name: "dipali patel" },
-      { id: "6565b5f43cf3461aeaff7639", name: "pooja patel" },
-    ],
-    startDate: "2023-10-29",
-    endDate: "2023-12-15",
-    currency: "Doller",
-    perHourCharge: 20,
-    status: "completed",
-    avatar: "https://mui.com/static/images/avatar/2.jpg",
-  },
-  {
-    name: "Shunyavkash 4",
-    employeeId: [
-      { id: "6565810a7374346225094fa7", name: "ravi chodvadiya" },
-      { id: "6565b5f43cf3461aeaff7639", name: "akash hirapra" },
-    ],
-    startDate: "2023-11-29",
-    endDate: "2023-12-29",
-    currency: "Doller",
-    perHourCharge: 40,
-    status: "inProgress",
-    avatar: "https://mui.com/static/images/avatar/1.jpg",
-  },
-  {
-    name: "Shunyavkash 5",
-    employeeId: [
-      { id: "6565810a7374346225094fa7", name: "ravi chodvadiya" },
-      { id: "6565b5f43cf3461aeaff7639", name: "akash hirapra" },
-    ],
-    startDate: "2023-11-29",
-    endDate: "2023-12-29",
-    currency: "Doller",
-    perHourCharge: 40,
-    status: "inProgress",
-    avatar: "https://mui.com/static/images/avatar/2.jpg",
-  },
-  {
-    name: "Shunyavkash 6",
-    employeeId: [
-      { id: "6565810a7374346225094fa7", name: "ravi chodvadiya" },
-      { id: "6565b5f43cf3461aeaff7639", name: "akash hirapra" },
-    ],
-    startDate: "2023-11-29",
-    endDate: "2023-12-29",
-    currency: "Doller",
-    perHourCharge: 40,
-    status: "completed",
-    avatar: "https://mui.com/static/images/avatar/1.jpg",
-  },
-];
+import { useSnack } from "../hooks/store/useSnack";
+import useApi from "../hooks/useApi";
+import handleApiError from "../utils/handleApiError";
+import AddProject from "../component/AddProject";
+import ViewProject from "../component/ViewProject";
+import { APIS } from "../api/apiList";
 
 export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [projectList, setProjectList] = useState([]);
+  const [openAdd, setOpenAdd] = useState(false);
+  const [openView, setOpenView] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const { apiCall, isLoading } = useApi();
+  const { setSnack } = useSnack();
+  const fetchManagers = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.PROJECT.LIST,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setProjectList(res.data.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+      handleApiError(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    fetchManagers();
+  }, []);
   return (
     <>
       <SideBar
@@ -225,9 +123,11 @@ export default function Project() {
                     "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
                   }}
                   startIcon={<CloseIcon sx={{ transform: "rotate(45deg)" }} />}
+                  onClick={() => setOpenAdd(true)}
                 >
                   New Project
                 </Button>
+                {openAdd && <AddProject open={openAdd} setOpen={setOpenAdd} />}
               </Link>
             </Box>
           </Box>
@@ -253,7 +153,9 @@ export default function Project() {
               <TableHead>
                 <TableRow sx={{ "&>th": { lineHeight: 1 } }}>
                   <TableCell>Project Name</TableCell>
-                  <TableCell>Assign Member</TableCell>
+                  {/* <TableCell>Assign Member</TableCell> */}
+                  <TableCell>Client</TableCell>
+                  <TableCell>Manager</TableCell>
                   <TableCell>Start date</TableCell>
                   <TableCell>End date</TableCell>
                   <TableCell>Currency/hour</TableCell>
@@ -262,7 +164,7 @@ export default function Project() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {projectList.map((row) => (
                   <TableRow
                     key={row.name}
                     sx={{
@@ -272,7 +174,7 @@ export default function Project() {
                     }}
                   >
                     <TableCell>{row.name}</TableCell>
-                    <TableCell component="th" scope="row">
+                    {/* <TableCell component="th" scope="row">
                       <Box
                         sx={{
                           display: "flex",
@@ -288,11 +190,18 @@ export default function Project() {
                           <Avatar alt="Trevor Henderson" src={row.avatar} />
                         </AvatarGroup>
                       </Box>
-                    </TableCell>
-                    <TableCell>{row.startDate}</TableCell>
-                    <TableCell>{row.endDate}</TableCell>
+                    </TableCell> */}
+                    <TableCell>{row.clientName}</TableCell>
+                    <TableCell>{row.managerName}</TableCell>
                     <TableCell>
-                      {row.currency}/{row.perHourCharge}
+                      {moment(row.startDate).format("MMM D, YYYY")}
+                    </TableCell>
+                    <TableCell>
+                      {moment(row.endDate).format("MMM D, YYYY")}
+                    </TableCell>
+                    <TableCell>
+                      {row.currency}
+                      {row.perHourCharge}/hour
                     </TableCell>
                     <TableCell>
                       <Box
@@ -337,9 +246,35 @@ export default function Project() {
                           "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
                         }}
                       >
-                        <VisibilityIcon />
-                        <CreateIcon />
-                        <DeleteIcon />
+                        <Box>
+                          <Button
+                            sx={{
+                              p: 0,
+                              minWidth: "auto",
+                              color: "black",
+                              "&:hover": { color: "blue" },
+                            }}
+                            onClick={() => setOpenView(true)}
+                          >
+                            <VisibilityIcon />
+                          </Button>
+                          <ViewProject open={openView} setOpen={setOpenView} />
+                        </Box>
+                        <Box>
+                          <Button
+                            sx={{
+                              p: 0,
+                              minWidth: "auto",
+                              color: "black",
+                              "&:hover": { color: "blue" },
+                            }}
+                            onClick={() => setOpenEdit(true)}
+                          >
+                            <CreateIcon />
+                          </Button>
+                          <AddProject open={openEdit} setOpen={setOpenEdit} />
+                        </Box>
+                        {/* <DeleteIcon /> */}
                       </Box>
                     </TableCell>
                   </TableRow>
