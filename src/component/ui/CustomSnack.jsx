@@ -12,7 +12,7 @@ export default function CustomSnack() {
     closeSnack();
   };
   return (
-    <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+    <Snackbar open={open} autoHideDuration={4000} anchorOrigin={{ vertical:'bottom', horizontal:"right" }} onClose={handleClose}>
       <Alert
         onClose={handleClose}
         severity={type || "success"}
