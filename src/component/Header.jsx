@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   InputBase,
-  List,
-  ListItem,
-  ListItemButton,
   AppBar,
   Button,
   Typography,
@@ -24,13 +21,7 @@ const Search = styled("div")();
 const SearchIconWrapper = styled("div")();
 const StyledInputBase = styled(InputBase)();
 
-export default function Header({
-  sideBarWidth,
-  setSidebarWidth,
-  showSidebar,
-  setShowSidebar,
-}) {
-  const [showDorpDownMenu, setShowDorpDownMenu] = useState(false);
+export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
   const [userAvtar, setUserAvtar] = useState({ name: "Aaron Cooper" });
   const [anchorEl, setAnchorEl] = useState(null);
   const { apiCall, isLoading } = useApi();
@@ -43,23 +34,25 @@ export default function Header({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const userAvtarCall = async (id) => {
-    try {
-      const res = await apiCall({
-        url: `manager/${id}`,
-        method: "get",
-      });
-      if (res.data.success === true) {
-        setSnack(res.data.message);
-        setUserAvtar(res.data.data);
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-      // handleApiError(error, setSnack);
-    }
+  // Function to add data to localStorage
+  const addDataToLocalStorage = (data) => {
+    localStorage.setItem("user", JSON.stringify(data));
+  };
+
+  // Function to get data from localStorage
+  const getDataFromLocalStorage = () => {
+    setUserAvtar(JSON.parse(localStorage.getItem("user")));
   };
   useEffect(() => {
-    userAvtarCall("6569ca3bd8635fedc401bc8b");
+    // userAvtarCall("6569ca3bd8635fedc401bc8b");
+    addDataToLocalStorage({
+      name: "hiren",
+      profile_img:
+        "https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27",
+      _id: "6569ca3bd8635fedc401bc8b",
+      email: "hiren.polara@shunyavkash.com",
+    });
+    getDataFromLocalStorage();
   }, []);
 
   return (
