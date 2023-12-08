@@ -12,7 +12,7 @@ import ManagerIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function SideBar({
   sideBarWidth,
@@ -20,6 +20,7 @@ export default function SideBar({
   showSidebar,
   setShowSidebar,
 }) {
+  let location = useLocation();
   return (
     <>
       <Box
@@ -80,7 +81,11 @@ export default function SideBar({
         <Box sx={{ flexGrow: 1, height: "500px", overflowY: "auto", px: 2 }}>
           <List>
             {[
-              { text: "DashBoard", icon: <DashboardIcon />, link: "/" },
+              {
+                text: "DashBoard",
+                icon: <DashboardIcon />,
+                link: "/",
+              },
               { text: "Manager", icon: <ManagerIcon />, link: "/manager" },
               { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
               { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
@@ -92,6 +97,8 @@ export default function SideBar({
                 sx={{
                   mt: 0.5,
                   ":first-child": { mt: 0 },
+                  color: location.pathname == item.link && "primary.main",
+                  bgcolor: location.pathname == item.link && "primary.light",
                 }}
               >
                 <ListItemButton
@@ -102,6 +109,7 @@ export default function SideBar({
                     p: 1.5,
                     borderRadius: 2.5,
                     transitionProperty: "all",
+
                     ":hover": {
                       color: "primary.main",
                       bgcolor: "primary.light",
