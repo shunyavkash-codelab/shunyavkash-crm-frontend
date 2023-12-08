@@ -194,7 +194,6 @@ export default function Header({
                 bgcolor: "grey.light",
                 height: { xs: "36px", sm: "28px" },
                 width: { xs: "36px", sm: "28px" },
-                flexShrink: 0,
               }}
               alt="Remy Sharp"
               src={
@@ -225,10 +224,9 @@ export default function Header({
               <Avatar
                 sx={{
                   width: "36px",
+                  height: "36px",
                   borderRadius: "100%",
                   bgcolor: "grey.light",
-                  height: "36px",
-                  flexShrink: 0,
                 }}
                 alt="Remy Sharp"
                 src={
