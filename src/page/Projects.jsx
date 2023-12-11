@@ -137,7 +137,7 @@ export default function Project() {
                 width: "100%",
                 display: "block",
                 padding: "25px 16px",
-                background: "#ebebeb",
+                backgroundColor: "primary.light",
                 textAlign: "center",
                 borderRadius: 2,
               }}
