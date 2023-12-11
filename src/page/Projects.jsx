@@ -131,45 +131,75 @@ export default function Project() {
               </Link>
             </Box>
           </Box>
-          <TableContainer
-            component={Paper}
-            sx={{
-              border: "1px solid rgba(224, 224, 224, 1)",
-              borderRadius: 5,
-              mx: { xs: "-10px", sm: 0 },
-              width: { xs: "auto", sm: "auto" },
-              borderRadius: { xs: 4, sm: 6 },
-            }}
-          >
-            <Table
-              className="projectTable"
+          {projectList.length === 0 ? (
+            <Box
               sx={{
-                minWidth: 650,
-                textTransform: "capitalize",
-                textWrap: "nowrap",
-                "& th,& td": { borderBottom: 0 },
-                "& tbody tr": { borderTop: "1px solid rgba(224, 224, 224, 1)" },
+                width: "100%",
+                display: "block",
+                padding: "25px 16px",
+                background: "#ebebeb",
+                textAlign: "center",
+                borderRadius: 2,
               }}
-              aria-label="simple table"
             >
-              <TableHead>
-                <TableRow sx={{ "&>th": { lineHeight: 1 } }}>
-                  <TableCell>Project Name</TableCell>
-                  {/* <TableCell>Assign Member</TableCell> */}
-                  <TableCell>Client</TableCell>
-                  <TableCell>Manager</TableCell>
-                  <TableCell>Start date</TableCell>
-                  <TableCell>End date</TableCell>
-                  <TableCell>Currency/hour</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {projectList.length === 0 ? (
-                  <Box>data not found</Box>
-                ) : (
-                  <>
+              <Typography
+                mb={1.5}
+                variant="h4"
+                sx={{
+                  fontSize: "20px",
+                  color: "#1677FF",
+                  fontWeight: "500",
+                  letterSpacing: "0.5px",
+                }}
+              >
+                No data available in table
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ fontSize: 14, color: "#848484", fontWeight: "400" }}
+              >
+                Currently there no data available!
+              </Typography>
+            </Box>
+          ) : (
+            <>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  border: "1px solid rgba(224, 224, 224, 1)",
+                  borderRadius: 5,
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: { xs: 4, sm: 6 },
+                }}
+              >
+                <Table
+                  className="projectTable"
+                  sx={{
+                    minWidth: 650,
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": { borderBottom: 0 },
+                    "& tbody tr": {
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
+                    <TableRow sx={{ "&>th": { lineHeight: 1 } }}>
+                      <TableCell>Project Name</TableCell>
+                      {/* <TableCell>Assign Member</TableCell> */}
+                      <TableCell>Client</TableCell>
+                      <TableCell>Manager</TableCell>
+                      <TableCell>Start date</TableCell>
+                      <TableCell>End date</TableCell>
+                      <TableCell>Currency/hour</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
                     {projectList.map((row) => (
                       <TableRow
                         key={row.name}
@@ -274,11 +304,11 @@ export default function Project() {
                         </TableCell>
                       </TableRow>
                     ))}
-                  </>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </>
+          )}
         </Box>
       </Box>
     </>
