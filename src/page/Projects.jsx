@@ -139,7 +139,7 @@ export default function Project() {
                 padding: "25px 16px",
                 backgroundColor: "primary.light",
                 textAlign: "center",
-                borderRadius: 2,
+                borderRadius: 2.5,
               }}
             >
               <Typography
@@ -170,7 +170,7 @@ export default function Project() {
                   borderRadius: 5,
                   mx: { xs: "-10px", sm: 0 },
                   width: { xs: "auto", sm: "auto" },
-                  borderRadius: { xs: 4, sm: 6 },
+                  borderRadius: 2.5,
                 }}
               >
                 <Table
