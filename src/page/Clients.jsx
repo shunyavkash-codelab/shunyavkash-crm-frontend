@@ -1,9 +1,120 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import { Link } from "react-router-dom";
+import {
+  Box,
+  Typography,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Icon,
+} from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
+import CloseIcon from "@mui/icons-material/Close";
+import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
+import CreateIcon from "@mui/icons-material/CreateOutlined";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
-export default function Clients() {
+const rows = [
+  {
+    name: "Lucas",
+    companyName: "Shunyavkash",
+    mobileNumber: "9878909898",
+    gender: "male",
+    email: "Lucas@gmail.com",
+    profile_img: "https://mui.com/static/images/avatar/2.jpg",
+    managerName: "hiren",
+  },
+  {
+    name: "Chloe",
+    companyName: "Shunyavkash",
+    mobileNumber: "8767890090",
+    gender: "male",
+    email: "chloe@gmail.com",
+    profile_img: "https://mui.com/static/images/avatar/1.jpg",
+    managerName: "hiren",
+  },
+  {
+    name: "Ava",
+    companyName: "Shunyavkash",
+    mobileNumber: "8765674090",
+    gender: "female",
+    email: "ava@gmail.com",
+    profile_img: "https://mui.com/static/images/avatar/3.jpg",
+    managerName: "jaydeep",
+  },
+  {
+    name: "noah",
+    companyName: "Shunyavkash",
+    mobileNumber: "9878564531",
+    gender: "male",
+    email: "noah@gmail.com",
+    profile_img: "https://mui.com/static/images/avatar/1.jpg",
+    managerName: "hiren",
+  },
+  {
+    name: "Enzo",
+    companyName: "Shunyavkash",
+    mobileNumber: "1245674535",
+    gender: "male",
+    email: "enzo@gmail.com",
+    profile_img: "https://mui.com/static/images/avatar/2.jpg",
+    managerName: "jaydeep",
+  },
+  {
+    name: "Lea",
+    companyName: "Shunyavkash",
+    mobileNumber: "9878909898",
+    gender: "female",
+    email: "lea@gmail.com",
+    profile_img: "https://mui.com/static/images/avatar/3.jpg",
+    managerName: "hiren",
+  },
+  {
+    name: "Mathias",
+    companyName: "Shunyavkash",
+    mobileNumber: "7656787678",
+    gender: "male",
+    email: "mathias@gmail.com",
+    profile_img: "https://mui.com/static/images/avatar/1.jpg",
+    managerName: "jaydeep",
+  },
+  {
+    name: "Clara",
+    companyName: "Shunyavkash",
+    mobileNumber: "9800980067",
+    gender: "female",
+    email: "clara@gmail.com",
+    profile_img: "https://mui.com/static/images/avatar/3.jpg",
+    managerName: "jaydeep",
+  },
+  {
+    name: "Nathan",
+    companyName: "Shunyavkash",
+    mobileNumber: "8760982311",
+    gender: "male",
+    email: "nathan@gmail.com",
+    profile_img: "https://mui.com/static/images/avatar/2.jpg",
+    managerName: "hiren",
+  },
+  {
+    name: "Jade",
+    companyName: "Shunyavkash",
+    mobileNumber: "8790006564",
+    gender: "female",
+    email: "jade@gmail.com",
+    profile_img: "https://mui.com/static/images/avatar/3.jpg",
+    managerName: "jaydeep",
+  },
+];
+
+export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   return (
@@ -32,7 +143,153 @@ export default function Clients() {
             overflowY: "auto",
           }}
         >
-          Clients
+          <Box
+            sx={{
+              mb: 3.25,
+              display: "flex",
+              alignItems: { sm: "center" },
+              justifyContent: { sm: "space-between" },
+              flexDirection: { xs: "column", sm: "row" },
+              columnGap: 2,
+              rowGap: 2.5,
+            }}
+          >
+            <Box>
+              <Typography
+                variant="h5"
+                sx={{ mb: 0.75, textTransform: "capitalize" }}
+              >
+                Our Clients
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ opacity: 0.4, textTransform: "capitalize" }}
+              >
+                client
+              </Typography>
+            </Box>
+            <Box>
+              <Link variant="Button" to="javascript:void(0);">
+                <Button
+                  disableRipple
+                  sx={{
+                    px: 2.5,
+                    py: 1.5,
+                    bgcolor: "primary.main",
+                    color: "white",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    maxHeight: "42px",
+                    "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
+                  }}
+                  startIcon={<CloseIcon sx={{ transform: "rotate(45deg)" }} />}
+                >
+                  New client
+                </Button>
+              </Link>
+            </Box>
+          </Box>
+          <TableContainer
+            component={Paper}
+            sx={{
+              border: "1px solid rgba(224, 224, 224, 1)",
+              borderRadius: 5,
+              mx: { xs: "-10px", sm: 0 },
+              width: { xs: "auto", sm: "auto" },
+              borderRadius: { xs: 4, sm: 6 },
+            }}
+          >
+            <Table
+              className="projectTable"
+              sx={{
+                minWidth: 650,
+                textTransform: "capitalize",
+                textWrap: "nowrap",
+              }}
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRow sx={{ "&>th": { lineHeight: 1 } }}>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Company Name</TableCell>
+                  <TableCell>Manager Name</TableCell>
+                  <TableCell>Mobile number</TableCell>
+                  <TableCell>Gender</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                      "&>*": { p: 1.5 },
+                    }}
+                  >
+                    <TableCell component="th" scope="row">
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1.75,
+                        }}
+                      >
+                        <Avatar
+                          sx={{
+                            width: { xs: "36px", sm: "40px" },
+                            height: { xs: "36px", sm: "40px" },
+                          }}
+                          alt={row.name}
+                          src={row.profile_img}
+                        />
+                        <Box>
+                          <Typography
+                            sx={{
+                              mb: 0.75,
+                              lineHeight: 1,
+                              fontSize: { xs: "14px", sm: "16px" },
+                            }}
+                          >
+                            {row.name}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              lineHeight: 1,
+                              textTransform: "lowercase",
+                              fontSize: { xs: "12px", sm: "14px" },
+                            }}
+                          >
+                            {row.email}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </TableCell>
+                    <TableCell>{row.companyName}</TableCell>
+                    <TableCell>{row.managerName}</TableCell>
+                    <TableCell>{row.mobileNumber}</TableCell>
+                    <TableCell>{row.gender}</TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: { xs: 1.25, sm: 1.75 },
+                          opacity: 0.3,
+                          "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
+                        }}
+                      >
+                        <VisibilityIcon />
+                        <CreateIcon />
+                        <DeleteIcon />
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Box>
       </Box>
     </>
