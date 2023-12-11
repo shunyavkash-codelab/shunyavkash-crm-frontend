@@ -13,26 +13,18 @@ import {
   Paper,
   Avatar,
 } from "@mui/material";
-import AddManager from "../component/AddManager";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import CreateIcon from "@mui/icons-material/CreateOutlined";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
-import ViewProject from "../component/ViewProject";
-import AddProject from "../component/AddProject";
 import { APIS } from "../api/apiList.js";
 
 export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [managerList, setManagerList] = useState([]);
-  const [openView, setOpenView] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [open, setOpen] = useState(false);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const fetchManagers = async () => {
@@ -47,7 +39,6 @@ export default function Manager() {
       }
     } catch (error) {
       console.log(error, setSnack);
-      // handleApiError(error, setSnack);
     }
   };
   useEffect(() => {
@@ -105,7 +96,7 @@ export default function Manager() {
               </Typography>
             </Box>
             <Box>
-              <Link variant="Button" to="javascript:void(0);">
+              <Link variant="Button" to="./add">
                 <Button
                   disableRipple
                   sx={{
@@ -119,11 +110,9 @@ export default function Manager() {
                     "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
                   }}
                   startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                  onClick={() => setOpen(true)}
                 >
                   New Manager
                 </Button>
-                <AddManager open={open} setOpen={setOpen} />
               </Link>
             </Box>
           </Box>
@@ -231,33 +220,10 @@ export default function Manager() {
                                   color: "black",
                                   "&:hover": { color: "blue" },
                                 }}
-                                onClick={() => setOpenView(true)}
                               >
                                 <VisibilityIcon />
                               </Button>
-                              <ViewProject
-                                open={openView}
-                                setOpen={setOpenView}
-                              />
                             </Box>
-                            <Box>
-                              <Button
-                                sx={{
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "black",
-                                  "&:hover": { color: "blue" },
-                                }}
-                                onClick={() => setOpenEdit(true)}
-                              >
-                                <CreateIcon />
-                              </Button>
-                              <AddProject
-                                open={openEdit}
-                                setOpen={setOpenEdit}
-                              />
-                            </Box>
-                            {/* <DeleteIcon /> */}
                           </Box>
                         </TableCell>
                       </TableRow>

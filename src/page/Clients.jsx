@@ -13,10 +13,8 @@ import {
   Paper,
   Avatar,
 } from "@mui/material";
-import AddClients from "../component/AddClients";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
@@ -28,7 +26,6 @@ export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [clientList, setClientList] = useState([]);
-  const [open, setOpen] = useState(false);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
 
@@ -102,7 +99,7 @@ export default function Clients() {
               </Typography>
             </Box>
             <Box>
-              <Link variant="Button" to="javascript:void(0);">
+              <Link variant="Button" to="/clients/add">
                 <Button
                   disableRipple
                   sx={{
@@ -115,12 +112,9 @@ export default function Clients() {
                     maxHeight: "42px",
                     "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
                   }}
-                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                  onClick={() => setOpen(true)}
                 >
                   New client
                 </Button>
-                <AddClients open={open} setOpen={setOpen} />
               </Link>
             </Box>
           </Box>
