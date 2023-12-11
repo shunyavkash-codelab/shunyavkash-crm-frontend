@@ -28,13 +28,13 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function AddManager({ open, setOpen }) {
-  const [sex, setSex] = useState("");
+  const [gender, setgender] = useState("");
   const fileInput = useRef(null);
   const [file, setFile] = useState([]);
   const { palette } = useTheme();
 
   const handleChange = (event) => {
-    setSex(event.target.value);
+    setgender(event.target.value);
   };
 
   // const handleDragOver = (e) => {
@@ -116,7 +116,7 @@ export default function AddManager({ open, setOpen }) {
               justifyContent: "space-between",
               gap: 2,
               pt: { xs: 1.5, md: 0 },
-              pb: 3,
+              pb: 2.25,
               position: { xs: "sticky", md: "unset" },
               top: { xs: 0, md: "unset" },
               bgcolor: "white",
@@ -127,7 +127,10 @@ export default function AddManager({ open, setOpen }) {
             <Typography
               id="modal-modal-title"
               variant="h6"
-              sx={{ fontSize: { xs: "22px", md: "18px" } }}
+              sx={{
+                fontSize: { xs: "18px", sm: "22px", md: "18px" },
+                textTransform: "capitalize",
+              }}
             >
               Add new manager
             </Typography>
@@ -154,6 +157,7 @@ export default function AddManager({ open, setOpen }) {
           </Box>
           <Box
             sx={{
+              pt: 0.75,
               flexGrow: { md: 0 },
               overflowY: { md: "auto" },
               "&>*:not(:first-child)": { mt: 2 },
@@ -204,17 +208,31 @@ export default function AddManager({ open, setOpen }) {
                 "&>label": { fontSize: "14px" },
               }}
             >
-              <InputLabel id="demo-simple-select-label">Sex</InputLabel>
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                gender
+              </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={sex}
-                label="Sex"
+                value={gender}
+                label="Gender"
                 onChange={handleChange}
               >
-                <MenuItem value={"male"}>Male</MenuItem>
-                <MenuItem value={"female"}>Female</MenuItem>
-                <MenuItem value={"transgender"}>Transgender</MenuItem>
+                <MenuItem sx={{ textTransform: "capitalize" }} value={"male"}>
+                  Male
+                </MenuItem>
+                <MenuItem sx={{ textTransform: "capitalize" }} value={"female"}>
+                  Female
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize" }}
+                  value={"transgender"}
+                >
+                  Transgender
+                </MenuItem>
               </Select>
             </FormControl>
             <TextField
