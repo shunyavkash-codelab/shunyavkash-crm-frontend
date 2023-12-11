@@ -19,7 +19,7 @@ export default function useApi() {
             if (!reqConfig.headers.Authorization)
               reqConfig.headers.Authorization =
                 "Bearer " +
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NjljYTNiZDg2MzVmZWRjNDAxYmM4YiIsImlhdCI6MTcwMTY2NjMwMiwiZXhwIjoxNzAyNTMwMzAyfQ.PD-QmZfluggAPuNr0mbBDKncANuryW4pUCuAAkbD20I";
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NjVjZGUzMmM3NmViYjYyNTM5MzkxYiIsImlhdCI6MTcwMjI3MzgyOSwiZXhwIjoxNzAzMTM3ODI5fQ.yH5V1mpEgVpFpCxRKdbSFP6MKxGOQmkGhoBSspMifJw";
             return reqConfig;
           },
           (error) => Promise.reject(error)

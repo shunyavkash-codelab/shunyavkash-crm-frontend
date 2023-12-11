@@ -7,23 +7,23 @@ export const APIS = {
     LOGIN: "/manager/login",
     EDIT: (managerId) => `/manager/${managerId}`,
     VIEW: (managerId) => `/manager/${managerId}`,
-    LIST: "/manager/getManagers",
+    LIST: "/manager/get-managers",
   },
   CLIENT: {
     ADD: "/client/add",
     EDIT: (clientId) => `/client/${clientId}`,
     VIEW: (clientId) => `/client/${clientId}`,
-    LIST: "/client/getClients",
+    LIST: "/client/get-clients",
   },
   PROJECT: {
     ADD: "/project/add",
     EDIT: (projectId) => `/project/${projectId}`,
     VIEW: (projectId) => `/project/${projectId}`,
-    LIST: "/project/getProjects",
+    LIST: "/project/get-projects",
   },
   BANK: {
     ADD: "/bank/add",
     VIEW: (bankId) => `/bank/${bankId}`,
-    LIST: "/bank/getBanks",
+    LIST: "/bank/get-banks",
   },
 };
