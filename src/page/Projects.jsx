@@ -147,6 +147,8 @@ export default function Project() {
                 minWidth: 650,
                 textTransform: "capitalize",
                 textWrap: "nowrap",
+                "& th,& td": { borderBottom: 0 },
+                "& tbody tr": { borderTop: "1px solid rgba(224, 224, 224, 1)" },
               }}
               aria-label="simple table"
             >
