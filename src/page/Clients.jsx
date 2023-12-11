@@ -157,7 +157,28 @@ export default function Clients() {
               </TableHead>
               <TableBody>
                 {clientList.length === 0 ? (
-                  <Box>Data not found</Box>
+                  <TableRow>
+                    <TableCell colSpan={6} align="center">
+                      <Box
+                        sx={{
+                          width: "100%",
+                          maxWidth: "300px",
+                          margin: "20px auto",
+                          textAlign: "center",
+                          display: "inline-block",
+                          padding: "10px 20px",
+                          background: "#f2f2f2",
+                          border: "2px dashed #dbdbdb",
+                          borderRadius: 2,
+                          color: "#7b7b7b",
+                          fontWeight: "500",
+                          letterSpacing: "0.5px",
+                        }}
+                      >
+                        No data available in table
+                      </Box>
+                    </TableCell>
+                  </TableRow>
                 ) : (
                   <>
                     {clientList.map((row) => (
