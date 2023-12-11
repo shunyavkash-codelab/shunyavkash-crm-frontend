@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -20,6 +20,9 @@ import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import useApi from "../hooks/useApi";
+import { useSnack } from "../hooks/store/useSnack";
+import { APIS } from "../api/apiList.js";
 
 const rows = [
   {
@@ -117,7 +120,29 @@ const rows = [
 export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [clientList, setClientList] = useState([]);
   const [open, setOpen] = useState(false);
+  const { apiCall, isLoading } = useApi();
+  const { setSnack } = useSnack();
+
+  const fetchclientData = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.CLIENT.LIST,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setClientList(res.data.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    fetchclientData();
+  }, []);
+
   return (
     <>
       <SideBar
@@ -224,7 +249,7 @@ export default function Clients() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {clientList.map((row) => (
                   <TableRow
                     key={row.name}
                     sx={{

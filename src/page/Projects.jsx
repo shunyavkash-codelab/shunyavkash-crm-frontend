@@ -166,121 +166,116 @@ export default function Project() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {projectList.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&>*": { p: 1.5 },
-                    }}
-                  >
-                    <TableCell>{row.name}</TableCell>
-                    {/* <TableCell component="th" scope="row">
-                      <Box
+                {projectList.length === 0 ? (
+                  <Box>data not found</Box>
+                ) : (
+                  <>
+                    {projectList.map((row) => (
+                      <TableRow
+                        key={row.name}
                         sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1.75,
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&>*": { p: 1.5 },
                         }}
                       >
-                        <AvatarGroup max={3}>
-                          <Avatar alt="Remy Sharp" src={row.avatar} />
-                          <Avatar alt="Travis Howard" src={row.avatar} />
-                          <Avatar alt="Cindy Baker" src={row.avatar} />
-                          <Avatar alt="Agnes Walker" src={row.avatar} />
-                          <Avatar alt="Trevor Henderson" src={row.avatar} />
-                        </AvatarGroup>
-                      </Box>
-                    </TableCell> */}
-                    <TableCell>{row.clientName}</TableCell>
-                    <TableCell>{row.managerName}</TableCell>
-                    <TableCell>
-                      {moment(row.startDate).format("MMM D, YYYY")}
-                    </TableCell>
-                    <TableCell>
-                      {moment(row.endDate).format("MMM D, YYYY")}
-                    </TableCell>
-                    <TableCell>
-                      {row.currency}
-                      {row.perHourCharge}/hour
-                    </TableCell>
-                    <TableCell>
-                      <Box
-                        sx={
-                          row.status === "completed"
-                            ? {
-                                py: 1,
-                                px: 1.75,
-                                bgcolor: "rgba(74, 210, 146, 10%)",
-                                color: "success.main",
-                                borderRadius: 2.5,
-                              }
-                            : "" || row.status === "initial"
-                            ? {
-                                py: 1,
-                                px: 1.75,
-                                bgcolor: "rgb(187 177 180 / 30%)",
-                                color: "rgb(123 119 120)",
-                                borderRadius: 2.5,
-                              }
-                            : "" || row.status === "inProgress"
-                            ? {
-                                py: 1,
-                                px: 1.75,
-                                bgcolor: "rgb(248 193 7 / 30%);",
-                                color: "rgb(253 146 5);",
-                                borderRadius: 2.5,
-                              }
-                            : ""
-                        }
-                      >
-                        {row.status}
-                      </Box>
-                    </TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: { xs: 1.25, sm: 1.75 },
-                          opacity: 0.3,
-                          "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
-                        }}
-                      >
-                        <Box>
-                          <Button
-                            sx={{
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "blue" },
-                            }}
-                            onClick={() => setOpenView(true)}
+                        <TableCell>{row.name}</TableCell>
+                        <TableCell>{row.clientName}</TableCell>
+                        <TableCell>{row.managerName}</TableCell>
+                        <TableCell>
+                          {moment(row.startDate).format("MMM D, YYYY")}
+                        </TableCell>
+                        <TableCell>
+                          {moment(row.endDate).format("MMM D, YYYY")}
+                        </TableCell>
+                        <TableCell>
+                          {row.currency == "Doller" ? "$" : ""}
+                          {row.perHourCharge}/hour
+                        </TableCell>
+                        <TableCell>
+                          <Box
+                            sx={
+                              row.status === "completed"
+                                ? {
+                                    py: 1,
+                                    px: 1.75,
+                                    bgcolor: "rgba(74, 210, 146, 10%)",
+                                    color: "success.main",
+                                    borderRadius: 2.5,
+                                  }
+                                : "" || row.status === "initial"
+                                ? {
+                                    py: 1,
+                                    px: 1.75,
+                                    bgcolor: "rgb(187 177 180 / 30%)",
+                                    color: "rgb(123 119 120)",
+                                    borderRadius: 2.5,
+                                  }
+                                : "" || row.status === "inProgress"
+                                ? {
+                                    py: 1,
+                                    px: 1.75,
+                                    bgcolor: "rgb(248 193 7 / 30%);",
+                                    color: "rgb(253 146 5);",
+                                    borderRadius: 2.5,
+                                  }
+                                : ""
+                            }
                           >
-                            <VisibilityIcon />
-                          </Button>
-                          <ViewProject open={openView} setOpen={setOpenView} />
-                        </Box>
-                        <Box>
-                          <Button
+                            {row.status}
+                          </Box>
+                        </TableCell>
+                        <TableCell>
+                          <Box
                             sx={{
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "blue" },
+                              display: "flex",
+                              alignItems: "center",
+                              gap: { xs: 1.25, sm: 1.75 },
+                              opacity: 0.3,
+                              "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
                             }}
-                            onClick={() => setOpenEdit(true)}
                           >
-                            <CreateIcon />
-                          </Button>
-                          <AddProject open={openEdit} setOpen={setOpenEdit} />
-                        </Box>
-                        {/* <DeleteIcon /> */}
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                            <Box>
+                              <Button
+                                sx={{
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "blue" },
+                                }}
+                                onClick={() => setOpenView(true)}
+                              >
+                                <VisibilityIcon />
+                              </Button>
+                              <ViewProject
+                                open={openView}
+                                setOpen={setOpenView}
+                              />
+                            </Box>
+                            <Box>
+                              <Button
+                                sx={{
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "blue" },
+                                }}
+                                onClick={() => setOpenEdit(true)}
+                              >
+                                <CreateIcon />
+                              </Button>
+                              <AddProject
+                                open={openEdit}
+                                setOpen={setOpenEdit}
+                              />
+                            </Box>
+                            {/* <DeleteIcon /> */}
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                )}
               </TableBody>
             </Table>
           </TableContainer>

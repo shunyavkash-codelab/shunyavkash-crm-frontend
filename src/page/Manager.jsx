@@ -22,18 +22,23 @@ import CreateIcon from "@mui/icons-material/CreateOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
+import ViewProject from "../component/ViewProject";
+import AddProject from "../component/AddProject";
+import { APIS } from "../api/apiList.js";
 
 export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [managerList, setManagerList] = useState([]);
+  const [openView, setOpenView] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [open, setOpen] = useState(false);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const fetchManagers = async () => {
     try {
       const res = await apiCall({
-        url: `manager/getManagers`,
+        url: APIS.MANAGER.LIST,
         method: "get",
       });
       if (res.data.success === true) {
@@ -214,8 +219,34 @@ export default function Manager() {
                           "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
                         }}
                       >
-                        <VisibilityIcon />
-                        <CreateIcon />
+                        <Box>
+                          <Button
+                            sx={{
+                              p: 0,
+                              minWidth: "auto",
+                              color: "black",
+                              "&:hover": { color: "blue" },
+                            }}
+                            onClick={() => setOpenView(true)}
+                          >
+                            <VisibilityIcon />
+                          </Button>
+                          <ViewProject open={openView} setOpen={setOpenView} />
+                        </Box>
+                        <Box>
+                          <Button
+                            sx={{
+                              p: 0,
+                              minWidth: "auto",
+                              color: "black",
+                              "&:hover": { color: "blue" },
+                            }}
+                            onClick={() => setOpenEdit(true)}
+                          >
+                            <CreateIcon />
+                          </Button>
+                          <AddProject open={openEdit} setOpen={setOpenEdit} />
+                        </Box>
                         {/* <DeleteIcon /> */}
                       </Box>
                     </TableCell>
