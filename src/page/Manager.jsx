@@ -39,7 +39,6 @@ export default function Manager() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setManagerList(res.data.data.data);
-        console.log(res.data.data.data, "============133");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -119,7 +118,7 @@ export default function Manager() {
                 >
                   New Manager
                 </Button>
-                {open && <AddManager open={open} setOpen={setOpen} />}
+                <AddManager open={open} setOpen={setOpen} />
               </Link>
             </Box>
           </Box>
@@ -182,6 +181,7 @@ export default function Manager() {
                             sx={{
                               mb: 0.75,
                               lineHeight: 1,
+                              fontWeight: 600,
                               fontSize: { xs: "14px", sm: "16px" },
                             }}
                           >

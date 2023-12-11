@@ -192,8 +192,8 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                     sx={{
                       borderRadius: "100%",
                       bgcolor: "grey.light",
-                      height: { xs: "36px", sm: "28px" },
-                      width: { xs: "36px", sm: "28px" },
+                      height: { xs: "36px", sm: "30px" },
+                      width: { xs: "36px", sm: "30px" },
                       flexShrink: 0,
                     }}
                     alt={userAvtar.name}
@@ -219,6 +219,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                       alignItems: "center",
                       gap: 2.5,
                       cursor: "text",
+                      bgcolor: "transparent!important",
                     }}
                   >
                     <Avatar

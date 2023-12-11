@@ -126,7 +126,7 @@ export const theme = createTheme({
     caption: {
       fontSize: "12px",
       fontWeight: 400,
-      lineHeight: 1.66,
+      lineHeight: 1.5,
     },
     h1: {
       fontWeight: 700,
@@ -156,7 +156,7 @@ export const theme = createTheme({
     h6: {
       fontWeight: 600,
       fontSize: "18px",
-      lineHeight: 1.375,
+      lineHeight: 1.1,
     },
     error: {
       main: "#D14343",
