@@ -61,6 +61,8 @@ export default function Home() {
             pb: 2.5,
             height: "100%",
             overflowY: "auto",
+            maxWidth: "1300px",
+            mx: "auto",
           }}
         >
           <Box>
