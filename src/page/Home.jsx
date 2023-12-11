@@ -83,7 +83,7 @@ export default function Home() {
                 <CounterCards
                   BgColor={"rgb(22, 108, 255, 10%)"}
                   Title={"Total Manager"}
-                  Counter={dashboardData.totalManager}
+                  Counter={dashboardData.totalManager || 0}
                   icon={
                     <ManagerIcon
                       sx={{ fontSize: { xs: "28px", sm: "32px" } }}

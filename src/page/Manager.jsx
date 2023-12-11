@@ -138,6 +138,8 @@ export default function Manager() {
                 minWidth: 650,
                 textTransform: "capitalize",
                 textWrap: "nowrap",
+                "& th,& td": { borderBottom: 0 },
+                "& tbody tr": { borderTop: "1px solid rgba(224, 224, 224, 1)" },
               }}
               aria-label="simple table"
             >
@@ -214,7 +216,7 @@ export default function Manager() {
                       >
                         <VisibilityIcon />
                         <CreateIcon />
-                        <DeleteIcon />
+                        {/* <DeleteIcon /> */}
                       </Box>
                     </TableCell>
                   </TableRow>

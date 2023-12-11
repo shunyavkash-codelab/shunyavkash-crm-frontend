@@ -12,11 +12,11 @@ import {
   TableRow,
   Paper,
   Avatar,
-  Icon,
 } from "@mui/material";
+import AddClients from "../component/AddClients";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import CloseIcon from "@mui/icons-material/Close";
+import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
@@ -114,9 +114,10 @@ const rows = [
   },
 ];
 
-export default function Project() {
+export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [open, setOpen] = useState(false);
   return (
     <>
       <SideBar
@@ -182,10 +183,12 @@ export default function Project() {
                     maxHeight: "42px",
                     "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
                   }}
-                  startIcon={<CloseIcon sx={{ transform: "rotate(45deg)" }} />}
+                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                  onClick={() => setOpen(true)}
                 >
                   New client
                 </Button>
+                <AddClients open={open} setOpen={setOpen} />
               </Link>
             </Box>
           </Box>
@@ -205,6 +208,8 @@ export default function Project() {
                 minWidth: 650,
                 textTransform: "capitalize",
                 textWrap: "nowrap",
+                "& th,& td": { borderBottom: 0 },
+                "& tbody tr": { borderTop: "1px solid rgba(224, 224, 224, 1)" },
               }}
               aria-label="simple table"
             >
@@ -249,6 +254,7 @@ export default function Project() {
                             sx={{
                               mb: 0.75,
                               lineHeight: 1,
+                              fontWeight: 600,
                               fontSize: { xs: "14px", sm: "16px" },
                             }}
                           >

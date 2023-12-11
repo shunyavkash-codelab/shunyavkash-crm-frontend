@@ -37,49 +37,6 @@ export default function AddManager({ open, setOpen }) {
     setgender(event.target.value);
   };
 
-  // const handleDragOver = (e) => {
-  //   console.log("run");
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   console.log(e);
-  //   console.log("test");
-  // };
-
-  // const handleDrop = (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   console.log(e);
-  //   const { files: uploadedFiles } = e.dataTransfer;
-  //   setFile(uploadedFiles);
-  // };
-  // useEffect(() => {
-  //   const dropElement = fileInput.current;
-  //   if (!dropElement) {
-  //     return;
-  //   }
-  //   console.log(dropElement);
-  //   const handleDragOver = (e) => {
-  //     console.log("run");
-  //     e.preventDefault();
-  //     e.stopPropagation();
-  //     console.log(e);
-  //     console.log("test");
-  //   };
-  //   const handleDrop = (e) => {
-  //     e.preventDefault();
-  //     e.stopPropagation();
-  //     const { files: uploadedFiles } = e.dataTransfer;
-  //     setFile(uploadedFiles);
-  //   };
-  //   dropElement.addEventListener("dragover", handleDragOver);
-  //   dropElement.addEventListener("drop", handleDrop);
-
-  //   return () => {
-  //     dropElement.removeEventListener("dragover", handleDragOver);
-  //     dropElement.removeEventListener("drop", handleDrop);
-  //   };
-  // }, []);
-
   return (
     <>
       <Modal
@@ -248,11 +205,10 @@ export default function AddManager({ open, setOpen }) {
               }}
             />
             <TextField
-              required
               fullWidth
               size="small"
               id="outlined-string"
-              label="Reference"
+              label="Website"
               autoComplete="off"
               sx={{
                 "&>label,& input": { fontSize: "14px" },
@@ -262,8 +218,10 @@ export default function AddManager({ open, setOpen }) {
               fullWidth
               size="small"
               id="outlined-string"
-              label="Website"
+              label="Address"
               autoComplete="off"
+              multiline
+              rows={2}
               sx={{
                 "&>label,& input": { fontSize: "14px" },
               }}
@@ -295,16 +253,7 @@ export default function AddManager({ open, setOpen }) {
                 }}
               >
                 Profile Image
-                <VisuallyHiddenInput
-                  // onChange={(e) => {
-                  //   console.log(e.target.files);
-                  // }}
-                  // onDragOver={handleDragOver}
-                  // onDrop={handleDrop}
-                  // ref={fileInput}
-                  id="test"
-                  type="file"
-                />
+                <VisuallyHiddenInput id="test" type="file" />
               </Button>
             </Box>
             <Box>
@@ -334,145 +283,9 @@ export default function AddManager({ open, setOpen }) {
                 }}
               >
                 Company Logo
-                <VisuallyHiddenInput
-                  // onChange={(e) => {
-                  //   console.log(e.target.files);
-                  // }}
-                  // onDragOver={handleDragOver}
-                  // onDrop={handleDrop}
-                  // ref={fileInput}
-                  id="test"
-                  type="file"
-                />
+                <VisuallyHiddenInput id="test" type="file" />
               </Button>
             </Box>
-            <Box>
-              <Typography variant="subtitle2" sx={{ lineHeight: 1, mb: 1 }}>
-                Signature
-              </Typography>
-              <Button
-                disableRipple
-                disableElevation
-                component="label"
-                variant="contained"
-                id="signature"
-                startIcon={<CloudUploadIcon />}
-                sx={{
-                  textTransform: "capitalize",
-                  width: "100%",
-                  borderRadius: 2.5,
-                  bgcolor: "transparent",
-                  border: "1px solid rgba(0,0,0,0.15)",
-                  boxShadow: "none",
-                  color: "text.primary",
-                  transition: "0s",
-                  ":hover": {
-                    bgcolor: "transparent",
-                    borderColor: "text.primary",
-                  },
-                }}
-              >
-                Signature
-                <VisuallyHiddenInput
-                  // onChange={(e) => {
-                  //   console.log(e.target.files);
-                  // }}
-                  // onDragOver={handleDragOver}
-                  // onDrop={handleDrop}
-                  // ref={fileInput}
-                  id="test"
-                  type="file"
-                />
-              </Button>
-            </Box>
-            {/* <Box>
-            <Typography variant="h6" sx={{}}>
-              Company Logo
-            </Typography>
-            <Button
-              component="label"
-              variant="contained"
-              id="company_logo"
-              startIcon={<CloudUploadIcon />}
-            >
-              Upload file
-              <VisuallyHiddenInput type="file" />
-            </Button>
-          </Box> */}
-            {/* <Box>
-            <Typography variant="h6" sx={{}}>
-              Signature
-            </Typography>
-            <Button
-              component="label"
-              variant="contained"
-              id="signature"
-              startIcon={<CloudUploadIcon />}
-            >
-              Upload file
-              <VisuallyHiddenInput type="file" />
-            </Button>
-          </Box> */}
-            {/* <Box
-            ref={fileInput}
-            sx={{
-              marginTop: "24px",
-              width: "30%",
-              display: "grid",
-              placeItems: "center",
-              gap: "12px",
-              position: "relative",
-              cursor: "pointer",
-            }}
-            htmlFor="uploadFile"
-            component={"label"}
-          >
-            <DragDropIcon
-              width="100%"
-              height="100%"
-              color={palette.primary["main"]}
-              bg={"white"}
-              border={"white"}
-            ></DragDropIcon>
-            <Box
-              sx={{
-                position: "absolute",
-                top: "50%",
-                transform: "translateY(-50%)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <UploadIcon color={"gray"} />
-              <Typography
-                sx={{
-                  mt: "20px",
-                  color: "primary.main",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                }}
-              >
-                Upload Your Video Or Photo
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  textTransform: "uppercase",
-                  fontStyle: " normal",
-                  lineHeight: "normal",
-                  letterSpacing: "-0.408px",
-                  color: "primary.main",
-                  opacity: 0.85,
-                }}
-              >
-                jpg,png,mp4 up to 100mb
-              </Typography>
-            </Box>
-          </Box> */}
-            {/* <Button variant="contained" color="success"></Button> */}
-
             <Button
               disableRipple
               sx={{
