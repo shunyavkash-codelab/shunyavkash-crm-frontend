@@ -6,6 +6,7 @@ import Manager from "./page/Manager";
 import Clients from "./page/Clients";
 import Projects from "./page/Projects";
 import Invoices from "./page/Invoices";
+import Profile from "./page/Profile";
 import CustomSnack from "./component/ui/CustomSnack";
 
 const routes = createBrowserRouter([
@@ -14,6 +15,7 @@ const routes = createBrowserRouter([
   { path: "/clients", Component: Clients },
   { path: "/projects", Component: Projects },
   { path: "/invoices", Component: Invoices },
+  { path: "/profile", Component: Profile },
 ]);
 export default function Routes() {
   return (
