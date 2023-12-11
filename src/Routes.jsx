@@ -22,8 +22,8 @@ const routes = createBrowserRouter([
   { path: "/profile", Component: Profile },
   { path: "/signup", Component: SignUp },
   { path: "/signin", Component: SignIn },
-  { path: "/forgotpassword", Component: ForgotPassword },
-  { path: "/confirmpassword", Component: ConfirmPassword },
+  { path: "/forgot-password", Component: ForgotPassword },
+  { path: "/confirm-password", Component: ConfirmPassword },
 ]);
 export default function Routes() {
   return (

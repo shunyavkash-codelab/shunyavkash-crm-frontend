@@ -24,99 +24,6 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
 
-const rows = [
-  {
-    name: "Lucas",
-    companyName: "Shunyavkash",
-    mobileNumber: "9878909898",
-    gender: "male",
-    email: "Lucas@gmail.com",
-    profile_img: "https://mui.com/static/images/avatar/2.jpg",
-    managerName: "hiren",
-  },
-  {
-    name: "Chloe",
-    companyName: "Shunyavkash",
-    mobileNumber: "8767890090",
-    gender: "male",
-    email: "chloe@gmail.com",
-    profile_img: "https://mui.com/static/images/avatar/1.jpg",
-    managerName: "hiren",
-  },
-  {
-    name: "Ava",
-    companyName: "Shunyavkash",
-    mobileNumber: "8765674090",
-    gender: "female",
-    email: "ava@gmail.com",
-    profile_img: "https://mui.com/static/images/avatar/3.jpg",
-    managerName: "jaydeep",
-  },
-  {
-    name: "noah",
-    companyName: "Shunyavkash",
-    mobileNumber: "9878564531",
-    gender: "male",
-    email: "noah@gmail.com",
-    profile_img: "https://mui.com/static/images/avatar/1.jpg",
-    managerName: "hiren",
-  },
-  {
-    name: "Enzo",
-    companyName: "Shunyavkash",
-    mobileNumber: "1245674535",
-    gender: "male",
-    email: "enzo@gmail.com",
-    profile_img: "https://mui.com/static/images/avatar/2.jpg",
-    managerName: "jaydeep",
-  },
-  {
-    name: "Lea",
-    companyName: "Shunyavkash",
-    mobileNumber: "9878909898",
-    gender: "female",
-    email: "lea@gmail.com",
-    profile_img: "https://mui.com/static/images/avatar/3.jpg",
-    managerName: "hiren",
-  },
-  {
-    name: "Mathias",
-    companyName: "Shunyavkash",
-    mobileNumber: "7656787678",
-    gender: "male",
-    email: "mathias@gmail.com",
-    profile_img: "https://mui.com/static/images/avatar/1.jpg",
-    managerName: "jaydeep",
-  },
-  {
-    name: "Clara",
-    companyName: "Shunyavkash",
-    mobileNumber: "9800980067",
-    gender: "female",
-    email: "clara@gmail.com",
-    profile_img: "https://mui.com/static/images/avatar/3.jpg",
-    managerName: "jaydeep",
-  },
-  {
-    name: "Nathan",
-    companyName: "Shunyavkash",
-    mobileNumber: "8760982311",
-    gender: "male",
-    email: "nathan@gmail.com",
-    profile_img: "https://mui.com/static/images/avatar/2.jpg",
-    managerName: "hiren",
-  },
-  {
-    name: "Jade",
-    companyName: "Shunyavkash",
-    mobileNumber: "8790006564",
-    gender: "female",
-    email: "jade@gmail.com",
-    profile_img: "https://mui.com/static/images/avatar/3.jpg",
-    managerName: "jaydeep",
-  },
-];
-
 export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
@@ -249,75 +156,81 @@ export default function Clients() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {clientList.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&>*": { p: 1.5 },
-                    }}
-                  >
-                    <TableCell component="th" scope="row">
-                      <Box
+                {clientList.length === 0 ? (
+                  <Box>Data not found</Box>
+                ) : (
+                  <>
+                    {clientList.map((row) => (
+                      <TableRow
+                        key={row.name}
                         sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1.75,
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&>*": { p: 1.5 },
                         }}
                       >
-                        <Avatar
-                          sx={{
-                            width: { xs: "36px", sm: "40px" },
-                            height: { xs: "36px", sm: "40px" },
-                          }}
-                          alt={row.name}
-                          src={row.profile_img}
-                        />
-                        <Box>
-                          <Typography
+                        <TableCell component="th" scope="row">
+                          <Box
                             sx={{
-                              mb: 0.75,
-                              lineHeight: 1,
-                              fontWeight: 600,
-                              fontSize: { xs: "14px", sm: "16px" },
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1.75,
                             }}
                           >
-                            {row.name}
-                          </Typography>
-                          <Typography
+                            <Avatar
+                              sx={{
+                                width: { xs: "36px", sm: "40px" },
+                                height: { xs: "36px", sm: "40px" },
+                              }}
+                              alt={row.name}
+                              src={row.profile_img}
+                            />
+                            <Box>
+                              <Typography
+                                sx={{
+                                  mb: 0.75,
+                                  lineHeight: 1,
+                                  fontWeight: 600,
+                                  fontSize: { xs: "14px", sm: "16px" },
+                                }}
+                              >
+                                {row.name}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  lineHeight: 1,
+                                  textTransform: "lowercase",
+                                  fontSize: { xs: "12px", sm: "14px" },
+                                }}
+                              >
+                                {row.email}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </TableCell>
+                        <TableCell>{row.companyName}</TableCell>
+                        <TableCell>{row.managerName}</TableCell>
+                        <TableCell>{row.mobileNumber}</TableCell>
+                        <TableCell>{row.gender}</TableCell>
+                        <TableCell>
+                          <Box
                             sx={{
-                              lineHeight: 1,
-                              textTransform: "lowercase",
-                              fontSize: { xs: "12px", sm: "14px" },
+                              display: "flex",
+                              alignItems: "center",
+                              gap: { xs: 1.25, sm: 1.75 },
+                              opacity: 0.3,
+                              "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
                             }}
                           >
-                            {row.email}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </TableCell>
-                    <TableCell>{row.companyName}</TableCell>
-                    <TableCell>{row.managerName}</TableCell>
-                    <TableCell>{row.mobileNumber}</TableCell>
-                    <TableCell>{row.gender}</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: { xs: 1.25, sm: 1.75 },
-                          opacity: 0.3,
-                          "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
-                        }}
-                      >
-                        <VisibilityIcon />
-                        <CreateIcon />
-                        <DeleteIcon />
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                            <VisibilityIcon />
+                            <CreateIcon />
+                            <DeleteIcon />
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                )}
               </TableBody>
             </Table>
           </TableContainer>

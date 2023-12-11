@@ -158,100 +158,112 @@ export default function Manager() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {managerList.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&>*": { p: 1.5 },
-                    }}
-                  >
-                    <TableCell component="th" scope="row">
-                      <Box
+                {managerList.length === 0 ? (
+                  <Box>Data not found</Box>
+                ) : (
+                  <>
+                    {managerList.map((row) => (
+                      <TableRow
+                        key={row.name}
                         sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1.75,
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&>*": { p: 1.5 },
                         }}
                       >
-                        <Avatar
-                          sx={{
-                            width: { xs: "36px", sm: "40px" },
-                            height: { xs: "36px", sm: "40px" },
-                          }}
-                          alt={row.name}
-                          src={row.profile_img}
-                        />
-                        <Box>
-                          <Typography
+                        <TableCell component="th" scope="row">
+                          <Box
                             sx={{
-                              mb: 0.75,
-                              lineHeight: 1,
-                              fontWeight: 600,
-                              fontSize: { xs: "14px", sm: "16px" },
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1.75,
                             }}
                           >
-                            {row.name}
-                          </Typography>
-                          <Typography
+                            <Avatar
+                              sx={{
+                                width: { xs: "36px", sm: "40px" },
+                                height: { xs: "36px", sm: "40px" },
+                              }}
+                              alt={row.name}
+                              src={row.profile_img}
+                            />
+                            <Box>
+                              <Typography
+                                sx={{
+                                  mb: 0.75,
+                                  lineHeight: 1,
+                                  fontWeight: 600,
+                                  fontSize: { xs: "14px", sm: "16px" },
+                                }}
+                              >
+                                {row.name}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  lineHeight: 1,
+                                  textTransform: "lowercase",
+                                  fontSize: { xs: "12px", sm: "14px" },
+                                }}
+                              >
+                                {row.email}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </TableCell>
+                        <TableCell>{row.companyName}</TableCell>
+                        <TableCell>{row.mobileNumber}</TableCell>
+                        <TableCell>{row.gender}</TableCell>
+                        <TableCell>
+                          <Box
                             sx={{
-                              lineHeight: 1,
-                              textTransform: "lowercase",
-                              fontSize: { xs: "12px", sm: "14px" },
+                              display: "flex",
+                              alignItems: "center",
+                              gap: { xs: 1.25, sm: 1.75 },
+                              opacity: 0.3,
+                              "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
                             }}
                           >
-                            {row.email}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </TableCell>
-                    <TableCell>{row.companyName}</TableCell>
-                    <TableCell>{row.mobileNumber}</TableCell>
-                    <TableCell>{row.gender}</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: { xs: 1.25, sm: 1.75 },
-                          opacity: 0.3,
-                          "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
-                        }}
-                      >
-                        <Box>
-                          <Button
-                            sx={{
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "blue" },
-                            }}
-                            onClick={() => setOpenView(true)}
-                          >
-                            <VisibilityIcon />
-                          </Button>
-                          <ViewProject open={openView} setOpen={setOpenView} />
-                        </Box>
-                        <Box>
-                          <Button
-                            sx={{
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "blue" },
-                            }}
-                            onClick={() => setOpenEdit(true)}
-                          >
-                            <CreateIcon />
-                          </Button>
-                          <AddProject open={openEdit} setOpen={setOpenEdit} />
-                        </Box>
-                        {/* <DeleteIcon /> */}
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                            <Box>
+                              <Button
+                                sx={{
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "blue" },
+                                }}
+                                onClick={() => setOpenView(true)}
+                              >
+                                <VisibilityIcon />
+                              </Button>
+                              <ViewProject
+                                open={openView}
+                                setOpen={setOpenView}
+                              />
+                            </Box>
+                            <Box>
+                              <Button
+                                sx={{
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "blue" },
+                                }}
+                                onClick={() => setOpenEdit(true)}
+                              >
+                                <CreateIcon />
+                              </Button>
+                              <AddProject
+                                open={openEdit}
+                                setOpen={setOpenEdit}
+                              />
+                            </Box>
+                            {/* <DeleteIcon /> */}
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </>
+                )}
               </TableBody>
             </Table>
           </TableContainer>
