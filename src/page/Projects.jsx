@@ -20,8 +20,6 @@ import Header from "../component/Header";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-
 import AvatarGroup from "@mui/material/AvatarGroup";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
@@ -112,7 +110,7 @@ export default function Project() {
               </Typography>
             </Box>
             <Box>
-              <Link variant="Button" to="javascript:void(0);">
+              <Link variant="Button" to="./add">
                 <Button
                   disableRipple
                   sx={{
@@ -126,11 +124,9 @@ export default function Project() {
                     "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
                   }}
                   startIcon={<CloseIcon sx={{ transform: "rotate(45deg)" }} />}
-                  onClick={() => setOpenAdd(true)}
                 >
                   New Project
                 </Button>
-                {openAdd && <AddProject open={openAdd} setOpen={setOpenAdd} />}
               </Link>
             </Box>
           </Box>
@@ -268,41 +264,28 @@ export default function Project() {
                               "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
                             }}
                           >
-                            <Box>
-                              <Button
-                                sx={{
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "black",
-                                  "&:hover": { color: "blue" },
-                                }}
-                                onClick={() => setOpenView(true)}
-                              >
-                                <VisibilityIcon />
-                              </Button>
-                              <ViewProject
-                                open={openView}
-                                setOpen={setOpenView}
-                              />
-                            </Box>
-                            <Box>
-                              <Button
-                                sx={{
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "black",
-                                  "&:hover": { color: "blue" },
-                                }}
-                                onClick={() => setOpenEdit(true)}
-                              >
-                                <CreateIcon />
-                              </Button>
-                              <AddProject
-                                open={openEdit}
-                                setOpen={setOpenEdit}
-                              />
-                            </Box>
-                            {/* <DeleteIcon /> */}
+                            <Button
+                              disableRipple
+                              sx={{
+                                p: 0,
+                                minWidth: "auto",
+                                color: "text.primary",
+                                "&:hover": { color: "primary.main" },
+                              }}
+                            >
+                              <VisibilityIcon />
+                            </Button>
+                            <Button
+                              disableRipple
+                              sx={{
+                                p: 0,
+                                minWidth: "auto",
+                                color: "text.primary",
+                                "&:hover": { color: "primary.main" },
+                              }}
+                            >
+                              <CreateIcon />
+                            </Button>
                           </Box>
                         </TableCell>
                       </TableRow>

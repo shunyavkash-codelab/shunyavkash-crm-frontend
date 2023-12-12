@@ -12,6 +12,7 @@ import AddManager from "./page/AddManager";
 import Clients from "./page/Clients";
 import AddClient from "./page/AddClient";
 import Projects from "./page/Projects";
+import AddProject from "./page/AddProject";
 import Invoices from "./page/Invoices";
 import Profile from "./page/Profile";
 
@@ -26,6 +27,7 @@ const routes = createBrowserRouter([
   { path: "/clients", Component: Clients },
   { path: "/Clients/add", Component: AddClient },
   { path: "/projects", Component: Projects },
+  { path: "/Projects/add", Component: AddProject },
   { path: "/invoices", Component: Invoices },
   { path: "/profile", Component: Profile },
 ]);

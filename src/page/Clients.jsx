@@ -103,7 +103,7 @@ export default function Clients() {
               </Typography>
             </Box>
             <Box>
-              <Link variant="Button" to="/clients/add">
+              <Link variant="Button" to="./add">
                 <Button
                   disableRipple
                   sx={{
