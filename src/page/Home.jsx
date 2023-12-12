@@ -78,7 +78,7 @@ export default function Home() {
                 DashBoard
               </Typography>
             </Box>
-            <Grid container rowSpacing={1} columnSpacing={1}>
+            <Grid container rowSpacing={2} columnSpacing={2}>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
                   BgColor={"rgb(22, 108, 255, 10%)"}
