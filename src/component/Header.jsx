@@ -138,8 +138,8 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                       "&>input": {
                         width: "100%",
                         borderRadius: 6,
-                        border: "1px solid ",
-                        borderColor: "grey.light",
+                        border: "1px solid",
+                        borderColor: "rgba(0,0,0,0.1)",
                         transition: "all 0.2s ease-in-out",
                         py: 1,
                         pl: 5,
@@ -162,6 +162,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
               <>
                 {" "}
                 <Button
+                  disableRipple
                   id="basic-button"
                   aria-controls={open ? "basic-menu" : undefined}
                   aria-haspopup="true"
@@ -170,7 +171,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                   sx={{
                     minWidth: 0,
                     border: "1px solid",
-                    borderColor: "grey.light",
+                    borderColor: "rgba(0,0,0,0.1)",
                     borderRadius: 6,
                     gap: 1,
                     py: { xs: 0, sm: 0.75 },
