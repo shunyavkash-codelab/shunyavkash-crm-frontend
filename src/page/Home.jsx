@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Grid, Card, Button } from "@mui/material";
+import { Box, Typography, Grid, Card, Button , Avatar } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import CounterCards from "../component/CounterCards";
@@ -178,7 +178,7 @@ export default function Home() {
               </Box>
             </Box>
             <Box>
-              <Grid container rowSpacing={2} columnSpacing={2}>
+              {/* <Grid container rowSpacing={2} columnSpacing={2}>
                 <Grid
                   item
                   xs={12}
@@ -239,8 +239,41 @@ export default function Home() {
                     sx={{ height: "450px", borderRadius: 2.5 }}
                   ></Card>
                 </Grid>
-              </Grid>
+              </Grid> */}
             </Box>
+            <Box>
+              <Box container spacing={2}>
+                <Box
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={6}
+                    xl={4}
+                    xxl={3}
+                    sx={{ "& .statusBtn":{color:"primary.contrastText" , fontSize: "10px" , padding:"5px" , bgcolor:"rgb(187 177 180 / 30%)" , borderRadius:"5px" , display:"inline" },"& .inprogress":{bgcolor:"warning.main"},"& .completed":{bgcolor:"success.main"} }}
+                  >
+                    <Box varient="subtitle1" sx={{ height:"500px" , maxWidth: "400px" , textTransform: "capitalize" , border:"1px solid #E6E8F0" , fontWeight: "700" , p:3 , borderRadius:"5px" ,position:"relative" }}  >
+                    Shunyavkash CRM Design
+                    <Box sx={{ position:"absolute" , top:"10px" , right:"20px"}}>
+                      <Box className="statusBtn intial" >Contained</Box>
+                      {/* <Box className="statusBtn inprogress" >Contained</Box>
+                      <Box className="statusBtn completed" >Contained</Box> */}
+                    </Box>
+                    <Box sx={{ display:"flex" ,alignItems:"center", mt:"5px" }}>
+                      <Avatar alt="Cindy Baker" src="https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"/>
+                    <Typography component="div" sx={{ color:"rgb(123 119 120)" , display:"inline" , ml:"10px" }}>
+                      Deep Bhimani
+                    </Typography>
+                    </Box>
+                    <Typography varient="subtitle1" sx={{ color:"dark.main" , fontWeight:"500" , letterSpacing:".2px" , mt:"10px" }}>
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    </Typography>
+                    </Box>
+                </Box>
+              </Box>
+            </Box>
+
           </Box>
         </Box>
       </Box>
