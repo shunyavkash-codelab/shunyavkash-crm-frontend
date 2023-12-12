@@ -23,6 +23,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
+import { useAuth } from "../hooks/store/useAuth";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -157,12 +158,13 @@ export default function Profile() {
   const handleClick = console.log("Badge Clicked!");
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const { accessToken } = useAuth();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showNewPassword, setShowNewPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
@@ -179,6 +181,7 @@ export default function Profile() {
         setSidebarWidth={setSidebarWidth}
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
+        accessToken={accessToken}
       />
       <Header
         sideBarWidth={sideBarWidth}

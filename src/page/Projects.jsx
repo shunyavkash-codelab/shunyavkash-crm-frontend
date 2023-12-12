@@ -29,6 +29,7 @@ import handleApiError from "../utils/handleApiError";
 import AddProject from "../component/AddProject";
 import ViewProject from "../component/ViewProject";
 import { APIS } from "../api/apiList";
+import { useAuth } from "../hooks/store/useAuth";
 
 export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -39,6 +40,7 @@ export default function Project() {
   const [openEdit, setOpenEdit] = useState(false);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
+  const { accessToken } = useAuth();
   const fetchManagers = async () => {
     try {
       const res = await apiCall({
@@ -64,6 +66,7 @@ export default function Project() {
         setSidebarWidth={setSidebarWidth}
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
+        accessToken={accessToken}
       />
       <Header
         sideBarWidth={sideBarWidth}

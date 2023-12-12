@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { useAuth } from "../hooks/store/useAuth";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -30,9 +31,7 @@ export default function AddManager({ open, setOpen }) {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [gender, setgender] = useState("");
-  const fileInput = useRef(null);
-  const [file, setFile] = useState([]);
-  const { palette } = useTheme();
+  const { accessToken } = useAuth();
 
   const handleChange = (event) => {
     setgender(event.target.value);
@@ -45,6 +44,7 @@ export default function AddManager({ open, setOpen }) {
         setSidebarWidth={setSidebarWidth}
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
+        accessToken={accessToken}
       />
       <Header
         sideBarWidth={sideBarWidth}

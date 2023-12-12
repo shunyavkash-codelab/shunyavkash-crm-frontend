@@ -12,15 +12,23 @@ import ManagerIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function SideBar({
   sideBarWidth,
   setSidebarWidth,
   showSidebar,
   setShowSidebar,
+  accessToken,
 }) {
+  const navigate = useNavigate();
   let location = useLocation();
+  useEffect(() => {
+    if (!accessToken) {
+      navigate("/signin");
+    }
+  }, []);
   return (
     <>
       <Box

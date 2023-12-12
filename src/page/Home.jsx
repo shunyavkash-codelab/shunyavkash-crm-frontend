@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
+import { useAuth } from "../hooks/store/useAuth";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -18,6 +19,7 @@ export default function Home() {
   const [dashboardData, setDashboardData] = useState(false);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
+  const { accessToken } = useAuth();
 
   const fetchDashboardData = async () => {
     try {
@@ -44,6 +46,7 @@ export default function Home() {
         setSidebarWidth={setSidebarWidth}
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
+        accessToken={accessToken}
       />
       <Header
         sideBarWidth={sideBarWidth}

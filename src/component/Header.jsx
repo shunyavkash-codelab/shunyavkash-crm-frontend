@@ -15,17 +15,19 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/store/useAuth";
 
 const Search = styled("div")();
 const SearchIconWrapper = styled("div")();
 const StyledInputBase = styled(InputBase)();
 
 export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
-  const [userAvtar, setUserAvtar] = useState({ name: "Aaron Cooper" });
   const [anchorEl, setAnchorEl] = useState(null);
   const { apiCall, isLoading } = useApi();
+  const { user, logout } = useAuth();
   const { setSnack } = useSnack();
+  const navigate = useNavigate();
   let location = useLocation();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -34,26 +36,12 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  // Function to add data to localStorage
-  const addDataToLocalStorage = (data) => {
-    localStorage.setItem("user", JSON.stringify(data));
-  };
 
-  // Function to get data from localStorage
-  const getDataFromLocalStorage = () => {
-    setUserAvtar(JSON.parse(localStorage.getItem("user")));
+  const handleSignout = () => {
+    logout();
+    setSnack("Logout successfully.");
+    navigate("/signin");
   };
-  useEffect(() => {
-    // userAvtarCall("6569ca3bd8635fedc401bc8b");
-    addDataToLocalStorage({
-      name: "hiren",
-      profile_img:
-        "https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27",
-      _id: "6569ca3bd8635fedc401bc8b",
-      email: "hiren.polara@shunyavkash.com",
-    });
-    getDataFromLocalStorage();
-  }, []);
 
   return (
     <>
@@ -187,7 +175,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                       display: { xs: "none", sm: "block" },
                     }}
                   >
-                    Hi, {userAvtar.name.slice(0, 6)}
+                    Hi, {user.name?.slice(0, 6)}
                   </Typography>
                   <Avatar
                     sx={{
@@ -197,9 +185,9 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                       width: { xs: "36px", sm: "30px" },
                       flexShrink: 0,
                     }}
-                    alt={userAvtar.name}
+                    alt={user.name}
                     src={
-                      userAvtar.profile_img ||
+                      user.profile_img ||
                       "https://uko-react.vercel.app/static/avatar/001-man.svg"
                     }
                   />
@@ -233,8 +221,8 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                       }}
                       alt="Remy Sharp"
                       src={
-                        userAvtar.profile_img
-                          ? userAvtar.profile_img
+                        user.profile_img
+                          ? user.profile_img
                           : "https://uko-react.vercel.app/static/avatar/001-man.svg"
                       }
                     />
@@ -252,7 +240,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                           textTransform: "capitalize",
                         }}
                       >
-                        {userAvtar.name}
+                        {user.name}
                       </Typography>
                       <Typography
                         variant="overline"
@@ -263,9 +251,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                           display: "block",
                         }}
                       >
-                        {userAvtar.email
-                          ? userAvtar.email
-                          : "aaron@example.com"}
+                        {user.email ? user.email : "aaron@example.com"}
                       </Typography>
                     </Box>
                   </MenuItem>
@@ -278,7 +264,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                   </MenuItem>
                   <Divider sx={{ borderColor: "rgba(0,0,0,10%)" }} />
                   <MenuItem
-                    onClick={handleClose}
+                    onClick={handleSignout}
                     sx={{ lineHeight: 1, fontWeight: 600, fontSize: "14px" }}
                   >
                     Sign Out

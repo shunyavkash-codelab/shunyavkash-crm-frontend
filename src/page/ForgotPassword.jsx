@@ -1,8 +1,37 @@
 import React, { useState } from "react";
 import Link from "@mui/material/Link";
 import { Box, TextField, Typography, Button } from "@mui/material";
+import { APIS } from "../api/apiList";
+import { useFormik } from "formik";
+import { useSnack } from "../hooks/store/useSnack";
+import useApi from "../hooks/useApi";
 
 export default function ForgotPassword() {
+  const { setSnack } = useSnack();
+  const { apiCall, isLoading } = useApi();
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    onSubmit: async (values) => {
+      try {
+        const res = await apiCall({
+          url: APIS.MANAGER.FORGETPASSWORD,
+          method: "post",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.status === 200) {
+          setSnack(res.data.message);
+          // navigate("/");
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
+
   return (
     <Box component="main" sx={{ height: "100vh" }}>
       <Box
@@ -23,7 +52,12 @@ export default function ForgotPassword() {
             mx: 1.5,
           }}
         >
-          <Box component="form" noValidate autoComplete="off">
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={formik.handleSubmit}
+          >
             <Typography
               id="modal-modal-title"
               variant="h6"
@@ -52,10 +86,13 @@ export default function ForgotPassword() {
                 required
                 id="email"
                 label="Email"
+                name="email"
                 autoComplete="off"
                 sx={{
                   "&>label,& input": { fontSize: "14px" },
                 }}
+                onChange={formik.handleChange}
+                value={formik.values.email}
               />
               <Button
                 disableRipple
@@ -68,6 +105,7 @@ export default function ForgotPassword() {
                   borderRadius: 2.5,
                   "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
                 }}
+                type="submit"
               >
                 Submit
               </Button>

@@ -5,6 +5,7 @@ export const APIS = {
   MANAGER: {
     SIGNUP: "/manager/signup",
     LOGIN: "/manager/login",
+    FORGETPASSWORD: "/manager/forget-password",
     EDIT: (managerId) => `/manager/${managerId}`,
     VIEW: (managerId) => `/manager/${managerId}`,
     LIST: "/manager/get-managers",

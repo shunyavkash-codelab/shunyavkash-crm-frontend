@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { Box, Typography, Grid, Card } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
+import { useAuth } from "../hooks/store/useAuth";
 
 const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const { accessToken } = useAuth();
+
   return (
     <>
       <SideBar
@@ -14,6 +17,7 @@ export default function Invoices() {
         setSidebarWidth={setSidebarWidth}
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
+        accessToken={accessToken}
       />
       <Header
         sideBarWidth={sideBarWidth}

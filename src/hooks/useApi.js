@@ -1,10 +1,10 @@
 import { useState, useCallback } from "react";
 import { instance } from "../api/instance";
+import { useAuth } from "./store/useAuth";
 
 export default function useApi() {
   const [isLoading, setIsLoading] = useState(false);
-  // const { accessToken } = useAuth();
-  // const refresh = useRefresh();
+  const { accessToken } = useAuth();
   const apiCall = useCallback(async function (
     config = { url: "", method: "", params: {}, data: {} }
   ) {
@@ -13,13 +13,11 @@ export default function useApi() {
     try {
       setIsLoading(true);
 
-      if (true) {
+      if (accessToken) {
         apiInstance.interceptors.request.use(
           (reqConfig) => {
             if (!reqConfig.headers.Authorization)
-              reqConfig.headers.Authorization =
-                "Bearer " +
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NjljYTNiZDg2MzVmZWRjNDAxYmM4YiIsImlhdCI6MTcwMjI5MjI4NSwiZXhwIjoxNzAzMTU2Mjg1fQ.bMhFSunTBDU321dyN-tvs5x6HP-srKZQHxNcU_C3AuQ";
+              reqConfig.headers.Authorization = "Bearer " + accessToken;
             return reqConfig;
           },
           (error) => Promise.reject(error)

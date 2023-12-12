@@ -20,6 +20,7 @@ import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
+import { useAuth } from "../hooks/store/useAuth.js";
 
 export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -27,6 +28,8 @@ export default function Manager() {
   const [managerList, setManagerList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
+  const { accessToken } = useAuth();
+
   const fetchManagers = async () => {
     try {
       const res = await apiCall({
@@ -51,6 +54,7 @@ export default function Manager() {
         setSidebarWidth={setSidebarWidth}
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
+        accessToken={accessToken}
       />
       <Header
         sideBarWidth={sideBarWidth}
