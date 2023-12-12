@@ -170,7 +170,7 @@ export default function Invoices() {
                 aria-label="simple table"
               >
                 <TableHead>
-                  <TableRow sx={{ "&>th": { lineHeight: 1 } }}>
+                  <TableRow sx={{ "&>*": { lineHeight: 1, fontWeight: 700 } }}>
                     <TableCell>Project Name</TableCell>
                     <TableCell>Client</TableCell>
                     <TableCell>Manager</TableCell>

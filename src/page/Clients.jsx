@@ -179,7 +179,9 @@ export default function Clients() {
                   aria-label="simple table"
                 >
                   <TableHead>
-                    <TableRow sx={{ "&>th": { lineHeight: 1 } }}>
+                    <TableRow
+                      sx={{ "&>*": { lineHeight: 1, fontWeight: 700 } }}
+                    >
                       <TableCell>Name</TableCell>
                       <TableCell>Company Name</TableCell>
                       <TableCell>Manager Name</TableCell>
