@@ -3,6 +3,12 @@ import Link from "@mui/material/Link";
 import { Box, TextField, Typography, Button } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useSnack } from "../hooks/store/useSnack";
+import useApi from "../hooks/useApi";
+import { APIS } from "../api/apiList";
+import { useFormik } from "formik";
+// import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 export default function ConfirmPassword() {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,6 +16,48 @@ export default function ConfirmPassword() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const { setSnack } = useSnack();
+  const { apiCall, isLoading } = useApi();
+
+  // yup data validator schhema
+  const schema = Yup.object({
+    password: Yup.string()
+      .required("Password is required.")
+      .trim()
+      .min(8)
+      .max(20, "Password must be at most 20 letter."),
+    confirm_password: Yup.string()
+      .required("Password is required.")
+      .trim()
+      .min(8)
+      .max(20, "Password must be at most 20 letter."),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+      confirm_password: "",
+    },
+    onSubmit: async (values) => {
+      try {
+        if (values.password !== values.confirm_password) {
+          throw "Password and confirm password not match.";
+        }
+        const res = await apiCall({
+          url: APIS.MANAGER.RESETPASSWORD,
+          method: "post",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.status === 200) {
+          setSnack(res.data.message);
+          // navigate("/");
+        }
+      } catch (error) {
+        let errorMessage = error?.response?.data?.message || error;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
   return (
     <Box component="main" sx={{ height: "100vh" }}>
       <Box
@@ -30,7 +78,12 @@ export default function ConfirmPassword() {
             mx: 1.5,
           }}
         >
-          <Box component="form" noValidate autoComplete="off">
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={formik.handleSubmit}
+          >
             <Typography
               id="modal-modal-title"
               variant="h6"
@@ -66,6 +119,8 @@ export default function ConfirmPassword() {
                     "&>label,& input": { fontSize: "14px" },
                     "& input": { pr: 5 },
                   }}
+                  onChange={formik.handleChange}
+                  value={formik.values.password}
                 />
                 <Box
                   onClick={handleClickShowPassword}
@@ -97,6 +152,8 @@ export default function ConfirmPassword() {
                     "&>label,& input": { fontSize: "14px" },
                     "& input": { pr: 5 },
                   }}
+                  onChange={formik.handleChange}
+                  value={formik.values.confirm_password}
                 />
                 <Box
                   onClick={handleClickShowPassword}
@@ -126,6 +183,7 @@ export default function ConfirmPassword() {
                   borderRadius: 2.5,
                   "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
                 }}
+                type="submit"
               >
                 Submit
               </Button>

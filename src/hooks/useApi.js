@@ -33,6 +33,7 @@ export default function useApi() {
                 error?.response?.status === 401) &&
               !prevRequest?.sent
             ) {
+              prevRequest.sent = true;
               return apiInstance(prevRequest);
             } else throw error;
           }
