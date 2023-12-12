@@ -7,7 +7,7 @@ import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList";
 import { useFormik } from "formik";
-// import { yupResolver } from "@hookform/resolvers/yup";
+import { useSearchParams } from "react-router-dom";
 import * as Yup from "yup";
 
 export default function ConfirmPassword() {
@@ -18,6 +18,7 @@ export default function ConfirmPassword() {
   };
   const { setSnack } = useSnack();
   const { apiCall, isLoading } = useApi();
+  const [query] = useSearchParams();
 
   // yup data validator schhema
   const schema = Yup.object({
@@ -26,14 +27,14 @@ export default function ConfirmPassword() {
       .trim()
       .min(8)
       .max(20, "Password must be at most 20 letter."),
-    confirm_password: Yup.string()
-      .required("Password is required.")
-      .trim()
-      .min(8)
-      .max(20, "Password must be at most 20 letter."),
+    confirm_password: Yup.string().oneOf(
+      [Yup.ref("password"), null],
+      "Passwords must match"
+    ),
   });
 
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       password: "",
       confirm_password: "",
@@ -43,14 +44,17 @@ export default function ConfirmPassword() {
         if (values.password !== values.confirm_password) {
           throw "Password and confirm password not match.";
         }
+        console.log(query.get("key"), "=======47");
         const res = await apiCall({
           url: APIS.MANAGER.RESETPASSWORD,
           method: "post",
           data: JSON.stringify(values, null, 2),
+          params: { key: query.get("key") },
         });
+        console.log(res.data, "============53");
         if (res.status === 200) {
           setSnack(res.data.message);
-          // navigate("/");
+          // navigate("/signin");
         }
       } catch (error) {
         let errorMessage = error?.response?.data?.message || error;
@@ -121,6 +125,10 @@ export default function ConfirmPassword() {
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.password}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={formik.touched.password && formik.errors.password}
                 />
                 <Box
                   onClick={handleClickShowPassword}
@@ -154,6 +162,14 @@ export default function ConfirmPassword() {
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.confirm_password}
+                  error={
+                    formik.touched.confirm_password &&
+                    Boolean(formik.errors.confirm_password)
+                  }
+                  helperText={
+                    formik.touched.confirm_password &&
+                    formik.errors.confirm_password
+                  }
                 />
                 <Box
                   onClick={handleClickShowPassword}

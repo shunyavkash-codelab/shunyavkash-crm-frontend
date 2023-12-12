@@ -186,7 +186,9 @@ export default function Project() {
                   aria-label="simple table"
                 >
                   <TableHead>
-                    <TableRow sx={{ "&>th": { lineHeight: 1 } }}>
+                    <TableRow
+                      sx={{ "&>*": { lineHeight: 1, fontWeight: 700 } }}
+                    >
                       <TableCell>Project Name</TableCell>
                       {/* <TableCell>Assign Member</TableCell> */}
                       <TableCell>Client</TableCell>
