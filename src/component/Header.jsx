@@ -80,6 +80,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                     p: 0,
                     minWidth: 0,
                     borderRadius: 1,
+                    mr: 1.5,
                   }}
                   onClick={() => {
                     setShowSidebar(!showSidebar);
@@ -132,6 +133,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                         py: 1,
                         pl: 5,
                         pr: 2,
+                        bgcolor: "white",
                         ":focus": {
                           width: "100%",
                           borderColor: "text.primary",
@@ -164,6 +166,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                     gap: 1,
                     py: { xs: 0, sm: 0.75 },
                     px: { xs: 0, sm: 1.5 },
+                    bgcolor: "white",
                   }}
                 >
                   <Typography

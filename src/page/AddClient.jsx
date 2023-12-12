@@ -87,133 +87,106 @@ export default function AddClient({ open, setOpen }) {
                 pt: 0.75,
                 flexGrow: { md: 0 },
                 overflowY: { md: "auto" },
-                "&>*:not(:first-child)": { mt: 2.5 },
                 "& fieldset": {
                   borderRadius: 2.5,
-                  "& legend": { fontSize: "0.65em" },
                 },
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "repeat(1, 1fr)",
+                  sm: "repeat(2, 1fr)",
+                },
+                gap: 2.5,
               }}
             >
-              <Box
+              <TextField
+                fullWidth
+                size="small"
+                id="name"
+                label="Name"
+                autoComplete="off"
                 sx={{
-                  display: "grid",
-                  gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
-                  gap: 2.5,
+                  "&>label,& input": { fontSize: "14px" },
+                }}
+              />
+              <TextField
+                fullWidth
+                size="small"
+                id="email"
+                label="Email"
+                autoComplete="off"
+                sx={{
+                  "&>label,& input": { fontSize: "14px" },
+                }}
+              />
+              <TextField
+                fullWidth
+                size="small"
+                id="mobile"
+                label="Mobile Number"
+                type="phone"
+                autoComplete="off"
+                sx={{
+                  "&>label,& input": { fontSize: "14px" },
+                }}
+              />
+              <FormControl
+                fullWidth
+                size="small"
+                sx={{
+                  "&>label": { fontSize: "14px" },
                 }}
               >
-                <TextField
-                  fullWidth
-                  size="small"
-                  required
-                  id="name"
-                  label="Name"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input": { fontSize: "14px" },
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  required
-                  id="email"
-                  label="Email"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input": { fontSize: "14px" },
-                  }}
-                />
-              </Box>
-              <Box
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
-                  gap: 2.5,
-                }}
-              >
-                <TextField
-                  required
-                  fullWidth
-                  size="small"
-                  id="mobile"
-                  label="Mobile Number"
-                  type="phone"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input": { fontSize: "14px" },
-                  }}
-                />
-                <FormControl
-                  fullWidth
-                  size="small"
-                  sx={{
-                    "&>label": { fontSize: "14px" },
-                  }}
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
                 >
-                  <InputLabel
+                  gender
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={gender}
+                  label="Gender"
+                  onChange={handleChange}
+                  sx={{ fontSize: "14px" }}
+                >
+                  <MenuItem sx={{ textTransform: "capitalize" }} value={"male"}>
+                    Male
+                  </MenuItem>
+                  <MenuItem
                     sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
+                    value={"female"}
                   >
-                    gender
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={gender}
-                    label="Gender"
-                    onChange={handleChange}
-                    sx={{ fontSize: "14px" }}
+                    Female
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize" }}
+                    value={"transgender"}
                   >
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value={"male"}
-                    >
-                      Male
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value={"female"}
-                    >
-                      Female
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value={"transgender"}
-                    >
-                      Transgender
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-              <Box
+                    Transgender
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                size="small"
+                id="outlined-string"
+                label="Company Name"
+                autoComplete="off"
                 sx={{
-                  display: "grid",
-                  gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
-                  gap: 2.5,
+                  "&>label,& input": { fontSize: "14px" },
                 }}
-              >
-                <TextField
-                  required
-                  fullWidth
-                  size="small"
-                  id="outlined-string"
-                  label="Company Name"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input": { fontSize: "14px" },
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="outlined-string"
-                  label="Website"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input": { fontSize: "14px" },
-                  }}
-                />
-              </Box>
+              />
+              <TextField
+                fullWidth
+                size="small"
+                id="outlined-string"
+                label="Website"
+                autoComplete="off"
+                sx={{
+                  "&>label,& input": { fontSize: "14px" },
+                }}
+              />
               <TextField
                 fullWidth
                 size="small"
@@ -224,9 +197,10 @@ export default function AddClient({ open, setOpen }) {
                 rows={4}
                 sx={{
                   "&>label,& input": { fontSize: "14px" },
+                  gridColumn: { sm: "span 2" },
                 }}
               />
-              <Box>
+              <Box sx={{ gridColumn: { sm: "span 2" } }}>
                 <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
                   Profile Image
                 </Typography>
@@ -267,7 +241,7 @@ export default function AddClient({ open, setOpen }) {
                   <VisuallyHiddenInput id="test" type="file" />
                 </Button>
               </Box>
-              <Box>
+              <Box sx={{ gridColumn: { sm: "span 2" } }}>
                 <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
                   Company Logo
                 </Typography>
@@ -308,9 +282,12 @@ export default function AddClient({ open, setOpen }) {
                   <VisuallyHiddenInput id="test" type="file" />
                 </Button>
               </Box>
+            </Box>
+            <Box sx={{ display: "flex", gap: 2 }}>
               <Button
                 disableRipple
                 sx={{
+                  mt: 2.5,
                   px: 2.5,
                   py: 1.5,
                   bgcolor: "success.main",
@@ -322,6 +299,22 @@ export default function AddClient({ open, setOpen }) {
                 }}
               >
                 Submit
+              </Button>
+              <Button
+                disableRipple
+                sx={{
+                  mt: 2.5,
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "error.main",
+                  color: "white",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  maxHeight: "42px",
+                  "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
+                }}
+              >
+                Cancel
               </Button>
             </Box>
           </Box>

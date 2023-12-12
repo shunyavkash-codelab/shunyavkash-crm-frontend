@@ -17,11 +17,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { useAuth } from "../hooks/store/useAuth";
 
-// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -109,12 +104,14 @@ export default function AddProject({ open, setOpen }) {
                 pt: 0.75,
                 flexGrow: { md: 0 },
                 overflowY: { md: "auto" },
-                // "& .css-bkzwk2-MuiStack-root": { p: 0 },
                 "& fieldset": {
                   borderRadius: 2.5,
                 },
                 display: "grid",
-                gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
+                gridTemplateColumns: {
+                  xs: "repeat(1, 1fr)",
+                  sm: "repeat(2, 1fr)",
+                },
                 gap: 2.5,
               }}
             >
@@ -307,6 +304,36 @@ export default function AddProject({ open, setOpen }) {
                   "&>label,& input,&>div": { fontSize: "14px" },
                 }}
               />
+              <TextField
+                fullWidth
+                size="small"
+                id="project_start"
+                label="Project Start"
+                autoComplete="off"
+                type="date"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                placeholder="mm/dd/yyyy"
+                sx={{
+                  "&>label,& input,&>div": { fontSize: "14px" },
+                }}
+              />
+              <TextField
+                fullWidth
+                size="small"
+                id="project_end"
+                label="Project End"
+                autoComplete="off"
+                type="date"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                placeholder="mm/dd/yyyy"
+                sx={{
+                  "&>label,& input,&>div": { fontSize: "14px" },
+                }}
+              />
               <FormControl
                 fullWidth
                 size="small"
@@ -348,11 +375,6 @@ export default function AddProject({ open, setOpen }) {
                   </MenuItem>
                 </Select>
               </FormControl>
-              {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DatePicker"]}>
-                  <DatePicker label="Start Project" />
-                </DemoContainer>
-              </LocalizationProvider> */}
               <TextField
                 fullWidth
                 size="small"
@@ -363,10 +385,10 @@ export default function AddProject({ open, setOpen }) {
                 rows={4}
                 sx={{
                   "&>label,& input,&>div": { fontSize: "14px" },
-                  gridColumn: "span 2",
+                  gridColumn: { sm: "span 2" },
                 }}
               />
-              <Box sx={{ gridColumn: "span 2" }}>
+              <Box sx={{ gridColumn: { sm: "span 2" } }}>
                 <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
                   Profile Image
                 </Typography>
@@ -408,22 +430,40 @@ export default function AddProject({ open, setOpen }) {
                 </Button>
               </Box>
             </Box>
-            <Button
-              disableRipple
-              sx={{
-                mt: 2.5,
-                px: 2.5,
-                py: 1.5,
-                bgcolor: "success.main",
-                color: "white",
-                lineHeight: 1,
-                borderRadius: 2.5,
-                maxHeight: "42px",
-                "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
-              }}
-            >
-              Submit
-            </Button>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Button
+                disableRipple
+                sx={{
+                  mt: 2.5,
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "success.main",
+                  color: "white",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  maxHeight: "42px",
+                  "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
+                }}
+              >
+                Submit
+              </Button>
+              <Button
+                disableRipple
+                sx={{
+                  mt: 2.5,
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "error.main",
+                  color: "white",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  maxHeight: "42px",
+                  "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
+                }}
+              >
+                Cancel
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Box>
