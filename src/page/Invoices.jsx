@@ -29,8 +29,8 @@ const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken } = useAuth();
-  const [showTable, setShowTable] = useState(false);
+  const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
+  const [showTable, setShowTable] = useState(invoiceTable);
   const [date, setDate] = useState("");
 
   const handleChange = (event) => {
@@ -212,6 +212,7 @@ export default function Invoices() {
               <Button
                 onClick={() => {
                   setShowTable(false);
+                  setInvoiceTable(false);
                 }}
                 sx={{
                   // bgcolor: showTable ? "#dcdcdc" : "primary.main",
@@ -227,6 +228,7 @@ export default function Invoices() {
               <Button
                 onClick={() => {
                   setShowTable(true);
+                  setInvoiceTable(true);
                 }}
                 sx={{
                   // bgcolor: showTable ? "primary.main" : "#dcdcdc",

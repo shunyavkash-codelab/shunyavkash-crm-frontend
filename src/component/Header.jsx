@@ -176,9 +176,13 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                       color: "text.primary",
                       lineHeight: 1,
                       display: { xs: "none", sm: "block" },
+                      textTransform: "capitalize",
                     }}
                   >
-                    Hi, {user.name?.slice(0, 6)}
+                    Hi,{" "}
+                    {user.name.length > 10
+                      ? `${user.name?.slice(0, 10)}...`
+                      : user.name?.slice(0, 10)}
                   </Typography>
                   <Avatar
                     sx={{

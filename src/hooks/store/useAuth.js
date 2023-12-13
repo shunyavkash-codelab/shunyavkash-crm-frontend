@@ -7,6 +7,7 @@ export const useAuth = create(
       user: { name: "" },
       accessToken: "",
       userId: "",
+      invoiceTable: false,
       login: ({ user, accessToken, userId }) => {
         set((state) => ({
           ...state,
@@ -47,6 +48,8 @@ export const useAuth = create(
       },
       setAccessToken: (accessToken) =>
         set((state) => ({ ...state, accessToken })),
+      setInvoiceTable: (invoiceTable) =>
+        set((state) => ({ ...state, invoiceTable })),
     }),
     { name: "auth" }
   )
