@@ -157,47 +157,48 @@ export default function Invoices() {
                   </MenuItem>
                 </Select>
               </FormControl>
-              <Box
-                sx={{
-                  // jyare date range select thay tyare diaplay "flex" otherwise "none"
-                  display: "none", // "flex"
-                  flexDirection: { xs: "column", sm: "row" },
-                  "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
-                  gap: 2.5,
-                  flexShrink: 0,
-                }}
-              >
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="form"
-                  label="From"
-                  autoComplete="off"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  placeholder="mm/dd/yyyy"
+              {date == "CustomRange" && (
+                <Box
                   sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
+                    display: "flex",
+                    flexDirection: { xs: "column", sm: "row" },
+                    "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                    gap: 2.5,
+                    flexShrink: 0,
                   }}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="to"
-                  label="To"
-                  autoComplete="off"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  placeholder="mm/dd/yyyy"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                  }}
-                />
-              </Box>
+                >
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="form"
+                    label="From"
+                    autoComplete="off"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="mm/dd/yyyy"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="to"
+                    label="To"
+                    autoComplete="off"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="mm/dd/yyyy"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                    }}
+                  />
+                </Box>
+              )}
             </Box>
             <Box
               sx={{
