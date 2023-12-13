@@ -88,6 +88,117 @@ export default function Invoices() {
                 Invoices
               </Typography>
             </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 2.5,
+              mb: 3.25,
+              flexDirection: { xs: "column", sm: "row" },
+            }}
+          >
+            <Box
+              component="form"
+              noValidate
+              autoComplete="off"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2.5,
+                "& fieldset": { borderRadius: "10px" },
+                width: { xs: "100%", sm: "75%", md: "50%" },
+              }}
+            >
+              <FormControl
+                size="small"
+                sx={{
+                  "&>label": { fontSize: "14px" },
+                  flexGrow: 1,
+                }}
+              >
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
+                >
+                  Date
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={date}
+                  label="Date"
+                  onChange={handleChange}
+                  sx={{ fontSize: "14px" }}
+                >
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"1WeekAgo"}
+                  >
+                    1 Week ago
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"1MonthAgo"}
+                  >
+                    1 Month ago
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"1YearAgo"}
+                  >
+                    1 Year ago
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"CustomRange"}
+                  >
+                    Custom Range
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              <Box
+                sx={{
+                  // jyare date range select thay tyare diaplay "flex" otherwise "none"
+                  display: "none", // "flex"
+                  flexDirection: { xs: "column", sm: "row" },
+                  "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                  gap: 2.5,
+                  flexShrink: 0,
+                }}
+              >
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="form"
+                  label="From"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                  }}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="to"
+                  label="To"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                  }}
+                />
+              </Box>
+            </Box>
             <Box
               sx={{
                 "& > button": {
@@ -130,114 +241,15 @@ export default function Invoices() {
               </Button>
             </Box>
           </Box>
-          <Box
-            component="form"
-            noValidate
-            autoComplete="off"
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2.5,
-              mb: 3.25,
-              "& fieldset": { borderRadius: "10px" },
-            }}
-          >
-            <FormControl
-              size="small"
-              sx={{
-                "&>label": { fontSize: "14px" },
-                maxWidth: { xs: "100%", sm: "50%", md: "25%" },
-                flexGrow: 1,
-              }}
-            >
-              <InputLabel
-                sx={{ textTransform: "capitalize" }}
-                id="demo-simple-select-label"
-              >
-                Date
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={date}
-                label="Date"
-                onChange={handleChange}
-                sx={{ fontSize: "14px" }}
-              >
-                <MenuItem
-                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                  value={"1WeekAgo"}
-                >
-                  1 Week ago
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                  value={"1MonthAgo"}
-                >
-                  1 Month ago
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                  value={"1YearAgo"}
-                >
-                  1 Year ago
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                  value={"CustomRange"}
-                >
-                  Custom Range
-                </MenuItem>
-              </Select>
-            </FormControl>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: { xs: "column", sm: "row" },
-                "& > *": { maxWidth: { xs: "100%", sm: "50%", md: "25%" } },
-                gap: 2.5,
-              }}
-            >
-              <TextField
-                fullWidth
-                size="small"
-                id="form"
-                label="From"
-                autoComplete="off"
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                placeholder="mm/dd/yyyy"
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                }}
-              />
-              <TextField
-                fullWidth
-                size="small"
-                id="to"
-                label="To"
-                autoComplete="off"
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                placeholder="mm/dd/yyyy"
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                }}
-              />
-            </Box>
-          </Box>
           <Typography
+            variant="subtitle2"
             sx={{
-              mb: 1.75,
               opacity: 0.6,
-              fontSize: { xs: "14px", sm: "15px" },
+              lineHeight: 1,
+              mb: 1.75,
             }}
           >
-            50 Invoices found form 1 week ago
+            50 Invoices found
           </Typography>
           <Box sx={{ display: showTable ? "none" : "block" }}>
             <Box>
