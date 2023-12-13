@@ -247,14 +247,13 @@ return (
                   item
                   xs={12}
                   sm={6}
-                  lg={6}
                   xxl={4}
-                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: "12px" , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , sm:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
                 >
-                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:3 , borderRadius:1.25 ,position:"relative" }}  >
-                    <Typography variant="h6">Shunyavkash CRM Design</Typography>
+                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 , sm:2.5 ,lg:3 } , borderRadius:1.25 , position:"relative" }} >
+                    <Typography variant="h6" sx={{ fontSize: { xs:"16px" , sm:"16px" , lg:"18px" } }}>Shunyavkash CRM Design</Typography>
                   
-                  <Box sx={{ position:"absolute" , top:"10px" , right:"15px"}}>
+                  <Box sx={{ position:"absolute" , top:"10px" , right:"15px" }} >
                     <Box className="statusBtn intial" >Initial</Box>
                   </Box>
                   <Box sx={{ display:"flex" ,alignItems:"center", mt:1.6 , gap: 1.25 }}>
@@ -263,10 +262,10 @@ return (
                       Joel Male
                     </Typography>
                   </Box>
-                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 ,lineHeight:1.5 }}>
+                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 , lineHeight:1.5 , fontSize: { xs:"14px" , sm:"14px" , lg:"16px" } }}>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                   </Typography>
-                  <Box sx={{ mt:2 , maxWidth:"200px" }}>
+                  <Box sx={{ mt:2 , maxWidth:{ xs:"100%" , sm:"100%" ,lg:"200px" } }}>
                     <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" }}>
                       <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
                       <Typography variant="body2" sx={{ color:"grey.dark" }} >$50</Typography>
@@ -286,12 +285,11 @@ return (
                   item
                   xs={12}
                   sm={6}
-                  lg={6}
                   xxl={4}
-                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: "12px" , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , sm:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
                 >
-                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:3 , borderRadius:1.25 ,position:"relative" }}  >
-                    <Typography variant="h6">Shunyavkash CRM Design</Typography>
+                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 , sm:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" }}  >
+                    <Typography variant="h6" sx={{ fontSize: { xs:"16px" , sm:"16px" , lg:"18px" } }}>Shunyavkash CRM Design</Typography>
                   
                   <Box sx={{ position:"absolute" , top:"10px" , right:"15px"}}>
                     <Box className="statusBtn inprogress" >InProgress</Box>
@@ -302,10 +300,10 @@ return (
                       Joel Male
                     </Typography>
                   </Box>
-                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 ,lineHeight:1.5 }}>
+                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 , lineHeight:1.5 , fontSize: { xs:"14px" , sm:"14px" , lg:"16px" }}}>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                   </Typography>
-                  <Box sx={{ mt:2 , maxWidth:"200px" }}>
+                  <Box sx={{ mt:2 , maxWidth:{ xs:"100%" , sm:"100%" ,lg:"200px" } }}>
                     <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" }}>
                       <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
                       <Typography variant="body2" sx={{ color:"secondary.main" }} >$50</Typography>
@@ -325,12 +323,11 @@ return (
                   item
                   xs={12}
                   sm={6}
-                  lg={6}
                   xxl={4}
-                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: "12px" , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , sm:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
                 >
-                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:3 , borderRadius:1.25 ,position:"relative" }}  >
-                    <Typography variant="h6">Shunyavkash CRM Design</Typography>
+                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 , sm:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" }}  >
+                    <Typography variant="h6" sx={{ fontSize: { xs:"16px" , sm:"16px" , lg:"18px" } }}>Shunyavkash CRM Design</Typography>
                   
                   <Box sx={{ position:"absolute" , top:"10px" , right:"15px"}}>
                     <Box className="statusBtn completed" >Completed</Box>
@@ -341,10 +338,10 @@ return (
                       Joel Male
                     </Typography>
                   </Box>
-                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 ,lineHeight:1.5 }}>
+                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 ,lineHeight:1.5 ,fontSize: { xs:"14px" , sm:"14px" , lg:"16px" } }}>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                   </Typography>
-                  <Box sx={{ mt:2 , maxWidth:"200px" }}>
+                  <Box sx={{ mt:2 , maxWidth:{ xs:"100%" , sm:"100%" ,lg:"200px" } }}>
                     <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" }}>
                       <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
                       <Typography variant="body2" sx={{ color:"success.main" }} >$50</Typography>
@@ -364,12 +361,11 @@ return (
                   item
                   xs={12}
                   sm={6}
-                  lg={6}
                   xxl={4}
-                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: "12px" , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , sm:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
                 >
-                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:3 , borderRadius:1.25 ,position:"relative" }}  >
-                    <Typography variant="h6">Shunyavkash CRM Design</Typography>
+                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 , sm:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" }}  >
+                    <Typography variant="h6" sx={{ fontSize: { xs:"16px" , sm:"16px" , lg:"18px" } }}>Shunyavkash CRM Design</Typography>
                   
                   <Box sx={{ position:"absolute" , top:"10px" , right:"15px"}}>
                     <Box className="statusBtn inprogress" >InProgress</Box>
@@ -380,10 +376,10 @@ return (
                       Joel Male
                     </Typography>
                   </Box>
-                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 ,lineHeight:1.5 }}>
+                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 ,lineHeight:1.5 ,fontSize: { xs:"14px" , sm:"14px" , lg:"16px" } }}>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                   </Typography>
-                  <Box sx={{ mt:2 , maxWidth:"200px" }}>
+                  <Box sx={{ mt:2 , maxWidth:{ xs:"100%" , sm:"100%" ,lg:"200px" } }}>
                     <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" }}>
                       <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
                       <Typography variant="body2" sx={{ color:"secondary.main" }} >$50</Typography>
@@ -403,12 +399,11 @@ return (
                   item
                   xs={12}
                   sm={6}
-                  lg={6}
                   xxl={4}
-                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: "12px" , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , sm:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
                 >
-                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:3 , borderRadius:1.25 ,position:"relative" }}  >
-                    <Typography variant="h6">Shunyavkash CRM Design</Typography>
+                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 , sm:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" }}  >
+                    <Typography variant="h6" sx={{ fontSize: { xs:"16px" , sm:"16px" , lg:"18px" } }}>Shunyavkash CRM Design</Typography>
                   
                   <Box sx={{ position:"absolute" , top:"10px" , right:"15px"}}>
                     <Box className="statusBtn completed" >Completed</Box>
@@ -419,10 +414,10 @@ return (
                       Joel Male
                     </Typography>
                   </Box>
-                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 ,lineHeight:1.5 }}>
+                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 ,lineHeight:1.5 ,fontSize: { xs:"14px" , sm:"14px" , lg:"16px" } }}>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                   </Typography>
-                  <Box sx={{ mt:2 , maxWidth:"200px" }}>
+                  <Box sx={{ mt:2 , maxWidth:{ xs:"100%" , sm:"100%" ,lg:"200px" } }}>
                     <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" }}>
                       <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
                       <Typography variant="body2" sx={{ color:"success.main" }} >$50</Typography>
@@ -442,12 +437,11 @@ return (
                   item
                   xs={12}
                   sm={6}
-                  lg={6}
                   xxl={4}
-                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: "12px" , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+                  sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , sm:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
                 >
-                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:3 , borderRadius:1.25 ,position:"relative" }}  >
-                    <Typography variant="h6">Shunyavkash CRM Design</Typography>
+                  <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 , sm:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" }}  >
+                    <Typography variant="h6" sx={{ fontSize: { xs:"16px" , sm:"16px" , lg:"18px" } }}>Shunyavkash CRM Design</Typography>
                   
                   <Box sx={{ position:"absolute" , top:"10px" , right:"15px"}}>
                     <Box className="statusBtn intial" >Initial</Box>
@@ -458,10 +452,10 @@ return (
                       Joel Male
                     </Typography>
                   </Box>
-                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 ,lineHeight:1.5 }}>
+                  <Typography className="truncate line-clamp-1" sx={{ mt:1.5 ,lineHeight:1.5 ,fontSize: { xs:"14px" , sm:"14px" , lg:"16px" } }}>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                   </Typography>
-                  <Box sx={{ mt:2 , maxWidth:"200px" }}>
+                  <Box sx={{ mt:2 , maxWidth:{ xs:"100%" , sm:"100%" ,lg:"200px" } }}>
                     <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" }}>
                       <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
                       <Typography variant="body2" sx={{ color:"grey.dark" }} >$50</Typography>
@@ -476,7 +470,7 @@ return (
                     </Box>
                   </Box>
                 </Box>
-              </Grid>
+              </Grid> 
             </Grid>
           </Box>
 
