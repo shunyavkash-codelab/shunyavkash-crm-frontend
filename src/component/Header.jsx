@@ -17,7 +17,6 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/store/useAuth";
-import { Link } from "react-router-dom";
 
 const Search = styled("div")();
 const SearchIconWrapper = styled("div")();
