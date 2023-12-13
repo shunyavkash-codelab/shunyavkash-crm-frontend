@@ -16,14 +16,15 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 import Badge from "@mui/material/Badge";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Visibility from "@mui/icons-material/Visibility";
 import { useAuth } from "../hooks/store/useAuth";
+import { useFormik } from "formik";
+import useApi from "../hooks/useApi";
+import { APIS } from "../api/apiList";
+import { useSnack } from "../hooks/store/useSnack";
+import { useNavigate } from "react-router-dom";
+import AddressForm from "../component/form/AddressForm";
+import ChangePasswordForm from "../component/form/ChangePasswordForm";
+import BankDetailForm from "../component/form/BankDetailForm";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -157,12 +158,14 @@ const IOSSwitch = styled((props) => (
 export default function Profile() {
   const handleClick = console.log("Badge Clicked!");
   let [sideBarWidth, setSidebarWidth] = useState("240px");
+  const { apiCall, isLoading } = useApi();
+  const { profile } = useAuth();
+  const { setSnack } = useSnack();
+  const navigate = useNavigate();
   const [showSidebar, setShowSidebar] = useState(false);
   const [value, setValue] = useState(0);
-  const { accessToken } = useAuth();
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const { accessToken, userId } = useAuth();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -172,6 +175,78 @@ export default function Profile() {
   };
   const handleMouseDownNewPassword = (event) => {
     event.preventDefault();
+  };
+  const [profileList, setProfileList] = useState(false);
+
+  // personal info
+  const formik = useFormik({
+    initialValues: {
+      name: profileList.name,
+      companyName: profileList.companyName,
+    },
+    onSubmit: async (values) => {
+      try {
+        const res = await apiCall({
+          url: APIS.MANAGER.EDIT(userId),
+          method: "patch",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.status === 200) {
+          setSnack(res.data.message);
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
+
+  // address info
+  const addressFormik = useFormik({
+    initialValues: {
+      name: profileList.name,
+      companyName: profileList.companyName,
+    },
+    onSubmit: async (values) => {
+      try {
+        const res = await apiCall({
+          url: APIS.MANAGER.EDIT(userId),
+          method: "patch",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.status === 200) {
+          setSnack(res.data.message);
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
+
+  // get manager detile
+  const fetchProfile = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.VIEW(id),
+        method: "get",
+        // data: id,
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setProfileList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile(userId);
+  }, []);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   return (
@@ -318,7 +393,7 @@ export default function Profile() {
                   >
                     <Avatar
                       alt="Travis Howard"
-                      src="https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"
+                      src={profileList.profile_img}
                       sx={{ width: 64, height: 64 }}
                     />
                   </Badge>
@@ -328,7 +403,7 @@ export default function Profile() {
                       gutterBottom
                       sx={{ fontSize: 16, fontWeight: "600" }}
                     >
-                      John Doe
+                      {profileList.name}
                     </Typography>
                     <Typography
                       variant="div"
@@ -338,460 +413,99 @@ export default function Profile() {
                         fontWeight: "500",
                       }}
                     >
-                      crm.demo@gmail.com
+                      {profileList.email}
                     </Typography>
                   </Stack>
                 </Stack>
-                <Box component="form">
-                  <Grid
-                    container
-                    rowSpacing={2}
-                    columnSpacing={2}
-                    mt={2}
-                    sx={{
-                      "& .MuiFormLabel-root, & .MuiInputBase-input": {
-                        fontSize: "14px",
-                      },
-                    }}
-                  >
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Full Name"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
+                <Box component="form" onSubmit={formik.handleSubmit}>
+                  {profileList && (
+                    <Grid
+                      container
+                      rowSpacing={2}
+                      columnSpacing={2}
+                      mt={2}
+                      sx={{
+                        "& .MuiFormLabel-root, & .MuiInputBase-input": {
+                          fontSize: "14px",
+                        },
+                      }}
+                    >
+                      <Grid item xs={12} sm={6}>
+                        <Box>
+                          <TextField
+                            id="outlined-basic"
+                            label="Full Name"
+                            variant="outlined"
+                            name="name"
+                            defaultValue={profileList.name}
+                            sx={{ width: "100%", fontSize: "14px" }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            placeholder="Name"
+                            onChange={formik.handleChange}
+                            value={formik.values.name}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box>
+                          <TextField
+                            id="outlined-basic"
+                            label="Email"
+                            variant="outlined"
+                            type="email"
+                            name="email"
+                            sx={{ width: "100%", fontSize: "14px" }}
+                            defaultValue={profileList.email}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            placeholder="Email"
+                            onChange={formik.handleChange}
+                            value={formik.values.email}
+                            disabled
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box>
+                          <TextField
+                            id="outlined-basic"
+                            label="Company"
+                            variant="outlined"
+                            name="companyName"
+                            sx={{ width: "100%", fontSize: "14px" }}
+                            defaultValue={profileList.companyName}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            placeholder="Company Name"
+                            onChange={formik.handleChange}
+                            value={formik.values.companyName}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Stack direction="row" spacing={2}>
+                          <Button type="submit" variant="contained">
+                            Save Changes
+                          </Button>
+                          <Button variant="outlined">Cancel</Button>
+                        </Stack>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Username"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Email"
-                          variant="outlined"
-                          type="email"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Company"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Stack direction="row" spacing={2}>
-                        <Button variant="contained">Save Changes</Button>
-                        <Button variant="outlined">Cancel</Button>
-                      </Stack>
-                    </Grid>
-                  </Grid>
+                  )}
                 </Box>
               </TabPanel>
               <TabPanel value={value} index={1}>
-                <Typography variant="h4" gutterBottom sx={{ fontSize: 16 }}>
-                  Address
-                </Typography>
-                <Box component="form">
-                  <Grid
-                    container
-                    rowSpacing={2}
-                    columnSpacing={2}
-                    mt={2}
-                    sx={{
-                      "& .MuiFormLabel-root, & .MuiInputBase-input": {
-                        fontSize: "14px",
-                      },
-                    }}
-                  >
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Address Line 1"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Address Line 2"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Landmark"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Pincode"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Stack direction="row" spacing={2}>
-                        <Button variant="contained">Save Changes</Button>
-                        <Button variant="outlined">Cancel</Button>
-                      </Stack>
-                    </Grid>
-                  </Grid>
-                </Box>
+                <AddressForm profileList={profileList} />
               </TabPanel>
               <TabPanel value={value} index={2}>
-                <Typography variant="h4" gutterBottom sx={{ fontSize: 16 }}>
-                  Password
-                </Typography>
-                <Box component="form">
-                  <Grid
-                    container
-                    rowSpacing={2}
-                    columnSpacing={2}
-                    mt={2}
-                    sx={{
-                      "& .MuiFormLabel-root, & .MuiInputBase-input": {
-                        fontSize: "14px",
-                      },
-                    }}
-                  >
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <FormControl
-                          sx={{ width: "100%", fontSize: "14px" }}
-                          variant="outlined"
-                        >
-                          <InputLabel htmlFor="outlined-adornment-password">
-                            Old Password
-                          </InputLabel>
-                          <OutlinedInput
-                            id="outlined-adornment-password"
-                            type={showPassword ? "text" : "password"}
-                            endAdornment={
-                              <InputAdornment position="end">
-                                <IconButton
-                                  aria-label="toggle password visibility"
-                                  onClick={handleClickShowPassword}
-                                  onMouseDown={handleMouseDownPassword}
-                                  edge="end"
-                                >
-                                  {showPassword ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              </InputAdornment>
-                            }
-                            label="Old Password"
-                          />
-                        </FormControl>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}></Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <FormControl
-                          sx={{ width: "100%", fontSize: "14px" }}
-                          variant="outlined"
-                        >
-                          <InputLabel htmlFor="outlined-adornment-new-password">
-                            New Password
-                          </InputLabel>
-                          <OutlinedInput
-                            id="outlined-adornment-new-password"
-                            type={showNewPassword ? "text" : "password"}
-                            endAdornment={
-                              <InputAdornment position="end">
-                                <IconButton
-                                  aria-label="toggle password visibility"
-                                  onClick={handleClickShowNewPassword}
-                                  onMouseDown={handleMouseDownNewPassword}
-                                  edge="end"
-                                >
-                                  {showNewPassword ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              </InputAdornment>
-                            }
-                            label="New Password"
-                          />
-                        </FormControl>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <FormControl
-                          sx={{ width: "100%", fontSize: "14px" }}
-                          variant="outlined"
-                        >
-                          <InputLabel htmlFor="outlined-adornment-confirm-password">
-                            Confirm Password
-                          </InputLabel>
-                          <OutlinedInput
-                            id="outlined-adornment-confirm-password"
-                            type={showNewPassword ? "text" : "password"}
-                            endAdornment={
-                              <InputAdornment position="end">
-                                <IconButton
-                                  aria-label="toggle password visibility"
-                                  onClick={handleClickShowNewPassword}
-                                  onMouseDown={handleMouseDownNewPassword}
-                                  edge="end"
-                                >
-                                  {showNewPassword ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              </InputAdornment>
-                            }
-                            label="Confirm Password"
-                          />
-                        </FormControl>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Stack direction="row" spacing={2}>
-                        <Button variant="contained">Save Changes</Button>
-                        <Button variant="outlined">Cancel</Button>
-                      </Stack>
-                    </Grid>
-                  </Grid>
-                </Box>
+                <ChangePasswordForm profileList={profileList} />
               </TabPanel>
               <TabPanel value={value} index={3}>
-                <Stack
-                  direction="row"
-                  sx={{
-                    flexDirection: { sm: "column", md: "row" },
-                    justifyContent: "space-between",
-                    alignItems: { sm: "start", md: "center" },
-                  }}
-                >
-                  <Typography variant="h4" gutterBottom sx={{ fontSize: 16 }}>
-                    Bank Details
-                  </Typography>
-                  <Button variant="contained">Add Bank</Button>
-                </Stack>
-                <Box
-                  component="form"
-                  sx={{
-                    "& .MuiGrid-container:not(:last-child)": {
-                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                      pb: "32px",
-                    },
-                  }}
-                >
-                  <Grid
-                    container
-                    rowSpacing={2}
-                    columnSpacing={2}
-                    mt={2}
-                    sx={{
-                      "& .MuiFormLabel-root, & .MuiInputBase-input": {
-                        fontSize: "14px",
-                      },
-                    }}
-                  >
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Bank account holder name"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Bank Name"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Account number"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Confirm Account number"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="IFSC"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Box>
-                        <FormControlLabel
-                          control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-                          label="Make Default bank"
-                          sx={{
-                            "& .MuiFormControlLabel-label": {
-                              fontSize: "14px",
-                            },
-                          }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Stack direction="row" spacing={2}>
-                        <Button variant="contained">Save Changes</Button>
-                        <Button variant="outlined" color="error">
-                          Remove
-                        </Button>
-                      </Stack>
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    container
-                    rowSpacing={2}
-                    columnSpacing={2}
-                    mt={2}
-                    sx={{
-                      "& .MuiFormLabel-root, & .MuiInputBase-input": {
-                        fontSize: "14px",
-                      },
-                    }}
-                  >
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Bank account holder name"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Bank Name"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Account number"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="Confirm Account number"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Box>
-                        <TextField
-                          id="outlined-basic"
-                          label="IFSC"
-                          variant="outlined"
-                          sx={{ width: "100%", fontSize: "14px" }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={6}
-                      sx={{ display: "flex", alignItems: "center" }}
-                    >
-                      <Box>
-                        <FormControlLabel
-                          control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-                          label="Make Default bank"
-                          sx={{
-                            "& .MuiFormControlLabel-label": {
-                              fontSize: "14px",
-                            },
-                          }}
-                        />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Stack direction="row" spacing={2}>
-                        <Button variant="contained">Save Changes</Button>
-                        <Button variant="outlined" color="error">
-                          Remove
-                        </Button>
-                      </Stack>
-                    </Grid>
-                  </Grid>
-                </Box>
+                <BankDetailForm />
               </TabPanel>
             </Box>
           </Box>

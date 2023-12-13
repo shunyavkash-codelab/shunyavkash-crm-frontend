@@ -17,6 +17,7 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/store/useAuth";
+import { Link } from "react-router-dom";
 
 const Search = styled("div")();
 const SearchIconWrapper = styled("div")();
@@ -263,12 +264,19 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                     </Box>
                   </MenuItem>
                   <Divider sx={{ borderColor: "rgba(0,0,0,10%)" }} />
-                  <MenuItem
-                    onClick={handleClose}
-                    sx={{ lineHeight: 1, fontWeight: 600, fontSize: "14px" }}
-                  >
-                    Profile
-                  </MenuItem>
+                  <Link to="/profile" style={{ textDecoration: "none" }}>
+                    <MenuItem
+                      onClick={handleClose}
+                      sx={{
+                        lineHeight: 1,
+                        fontWeight: 600,
+                        fontSize: "14px",
+                      }}
+                    >
+                      Profile
+                    </MenuItem>
+                  </Link>
+
                   <Divider sx={{ borderColor: "rgba(0,0,0,10%)" }} />
                   <MenuItem
                     onClick={handleSignout}
