@@ -12,6 +12,11 @@ import {
   TableHead,
   TableRow,
   Paper,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -26,6 +31,11 @@ export default function Invoices() {
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
   const [showTable, setShowTable] = useState(false);
+  const [date, setDate] = useState("");
+
+  const handleChange = (event) => {
+    setDate(event.target.value);
+  };
 
   return (
     <>
@@ -58,8 +68,9 @@ export default function Invoices() {
             sx={{
               mb: 3.25,
               display: "flex",
-              alignItems: "center",
+              alignItems: { sm: "center" },
               justifyContent: "space-between",
+              flexDirection: { xs: "column", sm: "row" },
               gap: 2,
             }}
           >
@@ -92,9 +103,9 @@ export default function Invoices() {
                   setShowTable(false);
                 }}
                 sx={{
-                  bgcolor: showTable ? "#dcdcdc" : "primary.main",
-                  color: showTable ? "primary.main" : "white",
-                  ":hover": {
+                  // bgcolor: showTable ? "#dcdcdc" : "primary.main",
+                  // color: showTable ? "primary.main" : "white",
+                  ":hover,&": {
                     bgcolor: showTable ? "#dcdcdc" : "primary.main",
                     color: showTable ? "primary.main" : "white",
                   },
@@ -107,9 +118,9 @@ export default function Invoices() {
                   setShowTable(true);
                 }}
                 sx={{
-                  bgcolor: showTable ? "primary.main" : "#dcdcdc",
-                  color: showTable ? "white" : "primary.main",
-                  ":hover": {
+                  // bgcolor: showTable ? "primary.main" : "#dcdcdc",
+                  // color: showTable ? "white" : "primary.main",
+                  ":hover,&": {
                     bgcolor: showTable ? "primary.main" : "#dcdcdc",
                     color: showTable ? "white" : "primary.main",
                   },
@@ -119,6 +130,115 @@ export default function Invoices() {
               </Button>
             </Box>
           </Box>
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2.5,
+              mb: 3.25,
+              "& fieldset": { borderRadius: "10px" },
+            }}
+          >
+            <FormControl
+              size="small"
+              sx={{
+                "&>label": { fontSize: "14px" },
+                maxWidth: { xs: "100%", sm: "50%", md: "25%" },
+                flexGrow: 1,
+              }}
+            >
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Date
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={date}
+                label="Date"
+                onChange={handleChange}
+                sx={{ fontSize: "14px" }}
+              >
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"1WeekAgo"}
+                >
+                  1 Week ago
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"1MonthAgo"}
+                >
+                  1 Month ago
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"1YearAgo"}
+                >
+                  1 Year ago
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"CustomRange"}
+                >
+                  Custom Range
+                </MenuItem>
+              </Select>
+            </FormControl>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                "& > *": { maxWidth: { xs: "100%", sm: "50%", md: "25%" } },
+                gap: 2.5,
+              }}
+            >
+              <TextField
+                fullWidth
+                size="small"
+                id="form"
+                label="From"
+                autoComplete="off"
+                type="date"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                placeholder="mm/dd/yyyy"
+                sx={{
+                  "&>label,& input,&>div": { fontSize: "14px" },
+                }}
+              />
+              <TextField
+                fullWidth
+                size="small"
+                id="to"
+                label="To"
+                autoComplete="off"
+                type="date"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                placeholder="mm/dd/yyyy"
+                sx={{
+                  "&>label,& input,&>div": { fontSize: "14px" },
+                }}
+              />
+            </Box>
+          </Box>
+          <Typography
+            sx={{
+              mb: 1.75,
+              opacity: 0.6,
+              fontSize: { xs: "14px", sm: "15px" },
+            }}
+          >
+            50 Invoices found form 1 week ago
+          </Typography>
           <Box sx={{ display: showTable ? "none" : "block" }}>
             <Box>
               <Grid container rowSpacing={2} columnSpacing={2}>
