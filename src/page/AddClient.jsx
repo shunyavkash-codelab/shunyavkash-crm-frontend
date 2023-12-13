@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import { styled, Button } from "@mui/material";
+import React, { useState } from "react";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import {
@@ -10,32 +9,54 @@ import {
   Select,
   TextField,
   Typography,
+  Button,
 } from "@mui/material";
-import { useTheme } from "@emotion/react";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useAuth } from "../hooks/store/useAuth";
+import FileUploadButton from "../component/FileUploadButton";
+import { Field, FormikProvider, useFormik } from "formik";
+import useApi from "../hooks/useApi";
+import { useSnack } from "../hooks/store/useSnack";
+import { APIS } from "../api/apiList";
+import { useNavigate } from "react-router-dom";
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
-export default function AddClient({ open, setOpen }) {
+export default function AddClient() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [gender, setgender] = useState("");
   const { accessToken } = useAuth();
+  const { setSnack } = useSnack();
+  const { apiCall, isLoading } = useApi();
+  const navigate = useNavigate();
 
-  const handleChange = (event) => {
-    setgender(event.target.value);
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      mobileNumber: "",
+      gender: "",
+      companyName: "",
+      websiteURL: "",
+      address: "",
+      profile_img: undefined,
+      companyLogo: undefined,
+      mobileCode: "+1",
+    },
+    onSubmit: async (values) => {
+      try {
+        const res = await apiCall({
+          url: APIS.CLIENT.ADD,
+          method: "post",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.status === 201) {
+          setSnack(res.data.message);
+          navigate("/clients");
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
 
   return (
     <>
@@ -81,243 +102,212 @@ export default function AddClient({ open, setOpen }) {
               Add Client
             </Typography>
           </Box>
-          <Box component="form" noValidate autoComplete="off">
+          <FormikProvider value={formik}>
             <Box
-              sx={{
-                pt: 0.75,
-                flexGrow: { md: 0 },
-                overflowY: { md: "auto" },
-                "& fieldset": {
-                  borderRadius: 2.5,
-                },
-                display: "grid",
-                gridTemplateColumns: {
-                  xs: "repeat(1, 1fr)",
-                  sm: "repeat(2, 1fr)",
-                },
-                gap: 2.5,
-              }}
+              component="form"
+              noValidate
+              autoComplete="off"
+              onSubmit={formik.handleSubmit}
             >
-              <TextField
-                fullWidth
-                size="small"
-                id="name"
-                label="Name"
-                autoComplete="off"
+              <Box
                 sx={{
-                  "&>label,& input": { fontSize: "14px" },
-                }}
-              />
-              <TextField
-                fullWidth
-                size="small"
-                id="email"
-                label="Email"
-                autoComplete="off"
-                sx={{
-                  "&>label,& input": { fontSize: "14px" },
-                }}
-              />
-              <TextField
-                fullWidth
-                size="small"
-                id="mobile"
-                label="Mobile Number"
-                type="phone"
-                autoComplete="off"
-                sx={{
-                  "&>label,& input": { fontSize: "14px" },
-                }}
-              />
-              <FormControl
-                fullWidth
-                size="small"
-                sx={{
-                  "&>label": { fontSize: "14px" },
+                  pt: 0.75,
+                  flexGrow: { md: 0 },
+                  overflowY: { md: "auto" },
+                  "& fieldset": {
+                    borderRadius: 2.5,
+                  },
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "repeat(1, 1fr)",
+                    sm: "repeat(2, 1fr)",
+                  },
+                  gap: 2.5,
                 }}
               >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
-                >
-                  gender
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={gender}
-                  label="Gender"
-                  onChange={handleChange}
-                  sx={{ fontSize: "14px" }}
-                >
-                  <MenuItem sx={{ textTransform: "capitalize" }} value={"male"}>
-                    Male
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize" }}
-                    value={"female"}
-                  >
-                    Female
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize" }}
-                    value={"transgender"}
-                  >
-                    Transgender
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <TextField
-                fullWidth
-                size="small"
-                id="outlined-string"
-                label="Company Name"
-                autoComplete="off"
-                sx={{
-                  "&>label,& input": { fontSize: "14px" },
-                }}
-              />
-              <TextField
-                fullWidth
-                size="small"
-                id="outlined-string"
-                label="Website"
-                autoComplete="off"
-                sx={{
-                  "&>label,& input": { fontSize: "14px" },
-                }}
-              />
-              <TextField
-                fullWidth
-                size="small"
-                id="outlined-string"
-                label="Address"
-                autoComplete="off"
-                multiline
-                rows={4}
-                sx={{
-                  "&>label,& input": { fontSize: "14px" },
-                  gridColumn: { sm: "span 2" },
-                }}
-              />
-              <Box sx={{ gridColumn: { sm: "span 2" } }}>
-                <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
-                  Profile Image
-                </Typography>
-                <Button
-                  disableRipple
-                  disableElevation
-                  component="label"
-                  variant="contained"
-                  id="profile_img"
-                  startIcon={
-                    <CloudUploadIcon
-                      sx={{
-                        fontSize: {
-                          xs: "18px!important",
-                          sm: "30px!important",
-                        },
-                      }}
-                    />
-                  }
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="name"
+                  label="Name"
+                  autoComplete="off"
                   sx={{
-                    textTransform: "capitalize",
-                    width: "100%",
-                    borderRadius: 2.5,
-                    bgcolor: "transparent",
-                    border: "1px solid rgba(0,0,0,0.15)",
-                    boxShadow: "none",
-                    color: "text.secondary",
-                    transition: "0s",
-                    height: { xs: "100px", sm: "200px" },
-                    fontSize: { xs: "18px", sm: "30px" },
-                    ":hover": {
-                      bgcolor: "transparent",
-                      borderColor: "text.primary",
-                    },
+                    "&>label,& input": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="email"
+                  label="Email"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.email}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="mobileNumber"
+                  label="Mobile Number"
+                  type="phone"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.mobileNumber}
+                />
+                <FormControl
+                  fullWidth
+                  size="small"
+                  sx={{
+                    "&>label": { fontSize: "14px" },
                   }}
                 >
-                  Profile Image
-                  <VisuallyHiddenInput id="test" type="file" />
-                </Button>
+                  <InputLabel
+                    sx={{ textTransform: "capitalize" }}
+                    id="demo-simple-select-label"
+                  >
+                    gender
+                  </InputLabel>
+                  <Field
+                    name="file"
+                    render={({ field, form }) => (
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="gender"
+                        label="Gender"
+                        sx={{ fontSize: "14px" }}
+                        {...field}
+                        onChange={(event) => {
+                          form.setFieldValue("gender", event.target.value);
+                        }}
+                      >
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"male"}
+                        >
+                          Male
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"female"}
+                        >
+                          Female
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"transgender"}
+                        >
+                          Transgender
+                        </MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="companyName"
+                  label="Company Name"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.companyName}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="websiteURL"
+                  label="Website"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.websiteURL}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="address"
+                  label="Address"
+                  autoComplete="off"
+                  multiline
+                  rows={4}
+                  sx={{
+                    "&>label,& input": { fontSize: "14px" },
+                    gridColumn: { sm: "span 2" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.address}
+                />
+                <Box sx={{ gridColumn: { sm: "span 2" } }}>
+                  <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
+                    Profile Image
+                  </Typography>
+                  <FileUploadButton
+                    formik={formik}
+                    id={"profile_img"}
+                    label={"Profile Image"}
+                  />
+                </Box>
+                <Box sx={{ gridColumn: { sm: "span 2" } }}>
+                  <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
+                    Company Logo
+                  </Typography>
+                  <FileUploadButton
+                    formik={formik}
+                    id={"companyLogo"}
+                    label={"Company Logo"}
+                  />
+                </Box>
               </Box>
-              <Box sx={{ gridColumn: { sm: "span 2" } }}>
-                <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
-                  Company Logo
-                </Typography>
+              <Box sx={{ display: "flex", gap: 2 }}>
                 <Button
                   disableRipple
-                  disableElevation
-                  component="label"
-                  variant="contained"
-                  id="company_logo"
-                  startIcon={
-                    <CloudUploadIcon
-                      sx={{
-                        fontSize: {
-                          xs: "18px!important",
-                          sm: "30px!important",
-                        },
-                      }}
-                    />
-                  }
                   sx={{
-                    textTransform: "capitalize",
-                    width: "100%",
+                    mt: 2.5,
+                    px: 2.5,
+                    py: 1.5,
+                    bgcolor: "success.main",
+                    color: "white",
+                    lineHeight: 1,
                     borderRadius: 2.5,
-                    bgcolor: "transparent",
-                    border: "1px solid rgba(0,0,0,0.15)",
-                    boxShadow: "none",
-                    color: "text.secondary",
-                    transition: "0s",
-                    height: { xs: "100px", sm: "200px" },
-                    fontSize: { xs: "18px", sm: "30px" },
-                    ":hover": {
-                      bgcolor: "transparent",
-                      borderColor: "text.primary",
-                    },
+                    maxHeight: "42px",
+                    "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
                   }}
+                  type="submit"
                 >
-                  Company Logo
-                  <VisuallyHiddenInput id="test" type="file" />
+                  Submit
+                </Button>
+                <Button
+                  disableRipple
+                  sx={{
+                    mt: 2.5,
+                    px: 2.5,
+                    py: 1.5,
+                    bgcolor: "error.main",
+                    color: "white",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    maxHeight: "42px",
+                    "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
+                  }}
+                  onClick={() => navigate("/clients")}
+                >
+                  Cancel
                 </Button>
               </Box>
             </Box>
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Button
-                disableRipple
-                sx={{
-                  mt: 2.5,
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "success.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  maxHeight: "42px",
-                  "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
-                }}
-              >
-                Submit
-              </Button>
-              <Button
-                disableRipple
-                sx={{
-                  mt: 2.5,
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "error.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  maxHeight: "42px",
-                  "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
-                }}
-              >
-                Cancel
-              </Button>
-            </Box>
-          </Box>
+          </FormikProvider>
         </Box>
       </Box>
     </>
