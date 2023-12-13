@@ -9,16 +9,11 @@ body {
   background-color: #f3f4f9;
 }
 
-/* .truncate{
-  width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.truncate-line-clamp {
+
+
+ /* .text-truncate {
   display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical; 
-  width: 250px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
- } */
+} */
