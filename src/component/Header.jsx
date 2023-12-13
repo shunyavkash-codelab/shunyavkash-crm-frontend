@@ -264,18 +264,16 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                     </Box>
                   </MenuItem>
                   <Divider sx={{ borderColor: "rgba(0,0,0,10%)" }} />
-                  <Link to="/profile" style={{ textDecoration: "none" }}>
-                    <MenuItem
-                      onClick={handleClose}
-                      sx={{
-                        lineHeight: 1,
-                        fontWeight: 600,
-                        fontSize: "14px",
-                      }}
-                    >
-                      Profile
-                    </MenuItem>
-                  </Link>
+                  <MenuItem
+                    onClick={() => navigate("/profile")}
+                    sx={{
+                      lineHeight: 1,
+                      fontWeight: 600,
+                      fontSize: "14px",
+                    }}
+                  >
+                    Profile
+                  </MenuItem>
 
                   <Divider sx={{ borderColor: "rgba(0,0,0,10%)" }} />
                   <MenuItem
