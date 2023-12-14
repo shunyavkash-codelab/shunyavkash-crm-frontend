@@ -49,7 +49,16 @@ export default function SideBar({
           bgcolor: "white",
         }}
       >
-        <Box sx={{ flexShrink: 0, display: "flex", mb: 3, px: 3.5 }}>
+        <Box
+          sx={{
+            flexShrink: 0,
+            display: "flex",
+            mb: 3,
+            px: 3.5,
+            pb: "23px",
+            borderBottom: "1px solid rgba(0,0,0,0.1)",
+          }}
+        >
           <svg
             version="1.2"
             xmlns="http://www.w3.org/2000/svg"

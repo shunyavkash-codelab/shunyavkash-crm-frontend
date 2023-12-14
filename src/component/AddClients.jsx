@@ -119,7 +119,7 @@ export default function AddManager({ open, setOpen }) {
               overflowY: { md: "auto" },
               "&>*:not(:first-child)": { mt: 2 },
               "& fieldset": {
-                borderRadius: 2.5,
+                borderRadius: 1.5,
                 "& legend": { fontSize: "0.65em" },
               },
             }}
@@ -240,7 +240,7 @@ export default function AddManager({ open, setOpen }) {
                 sx={{
                   textTransform: "capitalize",
                   width: "100%",
-                  borderRadius: 2.5,
+                  borderRadius: 1.5,
                   bgcolor: "transparent",
                   border: "1px solid rgba(0,0,0,0.15)",
                   boxShadow: "none",
@@ -270,7 +270,7 @@ export default function AddManager({ open, setOpen }) {
                 sx={{
                   textTransform: "capitalize",
                   width: "100%",
-                  borderRadius: 2.5,
+                  borderRadius: 1.5,
                   bgcolor: "transparent",
                   border: "1px solid rgba(0,0,0,0.15)",
                   boxShadow: "none",

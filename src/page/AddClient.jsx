@@ -121,7 +121,7 @@ export default function AddClient() {
                   flexGrow: { md: 0 },
                   overflowY: { md: "auto" },
                   "& fieldset": {
-                    borderRadius: 2.5,
+                    borderRadius: 1.5,
                   },
                   display: "grid",
                   gridTemplateColumns: {

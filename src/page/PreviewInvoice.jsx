@@ -77,17 +77,27 @@ export default function Invoices() {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "end",
                   gap: 2,
                 }}
               >
-                <Box sx={{ height: "160px" }}>
+                <Box
+                  sx={{
+                    maxHeight: "140px",
+                    maxWidth: "170px",
+                    minWidth: "80px",
+                    flexShrink: 0,
+                  }}
+                >
                   <img
                     src="https://vex.visurel.com/assets/img/logo/logo.svg"
-                    style={{ height: "100%", width: "auto" }}
+                    style={{
+                      maxHeight: "inherit",
+                      width: "100%",
+                      display: "block",
+                    }}
                   />
                 </Box>
-                <Box sx={{ textAlign: "right" }}>
+                <Box sx={{ textAlign: "right", alignSelf: "end" }}>
                   <Typography variant="h4" sx={{ textTransform: "capitalize" }}>
                     US Invoice
                   </Typography>
@@ -240,6 +250,7 @@ export default function Invoices() {
               <TableContainer
                 component={Paper}
                 sx={{
+                  mt: 2,
                   border: "1px solid rgba(224, 224, 224, 1)",
                   borderRadius: 2.5,
                 }}
@@ -275,9 +286,8 @@ export default function Invoices() {
                       }}
                     >
                       <TableCell>description</TableCell>
-                      <TableCell>price per</TableCell>
-                      <TableCell>unit</TableCell>
-                      <TableCell>Quantity</TableCell>
+                      <TableCell>price per hours</TableCell>
+                      <TableCell>hours</TableCell>
                       <TableCell>Amount</TableCell>
                     </TableRow>
                   </TableHead>
@@ -294,7 +304,6 @@ export default function Invoices() {
                     >
                       <TableCell>Recurring Bill (Hosting)</TableCell>
                       <TableCell>$652.87</TableCell>
-                      <TableCell>Hour</TableCell>
                       <TableCell>3</TableCell>
                       <TableCell>$1,958.61</TableCell>
                     </TableRow>
@@ -310,7 +319,6 @@ export default function Invoices() {
                     >
                       <TableCell>Recurring Bill (Domain)</TableCell>
                       <TableCell>$239.00</TableCell>
-                      <TableCell>Hour</TableCell>
                       <TableCell>3</TableCell>
                       <TableCell>$717.00</TableCell>
                     </TableRow>
@@ -326,7 +334,6 @@ export default function Invoices() {
                     >
                       <TableCell>Web design</TableCell>
                       <TableCell>$958.00</TableCell>
-                      <TableCell>Hour</TableCell>
                       <TableCell>1</TableCell>
                       <TableCell>$958.00</TableCell>
                     </TableRow>
@@ -343,7 +350,6 @@ export default function Invoices() {
                         bgcolor: "primary.light",
                       }}
                     >
-                      <TableCell></TableCell>
                       <TableCell></TableCell>
                       <TableCell></TableCell>
                       <TableCell></TableCell>

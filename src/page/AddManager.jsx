@@ -155,7 +155,7 @@ export default function AddManager({ open, setOpen }) {
                   flexGrow: { md: 0 },
                   overflowY: { md: "auto" },
                   "& fieldset": {
-                    borderRadius: 2.5,
+                    borderRadius: 1.5,
                   },
                   display: "grid",
                   gridTemplateColumns: {
@@ -320,7 +320,13 @@ export default function AddManager({ open, setOpen }) {
                   value={formik.values.websiteURL}
                 />
                 <Box sx={{ gridColumn: { sm: "span 2" } }}>
-                  <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      lineHeight: 1,
+                      mb: 1,
+                    }}
+                  >
                     Profile Image
                   </Typography>
                   <FileUploadButton

@@ -89,7 +89,7 @@ export default function FileUploadButton({ formik, id, label }) {
           sx={{
             textTransform: "capitalize",
             width: "100%",
-            borderRadius: 2.5,
+            borderRadius: 1.5,
             bgcolor: "transparent",
             border: "1px solid rgba(0,0,0,0.15)",
             boxShadow: "none",

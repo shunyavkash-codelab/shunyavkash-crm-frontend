@@ -131,7 +131,7 @@ export default function Invoices() {
                 display: "flex",
                 flexDirection: "column",
                 gap: 2.5,
-                "& fieldset": { borderRadius: "10px" },
+                "& fieldset": { borderRadius: "6px" },
                 width: { xs: "100%", sm: "75%", md: "50%" },
               }}
             >

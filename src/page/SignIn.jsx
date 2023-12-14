@@ -101,7 +101,7 @@ export default function SignIn() {
               sx={{
                 "&>*:not(:first-child)": { mt: 2 },
                 "& fieldset": {
-                  borderRadius: 2.5,
+                  borderRadius: 1.5,
                   "& legend": { fontSize: "0.65em" },
                 },
               }}
