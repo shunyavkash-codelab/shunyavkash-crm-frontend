@@ -332,8 +332,14 @@ export default function Invoices() {
                     <TableCell>Project Name</TableCell>
                     <TableCell>Client</TableCell>
                     <TableCell>Manager</TableCell>
-                    <TableCell>Start date</TableCell>
-                    <TableCell>End date</TableCell>
+                    <TableCell>Invoice No.</TableCell>
+                    <TableCell>Invoice Date</TableCell>
+                    <TableCell>Due Date</TableCell>
+                    <TableCell>Payment Ref No.</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Total</TableCell>
+                    {/* <TableCell>Start date</TableCell>
+                    <TableCell>End date</TableCell> */}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -347,8 +353,14 @@ export default function Invoices() {
                     <TableCell>CRM</TableCell>
                     <TableCell>Hiren</TableCell>
                     <TableCell>Deep</TableCell>
-                    <TableCell>12-12-23</TableCell>
+                    <TableCell>12345</TableCell>
+                    <TableCell>12-12-23</TableCell> 
                     <TableCell>13-12-23</TableCell>
+                    <TableCell>11815886</TableCell>
+                    <TableCell> <Box sx={{ color:"secondary.main" , py: 1 , px: 1 , bgcolor: "rgba(255, 198, 117, 10%)" , borderRadius: 2.5 }} >Pending</Box></TableCell>
+                    <TableCell>300.00$</TableCell>
+                    {/* <TableCell>12-12-23</TableCell>
+                    <TableCell>13-12-23</TableCell> */}
                   </TableRow>
                   <TableRow
                     sx={{
@@ -360,8 +372,14 @@ export default function Invoices() {
                     <TableCell>CRM</TableCell>
                     <TableCell>Hiren</TableCell>
                     <TableCell>Deep</TableCell>
-                    <TableCell>12-12-23</TableCell>
+                    <TableCell>12345</TableCell>
+                    <TableCell>12-12-23</TableCell> 
                     <TableCell>13-12-23</TableCell>
+                    <TableCell>11815886</TableCell>
+                    <TableCell> <Box sx={{ color:"success.main" , py: 1 , px: 1 , bgcolor: "rgba(74, 210, 146,10%)" , borderRadius: 2.5 }}>Done</Box></TableCell>
+                    <TableCell>150.00$</TableCell>
+                    {/* <TableCell>12-12-23</TableCell>
+                    <TableCell>13-12-23</TableCell> */}
                   </TableRow>
                   <TableRow
                     sx={{
@@ -373,8 +391,14 @@ export default function Invoices() {
                     <TableCell>CRM</TableCell>
                     <TableCell>Hiren</TableCell>
                     <TableCell>Deep</TableCell>
-                    <TableCell>12-12-23</TableCell>
+                    <TableCell>12345</TableCell>
+                    <TableCell>12-12-23</TableCell> 
                     <TableCell>13-12-23</TableCell>
+                    <TableCell>11815886</TableCell>
+                    <TableCell> <Box sx={{ color:"secondary.main" , py: 1 , px: 1 , bgcolor: "rgba(255, 198, 117, 10%)" , borderRadius: 2.5 }}>Pending</Box></TableCell>
+                    <TableCell>850.00$</TableCell>
+                    {/* <TableCell>12-12-23</TableCell>
+                    <TableCell>13-12-23</TableCell> */}
                   </TableRow>
                 </TableBody>
               </Table>
