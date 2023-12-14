@@ -351,6 +351,10 @@ export default function Invoices() {
                       "&:last-child td, &:last-child th": { border: 0 },
                       "&>td": { fontSize: { xs: "12px", sm: "14px" } },
                       "&>*": { p: 1.5 },
+                      "&:first-child td": {
+                        maxWidth: "250px",
+                        textWrap: "wrap",
+                      },
                     }}
                   >
                     <TableCell>CRM</TableCell>

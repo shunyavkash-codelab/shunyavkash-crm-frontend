@@ -253,9 +253,39 @@ export default function Clients() {
                               "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
                             }}
                           >
-                            <VisibilityIcon />
-                            <CreateIcon />
-                            <DeleteIcon />
+                            <Button
+                              disableRipple
+                              sx={{
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              }}
+                            >
+                              <VisibilityIcon />
+                            </Button>
+                            <Button
+                              disableRipple
+                              sx={{
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              }}
+                            >
+                              <CreateIcon />
+                            </Button>
+                            <Button
+                              disableRipple
+                              sx={{
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              }}
+                            >
+                              <DeleteIcon />
+                            </Button>
                           </Box>
                         </TableCell>
                       </TableRow>
