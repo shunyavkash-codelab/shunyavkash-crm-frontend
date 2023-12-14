@@ -116,12 +116,17 @@ export const theme = createTheme({
       fontWeight: 500,
       lineHeight: 1.5,
     },
+    subtitle3: {
+      fontSize: "12px",
+      fontWeight: 500,
+      lineHeight: 1,
+    },
     overline: {
       fontSize: "12px",
       fontWeight: 600,
-      letterSpacing: "0.5px",
       lineHeight: 1.5,
       textTransform: "uppercase",
+      letterSpacing: "0.5px",
     },
     caption: {
       fontSize: "12px",
@@ -129,33 +134,33 @@ export const theme = createTheme({
       lineHeight: 1.5,
     },
     h1: {
-      fontWeight: 700,
       fontSize: "56px",
+      fontWeight: 700,
       lineHeight: 1,
     },
     h2: {
-      fontWeight: 700,
       fontSize: "48px",
+      fontWeight: 700,
       lineHeight: 1,
     },
     h3: {
-      fontWeight: 700,
       fontSize: "36px",
+      fontWeight: 700,
       lineHeight: 1,
     },
     h4: {
-      fontWeight: 700,
       fontSize: "32px",
+      fontWeight: 700,
       lineHeight: 1,
     },
     h5: {
-      fontWeight: 600,
       fontSize: "26px",
+      fontWeight: 700,
       lineHeight: 1.1,
     },
     h6: {
-      fontWeight: 600,
       fontSize: "18px",
+      fontWeight: 700,
       lineHeight: 1.1,
     },
     error: {

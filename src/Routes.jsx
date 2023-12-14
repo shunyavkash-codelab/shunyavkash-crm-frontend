@@ -14,6 +14,7 @@ import AddClient from "./page/AddClient";
 import Projects from "./page/Projects";
 import AddProject from "./page/AddProject";
 import Invoices from "./page/Invoices";
+import ViewInvoices from "./page/ViewInvoices";
 import Profile from "./page/Profile";
 
 const routes = createBrowserRouter([
@@ -29,6 +30,7 @@ const routes = createBrowserRouter([
   { path: "/projects", Component: Projects },
   { path: "/Projects/add", Component: AddProject },
   { path: "/invoices", Component: Invoices },
+  { path: "/invoices/view", Component: ViewInvoices },
   { path: "/profile", Component: Profile },
 ]);
 export default function Routes() {
