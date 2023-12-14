@@ -40,7 +40,7 @@ useEffect(() => {
 fetchDashboardData();
 }, []);
 return (
-<>
+<Grid>
 <SideBar
   sideBarWidth={sideBarWidth}
   setSidebarWidth={setSidebarWidth}
@@ -248,43 +248,43 @@ return (
               xs={12}
               sm={6}
               xxl={4}
-              sx={{ height:"100%" , "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+              sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:1 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
             >
-              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 , position:"relative" }} >
+              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 , position:"relative" , height:"100%" }} >
                 <Typography variant="h6" sx={{ fontSize: { xs:"16px" , lg:"18px" } , pt:{ xs:2 , lg:1 } }}>Shunyavkash CRM Design</Typography>
               
               <Box sx={{ position:"absolute" , top:"10px" , right:"15px" }} >
                 <Box className="statusBtn intial" >Initial</Box>
               </Box>
-              <Box sx={{ display:"flex" , alignItems:"center", mt:1.6 , gap: 1.25 }} >
+              <Box sx={{ display:"flex" , alignItems:"center", mt:1.75 , gap: 1.25 }} >
                 <Avatar sx={{ height:"34px" , width:"34px" }} alt="Cindy Baker" src="https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"/>
                 <Typography sx={{ color:"rgba(123, 119, 120, 1)", textTransform:"capitalize" }}>
                   Joel Male
                 </Typography>
               </Box>
-              <Typography className="truncate line-clamp-1" sx={{ mt:1 , mb:2 , lineHeight:{ xs:1.2 , lg:1.5 } , fontSize: { xs:"14px" , lg:"16px" } }}>
+              <Typography className="truncate line-clamp-1" sx={{ mt:2 , mb:3 , lineHeight:1.5 , fontSize:"14px" }}>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </Typography>
-              <Box sx={{ "&>*:not(:first-child)": { mt: 0.25 } }}>
+              <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5  }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
-                  <Typography variant="body2" sx={{ color:"grey.dark" }} >$50</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }} >Hour charge</Typography>
+                  <Typography variant="body2" sx={{ color:"grey.dark" , lineHeight:1.2 }} >$50</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5  }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Pay Period</Typography>
-                  <Typography variant="body2" sx={{ color:"grey.dark" }}>4 Weeks</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Pay Period</Typography>
+                  <Typography variant="body2" sx={{ color:"grey.dark" , lineHeight:1.2 }}>4 Weeks</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgb(123, 119, 120, 1)" , gap:2.5  }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Invoice No</Typography>
-                  <Typography variant="body2" sx={{ color:"grey.dark" }}>SHU090984</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Invoice No</Typography>
+                  <Typography variant="body2" sx={{ color:"grey.dark" , lineHeight:1.2 }}>SHU090984</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5  }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Start Date</Typography>
-                  <Typography variant="body2" sx={{ color:"grey.dark" }}>Oct 15th 2023</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Start Date</Typography>
+                  <Typography variant="body2" sx={{ color:"grey.dark" , lineHeight:1.2 }}>Oct 15th 2023</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5  }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>End Date</Typography>
-                  <Typography variant="body2" sx={{ color:"grey.dark" }} >Nov 15th 2023</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>End Date</Typography>
+                  <Typography variant="body2" sx={{ color:"grey.dark" , lineHeight:1.2 }} >Nov 15th 2023</Typography>
                 </Box>
               </Box>
             </Box>
@@ -294,43 +294,43 @@ return (
               xs={12}
               sm={6}
               xxl={4}
-              sx={{ height:"100%" , "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+              sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:1 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
             >
-              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" }}  >
+              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" , height:"100%" }}  >
                 <Typography variant="h6" sx={{ fontSize: { xs:"16px" , lg:"18px" } , pt:{ xs:2 , lg:1 } }}>Shunyavkash CRM Design</Typography>
               
               <Box sx={{ position:"absolute" , top:"10px" , right:"15px"}}>
                 <Box className="statusBtn inprogress" >InProgress</Box>
               </Box>
-              <Box sx={{ display:"flex" ,alignItems:"center", mt:1.6 , gap: 1.25 }}>
+              <Box sx={{ display:"flex" ,alignItems:"center", mt:1.75 , gap: 1.25 }}>
                 <Avatar sx={{ height:"34px" , width:"34px" }} alt="Cindy Baker"  src="https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"/>
                 <Typography sx={{ color:"rgba(123, 119, 120, 1)", textTransform:"capitalize" }}>
                   Joel Male
                 </Typography>
               </Box>
-              <Typography className="truncate line-clamp-1" sx={{ mt:1 , mb:2 , lineHeight:{ xs:1.2 , lg:1.5 } , fontSize: { xs:"14px" , lg:"16px" }}}>
+              <Typography className="truncate line-clamp-1" sx={{ mt:2 , mb:3 , lineHeight:1.5 , fontSize:"14px" }}>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </Typography>
-              <Box sx={{ "&>*:not(:first-child)": { mt: 0.25 } }}>
+              <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
-                  <Typography variant="body2" sx={{ color:"secondary.main" }} >$50</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Hour charge</Typography>
+                  <Typography variant="body2" sx={{ color:"secondary.main" , lineHeight:1.2 }} >$50</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Pay Period</Typography>
-                  <Typography variant="body2" sx={{ color:"secondary.main" }}>4 Weeks</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Pay Period</Typography>
+                  <Typography variant="body2" sx={{ color:"secondary.main" , lineHeight:1.2 }}>4 Weeks</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Invoice No</Typography>
-                  <Typography variant="body2" sx={{ color:"secondary.main" }}>SHU090984</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Invoice No</Typography>
+                  <Typography variant="body2" sx={{ color:"secondary.main" , lineHeight:1.2 }}>SHU090984</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Start Date</Typography>
-                  <Typography variant="body2" sx={{ color:"secondary.main" }}>Oct 15th 2023</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Start Date</Typography>
+                  <Typography variant="body2" sx={{ color:"secondary.main" , lineHeight:1.2 }}>Oct 15th 2023</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>End Date</Typography>
-                  <Typography variant="body2" sx={{ color:"secondary.main" }} >Nov 15th 2023</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>End Date</Typography>
+                  <Typography variant="body2" sx={{ color:"secondary.main" , lineHeight:1.2 }} >Nov 15th 2023</Typography>
                 </Box>
               </Box>
             </Box>
@@ -340,43 +340,43 @@ return (
               xs={12}
               sm={6}
               xxl={4}
-              sx={{ height:"100%", "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+              sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:1 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
             >
-              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" }} >
+              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" , height:"100%" }} >
                 <Typography variant="h6" sx={{ fontSize: { xs:"16px" , lg:"18px" } , pt:{ xs:2 , lg:1 } }}>Shunyavkash CRM Design</Typography>
               
               <Box sx={{ position:"absolute" , top:"10px" , right:"15px"}}>
                 <Box className="statusBtn completed" >Completed</Box>
               </Box>
-              <Box sx={{ display:"flex" ,alignItems:"center", mt:1.6 , gap: 1.25 }}>
+              <Box sx={{ display:"flex" ,alignItems:"center", mt:1.75 , gap: 1.25 }}>
                 <Avatar sx={{ height:"34px" , width:"34px" }} alt="Cindy Baker"  src="https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"/>
                 <Typography sx={{ color:"rgba(123, 119, 120, 1)", textTransform:"capitalize" }}>
                   Joel Male
                 </Typography>
               </Box>
-              <Typography className="truncate line-clamp-1" sx={{ mt:1 , mb:2 ,lineHeight:{ xs:1.2 , lg:1.5 } ,fontSize: { xs:"14px" , lg:"16px" } }}>
+              <Typography className="truncate line-clamp-1" sx={{ mt:2 , mb:3 , lineHeight:1.5 , fontSize:"14px" }}>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </Typography>
-              <Box sx={{ "&>*:not(:first-child)": { mt: 0.25 } }}>
+              <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
-                  <Typography variant="body2" sx={{ color:"success.main" }} >$50</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Hour charge</Typography>
+                  <Typography variant="body2" sx={{ color:"success.main" , lineHeight:1.2 }} >$50</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Pay Period</Typography>
-                  <Typography variant="body2" sx={{ color:"success.main" }}>4 Weeks</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Pay Period</Typography>
+                  <Typography variant="body2" sx={{ color:"success.main" , lineHeight:1.2 }}>4 Weeks</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Invoice No</Typography>
-                  <Typography variant="body2" sx={{ color:"success.main" }}>SHU090984</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Invoice No</Typography>
+                  <Typography variant="body2" sx={{ color:"success.main" , lineHeight:1.2 }}>SHU090984</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Start Date</Typography>
-                  <Typography variant="body2" sx={{ color:"success.main" }}>Oct 15th 2023</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Start Date</Typography>
+                  <Typography variant="body2" sx={{ color:"success.main" , lineHeight:1.2 }}>Oct 15th 2023</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>End Date</Typography>
-                  <Typography variant="body2" sx={{ color:"success.main" }}>Nov 15th 2023</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>End Date</Typography>
+                  <Typography variant="body2" sx={{ color:"success.main" , lineHeight:1.2 }}>Nov 15th 2023</Typography>
                 </Box>
               </Box>
             </Box>
@@ -386,43 +386,43 @@ return (
               xs={12}
               sm={6}
               xxl={4}
-              sx={{ height:"100%" , "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+              sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:1 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
             >
-              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" }}  >
+              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" , height:"100%" }}  >
                 <Typography variant="h6" sx={{ fontSize: { xs:"16px" , lg:"18px" } , pt:{ xs:2 , lg:1 } }}>Shunyavkash CRM Design</Typography>
               
               <Box sx={{ position:"absolute" , top:"10px" , right:"15px"}}>
                 <Box className="statusBtn inprogress" >InProgress</Box>
               </Box>
-              <Box sx={{ display:"flex" ,alignItems:"center", mt:1.6 , gap: 1.25 }}>
+              <Box sx={{ display:"flex" ,alignItems:"center", mt:1.75 , gap: 1.25 }}>
                 <Avatar sx={{ height:"34px" , width:"34px" }} alt="Cindy Baker"  src="https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"/>
                 <Typography sx={{ color:"rgba(123, 119, 120, 1)", textTransform:"capitalize" }}>
                   Joel Male
                 </Typography>
               </Box>
-              <Typography className="truncate line-clamp-1" sx={{ mt:1 , mb:2 ,lineHeight:{ xs:1.2 , lg:1.5 } ,fontSize: { xs:"14px" , lg:"16px" } }}>
+              <Typography className="truncate line-clamp-1" sx={{ mt:2 , mb:3 , lineHeight:1.5 , fontSize:"14px" }}>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </Typography>
-              <Box sx={{ "&>*:not(:first-child)": { mt: 0.25 } }}>
+              <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
-                  <Typography variant="body2" sx={{ color:"secondary.main" }} >$50</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Hour charge</Typography>
+                  <Typography variant="body2" sx={{ color:"secondary.main" , lineHeight:1.2 }} >$50</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Pay Period</Typography>
-                  <Typography variant="body2" sx={{ color:"secondary.main" }}>4 Weeks</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Pay Period</Typography>
+                  <Typography variant="body2" sx={{ color:"secondary.main" , lineHeight:1.2 }}>4 Weeks</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Invoice No</Typography>
-                  <Typography variant="body2" sx={{ color:"secondary.main" }}>SHU090984</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Invoice No</Typography>
+                  <Typography variant="body2" sx={{ color:"secondary.main" , lineHeight:1.2 }}>SHU090984</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Start Date</Typography>
-                  <Typography variant="body2" sx={{ color:"secondary.main" }}>Oct 15th 2023</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Start Date</Typography>
+                  <Typography variant="body2" sx={{ color:"secondary.main" , lineHeight:1.2 }}>Oct 15th 2023</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Start Date</Typography>
-                  <Typography variant="body2" sx={{ color:"secondary.main" }}>Nov 15th 2023</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Start Date</Typography>
+                  <Typography variant="body2" sx={{ color:"secondary.main" , lineHeight:1.2 }}>Nov 15th 2023</Typography>
                 </Box>
               </Box>
             </Box>
@@ -432,43 +432,43 @@ return (
               xs={12}
               sm={6}
               xxl={4}
-              sx={{ height:"100%", "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+              sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:1 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
             >
-              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" }} >
+              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" , height:"100%" }} >
                 <Typography variant="h6" sx={{ fontSize: { xs:"16px" , lg:"18px" } , pt:{ xs:2 , lg:1 } }}>Shunyavkash CRM Design</Typography>
               
               <Box sx={{ position:"absolute" , top:"10px" , right:"15px"}}>
                 <Box className="statusBtn completed" >Completed</Box>
               </Box>
-              <Box sx={{ display:"flex" ,alignItems:"center", mt:1.6 , gap: 1.25 }}>
+              <Box sx={{ display:"flex" ,alignItems:"center", mt:1.75 , gap: 1.25 }}>
                 <Avatar sx={{ height:"34px" , width:"34px" }} alt="Cindy Baker"  src="https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"/>
                 <Typography sx={{ color:"rgba(123, 119, 120, 1)", textTransform:"capitalize" }}>
                   Joel Male
                 </Typography>
               </Box>
-              <Typography className="truncate line-clamp-1" sx={{ mt:1 , mb:2 ,lineHeight:{ xs:1.2 , lg:1.5 } ,fontSize: { xs:"14px" , lg:"16px" } }}>
+              <Typography className="truncate line-clamp-1" sx={{ mt:2 , mb:3 , lineHeight:1.5 , fontSize:"14px" }}>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </Typography>
-              <Box sx={{ "&>*:not(:first-child)": { mt: 0.25 } }}>
+              <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
-                  <Typography variant="body2" sx={{ color:"success.main" }} >$50</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Hour charge</Typography>
+                  <Typography variant="body2" sx={{ color:"success.main" , lineHeight:1.2 }} >$50</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Pay Period</Typography>
-                  <Typography variant="body2" sx={{ color:"success.main" }}>4 Weeks</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Pay Period</Typography>
+                  <Typography variant="body2" sx={{ color:"success.main" , lineHeight:1.2 }}>4 Weeks</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Invoice No</Typography>
-                  <Typography variant="body2" sx={{ color:"success.main" }}>SHU090984</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Invoice No</Typography>
+                  <Typography variant="body2" sx={{ color:"success.main" , lineHeight:1.2 }}>SHU090984</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Start Date</Typography>
-                  <Typography variant="body2" sx={{ color:"success.main" }}>Oct 15th 2023</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Start Date</Typography>
+                  <Typography variant="body2" sx={{ color:"success.main" , lineHeight:1.2 }}>Oct 15th 2023</Typography>
                 </Box>
                 <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>End Date</Typography>
-                  <Typography variant="body2" sx={{ color:"success.main" }}>Nov 15th 2023</Typography>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>End Date</Typography>
+                  <Typography variant="body2" sx={{ color:"success.main" , lineHeight:1.2 }}>Nov 15th 2023</Typography>
                 </Box>
               </Box>
             </Box>
@@ -478,43 +478,43 @@ return (
               xs={12}
               sm={6}
               xxl={4}
-              sx={{ height:"100%" , "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:2 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
+              sx={{ "& .statusBtn":{ color:"primary.contrastText" , fontSize: { xs:"10px" , lg:"12px" } , px:0.75 , py:0.5 , bgcolor:"grey.dark" , borderRadius:1 },"& .inprogress":{ bgcolor:"secondary.main" },"& .completed":{ bgcolor:"success.main" } }}
             >
-              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 , position:"relative" }} >
+              <Box sx={{ textTransform: "capitalize" , border:"1px solid rgba(0,0,0,0.1)" , p:{ xs:2.5 ,lg:3 } , borderRadius:1.25 ,position:"relative" , height:"100%" }}>
                 <Typography variant="h6" sx={{ fontSize: { xs:"16px" , lg:"18px" } , pt:{ xs:2 , lg:1 } }}>Shunyavkash CRM Design</Typography>
               
               <Box sx={{ position:"absolute" , top:"10px" , right:"15px" }} >
                 <Box className="statusBtn intial" >Initial</Box>
               </Box>
-              <Box sx={{ display:"flex" , alignItems:"center", mt:1.6 , gap: 1.25 }} >
+              <Box sx={{ display:"flex" , alignItems:"center", mt:1.75 , gap:1.75 }} >
                 <Avatar sx={{ height:"34px" , width:"34px" }} alt="Cindy Baker" src="https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"/>
                 <Typography sx={{ color:"rgba(123, 119, 120, 1)", textTransform:"capitalize" }}>
                   Joel Male
                 </Typography>
               </Box>
-              <Typography className="truncate line-clamp-1" sx={{ mt:1 , lineHeight:{ xs:1.2 , lg:1.5 } , fontSize: { xs:"14px" , lg:"16px" } }}>
+              <Typography className="truncate line-clamp-1" sx={{ mt:2 , mb:3 , lineHeight:1.5 , fontSize:"14px" }}>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </Typography>
-              <Box sx={{ mt:2  }}>
-                <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 , mt:0.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Hour charge</Typography>
+              <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
+                <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Hour charge</Typography>
                   <Typography variant="body2" sx={{ color:"grey.dark" }} >$50</Typography>
                 </Box>
-                <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 , mt:0.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Pay Period</Typography>
-                  <Typography variant="body2" sx={{ color:"grey.dark" }}>4 Weeks</Typography>
+                <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Pay Period</Typography>
+                  <Typography variant="body2" sx={{ color:"grey.dark" , lineHeight:1.2 }}>4 Weeks</Typography>
                 </Box>
-                <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 , mt:0.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Invoice No</Typography>
-                  <Typography variant="body2" sx={{ color:"grey.dark" }}>SHU090984</Typography>
+                <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Invoice No</Typography>
+                  <Typography variant="body2" sx={{ color:"grey.dark" , lineHeight:1.2 }}>SHU090984</Typography>
                 </Box>
-                <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 , mt:0.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>Start Date</Typography>
-                  <Typography variant="body2" sx={{ color:"grey.dark" }}>Oct 15th 2023</Typography>
+                <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>Start Date</Typography>
+                  <Typography variant="body2" sx={{ color:"grey.dark" , lineHeight:1.2 }}>Oct 15th 2023</Typography>
                 </Box>
-                <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 , mt:0.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight:"500"}}>End Date</Typography>
-                  <Typography variant="body2" sx={{ color:"grey.dark" }} >Nov 15th 2023</Typography>
+                <Box sx={{ display:"flex" , alignItems:"center" , justifyContent:"space-between" , color:"rgba(123, 119, 120, 1)" , gap:2.5 }}>
+                  <Typography variant="body2" sx={{ fontWeight:"500" , lineHeight:1.2 }}>End Date</Typography>
+                  <Typography variant="body2" sx={{ color:"grey.dark" , lineHeight:1.2 }} >Nov 15th 2023</Typography>
                 </Box>
               </Box>
             </Box>
@@ -525,6 +525,6 @@ return (
     </Box>
   </Box>
 </Box>
-</>
+</Grid>
 );
 }
