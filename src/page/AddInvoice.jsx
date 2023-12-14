@@ -23,7 +23,6 @@ import Header from "../component/Header";
 import { useAuth } from "../hooks/store/useAuth";
 
 import { useTheme } from "@mui/material/styles";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import Chip from "@mui/material/Chip";
 
 const ITEM_HEIGHT = 48;
@@ -54,7 +53,6 @@ export default function Invoices() {
 
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
-
   const handleChange = (event) => {
     const {
       target: { value },
@@ -374,24 +372,27 @@ export default function Invoices() {
                   sx={{ textTransform: "capitalize" }}
                   id="demo-simple-select-label"
                 >
-                  Select Task
+                  Select Tasks
                 </InputLabel>
                 <Select
                   multiple
                   labelId="demo-simple-select-label"
-                  id="select_task"
-                  label="Select Task"
+                  id="select_tasks"
+                  label="Select Tasks"
                   sx={{
                     fontSize: "12px",
                     "&>div": {
                       "&>div": {
+                        position: "absolute",
+                        top: "50%",
+                        transform: "translateY(-50%)",
                         flexWrap: "nowrap",
                         overflowX: "auto",
                         "&::-webkit-scrollbar": { display: "none" },
                         "&>*": {
                           height: "auto",
                           "&>span": {
-                            py: 0.5,
+                            py: 0.25,
                             px: 1,
                             fontSize: "12px",
                           },

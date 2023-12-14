@@ -17,6 +17,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { useAuth } from "../hooks/store/useAuth";
 
+import Chip from "@mui/material/Chip";
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -28,6 +30,27 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+    },
+  },
+};
+
+const names = ["Oliver Hansen", "Van Henry", "April Tucker", "Ralph Hubbard"];
+
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 export default function AddProject({ open, setOpen }) {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -44,9 +67,19 @@ export default function AddProject({ open, setOpen }) {
   const handleChange = (event) => {
     setClient(event.target.value);
   };
+
+  const theme = useTheme();
+  const [personName, setPersonName] = React.useState([]);
   const handleChange2 = (event) => {
-    setUser(event.target.value);
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
   };
+
   const handleChange3 = (event) => {
     setPayPeriod(event.target.value);
   };
@@ -199,46 +232,54 @@ export default function AddProject({ open, setOpen }) {
                   sx={{ textTransform: "capitalize" }}
                   id="demo-simple-select-label"
                 >
-                  User
+                  Users
                 </InputLabel>
                 <Select
+                  multiple
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={user}
-                  label="User"
+                  id="users"
+                  label="Users"
+                  sx={{
+                    fontSize: "14px",
+                    "&>div": {
+                      "&>div": {
+                        position: "absolute",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        flexWrap: "nowrap",
+                        overflowX: "auto",
+                        "&::-webkit-scrollbar": { display: "none" },
+                        "&>*": {
+                          height: "auto",
+                          "&>span": {
+                            py: 0.25,
+                            px: 1,
+                            fontSize: "12px",
+                          },
+                        },
+                      },
+                    },
+                  }}
+                  value={personName}
                   onChange={handleChange2}
-                  sx={{ fontSize: "14px" }}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
                 >
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"ID1"}
-                  >
-                    ID1
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"ID2"}
-                  >
-                    ID2
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"ID3"}
-                  >
-                    ID3
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"ID4"}
-                  >
-                    ID4
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"ID5"}
-                  >
-                    ID5
-                  </MenuItem>
+                  {names.map((name) => (
+                    <MenuItem
+                      key={name}
+                      value={name}
+                      style={getStyles(name, personName, theme)}
+                    >
+                      {name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl
