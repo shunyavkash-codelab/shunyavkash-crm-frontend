@@ -264,8 +264,7 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      boxShadow:
-                        "rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px",
+                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
                       bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
                       borderRadius: 1.25,
@@ -455,7 +454,8 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      border: "1px solid rgba(0,0,0,0.1)",
+                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
+                      bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
                       borderRadius: 1.25,
                       position: "relative",
@@ -644,7 +644,8 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      border: "1px solid rgba(0,0,0,0.1)",
+                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
+                      bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
                       borderRadius: 1.25,
                       position: "relative",
@@ -828,7 +829,8 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      border: "1px solid rgba(0,0,0,0.1)",
+                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
+                      bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
                       borderRadius: 1.25,
                       position: "relative",
@@ -1017,7 +1019,8 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      border: "1px solid rgba(0,0,0,0.1)",
+                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
+                      bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
                       borderRadius: 1.25,
                       position: "relative",
@@ -1206,7 +1209,8 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      border: "1px solid rgba(0,0,0,0.1)",
+                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
+                      bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
                       borderRadius: 1.25,
                       position: "relative",
