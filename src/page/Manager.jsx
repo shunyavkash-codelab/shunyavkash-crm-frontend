@@ -255,6 +255,8 @@ export default function Manager() {
                                 sx={{
                                   p: 0,
                                   minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "primary.main" },
                                 }}
                               >
                                 <VisibilityIcon />

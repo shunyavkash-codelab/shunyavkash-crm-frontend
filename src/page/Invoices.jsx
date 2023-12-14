@@ -390,6 +390,7 @@ export default function Invoices() {
                           sx={{
                             p: 0,
                             minWidth: "auto",
+                            color: "black",
                             "&:hover": { color: "primary.main" },
                           }}
                         >
@@ -400,6 +401,7 @@ export default function Invoices() {
                           sx={{
                             p: 0,
                             minWidth: "auto",
+                            color: "black",
                             "&:hover": { color: "primary.main" },
                           }}
                         >
@@ -451,6 +453,7 @@ export default function Invoices() {
                           sx={{
                             p: 0,
                             minWidth: "auto",
+                            color: "black",
                             "&:hover": { color: "primary.main" },
                           }}
                         >
@@ -461,6 +464,7 @@ export default function Invoices() {
                           sx={{
                             p: 0,
                             minWidth: "auto",
+                            color: "black",
                             "&:hover": { color: "primary.main" },
                           }}
                         >
@@ -512,6 +516,7 @@ export default function Invoices() {
                           sx={{
                             p: 0,
                             minWidth: "auto",
+                            color: "black",
                             "&:hover": { color: "primary.main" },
                           }}
                         >
@@ -522,6 +527,7 @@ export default function Invoices() {
                           sx={{
                             p: 0,
                             minWidth: "auto",
+                            color: "black",
                             "&:hover": { color: "primary.main" },
                           }}
                         >
