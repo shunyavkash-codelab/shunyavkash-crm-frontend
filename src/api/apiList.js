@@ -3,7 +3,7 @@ export const APIS = {
     DATA: "/dashboard/dashboard",
   },
   MANAGER: {
-    ADD: "/manager/signup",
+    ADD: "/manager/add",
     LOGIN: "/manager/login",
     FORGETPASSWORD: "/manager/forget-password",
     RESETPASSWORD: "/manager/reset-password",
