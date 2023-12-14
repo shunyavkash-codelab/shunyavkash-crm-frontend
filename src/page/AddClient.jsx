@@ -293,7 +293,7 @@ export default function AddClient() {
                     lineHeight: 1,
                     borderRadius: 2.5,
                     maxHeight: "42px",
-                    "&:hover": { bgcolor: "rgb(247, 141, 169, 80%)" },
+                    "&:hover": { bgcolor: "error.light" },
                   }}
                   onClick={() => navigate("/clients")}
                 >

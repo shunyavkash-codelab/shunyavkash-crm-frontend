@@ -458,7 +458,7 @@ export default function AddProject({ open, setOpen }) {
                   lineHeight: 1,
                   borderRadius: 2.5,
                   maxHeight: "42px",
-                  "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
+                  "&:hover": { bgcolor: "error.light" },
                 }}
               >
                 Cancel

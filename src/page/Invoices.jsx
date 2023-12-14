@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -23,6 +24,7 @@ import Header from "../component/Header";
 import { useAuth } from "../hooks/store/useAuth";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
+import PlusIcon from "@mui/icons-material/Close";
 
 const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -69,9 +71,10 @@ export default function Invoices() {
               mb: 3.25,
               display: "flex",
               alignItems: { sm: "center" },
-              justifyContent: "space-between",
+              justifyContent: { sm: "space-between" },
               flexDirection: { xs: "column", sm: "row" },
-              gap: 2,
+              columnGap: 2,
+              rowGap: 2.5,
             }}
           >
             <Box>
@@ -79,14 +82,34 @@ export default function Invoices() {
                 variant="h5"
                 sx={{ mb: 0.75, textTransform: "capitalize" }}
               >
-                Our Recent Invoices
+                Our invoices
               </Typography>
               <Typography
                 variant="subtitle2"
                 sx={{ opacity: 0.4, textTransform: "capitalize" }}
               >
-                Invoices
+                invoices
               </Typography>
+            </Box>
+            <Box>
+              <Link variant="Button" to="./add">
+                <Button
+                  disableRipple
+                  sx={{
+                    px: 2.5,
+                    py: 1.5,
+                    bgcolor: "primary.main",
+                    color: "white",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    maxHeight: "42px",
+                    "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
+                  }}
+                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                >
+                  Create Invoice
+                </Button>
+              </Link>
             </Box>
           </Box>
           <Box
