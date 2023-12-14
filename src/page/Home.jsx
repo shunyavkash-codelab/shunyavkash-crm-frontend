@@ -81,51 +81,67 @@ export default function Home() {
                 DashBoard
               </Typography>
             </Box>
-            <Grid container rowSpacing={2} columnSpacing={2}>
+            <Grid container rowSpacing={2.5} columnSpacing={2.5}>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  BgColor={"rgb(22, 108, 255, 10%)"}
                   Title={"Total Manager"}
                   Counter={dashboardData.totalManager || 0}
+                  borderColor={"rgb(22, 108, 255, 100%)"}
+                  boxShadow={"0 0 14px 0px rgb(22, 108, 255, 10%)"}
                   icon={
                     <ManagerIcon
-                      sx={{ fontSize: { xs: "28px", sm: "32px" } }}
+                      sx={{
+                        fontSize: { xs: "28px", sm: "32px" },
+                        color: "rgb(22, 108, 255, 100%)",
+                      }}
                     />
                   }
                 ></CounterCards>
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  BgColor={"rgb(255, 198, 117, 10%)"}
                   Title={"Total Clients"}
                   Counter={dashboardData.totalClient || 0}
+                  borderColor={"rgb(255, 198, 117, 100%)"}
+                  boxShadow={"0 0 14px 0px rgb(255, 198, 117, 10%)"}
                   icon={
                     <ClientsIcon
-                      sx={{ fontSize: { xs: "28px", sm: "32px" } }}
+                      sx={{
+                        fontSize: { xs: "28px", sm: "32px" },
+                        color: "rgb(255, 198, 117, 100%)",
+                      }}
                     />
                   }
                 ></CounterCards>
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  BgColor={"rgba(0, 255, 135, 10%)"}
                   Title={"Total projects"}
                   Counter={dashboardData.totalProject || 0}
+                  borderColor={"rgb(74, 210, 146, 100%)"}
+                  boxShadow={"0 0 14px 0px rgb(74, 210, 146, 10%)"}
                   icon={
                     <ProjectsIcon
-                      sx={{ fontSize: { xs: "28px", sm: "32px" } }}
+                      sx={{
+                        fontSize: { xs: "28px", sm: "32px" },
+                        color: "rgb(74, 210, 146, 100%)",
+                      }}
                     />
                   }
                 ></CounterCards>
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  BgColor={"rgba(255, 0, 67, 10%)"}
                   Title={"Total invoices"}
                   Counter={dashboardData.totalInvoice || 0}
+                  borderColor={"rgb(255, 0, 67, 100%)"}
+                  boxShadow={"0 0 14px 0px rgb(255, 0, 67, 10%)"}
                   icon={
                     <InvoicesIcon
-                      sx={{ fontSize: { xs: "28px", sm: "32px" } }}
+                      sx={{
+                        fontSize: { xs: "28px", sm: "32px" },
+                        color: "rgb(255, 0, 67, 100%)",
+                      }}
                     />
                   }
                 ></CounterCards>

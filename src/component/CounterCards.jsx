@@ -8,7 +8,10 @@ export default function CounterCards(props) {
         sx={{
           py: { xs: 3, sm: 3.25 },
           px: { xs: 3, sm: 2.5 },
-          bgcolor: props.BgColor,
+          bgcolor: "white",
+          borderBottom: "2px solid",
+          borderColor: props.borderColor,
+          boxShadow: props.boxShadow,
           color: "text.primary",
           borderRadius: 2.5,
         }}
