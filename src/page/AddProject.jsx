@@ -98,7 +98,17 @@ export default function AddProject({ open, setOpen }) {
               Add Project
             </Typography>
           </Box>
-          <Box component="form" noValidate autoComplete="off">
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            sx={{
+              p: 2.5,
+              pt: 1.75,
+              backgroundColor: "white",
+              borderRadius: 2.5,
+            }}
+          >
             <Box
               sx={{
                 pt: 0.75,

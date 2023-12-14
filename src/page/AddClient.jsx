@@ -108,6 +108,12 @@ export default function AddClient() {
               noValidate
               autoComplete="off"
               onSubmit={formik.handleSubmit}
+              sx={{
+                p: 2.5,
+                pt: 1.75,
+                backgroundColor: "white",
+                borderRadius: 2.5,
+              }}
             >
               <Box
                 sx={{
