@@ -52,7 +52,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
           px: 2.5,
           top: 0,
           width: `calc(100% - ${sideBarWidth})`,
-          bgcolor: "#f3f4f9",
+          bgcolor: "white",
           boxShadow: "none",
           border: 0,
           borderBottom: "1px solid rgba(0,0,0,0.1)",

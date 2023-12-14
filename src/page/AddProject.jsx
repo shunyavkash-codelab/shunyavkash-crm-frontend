@@ -148,7 +148,7 @@ export default function AddProject({ open, setOpen }) {
                 flexGrow: { md: 0 },
                 overflowY: { md: "auto" },
                 "& fieldset": {
-                  borderRadius: 2.5,
+                  borderRadius: 1.5,
                 },
                 display: "grid",
                 gridTemplateColumns: {
@@ -462,7 +462,7 @@ export default function AddProject({ open, setOpen }) {
                   sx={{
                     textTransform: "capitalize",
                     width: "100%",
-                    borderRadius: 2.5,
+                    borderRadius: 1.5,
                     bgcolor: "transparent",
                     border: "1px solid rgba(0,0,0,0.15)",
                     boxShadow: "none",
