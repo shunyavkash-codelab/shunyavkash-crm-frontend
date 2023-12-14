@@ -28,7 +28,7 @@ export default function Manager() {
   const [managerList, setManagerList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
 
   const fetchManagers = async () => {
     try {
@@ -99,26 +99,28 @@ export default function Manager() {
                 Manager
               </Typography>
             </Box>
-            <Box>
-              <Link variant="Button" to="./add">
-                <Button
-                  disableRipple
-                  sx={{
-                    px: 2.5,
-                    py: 1.5,
-                    bgcolor: "primary.main",
-                    color: "white",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    maxHeight: "42px",
-                    "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
-                  }}
-                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                >
-                  New Manager
-                </Button>
-              </Link>
-            </Box>
+            {user.role == 0 && (
+              <Box>
+                <Link variant="Button" to="./add">
+                  <Button
+                    disableRipple
+                    sx={{
+                      px: 2.5,
+                      py: 1.5,
+                      bgcolor: "primary.main",
+                      color: "white",
+                      lineHeight: 1,
+                      borderRadius: 2.5,
+                      maxHeight: "42px",
+                      "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
+                    }}
+                    startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                  >
+                    New Manager
+                  </Button>
+                </Link>
+              </Box>
+            )}
           </Box>
           {managerList.length === 0 ? (
             <Box

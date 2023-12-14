@@ -200,12 +200,6 @@ export default function AddClient() {
                         >
                           Female
                         </MenuItem>
-                        <MenuItem
-                          sx={{ textTransform: "capitalize" }}
-                          value={"transgender"}
-                        >
-                          Transgender
-                        </MenuItem>
                       </Select>
                     )}
                   />
@@ -299,7 +293,7 @@ export default function AddClient() {
                     lineHeight: 1,
                     borderRadius: 2.5,
                     maxHeight: "42px",
-                    "&:hover": { bgcolor: "rgb(247 141 169)" },
+                    "&:hover": { bgcolor: "rgb(247, 141, 169, 80%)" },
                   }}
                   onClick={() => navigate("/clients")}
                 >

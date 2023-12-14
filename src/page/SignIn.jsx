@@ -37,6 +37,7 @@ export default function SignIn() {
           let {
             name,
             email,
+            role,
             mobileCode,
             mobileNumber,
             profile_img,
@@ -44,7 +45,7 @@ export default function SignIn() {
             _id,
           } = res.data.data;
           login({
-            user: { name, email, mobileCode, mobileNumber, profile_img },
+            user: { name, email, role, mobileCode, mobileNumber, profile_img },
             accessToken: token,
             userId: _id,
           });
