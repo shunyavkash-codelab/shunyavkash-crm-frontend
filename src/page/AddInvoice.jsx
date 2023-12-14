@@ -162,12 +162,6 @@ export default function Invoices() {
                   >
                     From
                   </Typography>
-                  {/* <Typography
-                    variant="h6"
-                    sx={{ textTransform: "capitalize", lineHeight: 1, mt: 1 }}
-                  >
-                    Saldo apps
-                  </Typography> */}
                   <FormControl
                     fullWidth
                     size="small"
@@ -199,38 +193,6 @@ export default function Invoices() {
                       </MenuItem>
                     </Select>
                   </FormControl>
-                  {/* <Box
-                    sx={{
-                      mt: 2.25,
-                      "&>*": {
-                        display: "block",
-                        "&:not(:first-child)": { mt: 1 },
-                      },
-                    }}
-                  >
-                    <Typography
-                      variant="subtitle3"
-                      sx={{ textTransform: "capitalize" }}
-                    >
-                      John Smith
-                    </Typography>
-                    <Typography
-                      variant="subtitle3"
-                      sx={{ textTransform: "lowercase" }}
-                    >
-                      wiz@saladoapps.com
-                    </Typography>
-                    <Typography variant="subtitle3">0123456789</Typography>
-                    <Typography
-                      variant="subtitle3"
-                      sx={{ textTransform: "lowercase" }}
-                    >
-                      Saladoapps.com
-                    </Typography>
-                    <Typography variant="subtitle3">
-                      First str.,28-32,chicago, USA
-                    </Typography>
-                  </Box> */}
                   <TextField
                     fullWidth
                     size="small"
@@ -255,9 +217,6 @@ export default function Invoices() {
                   >
                     Bill to
                   </Typography>
-                  {/* <Typography variant="h6" sx={{ lineHeight: 1, mt: 1 }}>
-                    Shepard corp.
-                  </Typography> */}
                   <FormControl
                     fullWidth
                     size="small"
@@ -290,26 +249,6 @@ export default function Invoices() {
                       </MenuItem>
                     </Select>
                   </FormControl>
-                  {/* <Box
-                    sx={{
-                      mt: 2.25,
-                      "&>*": {
-                        display: "block",
-                        "&:not(:first-child)": { mt: 1 },
-                      },
-                    }}
-                  >
-                    <Typography
-                      variant="subtitle3"
-                      sx={{ textTransform: "lowercase" }}
-                    >
-                      shepard@mail.com
-                    </Typography>
-                    <Typography variant="subtitle3">0123456789</Typography>
-                    <Typography variant="subtitle3">
-                      North str.,32,chicago, USA
-                    </Typography>
-                  </Box> */}
                   <TextField
                     fullWidth
                     size="small"
@@ -341,12 +280,6 @@ export default function Invoices() {
                   >
                     Manager
                   </Typography>
-                  {/* <Typography
-                    variant="body1"
-                    sx={{ fontWeight: 700, lineHeight: 1,mt:1 }}
-                  >
-                    Ship to
-                  </Typography> */}
                   <FormControl
                     fullWidth
                     size="small"
@@ -378,27 +311,11 @@ export default function Invoices() {
                       </MenuItem>
                     </Select>
                   </FormControl>
-                  {/* <Box
-                    sx={{
-                      mt: 2.25,
-                      "&>*": {
-                        display: "block",
-                        "&:not(:first-child)": { mt: 1 },
-                      },
-                    }}
-                  >
-                    <Typography variant="subtitle3">
-                      North str.,32,chicago, USA
-                    </Typography>
-                    <Typography variant="subtitle3">
-                      Track #: ROB5641564356
-                    </Typography>
-                  </Box> */}
                   <TextField
                     fullWidth
                     size="small"
-                    id="address"
-                    label="Address"
+                    id="manager_details"
+                    label="Manager details"
                     autoComplete="off"
                     multiline
                     rows={4}
@@ -434,8 +351,8 @@ export default function Invoices() {
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
-                    id="project"
-                    label="Project"
+                    id="select_project"
+                    label="Select Project"
                     sx={{ fontSize: "12px" }}
                   >
                     <MenuItem
@@ -466,8 +383,8 @@ export default function Invoices() {
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
-                    id="task"
-                    label="Task"
+                    id="select_task"
+                    label="Select Task"
                     sx={{ fontSize: "12px" }}
                   >
                     <MenuItem
@@ -611,51 +528,6 @@ export default function Invoices() {
                 >
                   Bank Details
                 </Typography>
-                {/* <Box
-                  sx={{
-                    mt: 2.25,
-                    "&>*": {
-                      display: "block",
-                      "&:not(:first-child)": { mt: 1 },
-                    },
-                  }}
-                >
-                  <Typography variant="subtitle3">Paypal email</Typography>
-                  <Typography variant="subtitle3">wiz@saldoapps.com</Typography>
-                </Box>
-                <Box
-                  sx={{
-                    mt: 2.25,
-                    "&>*": {
-                      display: "block",
-                      "&:not(:first-child)": { mt: 1 },
-                    },
-                  }}
-                >
-                  <Typography variant="subtitle3">
-                    Make checks payable to
-                  </Typography>
-                  <Typography
-                    variant="subtitle3"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    John Smith
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    mt: 2.25,
-                    "&>*": {
-                      display: "block",
-                      "&:not(:first-child)": { mt: 1 },
-                    },
-                  }}
-                >
-                  <Typography variant="subtitle3">Bank Transfer</Typography>
-                  <Typography variant="subtitle3">
-                    Rounting (ABA): 4564545146
-                  </Typography>
-                </Box> */}
                 <FormControl
                   fullWidth
                   size="small"
