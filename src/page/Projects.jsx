@@ -271,8 +271,6 @@ export default function Project() {
                               sx={{
                                 p: 0,
                                 minWidth: "auto",
-                                color: "text.primary",
-                                "&:hover": { color: "primary.main" },
                               }}
                             >
                               <VisibilityIcon />
@@ -282,8 +280,6 @@ export default function Project() {
                               sx={{
                                 p: 0,
                                 minWidth: "auto",
-                                color: "text.primary",
-                                "&:hover": { color: "primary.main" },
                               }}
                             >
                               <CreateIcon />

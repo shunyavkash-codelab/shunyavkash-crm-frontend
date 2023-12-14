@@ -25,6 +25,8 @@ import { useAuth } from "../hooks/store/useAuth";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import PlusIcon from "@mui/icons-material/Close";
+import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
+import CreateIcon from "@mui/icons-material/CreateOutlined";
 
 const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -338,8 +340,9 @@ export default function Invoices() {
                     <TableCell>Payment Ref No.</TableCell>
                     <TableCell>Status</TableCell>
                     <TableCell>Total</TableCell>
+                    <TableCell>Actions</TableCell>
                     {/* <TableCell>Start date</TableCell>
-                    <TableCell>End date</TableCell> */}
+                  <TableCell>End date</TableCell> */}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -354,13 +357,56 @@ export default function Invoices() {
                     <TableCell>Hiren</TableCell>
                     <TableCell>Deep</TableCell>
                     <TableCell>12345</TableCell>
-                    <TableCell>12-12-23</TableCell> 
+                    <TableCell>12-12-23</TableCell>
                     <TableCell>13-12-23</TableCell>
                     <TableCell>11815886</TableCell>
-                    <TableCell> <Box sx={{ color:"secondary.main" , py: 1 , px: 1 , bgcolor: "rgba(255, 198, 117, 10%)" , borderRadius: 2.5 }} >Pending</Box></TableCell>
+                    <TableCell>
+                      {" "}
+                      <Box
+                        sx={{
+                          color: "secondary.main",
+                          py: 1,
+                          px: 1,
+                          bgcolor: "rgba(255, 198, 117, 10%)",
+                          borderRadius: 2.5,
+                        }}
+                      >
+                        Pending
+                      </Box>
+                    </TableCell>
                     <TableCell>300.00$</TableCell>
-                    {/* <TableCell>12-12-23</TableCell>
-                    <TableCell>13-12-23</TableCell> */}
+                    <TableCell>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: { xs: 1.25, sm: 1.75 },
+                          opacity: 0.3,
+                          "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
+                        }}
+                      >
+                        <Button
+                          disableRipple
+                          sx={{
+                            p: 0,
+                            minWidth: "auto",
+                            "&:hover": { color: "primary.main" },
+                          }}
+                        >
+                          <VisibilityIcon />
+                        </Button>
+                        <Button
+                          disableRipple
+                          sx={{
+                            p: 0,
+                            minWidth: "auto",
+                            "&:hover": { color: "primary.main" },
+                          }}
+                        >
+                          <CreateIcon />
+                        </Button>
+                      </Box>
+                    </TableCell>
                   </TableRow>
                   <TableRow
                     sx={{
@@ -373,13 +419,55 @@ export default function Invoices() {
                     <TableCell>Hiren</TableCell>
                     <TableCell>Deep</TableCell>
                     <TableCell>12345</TableCell>
-                    <TableCell>12-12-23</TableCell> 
+                    <TableCell>12-12-23</TableCell>
                     <TableCell>13-12-23</TableCell>
                     <TableCell>11815886</TableCell>
-                    <TableCell> <Box sx={{ color:"success.main" , py: 1 , px: 1 , bgcolor: "rgba(74, 210, 146,10%)" , borderRadius: 2.5 }}>Done</Box></TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          color: "success.main",
+                          py: 1,
+                          px: 1,
+                          bgcolor: "rgba(74, 210, 146,10%)",
+                          borderRadius: 2.5,
+                        }}
+                      >
+                        Done
+                      </Box>
+                    </TableCell>
                     <TableCell>150.00$</TableCell>
-                    {/* <TableCell>12-12-23</TableCell>
-                    <TableCell>13-12-23</TableCell> */}
+                    <TableCell>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: { xs: 1.25, sm: 1.75 },
+                          opacity: 0.3,
+                          "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
+                        }}
+                      >
+                        <Button
+                          disableRipple
+                          sx={{
+                            p: 0,
+                            minWidth: "auto",
+                            "&:hover": { color: "primary.main" },
+                          }}
+                        >
+                          <VisibilityIcon />
+                        </Button>
+                        <Button
+                          disableRipple
+                          sx={{
+                            p: 0,
+                            minWidth: "auto",
+                            "&:hover": { color: "primary.main" },
+                          }}
+                        >
+                          <CreateIcon />
+                        </Button>
+                      </Box>
+                    </TableCell>
                   </TableRow>
                   <TableRow
                     sx={{
@@ -392,13 +480,55 @@ export default function Invoices() {
                     <TableCell>Hiren</TableCell>
                     <TableCell>Deep</TableCell>
                     <TableCell>12345</TableCell>
-                    <TableCell>12-12-23</TableCell> 
+                    <TableCell>12-12-23</TableCell>
                     <TableCell>13-12-23</TableCell>
                     <TableCell>11815886</TableCell>
-                    <TableCell> <Box sx={{ color:"secondary.main" , py: 1 , px: 1 , bgcolor: "rgba(255, 198, 117, 10%)" , borderRadius: 2.5 }}>Pending</Box></TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          color: "secondary.main",
+                          py: 1,
+                          px: 1,
+                          bgcolor: "rgba(255, 198, 117, 10%)",
+                          borderRadius: 2.5,
+                        }}
+                      >
+                        Pending
+                      </Box>
+                    </TableCell>
                     <TableCell>850.00$</TableCell>
-                    {/* <TableCell>12-12-23</TableCell>
-                    <TableCell>13-12-23</TableCell> */}
+                    <TableCell>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: { xs: 1.25, sm: 1.75 },
+                          opacity: 0.3,
+                          "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
+                        }}
+                      >
+                        <Button
+                          disableRipple
+                          sx={{
+                            p: 0,
+                            minWidth: "auto",
+                            "&:hover": { color: "primary.main" },
+                          }}
+                        >
+                          <VisibilityIcon />
+                        </Button>
+                        <Button
+                          disableRipple
+                          sx={{
+                            p: 0,
+                            minWidth: "auto",
+                            "&:hover": { color: "primary.main" },
+                          }}
+                        >
+                          <CreateIcon />
+                        </Button>
+                      </Box>
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
