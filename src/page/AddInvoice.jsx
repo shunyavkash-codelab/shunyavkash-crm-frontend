@@ -22,10 +22,48 @@ import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import { useAuth } from "../hooks/store/useAuth";
 
+import { useTheme } from "@mui/material/styles";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Chip from "@mui/material/Chip";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+    },
+  },
+};
+
+const names = ["Oliver Hansen", "Van Henry", "April Tucker", "Ralph Hubbard"];
+
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
+
+  const theme = useTheme();
+  const [personName, setPersonName] = React.useState([]);
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
 
   return (
     <>
@@ -327,10 +365,9 @@ export default function Invoices() {
                 size="small"
                 sx={{
                   mt: 1,
-                  width: "300px",
+                  width: "450px",
                   display: "flex",
                   "&>label": { fontSize: "12px" },
-                  "&>div": { textAlign: "left" },
                 }}
               >
                 <InputLabel
@@ -340,17 +377,48 @@ export default function Invoices() {
                   Select Task
                 </InputLabel>
                 <Select
+                  multiple
                   labelId="demo-simple-select-label"
                   id="select_task"
                   label="Select Task"
-                  sx={{ fontSize: "12px" }}
+                  sx={{
+                    fontSize: "12px",
+                    "&>div": {
+                      "&>div": {
+                        flexWrap: "nowrap",
+                        overflowX: "auto",
+                        "&::-webkit-scrollbar": { display: "none" },
+                        "&>*": {
+                          height: "auto",
+                          "&>span": {
+                            py: 0.5,
+                            px: 1,
+                            fontSize: "12px",
+                          },
+                        },
+                      },
+                    },
+                  }}
+                  value={personName}
+                  onChange={handleChange}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
                 >
-                  <MenuItem
-                    sx={{ textTransform: "capitalize" }}
-                    value={"Task 1"}
-                  >
-                    Task 1
-                  </MenuItem>
+                  {names.map((name) => (
+                    <MenuItem
+                      key={name}
+                      value={name}
+                      style={getStyles(name, personName, theme)}
+                    >
+                      {name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <TableContainer
