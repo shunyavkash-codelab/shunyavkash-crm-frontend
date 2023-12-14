@@ -167,8 +167,7 @@ export default function Invoices() {
                     size="small"
                     sx={{
                       mt: 1,
-                      minWidth: "250px",
-                      maxWidth: "250px",
+                      width: "300px",
                       display: "flex",
                       "&>label": { fontSize: "12px" },
                     }}
@@ -203,10 +202,8 @@ export default function Invoices() {
                     rows={4}
                     sx={{
                       mt: 2.25,
-                      minWidth: "250px",
-                      maxWidth: "250px",
-                      "&>label,& textarea": { fontSize: "12px" },
-                      "& textarea": { lineHeight: 1.6 },
+                      width: "300px",
+                      "&>label,& input,&>div": { fontSize: "12px" },
                     }}
                   />
                 </Box>
@@ -222,8 +219,7 @@ export default function Invoices() {
                     size="small"
                     sx={{
                       mt: 1,
-                      minWidth: "250px",
-                      maxWidth: "250px",
+                      width: "300px",
                       display: "flex",
                       "&>label": { fontSize: "12px" },
                       "&>div": { textAlign: "left" },
@@ -259,10 +255,8 @@ export default function Invoices() {
                     rows={4}
                     sx={{
                       mt: 2.25,
-                      minWidth: "250px",
-                      maxWidth: "250px",
-                      "&>label,& textarea": { fontSize: "12px" },
-                      "& textarea": { lineHeight: 1.6 },
+                      width: "300px",
+                      "&>label,& input,&>div": { fontSize: "12px" },
                     }}
                   />
                 </Box>
@@ -278,15 +272,14 @@ export default function Invoices() {
                     variant="body1"
                     sx={{ fontWeight: 700, lineHeight: 1 }}
                   >
-                    Manager
+                    Project
                   </Typography>
                   <FormControl
                     fullWidth
                     size="small"
                     sx={{
                       mt: 1,
-                      minWidth: "250px",
-                      maxWidth: "250px",
+                      width: "300px",
                       display: "flex",
                       "&>label": { fontSize: "12px" },
                     }}
@@ -295,107 +288,71 @@ export default function Invoices() {
                       sx={{ textTransform: "capitalize" }}
                       id="demo-simple-select-label"
                     >
-                      Select Manager
+                      Select Project
                     </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
-                      id="manager"
-                      label="Manager"
+                      id="select_project"
+                      label="Select Project"
                       sx={{ fontSize: "12px" }}
                     >
                       <MenuItem
                         sx={{ textTransform: "capitalize" }}
-                        value={"Hiren polra"}
+                        value={"Project 1"}
                       >
-                        Hiren polra
+                        Project 1
                       </MenuItem>
                     </Select>
                   </FormControl>
                   <TextField
                     fullWidth
                     size="small"
-                    id="manager_details"
-                    label="Manager details"
+                    id="description"
+                    label="Description"
                     autoComplete="off"
                     multiline
                     rows={4}
                     sx={{
                       mt: 2.25,
-                      minWidth: "250px",
-                      maxWidth: "250px",
-                      "&>label,& textarea": { fontSize: "12px" },
-                      "& textarea": { lineHeight: 1.6 },
+                      width: "300px",
+                      "&>label,& input,&>div": { fontSize: "12px" },
                     }}
                   />
                 </Box>
               </Box>
             </Box>
             <Box sx={{ mt: 10 }}>
-              <Box sx={{ display: "flex", gap: 2 }}>
-                <FormControl
-                  fullWidth
-                  size="small"
-                  sx={{
-                    mt: 1,
-                    width: "25%",
-                    display: "flex",
-                    "&>label": { fontSize: "12px" },
-                    "&>div": { textAlign: "left" },
-                  }}
+              <FormControl
+                fullWidth
+                size="small"
+                sx={{
+                  mt: 1,
+                  width: "300px",
+                  display: "flex",
+                  "&>label": { fontSize: "12px" },
+                  "&>div": { textAlign: "left" },
+                }}
+              >
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
                 >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
-                  >
-                    Select Project
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="select_project"
-                    label="Select Project"
-                    sx={{ fontSize: "12px" }}
-                  >
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value={"Project 1"}
-                    >
-                      Project 1
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl
-                  fullWidth
-                  size="small"
-                  sx={{
-                    mt: 1,
-                    minWidth: "250px",
-                    maxWidth: "250px",
-                    display: "flex",
-                    "&>label": { fontSize: "12px" },
-                    "&>div": { textAlign: "left" },
-                  }}
+                  Select Task
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="select_task"
+                  label="Select Task"
+                  sx={{ fontSize: "12px" }}
                 >
-                  <InputLabel
+                  <MenuItem
                     sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
+                    value={"Task 1"}
                   >
-                    Select Task
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="select_task"
-                    label="Select Task"
-                    sx={{ fontSize: "12px" }}
-                  >
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value={"Task 1"}
-                    >
-                      Task 1
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
+                    Task 1
+                  </MenuItem>
+                </Select>
+              </FormControl>
               <TableContainer
                 component={Paper}
                 sx={{
@@ -533,8 +490,7 @@ export default function Invoices() {
                   size="small"
                   sx={{
                     mt: 1,
-                    minWidth: "250px",
-                    maxWidth: "250px",
+                    width: "300px",
                     display: "flex",
                     "&>label": { fontSize: "12px" },
                     "&>div": { textAlign: "left" },
@@ -806,23 +762,25 @@ export default function Invoices() {
                 preview
               </Button>
             </Link>
-            <Button
-              disableRipple
-              sx={{
-                mt: 2.5,
-                px: 2.5,
-                py: 1.5,
-                bgcolor: "error.main",
-                color: "white",
-                lineHeight: 1,
-                borderRadius: 2.5,
-                maxHeight: "42px",
-                "&:hover": { bgcolor: "error.light" },
-              }}
-              type="submit"
-            >
-              cancel
-            </Button>
+            <Link variant="Button" to="../invoices">
+              <Button
+                disableRipple
+                sx={{
+                  mt: 2.5,
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "error.main",
+                  color: "white",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  maxHeight: "42px",
+                  "&:hover": { bgcolor: "error.light" },
+                }}
+                type="submit"
+              >
+                cancel
+              </Button>
+            </Link>
           </Box>
         </Box>
       </Box>

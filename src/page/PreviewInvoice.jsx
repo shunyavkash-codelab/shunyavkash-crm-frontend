@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -213,11 +214,15 @@ export default function Invoices() {
                     variant="body1"
                     sx={{ fontWeight: 700, lineHeight: 1 }}
                   >
-                    Manager
+                    Project
+                  </Typography>
+                  <Typography variant="h6" sx={{ lineHeight: 1, mt: 1 }}>
+                    Shunyavkash CRM
                   </Typography>
                   <Box
                     sx={{
                       mt: 2.25,
+                      maxWidth: "500px",
                       "&>*": {
                         display: "block",
                         "&:not(:first-child)": { mt: 1 },
@@ -225,8 +230,7 @@ export default function Invoices() {
                     }}
                   >
                     <Typography variant="subtitle3" sx={{ lineHeight: 1.6 }}>
-                      shepard@mail.com <br /> 0123456789 <br /> North
-                      str.,32,chicago, USA
+                      In this project we have created design & dynamic.
                     </Typography>
                   </Box>
                 </Box>
@@ -635,23 +639,25 @@ export default function Invoices() {
             >
               Save
             </Button>
-            <Button
-              disableRipple
-              sx={{
-                mt: 2.5,
-                px: 2.5,
-                py: 1.5,
-                bgcolor: "error.main",
-                color: "white",
-                lineHeight: 1,
-                borderRadius: 2.5,
-                maxHeight: "42px",
-                "&:hover": { bgcolor: "error.light" },
-              }}
-              type="submit"
-            >
-              cancel
-            </Button>
+            <Link variant="Button" to="/invoices/add">
+              <Button
+                disableRipple
+                sx={{
+                  mt: 2.5,
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "error.main",
+                  color: "white",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  maxHeight: "42px",
+                  "&:hover": { bgcolor: "error.light" },
+                }}
+                type="submit"
+              >
+                cancel
+              </Button>
+            </Link>
           </Box>
         </Box>
       </Box>
