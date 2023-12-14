@@ -123,8 +123,7 @@ export default function BankDetailForm({ profileList }) {
   useEffect(() => {
     fetchBank();
   }, []);
-  const [showAddBankForm, setShowAddBankForm] = useState(false);
-  console.log(bankList);
+  console.log(bankList, "------------------------------126");
   return (
     <>
       <Stack
@@ -154,7 +153,7 @@ export default function BankDetailForm({ profileList }) {
           }}
           variant="contained"
         >
-          {showAddBankForm ? "Close" : "Add"} Bank
+          Add Bank
         </Button>
       </Stack>
 

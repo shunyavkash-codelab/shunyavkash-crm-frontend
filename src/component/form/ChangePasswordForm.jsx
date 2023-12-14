@@ -34,14 +34,15 @@ export default function ChangePasswordForm({ profileList }) {
   };
   const formik = useFormik({
     initialValues: {
-      name: profileList.name,
-      companyName: profileList.companyName,
+      oldPassword: "",
+      password: "",
+      confirmPassword: "",
     },
     onSubmit: async (values) => {
       try {
         const res = await apiCall({
-          url: APIS.MANAGER.EDIT(userId),
-          method: "patch",
+          url: APIS.MANAGER.CHANGEPASSWORD,
+          method: "post",
           data: JSON.stringify(values, null, 2),
         });
         if (res.status === 200) {
@@ -58,7 +59,7 @@ export default function ChangePasswordForm({ profileList }) {
       <Typography variant="h4" gutterBottom sx={{ fontSize: 16 }}>
         Password
       </Typography>
-      <Box component="form">
+      <Box component="form" onSubmit={formik.handleSubmit}>
         <Grid
           container
           rowSpacing={2}
@@ -82,6 +83,12 @@ export default function ChangePasswordForm({ profileList }) {
                 <OutlinedInput
                   id="outlined-adornment-password"
                   type={showPassword ? "text" : "password"}
+                  name="oldPassword"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="old password"
+                  onChange={formik.handleChange}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -112,6 +119,12 @@ export default function ChangePasswordForm({ profileList }) {
                 <OutlinedInput
                   id="outlined-adornment-new-password"
                   type={showNewPassword ? "text" : "password"}
+                  name="password"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="New password"
+                  onChange={formik.handleChange}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -141,6 +154,12 @@ export default function ChangePasswordForm({ profileList }) {
                 <OutlinedInput
                   id="outlined-adornment-confirm-password"
                   type={showNewPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="confirm password"
+                  onChange={formik.handleChange}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -160,7 +179,9 @@ export default function ChangePasswordForm({ profileList }) {
           </Grid>
           <Grid item xs={12}>
             <Stack direction="row" spacing={2}>
-              <Button variant="contained">Save Changes</Button>
+              <Button type="submit" variant="contained">
+                Save Changes
+              </Button>
               <Button variant="outlined">Cancel</Button>
             </Stack>
           </Grid>
