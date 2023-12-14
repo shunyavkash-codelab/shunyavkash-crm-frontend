@@ -52,6 +52,8 @@ export default function FileUploadButton({ formik, id, label }) {
                   width: "100%",
                   objectFit: "cover",
                   borderRadius: "10px",
+                  padding: "8px",
+                  border: "1px solid rgba(0,0,0,0.1)",
                 }}
               />
               <IconButton

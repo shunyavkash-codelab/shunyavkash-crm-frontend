@@ -141,12 +141,13 @@ export default function AddManager({ open, setOpen }) {
               component="form"
               noValidate
               autoComplete="off"
-              sx={{
-                padding: "20px",
-                backgroundColor: "white",
-                borderRadius: "10px",
-              }}
               onSubmit={formik.handleSubmit}
+              sx={{
+                p: 2.5,
+                pt: 1.75,
+                backgroundColor: "white",
+                borderRadius: 2.5,
+              }}
             >
               <Box
                 sx={{
