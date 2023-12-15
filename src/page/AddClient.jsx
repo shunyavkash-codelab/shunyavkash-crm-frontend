@@ -138,7 +138,7 @@ export default function AddClient() {
                   label="Name"
                   autoComplete="off"
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.name}
@@ -150,7 +150,7 @@ export default function AddClient() {
                   label="Email"
                   autoComplete="off"
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.email}
@@ -163,7 +163,7 @@ export default function AddClient() {
                   type="phone"
                   autoComplete="off"
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.mobileNumber}
@@ -217,7 +217,7 @@ export default function AddClient() {
                   label="Company Name"
                   autoComplete="off"
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.companyName}
@@ -229,7 +229,7 @@ export default function AddClient() {
                   label="Website"
                   autoComplete="off"
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.websiteURL}
@@ -243,7 +243,7 @@ export default function AddClient() {
                   multiline
                   rows={4}
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                     gridColumn: { sm: "span 2" },
                   }}
                   onChange={formik.handleChange}

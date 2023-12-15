@@ -121,7 +121,7 @@ export default function ConfirmPassword() {
                       autoComplete="off"
                       type={showPassword ? "text" : "password"}
                       sx={{
-                        "&>label,& input": { fontSize: "14px" },
+                        "&>label,& input,&>div": { fontSize: "14px" },
                         "& input": { pr: 5 },
                       }}
                       onChange={formik.handleChange}
@@ -165,7 +165,7 @@ export default function ConfirmPassword() {
                       autoComplete="off"
                       type={showPassword ? "text" : "password"}
                       sx={{
-                        "&>label,& input": { fontSize: "14px" },
+                        "&>label,& input,&>div": { fontSize: "14px" },
                         "& input": { pr: 5 },
                       }}
                       onChange={formik.handleChange}

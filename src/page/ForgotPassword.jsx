@@ -89,7 +89,7 @@ export default function ForgotPassword() {
                 name="email"
                 autoComplete="off"
                 sx={{
-                  "&>label,& input": { fontSize: "14px" },
+                  "&>label,& input,&>div": { fontSize: "14px" },
                 }}
                 onChange={formik.handleChange}
                 value={formik.values.email}

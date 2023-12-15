@@ -115,7 +115,7 @@ export default function SignIn() {
                 name="email"
                 autoComplete="off"
                 sx={{
-                  "&>label,& input": { fontSize: "14px" },
+                  "&>label,& input,&>div": { fontSize: "14px" },
                 }}
                 onChange={formik.handleChange}
                 value={formik.values.email}
@@ -131,7 +131,7 @@ export default function SignIn() {
                   autoComplete="off"
                   type={showPassword ? "text" : "password"}
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                     "& input": { pr: 5 },
                   }}
                   onChange={formik.handleChange}

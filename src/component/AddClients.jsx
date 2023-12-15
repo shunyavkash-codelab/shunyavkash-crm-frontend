@@ -132,7 +132,7 @@ export default function AddManager({ open, setOpen }) {
               label="Name"
               autoComplete="off"
               sx={{
-                "&>label,& input": { fontSize: "14px" },
+                "&>label,& input,&>div": { fontSize: "14px" },
               }}
             />
             <TextField
@@ -143,7 +143,7 @@ export default function AddManager({ open, setOpen }) {
               label="Email"
               autoComplete="off"
               sx={{
-                "&>label,& input": { fontSize: "14px" },
+                "&>label,& input,&>div": { fontSize: "14px" },
               }}
             />
             <TextField
@@ -155,7 +155,7 @@ export default function AddManager({ open, setOpen }) {
               type="phone"
               autoComplete="off"
               sx={{
-                "&>label,& input": { fontSize: "14px" },
+                "&>label,& input,&>div": { fontSize: "14px" },
               }}
             />
             <FormControl
@@ -201,7 +201,7 @@ export default function AddManager({ open, setOpen }) {
               label="Company Name"
               autoComplete="off"
               sx={{
-                "&>label,& input": { fontSize: "14px" },
+                "&>label,& input,&>div": { fontSize: "14px" },
               }}
             />
             <TextField
@@ -211,7 +211,7 @@ export default function AddManager({ open, setOpen }) {
               label="Website"
               autoComplete="off"
               sx={{
-                "&>label,& input": { fontSize: "14px" },
+                "&>label,& input,&>div": { fontSize: "14px" },
               }}
             />
             <TextField
@@ -223,7 +223,7 @@ export default function AddManager({ open, setOpen }) {
               multiline
               rows={2}
               sx={{
-                "&>label,& input": { fontSize: "14px" },
+                "&>label,& input,&>div": { fontSize: "14px" },
               }}
             />
             <Box>

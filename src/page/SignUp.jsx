@@ -61,7 +61,7 @@ export default function SignUp() {
                 label="First Name"
                 autoComplete="off"
                 sx={{
-                  "&>label,& input": { fontSize: "14px" },
+                  "&>label,& input,&>div": { fontSize: "14px" },
                 }}
               />
               <TextField
@@ -73,7 +73,7 @@ export default function SignUp() {
                 autoComplete="off"
                 sx={{
                   "& label": { pr: 0.5 },
-                  "&>label,& input": { fontSize: "14px" },
+                  "&>label,& input,&>div": { fontSize: "14px" },
                 }}
               />
               <TextField
@@ -84,7 +84,7 @@ export default function SignUp() {
                 label="Email"
                 autoComplete="off"
                 sx={{
-                  "&>label,& input": { fontSize: "14px" },
+                  "&>label,& input,&>div": { fontSize: "14px" },
                 }}
               />
               <Box sx={{ position: "relative" }}>
@@ -98,7 +98,7 @@ export default function SignUp() {
                   type={showPassword ? "text" : "password"}
                   sx={{
                     "& input": { pr: 5 },
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                   }}
                 />
                 <Box

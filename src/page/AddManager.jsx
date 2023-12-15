@@ -21,6 +21,16 @@ import { Field, FormikProvider, useFormik } from "formik";
 import { APIS } from "../api/apiList";
 import FileUploadButton from "../component/FileUploadButton";
 
+// import ReactPhoneInput from "react-phone-input-material-ui";
+// const styles = (theme) => ({
+//   field: {
+//     margin: "10px 0",
+//   },
+//   countryList: {
+//     ...theme.typography.body1,
+//   },
+// });
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -33,7 +43,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function AddManager({ open, setOpen }) {
+export default function AddManager({ open, setOpen } /* props */) {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [managerList, setManagerList] = useState([]);
@@ -41,6 +51,8 @@ export default function AddManager({ open, setOpen }) {
   const { setSnack } = useSnack();
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
+
+  // const { value, defaultCountry, onChange, classes } = props;
 
   const formik = useFormik({
     initialValues: {
@@ -172,7 +184,7 @@ export default function AddManager({ open, setOpen }) {
                   label="Name"
                   autoComplete="off"
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.name}
@@ -184,11 +196,12 @@ export default function AddManager({ open, setOpen }) {
                   label="Email"
                   autoComplete="off"
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.email}
                 />
+
                 <TextField
                   fullWidth
                   size="small"
@@ -197,11 +210,22 @@ export default function AddManager({ open, setOpen }) {
                   type="phone"
                   autoComplete="off"
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.mobileNumber}
                 />
+                {/* <React.Fragment>
+                  <ReactPhoneInput
+                    value={value}
+                    defaultCountry={defaultCountry || "gb"}
+                    onChange={onChange}
+                    inputClass={classes.field}
+                    dropdownClass={classes.countryList}
+                    component={TextField}
+                  />
+                </React.Fragment> */}
+
                 <FormControl
                   fullWidth
                   size="small"
@@ -251,7 +275,7 @@ export default function AddManager({ open, setOpen }) {
                   label="Company Name"
                   autoComplete="off"
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.companyName}
@@ -294,18 +318,6 @@ export default function AddManager({ open, setOpen }) {
                     )}
                   />
                 </FormControl>
-                {/* <TextField
-                  fullWidth
-                  size="small"
-                  id="reference"
-                  label="Reference"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input": { fontSize: "14px" },
-                  }}
-                  onChange={formik.handleChange}
-                  value={formik.values.reference}
-                /> */}
                 <TextField
                   fullWidth
                   size="small"
@@ -313,20 +325,14 @@ export default function AddManager({ open, setOpen }) {
                   label="Website"
                   autoComplete="off"
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                     gridColumn: { sm: "span 2" },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.websiteURL}
                 />
                 <Box sx={{ gridColumn: { sm: "span 2" } }}>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{
-                      lineHeight: 1,
-                      mb: 1,
-                    }}
-                  >
+                  <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
                     Profile Image
                   </Typography>
                   <FileUploadButton
@@ -355,93 +361,6 @@ export default function AddManager({ open, setOpen }) {
                     label={"Signature"}
                   />
                 </Box>
-                {/* <Box>
-            <Typography variant="h6" sx={{}}>
-              Company Logo
-            </Typography>
-            <Button
-              component="label"
-              variant="contained"
-              id="company_logo"
-              startIcon={<CloudUploadIcon />}
-            >
-              Upload file
-              <VisuallyHiddenInput type="file" />
-            </Button>
-          </Box> */}
-                {/* <Box>
-            <Typography variant="h6" sx={{}}>
-              Signature
-            </Typography>
-            <Button
-              component="label"
-              variant="contained"
-              id="signature"
-              startIcon={<CloudUploadIcon />}
-            >
-              Upload file
-              <VisuallyHiddenInput type="file" />
-            </Button>
-          </Box> */}
-                {/* <Box
-            ref={fileInput}
-            sx={{
-              marginTop: "24px",
-              width: "30%",
-              display: "grid",
-              placeItems: "center",
-              gap: "12px",
-              position: "relative",
-              cursor: "pointer",
-            }}
-            htmlFor="uploadFile"
-            component={"label"}
-          >
-            <DragDropIcon
-              width="100%"
-              height="100%"
-              color={palette.primary["main"]}
-              bg={"white"}
-              border={"white"}
-            ></DragDropIcon>
-            <Box
-              sx={{
-                position: "absolute",
-                top: "50%",
-                transform: "translateY(-50%)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <UploadIcon color={"gray"} />
-              <Typography
-                sx={{
-                  mt: "20px",
-                  color: "primary.main",
-                  fontSize: "14px",
-                  fontWeight: 600,
-                }}
-              >
-                Upload Your Video Or Photo
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  textTransform: "uppercase",
-                  fontStyle: " normal",
-                  lineHeight: "normal",
-                  letterSpacing: "-0.408px",
-                  color: "primary.main",
-                  opacity: 0.85,
-                }}
-              >
-                jpg,png,mp4 up to 100mb
-              </Typography>
-            </Box>
-          </Box> */}
-                {/* <Button variant="contained" color="success"></Button> */}
               </Box>
               <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
                 <Button

@@ -310,7 +310,7 @@ export default function AddProject({ open, setOpen }) {
                   fullWidth
                   size="small"
                   sx={{
-                    "&>label,& input": { fontSize: "14px" },
+                    "&>label,& input,&>div": { fontSize: "14px" },
                   }}
                 >
                   <InputLabel>Per Hour</InputLabel>
