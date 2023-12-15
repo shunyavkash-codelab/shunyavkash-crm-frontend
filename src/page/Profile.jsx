@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import AddressForm from "../component/form/AddressForm";
 import ChangePasswordForm from "../component/form/ChangePasswordForm";
 import BankDetailForm from "../component/form/BankDetailForm";
+import * as Yup from "yup";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -178,8 +179,15 @@ export default function Profile() {
   };
   const [profileList, setProfileList] = useState(false);
 
+  // yup data validator schhema
+  const schema = Yup.object({
+    name: Yup.string().required("Name is required.").trim(),
+    companyName: Yup.string().required("Company name is required.").trim(),
+  });
+
   // personal info
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       name: profileList.name,
       companyName: profileList.companyName,
@@ -202,27 +210,28 @@ export default function Profile() {
   });
 
   // address info
-  const addressFormik = useFormik({
-    initialValues: {
-      name: profileList.name,
-      companyName: profileList.companyName,
-    },
-    onSubmit: async (values) => {
-      try {
-        const res = await apiCall({
-          url: APIS.MANAGER.EDIT(userId),
-          method: "patch",
-          data: JSON.stringify(values, null, 2),
-        });
-        if (res.status === 200) {
-          setSnack(res.data.message);
-        }
-      } catch (error) {
-        let errorMessage = error.response.data.message;
-        setSnack(errorMessage, "warning");
-      }
-    },
-  });
+  // const addressFormik = useFormik({
+  //   validationSchema: schema,
+  //   initialValues: {
+  //     name: profileList.name,
+  //     companyName: profileList.companyName,
+  //   },
+  //   onSubmit: async (values) => {
+  //     try {
+  //       const res = await apiCall({
+  //         url: APIS.MANAGER.EDIT(userId),
+  //         method: "patch",
+  //         data: JSON.stringify(values, null, 2),
+  //       });
+  //       if (res.status === 200) {
+  //         setSnack(res.data.message);
+  //       }
+  //     } catch (error) {
+  //       let errorMessage = error.response.data.message;
+  //       setSnack(errorMessage, "warning");
+  //     }
+  //   },
+  // });
 
   // get manager detile
   const fetchProfile = async (id) => {
@@ -235,6 +244,8 @@ export default function Profile() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setProfileList(res.data.data);
+        formik.setFieldValue("name", res.data.data.name);
+        formik.setFieldValue("companyName", res.data.data.companyName);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -437,7 +448,6 @@ export default function Profile() {
                             label="Full Name"
                             variant="outlined"
                             name="name"
-                            defaultValue={profileList.name}
                             sx={{ width: "100%", fontSize: "14px" }}
                             InputLabelProps={{
                               shrink: true,
@@ -445,6 +455,12 @@ export default function Profile() {
                             placeholder="Name"
                             onChange={formik.handleChange}
                             value={formik.values.name}
+                            error={
+                              formik.touched.name && Boolean(formik.errors.name)
+                            }
+                            helperText={
+                              formik.touched.name && formik.errors.name
+                            }
                           />
                         </Box>
                       </Grid>
@@ -457,7 +473,6 @@ export default function Profile() {
                             type="email"
                             name="email"
                             sx={{ width: "100%", fontSize: "14px" }}
-                            defaultValue={profileList.email}
                             InputLabelProps={{
                               shrink: true,
                             }}
@@ -476,13 +491,20 @@ export default function Profile() {
                             variant="outlined"
                             name="companyName"
                             sx={{ width: "100%", fontSize: "14px" }}
-                            defaultValue={profileList.companyName}
                             InputLabelProps={{
                               shrink: true,
                             }}
                             placeholder="Company Name"
                             onChange={formik.handleChange}
                             value={formik.values.companyName}
+                            error={
+                              formik.touched.companyName &&
+                              Boolean(formik.errors.companyName)
+                            }
+                            helperText={
+                              formik.touched.companyName &&
+                              formik.errors.companyName
+                            }
                           />
                         </Box>
                       </Grid>

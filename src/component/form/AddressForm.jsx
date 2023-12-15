@@ -5,12 +5,26 @@ import useApi from "../../hooks/useApi";
 import { APIS } from "../../api/apiList";
 import { useAuth } from "../../hooks/store/useAuth";
 import { useSnack } from "../../hooks/store/useSnack";
+import * as Yup from "yup";
 
 export default function AddressForm({ profileList }) {
   const { apiCall, isLoading } = useApi();
   const { accessToken, userId } = useAuth();
   const { setSnack } = useSnack();
+
+  // yup data validator schhema
+  const schema = Yup.object({
+    address: Yup.string().required("Address is required.").trim(),
+    address2: Yup.string().required("Address2 is required.").trim(),
+    landmark: Yup.string().required("landmark is required.").trim(),
+    pincode: Yup.string()
+      .required("pincode is required.")
+      .matches(/^[0-9]+$/, "Pincode must contain only numbers.")
+      .trim(),
+  });
+
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       address: profileList.address,
       address2: profileList.address2,
@@ -65,6 +79,8 @@ export default function AddressForm({ profileList }) {
                 placeholder="Address"
                 onChange={formik.handleChange}
                 // value={formik.values.address}
+                error={formik.touched.address && Boolean(formik.errors.address)}
+                helperText={formik.touched.address && formik.errors.address}
               />
             </Box>
           </Grid>
@@ -83,6 +99,10 @@ export default function AddressForm({ profileList }) {
                 placeholder="Address"
                 onChange={formik.handleChange}
                 // value={formik.values.address2}
+                error={
+                  formik.touched.address2 && Boolean(formik.errors.address2)
+                }
+                helperText={formik.touched.address2 && formik.errors.address2}
               />
             </Box>
           </Grid>
@@ -101,6 +121,10 @@ export default function AddressForm({ profileList }) {
                 placeholder="Address"
                 onChange={formik.handleChange}
                 // value={formik.values.landmark}
+                error={
+                  formik.touched.landmark && Boolean(formik.errors.landmark)
+                }
+                helperText={formik.touched.landmark && formik.errors.landmark}
               />
             </Box>
           </Grid>
@@ -119,6 +143,8 @@ export default function AddressForm({ profileList }) {
                 placeholder="Address"
                 onChange={formik.handleChange}
                 // value={formik.values.pincode}
+                error={formik.touched.pincode && Boolean(formik.errors.pincode)}
+                helperText={formik.touched.pincode && formik.errors.pincode}
               />
             </Box>
           </Grid>
