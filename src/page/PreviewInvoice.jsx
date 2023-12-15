@@ -16,43 +16,43 @@ import {
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import { useAuth } from "../hooks/store/useAuth";
-import { textField, FormikProvider, useFormik } from "formik";
+// import { textField, FormikProvider, useFormik } from "formik";
 
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
 
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      mobileNumber: "",
-      gender: "",
-      companyName: "",
-      websiteURL: "",
-      address: "",
-      profile_img: undefined,
-      companyLogo: undefined,
-      mobileCode: "+1",
-    },
-    onSubmit: async (values) => {
-      try {
-        const res = await apiCall({
-          url: APIS.CLIENT.ADD,
-          method: "post",
-          data: JSON.stringify(values, null, 2),
-        });
-        if (res.status === 201) {
-          setSnack(res.data.message);
-          navigate("/clients");
-        }
-      } catch (error) {
-        let errorMessage = error.response.data.message;
-        setSnack(errorMessage, "warning");
-      }
-    },
-  });
+  // const formik = useFormik({
+  //   initialValues: {
+  //     name: "",
+  //     email: "",
+  //     mobileNumber: "",
+  //     gender: "",
+  //     companyName: "",
+  //     websiteURL: "",
+  //     address: "",
+  //     profile_img: undefined,
+  //     companyLogo: undefined,
+  //     mobileCode: "+1",
+  //   },
+  //   onSubmit: async (values) => {
+  //     try {
+  //       const res = await apiCall({
+  //         url: APIS.CLIENT.ADD,
+  //         method: "post",
+  //         data: JSON.stringify(values, null, 2),
+  //       });
+  //       if (res.status === 201) {
+  //         setSnack(res.data.message);
+  //         navigate("/clients");
+  //       }
+  //     } catch (error) {
+  //       let errorMessage = error.response.data.message;
+  //       setSnack(errorMessage, "warning");
+  //     }
+  //   },
+  // });
 
   return (
     <>
@@ -130,7 +130,7 @@ export default function Invoices() {
                   /> */}
 
                   {/* allowed img component */}
-                  <FormikProvider value={formik}>
+                  {/* <FormikProvider value={formik}>
                     <Box
                       component="label"
                       sx={{ gridColumn: { sm: "span 2" } }}
@@ -147,7 +147,7 @@ export default function Invoices() {
                         label={"only allowed png and transparent images"}
                       />
                     </Box>
-                  </FormikProvider>
+                  </FormikProvider> */}
                 </Box>
 
                 <Box sx={{ textAlign: "right", alignSelf: "end" }}>
