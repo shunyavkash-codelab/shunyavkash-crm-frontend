@@ -202,6 +202,38 @@ export default function BankDetailForm({ profileList }) {
           Bank Details
         </Typography>
         <Button
+          disableRipple
+          sx={{
+            maxHeight: "42px",
+            position: "relative",
+            px: 2.5,
+            py: 1.5,
+            bgcolor: "primary.main",
+            border: "1px solid",
+            borderColor: "primary.main",
+            color: "white",
+            lineHeight: 1,
+            borderRadius: 2.5,
+            overflow: "hidden",
+            "&:before": {
+              content: "''",
+              height: 0,
+              width: "10rem",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              zIndex: "0",
+              bgcolor: "white",
+              transform: "rotate(-45deg) translate(-50%, -50%)",
+              transformOrigin: "0% 0%",
+              transition: "all 0.4s ease-in-out",
+            },
+            "&:hover": {
+              color: "primary.main",
+              bgcolor: "primary.main",
+              "&:before": { height: "10rem" },
+            },
+          }}
           onClick={() => {
             setBankList((prevBanks) => [
               {
@@ -216,9 +248,8 @@ export default function BankDetailForm({ profileList }) {
               ...prevBanks,
             ]);
           }}
-          variant="contained"
         >
-          Add Bank
+          <span style={{ position: "relative" }}>add bank</span>
         </Button>
       </Stack>
 
@@ -369,16 +400,78 @@ export default function BankDetailForm({ profileList }) {
             <Grid item xs={12}>
               <Stack direction="row" spacing={2}>
                 <Button
+                  disableRipple
                   type="submit"
-                  variant="contained"
+                  sx={{
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    bgcolor: "error.main",
+                    border: "1px solid",
+                    borderColor: "error.main",
+                    color: "white",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "white",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      color: "error.main",
+                      bgcolor: "error.main",
+                      "&:before": { height: "10rem" },
+                    },
+                  }}
                   onClick={() => {
                     formik.setFieldValue("id", row._id);
                   }}
                 >
-                  Save Changes
+                  <span style={{ position: "relative" }}>Save Changes</span>
                 </Button>
                 <Button
-                  variant="outlined"
+                  disableRipple
+                  sx={{
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    bgcolor: "error.main",
+                    border: "1px solid",
+                    borderColor: "error.main",
+                    color: "white",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "white",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      color: "error.main",
+                      bgcolor: "error.main",
+                      "&:before": { height: "10rem" },
+                    },
+                  }}
                   onClick={async () => {
                     try {
                       if (!row.unSaved) {
@@ -392,9 +485,8 @@ export default function BankDetailForm({ profileList }) {
                       setSnack(error.response.data.message, "error");
                     }
                   }}
-                  color="error"
                 >
-                  Remove
+                  <span style={{ position: "relative" }}>Remove</span>
                 </Button>
               </Stack>
             </Grid>

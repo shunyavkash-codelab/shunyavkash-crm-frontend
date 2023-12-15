@@ -124,10 +124,79 @@ export default function AddressForm({ profileList }) {
           </Grid>
           <Grid item xs={12}>
             <Stack direction="row" spacing={2}>
-              <Button type="submit" variant="contained">
-                Save Changes
+              <Button
+                disableRipple
+                type="submit"
+                sx={{
+                  maxHeight: "42px",
+                  position: "relative",
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "primary.main",
+                  border: "1px solid",
+                  borderColor: "primary.main",
+                  color: "white",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  overflow: "hidden",
+                  "&:before": {
+                    content: "''",
+                    height: 0,
+                    width: "10rem",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    zIndex: "0",
+                    bgcolor: "white",
+                    transform: "rotate(-45deg) translate(-50%, -50%)",
+                    transformOrigin: "0% 0%",
+                    transition: "all 0.4s ease-in-out",
+                  },
+                  "&:hover": {
+                    color: "primary.main",
+                    bgcolor: "primary.main",
+                    "&:before": { height: "10rem" },
+                  },
+                }}
+              >
+                <span style={{ position: "relative" }}>Save Changes</span>
               </Button>
-              <Button variant="outlined">Cancel</Button>
+              <Button
+                disableRipple
+                sx={{
+                  maxHeight: "42px",
+                  position: "relative",
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "error.main",
+                  border: "1px solid",
+                  borderColor: "error.main",
+                  color: "white",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  overflow: "hidden",
+                  "&:before": {
+                    content: "''",
+                    height: 0,
+                    width: "10rem",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    zIndex: "0",
+                    bgcolor: "white",
+                    transform: "rotate(-45deg) translate(-50%, -50%)",
+                    transformOrigin: "0% 0%",
+                    transition: "all 0.4s ease-in-out",
+                  },
+                  "&:hover": {
+                    color: "error.main",
+                    bgcolor: "error.main",
+                    "&:before": { height: "10rem" },
+                  },
+                }}
+              >
+                <span style={{ position: "relative" }}>Cancel</span>
+              </Button>
             </Stack>
           </Grid>
         </Grid>

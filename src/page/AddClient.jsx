@@ -155,19 +155,83 @@ export default function AddClient() {
                   onChange={formik.handleChange}
                   value={formik.values.email}
                 />
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="mobileNumber"
-                  label="Mobile Number"
-                  type="phone"
-                  autoComplete="off"
+
+                <Box
                   sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
+                    display: "flex",
+                    "&:hover fieldset": {
+                      borderColor: "text.primary",
+                    },
                   }}
-                  onChange={formik.handleChange}
-                  value={formik.values.mobileNumber}
-                />
+                >
+                  <FormControl
+                    size="small"
+                    sx={{
+                      minWidth: "102px",
+                      maxWidth: "102px",
+                      bgcolor: "#f4f4f4",
+                    }}
+                  >
+                    <Select
+                      sx={{
+                        fontSize: "14px",
+                        "& input,&>div": { fontSize: "14px" },
+                        "&>div": {
+                          pr: "24px!important",
+                          display: "flex",
+                          alignItems: "center",
+                        },
+                        "&>svg": { fontSize: "18px" },
+                        "& fieldset": {
+                          borderRadius: "6px 0 0 6px",
+                          borderRight: 0,
+                        },
+                      }}
+                    >
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value={"+91"}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 0.75,
+                          }}
+                        >
+                          <img
+                            src="https://img.freepik.com/free-vector/illustration-india-flag_53876-27130.jpg"
+                            style={{ maxHeight: "14px", maxWidth: "25px" }}
+                          ></img>
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ lineHeight: 1 }}
+                          >
+                            +91
+                          </Typography>
+                        </Box>
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileNumber"
+                    type="tel"
+                    autoComplete="off"
+                    placeholder="Mobile Number"
+                    sx={{
+                      "& input,&>div": { fontSize: "14px" },
+                      "& fieldset": {
+                        borderRadius: "0 6px 6px 0",
+                        borderLeft: 0,
+                      },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.mobileNumber}
+                  />
+                </Box>
+
                 <FormControl
                   fullWidth
                   size="small"
