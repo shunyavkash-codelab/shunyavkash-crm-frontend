@@ -251,7 +251,6 @@ export default function Invoices() {
                 component={Paper}
                 sx={{
                   mt: 2,
-                  border: "1px solid rgba(224, 224, 224, 1)",
                   borderRadius: 2.5,
                 }}
               >
@@ -261,6 +260,7 @@ export default function Invoices() {
                     minWidth: 650,
                     textTransform: "capitalize",
                     textWrap: "nowrap",
+                    boxShadow: "0 0 10px rgba(0,0,0,1)",
                     "& th,& td": {
                       borderBottom: 0,
                     },
@@ -280,8 +280,8 @@ export default function Invoices() {
                         "& th": {
                           lineHeight: 1,
                           fontWeight: 600,
-                          bgcolor: "primary.main",
-                          color: "white",
+                          bgcolor: "rgb(22 119 255/ 6%)",
+                          color: "black",
                         },
                       }}
                     >
@@ -347,13 +347,17 @@ export default function Invoices() {
                           p: 1.5,
                           "&:first-child": { fontWeight: "600" },
                         },
-                        bgcolor: "primary.light",
+                        bgcolor: "rgba(243 ,243 ,243 ,1)",
                       }}
                     >
                       <TableCell></TableCell>
                       <TableCell></TableCell>
-                      <TableCell></TableCell>
-                      <TableCell sx={{ fontWeight: "700" }}>3633.61</TableCell>
+                      <TableCell sx={{ fontWeight: "600", color: "black" }}>
+                        Total:
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: "600", color: "black" }}>
+                        $3633.61
+                      </TableCell>
                     </TableRow>
                   </TableFooter>
                 </Table>
