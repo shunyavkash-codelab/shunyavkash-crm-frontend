@@ -628,40 +628,81 @@ export default function Invoices() {
               </Box>
             </Box>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
+          <Box
+            sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 2.5 }}
+          >
             <Button
               disableRipple
               sx={{
-                mt: 2.5,
+                maxHeight: "42px",
+                position: "relative",
                 px: 2.5,
                 py: 1.5,
                 bgcolor: "success.main",
+                border: "1px solid",
+                borderColor: "success.main",
                 color: "white",
                 lineHeight: 1,
                 borderRadius: 2.5,
-                maxHeight: "42px",
-                "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
+                overflow: "hidden",
+                "&:before": {
+                  content: "''",
+                  height: 0,
+                  width: "10rem",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  zIndex: "0",
+                  bgcolor: "white",
+                  transform: "rotate(-45deg) translate(-50%, -50%)",
+                  transformOrigin: "0% 0%",
+                  transition: "all 0.4s ease-in-out",
+                },
+                "&:hover": {
+                  color: "success.main",
+                  bgcolor: "success.main",
+                  "&:before": { height: "10rem" },
+                },
               }}
             >
-              Save
+              <span style={{ position: "relative" }}>save</span>
             </Button>
-            <Link variant="Button" to="/invoices/add">
+            <Link to="/invoices/add">
               <Button
                 disableRipple
                 sx={{
-                  mt: 2.5,
+                  maxHeight: "42px",
+                  position: "relative",
                   px: 2.5,
                   py: 1.5,
                   bgcolor: "error.main",
+                  border: "1px solid",
+                  borderColor: "error.main",
                   color: "white",
                   lineHeight: 1,
                   borderRadius: 2.5,
-                  maxHeight: "42px",
-                  "&:hover": { bgcolor: "error.light" },
+                  overflow: "hidden",
+                  "&:before": {
+                    content: "''",
+                    height: 0,
+                    width: "10rem",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    zIndex: "0",
+                    bgcolor: "white",
+                    transform: "rotate(-45deg) translate(-50%, -50%)",
+                    transformOrigin: "0% 0%",
+                    transition: "all 0.4s ease-in-out",
+                  },
+                  "&:hover": {
+                    color: "error.main",
+                    bgcolor: "error.main",
+                    "&:before": { height: "10rem" },
+                  },
                 }}
-                type="submit"
               >
-                cancel
+                <span style={{ position: "relative" }}>Cancel</span>
               </Button>
             </Link>
           </Box>

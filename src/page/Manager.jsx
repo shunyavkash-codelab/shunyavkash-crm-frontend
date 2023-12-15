@@ -101,22 +101,43 @@ export default function Manager() {
             </Box>
             {user.role == 0 && (
               <Box>
-                <Link variant="Button" to="./add">
+                <Link to="./add">
                   <Button
                     disableRipple
+                    startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
                     sx={{
+                      maxHeight: "42px",
+                      position: "relative",
                       px: 2.5,
                       py: 1.5,
                       bgcolor: "primary.main",
+                      border: "1px solid",
+                      borderColor: "primary.main",
                       color: "white",
                       lineHeight: 1,
                       borderRadius: 2.5,
-                      maxHeight: "42px",
-                      "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
+                      overflow: "hidden",
+                      "&:before": {
+                        content: "''",
+                        height: 0,
+                        width: "10rem",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        zIndex: "0",
+                        bgcolor: "white",
+                        transform: "rotate(-45deg) translate(-50%, -50%)",
+                        transformOrigin: "0% 0%",
+                        transition: "all 0.4s ease-in-out",
+                      },
+                      "&:hover": {
+                        color: "primary.main",
+                        bgcolor: "primary.main",
+                        "&:before": { height: "10rem" },
+                      },
                     }}
-                    startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
                   >
-                    New Manager
+                    <span style={{ position: "relative" }}>New Manager</span>
                   </Button>
                 </Link>
               </Box>

@@ -175,20 +175,42 @@ export default function Home() {
                 </Typography>
               </Box>
               <Box>
-                <Link variant="Button" to="./Invoices">
+                <Link to="./Invoices">
                   <Button
                     disableRipple
                     sx={{
-                      px: 3.5,
-                      py: 1.75,
+                      maxHeight: "42px",
+                      position: "relative",
+                      px: 2.5,
+                      py: 1.5,
                       bgcolor: "primary.main",
+                      border: "1px solid",
+                      borderColor: "primary.main",
                       color: "white",
                       lineHeight: 1,
                       borderRadius: 2.5,
-                      "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
+                      overflow: "hidden",
+                      "&:before": {
+                        content: "''",
+                        height: 0,
+                        width: "10rem",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        zIndex: "0",
+                        bgcolor: "white",
+                        transform: "rotate(-45deg) translate(-50%, -50%)",
+                        transformOrigin: "0% 0%",
+                        transition: "all 0.4s ease-in-out",
+                      },
+                      "&:hover": {
+                        color: "primary.main",
+                        bgcolor: "primary.main",
+                        "&:before": { height: "10rem" },
+                      },
                     }}
                   >
-                    View All
+                    <span style={{ position: "relative" }}>View all</span>
                   </Button>
                 </Link>
               </Box>

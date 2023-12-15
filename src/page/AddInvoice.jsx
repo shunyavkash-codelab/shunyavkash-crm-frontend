@@ -817,42 +817,83 @@ export default function Invoices() {
               </Box>
             </Box>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
-            <Link variant="Button" to="./preview">
+          <Box
+            sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 2.5 }}
+          >
+            <Link to="./preview">
               <Button
                 disableRipple
                 sx={{
-                  mt: 2.5,
+                  maxHeight: "42px",
+                  position: "relative",
                   px: 2.5,
                   py: 1.5,
                   bgcolor: "success.main",
+                  border: "1px solid",
+                  borderColor: "success.main",
                   color: "white",
                   lineHeight: 1,
                   borderRadius: 2.5,
-                  maxHeight: "42px",
-                  "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
+                  overflow: "hidden",
+                  "&:before": {
+                    content: "''",
+                    height: 0,
+                    width: "10rem",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    zIndex: "0",
+                    bgcolor: "white",
+                    transform: "rotate(-45deg) translate(-50%, -50%)",
+                    transformOrigin: "0% 0%",
+                    transition: "all 0.4s ease-in-out",
+                  },
+                  "&:hover": {
+                    color: "success.main",
+                    bgcolor: "success.main",
+                    "&:before": { height: "10rem" },
+                  },
                 }}
               >
-                preview
+                <span style={{ position: "relative" }}>Submit</span>
               </Button>
             </Link>
-            <Link variant="Button" to="../invoices">
+            <Link to="../invoices">
               <Button
                 disableRipple
                 sx={{
-                  mt: 2.5,
+                  maxHeight: "42px",
+                  position: "relative",
                   px: 2.5,
                   py: 1.5,
                   bgcolor: "error.main",
+                  border: "1px solid",
+                  borderColor: "error.main",
                   color: "white",
                   lineHeight: 1,
                   borderRadius: 2.5,
-                  maxHeight: "42px",
-                  "&:hover": { bgcolor: "error.light" },
+                  overflow: "hidden",
+                  "&:before": {
+                    content: "''",
+                    height: 0,
+                    width: "10rem",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    zIndex: "0",
+                    bgcolor: "white",
+                    transform: "rotate(-45deg) translate(-50%, -50%)",
+                    transformOrigin: "0% 0%",
+                    transition: "all 0.4s ease-in-out",
+                  },
+                  "&:hover": {
+                    color: "error.main",
+                    bgcolor: "error.main",
+                    "&:before": { height: "10rem" },
+                  },
                 }}
-                type="submit"
               >
-                cancel
+                <span style={{ position: "relative" }}>Cancel</span>
               </Button>
             </Link>
           </Box>
