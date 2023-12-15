@@ -283,7 +283,7 @@ export default function Home() {
                       boxShadow: "0 0 10px rgba(0,0,0,0.05)",
                       bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 1.25,
+                      borderRadius: 2.5,
                       position: "relative",
                       height: "100%",
                     }}
@@ -473,7 +473,7 @@ export default function Home() {
                       boxShadow: "0 0 10px rgba(0,0,0,0.05)",
                       bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 1.25,
+                      borderRadius: 2.5,
                       position: "relative",
                       height: "100%",
                     }}
@@ -663,7 +663,7 @@ export default function Home() {
                       boxShadow: "0 0 10px rgba(0,0,0,0.05)",
                       bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 1.25,
+                      borderRadius: 2.5,
                       position: "relative",
                       height: "100%",
                     }}
@@ -848,7 +848,7 @@ export default function Home() {
                       boxShadow: "0 0 10px rgba(0,0,0,0.05)",
                       bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 1.25,
+                      borderRadius: 2.5,
                       position: "relative",
                       height: "100%",
                     }}
@@ -1038,7 +1038,7 @@ export default function Home() {
                       boxShadow: "0 0 10px rgba(0,0,0,0.05)",
                       bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 1.25,
+                      borderRadius: 2.5,
                       position: "relative",
                       height: "100%",
                     }}
@@ -1228,7 +1228,7 @@ export default function Home() {
                       boxShadow: "0 0 10px rgba(0,0,0,0.05)",
                       bgcolor: "neutral.1000",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 1.25,
+                      borderRadius: 2.5,
                       position: "relative",
                       height: "100%",
                     }}
