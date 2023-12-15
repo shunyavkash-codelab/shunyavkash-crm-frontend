@@ -379,24 +379,6 @@ export default function AddProject({ open, setOpen }) {
                 <TextField
                   fullWidth
                   size="small"
-                  id="prefix"
-                  label="Prefix"
-                  autoComplete="off"
-                  inputProps={{ maxLength: 3 }}
-                  sx={{
-                    "&>label,& input,&>div": {
-                      fontSize: "14px",
-                    },
-                    "& input": {
-                      textTransform: "uppercase",
-                    },
-                  }}
-                  onChange={formik.handleChange}
-                  value={formik.values.prefix}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
                   id="startDate"
                   label="Project Start"
                   autoComplete="off"
@@ -427,6 +409,24 @@ export default function AddProject({ open, setOpen }) {
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.endDate}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="prefix"
+                  label="Prefix"
+                  autoComplete="off"
+                  inputProps={{ maxLength: 3 }}
+                  sx={{
+                    "&>label,& input,&>div": {
+                      fontSize: "14px",
+                    },
+                    "& input": {
+                      textTransform: "uppercase",
+                    },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.prefix}
                 />
                 <FormControl
                   fullWidth
