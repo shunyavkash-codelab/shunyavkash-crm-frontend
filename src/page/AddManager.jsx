@@ -21,16 +21,6 @@ import { Field, FormikProvider, useFormik } from "formik";
 import { APIS } from "../api/apiList";
 import FileUploadButton from "../component/FileUploadButton";
 
-// import ReactPhoneInput from "react-phone-input-material-ui";
-// const styles = (theme) => ({
-//   field: {
-//     margin: "10px 0",
-//   },
-//   countryList: {
-//     ...theme.typography.body1,
-//   },
-// });
-
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -43,7 +33,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function AddManager({ open, setOpen } /* props */) {
+export default function AddManager({ open, setOpen }) {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [managerList, setManagerList] = useState([]);
@@ -52,7 +42,10 @@ export default function AddManager({ open, setOpen } /* props */) {
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
 
-  // const { value, defaultCountry, onChange, classes } = props;
+  const [age, setAge] = React.useState("");
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -202,29 +195,81 @@ export default function AddManager({ open, setOpen } /* props */) {
                   value={formik.values.email}
                 />
 
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="mobileNumber"
-                  label="Mobile Number"
-                  type="phone"
-                  autoComplete="off"
+                <Box
                   sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
+                    display: "flex",
+                    "&:hover fieldset": {
+                      borderColor: "text.primary",
+                    },
                   }}
-                  onChange={formik.handleChange}
-                  value={formik.values.mobileNumber}
-                />
-                {/* <React.Fragment>
-                  <ReactPhoneInput
-                    value={value}
-                    defaultCountry={defaultCountry || "gb"}
-                    onChange={onChange}
-                    inputClass={classes.field}
-                    dropdownClass={classes.countryList}
-                    component={TextField}
+                >
+                  <FormControl
+                    size="small"
+                    sx={{
+                      minWidth: "102px",
+                      maxWidth: "102px",
+                      bgcolor: "#f4f4f4",
+                    }}
+                  >
+                    <Select
+                      sx={{
+                        fontSize: "14px",
+                        "& input,&>div": { fontSize: "14px" },
+                        "&>div": {
+                          pr: "24px!important",
+                          display: "flex",
+                          alignItems: "center",
+                        },
+                        "&>svg": { fontSize: "18px" },
+                        "& fieldset": {
+                          borderRadius: "6px 0 0 6px",
+                          borderRight: 0,
+                        },
+                      }}
+                    >
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value={"+91"}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 0.75,
+                          }}
+                        >
+                          <img
+                            src="https://img.freepik.com/free-vector/illustration-india-flag_53876-27130.jpg"
+                            style={{ maxHeight: "14px", maxWidth: "25px" }}
+                          ></img>
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ lineHeight: 1 }}
+                          >
+                            +91
+                          </Typography>
+                        </Box>
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileNumber"
+                    type="tel"
+                    autoComplete="off"
+                    placeholder="Mobile Number"
+                    sx={{
+                      "& input,&>div": { fontSize: "14px" },
+                      "& fieldset": {
+                        borderRadius: "0 6px 6px 0",
+                        borderLeft: 0,
+                      },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.mobileNumber}
                   />
-                </React.Fragment> */}
+                </Box>
 
                 <FormControl
                   fullWidth

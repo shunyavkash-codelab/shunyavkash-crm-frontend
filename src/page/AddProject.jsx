@@ -245,83 +245,82 @@ export default function AddProject({ open, setOpen }) {
                     )}
                   />
                 </FormControl>
-                {/* <FormControl
-                fullWidth
-                size="small"
-                sx={{
-                  "&>label": { fontSize: "14px" },
-                }}
-              >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
-                >
-                  Employee
-                </InputLabel>
-                <Select
-                  multiple
-                  labelId="demo-simple-select-label"
-                  id="employees"
-                  label="Employees"
+
+                <Box
                   sx={{
-                    fontSize: "14px",
-                    "&>div": {
-                      "&>div": {
-                        position: "absolute",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        flexWrap: "nowrap",
-                        overflowX: "auto",
-                        "&::-webkit-scrollbar": { display: "none" },
-                        "&>*": {
-                          height: "auto",
-                          "&>span": {
-                            py: 0.25,
-                            px: 1,
-                            fontSize: "12px",
-                          },
-                        },
-                      },
+                    display: "flex",
+                    "&:hover fieldset": {
+                      borderColor: "text.primary",
                     },
                   }}
-                  value={personName}
-                  onChange={handleChange2}
-                  renderValue={(selected) => (
-                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                      {selected.map((value) => (
-                        <Chip key={value} label={value} />
-                      ))}
-                    </Box>
-                  )}
-                  MenuProps={MenuProps}
                 >
-                  {names.map((name) => (
-                    <MenuItem
-                      key={name}
-                      value={name}
-                      style={getStyles(name, personName, theme)}
+                  <FormControl
+                    size="small"
+                    sx={{
+                      minWidth: "85px",
+                      maxWidth: "85px",
+                      bgcolor: "#f4f4f4",
+                    }}
+                  >
+                    <Select
+                      sx={{
+                        fontSize: "14px",
+                        "& input,&>div": { fontSize: "14px" },
+                        "&>div": {
+                          pr: "24px!important",
+                          display: "flex",
+                          alignItems: "center",
+                        },
+                        "&>svg": { fontSize: "18px" },
+                        "& fieldset": {
+                          borderRadius: "6px 0 0 6px",
+                          borderRight: 0,
+                        },
+                      }}
                     >
-                      {name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl> */}
-                <FormControl
-                  fullWidth
-                  size="small"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                  }}
-                >
-                  <InputLabel>Per Hour</InputLabel>
-                  <OutlinedInput
-                    id="perHourCharge"
-                    startAdornment={
-                      <InputAdornment position="start">$</InputAdornment>
-                    }
-                    label="Amount"
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value={"₹"}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.25,
+                          }}
+                        >
+                          <img
+                            src="https://img.freepik.com/free-vector/illustration-india-flag_53876-27130.jpg"
+                            style={{ maxHeight: "14px", maxWidth: "25px" }}
+                          ></img>
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ lineHeight: 1 }}
+                          >
+                            ₹
+                          </Typography>
+                        </Box>
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    type="tel"
+                    autoComplete="off"
+                    placeholder="Per Hours Charge"
+                    sx={{
+                      "& input,&>div": { fontSize: "14px" },
+                      "& fieldset": {
+                        borderRadius: "0 6px 6px 0",
+                        borderLeft: 0,
+                      },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.mobileNumber}
                   />
-                </FormControl>
+                </Box>
+
                 <FormControl
                   fullWidth
                   size="small"
