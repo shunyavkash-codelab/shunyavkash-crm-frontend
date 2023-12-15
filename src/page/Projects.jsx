@@ -228,27 +228,33 @@ export default function Project() {
                             sx={
                               row.status === "completed"
                                 ? {
-                                    py: 1,
-                                    px: 1.75,
-                                    bgcolor: "rgba(74, 210, 146, 10%)",
-                                    color: "success.main",
-                                    borderRadius: 2.5,
+                                    color: "white",
+                                    bgcolor: "success.main",
+                                    py: 0.75,
+                                    px: 1.25,
+                                    borderRadius: 1.5,
+                                    maxWidth: "fit-content",
+                                    lineHeight: 1,
                                   }
                                 : "" || row.status === "initial"
                                 ? {
-                                    py: 1,
-                                    px: 1.75,
-                                    bgcolor: "rgb(187 177 180 / 30%)",
-                                    color: "rgb(123 119 120)",
-                                    borderRadius: 2.5,
+                                    color: "white",
+                                    bgcolor: "grey.dark",
+                                    py: 0.75,
+                                    px: 1.25,
+                                    borderRadius: 1.5,
+                                    maxWidth: "fit-content",
+                                    lineHeight: 1,
                                   }
                                 : "" || row.status === "inProgress"
                                 ? {
-                                    py: 1,
-                                    px: 1.75,
-                                    bgcolor: "rgb(248 193 7 / 30%);",
-                                    color: "rgb(253 146 5);",
-                                    borderRadius: 2.5,
+                                    color: "white",
+                                    bgcolor: "secondary.main",
+                                    py: 0.75,
+                                    px: 1.25,
+                                    borderRadius: 1.5,
+                                    maxWidth: "fit-content",
+                                    lineHeight: 1,
                                   }
                                 : ""
                             }

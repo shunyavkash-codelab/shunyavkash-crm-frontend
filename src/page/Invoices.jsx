@@ -350,7 +350,6 @@ export default function Invoices() {
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&>*": { p: 1.5 },
                       "&:first-child td": {
                         maxWidth: "250px",
                         textWrap: "wrap",
@@ -365,14 +364,15 @@ export default function Invoices() {
                     <TableCell>13-12-23</TableCell>
                     <TableCell>11815886</TableCell>
                     <TableCell>
-                      {" "}
                       <Box
                         sx={{
-                          color: "secondary.main",
-                          py: 1,
-                          px: 1,
-                          bgcolor: "rgba(255, 198, 117, 10%)",
-                          borderRadius: 2.5,
+                          color: "white",
+                          bgcolor: "secondary.main",
+                          py: 0.75,
+                          px: 1.25,
+                          borderRadius: 1.5,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
                         }}
                       >
                         Pending
@@ -418,7 +418,10 @@ export default function Invoices() {
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&>*": { p: 1.5 },
+                      "&:first-child td": {
+                        maxWidth: "250px",
+                        textWrap: "wrap",
+                      },
                     }}
                   >
                     <TableCell>CRM</TableCell>
@@ -431,11 +434,13 @@ export default function Invoices() {
                     <TableCell>
                       <Box
                         sx={{
-                          color: "success.main",
-                          py: 1,
-                          px: 1,
-                          bgcolor: "rgba(74, 210, 146,10%)",
-                          borderRadius: 2.5,
+                          color: "primary.contrastText",
+                          bgcolor: "success.main",
+                          py: 0.75,
+                          px: 1.25,
+                          borderRadius: 1.5,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
                         }}
                       >
                         Done
@@ -481,7 +486,10 @@ export default function Invoices() {
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&>*": { p: 1.5 },
+                      "&:first-child td": {
+                        maxWidth: "250px",
+                        textWrap: "wrap",
+                      },
                     }}
                   >
                     <TableCell>CRM</TableCell>
@@ -494,11 +502,13 @@ export default function Invoices() {
                     <TableCell>
                       <Box
                         sx={{
-                          color: "secondary.main",
-                          py: 1,
-                          px: 1,
-                          bgcolor: "rgba(255, 198, 117, 10%)",
-                          borderRadius: 2.5,
+                          color: "white",
+                          bgcolor: "secondary.main",
+                          py: 0.75,
+                          px: 1.25,
+                          borderRadius: 1.5,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
                         }}
                       >
                         Pending
