@@ -24,8 +24,11 @@ export default function ChangePasswordForm({ profileList }) {
   const { setSnack } = useSnack();
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfrimPassword, setShowConfrimPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
+  const handleClickShowConfrimPassword = () =>
+    setShowConfrimPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -129,7 +132,7 @@ export default function ChangePasswordForm({ profileList }) {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
+                        onClick={handleClickShowNewPassword}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
@@ -153,7 +156,7 @@ export default function ChangePasswordForm({ profileList }) {
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-confirm-password"
-                  type={showNewPassword ? "text" : "password"}
+                  type={showConfrimPassword ? "text" : "password"}
                   name="confirmPassword"
                   InputLabelProps={{
                     shrink: true,
@@ -164,11 +167,15 @@ export default function ChangePasswordForm({ profileList }) {
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={handleClickShowNewPassword}
+                        onClick={handleClickShowConfrimPassword}
                         onMouseDown={handleMouseDownNewPassword}
                         edge="end"
                       >
-                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                        {showConfrimPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   }

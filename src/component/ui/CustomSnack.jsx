@@ -12,12 +12,13 @@ export default function CustomSnack() {
     closeSnack();
   };
   return (
-    <Snackbar open={open} autoHideDuration={4000} anchorOrigin={{ vertical:'bottom', horizontal:"right" }} onClose={handleClose}>
-      <Alert
-        onClose={handleClose}
-        severity={type || "success"}
-        sx={{ width: "100%" }}
-      >
+    <Snackbar
+      open={open}
+      autoHideDuration={4000}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      onClose={handleClose}
+    >
+      <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
         {message}
       </Alert>
     </Snackbar>

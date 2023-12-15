@@ -71,38 +71,98 @@ const IOSSwitch = styled((props) => (
 export default function BankDetailForm({ profileList }) {
   const { apiCall, isLoading } = useApi();
   const { accessToken, userId } = useAuth();
+  const [defaultChecked, setDefaultChecked] = useState({ id: "" });
   const { setSnack } = useSnack();
   const [bankList, setBankList] = useState([]);
 
+  // add and edit bank
   const formik = useFormik({
     initialValues: {
       id: "",
-      holderName: bankList.name,
-      bankName: bankList.bankName,
-      label: bankList.label,
-      IFSC: bankList.IFSC,
-      defaultBank: bankList.defaultBank,
+      holderName: "",
+      bankName: "",
+      accountNumber: "",
+      IFSC: "",
+      defaultBank: false,
     },
 
-    onSubmit: async (values, ...rest) => {
-      console.log(values, rest);
+    onSubmit: async (values) => {
       try {
-        const res = await apiCall({
-          url: APIS.BANK.EDIT(values.id),
-          method: "patch",
-          data: JSON.stringify(values, null, 2),
-        });
-        if (res.status === 200) {
-          setSnack(res.data.message);
+        console.log(values, "-----------------91");
+        // add bank details
+        if (values.id.length > 24) {
+          let value = {
+            id: values.id,
+            defaultBank: defaultChecked.id.length > 24 ? true : false,
+          };
+          values.defaultBank = value.defaultBank;
+          const res = await apiCall({
+            url: APIS.BANK.ADD,
+            method: "post",
+            data: JSON.stringify(values, null, 2),
+          });
+          if (res.status === 201) {
+            setSnack(res.data.message);
+            setBankList((prevBanks) =>
+              prevBanks.map((bank) => {
+                bank.defaultBank = bank._id === value.id;
+                return bank;
+              })
+            );
+          }
+        }
+
+        // edit bank details
+        if (
+          defaultChecked.id === values.id &&
+          defaultChecked.id.length === 24
+        ) {
+          let value = {
+            id: values.id,
+            defaultBank: true,
+          };
+          const res = await apiCall({
+            url: APIS.BANK.EDIT(values.id),
+            method: "patch",
+            data: JSON.stringify(value, null, 2),
+          });
+          if (res.status === 200) {
+            setSnack(res.data.message);
+            setBankList((prevBanks) =>
+              prevBanks.map((bank) => {
+                bank.defaultBank = bank._id === value.id;
+                return bank;
+              })
+            );
+          }
         }
       } catch (error) {
-        let errorMessage = error.response.data.message;
+        let errorMessage = error?.response?.data?.message || error.message;
         setSnack(errorMessage, "warning");
       }
     },
   });
 
-  console.log(formik, "-----------------------105");
+  const [deleteBankData, setDeleteBankData] = useState(false);
+
+  // delete bank
+  const deleteBankdetail = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.BANK.DELETE(id),
+        method: "delete",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setDeleteBankData(res.data.data);
+      }
+      return;
+    } catch (error) {
+      setSnack(error.response.data.message, "error");
+      throw error;
+      // handleApiError(error, setSnack);
+    }
+  };
 
   // get manager detile
   const fetchBank = async () => {
@@ -114,6 +174,9 @@ export default function BankDetailForm({ profileList }) {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setBankList(res.data.data.data);
+        setDefaultChecked({
+          id: res.data.data.data.find((bank) => bank.defaultBank)._id,
+        });
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -123,7 +186,8 @@ export default function BankDetailForm({ profileList }) {
   useEffect(() => {
     fetchBank();
   }, []);
-  console.log(bankList, "------------------------------126");
+  // console.log(bankList, defaultChecked, "------------------------------126");
+
   return (
     <>
       <Stack
@@ -147,6 +211,7 @@ export default function BankDetailForm({ profileList }) {
                 label: "",
                 IFSC: "",
                 defaultBank: false,
+                unSaved: true,
               },
               ...prevBanks,
             ]);
@@ -170,6 +235,11 @@ export default function BankDetailForm({ profileList }) {
           }}
         >
           <input hidden value={formik.values.id} name="id" />
+          <input
+            hidden
+            value={row.unSaved ? "create" : "update"}
+            name="unsave"
+          />
           <Grid
             container
             rowSpacing={2}
@@ -192,9 +262,11 @@ export default function BankDetailForm({ profileList }) {
                   defaultValue={row.holderName}
                   placeholder="Bank account holder name"
                   onChange={formik.handleChange}
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  InputProps={
+                    row.unSaved == true
+                      ? { readOnly: false }
+                      : { readOnly: true }
+                  }
                 />
               </Box>
             </Grid>
@@ -209,9 +281,11 @@ export default function BankDetailForm({ profileList }) {
                   defaultValue={row.bankName}
                   placeholder="Bank name"
                   onChange={formik.handleChange}
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  InputProps={
+                    row.unSaved == true
+                      ? { readOnly: false }
+                      : { readOnly: true }
+                  }
                 />
               </Box>
             </Grid>
@@ -224,9 +298,11 @@ export default function BankDetailForm({ profileList }) {
                   sx={{ width: "100%", fontSize: "14px" }}
                   defaultValue={row.label}
                   placeholder="Account number"
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  InputProps={
+                    row.unSaved == true
+                      ? { readOnly: false }
+                      : { readOnly: true }
+                  }
                 />
               </Box>
             </Grid>
@@ -237,13 +313,15 @@ export default function BankDetailForm({ profileList }) {
                   label="Confirm Account number"
                   variant="outlined"
                   sx={{ width: "100%", fontSize: "14px" }}
-                  name="label"
+                  name="accountNumber"
                   defaultValue={row.label}
                   placeholder="Confirm account number"
                   onChange={formik.handleChange}
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  InputProps={
+                    row.unSaved == true
+                      ? { readOnly: false }
+                      : { readOnly: true }
+                  }
                 />
               </Box>
             </Grid>
@@ -258,9 +336,11 @@ export default function BankDetailForm({ profileList }) {
                   defaultValue={row.IFSC}
                   placeholder="IFSC"
                   onChange={formik.handleChange}
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  InputProps={
+                    row.unSaved == true
+                      ? { readOnly: false }
+                      : { readOnly: true }
+                  }
                 />
               </Box>
             </Grid>
@@ -270,7 +350,10 @@ export default function BankDetailForm({ profileList }) {
                   control={
                     <IOSSwitch
                       sx={{ m: 1 }}
-                      defaultChecked={row.defaultBank == true}
+                      checked={defaultChecked.id === row._id}
+                      onChange={() => {
+                        setDefaultChecked({ id: row._id });
+                      }}
                     />
                   }
                   label="Make Default bank"
@@ -279,6 +362,7 @@ export default function BankDetailForm({ profileList }) {
                       fontSize: "14px",
                     },
                   }}
+                  name="defaultBank"
                 />
               </Box>
             </Grid>
@@ -293,7 +377,23 @@ export default function BankDetailForm({ profileList }) {
                 >
                   Save Changes
                 </Button>
-                <Button variant="outlined" color="error">
+                <Button
+                  variant="outlined"
+                  onClick={async () => {
+                    try {
+                      if (!row.unSaved) {
+                        // api
+                        await deleteBankdetail(row._id);
+                      }
+                      setBankList((prev) =>
+                        prev.filter((bank) => bank._id !== row._id)
+                      );
+                    } catch (error) {
+                      setSnack(error.response.data.message, "error");
+                    }
+                  }}
+                  color="error"
+                >
                   Remove
                 </Button>
               </Stack>

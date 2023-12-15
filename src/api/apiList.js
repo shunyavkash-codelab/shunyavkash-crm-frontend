@@ -28,5 +28,7 @@ export const APIS = {
     ADD: "/bank/add",
     VIEW: (bankId) => `/bank/${bankId}`,
     LIST: "/bank/get-banks",
+    DELETE: (bankId) => `/bank/${bankId}`,
+    EDIT: (bankId) => `/bank/${bankId}`,
   },
 };

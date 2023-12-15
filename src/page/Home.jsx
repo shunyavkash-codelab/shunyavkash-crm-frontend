@@ -81,67 +81,51 @@ export default function Home() {
                 DashBoard
               </Typography>
             </Box>
-            <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+            <Grid container rowSpacing={2} columnSpacing={2}>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
+                  BgColor={"rgb(22, 108, 255, 10%)"}
                   Title={"Total Manager"}
                   Counter={dashboardData.totalManager || 0}
-                  borderColor={"rgb(22, 108, 255, 100%)"}
-                  boxShadow={"0 0 14px 0px rgb(22, 108, 255, 10%)"}
                   icon={
                     <ManagerIcon
-                      sx={{
-                        fontSize: { xs: "28px", sm: "32px" },
-                        color: "rgb(22, 108, 255, 100%)",
-                      }}
+                      sx={{ fontSize: { xs: "28px", sm: "32px" } }}
                     />
                   }
                 ></CounterCards>
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
+                  BgColor={"rgb(255, 198, 117, 10%)"}
                   Title={"Total Clients"}
                   Counter={dashboardData.totalClient || 0}
-                  borderColor={"rgb(255, 198, 117, 100%)"}
-                  boxShadow={"0 0 14px 0px rgb(255, 198, 117, 10%)"}
                   icon={
                     <ClientsIcon
-                      sx={{
-                        fontSize: { xs: "28px", sm: "32px" },
-                        color: "rgb(255, 198, 117, 100%)",
-                      }}
+                      sx={{ fontSize: { xs: "28px", sm: "32px" } }}
                     />
                   }
                 ></CounterCards>
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
+                  BgColor={"rgba(0, 255, 135, 10%)"}
                   Title={"Total projects"}
                   Counter={dashboardData.totalProject || 0}
-                  borderColor={"rgb(74, 210, 146, 100%)"}
-                  boxShadow={"0 0 14px 0px rgb(74, 210, 146, 10%)"}
                   icon={
                     <ProjectsIcon
-                      sx={{
-                        fontSize: { xs: "28px", sm: "32px" },
-                        color: "rgb(74, 210, 146, 100%)",
-                      }}
+                      sx={{ fontSize: { xs: "28px", sm: "32px" } }}
                     />
                   }
                 ></CounterCards>
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
+                  BgColor={"rgba(255, 0, 67, 10%)"}
                   Title={"Total invoices"}
                   Counter={dashboardData.totalInvoice || 0}
-                  borderColor={"rgb(255, 0, 67, 100%)"}
-                  boxShadow={"0 0 14px 0px rgb(255, 0, 67, 10%)"}
                   icon={
                     <InvoicesIcon
-                      sx={{
-                        fontSize: { xs: "28px", sm: "32px" },
-                        color: "rgb(255, 0, 67, 100%)",
-                      }}
+                      sx={{ fontSize: { xs: "28px", sm: "32px" } }}
                     />
                   }
                 ></CounterCards>
@@ -175,109 +159,87 @@ export default function Home() {
                 </Typography>
               </Box>
               <Box>
-                <Link to="./Invoices">
+                <Link variant="Button" to="./Invoices">
                   <Button
                     disableRipple
                     sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
+                      px: 3.5,
+                      py: 1.75,
                       bgcolor: "primary.main",
-                      border: "1px solid",
-                      borderColor: "primary.main",
                       color: "white",
                       lineHeight: 1,
                       borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "white",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
-                        color: "primary.main",
-                        bgcolor: "primary.main",
-                        "&:before": { height: "10rem" },
-                      },
+                      "&:hover": { bgcolor: "rgb(22, 119, 255, 80%)" },
                     }}
                   >
-                    <span style={{ position: "relative" }}>View all</span>
+                    View All
                   </Button>
                 </Link>
               </Box>
             </Box>
             <Box>
               {/* <Grid container rowSpacing={2} columnSpacing={2}>
-      <Grid
-        item
-        xs={12}
-        sm={6}
-        md={6}
-        lg={6}
-        xl={4}
-        xxl={3}
-        sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
-      >
-        <Card
-          variant="outlined"
-          sx={{ height: "450px", borderRadius: 2.5 }}
-        ></Card>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={6}
-        md={4}
-        lg={6}
-        xl={4}
-        xxl={3}
-        sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
-      >
-        <Card
-          variant="outlined"
-          sx={{ height: "450px", borderRadius: 2.5 }}
-        ></Card>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={6}
-        md={4}
-        lg={6}
-        xl={4}
-        xxl={3}
-        sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
-      >
-        <Card
-          variant="outlined"
-          sx={{ height: "450px", borderRadius: 2.5 }}
-        ></Card>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={6}
-        md={4}
-        lg={6}
-        xl={4}
-        xxl={3}
-        sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
-      >
-        <Card
-          variant="outlined"
-          sx={{ height: "450px", borderRadius: 2.5 }}
-        ></Card>
-      </Grid>
-    </Grid> */}
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={6}
+          lg={6}
+          xl={4}
+          xxl={3}
+          sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
+        >
+          <Card
+            variant="outlined"
+            sx={{ height: "450px", borderRadius: 2.5 }}
+          ></Card>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          lg={6}
+          xl={4}
+          xxl={3}
+          sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
+        >
+          <Card
+            variant="outlined"
+            sx={{ height: "450px", borderRadius: 2.5 }}
+          ></Card>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          lg={6}
+          xl={4}
+          xxl={3}
+          sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
+        >
+          <Card
+            variant="outlined"
+            sx={{ height: "450px", borderRadius: 2.5 }}
+          ></Card>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          lg={6}
+          xl={4}
+          xxl={3}
+          sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
+        >
+          <Card
+            variant="outlined"
+            sx={{ height: "450px", borderRadius: 2.5 }}
+          ></Card>
+        </Grid>
+      </Grid> */}
             </Box>
             <Box>
               <Grid container rowSpacing={2} columnSpacing={2}>
@@ -302,10 +264,9 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
-                      bgcolor: "neutral.1000",
+                      border: "1px solid rgba(0,0,0,0.1)",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 2.5,
+                      borderRadius: 1.25,
                       position: "relative",
                       height: "100%",
                     }}
@@ -492,10 +453,9 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
-                      bgcolor: "neutral.1000",
+                      border: "1px solid rgba(0,0,0,0.1)",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 2.5,
+                      borderRadius: 1.25,
                       position: "relative",
                       height: "100%",
                     }}
@@ -682,10 +642,9 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
-                      bgcolor: "neutral.1000",
+                      border: "1px solid rgba(0,0,0,0.1)",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 2.5,
+                      borderRadius: 1.25,
                       position: "relative",
                       height: "100%",
                     }}
@@ -867,10 +826,9 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
-                      bgcolor: "neutral.1000",
+                      border: "1px solid rgba(0,0,0,0.1)",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 2.5,
+                      borderRadius: 1.25,
                       position: "relative",
                       height: "100%",
                     }}
@@ -1057,10 +1015,9 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
-                      bgcolor: "neutral.1000",
+                      border: "1px solid rgba(0,0,0,0.1)",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 2.5,
+                      borderRadius: 1.25,
                       position: "relative",
                       height: "100%",
                     }}
@@ -1247,10 +1204,9 @@ export default function Home() {
                   <Box
                     sx={{
                       textTransform: "capitalize",
-                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
-                      bgcolor: "neutral.1000",
+                      border: "1px solid rgba(0,0,0,0.1)",
                       p: { xs: 2.5, lg: 3 },
-                      borderRadius: 2.5,
+                      borderRadius: 1.25,
                       position: "relative",
                       height: "100%",
                     }}
