@@ -483,7 +483,6 @@ export default function AddManager({ open, setOpen }) {
                 </Button>
                 <Button
                   disableRipple
-                  type="submit"
                   sx={{
                     maxHeight: "42px",
                     position: "relative",

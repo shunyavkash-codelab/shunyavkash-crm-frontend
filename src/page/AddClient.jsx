@@ -310,7 +310,6 @@ export default function AddClient() {
                 </Button>
                 <Button
                   disableRipple
-                  type="submit"
                   sx={{
                     maxHeight: "42px",
                     position: "relative",

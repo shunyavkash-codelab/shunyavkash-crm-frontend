@@ -12,24 +12,16 @@ import {
   Typography,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { useAuth } from "../hooks/store/useAuth";
 
 import Chip from "@mui/material/Chip";
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
+import { useSnack } from "../hooks/store/useSnack";
+import useApi from "../hooks/useApi";
+import { useNavigate } from "react-router-dom";
+import { Field, FormikProvider, useFormik } from "formik";
+import { APIS } from "../api/apiList";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -56,36 +48,76 @@ export default function AddProject({ open, setOpen }) {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [client, setClient] = useState("");
-  const [user, setUser] = useState("");
   const [payPeriod, setPayPeriod] = useState("");
   const [status, setStatus] = useState("");
-  const fileInput = useRef(null);
-  const [file, setFile] = useState([]);
-  const { palette } = useTheme();
+  const [clientList, setClientList] = useState([]);
   const { accessToken } = useAuth();
+  const { setSnack } = useSnack();
+  const { apiCall, isLoading } = useApi();
+  const navigate = useNavigate();
 
-  const handleChange = (event) => {
-    setClient(event.target.value);
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      clientId: "",
+      description: "",
+      startDate: "",
+      endDate: "",
+      perHourCharge: "",
+      currency: "",
+      payPeriod: "",
+      prefix: "",
+      status: "",
+    },
+    onSubmit: async (values) => {
+      console.log(values, "==================70");
+      // try {
+      //   const res = await apiCall({
+      //     url: APIS.CLIENT.ADD,
+      //     method: "post",
+      //     data: JSON.stringify(values, null, 2),
+      //   });
+      //   if (res.status === 201) {
+      //     setSnack(res.data.message);
+      //     navigate("/clients");
+      //   }
+      // } catch (error) {
+      //   let errorMessage = error.response.data.message;
+      //   setSnack(errorMessage, "warning");
+      // }
+    },
+  });
+
+  const fetchClients = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.CLIENT.LIST,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setClientList(res.data.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
   };
+  useEffect(() => {
+    fetchClients();
+  }, []);
 
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
-  const handleChange2 = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-  };
-
-  const handleChange3 = (event) => {
-    setPayPeriod(event.target.value);
-  };
-  const handleChange4 = (event) => {
-    setStatus(event.target.value);
-  };
+  // future employee add
+  // const [personName, setPersonName] = React.useState([]);
+  // const handleChange2 = (event) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
+  //   setPersonName(
+  //     // On autofill we get a stringified value.
+  //     typeof value === "string" ? value.split(",") : value
+  //   );
+  // };
 
   return (
     <>
@@ -131,44 +163,89 @@ export default function AddProject({ open, setOpen }) {
               Add Project
             </Typography>
           </Box>
-          <Box
-            component="form"
-            noValidate
-            autoComplete="off"
-            sx={{
-              p: 2.5,
-              pt: 1.75,
-              backgroundColor: "white",
-              borderRadius: 2.5,
-            }}
-          >
+          <FormikProvider value={formik}>
             <Box
+              component="form"
+              noValidate
+              autoComplete="off"
               sx={{
-                pt: 0.75,
-                flexGrow: { md: 0 },
-                overflowY: { md: "auto" },
-                "& fieldset": {
-                  borderRadius: 1.5,
-                },
-                display: "grid",
-                gridTemplateColumns: {
-                  xs: "repeat(1, 1fr)",
-                  sm: "repeat(2, 1fr)",
-                },
-                gap: 2.5,
+                p: 2.5,
+                pt: 1.75,
+                backgroundColor: "white",
+                borderRadius: 2.5,
               }}
+              onSubmit={formik.handleSubmit}
             >
-              <TextField
-                fullWidth
-                size="small"
-                id="project_name"
-                label="Project Name"
-                autoComplete="off"
+              <Box
                 sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
+                  pt: 0.75,
+                  flexGrow: { md: 0 },
+                  overflowY: { md: "auto" },
+                  "& fieldset": {
+                    borderRadius: 1.5,
+                  },
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "repeat(1, 1fr)",
+                    sm: "repeat(2, 1fr)",
+                  },
+                  gap: 2.5,
                 }}
-              />
-              <FormControl
+              >
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="name"
+                  label="Project Name"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                />
+                <FormControl
+                  fullWidth
+                  size="small"
+                  sx={{
+                    "&>label": { fontSize: "14px" },
+                  }}
+                >
+                  <InputLabel
+                    sx={{ textTransform: "capitalize" }}
+                    id="demo-simple-select-label"
+                  >
+                    Client
+                  </InputLabel>
+                  <Field
+                    name="file"
+                    render={({ field, form }) => (
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="clientId"
+                        label="Client"
+                        sx={{ fontSize: "14px" }}
+                        {...field}
+                        onChange={(event) => {
+                          form.setFieldValue("clientId", event.target.value);
+                        }}
+                      >
+                        {clientList.map((item) => (
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={item._id}
+                          >
+                            {item.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+                {/* <FormControl
                 fullWidth
                 size="small"
                 sx={{
@@ -179,66 +256,13 @@ export default function AddProject({ open, setOpen }) {
                   sx={{ textTransform: "capitalize" }}
                   id="demo-simple-select-label"
                 >
-                  Client
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={client}
-                  label="Client"
-                  onChange={handleChange}
-                  sx={{ fontSize: "14px" }}
-                >
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"ID1"}
-                  >
-                    ID1
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"ID2"}
-                  >
-                    ID2
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"ID3"}
-                  >
-                    ID3
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"ID4"}
-                  >
-                    ID4
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"ID5"}
-                  >
-                    ID5
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl
-                fullWidth
-                size="small"
-                sx={{
-                  "&>label": { fontSize: "14px" },
-                }}
-              >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
-                >
-                  Users
+                  Employee
                 </InputLabel>
                 <Select
                   multiple
                   labelId="demo-simple-select-label"
-                  id="users"
-                  label="Users"
+                  id="employees"
+                  label="Employees"
                   sx={{
                     fontSize: "14px",
                     "&>div": {
@@ -281,283 +305,271 @@ export default function AddProject({ open, setOpen }) {
                     </MenuItem>
                   ))}
                 </Select>
-              </FormControl>
-              <FormControl
-                fullWidth
-                size="small"
-                sx={{
-                  "&>label,& input": { fontSize: "14px" },
-                }}
-              >
-                <InputLabel>Per Hour</InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-amount"
-                  startAdornment={
-                    <InputAdornment position="start">$</InputAdornment>
-                  }
-                  label="Amount"
+              </FormControl> */}
+                <FormControl
+                  fullWidth
+                  size="small"
+                  sx={{
+                    "&>label,& input": { fontSize: "14px" },
+                  }}
+                >
+                  <InputLabel>Per Hour</InputLabel>
+                  <OutlinedInput
+                    id="perHourCharge"
+                    startAdornment={
+                      <InputAdornment position="start">$</InputAdornment>
+                    }
+                    label="Amount"
+                  />
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  size="small"
+                  sx={{
+                    "&>label": { fontSize: "14px" },
+                  }}
+                >
+                  <InputLabel
+                    sx={{ textTransform: "capitalize" }}
+                    id="demo-simple-select-label"
+                  >
+                    Pay Period
+                  </InputLabel>
+                  <Field
+                    name="file"
+                    render={({ field, form }) => (
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="payPeriod"
+                        label="Pay Period"
+                        sx={{ fontSize: "14px" }}
+                        {...field}
+                        onChange={(event) => {
+                          form.setFieldValue("payPeriod", event.target.value);
+                        }}
+                      >
+                        <MenuItem
+                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                          value={"weekly"}
+                        >
+                          Weekly
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                          value={"twiceWeekly"}
+                        >
+                          Twice Weekly
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                          value={"monthly"}
+                        >
+                          Monthly
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                          value={"yearly"}
+                        >
+                          Yearly
+                        </MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="prefix"
+                  label="Prefix"
+                  autoComplete="off"
+                  inputProps={{ maxLength: 3 }}
+                  sx={{
+                    "&>label,& input,&>div": {
+                      fontSize: "14px",
+                    },
+                    "& input": {
+                      textTransform: "uppercase",
+                    },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.prefix}
                 />
-              </FormControl>
-              <FormControl
-                fullWidth
-                size="small"
-                sx={{
-                  "&>label": { fontSize: "14px" },
-                }}
-              >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="startDate"
+                  label="Project Start"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.startDate}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="endDate"
+                  label="Project End"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.endDate}
+                />
+                <FormControl
+                  fullWidth
+                  size="small"
+                  sx={{
+                    "&>label": { fontSize: "14px" },
+                  }}
                 >
-                  Pay Period
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={payPeriod}
-                  label="Pay Period"
-                  onChange={handleChange3}
-                  sx={{ fontSize: "14px" }}
-                >
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"Weekly"}
+                  <InputLabel
+                    sx={{ textTransform: "capitalize" }}
+                    id="demo-simple-select-label"
                   >
-                    Weekly
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"twiceWeekly"}
-                  >
-                    Twice Weekly
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"monthly"}
-                  >
-                    Monthly
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"yearly"}
-                  >
-                    Yearly
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <TextField
-                fullWidth
-                size="small"
-                id="invoice_number"
-                label="Invoice Number"
-                autoComplete="off"
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                }}
-              />
-              <TextField
-                fullWidth
-                size="small"
-                id="project_start"
-                label="Project Start"
-                autoComplete="off"
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                placeholder="mm/dd/yyyy"
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                }}
-              />
-              <TextField
-                fullWidth
-                size="small"
-                id="project_end"
-                label="Project End"
-                autoComplete="off"
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                placeholder="mm/dd/yyyy"
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                }}
-              />
-              <FormControl
-                fullWidth
-                size="small"
-                sx={{
-                  "&>label": { fontSize: "14px" },
-                }}
-              >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
-                >
-                  Status
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={status}
-                  label="Status"
-                  onChange={handleChange4}
-                  sx={{ fontSize: "14px" }}
-                >
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"initial"}
-                  >
-                    Initial
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"inProgress"}
-                  >
-                    In Progress
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"completed"}
-                  >
-                    Completed
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <TextField
-                fullWidth
-                size="small"
-                id="description"
-                label="Description"
-                autoComplete="off"
-                multiline
-                rows={4}
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                  gridColumn: { sm: "span 2" },
-                }}
-              />
-              <Box sx={{ gridColumn: { sm: "span 2" } }}>
-                <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
-                  Profile Image
-                </Typography>
+                    Status
+                  </InputLabel>
+                  <Field
+                    name="file"
+                    render={({ field, form }) => (
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="status"
+                        label="Status"
+                        sx={{ fontSize: "14px" }}
+                        {...field}
+                        onChange={(event) => {
+                          form.setFieldValue("status", event.target.value);
+                        }}
+                      >
+                        <MenuItem
+                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                          value={"initial"}
+                        >
+                          Initial
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                          value={"inProgress"}
+                        >
+                          In Progress
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                          value={"completed"}
+                        >
+                          Completed
+                        </MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="description"
+                  label="Description"
+                  autoComplete="off"
+                  multiline
+                  rows={4}
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    gridColumn: { sm: "span 2" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.description}
+                />
+              </Box>
+              <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
                 <Button
                   disableRipple
-                  disableElevation
-                  component="label"
-                  variant="contained"
-                  id="profile_img"
-                  startIcon={
-                    <CloudUploadIcon
-                      sx={{
-                        fontSize: {
-                          xs: "18px!important",
-                          sm: "30px!important",
-                        },
-                      }}
-                    />
-                  }
+                  type="submit"
                   sx={{
-                    textTransform: "capitalize",
-                    width: "100%",
-                    borderRadius: 1.5,
-                    bgcolor: "transparent",
-                    border: "1px solid rgba(0,0,0,0.15)",
-                    boxShadow: "none",
-                    color: "text.secondary",
-                    transition: "0s",
-                    height: { xs: "100px", sm: "200px" },
-                    fontSize: { xs: "18px", sm: "30px" },
-                    ":hover": {
-                      bgcolor: "transparent",
-                      borderColor: "text.primary",
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    bgcolor: "success.main",
+                    border: "1px solid",
+                    borderColor: "success.main",
+                    color: "white",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "white",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      color: "success.main",
+                      bgcolor: "success.main",
+                      "&:before": { height: "10rem" },
                     },
                   }}
                 >
-                  Profile Image
-                  <VisuallyHiddenInput id="test" type="file" />
+                  <span style={{ position: "relative" }}>Submit</span>
+                </Button>
+                <Button
+                  disableRipple
+                  sx={{
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    bgcolor: "error.main",
+                    border: "1px solid",
+                    borderColor: "error.main",
+                    color: "white",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "white",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      color: "error.main",
+                      bgcolor: "error.main",
+                      "&:before": { height: "10rem" },
+                    },
+                  }}
+                  onClick={() => navigate("/projects")}
+                >
+                  <span style={{ position: "relative" }}>Cancel</span>
                 </Button>
               </Box>
             </Box>
-            <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-              <Button
-                disableRipple
-                type="submit"
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "success.main",
-                  border: "1px solid",
-                  borderColor: "success.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "success.main",
-                    bgcolor: "success.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>Submit</span>
-              </Button>
-              <Button
-                disableRipple
-                type="submit"
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "error.main",
-                  border: "1px solid",
-                  borderColor: "error.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "error.main",
-                    bgcolor: "error.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>Cancel</span>
-              </Button>
-            </Box>
-          </Box>
+          </FormikProvider>
         </Box>
       </Box>
     </>
