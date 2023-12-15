@@ -259,6 +259,7 @@ export default function AddClient() {
                     label={"Profile Image"}
                   />
                 </Box>
+
                 <Box sx={{ gridColumn: { sm: "span 2" } }}>
                   <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
                     Company Logo
