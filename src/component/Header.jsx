@@ -180,7 +180,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                     }}
                   >
                     Hi,{" "}
-                    {user.name.length > 10
+                    {user.name?.length > 10
                       ? `${user.name?.slice(0, 10)}...`
                       : user.name?.slice(0, 10)}
                   </Typography>

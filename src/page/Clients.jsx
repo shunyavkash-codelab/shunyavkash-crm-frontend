@@ -282,20 +282,24 @@ export default function Clients() {
                                 color: "black",
                                 "&:hover": { color: "primary.main" },
                               }}
+                              // onClick={add}
                             >
                               <VisibilityIcon />
                             </Button>
-                            <Button
-                              disableRipple
-                              sx={{
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              }}
-                            >
-                              <CreateIcon />
-                            </Button>
+
+                            <Link to={`./edit/${row._id}`}>
+                              <Button
+                                disableRipple
+                                sx={{
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "primary.main" },
+                                }}
+                              >
+                                <CreateIcon />
+                              </Button>
+                            </Link>
                             <Button
                               disableRipple
                               sx={{
