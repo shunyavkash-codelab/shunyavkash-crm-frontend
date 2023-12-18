@@ -115,6 +115,9 @@ export default function SideBar({
                   transition: "all 0.4s ease-in-out",
                   "&:hover": {
                     boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
+                    "& svg": {
+                      animation: "swing ease-in-out 0.5s alternate",
+                    },
                   },
                   "&:not(:first-child)": { mt: 0.75 },
                   borderRadius: "10px",
