@@ -114,9 +114,13 @@ export default function SideBar({
                 sx={{
                   transition: "all 0.4s ease-in-out",
                   "&:hover": {
-                    boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
+                    boxShadow:
+                      location.pathname != item.link &&
+                      "0 0 4px 2px rgb(22, 119, 255, 20%)",
                     "& svg": {
-                      animation: "swing ease-in-out 0.5s alternate",
+                      animation:
+                        location.pathname != item.link &&
+                        "swing ease-in-out 0.4s alternate",
                     },
                   },
                   "&:not(:first-child)": { mt: 0.75 },
@@ -132,9 +136,13 @@ export default function SideBar({
                   to={item.link} // Specify the route to navigate to
                   sx={{
                     p: 1.5,
+                    transition: "all 0.4s ease-in-out",
                     ":hover": {
                       color: "primary.main",
-                      bgcolor: "primary.light",
+                      bgcolor:
+                        location.pathname == item.link
+                          ? "transparent"
+                          : "primary.light",
                     },
                   }}
                 >
