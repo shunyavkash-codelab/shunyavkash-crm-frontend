@@ -175,7 +175,12 @@ export default function Invoices() {
                   value={date}
                   label="Date"
                   onChange={handleChange}
-                  sx={{ fontSize: "14px" }}
+                  sx={{
+                    fontSize: "14px",
+                    "&": {
+                      bgcolor: "white",
+                    },
+                  }}
                 >
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
@@ -226,6 +231,10 @@ export default function Invoices() {
                     placeholder="mm/dd/yyyy"
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&": {
+                        bgcolor: "white",
+                        borderRadius: 1.5,
+                      },
                     }}
                   />
                   <TextField
@@ -241,12 +250,16 @@ export default function Invoices() {
                     placeholder="mm/dd/yyyy"
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&": {
+                        bgcolor: "white",
+                        borderRadius: 1.5,
+                      },
                     }}
                   />
                 </Box>
               )}
             </Box>
-            <Box
+            {/* <Box
               sx={{
                 "& > button": {
                   height: "40px",
@@ -288,7 +301,7 @@ export default function Invoices() {
               >
                 <ListOutlinedIcon />
               </Button>
-            </Box>
+            </Box> */}
           </Box>
           <Typography
             variant="subtitle2"
@@ -389,8 +402,9 @@ export default function Invoices() {
                         sx={{
                           color: "white",
                           bgcolor: "secondary.main",
-                          py: 0.75,
-                          px: 1.25,
+                          fontSize: "12px",
+                          py: 0.5,
+                          px: 0.75,
                           borderRadius: 1.5,
                           maxWidth: "fit-content",
                           lineHeight: 1,
@@ -457,8 +471,9 @@ export default function Invoices() {
                         sx={{
                           color: "primary.contrastText",
                           bgcolor: "success.main",
-                          py: 0.75,
-                          px: 1.25,
+                          fontSize: "12px",
+                          py: 0.5,
+                          px: 0.75,
                           borderRadius: 1.5,
                           maxWidth: "fit-content",
                           lineHeight: 1,
@@ -525,8 +540,9 @@ export default function Invoices() {
                         sx={{
                           color: "white",
                           bgcolor: "secondary.main",
-                          py: 0.75,
-                          px: 1.25,
+                          fontSize: "12px",
+                          py: 0.5,
+                          px: 0.75,
                           borderRadius: 1.5,
                           maxWidth: "fit-content",
                           lineHeight: 1,
