@@ -10,6 +10,7 @@ import {
   TextField,
   Typography,
   Button,
+  Autocomplete,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import FileUploadButton from "../component/FileUploadButton";
@@ -219,7 +220,7 @@ export default function AddClient() {
                       },
                     }}
                   >
-                    <FormControl
+                    {/* <FormControl
                       size="small"
                       sx={{
                         minWidth: "102px",
@@ -294,14 +295,65 @@ export default function AddClient() {
                           </Select>
                         )}
                       />
-                    </FormControl>
+                    </FormControl> */}
+                    <Autocomplete
+                      size="small"
+                      id="country-select-demo"
+                      sx={{
+                        flexShrink: 0,
+                        width: { xs: "100px", sm: "120px" },
+                        "& input": { fontSize: "14px" },
+                        "& button[title='Clear']": { display: "none" },
+                        "& fieldset": {
+                          borderRadius: "6px 0 0 6px",
+                          borderRight: 0,
+                        },
+                        "&>div>div": {
+                          pr: "24px!important",
+                          bgcolor: "#f4f4f4",
+                        },
+                        "& input+div": {
+                          right: "0!important",
+                        },
+                      }}
+                      options={countryList}
+                      autoHighlight
+                      getOptionLabel={(option) => option.phone}
+                      renderOption={(props, option) => (
+                        <Box
+                          component="li"
+                          sx={{
+                            "& > img": { mr: 0.75, flexShrink: 0 },
+                            fontSize: { xs: "12px", sm: "14px" },
+                          }}
+                          {...props}
+                        >
+                          <img
+                            loading="lazy"
+                            width="20"
+                            height="14"
+                            src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                          />
+                          +{option.phone}
+                        </Box>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "new-password", // disable autocomplete and autofill
+                          }}
+                        />
+                      )}
+                    />
                     <TextField
                       fullWidth
                       size="small"
                       id="mobileNumber"
                       type="tel"
                       autoComplete="off"
-                      placeholder="Mobile Number"
+                      placeholder="Number"
                       defaultValue={clientList?.mobileNumber}
                       disabled={location.pathname.includes("/view/")}
                       // InputLabelProps={{
@@ -440,7 +492,6 @@ export default function AddClient() {
                       view={location.pathname.includes("/view/") ? true : false}
                     />
                   </Box>
-
                   <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
                     <Typography
                       variant="subtitle1"
