@@ -254,7 +254,7 @@ export default function Home() {
                       variant="h6"
                       sx={{
                         fontSize: { xs: "16px", lg: "18px" },
-                        pt: { xs: 2, lg: 1 },
+                        pt: { xs: 2, lg: 1.5 },
                       }}
                     >
                       Shunyavkash CRM Design
@@ -289,7 +289,7 @@ export default function Home() {
                     </Box>
                     <Typography
                       className="truncate line-clamp-1"
-                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "14px" }}
+                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "12px" }}
                     >
                       Lorem Ipsum is simply dummy text of the printing and
                       typesetting industry.Lorem Ipsum is simply dummy text of
@@ -297,7 +297,12 @@ export default function Home() {
                       simply dummy text of the printing and typesetting
                       industry.
                     </Typography>
-                    <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
+                    <Box
+                      sx={{
+                        "&>*:not(:first-child)": { mt: 0.75 },
+                        maxWidth: "350px",
+                      }}
+                    >
                       <Box
                         sx={{
                           display: "flex",
@@ -308,13 +313,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Hour charge
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "grey.dark", lineHeight: 1.2 }}
                         >
                           $50
@@ -330,13 +335,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Pay Period
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "grey.dark", lineHeight: 1.2 }}
                         >
                           4 Weeks
@@ -352,13 +357,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Invoice No
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "grey.dark", lineHeight: 1.2 }}
                         >
                           SHU090984
@@ -374,13 +379,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Start Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "grey.dark", lineHeight: 1.2 }}
                         >
                           Oct 15th 2023
@@ -396,13 +401,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           End Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "grey.dark", lineHeight: 1.2 }}
                         >
                           Nov 15th 2023
@@ -444,7 +449,7 @@ export default function Home() {
                       variant="h6"
                       sx={{
                         fontSize: { xs: "16px", lg: "18px" },
-                        pt: { xs: 2, lg: 1 },
+                        pt: { xs: 2, lg: 1.5 },
                       }}
                     >
                       Shunyavkash CRM Design
@@ -479,7 +484,7 @@ export default function Home() {
                     </Box>
                     <Typography
                       className="truncate line-clamp-1"
-                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "14px" }}
+                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "12px" }}
                     >
                       Lorem Ipsum is simply dummy text of the printing and
                       typesetting industry.Lorem Ipsum is simply dummy text of
@@ -487,7 +492,12 @@ export default function Home() {
                       simply dummy text of the printing and typesetting
                       industry.
                     </Typography>
-                    <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
+                    <Box
+                      sx={{
+                        "&>*:not(:first-child)": { mt: 0.75 },
+                        maxWidth: "350px",
+                      }}
+                    >
                       <Box
                         sx={{
                           display: "flex",
@@ -498,13 +508,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Hour charge
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "secondary.main", lineHeight: 1.2 }}
                         >
                           $50
@@ -520,13 +530,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Pay Period
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "secondary.main", lineHeight: 1.2 }}
                         >
                           4 Weeks
@@ -542,13 +552,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Invoice No
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "secondary.main", lineHeight: 1.2 }}
                         >
                           SHU090984
@@ -564,13 +574,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Start Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "secondary.main", lineHeight: 1.2 }}
                         >
                           Oct 15th 2023
@@ -586,13 +596,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           End Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "secondary.main", lineHeight: 1.2 }}
                         >
                           Nov 15th 2023
@@ -634,7 +644,7 @@ export default function Home() {
                       variant="h6"
                       sx={{
                         fontSize: { xs: "16px", lg: "18px" },
-                        pt: { xs: 2, lg: 1 },
+                        pt: { xs: 2, lg: 1.5 },
                       }}
                     >
                       Shunyavkash CRM Design
@@ -669,7 +679,7 @@ export default function Home() {
                     </Box>
                     <Typography
                       className="truncate line-clamp-1"
-                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "14px" }}
+                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "12px" }}
                     >
                       Lorem Ipsum is simply dummy text of the printing and
                       typesetting industry.Lorem Ipsum is simply dummy text of
@@ -677,7 +687,12 @@ export default function Home() {
                       simply dummy text of the printing and typesetting
                       industry.
                     </Typography>
-                    <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
+                    <Box
+                      sx={{
+                        "&>*:not(:first-child)": { mt: 0.75 },
+                        maxWidth: "350px",
+                      }}
+                    >
                       <Box
                         sx={{
                           display: "flex",
@@ -687,13 +702,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Hour charge
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "success.main", lineHeight: 1.2 }}
                         >
                           $50
@@ -708,13 +723,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Pay Period
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "success.main", lineHeight: 1.2 }}
                         >
                           4 Weeks
@@ -729,13 +744,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Invoice No
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "success.main", lineHeight: 1.2 }}
                         >
                           SHU090984
@@ -750,13 +765,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Start Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "success.main", lineHeight: 1.2 }}
                         >
                           Oct 15th 2023
@@ -771,13 +786,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           End Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "success.main", lineHeight: 1.2 }}
                         >
                           Nov 15th 2023
@@ -819,7 +834,7 @@ export default function Home() {
                       variant="h6"
                       sx={{
                         fontSize: { xs: "16px", lg: "18px" },
-                        pt: { xs: 2, lg: 1 },
+                        pt: { xs: 2, lg: 1.5 },
                       }}
                     >
                       Shunyavkash CRM Design
@@ -854,7 +869,7 @@ export default function Home() {
                     </Box>
                     <Typography
                       className="truncate line-clamp-1"
-                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "14px" }}
+                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "12px" }}
                     >
                       Lorem Ipsum is simply dummy text of the printing and
                       typesetting industry.Lorem Ipsum is simply dummy text of
@@ -862,7 +877,12 @@ export default function Home() {
                       simply dummy text of the printing and typesetting
                       industry.
                     </Typography>
-                    <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
+                    <Box
+                      sx={{
+                        "&>*:not(:first-child)": { mt: 0.75 },
+                        maxWidth: "350px",
+                      }}
+                    >
                       <Box
                         sx={{
                           display: "flex",
@@ -873,13 +893,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Hour charge
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "secondary.main", lineHeight: 1.2 }}
                         >
                           $50
@@ -895,13 +915,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Pay Period
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "secondary.main", lineHeight: 1.2 }}
                         >
                           4 Weeks
@@ -917,13 +937,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Invoice No
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "secondary.main", lineHeight: 1.2 }}
                         >
                           SHU090984
@@ -939,13 +959,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Start Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "secondary.main", lineHeight: 1.2 }}
                         >
                           Oct 15th 2023
@@ -961,13 +981,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Start Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "secondary.main", lineHeight: 1.2 }}
                         >
                           Nov 15th 2023
@@ -1009,7 +1029,7 @@ export default function Home() {
                       variant="h6"
                       sx={{
                         fontSize: { xs: "16px", lg: "18px" },
-                        pt: { xs: 2, lg: 1 },
+                        pt: { xs: 2, lg: 1.5 },
                       }}
                     >
                       Shunyavkash CRM Design
@@ -1044,7 +1064,7 @@ export default function Home() {
                     </Box>
                     <Typography
                       className="truncate line-clamp-1"
-                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "14px" }}
+                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "12px" }}
                     >
                       Lorem Ipsum is simply dummy text of the printing and
                       typesetting industry.Lorem Ipsum is simply dummy text of
@@ -1052,7 +1072,12 @@ export default function Home() {
                       simply dummy text of the printing and typesetting
                       industry.
                     </Typography>
-                    <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
+                    <Box
+                      sx={{
+                        "&>*:not(:first-child)": { mt: 0.75 },
+                        maxWidth: "350px",
+                      }}
+                    >
                       <Box
                         sx={{
                           display: "flex",
@@ -1063,13 +1088,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Hour charge
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "success.main", lineHeight: 1.2 }}
                         >
                           $50
@@ -1085,13 +1110,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Pay Period
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "success.main", lineHeight: 1.2 }}
                         >
                           4 Weeks
@@ -1107,13 +1132,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Invoice No
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "success.main", lineHeight: 1.2 }}
                         >
                           SHU090984
@@ -1129,13 +1154,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Start Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "success.main", lineHeight: 1.2 }}
                         >
                           Oct 15th 2023
@@ -1151,13 +1176,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           End Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "success.main", lineHeight: 1.2 }}
                         >
                           Nov 15th 2023
@@ -1199,7 +1224,7 @@ export default function Home() {
                       variant="h6"
                       sx={{
                         fontSize: { xs: "16px", lg: "18px" },
-                        pt: { xs: 2, lg: 1 },
+                        pt: { xs: 2, lg: 1.5 },
                       }}
                     >
                       Shunyavkash CRM Design
@@ -1234,7 +1259,7 @@ export default function Home() {
                     </Box>
                     <Typography
                       className="truncate line-clamp-1"
-                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "14px" }}
+                      sx={{ mt: 2, mb: 3, lineHeight: 1.5, fontSize: "12px" }}
                     >
                       Lorem Ipsum is simply dummy text of the printing and
                       typesetting industry.Lorem Ipsum is simply dummy text of
@@ -1242,7 +1267,12 @@ export default function Home() {
                       simply dummy text of the printing and typesetting
                       industry.
                     </Typography>
-                    <Box sx={{ "&>*:not(:first-child)": { mt: 1 } }}>
+                    <Box
+                      sx={{
+                        "&>*:not(:first-child)": { mt: 0.75 },
+                        maxWidth: "350px",
+                      }}
+                    >
                       <Box
                         sx={{
                           display: "flex",
@@ -1253,12 +1283,15 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Hour charge
                         </Typography>
-                        <Typography variant="body2" sx={{ color: "grey.dark" }}>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ color: "grey.dark" }}
+                        >
                           $50
                         </Typography>
                       </Box>
@@ -1272,13 +1305,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Pay Period
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "grey.dark", lineHeight: 1.2 }}
                         >
                           4 Weeks
@@ -1294,13 +1327,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Invoice No
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "grey.dark", lineHeight: 1.2 }}
                         >
                           SHU090984
@@ -1316,13 +1349,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           Start Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "grey.dark", lineHeight: 1.2 }}
                         >
                           Oct 15th 2023
@@ -1338,13 +1371,13 @@ export default function Home() {
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ fontWeight: "500", lineHeight: 1.2 }}
                         >
                           End Date
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="subtitle3"
                           sx={{ color: "grey.dark", lineHeight: 1.2 }}
                         >
                           Nov 15th 2023
