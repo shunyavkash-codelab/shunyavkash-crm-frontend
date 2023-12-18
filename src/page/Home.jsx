@@ -84,10 +84,9 @@ export default function Home() {
             <Grid container rowSpacing={2.5} columnSpacing={2.5}>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  BgColor={"rgb(22, 108, 255, 10%)"}
                   Title={"Total Manager"}
-                  borderColor={"rgb(22, 108, 255, 100%)"}
-                  boxShadow={"0 0 14px 0px rgb(22, 108, 255, 10%)"}
+                  // borderColor={"rgb(22, 108, 255, 100%)"}
+                  // boxShadow={"0 0 14px 0px rgb(22, 108, 255, 10%)"}
                   Counter={dashboardData.totalManager || 0}
                   icon={
                     <ManagerIcon
@@ -101,10 +100,9 @@ export default function Home() {
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  BgColor={"rgb(255, 198, 117, 10%)"}
                   Title={"Total Clients"}
-                  borderColor={"rgb(255, 198, 117, 100%)"}
-                  boxShadow={"0 0 14px 0px rgb(255, 198, 117, 10%)"}
+                  // borderColor={"rgb(255, 198, 117, 100%)"}
+                  // boxShadow={"0 0 14px 0px rgb(255, 198, 117, 10%)"}
                   Counter={dashboardData.totalClient || 0}
                   icon={
                     <ClientsIcon
@@ -118,10 +116,9 @@ export default function Home() {
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  BgColor={"rgba(0, 255, 135, 10%)"}
                   Title={"Total projects"}
-                  borderColor={"rgb(74, 210, 146, 100%)"}
-                  boxShadow={"0 0 14px 0px rgb(74, 210, 146, 10%)"}
+                  // borderColor={"rgb(74, 210, 146, 100%)"}
+                  // boxShadow={"0 0 14px 0px rgb(74, 210, 146, 10%)"}
                   Counter={dashboardData.totalProject || 0}
                   icon={
                     <ProjectsIcon
@@ -135,10 +132,9 @@ export default function Home() {
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  BgColor={"rgba(255, 0, 67, 10%)"}
                   Title={"Total invoices"}
-                  borderColor={"rgb(255, 0, 67, 100%)"}
-                  boxShadow={"0 0 14px 0px rgb(255, 0, 67, 10%)"}
+                  // borderColor={"rgb(255, 0, 67, 100%)"}
+                  // boxShadow={"0 0 14px 0px rgb(255, 0, 67, 10%)"}
                   Counter={dashboardData.totalInvoice || 0}
                   icon={
                     <InvoicesIcon
