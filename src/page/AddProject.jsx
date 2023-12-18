@@ -70,21 +70,20 @@ export default function AddProject({ open, setOpen }) {
       status: "",
     },
     onSubmit: async (values) => {
-      console.log(values, "==================70");
-      // try {
-      //   const res = await apiCall({
-      //     url: APIS.CLIENT.ADD,
-      //     method: "post",
-      //     data: JSON.stringify(values, null, 2),
-      //   });
-      //   if (res.status === 201) {
-      //     setSnack(res.data.message);
-      //     navigate("/clients");
-      //   }
-      // } catch (error) {
-      //   let errorMessage = error.response.data.message;
-      //   setSnack(errorMessage, "warning");
-      // }
+      try {
+        const res = await apiCall({
+          url: APIS.PROJECT.ADD,
+          method: "post",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.status === 201) {
+          setSnack(res.data.message);
+          navigate("/clients");
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
     },
   });
 

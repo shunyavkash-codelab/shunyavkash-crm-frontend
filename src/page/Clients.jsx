@@ -12,6 +12,7 @@ import {
   TableRow,
   Paper,
   Avatar,
+  Chip,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -205,9 +206,7 @@ export default function Clients() {
                     >
                       <TableCell>Name</TableCell>
                       <TableCell>Company Name</TableCell>
-                      <TableCell>Manager Name</TableCell>
-                      <TableCell>Mobile number</TableCell>
-                      <TableCell>Gender</TableCell>
+                      <TableCell>Project</TableCell>
                       <TableCell>Actions</TableCell>
                     </TableRow>
                   </TableHead>
@@ -261,9 +260,11 @@ export default function Clients() {
                           </Box>
                         </TableCell>
                         <TableCell>{row.companyName}</TableCell>
-                        <TableCell>{row.managerName}</TableCell>
-                        <TableCell>{row.mobileNumber}</TableCell>
-                        <TableCell>{row.gender}</TableCell>
+                        <TableCell>
+                          {row.projectName.map((pro) => (
+                            <Chip label={pro} />
+                          ))}
+                        </TableCell>
                         <TableCell>
                           <Box
                             sx={{

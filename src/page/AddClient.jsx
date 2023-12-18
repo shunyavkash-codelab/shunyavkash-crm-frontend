@@ -192,7 +192,9 @@ export default function AddClient() {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.name}
-                    disabled={location.pathname.includes("/view/")}
+                    InputProps={
+                      location.pathname.includes("/view/") && { readOnly: true }
+                    }
                   />
                   <TextField
                     fullWidth
@@ -209,7 +211,9 @@ export default function AddClient() {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.email}
-                    disabled={location.pathname.includes("/view/")}
+                    InputProps={
+                      location.pathname.includes("/view/") && { readOnly: true }
+                    }
                   />
 
                   <Box
@@ -256,7 +260,11 @@ export default function AddClient() {
                                 event.target.value
                               );
                             }}
-                            disabled={location.pathname.includes("/view/")}
+                            InputProps={
+                              location.pathname.includes("/view/") && {
+                                readOnly: true,
+                              }
+                            }
                           >
                             {countryList.map((item) => (
                               <>
@@ -355,7 +363,11 @@ export default function AddClient() {
                       autoComplete="off"
                       placeholder="Number"
                       defaultValue={clientList?.mobileNumber}
-                      disabled={location.pathname.includes("/view/")}
+                      InputProps={
+                        location.pathname.includes("/view/") && {
+                          readOnly: true,
+                        }
+                      }
                       // InputLabelProps={{
                       //   shrink: true,
                       // }}
@@ -392,7 +404,11 @@ export default function AddClient() {
                           id="gender"
                           label="Gender"
                           defaultValue={clientList?.gender}
-                          disabled={location.pathname.includes("/view/")}
+                          InputProps={
+                            location.pathname.includes("/view/") && {
+                              readOnly: true,
+                            }
+                          }
                           // InputLabelProps={{
                           //   shrink: true,
                           // }}
@@ -425,7 +441,9 @@ export default function AddClient() {
                     label="Company Name"
                     autoComplete="off"
                     defaultValue={clientList?.companyName}
-                    disabled={location.pathname.includes("/view/")}
+                    InputProps={
+                      location.pathname.includes("/view/") && { readOnly: true }
+                    }
                     // InputLabelProps={{
                     //   shrink: true,
                     // }}
@@ -442,7 +460,9 @@ export default function AddClient() {
                     label="Website"
                     autoComplete="off"
                     defaultValue={clientList?.websiteURL}
-                    disabled={location.pathname.includes("/view/")}
+                    InputProps={
+                      location.pathname.includes("/view/") && { readOnly: true }
+                    }
                     // InputLabelProps={{
                     //   shrink: true,
                     // }}
@@ -461,7 +481,9 @@ export default function AddClient() {
                     multiline
                     rows={4}
                     defaultValue={clientList?.address}
-                    disabled={location.pathname.includes("/view/")}
+                    InputProps={
+                      location.pathname.includes("/view/") && { readOnly: true }
+                    }
                     // InputLabelProps={{
                     //   shrink: true,
                     // }}

@@ -106,25 +106,27 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
           }}
         >
           {label}
-          <Field
-            name="file"
-            render={({ field, form }) => (
-              <VisuallyHiddenInput
-                {...field}
-                id="test"
-                type="file"
-                onChange={(event) => {
-                  //   console.log(
-                  //     event.target.files,
-                  //     form.setFieldValue(id, event.target.files[0]),
-                  //     "================"
-                  //   );
-                  form.setFieldValue(id, event.target.files[0]);
-                  setFile(URL.createObjectURL(event.target.files[0]));
-                }}
-              />
-            )}
-          />
+          {view == false && (
+            <Field
+              name="file"
+              render={({ field, form }) => (
+                <VisuallyHiddenInput
+                  {...field}
+                  id="test"
+                  type="file"
+                  onChange={(event) => {
+                    //   console.log(
+                    //     event.target.files,
+                    //     form.setFieldValue(id, event.target.files[0]),
+                    //     "================"
+                    //   );
+                    form.setFieldValue(id, event.target.files[0]);
+                    setFile(URL.createObjectURL(event.target.files[0]));
+                  }}
+                />
+              )}
+            />
+          )}
         </Button>
       )}
     </>
