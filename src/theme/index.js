@@ -70,8 +70,8 @@ export const theme = createTheme({
       contrastText: "#FFFFFF",
     },
     error: {
-      main: "#FF779B",
-      light: "rgb(255, 119, 155, 80%)",
+      main: "#f44336",
+      light: "rgba(244, 67, 54, 80%)",
       dark: "#B27B16",
       contrastText: "#FFFFFF",
     },

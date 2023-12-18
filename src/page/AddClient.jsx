@@ -174,9 +174,9 @@ export default function AddClient() {
                     label="Name"
                     autoComplete="off"
                     defaultValue={clientList?.name}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
+                    // InputLabelProps={{
+                    //   shrink: true,
+                    // }}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
                     }}
@@ -190,9 +190,9 @@ export default function AddClient() {
                     label="Email"
                     autoComplete="off"
                     defaultValue={clientList?.email}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
+                    // InputLabelProps={{
+                    //   shrink: true,
+                    // }}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
                     }}
@@ -244,9 +244,9 @@ export default function AddClient() {
                             }}
                           >
                             <MenuItem
-                              InputLabelProps={{
-                                shrink: true,
-                              }}
+                              // InputLabelProps={{
+                              //   shrink: true,
+                              // }}
                               sx={{ textTransform: "capitalize" }}
                               value={"+91"}
                             >
@@ -332,9 +332,9 @@ export default function AddClient() {
                       autoComplete="off"
                       placeholder="Mobile Number"
                       defaultValue={clientList?.mobileNumber}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
+                      // InputLabelProps={{
+                      //   shrink: true,
+                      // }}
                       sx={{
                         "& input,&>div": { fontSize: "14px" },
                         "& fieldset": {
@@ -368,9 +368,9 @@ export default function AddClient() {
                           id="gender"
                           label="Gender"
                           defaultValue={clientList?.gender}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
+                          // InputLabelProps={{
+                          //   shrink: true,
+                          // }}
                           sx={{ fontSize: "14px" }}
                           {...field}
                           onChange={(event) => {
@@ -379,13 +379,13 @@ export default function AddClient() {
                         >
                           <MenuItem
                             sx={{ textTransform: "capitalize" }}
-                            value={"male"}
+                            value={"Male"}
                           >
                             Male
                           </MenuItem>
                           <MenuItem
                             sx={{ textTransform: "capitalize" }}
-                            value={"female"}
+                            value={"Female"}
                           >
                             Female
                           </MenuItem>
@@ -400,9 +400,9 @@ export default function AddClient() {
                     label="Company Name"
                     autoComplete="off"
                     defaultValue={clientList?.companyName}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
+                    // InputLabelProps={{
+                    //   shrink: true,
+                    // }}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
                     }}
@@ -416,9 +416,9 @@ export default function AddClient() {
                     label="Website"
                     autoComplete="off"
                     defaultValue={clientList?.websiteURL}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
+                    // InputLabelProps={{
+                    //   shrink: true,
+                    // }}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
                     }}
@@ -434,9 +434,9 @@ export default function AddClient() {
                     multiline
                     rows={4}
                     defaultValue={clientList?.address}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
+                    // InputLabelProps={{
+                    //   shrink: true,
+                    // }}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
                       gridColumn: { sm: "span 2" },
@@ -444,7 +444,7 @@ export default function AddClient() {
                     onChange={formik.handleChange}
                     value={formik.values.address}
                   />
-                  <Box sx={{ gridColumn: { sm: "span 2" } }}>
+                  <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
                     <Typography
                       variant="subtitle1"
                       sx={{ lineHeight: 1, mb: 1 }}
@@ -463,7 +463,7 @@ export default function AddClient() {
                     />
                   </Box>
 
-                  <Box sx={{ gridColumn: { sm: "span 2" } }}>
+                  <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
                     <Typography
                       variant="subtitle1"
                       sx={{ lineHeight: 1, mb: 1 }}
@@ -527,10 +527,9 @@ export default function AddClient() {
                       position: "relative",
                       px: 2.5,
                       py: 1.5,
-                      bgcolor: "error.main",
                       border: "1px solid",
                       borderColor: "error.main",
-                      color: "white",
+                      color: "error.main",
                       lineHeight: 1,
                       borderRadius: 2.5,
                       overflow: "hidden",
@@ -542,14 +541,13 @@ export default function AddClient() {
                         top: "50%",
                         left: "50%",
                         zIndex: "0",
-                        bgcolor: "white",
+                        bgcolor: "error.main",
                         transform: "rotate(-45deg) translate(-50%, -50%)",
                         transformOrigin: "0% 0%",
                         transition: "all 0.4s ease-in-out",
                       },
                       "&:hover": {
-                        color: "error.main",
-                        bgcolor: "error.main",
+                        color: "white",
                         "&:before": { height: "10rem" },
                       },
                     }}

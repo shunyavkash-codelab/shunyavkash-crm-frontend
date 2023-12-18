@@ -228,8 +228,8 @@ export default function Home() {
                   xxl={4}
                   sx={{
                     "& .statusBtn": {
-                      color: "primary.contrastText",
-                      fontSize: { xs: "10px", lg: "12px" },
+                      color: "white",
+                      fontSize: "10px",
                       px: 0.75,
                       py: 0.5,
                       bgcolor: "grey.dark",
@@ -299,7 +299,7 @@ export default function Home() {
                     </Typography>
                     <Box
                       sx={{
-                        "&>*:not(:first-child)": { mt: 0.75 },
+                        "&>*:not(:first-child)": { mt: 1 },
                         maxWidth: "350px",
                       }}
                     >
@@ -308,86 +308,52 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Hour charge
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "grey.dark", lineHeight: 1.2 }}
-                        >
-                          $50
-                        </Typography>
+                        <Typography variant="subtitle3">$50</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Pay Period
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "grey.dark", lineHeight: 1.2 }}
-                        >
-                          4 Weeks
-                        </Typography>
+                        <Typography variant="subtitle3">4 Weeks</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgb(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Invoice No
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "grey.dark", lineHeight: 1.2 }}
-                        >
-                          SHU090984
-                        </Typography>
+                        <Typography variant="subtitle3">SHU090984</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Start Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "grey.dark", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Oct 15th 2023
                         </Typography>
                       </Box>
@@ -396,20 +362,13 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           End Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "grey.dark", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Nov 15th 2023
                         </Typography>
                       </Box>
@@ -423,8 +382,8 @@ export default function Home() {
                   xxl={4}
                   sx={{
                     "& .statusBtn": {
-                      color: "primary.contrastText",
-                      fontSize: { xs: "10px", lg: "12px" },
+                      color: "white",
+                      fontSize: "10px",
                       px: 0.75,
                       py: 0.5,
                       bgcolor: "grey.dark",
@@ -494,7 +453,7 @@ export default function Home() {
                     </Typography>
                     <Box
                       sx={{
-                        "&>*:not(:first-child)": { mt: 0.75 },
+                        "&>*:not(:first-child)": { mt: 1 },
                         maxWidth: "350px",
                       }}
                     >
@@ -503,86 +462,52 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Hour charge
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "secondary.main", lineHeight: 1.2 }}
-                        >
-                          $50
-                        </Typography>
+                        <Typography variant="subtitle3">$50</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Pay Period
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "secondary.main", lineHeight: 1.2 }}
-                        >
-                          4 Weeks
-                        </Typography>
+                        <Typography variant="subtitle3">4 Weeks</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Invoice No
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "secondary.main", lineHeight: 1.2 }}
-                        >
-                          SHU090984
-                        </Typography>
+                        <Typography variant="subtitle3">SHU090984</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Start Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "secondary.main", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Oct 15th 2023
                         </Typography>
                       </Box>
@@ -591,20 +516,13 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           End Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "secondary.main", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Nov 15th 2023
                         </Typography>
                       </Box>
@@ -618,8 +536,8 @@ export default function Home() {
                   xxl={4}
                   sx={{
                     "& .statusBtn": {
-                      color: "primary.contrastText",
-                      fontSize: { xs: "10px", lg: "12px" },
+                      color: "white",
+                      fontSize: "10px",
                       px: 0.75,
                       py: 0.5,
                       bgcolor: "grey.dark",
@@ -689,7 +607,7 @@ export default function Home() {
                     </Typography>
                     <Box
                       sx={{
-                        "&>*:not(:first-child)": { mt: 0.75 },
+                        "&>*:not(:first-child)": { mt: 1 },
                         maxWidth: "350px",
                       }}
                     >
@@ -698,82 +616,52 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
+                          gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Hour charge
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "success.main", lineHeight: 1.2 }}
-                        >
-                          $50
-                        </Typography>
+                        <Typography variant="subtitle3">$50</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
+                          gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Pay Period
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "success.main", lineHeight: 1.2 }}
-                        >
-                          4 Weeks
-                        </Typography>
+                        <Typography variant="subtitle3">4 Weeks</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
+                          gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Invoice No
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "success.main", lineHeight: 1.2 }}
-                        >
-                          SHU090984
-                        </Typography>
+                        <Typography variant="subtitle3">SHU090984</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
+                          gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Start Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "success.main", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Oct 15th 2023
                         </Typography>
                       </Box>
@@ -782,19 +670,13 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
+                          gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           End Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "success.main", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Nov 15th 2023
                         </Typography>
                       </Box>
@@ -808,8 +690,8 @@ export default function Home() {
                   xxl={4}
                   sx={{
                     "& .statusBtn": {
-                      color: "primary.contrastText",
-                      fontSize: { xs: "10px", lg: "12px" },
+                      color: "white",
+                      fontSize: "10px",
                       px: 0.75,
                       py: 0.5,
                       bgcolor: "grey.dark",
@@ -839,7 +721,6 @@ export default function Home() {
                     >
                       Shunyavkash CRM Design
                     </Typography>
-
                     <Box
                       sx={{ position: "absolute", top: "10px", right: "15px" }}
                     >
@@ -879,7 +760,7 @@ export default function Home() {
                     </Typography>
                     <Box
                       sx={{
-                        "&>*:not(:first-child)": { mt: 0.75 },
+                        "&>*:not(:first-child)": { mt: 1 },
                         maxWidth: "350px",
                       }}
                     >
@@ -888,86 +769,52 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Hour charge
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "secondary.main", lineHeight: 1.2 }}
-                        >
-                          $50
-                        </Typography>
+                        <Typography variant="subtitle3">$50</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Pay Period
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "secondary.main", lineHeight: 1.2 }}
-                        >
-                          4 Weeks
-                        </Typography>
+                        <Typography variant="subtitle3">4 Weeks</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Invoice No
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "secondary.main", lineHeight: 1.2 }}
-                        >
-                          SHU090984
-                        </Typography>
+                        <Typography variant="subtitle3">SHU090984</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Start Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "secondary.main", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Oct 15th 2023
                         </Typography>
                       </Box>
@@ -976,20 +823,13 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
-                          Start Date
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
+                          End Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "secondary.main", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Nov 15th 2023
                         </Typography>
                       </Box>
@@ -1003,8 +843,8 @@ export default function Home() {
                   xxl={4}
                   sx={{
                     "& .statusBtn": {
-                      color: "primary.contrastText",
-                      fontSize: { xs: "10px", lg: "12px" },
+                      color: "white",
+                      fontSize: "10px",
                       px: 0.75,
                       py: 0.5,
                       bgcolor: "grey.dark",
@@ -1074,7 +914,7 @@ export default function Home() {
                     </Typography>
                     <Box
                       sx={{
-                        "&>*:not(:first-child)": { mt: 0.75 },
+                        "&>*:not(:first-child)": { mt: 1 },
                         maxWidth: "350px",
                       }}
                     >
@@ -1083,86 +923,52 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Hour charge
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "success.main", lineHeight: 1.2 }}
-                        >
-                          $50
-                        </Typography>
+                        <Typography variant="subtitle3">$50</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Pay Period
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "success.main", lineHeight: 1.2 }}
-                        >
-                          4 Weeks
-                        </Typography>
+                        <Typography variant="subtitle3">4 Weeks</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Invoice No
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "success.main", lineHeight: 1.2 }}
-                        >
-                          SHU090984
-                        </Typography>
+                        <Typography variant="subtitle3">SHU090984</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Start Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "success.main", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Oct 15th 2023
                         </Typography>
                       </Box>
@@ -1171,20 +977,13 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           End Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "success.main", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Nov 15th 2023
                         </Typography>
                       </Box>
@@ -1198,8 +997,8 @@ export default function Home() {
                   xxl={4}
                   sx={{
                     "& .statusBtn": {
-                      color: "primary.contrastText",
-                      fontSize: { xs: "10px", lg: "12px" },
+                      color: "white",
+                      fontSize: "10px",
                       px: 0.75,
                       py: 0.5,
                       bgcolor: "grey.dark",
@@ -1229,7 +1028,6 @@ export default function Home() {
                     >
                       Shunyavkash CRM Design
                     </Typography>
-
                     <Box
                       sx={{ position: "absolute", top: "10px", right: "15px" }}
                     >
@@ -1269,7 +1067,7 @@ export default function Home() {
                     </Typography>
                     <Box
                       sx={{
-                        "&>*:not(:first-child)": { mt: 0.75 },
+                        "&>*:not(:first-child)": { mt: 1 },
                         maxWidth: "350px",
                       }}
                     >
@@ -1278,86 +1076,52 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Hour charge
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "grey.dark" }}
-                        >
-                          $50
-                        </Typography>
+                        <Typography variant="subtitle3">$50</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Pay Period
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "grey.dark", lineHeight: 1.2 }}
-                        >
-                          4 Weeks
-                        </Typography>
+                        <Typography variant="subtitle3">4 Weeks</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Invoice No
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "grey.dark", lineHeight: 1.2 }}
-                        >
-                          SHU090984
-                        </Typography>
+                        <Typography variant="subtitle3">SHU090984</Typography>
                       </Box>
                       <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           Start Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "grey.dark", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Oct 15th 2023
                         </Typography>
                       </Box>
@@ -1366,20 +1130,13 @@ export default function Home() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          color: "rgba(123, 119, 120, 1)",
                           gap: 2.5,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontWeight: "500", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
                           End Date
                         </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ color: "grey.dark", lineHeight: 1.2 }}
-                        >
+                        <Typography variant="subtitle3">
                           Nov 15th 2023
                         </Typography>
                       </Box>

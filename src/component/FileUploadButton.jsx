@@ -32,7 +32,10 @@ export default function FileUploadButton({ formik, id, label }) {
               alignItems: "center",
               px: 2,
               py: 0.75,
-              borderRadius: 2.5,
+              borderRadius: 1.5,
+              "&:hover": {
+                borderColor: "text.primary",
+              },
             }}
           >
             <Box
@@ -41,7 +44,6 @@ export default function FileUploadButton({ formik, id, label }) {
                 alignItems: "end",
                 height: { xs: "86px", sm: "186px" },
                 width: { xs: "86px", sm: "186px" },
-
                 gap: 1,
               }}
             >
@@ -51,7 +53,7 @@ export default function FileUploadButton({ formik, id, label }) {
                   height: "100%",
                   width: "100%",
                   objectFit: "cover",
-                  borderRadius: "10px",
+                  borderRadius: "6px",
                   padding: "8px",
                   border: "1px solid rgba(0,0,0,0.1)",
                 }}

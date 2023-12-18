@@ -200,7 +200,7 @@ export default function Manager() {
                 >
                   <TableHead>
                     <TableRow
-                      sx={{ "&>*": { lineHeight: 1, fontWeight: 700 } }}
+                      sx={{ "&>th": { lineHeight: 1, fontWeight: 700 } }}
                     >
                       <TableCell>manager</TableCell>
                       <TableCell>Company Name</TableCell>

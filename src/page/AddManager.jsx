@@ -182,6 +182,7 @@ export default function AddManager({ open, setOpen }) {
                   onChange={formik.handleChange}
                   value={formik.values.name}
                 />
+
                 <TextField
                   fullWidth
                   size="small"
@@ -252,6 +253,7 @@ export default function AddManager({ open, setOpen }) {
                       </MenuItem>
                     </Select>
                   </FormControl>
+
                   <TextField
                     fullWidth
                     size="small"
@@ -313,6 +315,7 @@ export default function AddManager({ open, setOpen }) {
                     )}
                   />
                 </FormControl>
+
                 <TextField
                   fullWidth
                   size="small"
@@ -325,6 +328,7 @@ export default function AddManager({ open, setOpen }) {
                   onChange={formik.handleChange}
                   value={formik.values.companyName}
                 />
+
                 <FormControl
                   fullWidth
                   size="small"
@@ -363,6 +367,7 @@ export default function AddManager({ open, setOpen }) {
                     )}
                   />
                 </FormControl>
+
                 <TextField
                   fullWidth
                   size="small"
@@ -376,7 +381,8 @@ export default function AddManager({ open, setOpen }) {
                   onChange={formik.handleChange}
                   value={formik.values.websiteURL}
                 />
-                <Box sx={{ gridColumn: { sm: "span 2" } }}>
+
+                <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
                   <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
                     Profile Image
                   </Typography>
@@ -386,7 +392,8 @@ export default function AddManager({ open, setOpen }) {
                     label={"Profile Image"}
                   />
                 </Box>
-                <Box sx={{ gridColumn: { sm: "span 2" } }}>
+
+                <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
                   <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
                     Company Logo
                   </Typography>
@@ -396,6 +403,7 @@ export default function AddManager({ open, setOpen }) {
                     label={"Company Logo"}
                   />
                 </Box>
+
                 <Box sx={{ gridColumn: { sm: "span 2" } }}>
                   <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
                     Signature
@@ -452,10 +460,9 @@ export default function AddManager({ open, setOpen }) {
                     position: "relative",
                     px: 2.5,
                     py: 1.5,
-                    bgcolor: "error.main",
                     border: "1px solid",
                     borderColor: "error.main",
-                    color: "white",
+                    color: "error.main",
                     lineHeight: 1,
                     borderRadius: 2.5,
                     overflow: "hidden",
@@ -467,14 +474,13 @@ export default function AddManager({ open, setOpen }) {
                       top: "50%",
                       left: "50%",
                       zIndex: "0",
-                      bgcolor: "white",
+                      bgcolor: "error.main",
                       transform: "rotate(-45deg) translate(-50%, -50%)",
                       transformOrigin: "0% 0%",
                       transition: "all 0.4s ease-in-out",
                     },
                     "&:hover": {
-                      color: "error.main",
-                      bgcolor: "error.main",
+                      color: "white",
                       "&:before": { height: "10rem" },
                     },
                   }}

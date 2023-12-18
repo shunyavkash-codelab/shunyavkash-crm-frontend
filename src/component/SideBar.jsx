@@ -114,13 +114,9 @@ export default function SideBar({
                 sx={{
                   transition: "all 0.4s ease-in-out",
                   "&:hover": {
-                    boxShadow:
-                      location.pathname != item.link &&
-                      "0 0 4px 2px rgb(22, 119, 255, 20%)",
+                    boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
                     "& svg": {
-                      animation:
-                        location.pathname != item.link &&
-                        "swing ease-in-out 0.4s alternate",
+                      animation: "swing ease-in-out 0.4s alternate",
                     },
                   },
                   "&:not(:first-child)": { mt: 0.75 },
