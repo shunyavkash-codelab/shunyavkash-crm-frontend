@@ -9,6 +9,7 @@ import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
 import { useAuth } from "../hooks/store/useAuth";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +22,18 @@ export default function SignIn() {
     event.preventDefault();
   };
 
+  // yup data validator schhema
+  const schema = Yup.object({
+    email: Yup.string()
+      .email("Field should contain a valid e-mail")
+      .max(255)
+      .required("email is required.")
+      .trim(),
+    password: Yup.string().required("Password is required.").trim(),
+  });
+
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       email: "",
       password: "",
@@ -119,6 +131,8 @@ export default function SignIn() {
                 }}
                 onChange={formik.handleChange}
                 value={formik.values.email}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
               />
               <Box sx={{ position: "relative" }}>
                 <TextField
@@ -136,6 +150,10 @@ export default function SignIn() {
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.password}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={formik.touched.password && formik.errors.password}
                 />
                 <Box
                   onClick={handleClickShowPassword}
@@ -185,7 +203,7 @@ export default function SignIn() {
             >
               Forgot password?
             </Link>
-            <Typography sx={{ fontSize: "14px" }}>
+            {/* <Typography sx={{ fontSize: "14px" }}>
               Don't have an account?
               <Link
                 underline="none"
@@ -199,7 +217,7 @@ export default function SignIn() {
               >
                 Sign up
               </Link>
-            </Typography>
+            </Typography> */}
           </Box>
         </Box>
       </Box>

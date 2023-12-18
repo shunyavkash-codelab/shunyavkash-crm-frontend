@@ -9,6 +9,7 @@ import { APIS } from "../api/apiList";
 import { useFormik } from "formik";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as Yup from "yup";
+import VisibilityIconSet from "../component/VisibilityIconSet";
 
 export default function ConfirmPassword() {
   const [showPassword, setShowPassword] = useState(false);
@@ -112,93 +113,18 @@ export default function ConfirmPassword() {
                   }}
                 >
                   <Box sx={{ position: "relative" }}>
-                    <TextField
-                      required
-                      fullWidth
-                      size="small"
-                      id="password"
-                      label="Password"
-                      autoComplete="off"
-                      type={showPassword ? "text" : "password"}
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "& input": { pr: 5 },
-                      }}
-                      onChange={formik.handleChange}
-                      value={formik.values.password}
-                      error={
-                        formik.touched.password &&
-                        Boolean(formik.errors.password)
-                      }
-                      helperText={
-                        formik.touched.password && formik.errors.password
-                      }
+                    <VisibilityIconSet
+                      formik={formik}
+                      id={"password"}
+                      label={"Password"}
                     />
-                    <Box
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      sx={{
-                        position: "absolute",
-                        top: "50%",
-                        right: "16px",
-                        opacity: "50%",
-                        cursor: "pointer",
-                        transform: "translateY(-50%)",
-                        display: "inline-flex",
-                        "& svg": { fontSize: "20px" },
-                      }}
-                    >
-                      {showPassword ? (
-                        <VisibilityIcon />
-                      ) : (
-                        <VisibilityOffIcon />
-                      )}
-                    </Box>
                   </Box>
                   <Box sx={{ position: "relative" }}>
-                    <TextField
-                      required
-                      fullWidth
-                      size="small"
-                      id="confirm_password"
-                      label="Confirm Password"
-                      autoComplete="off"
-                      type={showPassword ? "text" : "password"}
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "& input": { pr: 5 },
-                      }}
-                      onChange={formik.handleChange}
-                      value={formik.values.confirm_password}
-                      error={
-                        formik.touched.confirm_password &&
-                        Boolean(formik.errors.confirm_password)
-                      }
-                      helperText={
-                        formik.touched.confirm_password &&
-                        formik.errors.confirm_password
-                      }
+                    <VisibilityIconSet
+                      formik={formik}
+                      id={"confirm_password"}
+                      label={"Confirm Password"}
                     />
-                    <Box
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      sx={{
-                        position: "absolute",
-                        top: "50%",
-                        right: "16px",
-                        opacity: "50%",
-                        cursor: "pointer",
-                        transform: "translateY(-50%)",
-                        display: "inline-flex",
-                        "& svg": { fontSize: "20px" },
-                      }}
-                    >
-                      {showPassword ? (
-                        <VisibilityIcon />
-                      ) : (
-                        <VisibilityOffIcon />
-                      )}
-                    </Box>
                   </Box>
                   <Button
                     disableRipple
@@ -217,7 +143,7 @@ export default function ConfirmPassword() {
                   </Button>
                 </Box>
               </Box>
-              <Box sx={{ mt: 2.5 }}>
+              {/* <Box sx={{ mt: 2.5 }}>
                 <Typography sx={{ fontSize: "14px" }}>
                   Don't have an account?
                   <Link
@@ -233,7 +159,7 @@ export default function ConfirmPassword() {
                     Sign up
                   </Link>
                 </Typography>
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         </Box>

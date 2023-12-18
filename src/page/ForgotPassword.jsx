@@ -5,12 +5,23 @@ import { APIS } from "../api/apiList";
 import { useFormik } from "formik";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
+import * as Yup from "yup";
 
 export default function ForgotPassword() {
   const { setSnack } = useSnack();
   const { apiCall, isLoading } = useApi();
 
+  // yup data validator schhema
+  const schema = Yup.object({
+    email: Yup.string()
+      .email("Field should contain a valid e-mail")
+      .max(255)
+      .required("email is required.")
+      .trim(),
+  });
+
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       email: "",
     },
@@ -93,6 +104,8 @@ export default function ForgotPassword() {
                 }}
                 onChange={formik.handleChange}
                 value={formik.values.email}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
               />
               <Button
                 disableRipple
@@ -111,7 +124,7 @@ export default function ForgotPassword() {
               </Button>
             </Box>
           </Box>
-          <Box sx={{ mt: 2.5 }}>
+          {/* <Box sx={{ mt: 2.5 }}>
             <Typography sx={{ fontSize: "14px" }}>
               Don't have an account?
               <Link
@@ -127,7 +140,7 @@ export default function ForgotPassword() {
                 Sign up
               </Link>
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </Box>
