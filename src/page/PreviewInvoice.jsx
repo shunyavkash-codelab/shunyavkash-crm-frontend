@@ -12,47 +12,16 @@ import {
   TableBody,
   TableFooter,
   Button,
+  Divider,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import { useAuth } from "../hooks/store/useAuth";
-// import { textField, FormikProvider, useFormik } from "formik";
 
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
-
-  // const formik = useFormik({
-  //   initialValues: {
-  //     name: "",
-  //     email: "",
-  //     mobileNumber: "",
-  //     gender: "",
-  //     companyName: "",
-  //     websiteURL: "",
-  //     address: "",
-  //     profile_img: undefined,
-  //     companyLogo: undefined,
-  //     mobileCode: "+1",
-  //   },
-  //   onSubmit: async (values) => {
-  //     try {
-  //       const res = await apiCall({
-  //         url: APIS.CLIENT.ADD,
-  //         method: "post",
-  //         data: JSON.stringify(values, null, 2),
-  //       });
-  //       if (res.status === 201) {
-  //         setSnack(res.data.message);
-  //         navigate("/clients");
-  //       }
-  //     } catch (error) {
-  //       let errorMessage = error.response.data.message;
-  //       setSnack(errorMessage, "warning");
-  //     }
-  //   },
-  // });
 
   return (
     <>
@@ -112,22 +81,87 @@ export default function Invoices() {
                   gap: 2,
                 }}
               >
+                <Box sx={{ textAlign: "right", alignSelf: "end" }}>
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontSize: "28px",
+                      textTransform: "capitalize",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    Shunyavkash PVT. LTD
+                  </Typography>
+                  <Box>
+                    <Box
+                      sx={{
+                        mt: 0.25,
+                        "&>*:not(:first-child)": {
+                          mt: 3,
+                        },
+                        textAlign: "left",
+                      }}
+                    >
+                      {/* <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
+                        Invoice no:
+                      </Typography> */}
+                      <Typography
+                        variant="subtitle3"
+                        sx={{ lineHeight: 1.6, fontSize: "13px" }}
+                      >
+                        311, Ambika Pinnacle, Lajamni chowk,
+                        <br /> Mota varachha, Surat- 395006
+                      </Typography>
+
+                      <Box
+                        sx={{
+                          mt: 0.25,
+                          "&>*:not(:first-child)": {
+                            mt: 0,
+                          },
+                          textAlign: "left",
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle3"
+                          sx={{
+                            lineHeight: 1.6,
+                            display: "block",
+                            fontSize: "13px",
+                          }}
+                        >
+                          +91 8155926380
+                        </Typography>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{
+                            lineHeight: 1.6,
+                            display: "block",
+                            fontSize: "13px",
+                          }}
+                        >
+                          hiren.polra@shunyavkash.com
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
                 <Box
                   sx={{
                     maxHeight: "140px",
-                    maxWidth: "170px",
+                    maxWidth: "200px",
                     minWidth: "80px",
                     flexShrink: 0,
                   }}
                 >
-                  {/* <img
-                    src="https://vex.visurel.com/assets/img/logo/logo.svg"
+                  <img
+                    src="/images/logo.svg"
                     style={{
                       maxHeight: "inherit",
                       width: "100%",
                       display: "block",
                     }}
-                  /> */}
+                  />
 
                   {/* allowed img component */}
                   {/* <FormikProvider value={formik}>
@@ -149,156 +183,313 @@ export default function Invoices() {
                     </Box>
                   </FormikProvider> */}
                 </Box>
+              </Box>
 
-                <Box sx={{ textAlign: "right", alignSelf: "end" }}>
-                  <Typography variant="h4" sx={{ textTransform: "capitalize" }}>
-                    US Invoice
-                  </Typography>
-                  <Box
-                    sx={{
-                      mt: 3.75,
-                      "&>*:not(:first-child)": {
+              <Box sx={{ my: 4 }}>
+                <Divider sx={{ bgcolor: "divider", height: 3 }} />
+              </Box>
+
+              <Box sx={{ textAlign: "right", alignSelf: "end" }}>
+                <Typography variant="h4">Invoice</Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    mt: 6,
+                    gap: 2,
+                  }}
+                >
+                  <Box sx={{ textAlign: "left" }}>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontWeight: 700, lineHeight: 1 }}
+                    >
+                      Bill to
+                    </Typography>
+                    <Typography variant="h6" sx={{ mt: 1.25 }}>
+                      Hiren Polara
+                    </Typography>
+                    <Box
+                      sx={{
+                        mt: 2.25,
+                        "&>*": {
+                          display: "block",
+                          "&:not(:first-child)": { mt: 1 },
+                        },
+                      }}
+                    >
+                      <Typography
+                        variant="subtitle3"
+                        sx={{ lineHeight: 1.6, fontSize: "13px" }}
+                      >
+                        311, Ambika Pinnacle, Lajamni chowk,
+                        <br /> Mota varachha, Surat- 395006
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box sx={{ textAlign: "right", alignSelf: "start", mt: 0 }}>
+                    <Box
+                      sx={{
                         mt: 1,
-                      },
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 3.75,
+                        "&>*:not(:first-child)": {
+                          mt: 1,
+                        },
                       }}
                     >
-                      <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
-                        Invoice no:
-                      </Typography>
-                      <Typography variant="subtitle3">001</Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 3.75,
-                      }}
-                    >
-                      <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
-                        Invoice Date:
-                      </Typography>
-                      <Typography variant="subtitle3">
-                        Dec 13th, 2023
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 3.75,
-                      }}
-                    >
-                      <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
-                        Due:
-                      </Typography>
-                      <Typography variant="subtitle3">
-                        Jan 13th, 2023
-                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 3.75,
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ opacity: "0.75", fontSize: "13px" }}
+                        >
+                          Invoice No:
+                        </Typography>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ fontSize: "13px" }}
+                        >
+                          001
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 3.75,
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ opacity: "0.75", fontSize: "13px" }}
+                        >
+                          Invoice Date:
+                        </Typography>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ fontSize: "13px" }}
+                        >
+                          Dec 13th,2023
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 3.75,
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ opacity: "0.75", fontSize: "13px" }}
+                        >
+                          Due:
+                        </Typography>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ fontSize: "13px" }}
+                        >
+                          Jan 13th,2023
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
+
+                  {/* <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
+                      Invoice no:
+                    </Typography>
+                    <Typography variant="subtitle3">
+                      311, Ambika Pinnacle, Lajamni chowk,
+                    </Typography>
+                  </Box>
+
+                  <Box>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontWeight: 700, lineHeight: 1 }}
+                    >
+                      From
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      sx={{ textTransform: "capitalize", lineHeight: 1, mt: 1 }}
+                    >
+                      Saldo apps
+                    </Typography>
+                    <Box
+                      sx={{
+                        mt: 2.25,
+                        "&>*": {
+                          display: "block",
+                          "&:not(:first-child)": { mt: 1 },
+                        },
+                      }}
+                    >
+                      <Typography
+                        variant="subtitle3"
+                        sx={{ lineHeight: 1.6, fontSize: "13px" }}
+                      >
+                        John Smith <br /> wiz@saladoapps.com <br /> 0123456789
+                        <br /> First str.,28-32,chicago, USA
+                      </Typography>
+                    </Box>
+                  </Box> */}
                 </Box>
+
+                {/* <Typography
+                  variant="h4"
+                  sx={{
+                    textTransform: "capitalize",
+                    pb: 4,
+                    textAlign: "right",
+                    alignSelf: "end",
+                  }}
+                >
+                  Xyz
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 1,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: 1,
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{ textTransform: "capitalize" }}
+                    >
+                      Bill To
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      sx={{ textTransform: "capitalize" }}
+                    >
+                      Hiren Polara
+                      <Box>
+                        <Box
+                          sx={{
+                            mt: 1,
+                            "&>*:not(:first-child)": {
+                              mt: 1,
+                            },
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              gap: 1,
+                            }}
+                          >
+                            <Typography variant="subtitle3">
+                              311, Ambika Pinnacle, Lajamni chowk,
+                            </Typography>
+                          </Box>
+                          <Box
+                            sx={{
+                              gap: 1,
+                            }}
+                          >
+                            <Typography variant="subtitle3">
+                              Mota varachha, Surat- 395006
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+                    </Typography>
+                  </Box>
+                  <Box sx={{ textAlign: "right", alignSelf: "start", mt: 0 }}>
+                    <Box
+                      sx={{
+                        mt: 1,
+                        "&>*:not(:first-child)": {
+                          mt: 1,
+                        },
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
+                          Invoice no:
+                        </Typography>
+                        <Typography variant="subtitle3">
+                          311, Ambika Pinnacle, Lajamni chowk,
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 3.75,
+                        }}
+                      >
+                        <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
+                          Invoice Date:
+                        </Typography>
+                        <Typography variant="subtitle3">
+                          Mota varachha, Surat- 395006
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box> */}
               </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  mt: 6,
-                  gap: 2,
-                }}
-              >
-                <Box>
+            </Box>
+
+            <Box
+              sx={{
+                mt: 6,
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="body1"
+                  sx={{ fontWeight: 700, lineHeight: 1 }}
+                >
+                  Project
+                </Typography>
+                <Typography variant="h6" sx={{ lineHeight: 1, mt: 1 }}>
+                  Shunyavkash CRM
+                </Typography>
+                <Box
+                  sx={{
+                    mt: 2.25,
+                    maxWidth: "500px",
+                    "&>*": {
+                      display: "block",
+                      "&:not(:first-child)": { mt: 1 },
+                    },
+                  }}
+                >
                   <Typography
-                    variant="body1"
-                    sx={{ fontWeight: 700, lineHeight: 1 }}
+                    variant="subtitle3"
+                    sx={{ lineHeight: 1.6, fontSize: "13px" }}
                   >
-                    From
+                    In this project we have created design & dynamic.
                   </Typography>
-                  <Typography
-                    variant="h6"
-                    sx={{ textTransform: "capitalize", lineHeight: 1, mt: 1 }}
-                  >
-                    Saldo apps
-                  </Typography>
-                  <Box
-                    sx={{
-                      mt: 2.25,
-                      "&>*": {
-                        display: "block",
-                        "&:not(:first-child)": { mt: 1 },
-                      },
-                    }}
-                  >
-                    <Typography variant="subtitle3" sx={{ lineHeight: 1.6 }}>
-                      John Smith <br /> wiz@saladoapps.com <br /> 0123456789{" "}
-                      <br /> First str.,28-32,chicago, USA
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box sx={{ textAlign: "right" }}>
-                  <Typography
-                    variant="body1"
-                    sx={{ fontWeight: 700, lineHeight: 1 }}
-                  >
-                    Bill to
-                  </Typography>
-                  <Typography variant="h6" sx={{ lineHeight: 1, mt: 1 }}>
-                    Shepard corp.
-                  </Typography>
-                  <Box
-                    sx={{
-                      mt: 2.25,
-                      "&>*": {
-                        display: "block",
-                        "&:not(:first-child)": { mt: 1 },
-                      },
-                    }}
-                  >
-                    <Typography variant="subtitle3" sx={{ lineHeight: 1.6 }}>
-                      shepard@mail.com <br /> 0123456789 <br /> North
-                      str.,32,chicago, USA
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  mt: 6,
-                }}
-              >
-                <Box>
-                  <Typography
-                    variant="body1"
-                    sx={{ fontWeight: 700, lineHeight: 1 }}
-                  >
-                    Project
-                  </Typography>
-                  <Typography variant="h6" sx={{ lineHeight: 1, mt: 1 }}>
-                    Shunyavkash CRM
-                  </Typography>
-                  <Box
-                    sx={{
-                      mt: 2.25,
-                      maxWidth: "500px",
-                      "&>*": {
-                        display: "block",
-                        "&:not(:first-child)": { mt: 1 },
-                      },
-                    }}
-                  >
-                    <Typography variant="subtitle3" sx={{ lineHeight: 1.6 }}>
-                      In this project we have created design & dynamic.
-                    </Typography>
-                  </Box>
                 </Box>
               </Box>
             </Box>
+
             <Box sx={{ mt: 10 }}>
               <TableContainer
                 component={Paper}
@@ -431,38 +622,165 @@ export default function Invoices() {
                 >
                   Bank Details
                 </Typography>
-                <Box
+                {/* <Box
                   sx={{
-                    mt: 2.25,
+                    mt: 1,
                     "&>*": {
-                      display: "block",
+                      // display: "block",
                       "&:not(:first-child)": { mt: 1 },
                     },
                   }}
                 >
-                  <Typography variant="subtitle3">
-                    Make checks payable to
-                  </Typography>
                   <Typography
                     variant="subtitle3"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    John Smith
-                  </Typography>
+                    sx={{ fontSize: "13px" }}
+                  ></Typography>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{ fontSize: "13px" }}
+                  ></Typography>
                 </Box>
                 <Box
                   sx={{
-                    mt: 2.25,
+                    mt: 1,
                     "&>*": {
-                      display: "block",
+                      // display: "block",
                       "&:not(:first-child)": { mt: 1 },
                     },
                   }}
                 >
-                  <Typography variant="subtitle3">Bank Transfer</Typography>
-                  <Typography variant="subtitle3">
-                    Rounting (ABA): 4564545146
-                  </Typography>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{ fontSize: "13px" }}
+                  ></Typography>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{ fontSize: "13px" }}
+                  ></Typography>
+                </Box>
+                <Box
+                  sx={{
+                    mt: 1,
+                    "&>*": {
+                      // display: "block",
+                      "&:not(:first-child)": { mt: 1 },
+                    },
+                  }}
+                >
+                  <Typography
+                    variant="subtitle3"
+                    sx={{ fontSize: "13px" }}
+                  ></Typography>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{ fontSize: "13px" }}
+                  ></Typography>
+                </Box> */}
+
+                <Box
+                  sx={{
+                    ml: "auto",
+                    mt: 1.75,
+                    flexShrink: 0,
+                    "&>*": { "&:not(:first-child)": { mt: 1.75 } },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: 15,
+                      "&>*": {
+                        lineHeight: "1!important",
+                        display: "block",
+                      },
+                    }}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ textTransform: "capitalize", opacity: 0.75 }}
+                    >
+                      Bank Name :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ textTransform: "capitalize" }}
+                    >
+                      Bank of baroda
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: 15,
+                      "&>*": {
+                        lineHeight: "1!important",
+                        display: "block",
+                      },
+                    }}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ textTransform: "capitalize", opacity: 0.75 }}
+                    >
+                      IFSC Code :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ textTransform: "capitalize" }}
+                    >
+                      BOBN0005943
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: 15,
+                      "&>*": {
+                        lineHeight: "1!important",
+                        display: "block",
+                      },
+                    }}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ textTransform: "capitalize", opacity: 0.75 }}
+                    >
+                      Account Holder Name :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ textTransform: "capitalize" }}
+                    >
+                      XYZ
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: 15,
+                      "&>*": {
+                        lineHeight: "1!important",
+                        display: "block",
+                      },
+                    }}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ textTransform: "capitalize", opacity: 0.75 }}
+                    >
+                      Account No :
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ textTransform: "capitalize" }}
+                    >
+                      9510132728
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
               <Box
@@ -647,6 +965,7 @@ export default function Invoices() {
                 </Box>
               </Box>
             </Box>
+
             <Box
               sx={{
                 display: "flex",
@@ -671,7 +990,7 @@ export default function Invoices() {
                     },
                   }}
                 >
-                  <Typography variant="subtitle3">
+                  <Typography variant="subtitle3" sx={{ fontSize: "13px" }}>
                     ptototype-based programming is a style of object-oriented
                     programming in which behaviour.
                   </Typography>
@@ -722,7 +1041,7 @@ export default function Invoices() {
                 },
               }}
             >
-              <span style={{ position: "relative" }}>save</span>
+              <span style={{ position: "relative" }}>generate</span>
             </Button>
             <Link to="/invoices/add">
               <Button

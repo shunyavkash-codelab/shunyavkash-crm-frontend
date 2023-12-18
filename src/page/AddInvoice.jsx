@@ -17,6 +17,7 @@ import {
   Select,
   MenuItem,
   Button,
+  Input,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -121,48 +122,39 @@ export default function Invoices() {
                   gap: 2,
                 }}
               >
-                <Box
-                  sx={{
-                    maxHeight: "140px",
-                    maxWidth: "170px",
-                    minWidth: "80px",
-                    flexShrink: 0,
-                  }}
-                >
-                  <img
-                    src="https://vex.visurel.com/assets/img/logo/logo.svg"
-                    style={{
-                      maxHeight: "inherit",
-                      width: "100%",
-                      display: "block",
-                    }}
-                  />
-                </Box>
                 <Box sx={{ textAlign: "right", alignSelf: "end" }}>
-                  <Typography variant="h4" sx={{ textTransform: "capitalize" }}>
-                    US Invoice
-                  </Typography>
-                  <Box
-                    sx={{
-                      mt: 3.75,
-                      "&>*:not(:first-child)": {
-                        mt: 1,
-                      },
-                    }}
+                  <Typography
+                    variant="h4"
+                    sx={{ textTransform: "capitalize", lineHeight: "1.5" }}
                   >
+                    Shunyavkash PVT. LTD
+                  </Typography>
+                  <Box>
                     <Box
                       sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 3.75,
+                        mt: 3.75,
+                        "&>*:not(:first-child)": {
+                          mt: 1,
+                        },
+                        textAlign: "left",
                       }}
                     >
-                      <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
+                      {/* <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
                         Invoice no:
+                      </Typography> */}
+                      <Typography variant="subtitle3" sx={{ lineHeight: 1.6 }}>
+                        311, Ambika Pinnacle, Lajamni chowk,
+                        <br /> Mota varachha, Surat- 395006
                       </Typography>
-                      <Typography variant="subtitle3">001</Typography>
+                      <Typography
+                        variant="subtitle3"
+                        sx={{ lineHeight: 1.6, display: "block" }}
+                      >
+                        +91 8155926380
+                        <br /> hiren.polra@shunyavkash.com
+                      </Typography>
                     </Box>
-                    <Box
+                    {/* <Box
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
@@ -175,8 +167,8 @@ export default function Invoices() {
                       <Typography variant="subtitle3">
                         Dec 13th, 2023
                       </Typography>
-                    </Box>
-                    <Box
+                    </Box> */}
+                    {/* <Box
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
@@ -189,8 +181,25 @@ export default function Invoices() {
                       <Typography variant="subtitle3">
                         Jan 13th, 2023
                       </Typography>
-                    </Box>
+                    </Box> */}
                   </Box>
+                </Box>
+                <Box
+                  sx={{
+                    maxHeight: "140px",
+                    maxWidth: "200px",
+                    minWidth: "80px",
+                    flexShrink: 0,
+                  }}
+                >
+                  <img
+                    src="https://vex.visurel.com/assets/img/logo/logo.svg"
+                    style={{
+                      maxHeight: "inherit",
+                      width: "100%",
+                      display: "block",
+                    }}
+                  />
                 </Box>
               </Box>
               <Box
@@ -598,7 +607,37 @@ export default function Invoices() {
                     >
                       HDFC
                     </MenuItem>
+                    <MenuItem
+                      sx={{ textTransform: "capitalize" }}
+                      value={"Kotak"}
+                    >
+                      Custom Add
+                    </MenuItem>
                   </Select>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="Acc Holder"
+                    label="Account Holder Name"
+                    autoComplete="off"
+                    multiline
+                    sx={{
+                      mt: 2.25,
+                      width: "300px",
+                      "&>label,& input,&>div": { fontSize: "12px" },
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="ifsc"
+                    label="IFSC Code"
+                    sx={{
+                      mt: 2.25,
+                      width: "300px",
+                      "&>label,& input,&>div": { fontSize: "12px" },
+                    }}
+                  />
                 </FormControl>
               </Box>
               <Box
