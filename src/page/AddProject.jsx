@@ -10,6 +10,7 @@ import {
   Select,
   TextField,
   Typography,
+  Autocomplete,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -23,26 +24,26 @@ import { useNavigate } from "react-router-dom";
 import { Field, FormikProvider, useFormik } from "formik";
 import { APIS } from "../api/apiList";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-    },
-  },
-};
+// const ITEM_HEIGHT = 48;
+// const ITEM_PADDING_TOP = 8;
+// const MenuProps = {
+//   PaperProps: {
+//     style: {
+//       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+//     },
+//   },
+// };
 
-const names = ["Oliver Hansen", "Van Henry", "April Tucker", "Ralph Hubbard"];
+// const names = ["Oliver Hansen", "Van Henry", "April Tucker", "Ralph Hubbard"];
 
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
+// function getStyles(name, personName, theme) {
+//   return {
+//     fontWeight:
+//       personName.indexOf(name) === -1
+//         ? theme.typography.fontWeightRegular
+//         : theme.typography.fontWeightMedium,
+//   };
+// }
 
 export default function AddProject({ open, setOpen }) {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -55,6 +56,7 @@ export default function AddProject({ open, setOpen }) {
   const { setSnack } = useSnack();
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
+  const [countryList, setCountryList] = useState([]);
 
   const formik = useFormik({
     initialValues: {
@@ -117,6 +119,20 @@ export default function AddProject({ open, setOpen }) {
   //     typeof value === "string" ? value.split(",") : value
   //   );
   // };
+
+  const fetchCountry = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.COUNTRY.GET,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setCountryList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
 
   return (
     <>
@@ -253,7 +269,7 @@ export default function AddProject({ open, setOpen }) {
                     },
                   }}
                 >
-                  <FormControl
+                  {/* <FormControl
                     size="small"
                     sx={{
                       minWidth: "85px",
@@ -301,7 +317,58 @@ export default function AddProject({ open, setOpen }) {
                         </Box>
                       </MenuItem>
                     </Select>
-                  </FormControl>
+                  </FormControl> */}
+                  <Autocomplete
+                    size="small"
+                    id="country-select-demo"
+                    sx={{
+                      flexShrink: 0,
+                      width: "85px",
+                      "& input": { fontSize: "14px" },
+                      "& button[title='Clear']": { display: "none" },
+                      "& fieldset": {
+                        borderRadius: "6px 0 0 6px",
+                        borderRight: 0,
+                      },
+                      "&>div>div": {
+                        pr: "24px!important",
+                        bgcolor: "#f4f4f4",
+                      },
+                      "& input+div": {
+                        right: "0!important",
+                      },
+                    }}
+                    options={countryList}
+                    autoHighlight
+                    getOptionLabel={(option) => option.phone}
+                    renderOption={(props, option) => (
+                      <Box
+                        component="li"
+                        sx={{
+                          "& > img": { mr: 0.75, flexShrink: 0 },
+                          fontSize: { xs: "12px", sm: "14px" },
+                        }}
+                        {...props}
+                      >
+                        <img
+                          loading="lazy"
+                          width="20"
+                          height="14"
+                          src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                        />
+                        +{option.phone}
+                      </Box>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                        }}
+                      />
+                    )}
+                  />
                   <TextField
                     fullWidth
                     size="small"

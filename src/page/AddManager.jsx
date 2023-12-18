@@ -10,6 +10,7 @@ import {
   Select,
   TextField,
   Typography,
+  Autocomplete,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -41,6 +42,7 @@ export default function AddManager({ open, setOpen }) {
   const { setSnack } = useSnack();
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
+  const [countryList, setCountryList] = useState([]);
 
   const [age, setAge] = React.useState("");
   const handleChange = (event) => {
@@ -96,6 +98,20 @@ export default function AddManager({ open, setOpen }) {
   useEffect(() => {
     fetchManagers();
   }, []);
+
+  const fetchCountry = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.COUNTRY.GET,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setCountryList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
 
   return (
     <>
@@ -204,55 +220,57 @@ export default function AddManager({ open, setOpen }) {
                     },
                   }}
                 >
-                  <FormControl
+                  <Autocomplete
                     size="small"
+                    id="country-select-demo"
                     sx={{
-                      minWidth: "102px",
-                      maxWidth: "102px",
-                      bgcolor: "#f4f4f4",
+                      flexShrink: 0,
+                      width: { xs: "100px", sm: "120px" },
+                      "& input": { fontSize: "14px" },
+                      "& button[title='Clear']": { display: "none" },
+                      "& fieldset": {
+                        borderRadius: "6px 0 0 6px",
+                        borderRight: 0,
+                      },
+                      "&>div>div": {
+                        pr: "24px!important",
+                        bgcolor: "#f4f4f4",
+                      },
+                      "& input+div": {
+                        right: "0!important",
+                      },
                     }}
-                  >
-                    <Select
-                      sx={{
-                        fontSize: "14px",
-                        "& input,&>div": { fontSize: "14px" },
-                        "&>div": {
-                          pr: "24px!important",
-                          display: "flex",
-                          alignItems: "center",
-                        },
-                        "&>svg": { fontSize: "18px" },
-                        "& fieldset": {
-                          borderRadius: "6px 0 0 6px",
-                          borderRight: 0,
-                        },
-                      }}
-                    >
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"+91"}
+                    options={countryList}
+                    autoHighlight
+                    getOptionLabel={(option) => option.phone}
+                    renderOption={(props, option) => (
+                      <Box
+                        component="li"
+                        sx={{
+                          "& > img": { mr: 0.75, flexShrink: 0 },
+                          fontSize: { xs: "12px", sm: "14px" },
+                        }}
+                        {...props}
                       >
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 0.75,
-                          }}
-                        >
-                          <img
-                            src="https://img.freepik.com/free-vector/illustration-india-flag_53876-27130.jpg"
-                            style={{ maxHeight: "14px", maxWidth: "25px" }}
-                          ></img>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ lineHeight: 1 }}
-                          >
-                            +91
-                          </Typography>
-                        </Box>
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
+                        <img
+                          loading="lazy"
+                          width="20"
+                          height="14"
+                          src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                        />
+                        +{option.phone}
+                      </Box>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                        }}
+                      />
+                    )}
+                  />
 
                   <TextField
                     fullWidth
