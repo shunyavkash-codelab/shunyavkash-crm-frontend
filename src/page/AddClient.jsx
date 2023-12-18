@@ -43,7 +43,6 @@ export default function AddClient() {
       mobileCode: clientList?.mobileCode,
     },
     onSubmit: async (values) => {
-      console.log(values, "---------------------------46------------------");
       try {
         const res = await apiCall({
           url: id ? APIS.CLIENT.EDIT(id) : APIS.CLIENT.ADD,
@@ -52,10 +51,6 @@ export default function AddClient() {
         });
         if (res.data.success === true) {
           setSnack(res.data.message);
-          console.log(
-            res.data.data,
-            "-------------------------------------56------------------"
-          );
           !id && navigate("/clients");
         }
       } catch (error) {
@@ -76,10 +71,6 @@ export default function AddClient() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setClientList(res.data.data);
-        console.log(
-          res.data.data,
-          "------------------------------74----------------"
-        );
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -125,13 +116,13 @@ export default function AddClient() {
               variant="h5"
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
-              Add Client
+              {clientList ? "Edit Client" : "Add Client"}
             </Typography>
             <Typography
               variant="subtitle2"
               sx={{ opacity: 0.4, textTransform: "capitalize" }}
             >
-              Add Client
+              {clientList ? "Edit Client" : "Add Client"}
             </Typography>
           </Box>
           {(clientList || id === undefined) && (
@@ -451,15 +442,16 @@ export default function AddClient() {
                     >
                       Profile Image
                     </Typography>
-                    <img
+                    {/* <img
                       src={clientList.profile_img}
                       alt="Profile"
                       style={{ maxWidth: "100%", maxHeight: "200px" }}
-                    />
+                    /> */}
                     <FileUploadButton
                       formik={formik}
                       id={"profile_img"}
                       label={"Profile Image"}
+                      value={clientList.profile_img}
                     />
                   </Box>
 
@@ -470,15 +462,16 @@ export default function AddClient() {
                     >
                       Company Logo
                     </Typography>
-                    <img
+                    {/* <img
                       src={clientList.companyLogo}
                       alt="Compnay logo"
                       style={{ maxWidth: "100%", maxHeight: "200px" }}
-                    />
+                    /> */}
                     <FileUploadButton
                       formik={formik}
                       id={"companyLogo"}
                       label={"Company Logo"}
+                      value={clientList.companyLogo}
                     />
                   </Box>
                 </Box>

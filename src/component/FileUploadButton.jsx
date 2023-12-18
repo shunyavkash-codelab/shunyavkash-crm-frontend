@@ -17,9 +17,8 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function FileUploadButton({ formik, id, label }) {
-  const [file, setFile] = useState(false);
-
+export default function FileUploadButton({ formik, id, label, value }) {
+  const [file, setFile] = useState(value);
   return (
     <>
       {file ? (
