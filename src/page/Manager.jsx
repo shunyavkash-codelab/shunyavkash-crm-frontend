@@ -273,6 +273,7 @@ export default function Manager() {
                           >
                             <Box>
                               <Button
+                                disableRipple
                                 sx={{
                                   p: 0,
                                   minWidth: "auto",
