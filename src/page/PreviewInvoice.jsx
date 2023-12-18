@@ -162,26 +162,6 @@ export default function Invoices() {
                       display: "block",
                     }}
                   />
-
-                  {/* allowed img component */}
-                  {/* <FormikProvider value={formik}>
-                    <Box
-                      component="label"
-                      sx={{ gridColumn: { sm: "span 2" } }}
-                    >
-                      <Typography
-                        variant="subtitle1"
-                        sx={{ lineHeight: 1, mb: 1 }}
-                      >
-                        only allowed png and transparent images
-                      </Typography>
-                      <FileUploadButton
-                        formik={formik}
-                        id={"only allowed png and transparent images"}
-                        label={"only allowed png and transparent images"}
-                      />
-                    </Box>
-                  </FormikProvider> */}
                 </Box>
               </Box>
 
@@ -245,7 +225,7 @@ export default function Invoices() {
                       >
                         <Typography
                           variant="subtitle3"
-                          sx={{ opacity: "0.75", fontSize: "13px" }}
+                          sx={{ opacity: "0.50", fontSize: "13px" }}
                         >
                           Invoice No:
                         </Typography>
@@ -265,7 +245,7 @@ export default function Invoices() {
                       >
                         <Typography
                           variant="subtitle3"
-                          sx={{ opacity: "0.75", fontSize: "13px" }}
+                          sx={{ opacity: "0.50", fontSize: "13px" }}
                         >
                           Invoice Date:
                         </Typography>
@@ -285,7 +265,7 @@ export default function Invoices() {
                       >
                         <Typography
                           variant="subtitle3"
-                          sx={{ opacity: "0.75", fontSize: "13px" }}
+                          sx={{ opacity: "0.50", fontSize: "13px" }}
                         >
                           Due:
                         </Typography>
@@ -698,7 +678,7 @@ export default function Invoices() {
                   >
                     <Typography
                       variant="subtitle2"
-                      sx={{ textTransform: "capitalize", opacity: 0.75 }}
+                      sx={{ textTransform: "capitalize", opacity: 0.5 }}
                     >
                       Bank Name :
                     </Typography>
@@ -722,7 +702,7 @@ export default function Invoices() {
                   >
                     <Typography
                       variant="subtitle2"
-                      sx={{ textTransform: "capitalize", opacity: 0.75 }}
+                      sx={{ textTransform: "capitalize", opacity: 0.5 }}
                     >
                       IFSC Code :
                     </Typography>
@@ -746,7 +726,7 @@ export default function Invoices() {
                   >
                     <Typography
                       variant="subtitle2"
-                      sx={{ textTransform: "capitalize", opacity: 0.75 }}
+                      sx={{ textTransform: "capitalize", opacity: 0.5 }}
                     >
                       Account Holder Name :
                     </Typography>
@@ -770,7 +750,7 @@ export default function Invoices() {
                   >
                     <Typography
                       variant="subtitle2"
-                      sx={{ textTransform: "capitalize", opacity: 0.75 }}
+                      sx={{ textTransform: "capitalize", opacity: 0.5 }}
                     >
                       Account No :
                     </Typography>

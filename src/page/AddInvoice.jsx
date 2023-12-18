@@ -125,16 +125,20 @@ export default function Invoices() {
                 <Box sx={{ textAlign: "right", alignSelf: "end" }}>
                   <Typography
                     variant="h4"
-                    sx={{ textTransform: "capitalize", lineHeight: "1.5" }}
+                    sx={{
+                      fontSize: "28px",
+                      textTransform: "capitalize",
+                      lineHeight: 1.5,
+                    }}
                   >
                     Shunyavkash PVT. LTD
                   </Typography>
                   <Box>
                     <Box
                       sx={{
-                        mt: 3.75,
+                        mt: 0.25,
                         "&>*:not(:first-child)": {
-                          mt: 1,
+                          mt: 3,
                         },
                         textAlign: "left",
                       }}
@@ -142,46 +146,45 @@ export default function Invoices() {
                       {/* <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
                         Invoice no:
                       </Typography> */}
-                      <Typography variant="subtitle3" sx={{ lineHeight: 1.6 }}>
+                      <Typography
+                        variant="subtitle3"
+                        sx={{ lineHeight: 1.6, fontSize: "13px" }}
+                      >
                         311, Ambika Pinnacle, Lajamni chowk,
                         <br /> Mota varachha, Surat- 395006
                       </Typography>
-                      <Typography
-                        variant="subtitle3"
-                        sx={{ lineHeight: 1.6, display: "block" }}
+
+                      <Box
+                        sx={{
+                          mt: 0.25,
+                          "&>*:not(:first-child)": {
+                            mt: 0,
+                          },
+                          textAlign: "left",
+                        }}
                       >
-                        +91 8155926380
-                        <br /> hiren.polra@shunyavkash.com
-                      </Typography>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{
+                            lineHeight: 1.6,
+                            display: "block",
+                            fontSize: "13px",
+                          }}
+                        >
+                          +91 8155926380
+                        </Typography>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{
+                            lineHeight: 1.6,
+                            display: "block",
+                            fontSize: "13px",
+                          }}
+                        >
+                          hiren.polra@shunyavkash.com
+                        </Typography>
+                      </Box>
                     </Box>
-                    {/* <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 3.75,
-                      }}
-                    >
-                      <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
-                        Invoice Date:
-                      </Typography>
-                      <Typography variant="subtitle3">
-                        Dec 13th, 2023
-                      </Typography>
-                    </Box> */}
-                    {/* <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 3.75,
-                      }}
-                    >
-                      <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
-                        Due:
-                      </Typography>
-                      <Typography variant="subtitle3">
-                        Jan 13th, 2023
-                      </Typography>
-                    </Box> */}
                   </Box>
                 </Box>
                 <Box
@@ -193,7 +196,7 @@ export default function Invoices() {
                   }}
                 >
                   <img
-                    src="https://vex.visurel.com/assets/img/logo/logo.svg"
+                    src="/images/logo.svg"
                     style={{
                       maxHeight: "inherit",
                       width: "100%",
@@ -833,7 +836,7 @@ export default function Invoices() {
               <Box sx={{ maxWidth: "400px" }}>
                 <Typography
                   variant="body1"
-                  sx={{ fontWeight: 700, lineHeight: 1 }}
+                  sx={{ fontWeight: 700, lineHeight: 1, fontSize: "13px" }}
                 >
                   Notes
                 </Typography>
@@ -846,7 +849,7 @@ export default function Invoices() {
                     },
                   }}
                 >
-                  <Typography variant="subtitle3">
+                  <Typography variant="subtitle3" sx={{ fontSize: "13px" }}>
                     ptototype-based programming is a style of object-oriented
                     programming in which behaviour.
                   </Typography>
