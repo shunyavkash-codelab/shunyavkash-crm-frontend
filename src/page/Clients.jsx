@@ -231,8 +231,8 @@ export default function Clients() {
                           >
                             <Avatar
                               sx={{
-                                width: { xs: "36px", sm: "40px" },
-                                height: { xs: "36px", sm: "40px" },
+                                width: "36px",
+                                height: "36px",
                               }}
                               alt={row.name}
                               src={row.profile_img}
