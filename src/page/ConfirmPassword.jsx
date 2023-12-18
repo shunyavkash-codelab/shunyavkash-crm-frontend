@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import Link from "@mui/material/Link";
-import { Box, TextField, Typography, Button } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Box, Typography, Button } from "@mui/material";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList";
@@ -12,11 +10,6 @@ import * as Yup from "yup";
 import VisibilityIconSet from "../component/VisibilityIconSet";
 
 export default function ConfirmPassword() {
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
   const { setSnack } = useSnack();
   const { apiCall, isLoading } = useApi();
   const [query] = useSearchParams();
