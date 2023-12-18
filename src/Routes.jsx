@@ -29,6 +29,7 @@ const routes = createBrowserRouter([
   { path: "/clients", Component: Clients },
   { path: "/Clients/add", Component: AddClient },
   { path: "/Clients/edit/:id", Component: AddClient },
+  { path: "/Clients/view/:id", Component: AddClient },
   { path: "/projects", Component: Projects },
   { path: "/Projects/add", Component: AddProject },
   { path: "/invoices", Component: Invoices },

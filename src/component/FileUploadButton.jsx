@@ -17,7 +17,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function FileUploadButton({ formik, id, label, value }) {
+export default function FileUploadButton({ formik, id, label, value, view }) {
   const [file, setFile] = useState(value);
   return (
     <>
@@ -64,6 +64,7 @@ export default function FileUploadButton({ formik, id, label, value }) {
                   padding: "4px",
                   "& svg": { fontSize: { xs: "20px", sm: "24px" } },
                 }}
+                disabled={view == true}
               >
                 <CloseIcon />
               </IconButton>

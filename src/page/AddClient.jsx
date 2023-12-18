@@ -17,10 +17,12 @@ import { Field, FormikProvider, useFormik } from "formik";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 export default function AddClient() {
   const { id } = useParams();
+  const location = useLocation();
+
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
@@ -173,6 +175,7 @@ export default function AddClient() {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.name}
+                    disabled={location.pathname.includes("/view/")}
                   />
                   <TextField
                     fullWidth
@@ -189,6 +192,7 @@ export default function AddClient() {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.email}
+                    disabled={location.pathname.includes("/view/")}
                   />
 
                   <Box
@@ -233,6 +237,7 @@ export default function AddClient() {
                                 event.target.value
                               );
                             }}
+                            disabled={location.pathname.includes("/view/")}
                           >
                             <MenuItem
                               // InputLabelProps={{
@@ -323,6 +328,7 @@ export default function AddClient() {
                       autoComplete="off"
                       placeholder="Mobile Number"
                       defaultValue={clientList?.mobileNumber}
+                      disabled={location.pathname.includes("/view/")}
                       // InputLabelProps={{
                       //   shrink: true,
                       // }}
@@ -359,6 +365,7 @@ export default function AddClient() {
                           id="gender"
                           label="Gender"
                           defaultValue={clientList?.gender}
+                          disabled={location.pathname.includes("/view/")}
                           // InputLabelProps={{
                           //   shrink: true,
                           // }}
@@ -391,6 +398,7 @@ export default function AddClient() {
                     label="Company Name"
                     autoComplete="off"
                     defaultValue={clientList?.companyName}
+                    disabled={location.pathname.includes("/view/")}
                     // InputLabelProps={{
                     //   shrink: true,
                     // }}
@@ -407,6 +415,7 @@ export default function AddClient() {
                     label="Website"
                     autoComplete="off"
                     defaultValue={clientList?.websiteURL}
+                    disabled={location.pathname.includes("/view/")}
                     // InputLabelProps={{
                     //   shrink: true,
                     // }}
@@ -425,6 +434,7 @@ export default function AddClient() {
                     multiline
                     rows={4}
                     defaultValue={clientList?.address}
+                    disabled={location.pathname.includes("/view/")}
                     // InputLabelProps={{
                     //   shrink: true,
                     // }}
@@ -452,6 +462,7 @@ export default function AddClient() {
                       id={"profile_img"}
                       label={"Profile Image"}
                       value={clientList.profile_img}
+                      view={location.pathname.includes("/view/") ? true : false}
                     />
                   </Box>
 
@@ -469,86 +480,89 @@ export default function AddClient() {
                     /> */}
                     <FileUploadButton
                       formik={formik}
-                      id={"companyLogo"}
-                      label={"Company Logo"}
+                      id="companyLogo"
+                      label="Company Logo"
                       value={clientList.companyLogo}
+                      view={location.pathname.includes("/view/") ? true : false}
                     />
                   </Box>
                 </Box>
-                <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-                  <Button
-                    disableRipple
-                    type="submit"
-                    sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
-                      bgcolor: "success.main",
-                      border: "1px solid",
-                      borderColor: "success.main",
-                      color: "white",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "white",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
-                        color: "success.main",
+                {!location.pathname.includes("/view/") && (
+                  <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                    <Button
+                      disableRipple
+                      type="submit"
+                      sx={{
+                        maxHeight: "42px",
+                        position: "relative",
+                        px: 2.5,
+                        py: 1.5,
                         bgcolor: "success.main",
-                        "&:before": { height: "10rem" },
-                      },
-                    }}
-                  >
-                    <span style={{ position: "relative" }}>Submit</span>
-                  </Button>
-                  <Button
-                    disableRipple
-                    sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
-                      border: "1px solid",
-                      borderColor: "error.main",
-                      color: "error.main",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "error.main",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
+                        border: "1px solid",
+                        borderColor: "success.main",
                         color: "white",
-                        "&:before": { height: "10rem" },
-                      },
-                    }}
-                    onClick={() => navigate("/clients")}
-                  >
-                    <span style={{ position: "relative" }}>Cancel</span>
-                  </Button>
-                </Box>
+                        lineHeight: 1,
+                        borderRadius: 2.5,
+                        overflow: "hidden",
+                        "&:before": {
+                          content: "''",
+                          height: 0,
+                          width: "10rem",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          zIndex: "0",
+                          bgcolor: "white",
+                          transform: "rotate(-45deg) translate(-50%, -50%)",
+                          transformOrigin: "0% 0%",
+                          transition: "all 0.4s ease-in-out",
+                        },
+                        "&:hover": {
+                          color: "success.main",
+                          bgcolor: "success.main",
+                          "&:before": { height: "10rem" },
+                        },
+                      }}
+                    >
+                      <span style={{ position: "relative" }}>Submit</span>
+                    </Button>
+                    <Button
+                      disableRipple
+                      sx={{
+                        maxHeight: "42px",
+                        position: "relative",
+                        px: 2.5,
+                        py: 1.5,
+                        border: "1px solid",
+                        borderColor: "error.main",
+                        color: "error.main",
+                        lineHeight: 1,
+                        borderRadius: 2.5,
+                        overflow: "hidden",
+                        "&:before": {
+                          content: "''",
+                          height: 0,
+                          width: "10rem",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          zIndex: "0",
+                          bgcolor: "error.main",
+                          transform: "rotate(-45deg) translate(-50%, -50%)",
+                          transformOrigin: "0% 0%",
+                          transition: "all 0.4s ease-in-out",
+                        },
+                        "&:hover": {
+                          color: "white",
+                          "&:before": { height: "10rem" },
+                        },
+                      }}
+                      onClick={() => navigate("/clients")}
+                    >
+                      <span style={{ position: "relative" }}>Cancel</span>
+                    </Button>
+                  </Box>
+                )}
               </Box>
             </FormikProvider>
           )}

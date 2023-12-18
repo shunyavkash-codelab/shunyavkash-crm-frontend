@@ -274,18 +274,20 @@ export default function Clients() {
                               "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
                             }}
                           >
-                            <Button
-                              disableRipple
-                              sx={{
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              }}
-                              // onClick={add}
-                            >
-                              <VisibilityIcon />
-                            </Button>
+                            <Link to={`./view/${row._id}`}>
+                              <Button
+                                disableRipple
+                                sx={{
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "primary.main" },
+                                }}
+                                // onClick={add}
+                              >
+                                <VisibilityIcon />
+                              </Button>
+                            </Link>
 
                             <Link to={`./edit/${row._id}`}>
                               <Button
@@ -300,7 +302,7 @@ export default function Clients() {
                                 <CreateIcon />
                               </Button>
                             </Link>
-                            <Button
+                            {/* <Button
                               disableRipple
                               sx={{
                                 p: 0,
@@ -310,7 +312,7 @@ export default function Clients() {
                               }}
                             >
                               <DeleteIcon />
-                            </Button>
+                            </Button> */}
                           </Box>
                         </TableCell>
                       </TableRow>
