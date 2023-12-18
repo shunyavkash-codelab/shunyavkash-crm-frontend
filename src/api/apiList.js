@@ -31,4 +31,7 @@ export const APIS = {
     DELETE: (bankId) => `/bank/${bankId}`,
     EDIT: (bankId) => `/bank/${bankId}`,
   },
+  COUNTRY: {
+    GET: "/country-code",
+  },
 };

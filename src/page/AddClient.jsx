@@ -30,6 +30,7 @@ export default function AddClient() {
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
   const [clientList, setClientList] = useState(false);
+  const [countryList, setCountryList] = useState([]);
 
   const formik = useFormik({
     initialValues: {
@@ -62,13 +63,12 @@ export default function AddClient() {
     },
   });
 
-  // get manager detile
+  // get client list
   const fetchClient = async (id) => {
     try {
       const res = await apiCall({
         url: APIS.CLIENT.VIEW(id),
         method: "get",
-        // data: id,
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
@@ -79,8 +79,24 @@ export default function AddClient() {
     }
   };
 
+  // get country list
+  const fetchCountry = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.COUNTRY.GET,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setCountryList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
   useEffect(() => {
     if (id !== undefined) fetchClient(id);
+    fetchCountry();
   }, []);
 
   return (
@@ -219,7 +235,9 @@ export default function AddClient() {
                             defaultValue={clientList?.mobileCode}
                             sx={{
                               fontSize: "14px",
-                              "& input,&>div": { fontSize: "14px" },
+                              "& input,&>div": {
+                                fontSize: "14px",
+                              },
                               "&>div": {
                                 pr: "24px!important",
                                 display: "flex",
@@ -239,86 +257,43 @@ export default function AddClient() {
                             }}
                             disabled={location.pathname.includes("/view/")}
                           >
-                            <MenuItem
-                              // InputLabelProps={{
-                              //   shrink: true,
-                              // }}
-                              sx={{ textTransform: "capitalize" }}
-                              value={"+91"}
-                            >
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 0.75,
-                                }}
-                              >
-                                <img
-                                  src="https://img.freepik.com/free-vector/illustration-india-flag_53876-27130.jpg"
-                                  style={{
-                                    maxHeight: "14px",
-                                    maxWidth: "25px",
-                                  }}
-                                ></img>
-                                <Typography
-                                  variant="subtitle2"
-                                  sx={{ lineHeight: 1 }}
+                            {countryList.map((item) => (
+                              <>
+                                <MenuItem
+                                  // InputLabelProps={{
+                                  //   shrink: true,
+                                  // }}
+                                  sx={{ textTransform: "capitalize" }}
+                                  value={item._id}
                                 >
-                                  +91
-                                </Typography>
-                              </Box>
-                            </MenuItem>
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: 0.75,
+                                    }}
+                                  >
+                                    <img
+                                      srcSet={`https://flagcdn.com/w40/${item.code.toLowerCase()}.png 2x`}
+                                      src={`https://flagcdn.com/w20/${item.code.toLowerCase()}.png`}
+                                      style={{
+                                        maxHeight: "14px",
+                                        maxWidth: "25px",
+                                      }}
+                                    ></img>
+                                    <Typography
+                                      variant="subtitle2"
+                                      sx={{ lineHeight: 1 }}
+                                    >
+                                      {item.phone}
+                                    </Typography>
+                                  </Box>
+                                </MenuItem>
+                              </>
+                            ))}
                           </Select>
                         )}
                       />
-                      {/* <Select
-                        id="mobileCode"
-                        defaultValue={clientList?.mobileCode}
-                        sx={{
-                          fontSize: "14px",
-                          "& input,&>div": { fontSize: "14px" },
-                          "&>div": {
-                            pr: "24px!important",
-                            display: "flex",
-                            alignItems: "center",
-                          },
-                          "&>svg": { fontSize: "18px" },
-                          "& fieldset": {
-                            borderRadius: "6px 0 0 6px",
-                            borderRight: 0,
-                          },
-                        }}
-                        onChange={(event) => {
-                          form.setFieldValue("mobileCode", event.target.value);
-                        }}
-                      >
-                        <MenuItem
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          sx={{ textTransform: "capitalize" }}
-                          value={"+91"}
-                        >
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 0.75,
-                            }}
-                          >
-                            <img
-                              src="https://img.freepik.com/free-vector/illustration-india-flag_53876-27130.jpg"
-                              style={{ maxHeight: "14px", maxWidth: "25px" }}
-                            ></img>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ lineHeight: 1 }}
-                            >
-                              +91
-                            </Typography>
-                          </Box>
-                        </MenuItem>
-                      </Select> */}
                     </FormControl>
                     <TextField
                       fullWidth
