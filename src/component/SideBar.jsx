@@ -112,8 +112,11 @@ export default function SideBar({
                 key={item.text}
                 disablePadding
                 sx={{
-                  mt: 0.5,
-                  ":first-child": { mt: 0 },
+                  transition: "all 0.4s ease-in-out",
+                  "&:hover": {
+                    boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
+                  },
+                  "&:not(:first-child)": { mt: 0.75 },
                   borderRadius: "10px",
                   overflow: "hidden",
                   color: location.pathname == item.link && "primary.main",
@@ -126,8 +129,6 @@ export default function SideBar({
                   to={item.link} // Specify the route to navigate to
                   sx={{
                     p: 1.5,
-                    transitionProperty: "all",
-
                     ":hover": {
                       color: "primary.main",
                       bgcolor: "primary.light",
