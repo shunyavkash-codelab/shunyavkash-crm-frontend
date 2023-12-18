@@ -477,8 +477,9 @@ export default function Profile() {
                               shrink: true,
                             }}
                             placeholder="Email"
-                            onChange={formik.handleChange}
-                            value={formik.values.email}
+                            defaultValue={profileList.email}
+                            // onChange={formik.handleChange}
+                            // Value={formik..email}
                             disabled
                           />
                         </Box>
