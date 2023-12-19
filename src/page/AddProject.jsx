@@ -56,7 +56,14 @@ export default function AddProject({ open, setOpen }) {
   const { setSnack } = useSnack();
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
-  const [countryList, setCountryList] = useState([]);
+  const [currencylist, setCurrencyList] = useState([]);
+  const [currencyValue, setCurrencyValue] = useState(null);
+
+  const handleValueChange = (event, newValue) => {
+    setCurrencyValue(newValue);
+    // You can perform additional actions here based on the new selected value
+  };
+  console.log(currencyValue);
 
   const formik = useFormik({
     initialValues: {
@@ -66,13 +73,14 @@ export default function AddProject({ open, setOpen }) {
       startDate: "",
       endDate: "",
       perHourCharge: "",
-      currency: "",
+      currency: currencyValue,
       payPeriod: "",
       prefix: "",
       status: "",
     },
     onSubmit: async (values) => {
       try {
+        values.currency = currencyValue?.symbol;
         const res = await apiCall({
           url: APIS.PROJECT.ADD,
           method: "post",
@@ -105,6 +113,7 @@ export default function AddProject({ open, setOpen }) {
   };
   useEffect(() => {
     fetchClients();
+    fetchCurrency();
   }, []);
 
   const theme = useTheme();
@@ -120,14 +129,14 @@ export default function AddProject({ open, setOpen }) {
   //   );
   // };
 
-  const fetchCountry = async () => {
+  const fetchCurrency = async () => {
     try {
       const res = await apiCall({
-        url: APIS.COUNTRY.GET,
+        url: APIS.CURRENCY.GET,
         method: "get",
       });
       if (res.data.success === true) {
-        setCountryList(res.data.data);
+        setCurrencyList(res.data.data);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -338,40 +347,35 @@ export default function AddProject({ open, setOpen }) {
                         right: "0!important",
                       },
                     }}
-                    options={countryList}
+                    options={currencylist}
                     autoHighlight
-                    getOptionLabel={(option) => option.phone}
+                    getOptionLabel={(option) => option.code}
                     renderOption={(props, option) => (
                       <Box
                         component="li"
+                        id="currency"
                         sx={{
                           "& > img": { mr: 0.75, flexShrink: 0 },
                           fontSize: { xs: "12px", sm: "14px" },
                         }}
+                        // onChange={(event) => {
+                        //   option.setFieldValue("currency", event.target.value);
+                        // }}
                         {...props}
                       >
-                        <img
-                          loading="lazy"
-                          width="20"
-                          height="14"
-                          src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                        />
-                        +{option.phone}
+                        ({option.symbol}) {option.code}
                       </Box>
                     )}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: "new-password", // disable autocomplete and autofill
-                        }}
-                      />
+                      <TextField name="currency" {...params} />
                     )}
+                    value={currencyValue}
+                    onChange={handleValueChange}
                   />
                   <TextField
                     fullWidth
                     size="small"
+                    id="perHourCharge"
                     type="tel"
                     autoComplete="off"
                     placeholder="Per Hours Charge"
@@ -383,7 +387,7 @@ export default function AddProject({ open, setOpen }) {
                       },
                     }}
                     onChange={formik.handleChange}
-                    value={formik.values.mobileNumber}
+                    value={formik.values.perHourCharge}
                   />
                 </Box>
 

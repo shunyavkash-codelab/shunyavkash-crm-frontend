@@ -241,7 +241,7 @@ export default function Project() {
                           {moment(row.endDate).format("MMM D, YYYY")}
                         </TableCell>
                         <TableCell>
-                          {row.currency == "Doller" ? "$" : ""}
+                          {row.currency}
                           {row.perHourCharge}/hour
                         </TableCell>
                         <TableCell>

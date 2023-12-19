@@ -34,4 +34,7 @@ export const APIS = {
   COUNTRY: {
     GET: "/country-code",
   },
+  CURRENCY: {
+    GET: "/currency",
+  },
 };
