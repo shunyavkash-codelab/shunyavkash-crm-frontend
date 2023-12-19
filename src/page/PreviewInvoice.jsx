@@ -45,7 +45,7 @@ export default function Invoices() {
             flexGrow: 1,
             pt: 13,
             px: 2.5,
-            pb: 2.5,
+            pb: 5,
             height: "100%",
             overflowY: "auto",
           }}
@@ -170,7 +170,7 @@ export default function Invoices() {
               </Box>
 
               <Box sx={{ my: 4 }}>
-                <Divider sx={{ borderWidth: "3px", borderColor: "#ededed" }} />
+                <Divider sx={{ borderWidth: "2px", borderColor: "#ededed" }} />
               </Box>
 
               <Box sx={{ textAlign: "right", alignSelf: "end" }}>
