@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   Box,
   Typography,
+  Chip,
   Button,
   Table,
   TableBody,
@@ -246,6 +247,34 @@ export default function Manager() {
                 >
                   www.google.com
                 </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1.5,
+                  gridColumn: { sm: "span 2" },
+                }}
+              >
+                <img
+                  className="icon"
+                  src="/images/projects.svg"
+                  style={{ marginTop: "3px" }}
+                ></img>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 0.75,
+                    "& span": {
+                      fontSize: "13px",
+                      py: 0.75,
+                      px: 1,
+                      lineHeight: 1,
+                    },
+                  }}
+                >
+                  <Chip sx={{ height: "auto" }} label="CRM-Shunyavkash" />
+                </Box>
               </Box>
               <Box
                 sx={{
