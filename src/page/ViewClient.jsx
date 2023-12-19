@@ -23,6 +23,7 @@ import { APIS } from "../api/apiList.js";
 import { useAuth } from "../hooks/store/useAuth.js";
 import PhoneIcon from "@mui/icons-material/PhoneIphone";
 import CompanyIcon from "@mui/icons-material/BusinessOutlined";
+import AddressIcon from "@mui/icons-material/LocationOnOutlined";
 
 export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -61,13 +62,13 @@ export default function Manager() {
               variant="h5"
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
-              Manager
+              Client
             </Typography>
             <Typography
               variant="subtitle2"
               sx={{ opacity: 0.4, textTransform: "capitalize" }}
             >
-              Manager
+              Client
             </Typography>
           </Box>
           <Box
@@ -82,16 +83,16 @@ export default function Manager() {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                flexDirection: { xs: "column", sm: "row" },
-                textAlign: { xs: "center", sm: "start" },
+                flexWrap: { xs: "wrap", sm: "nowrap" },
                 gap: { xs: 1.5, sm: 2.25 },
               }}
             >
               <Box
                 sx={{
                   flexShrink: 0,
-                  height: "80px",
-                  width: "80px",
+                  height: { xs: "60px", sm: "80px" },
+                  width: { xs: "60px", sm: "80px" },
+                  order: { xs: 1 },
                 }}
               >
                 <img
@@ -105,7 +106,13 @@ export default function Manager() {
                   }}
                 />
               </Box>
-              <Box>
+              <Box
+                sx={{
+                  mt: { xs: 1.25, sm: 0 },
+                  order: { xs: 3, sm: 2 },
+                  width: { xs: "100%", sm: "auto" },
+                }}
+              >
                 <Typography
                   variant="subtitle1"
                   sx={{
@@ -127,6 +134,26 @@ export default function Manager() {
                 >
                   ravi.chodvadiya@shunyavkash.com
                 </Typography>
+              </Box>
+              <Box
+                sx={{
+                  ml: "auto",
+                  flexShrink: 0,
+                  height: { xs: "60px", sm: "80px" },
+                  width: { xs: "60px", sm: "80px" },
+                  order: { xs: 2, sm: 3 },
+                }}
+              >
+                <img
+                  src="/images/logo-2.svg"
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    objectFit: "cover",
+                    borderRadius: "100%",
+                    boxShadow: "0 0 6px 6px rgba(226, 226, 226,1)",
+                  }}
+                />
               </Box>
             </Box>
             <Box sx={{ mt: { xs: 3.75, sm: 5 }, mb: { xs: 2.5, sm: 3.5 } }}>
@@ -154,62 +181,7 @@ export default function Manager() {
                 },
               }}
             >
-              {/* <Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    textTransform: "capitalize",
-                    mb: 1.5,
-                  }}
-                >
-                  manager Name
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  Ravi
-                </Typography>
-              </Box>
-              <Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    textTransform: "capitalize",
-                    mb: 1.5,
-                  }}
-                >
-                  email
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    textTransform: "lowercase",
-                  }}
-                >
-                  ravi.chodvadiya@shunyavkash.com
-                </Typography>
-              </Box> */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                {/* <Typography
-                  variant="subtitle2"
-                  sx={{
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    textTransform: "capitalize",
-                    mb: 1.5,
-                  }}
-                >
-                  mobile number
-                </Typography> */}
                 <PhoneIcon />
                 <Typography
                   variant="body2"
@@ -222,17 +194,6 @@ export default function Manager() {
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                {/* <Typography
-                  variant="subtitle2"
-                  sx={{
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    textTransform: "capitalize",
-                    mb: 1.5,
-                  }}
-                >
-                  Gender
-                </Typography> */}
                 <img className="icon" src="/images/gender.svg"></img>
                 <Typography
                   variant="body2"
@@ -245,17 +206,6 @@ export default function Manager() {
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                {/* <Typography
-                  variant="subtitle2"
-                  sx={{
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    textTransform: "capitalize",
-                    mb: 1.5,
-                  }}
-                >
-                  company name
-                </Typography> */}
                 <CompanyIcon />
                 <Typography
                   variant="body2"
@@ -267,30 +217,14 @@ export default function Manager() {
                   shunyavkash
                 </Typography>
               </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                {/* <Typography
-                  variant="subtitle2"
-                  sx={{
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    textTransform: "capitalize",
-                    mb: 1.5,
-                  }}
-                >
-                  reference
-                </Typography> */}
-                <img className="icon" src="/images/reference.svg"></img>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  hirenbhai
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.5,
+                  gridColumn: { sm: "span 2" },
+                }}
+              >
                 {/* <Typography
                   variant="subtitle2"
                   sx={{
@@ -313,24 +247,24 @@ export default function Manager() {
                   www.google.com
                 </Typography>
               </Box>
-            </Box>
-            <Box
-              sx={{
-                mt: { xs: 2.75, sm: 3.5 },
-                maxHeight: { xs: "70px", sm: "80px" },
-                maxWidth: { xs: "120px", sm: "135px" },
-                minWidth: "100px",
-              }}
-            >
-              <img
-                src="/images/sign.svg"
-                style={{
-                  maxHeight: "inherit",
-                  width: "100%",
-                  display: "block",
-                  borderRadius: "6px",
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1.5,
+                  gridColumn: { sm: "span 2" },
                 }}
-              />
+              >
+                <AddressIcon sx={{ mt: 0.25 }} />
+                <Typography
+                  variant="body2"
+                  sx={{
+                    textTransform: "capitalize",
+                  }}
+                >
+                  311, Ambika Pinnacle, Lajamni chowk, <br /> Mota varachha,
+                  Surat- 395006
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Box>

@@ -12,6 +12,7 @@ import AddManager from "./page/AddManager";
 import ViewManager from "./page/ViewManager";
 import Clients from "./page/Clients";
 import AddClient from "./page/AddClient";
+import ViewClient from "./page/ViewClient";
 import Projects from "./page/Projects";
 import AddProject from "./page/AddProject";
 import Invoices from "./page/Invoices";
@@ -32,6 +33,7 @@ const routes = createBrowserRouter([
   { path: "/Clients/add", Component: AddClient },
   { path: "/Clients/edit/:id", Component: AddClient },
   { path: "/Clients/view/:id", Component: AddClient },
+  { path: "/Clients/view", Component: ViewClient },
   { path: "/projects", Component: Projects },
   { path: "/Projects/add", Component: AddProject },
   { path: "/invoices", Component: Invoices },

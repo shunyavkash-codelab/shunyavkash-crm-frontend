@@ -275,7 +275,20 @@ export default function Clients() {
                               "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
                             }}
                           >
-                            <Link to={`./view/${row._id}`}>
+                            <Link to={"./view"}>
+                              <Button
+                                disableRipple
+                                sx={{
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "primary.main" },
+                                }}
+                              >
+                                <VisibilityIcon />
+                              </Button>
+                            </Link>
+                            {/* <Link to={`./view/${row._id}`}>
                               <Button
                                 disableRipple
                                 sx={{
@@ -288,7 +301,7 @@ export default function Clients() {
                               >
                                 <VisibilityIcon />
                               </Button>
-                            </Link>
+                            </Link> */}
 
                             <Link to={`./edit/${row._id}`}>
                               <Button
