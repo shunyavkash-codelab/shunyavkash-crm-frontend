@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { Field, FormikProvider, useFormik } from "formik";
 import { APIS } from "../api/apiList";
 import FileUploadButton from "../component/FileUploadButton";
+import * as Yup from "yup";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -49,7 +50,20 @@ export default function AddManager({ open, setOpen }) {
     setAge(event.target.value);
   };
 
+  // yup data validator schhema
+  const schema = Yup.object({
+    name: Yup.string().required("Name is required.").trim(),
+    email: Yup.string()
+      .email("Field should contain a valid e-mail")
+      .max(255)
+      .required("email is required.")
+      .trim(),
+    companyName: Yup.string().required("Company name is required.").trim(),
+    reference: Yup.string().required("Reference name is required.").trim(),
+  });
+
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       name: "",
       email: "",
@@ -197,6 +211,8 @@ export default function AddManager({ open, setOpen }) {
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.name}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
                 />
 
                 <TextField
@@ -210,6 +226,8 @@ export default function AddManager({ open, setOpen }) {
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.email}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
                 />
 
                 <Box
@@ -297,10 +315,16 @@ export default function AddManager({ open, setOpen }) {
                   sx={{
                     "&>label": { fontSize: "14px" },
                   }}
+                  error={formik.touched.gender && Boolean(formik.errors.gender)}
+                  helperText={formik.touched.gender && formik.errors.gender}
                 >
                   <InputLabel
                     sx={{ textTransform: "capitalize" }}
                     id="demo-simple-select-label"
+                    error={
+                      formik.touched.gender && Boolean(formik.errors.gender)
+                    }
+                    helperText={formik.touched.gender && formik.errors.gender}
                   >
                     gender
                   </InputLabel>
@@ -319,13 +343,13 @@ export default function AddManager({ open, setOpen }) {
                       >
                         <MenuItem
                           sx={{ textTransform: "capitalize" }}
-                          value={"male"}
+                          value={"Male"}
                         >
                           Male
                         </MenuItem>
                         <MenuItem
                           sx={{ textTransform: "capitalize" }}
-                          value={"female"}
+                          value={"Female"}
                         >
                           Female
                         </MenuItem>
@@ -345,6 +369,13 @@ export default function AddManager({ open, setOpen }) {
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.companyName}
+                  error={
+                    formik.touched.companyName &&
+                    Boolean(formik.errors.companyName)
+                  }
+                  helperText={
+                    formik.touched.companyName && formik.errors.companyName
+                  }
                 />
 
                 <FormControl
@@ -357,6 +388,13 @@ export default function AddManager({ open, setOpen }) {
                   <InputLabel
                     sx={{ textTransform: "capitalize" }}
                     id="demo-simple-select-label"
+                    error={
+                      formik.touched.reference &&
+                      Boolean(formik.errors.reference)
+                    }
+                    helperText={
+                      formik.touched.reference && formik.errors.reference
+                    }
                   >
                     Reference
                   </InputLabel>
@@ -372,6 +410,13 @@ export default function AddManager({ open, setOpen }) {
                         onChange={(event) => {
                           form.setFieldValue("reference", event.target.value);
                         }}
+                        error={
+                          formik.touched.reference &&
+                          Boolean(formik.errors.reference)
+                        }
+                        helperText={
+                          formik.touched.reference && formik.errors.reference
+                        }
                       >
                         {managerList.map((item) => (
                           <MenuItem
