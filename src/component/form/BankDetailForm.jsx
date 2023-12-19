@@ -446,10 +446,10 @@ export default function BankDetailForm({ profileList }) {
                     position: "relative",
                     px: 2.5,
                     py: 1.5,
-                    bgcolor: "error.main",
+                    color: "text.primary",
+                    bgcolor: "#e4e4e4",
                     border: "1px solid",
-                    borderColor: "error.main",
-                    color: "white",
+                    borderColor: "#e4e4e4",
                     lineHeight: 1,
                     borderRadius: 2.5,
                     overflow: "hidden",
@@ -467,8 +467,7 @@ export default function BankDetailForm({ profileList }) {
                       transition: "all 0.4s ease-in-out",
                     },
                     "&:hover": {
-                      color: "error.main",
-                      bgcolor: "error.main",
+                      bgcolor: "#e4e4e4",
                       "&:before": { height: "10rem" },
                     },
                   }}
@@ -486,7 +485,7 @@ export default function BankDetailForm({ profileList }) {
                     }
                   }}
                 >
-                  <span style={{ position: "relative" }}>Remove</span>
+                  <span style={{ position: "relative" }}>discard</span>
                 </Button>
               </Stack>
             </Grid>

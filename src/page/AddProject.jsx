@@ -602,9 +602,10 @@ export default function AddProject({ open, setOpen }) {
                     position: "relative",
                     px: 2.5,
                     py: 1.5,
+                    color: "text.primary",
+                    bgcolor: "#e4e4e4",
                     border: "1px solid",
-                    borderColor: "error.main",
-                    color: "error.main",
+                    borderColor: "#e4e4e4",
                     lineHeight: 1,
                     borderRadius: 2.5,
                     overflow: "hidden",
@@ -616,19 +617,19 @@ export default function AddProject({ open, setOpen }) {
                       top: "50%",
                       left: "50%",
                       zIndex: "0",
-                      bgcolor: "error.main",
+                      bgcolor: "white",
                       transform: "rotate(-45deg) translate(-50%, -50%)",
                       transformOrigin: "0% 0%",
                       transition: "all 0.4s ease-in-out",
                     },
                     "&:hover": {
-                      color: "white",
+                      bgcolor: "#e4e4e4",
                       "&:before": { height: "10rem" },
                     },
                   }}
                   onClick={() => navigate("/projects")}
                 >
-                  <span style={{ position: "relative" }}>Cancel</span>
+                  <span style={{ position: "relative" }}>discard</span>
                 </Button>
               </Box>
             </Box>
