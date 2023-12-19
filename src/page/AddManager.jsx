@@ -187,8 +187,6 @@ export default function AddManager({ open, setOpen }) {
               <Box
                 sx={{
                   pt: 0.75,
-                  flexGrow: { md: 0 },
-                  overflowY: { md: "auto" },
                   "& fieldset": {
                     borderRadius: 1.5,
                   },
@@ -247,7 +245,7 @@ export default function AddManager({ open, setOpen }) {
                       "& input": { fontSize: "14px" },
                       "& button[title='Clear']": { display: "none" },
                       "& fieldset": {
-                        borderRadius: "6px 0 0 6px",
+                        borderRadius: "6px 0 0 6px!important",
                         borderRight: 0,
                       },
                       "&>div>div": {
@@ -296,11 +294,11 @@ export default function AddManager({ open, setOpen }) {
                     id="mobileNumber"
                     type="tel"
                     autoComplete="off"
-                    placeholder="Mobile Number"
+                    placeholder="Number"
                     sx={{
                       "& input,&>div": { fontSize: "14px" },
                       "& fieldset": {
-                        borderRadius: "0 6px 6px 0",
+                        borderRadius: "0 6px 6px 0!important",
                         borderLeft: 0,
                       },
                     }}

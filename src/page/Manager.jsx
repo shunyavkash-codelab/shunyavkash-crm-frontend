@@ -272,17 +272,19 @@ export default function Manager() {
                             }}
                           >
                             <Box>
-                              <Button
-                                disableRipple
-                                sx={{
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "black",
-                                  "&:hover": { color: "primary.main" },
-                                }}
-                              >
-                                <VisibilityIcon />
-                              </Button>
+                              <Link to={"./view"}>
+                                <Button
+                                  disableRipple
+                                  sx={{
+                                    p: 0,
+                                    minWidth: "auto",
+                                    color: "black",
+                                    "&:hover": { color: "primary.main" },
+                                  }}
+                                >
+                                  <VisibilityIcon />
+                                </Button>
+                              </Link>
                             </Box>
                           </Box>
                         </TableCell>
