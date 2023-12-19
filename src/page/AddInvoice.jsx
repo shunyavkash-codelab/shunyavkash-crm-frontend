@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -18,6 +18,7 @@ import {
   MenuItem,
   Button,
   Input,
+  Autocomplete,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -25,6 +26,11 @@ import { useAuth } from "../hooks/store/useAuth";
 
 import { useTheme } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
+import { FormikProvider, useFormik } from "formik";
+import useApi from "../hooks/useApi";
+import { useSnack } from "../hooks/store/useSnack";
+import { APIS } from "../api/apiList";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -50,8 +56,12 @@ function getStyles(name, personName, theme) {
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
-
+  const { accessToken } = useAuth();
+  const { setSnack } = useSnack();
+  const { apiCall } = useApi();
+  const navigate = useNavigate();
+  const [clientList, setClientList] = useState(false);
+  const [countryList, setCountryList] = useState([]);
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
   const handleChange = (event) => {
@@ -63,6 +73,68 @@ export default function Invoices() {
       typeof value === "string" ? value.split(",") : value
     );
   };
+
+  const { id } = useParams();
+  const location = useLocation();
+
+  const formik = useFormik({
+    initialValues: {
+      email: clientList?.email,
+      mobileNumber: clientList?.mobileNumber,
+    },
+    onSubmit: async (values) => {
+      try {
+        const res = await apiCall({
+          url: id ? APIS.CLIENT.EDIT(id) : APIS.CLIENT.ADD,
+          method: id ? "patch" : "post",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.data.success === true) {
+          setSnack(res.data.message);
+          !id && navigate("/clients");
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
+
+  // get client list
+  const fetchClient = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.CLIENT.VIEW(id),
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setClientList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
+  // get country list
+  const fetchCountry = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.COUNTRY.GET,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setCountryList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
+  useEffect(() => {
+    if (id !== undefined) fetchClient(id);
+    fetchCountry();
+  }, []);
 
   return (
     <>
@@ -122,7 +194,7 @@ export default function Invoices() {
                   gap: 2,
                 }}
               >
-                <Box sx={{ textAlign: "right", alignSelf: "end" }}>
+                <Box sx={{ textAlign: "left" }}>
                   <Typography
                     variant="h4"
                     sx={{
@@ -163,7 +235,159 @@ export default function Invoices() {
                           textAlign: "left",
                         }}
                       >
-                        <Typography
+                        {(clientList || id === undefined) && (
+                          <FormikProvider value={formik}>
+                            <Box
+                              component="form"
+                              noValidate
+                              autoComplete="off"
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                formik.handleSubmit();
+                              }}
+                              sx={{
+                                // p: 2.5,
+                                // pt: 1.75,
+                                backgroundColor: "white",
+                                borderRadius: 2.5,
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  flexGrow: { md: 0 },
+                                  overflowY: { md: "auto" },
+                                  "& fieldset": {
+                                    borderRadius: 1.5,
+                                  },
+                                  display: "grid",
+                                  // gridTemplateColumns: {
+                                  //   xs: "repeat(1, 1fr)",
+                                  //   sm: "repeat(2, 1fr)",
+                                  // },
+                                  gap: 2.5,
+                                }}
+                              >
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  id="email"
+                                  label="Email"
+                                  autoComplete="off"
+                                  defaultValue={clientList?.email}
+                                  // InputLabelProps={{
+                                  //   shrink: true,
+                                  // }}
+                                  sx={{
+                                    "&>label,& input,&>div": {
+                                      fontSize: "14px",
+                                    },
+                                  }}
+                                  onChange={formik.handleChange}
+                                  value={formik.values.email}
+                                  InputProps={
+                                    location.pathname.includes("/view/") && {
+                                      readOnly: true,
+                                    }
+                                  }
+                                />
+
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    "&:hover fieldset": {
+                                      borderColor: "text.primary",
+                                    },
+                                  }}
+                                >
+                                  <Autocomplete
+                                    size="small"
+                                    id="country-select-demo"
+                                    sx={{
+                                      flexShrink: 0,
+                                      width: { xs: "100px", sm: "120px" },
+                                      "& input": { fontSize: "14px" },
+                                      "& button[title='Clear']": {
+                                        display: "none",
+                                      },
+                                      "& fieldset": {
+                                        borderRadius: "6px 0 0 6px",
+                                        borderRight: 0,
+                                      },
+                                      "&>div>div": {
+                                        pr: "24px!important",
+                                        bgcolor: "#f4f4f4",
+                                      },
+                                      "& input+div": {
+                                        right: "0!important",
+                                      },
+                                    }}
+                                    options={countryList}
+                                    autoHighlight
+                                    getOptionLabel={(option) => option.phone}
+                                    renderOption={(props, option) => (
+                                      <Box
+                                        component="li"
+                                        sx={{
+                                          "& > img": {
+                                            mr: 0.75,
+                                            flexShrink: 0,
+                                          },
+                                          fontSize: { xs: "12px", sm: "14px" },
+                                        }}
+                                        {...props}
+                                      >
+                                        <img
+                                          loading="lazy"
+                                          width="20"
+                                          height="14"
+                                          src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                                        />
+                                        +{option.phone}
+                                      </Box>
+                                    )}
+                                    renderInput={(params) => (
+                                      <TextField
+                                        {...params}
+                                        inputProps={{
+                                          ...params.inputProps,
+                                          autoComplete: "new-password", // disable autocomplete and autofill
+                                        }}
+                                      />
+                                    )}
+                                  />
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    id="mobileNumber"
+                                    type="tel"
+                                    autoComplete="off"
+                                    placeholder="Number"
+                                    defaultValue={clientList?.mobileNumber}
+                                    InputProps={
+                                      location.pathname.includes("/view/") && {
+                                        readOnly: true,
+                                      }
+                                    }
+                                    // InputLabelProps={{
+                                    //   shrink: true,
+                                    // }}
+                                    sx={{
+                                      "& input,&>div": { fontSize: "14px" },
+                                      "& fieldset": {
+                                        borderRadius: "0 6px 6px 0",
+                                        borderLeft: 0,
+                                      },
+                                    }}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.mobileNumber}
+                                  />
+                                </Box>
+                              </Box>
+                            </Box>
+                          </FormikProvider>
+                        )}
+
+                        {/* <Typography
                           variant="subtitle3"
                           sx={{
                             lineHeight: 1.6,
@@ -182,7 +406,7 @@ export default function Invoices() {
                           }}
                         >
                           hiren.polra@shunyavkash.com
-                        </Typography>
+                        </Typography> */}
                       </Box>
                     </Box>
                   </Box>
@@ -190,7 +414,7 @@ export default function Invoices() {
                 <Box
                   sx={{
                     maxHeight: "140px",
-                    maxWidth: "200px",
+                    maxWidth: "280px",
                     minWidth: "80px",
                     flexShrink: 0,
                   }}
@@ -568,10 +792,14 @@ export default function Invoices() {
                 gap: 2,
               }}
             >
-              <Box>
+              <Box
+                sx={{
+                  maxWidth: "300px",
+                }}
+              >
                 <Typography
                   variant="body1"
-                  sx={{ fontWeight: 700, lineHeight: 1 }}
+                  sx={{ fontWeight: 700, lineHeight: 1, mb: 1.75 }}
                 >
                   Bank Details
                 </Typography>
@@ -580,7 +808,7 @@ export default function Invoices() {
                   size="small"
                   sx={{
                     mt: 1,
-                    width: "300px",
+                    // width: "300px",
                     display: "flex",
                     "&>label": { fontSize: "12px" },
                     "&>div": { textAlign: "left" },
@@ -617,31 +845,43 @@ export default function Invoices() {
                       Custom Add
                     </MenuItem>
                   </Select>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="Acc Holder"
-                    label="Account Holder Name"
-                    autoComplete="off"
-                    multiline
-                    sx={{
-                      mt: 2.25,
-                      width: "300px",
-                      "&>label,& input,&>div": { fontSize: "12px" },
-                    }}
-                  />
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="ifsc"
-                    label="IFSC Code"
-                    sx={{
-                      mt: 2.25,
-                      width: "300px",
-                      "&>label,& input,&>div": { fontSize: "12px" },
-                    }}
-                  />
                 </FormControl>
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="ifsc"
+                  label="IFSC Code"
+                  sx={{
+                    mt: 2.25,
+                    width: "300px",
+                    "&>label,& input,&>div": { fontSize: "12px" },
+                  }}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="Acc Holder"
+                  label="Account Holder Name"
+                  autoComplete="off"
+                  multiline
+                  sx={{
+                    mt: 2.25,
+                    width: "300px",
+                    "&>label,& input,&>div": { fontSize: "12px" },
+                  }}
+                />
+
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="Acc Number"
+                  label="Account Number"
+                  sx={{
+                    mt: 2.25,
+                    width: "300px",
+                    "&>label,& input,&>div": { fontSize: "12px" },
+                  }}
+                />
               </Box>
               <Box
                 sx={{
@@ -849,10 +1089,20 @@ export default function Invoices() {
                     },
                   }}
                 >
-                  <Typography variant="subtitle3" sx={{ fontSize: "13px" }}>
-                    ptototype-based programming is a style of object-oriented
-                    programming in which behaviour.
-                  </Typography>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="description"
+                    label="Description"
+                    autoComplete="off"
+                    multiline
+                    rows={4}
+                    sx={{
+                      mt: 2.25,
+                      width: "300px",
+                      "&>label,& input,&>div": { fontSize: "12px" },
+                    }}
+                  />
                 </Box>
               </Box>
               <Box sx={{ height: "100px" }}>

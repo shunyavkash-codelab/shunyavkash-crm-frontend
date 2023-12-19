@@ -149,7 +149,7 @@ export default function Invoices() {
                 <Box
                   sx={{
                     maxHeight: "140px",
-                    maxWidth: "200px",
+                    maxWidth: "280px",
                     minWidth: "80px",
                     flexShrink: 0,
                   }}
@@ -662,7 +662,7 @@ export default function Invoices() {
                     ml: "auto",
                     mt: 1.75,
                     flexShrink: 0,
-                    "&>*": { "&:not(:first-child)": { mt: 1.75 } },
+                    "&>*": { "&:not(:first-child)": { mt: 2.25 } },
                   }}
                 >
                   <Box
@@ -970,7 +970,10 @@ export default function Invoices() {
                     },
                   }}
                 >
-                  <Typography variant="subtitle3" sx={{ fontSize: "13px" }}>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{ fontSize: "13px", lineHeight: 1.2 }}
+                  >
                     ptototype-based programming is a style of object-oriented
                     programming in which behaviour.
                   </Typography>
