@@ -17,7 +17,7 @@ import {
   Select,
   MenuItem,
   Button,
-  Input,
+  Divider,
   Autocomplete,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
@@ -208,9 +208,9 @@ export default function Invoices() {
                   <Box>
                     <Box
                       sx={{
-                        mt: 0.25,
+                        mt: 1,
                         "&>*:not(:first-child)": {
-                          mt: 3,
+                          mt: 2,
                         },
                         textAlign: "left",
                       }}
@@ -218,13 +218,18 @@ export default function Invoices() {
                       {/* <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
                         Invoice no:
                       </Typography> */}
-                      <Typography
-                        variant="subtitle3"
-                        sx={{ lineHeight: 1.6, fontSize: "13px" }}
-                      >
-                        311, Ambika Pinnacle, Lajamni chowk,
-                        <br /> Mota varachha, Surat- 395006
-                      </Typography>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        id="address"
+                        label="Address"
+                        autoComplete="off"
+                        multiline
+                        rows={4}
+                        sx={{
+                          "&>label,& input,&>div": { fontSize: "12px" },
+                        }}
+                      />
 
                       <Box
                         sx={{
@@ -254,6 +259,7 @@ export default function Invoices() {
                             >
                               <Box
                                 sx={{
+                                  pt: 0.75,
                                   flexGrow: { md: 0 },
                                   overflowY: { md: "auto" },
                                   "& fieldset": {
@@ -264,7 +270,7 @@ export default function Invoices() {
                                   //   xs: "repeat(1, 1fr)",
                                   //   sm: "repeat(2, 1fr)",
                                   // },
-                                  gap: 2.5,
+                                  gap: 1,
                                 }}
                               >
                                 <TextField
@@ -414,7 +420,7 @@ export default function Invoices() {
                 <Box
                   sx={{
                     maxHeight: "140px",
-                    maxWidth: "280px",
+                    maxWidth: "240px",
                     minWidth: "80px",
                     flexShrink: 0,
                   }}
@@ -429,6 +435,11 @@ export default function Invoices() {
                   />
                 </Box>
               </Box>
+
+              <Box sx={{ my: 4 }}>
+                <Divider sx={{ borderWidth: "3px", borderColor: "#ededed" }} />
+              </Box>
+
               <Box
                 sx={{
                   display: "flex",
@@ -438,58 +449,6 @@ export default function Invoices() {
                 }}
               >
                 <Box>
-                  <Typography
-                    variant="body1"
-                    sx={{ fontWeight: 700, lineHeight: 1 }}
-                  >
-                    From
-                  </Typography>
-                  <FormControl
-                    fullWidth
-                    size="small"
-                    sx={{
-                      mt: 1,
-                      width: "300px",
-                      display: "flex",
-                      "&>label": { fontSize: "12px" },
-                    }}
-                  >
-                    <InputLabel
-                      sx={{ textTransform: "capitalize" }}
-                      id="demo-simple-select-label"
-                    >
-                      From
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="from"
-                      label="From"
-                      sx={{ fontSize: "12px" }}
-                    >
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"shunyavkash"}
-                      >
-                        Shunyavkash
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="address"
-                    label="Address"
-                    autoComplete="off"
-                    multiline
-                    rows={4}
-                    sx={{
-                      mt: 2.25,
-                      width: "300px",
-                      "&>label,& input,&>div": { fontSize: "12px" },
-                    }}
-                  />
-                </Box>
-                <Box sx={{ textAlign: "right" }}>
                   <Typography
                     variant="body1"
                     sx={{ fontWeight: 700, lineHeight: 1 }}
@@ -541,6 +500,80 @@ export default function Invoices() {
                       "&>label,& input,&>div": { fontSize: "12px" },
                     }}
                   />
+                </Box>
+                <Box>
+                  <Typography variant="h4">Invoice</Typography>
+                  <Box sx={{ textAlign: "right", alignSelf: "start", mt: 3 }}>
+                    <Box
+                      sx={{
+                        mt: 1,
+                        "&>*:not(:first-child)": {
+                          mt: 1,
+                        },
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 3.75,
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ opacity: "0.50", fontSize: "13px" }}
+                        >
+                          Invoice No:
+                        </Typography>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ fontSize: "13px" }}
+                        >
+                          001
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 3.75,
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ opacity: "0.50", fontSize: "13px" }}
+                        >
+                          Invoice Date:
+                        </Typography>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ fontSize: "13px" }}
+                        >
+                          Dec 13th,2023
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 3.75,
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ opacity: "0.50", fontSize: "13px" }}
+                        >
+                          Due:
+                        </Typography>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{ fontSize: "13px" }}
+                        >
+                          Jan 13th,2023
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
                 </Box>
               </Box>
               <Box
@@ -824,7 +857,7 @@ export default function Invoices() {
                     labelId="demo-simple-select-label"
                     id="select Bank"
                     label="Select Bank"
-                    sx={{ fontSize: "12px" }}
+                    sx={{ fontSize: "13px" }}
                   >
                     <MenuItem
                       sx={{ textTransform: "capitalize" }}
@@ -853,8 +886,7 @@ export default function Invoices() {
                   label="IFSC Code"
                   sx={{
                     mt: 2.25,
-                    width: "300px",
-                    "&>label,& input,&>div": { fontSize: "12px" },
+                    "&>label,& input,&>div": { fontSize: "13px" },
                   }}
                 />
                 <TextField
@@ -866,8 +898,7 @@ export default function Invoices() {
                   multiline
                   sx={{
                     mt: 2.25,
-                    width: "300px",
-                    "&>label,& input,&>div": { fontSize: "12px" },
+                    "&>label,& input,&>div": { fontSize: "13px" },
                   }}
                 />
 
@@ -878,7 +909,6 @@ export default function Invoices() {
                   label="Account Number"
                   sx={{
                     mt: 2.25,
-                    width: "300px",
                     "&>label,& input,&>div": { fontSize: "12px" },
                   }}
                 />
@@ -1076,13 +1106,13 @@ export default function Invoices() {
               <Box sx={{ maxWidth: "400px" }}>
                 <Typography
                   variant="body1"
-                  sx={{ fontWeight: 700, lineHeight: 1, fontSize: "13px" }}
+                  sx={{ fontWeight: 700, lineHeight: 1, fontSize: "16px" }}
                 >
                   Notes
                 </Typography>
                 <Box
                   sx={{
-                    mt: 2.25,
+                    mt: 0,
                     "&>*": {
                       display: "block",
                       lineHeight: 1.5,
@@ -1162,10 +1192,10 @@ export default function Invoices() {
                   position: "relative",
                   px: 2.5,
                   py: 1.5,
-                  bgcolor: "error.main",
+                  color: "text.primary",
+                  bgcolor: "#e4e4e4",
                   border: "1px solid",
-                  borderColor: "error.main",
-                  color: "white",
+                  borderColor: "#e4e4e4",
                   lineHeight: 1,
                   borderRadius: 2.5,
                   overflow: "hidden",
@@ -1183,13 +1213,12 @@ export default function Invoices() {
                     transition: "all 0.4s ease-in-out",
                   },
                   "&:hover": {
-                    color: "error.main",
-                    bgcolor: "error.main",
+                    bgcolor: "#e4e4e4",
                     "&:before": { height: "10rem" },
                   },
                 }}
               >
-                <span style={{ position: "relative" }}>Cancel</span>
+                <span style={{ position: "relative" }}>discard</span>
               </Button>
             </Link>
           </Box>

@@ -95,7 +95,7 @@ export default function Invoices() {
                   <Box>
                     <Box
                       sx={{
-                        mt: 0.25,
+                        mt: 1,
                         "&>*:not(:first-child)": {
                           mt: 3,
                         },
@@ -107,7 +107,11 @@ export default function Invoices() {
                       </Typography> */}
                       <Typography
                         variant="subtitle3"
-                        sx={{ lineHeight: 1.6, fontSize: "13px" }}
+                        sx={{
+                          lineHeight: 1.4,
+                          fontSize: "13px",
+                          display: "block",
+                        }}
                       >
                         311, Ambika Pinnacle, Lajamni chowk,
                         <br /> Mota varachha, Surat- 395006
@@ -115,9 +119,9 @@ export default function Invoices() {
 
                       <Box
                         sx={{
-                          mt: 0.25,
+                          mt: 0.5,
                           "&>*:not(:first-child)": {
-                            mt: 0,
+                            mt: 0.5,
                           },
                           textAlign: "left",
                         }}
@@ -125,8 +129,8 @@ export default function Invoices() {
                         <Typography
                           variant="subtitle3"
                           sx={{
-                            lineHeight: 1.6,
                             display: "block",
+                            lineHeight: 1.4,
                             fontSize: "13px",
                           }}
                         >
@@ -135,9 +139,9 @@ export default function Invoices() {
                         <Typography
                           variant="subtitle3"
                           sx={{
-                            lineHeight: 1.6,
                             display: "block",
                             fontSize: "13px",
+                            lineHeight: 1.4,
                           }}
                         >
                           hiren.polra@shunyavkash.com
@@ -149,7 +153,7 @@ export default function Invoices() {
                 <Box
                   sx={{
                     maxHeight: "140px",
-                    maxWidth: "280px",
+                    maxWidth: "250px",
                     minWidth: "80px",
                     flexShrink: 0,
                   }}
@@ -166,7 +170,7 @@ export default function Invoices() {
               </Box>
 
               <Box sx={{ my: 4 }}>
-                <Divider sx={{ bgcolor: "divider", height: 3 }} />
+                <Divider sx={{ borderWidth: "3px", borderColor: "#ededed" }} />
               </Box>
 
               <Box sx={{ textAlign: "right", alignSelf: "end" }}>
@@ -200,7 +204,7 @@ export default function Invoices() {
                     >
                       <Typography
                         variant="subtitle3"
-                        sx={{ lineHeight: 1.6, fontSize: "13px" }}
+                        sx={{ lineHeight: 1.4, fontSize: "13px" }}
                       >
                         311, Ambika Pinnacle, Lajamni chowk,
                         <br /> Mota varachha, Surat- 395006
@@ -278,160 +282,7 @@ export default function Invoices() {
                       </Box>
                     </Box>
                   </Box>
-
-                  {/* <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
-                      Invoice no:
-                    </Typography>
-                    <Typography variant="subtitle3">
-                      311, Ambika Pinnacle, Lajamni chowk,
-                    </Typography>
-                  </Box>
-
-                  <Box>
-                    <Typography
-                      variant="body1"
-                      sx={{ fontWeight: 700, lineHeight: 1 }}
-                    >
-                      From
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      sx={{ textTransform: "capitalize", lineHeight: 1, mt: 1 }}
-                    >
-                      Saldo apps
-                    </Typography>
-                    <Box
-                      sx={{
-                        mt: 2.25,
-                        "&>*": {
-                          display: "block",
-                          "&:not(:first-child)": { mt: 1 },
-                        },
-                      }}
-                    >
-                      <Typography
-                        variant="subtitle3"
-                        sx={{ lineHeight: 1.6, fontSize: "13px" }}
-                      >
-                        John Smith <br /> wiz@saladoapps.com <br /> 0123456789
-                        <br /> First str.,28-32,chicago, USA
-                      </Typography>
-                    </Box>
-                  </Box> */}
                 </Box>
-
-                {/* <Typography
-                  variant="h4"
-                  sx={{
-                    textTransform: "capitalize",
-                    pb: 4,
-                    textAlign: "right",
-                    alignSelf: "end",
-                  }}
-                >
-                  Xyz
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 1,
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      gap: 1,
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{ textTransform: "capitalize" }}
-                    >
-                      Bill To
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      sx={{ textTransform: "capitalize" }}
-                    >
-                      Hiren Polara
-                      <Box>
-                        <Box
-                          sx={{
-                            mt: 1,
-                            "&>*:not(:first-child)": {
-                              mt: 1,
-                            },
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              gap: 1,
-                            }}
-                          >
-                            <Typography variant="subtitle3">
-                              311, Ambika Pinnacle, Lajamni chowk,
-                            </Typography>
-                          </Box>
-                          <Box
-                            sx={{
-                              gap: 1,
-                            }}
-                          >
-                            <Typography variant="subtitle3">
-                              Mota varachha, Surat- 395006
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </Box>
-                    </Typography>
-                  </Box>
-                  <Box sx={{ textAlign: "right", alignSelf: "start", mt: 0 }}>
-                    <Box
-                      sx={{
-                        mt: 1,
-                        "&>*:not(:first-child)": {
-                          mt: 1,
-                        },
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
-                          Invoice no:
-                        </Typography>
-                        <Typography variant="subtitle3">
-                          311, Ambika Pinnacle, Lajamni chowk,
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          gap: 3.75,
-                        }}
-                      >
-                        <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
-                          Invoice Date:
-                        </Typography>
-                        <Typography variant="subtitle3">
-                          Mota varachha, Surat- 395006
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                </Box> */}
               </Box>
             </Box>
 
@@ -462,7 +313,7 @@ export default function Invoices() {
                 >
                   <Typography
                     variant="subtitle3"
-                    sx={{ lineHeight: 1.6, fontSize: "13px" }}
+                    sx={{ lineHeight: 1.4, fontSize: "13px" }}
                   >
                     In this project we have created design & dynamic.
                   </Typography>
@@ -972,7 +823,7 @@ export default function Invoices() {
                 >
                   <Typography
                     variant="subtitle3"
-                    sx={{ fontSize: "13px", lineHeight: 1.2 }}
+                    sx={{ fontSize: "13px", lineHeight: 1.4 }}
                   >
                     ptototype-based programming is a style of object-oriented
                     programming in which behaviour.
@@ -1034,10 +885,10 @@ export default function Invoices() {
                   position: "relative",
                   px: 2.5,
                   py: 1.5,
-                  bgcolor: "error.main",
+                  color: "text.primary",
+                  bgcolor: "#e4e4e4",
                   border: "1px solid",
-                  borderColor: "error.main",
-                  color: "white",
+                  borderColor: "#e4e4e4",
                   lineHeight: 1,
                   borderRadius: 2.5,
                   overflow: "hidden",
@@ -1055,13 +906,12 @@ export default function Invoices() {
                     transition: "all 0.4s ease-in-out",
                   },
                   "&:hover": {
-                    color: "error.main",
-                    bgcolor: "error.main",
+                    bgcolor: "#e4e4e4",
                     "&:before": { height: "10rem" },
                   },
                 }}
               >
-                <span style={{ position: "relative" }}>Cancel</span>
+                <span style={{ position: "relative" }}>discard</span>
               </Button>
             </Link>
           </Box>
