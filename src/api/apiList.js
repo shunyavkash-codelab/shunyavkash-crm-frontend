@@ -10,6 +10,7 @@ export const APIS = {
     CHANGEPASSWORD: "/manager/change-password",
     EDIT: (managerId) => `/manager/${managerId}`,
     VIEW: (managerId) => `/manager/${managerId}`,
+    VIEWLIST: "/manager/get-managers",
     LIST: "/manager/get-managers",
   },
   CLIENT: {

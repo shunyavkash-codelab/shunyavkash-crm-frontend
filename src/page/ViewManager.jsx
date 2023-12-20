@@ -23,11 +23,35 @@ import { APIS } from "../api/apiList.js";
 import { useAuth } from "../hooks/store/useAuth.js";
 import PhoneIcon from "@mui/icons-material/PhoneIphone";
 import CompanyIcon from "@mui/icons-material/BusinessOutlined";
+import { useParams } from "react-router-dom";
 
 export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const { apiCall, isLoading } = useApi();
   const { accessToken, user } = useAuth();
+  const { setSnack } = useSnack();
+  const [managerList, setManagerList] = useState([]);
+  const { id } = useParams();
+
+  const viewManagers = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.VIEW(id),
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setManagerList(res.data.data);
+        console.log(res.data.data, "---------------------------------44");
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    viewManagers();
+  }, []);
 
   return (
     <>
@@ -112,7 +136,10 @@ export default function Manager() {
                 }}
               >
                 <img
-                  src="https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"
+                  src={
+                    managerList.profile_img ||
+                    "https://uko-react.vercel.app/static/avatar/001-man.svg"
+                  } //"https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"
                   style={{
                     height: "100%",
                     width: "100%",
@@ -130,7 +157,7 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  Ravi
+                  {managerList.name}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -142,7 +169,7 @@ export default function Manager() {
                     wordBreak: "break-word",
                   }}
                 >
-                  ravi.chodvadiya@shunyavkash.com
+                  {managerList.email}
                 </Typography>
               </Box>
             </Box>
@@ -235,7 +262,7 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  +919876567892
+                  {managerList.mobileCode} {managerList.mobileNumber}
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
@@ -258,7 +285,7 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  male
+                  {managerList.gender}
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
@@ -281,7 +308,7 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  shunyavkash
+                  {managerList.companyName}
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
@@ -304,7 +331,7 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  hirenbhai
+                  {managerList?.referenceName}
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
@@ -327,7 +354,7 @@ export default function Manager() {
                     wordBreak: "break-word",
                   }}
                 >
-                  www.google.com
+                  {managerList.websiteURL}
                 </Typography>
               </Box>
             </Box>
@@ -340,7 +367,11 @@ export default function Manager() {
               }}
             >
               <img
-                src="/images/sign.svg"
+                src={
+                  managerList.signature
+                    ? managerList.signature
+                    : "/images/signature.png"
+                } //"/images/sign.svg"
                 style={{
                   maxHeight: "inherit",
                   width: "100%",

@@ -28,7 +28,7 @@ const routes = createBrowserRouter([
   { path: "/", Component: Home },
   { path: "/managers", Component: Manager },
   { path: "/managers/add", Component: AddManager },
-  { path: "/managers/view", Component: ViewManager },
+  { path: "/managers/view/:id", Component: ViewManager },
   { path: "/clients", Component: Clients },
   { path: "/Clients/add", Component: AddClient },
   { path: "/Clients/edit/:id", Component: AddClient },
