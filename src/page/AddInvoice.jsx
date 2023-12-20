@@ -464,7 +464,7 @@ export default function Invoices() {
                       multiline
                       rows={4}
                       sx={{
-                        mt: 2.25,
+                        mt: 1.25,
                         // width: "300px",
                         "&>label,& input,&>div": { fontSize: "12px" },
                       }}
@@ -595,7 +595,7 @@ export default function Invoices() {
                     multiline
                     rows={4}
                     sx={{
-                      mt: 2.25,
+                      mt: 1.25,
                       // width: "300px",
                       "&>label,& input,&>div": { fontSize: "12px" },
                     }}
@@ -609,7 +609,7 @@ export default function Invoices() {
                 size="small"
                 sx={{
                   mt: 1,
-                  width: "450px",
+                  // width: "450px",
                   display: "flex",
                   "&>label": { fontSize: "12px" },
                 }}
