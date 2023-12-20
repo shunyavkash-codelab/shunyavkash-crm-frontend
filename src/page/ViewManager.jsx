@@ -44,7 +44,6 @@ export default function Manager() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setManagerList(res.data.data);
-        console.log(res.data.data, "---------------------------------44");
       }
     } catch (error) {
       console.log(error, setSnack);

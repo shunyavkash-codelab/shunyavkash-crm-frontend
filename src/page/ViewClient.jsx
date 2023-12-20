@@ -25,12 +25,34 @@ import { useAuth } from "../hooks/store/useAuth.js";
 import PhoneIcon from "@mui/icons-material/PhoneIphone";
 import CompanyIcon from "@mui/icons-material/BusinessOutlined";
 import AddressIcon from "@mui/icons-material/LocationOnOutlined";
+import { useParams } from "react-router-dom";
 
 export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, user } = useAuth();
+  const { apiCall, isLoading } = useApi();
+  const { setSnack } = useSnack();
+  const [clientList, setClientList] = useState([]);
+  const { id } = useParams();
 
+  const viewClient = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.CLIENT.VIEW(id),
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setClientList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    viewClient();
+  }, []);
   return (
     <>
       <SideBar
@@ -114,7 +136,11 @@ export default function Manager() {
                 }}
               >
                 <img
-                  src="https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"
+                  src={
+                    clientList.profile_img
+                      ? clientList.profile_img
+                      : "https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"
+                  } //"https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"
                   style={{
                     height: "100%",
                     width: "100%",
@@ -138,7 +164,7 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  Ravi
+                  {clientList.name}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -150,7 +176,7 @@ export default function Manager() {
                     wordBreak: "break-word",
                   }}
                 >
-                  ravi.chodvadiya@shunyavkash.com
+                  {clientList.email}
                 </Typography>
               </Box>
               <Box
@@ -163,7 +189,11 @@ export default function Manager() {
                 }}
               >
                 <img
-                  src="/images/logo-2.svg"
+                  src={
+                    clientList?.companyLogo
+                      ? clientList?.companyLogo
+                      : "/images/logo-2.svg"
+                  }
                   style={{
                     height: "100%",
                     width: "100%",
@@ -208,7 +238,8 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  +919876567892
+                  {clientList.mobileCode}
+                  {clientList.mobileNumber}
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
@@ -220,7 +251,7 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  male
+                  {clientList.gender}
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
@@ -232,7 +263,7 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  shunyavkash
+                  {clientList.companyName}
                 </Typography>
               </Box>
               <Box
@@ -262,7 +293,7 @@ export default function Manager() {
                     wordBreak: "break-word",
                   }}
                 >
-                  www.google.com
+                  {clientList.websiteURL}
                 </Typography>
               </Box>
               <Box
@@ -290,7 +321,14 @@ export default function Manager() {
                     },
                   }}
                 >
-                  <Chip sx={{ height: "auto" }} label="CRM-Shunyavkash" />
+                  {clientList.projectName &&
+                    clientList.projectName.map((project) => (
+                      <Chip
+                        key={project}
+                        sx={{ height: "auto" }}
+                        label={project}
+                      />
+                    ))}
                 </Box>
               </Box>
               <Box
@@ -307,8 +345,7 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  311, Ambika Pinnacle, Lajamni chowk, <br /> Mota varachha,
-                  Surat- 395006
+                  {clientList.address}
                 </Typography>
               </Box>
             </Box>

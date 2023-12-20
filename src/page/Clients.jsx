@@ -292,7 +292,7 @@ export default function Clients() {
                               "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
                             }}
                           >
-                            <Link to={"./view"}>
+                            <Link to={`./view/${row._id}`}>
                               <Button
                                 disableRipple
                                 sx={{
