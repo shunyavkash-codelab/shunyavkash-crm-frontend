@@ -38,4 +38,7 @@ export const APIS = {
   CURRENCY: {
     GET: "/currency",
   },
+  ADMIN: {
+    GET: "admin/getAdmin",
+  },
 };

@@ -64,6 +64,7 @@ export default function Invoices() {
   const [countryList, setCountryList] = useState([]);
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
+  const [adminList, setAdminList] = useState(false);
   const handleChange = (event) => {
     const {
       target: { value },
@@ -79,8 +80,14 @@ export default function Invoices() {
 
   const formik = useFormik({
     initialValues: {
-      email: clientList?.email,
-      mobileNumber: clientList?.mobileNumber,
+      email: adminList.email,
+      address: adminList.address,
+      address2: adminList.address2,
+      landmark: adminList.landmark,
+      pincode: adminList.pincode,
+      mobileCode: adminList.mobileCode,
+      mobileNumber: adminList.mobileNumber,
+      // mobileNumber: clientList?.mobileNumber,
     },
     onSubmit: async (values) => {
       try {
@@ -131,10 +138,36 @@ export default function Invoices() {
     }
   };
 
+  // get admin details
+  const fetchAdmin = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.ADMIN.GET,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setAdminList(res.data.data);
+        formik.setFieldValue("email", res.data.data.email);
+        formik.setFieldValue("address", res.data.data.address);
+        formik.setFieldValue("address2", res.data.data.address2);
+        formik.setFieldValue("landmark", res.data.data.landmark);
+        formik.setFieldValue("pincode", res.data.data.pincode);
+        formik.setFieldValue("mobileCode", { phone: res.data.data.mobileCode });
+        formik.setFieldValue("mobileNumber", res.data.data.mobileNumber);
+        // formik.setFieldValue("address", res.data.data.address);
+        console.log(res.data.data, "----------------------144");
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
   useEffect(() => {
     if (id !== undefined) fetchClient(id);
     fetchCountry();
+    fetchAdmin();
   }, []);
+  console.log(formik.values.mobileCode);
 
   return (
     <>
@@ -215,6 +248,19 @@ export default function Invoices() {
                         id="address"
                         label="Address"
                         autoComplete="off"
+                        onChange={formik.handleChange}
+                        // value={`${formik.values.address} ${formik.values.address2} ${formik.values.landmark} ${formik.values.pincode}`}
+                        value={
+                          formik.values.address +
+                          formik.values.address2 +
+                          formik.values.landmark +
+                          formik.values.pincode
+                        }
+                        InputProps={
+                          location.pathname.includes("/view/") && {
+                            readOnly: true,
+                          }
+                        }
                         multiline
                         rows={4}
                         sx={{
@@ -231,92 +277,101 @@ export default function Invoices() {
                           textAlign: "left",
                         }}
                       >
-                        {(clientList || id === undefined) && (
-                          <FormikProvider value={formik}>
+                        <FormikProvider value={formik}>
+                          <Box
+                            component="form"
+                            noValidate
+                            autoComplete="off"
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              formik.handleSubmit();
+                            }}
+                            sx={{
+                              // p: 2.5,
+                              // pt: 1.75,
+                              backgroundColor: "white",
+                              borderRadius: 2.5,
+                            }}
+                          >
                             <Box
-                              component="form"
-                              noValidate
-                              autoComplete="off"
-                              onSubmit={(e) => {
-                                e.preventDefault();
-                                formik.handleSubmit();
-                              }}
                               sx={{
-                                // p: 2.5,
-                                // pt: 1.75,
-                                backgroundColor: "white",
-                                borderRadius: 2.5,
+                                pt: 0.75,
+                                flexGrow: { md: 0 },
+                                overflowY: { md: "auto" },
+                                "& fieldset": {
+                                  borderRadius: 1.5,
+                                },
                               }}
                             >
+                              <TextField
+                                fullWidth
+                                size="small"
+                                id="email"
+                                label="Email"
+                                autoComplete="off"
+                                // defaultValue={adminList.email}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                sx={{
+                                  "&>label,& input,&>div": {
+                                    fontSize: "14px",
+                                  },
+                                }}
+                                onChange={formik.handleChange}
+                                value={formik.values.email}
+                                InputProps={
+                                  location.pathname.includes("/view/") && {
+                                    readOnly: true,
+                                  }
+                                }
+                              />
+
                               <Box
                                 sx={{
-                                  pt: 0.75,
-                                  flexGrow: { md: 0 },
-                                  overflowY: { md: "auto" },
-                                  "& fieldset": {
-                                    borderRadius: 1.5,
+                                  display: "flex",
+                                  mt: 0.75,
+                                  "&:hover fieldset": {
+                                    borderColor: "text.primary",
                                   },
                                 }}
                               >
-                                <TextField
-                                  fullWidth
+                                <Autocomplete
                                   size="small"
-                                  id="email"
-                                  label="Email"
-                                  autoComplete="off"
-                                  defaultValue={clientList?.email}
-                                  // InputLabelProps={{
-                                  //   shrink: true,
-                                  // }}
+                                  id="country-select-demo"
                                   sx={{
-                                    "&>label,& input,&>div": {
-                                      fontSize: "14px",
+                                    flexShrink: 0,
+                                    width: { xs: "100px", sm: "120px" },
+                                    "& input": { fontSize: "14px" },
+                                    "& button[title='Clear']": {
+                                      display: "none",
+                                    },
+                                    "& fieldset": {
+                                      borderRadius: "6px 0 0 6px",
+                                      borderRight: 0,
+                                    },
+                                    "&>div>div": {
+                                      pr: "24px!important",
+                                      bgcolor: "#f4f4f4",
+                                    },
+                                    "& input+div": {
+                                      right: "0!important",
                                     },
                                   }}
-                                  onChange={formik.handleChange}
-                                  value={formik.values.email}
-                                  InputProps={
-                                    location.pathname.includes("/view/") && {
-                                      readOnly: true,
-                                    }
-                                  }
-                                />
-
-                                <Box
-                                  sx={{
-                                    display: "flex",
-                                    mt: 0.75,
-                                    "&:hover fieldset": {
-                                      borderColor: "text.primary",
-                                    },
+                                  onChange={(_, newValue) => {
+                                    console.log(newValue);
+                                    formik.setFieldValue(
+                                      "mobileCode",
+                                      newValue
+                                    );
                                   }}
-                                >
-                                  <Autocomplete
-                                    size="small"
-                                    id="country-select-demo"
-                                    sx={{
-                                      flexShrink: 0,
-                                      width: { xs: "100px", sm: "120px" },
-                                      "& input": { fontSize: "14px" },
-                                      "& button[title='Clear']": {
-                                        display: "none",
-                                      },
-                                      "& fieldset": {
-                                        borderRadius: "6px 0 0 6px !important",
-                                        borderRight: 0,
-                                      },
-                                      "&>div>div": {
-                                        pr: "24px!important",
-                                        bgcolor: "#f4f4f4",
-                                      },
-                                      "& input+div": {
-                                        right: "0!important",
-                                      },
-                                    }}
-                                    options={countryList}
-                                    autoHighlight
-                                    getOptionLabel={(option) => option.phone}
-                                    renderOption={(props, option) => (
+                                  value={formik.values.mobileCode}
+                                  inputValue={formik.values.mobileCode?.phone}
+                                  options={countryList}
+                                  autoHighlight
+                                  getOptionLabel={(option) => option.phone}
+                                  renderOption={(props, option) => {
+                                    return (
                                       <Box
                                         component="li"
                                         sx={{
@@ -336,48 +391,42 @@ export default function Invoices() {
                                         />
                                         +{option.phone}
                                       </Box>
-                                    )}
-                                    renderInput={(params) => (
-                                      <TextField
-                                        {...params}
-                                        inputProps={{
-                                          ...params.inputProps,
-                                          autoComplete: "new-password", // disable autocomplete and autofill
-                                        }}
-                                      />
-                                    )}
-                                  />
-                                  <TextField
-                                    fullWidth
-                                    size="small"
-                                    id="mobileNumber"
-                                    type="tel"
-                                    autoComplete="off"
-                                    placeholder="Number"
-                                    defaultValue={clientList?.mobileNumber}
-                                    InputProps={
-                                      location.pathname.includes("/view/") && {
-                                        readOnly: true,
-                                      }
+                                    );
+                                  }}
+                                  renderInput={(params) => {
+                                    console.log(params);
+                                    return <TextField {...params} />;
+                                  }}
+                                />
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  id="mobileNumber"
+                                  type="tel"
+                                  autoComplete="off"
+                                  placeholder="Number"
+                                  InputProps={
+                                    location.pathname.includes("/view/") && {
+                                      readOnly: true,
                                     }
-                                    // InputLabelProps={{
-                                    //   shrink: true,
-                                    // }}
-                                    sx={{
-                                      "& input,&>div": { fontSize: "14px" },
-                                      "& fieldset": {
-                                        borderRadius: "0 6px 6px 0 !important",
-                                        borderLeft: 0,
-                                      },
-                                    }}
-                                    onChange={formik.handleChange}
-                                    value={formik.values.mobileNumber}
-                                  />
-                                </Box>
+                                  }
+                                  // InputLabelProps={{
+                                  //   shrink: true,
+                                  // }}
+                                  sx={{
+                                    "& input,&>div": { fontSize: "14px" },
+                                    "& fieldset": {
+                                      borderRadius: "0 6px 6px 0",
+                                      borderLeft: 0,
+                                    },
+                                  }}
+                                  onChange={formik.handleChange}
+                                  value={formik.values.mobileNumber}
+                                />
                               </Box>
                             </Box>
-                          </FormikProvider>
-                        )}
+                          </Box>
+                        </FormikProvider>
                       </Box>
                     </Box>
                   </Box>
