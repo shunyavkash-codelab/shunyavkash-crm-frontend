@@ -609,7 +609,7 @@ export default function Invoices() {
                 size="small"
                 sx={{
                   mt: 1,
-                  // width: "450px",
+                  width: "450px",
                   display: "flex",
                   "&>label": { fontSize: "12px" },
                 }}
