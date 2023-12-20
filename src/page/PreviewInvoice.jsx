@@ -51,17 +51,8 @@ export default function Invoices() {
           }}
         >
           <Box sx={{ mb: 3.25 }}>
-            <Typography
-              variant="h5"
-              sx={{ mb: 0.75, textTransform: "capitalize" }}
-            >
-              Invoice
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              sx={{ opacity: 0.4, textTransform: "capitalize" }}
-            >
-              Invoice
+            <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+              Preview Invoice
             </Typography>
           </Box>
           <Box
@@ -108,7 +99,7 @@ export default function Invoices() {
                       <Typography
                         variant="subtitle3"
                         sx={{
-                          lineHeight: 1.4,
+                          lineHeight: 1.5,
                           fontSize: "13px",
                           display: "block",
                         }}
@@ -119,9 +110,9 @@ export default function Invoices() {
 
                       <Box
                         sx={{
-                          mt: 0.5,
+                          mt: 0.75,
                           "&>*:not(:first-child)": {
-                            mt: 0.5,
+                            mt: 0.75,
                           },
                           textAlign: "left",
                         }}
@@ -130,7 +121,7 @@ export default function Invoices() {
                           variant="subtitle3"
                           sx={{
                             display: "block",
-                            lineHeight: 1.4,
+                            lineHeight: 1.2,
                             fontSize: "13px",
                           }}
                         >
@@ -141,7 +132,7 @@ export default function Invoices() {
                           sx={{
                             display: "block",
                             fontSize: "13px",
-                            lineHeight: 1.4,
+                            lineHeight: 1.2,
                           }}
                         >
                           hiren.polra@shunyavkash.com
@@ -204,7 +195,7 @@ export default function Invoices() {
                     >
                       <Typography
                         variant="subtitle3"
-                        sx={{ lineHeight: 1.4, fontSize: "13px" }}
+                        sx={{ lineHeight: 1.5, fontSize: "13px" }}
                       >
                         311, Ambika Pinnacle, Lajamni chowk,
                         <br /> Mota varachha, Surat- 395006
@@ -298,7 +289,7 @@ export default function Invoices() {
                 >
                   Project
                 </Typography>
-                <Typography variant="h6" sx={{ lineHeight: 1, mt: 1 }}>
+                <Typography variant="h6" sx={{ lineHeight: 1, mt: 1.25 }}>
                   Shunyavkash CRM
                 </Typography>
                 <Box
@@ -313,7 +304,7 @@ export default function Invoices() {
                 >
                   <Typography
                     variant="subtitle3"
-                    sx={{ lineHeight: 1.4, fontSize: "13px" }}
+                    sx={{ lineHeight: 1.5, fontSize: "13px" }}
                   >
                     In this project we have created design & dynamic.
                   </Typography>
@@ -511,7 +502,7 @@ export default function Invoices() {
                 <Box
                   sx={{
                     ml: "auto",
-                    mt: 1.75,
+                    mt: 2.25,
                     flexShrink: 0,
                     "&>*": { "&:not(:first-child)": { mt: 2.25 } },
                   }}
@@ -823,7 +814,7 @@ export default function Invoices() {
                 >
                   <Typography
                     variant="subtitle3"
-                    sx={{ fontSize: "13px", lineHeight: 1.4 }}
+                    sx={{ fontSize: "13px", lineHeight: 1.5 }}
                   >
                     ptototype-based programming is a style of object-oriented
                     programming in which behaviour.

@@ -164,17 +164,8 @@ export default function Invoices() {
           }}
         >
           <Box sx={{ mb: 3.25 }}>
-            <Typography
-              variant="h5"
-              sx={{ mb: 0.75, textTransform: "capitalize" }}
-            >
-              Invoice
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              sx={{ opacity: 0.4, textTransform: "capitalize" }}
-            >
-              Invoice
+            <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+              Add Invoice
             </Typography>
           </Box>
           <Box
@@ -265,12 +256,6 @@ export default function Invoices() {
                                   "& fieldset": {
                                     borderRadius: 1.5,
                                   },
-                                  display: "grid",
-                                  // gridTemplateColumns: {
-                                  //   xs: "repeat(1, 1fr)",
-                                  //   sm: "repeat(2, 1fr)",
-                                  // },
-                                  gap: 1,
                                 }}
                               >
                                 <TextField
@@ -300,6 +285,7 @@ export default function Invoices() {
                                 <Box
                                   sx={{
                                     display: "flex",
+                                    mt: 0.75,
                                     "&:hover fieldset": {
                                       borderColor: "text.primary",
                                     },
@@ -392,27 +378,6 @@ export default function Invoices() {
                             </Box>
                           </FormikProvider>
                         )}
-
-                        {/* <Typography
-                          variant="subtitle3"
-                          sx={{
-                            lineHeight: 1.6,
-                            display: "block",
-                            fontSize: "13px",
-                          }}
-                        >
-                          +91 8155926380
-                        </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{
-                            lineHeight: 1.6,
-                            display: "block",
-                            fontSize: "13px",
-                          }}
-                        >
-                          hiren.polra@shunyavkash.com
-                        </Typography> */}
                       </Box>
                     </Box>
                   </Box>
@@ -440,69 +405,71 @@ export default function Invoices() {
                 <Divider sx={{ borderWidth: "2px", borderColor: "#ededed" }} />
               </Box>
 
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  mt: 6,
-                  gap: 2,
-                }}
-              >
-                <Box>
-                  <Typography
-                    variant="body1"
-                    sx={{ fontWeight: 700, lineHeight: 1 }}
+              <Box sx={{ textAlign: "right", alignSelf: "end" }}>
+                <Typography variant="h4">Invoice</Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    mt: 6,
+                    gap: 2,
+                  }}
+                >
+                  <Box
+                    sx={{ textAlign: "left", maxWidth: "300px", width: "100%" }}
                   >
-                    Bill to
-                  </Typography>
-                  <FormControl
-                    fullWidth
-                    size="small"
-                    sx={{
-                      mt: 1,
-                      width: "300px",
-                      display: "flex",
-                      "&>label": { fontSize: "12px" },
-                      "&>div": { textAlign: "left" },
-                    }}
-                  >
-                    <InputLabel
-                      sx={{ textTransform: "capitalize" }}
-                      id="demo-simple-select-label"
+                    <Typography
+                      variant="body1"
+                      sx={{ fontWeight: 700, lineHeight: 1 }}
                     >
-                      To
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="to"
-                      label="To"
-                      sx={{ fontSize: "12px" }}
+                      Bill to
+                    </Typography>
+                    <FormControl
+                      fullWidth
+                      size="small"
+                      sx={{
+                        mt: 1.25,
+                        // width: "300px",
+                        display: "flex",
+                        "&>label": { fontSize: "12px" },
+                        "&>div": { textAlign: "left" },
+                      }}
                     >
-                      <MenuItem
+                      <InputLabel
                         sx={{ textTransform: "capitalize" }}
-                        value={"shunyavkash"}
+                        id="demo-simple-select-label"
                       >
-                        Shunyavkash
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="address"
-                    label="Address"
-                    autoComplete="off"
-                    multiline
-                    rows={4}
-                    sx={{
-                      mt: 2.25,
-                      width: "300px",
-                      "&>label,& input,&>div": { fontSize: "12px" },
-                    }}
-                  />
-                </Box>
-                <Box>
-                  <Typography variant="h4">Invoice</Typography>
+                        To
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="to"
+                        label="To"
+                        sx={{ fontSize: "12px" }}
+                      >
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"shunyavkash"}
+                        >
+                          Shunyavkash
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="address"
+                      label="Address"
+                      autoComplete="off"
+                      multiline
+                      rows={4}
+                      sx={{
+                        mt: 2.25,
+                        // width: "300px",
+                        "&>label,& input,&>div": { fontSize: "12px" },
+                      }}
+                    />
+                  </Box>
                   <Box sx={{ textAlign: "right", alignSelf: "start", mt: 3 }}>
                     <Box
                       sx={{
@@ -576,13 +543,13 @@ export default function Invoices() {
                   </Box>
                 </Box>
               </Box>
+
               <Box
                 sx={{
-                  mt: 3,
-                  gap: 2,
+                  mt: 6,
                 }}
               >
-                <Box>
+                <Box sx={{ maxWidth: "300px", width: "100%" }}>
                   <Typography
                     variant="body1"
                     sx={{ fontWeight: 700, lineHeight: 1 }}
@@ -593,8 +560,8 @@ export default function Invoices() {
                     fullWidth
                     size="small"
                     sx={{
-                      mt: 1,
-                      width: "300px",
+                      mt: 1.25,
+                      // width: "300px",
                       display: "flex",
                       "&>label": { fontSize: "12px" },
                     }}
@@ -629,7 +596,7 @@ export default function Invoices() {
                     rows={4}
                     sx={{
                       mt: 2.25,
-                      width: "300px",
+                      // width: "300px",
                       "&>label,& input,&>div": { fontSize: "12px" },
                     }}
                   />
@@ -832,7 +799,7 @@ export default function Invoices() {
               >
                 <Typography
                   variant="body1"
-                  sx={{ fontWeight: 700, lineHeight: 1, mb: 1.75 }}
+                  sx={{ fontWeight: 700, lineHeight: 1, mb: 2.25 }}
                 >
                   Bank Details
                 </Typography>
@@ -1103,7 +1070,7 @@ export default function Invoices() {
                 mt: 6,
               }}
             >
-              <Box sx={{ maxWidth: "400px" }}>
+              <Box sx={{ maxWidth: "400px", width: "100%" }}>
                 <Typography
                   variant="body1"
                   sx={{ fontWeight: 700, lineHeight: 1, fontSize: "16px" }}
@@ -1129,7 +1096,6 @@ export default function Invoices() {
                     rows={4}
                     sx={{
                       mt: 2.25,
-                      width: "300px",
                       "&>label,& input,&>div": { fontSize: "12px" },
                     }}
                   />
