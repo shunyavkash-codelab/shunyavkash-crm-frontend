@@ -823,13 +823,13 @@ export default function Invoices() {
                           id="number"
                           label="Hours"
                           autoComplete="off"
-                          defaultValue={clientList?.name}
+                          defaultValue={clientList?.hours}
                           type="number"
                           sx={{
                             "&>label,& input,&>div": { fontSize: "14px" },
                           }}
                           onChange={formik.handleChange}
-                          value={formik.values.name}
+                          value={formik.values.hours}
                           InputProps={
                             location.pathname.includes("/view/") && {
                               readOnly: true,
