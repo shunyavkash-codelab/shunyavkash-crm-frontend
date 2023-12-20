@@ -302,7 +302,7 @@ export default function Invoices() {
                                         display: "none",
                                       },
                                       "& fieldset": {
-                                        borderRadius: "6px 0 0 6px",
+                                        borderRadius: "6px 0 0 6px !important",
                                         borderRight: 0,
                                       },
                                       "&>div>div": {
@@ -366,7 +366,7 @@ export default function Invoices() {
                                     sx={{
                                       "& input,&>div": { fontSize: "14px" },
                                       "& fieldset": {
-                                        borderRadius: "0 6px 6px 0",
+                                        borderRadius: "0 6px 6px 0 !important",
                                         borderLeft: 0,
                                       },
                                     }}
@@ -758,6 +758,87 @@ export default function Invoices() {
                       <TableCell>1</TableCell>
                       <TableCell>$958.00</TableCell>
                     </TableRow>
+
+                    <TableRow
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&>*": {
+                          p: 1.5,
+                          "&:first-child": { fontWeight: "600" },
+                        },
+                      }}
+                    >
+                      <TableCell>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          id="name"
+                          label="Task"
+                          autoComplete="off"
+                          defaultValue={clientList?.name}
+                          // InputLabelProps={{
+                          //   shrink: true,
+                          // }}
+                          sx={{
+                            "&>label,& input,&>div": { fontSize: "14px" },
+                          }}
+                          onChange={formik.handleChange}
+                          value={formik.values.name}
+                          InputProps={
+                            location.pathname.includes("/view/") && {
+                              readOnly: true,
+                            }
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          id="PricePerHours"
+                          type="tel"
+                          autoComplete="off"
+                          defaultValue={clientList?.mobileNumber}
+                          placeholder="$"
+                          InputProps={
+                            location.pathname.includes("/view/") && {
+                              readOnly: true,
+                            }
+                          }
+                          // InputLabelProps={{
+                          //   shrink: true,
+                          // }}
+                          sx={{
+                            "& input,&>div": { fontSize: "14px" },
+                          }}
+                          onChange={formik.handleChange}
+                          value={formik.values.mobileNumber}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          id="number"
+                          label="Hours"
+                          autoComplete="off"
+                          defaultValue={clientList?.name}
+                          type="number"
+                          sx={{
+                            "&>label,& input,&>div": { fontSize: "14px" },
+                          }}
+                          onChange={formik.handleChange}
+                          value={formik.values.name}
+                          InputProps={
+                            location.pathname.includes("/view/") && {
+                              readOnly: true,
+                            }
+                          }
+                        />
+                      </TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
                   </TableBody>
                   <TableFooter>
                     <TableRow
@@ -771,7 +852,49 @@ export default function Invoices() {
                         bgcolor: "rgba(243 ,243 ,243 ,1)",
                       }}
                     >
-                      <TableCell></TableCell>
+                      <TableCell sx={{ "&:first-child": { px: 2, py: 0.5 } }}>
+                        <Link to="./preview">
+                          <Button
+                            disableRipple
+                            sx={{
+                              maxHeight: "36px",
+                              position: "relative",
+                              px: 2.5,
+                              py: 1.5,
+                              bgcolor: "primary.main",
+                              border: "1px solid",
+                              borderColor: "primary.main",
+                              color: "white",
+                              lineHeight: 1,
+                              borderRadius: 2.5,
+                              overflow: "hidden",
+                              "&:before": {
+                                content: "''",
+                                height: 0,
+                                width: "10rem",
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                zIndex: "0",
+                                bgcolor: "white",
+                                transform:
+                                  "rotate(-45deg) translate(-50%, -50%)",
+                                transformOrigin: "0% 0%",
+                                transition: "all 0.4s ease-in-out",
+                              },
+                              "&:hover": {
+                                color: "primary.main",
+                                bgcolor: "primary.main",
+                                "&:before": { height: "10rem" },
+                              },
+                            }}
+                          >
+                            <span style={{ position: "relative" }}>
+                              Add Task
+                            </span>
+                          </Button>
+                        </Link>
+                      </TableCell>
                       <TableCell></TableCell>
                       <TableCell sx={{ fontWeight: "600", color: "black" }}>
                         Total:

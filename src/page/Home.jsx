@@ -396,16 +396,6 @@ export default function Home() {
                 </Grid>
               </Grid>
             </Box> */}
-            <Typography
-              variant="subtitle2"
-              sx={{
-                opacity: 0.6,
-                lineHeight: 1,
-                mb: 1.75,
-              }}
-            >
-              50 Invoices found
-            </Typography>
             <Box sx={{ display: showTable ? "none" : "block" }}>
               <Box>
                 <Grid container rowSpacing={2} columnSpacing={2}>

@@ -315,7 +315,7 @@ export default function AddProject({ open, setOpen }) {
                         },
                         "&>svg": { fontSize: "18px" },
                         "& fieldset": {
-                          borderRadius: "6px 0 0 6px",
+                          borderRadius: "6px 0 0 6px !important",
                           borderRight: 0,
                         },
                       }}
@@ -354,7 +354,7 @@ export default function AddProject({ open, setOpen }) {
                       "& input": { fontSize: "14px" },
                       "& button[title='Clear']": { display: "none" },
                       "& fieldset": {
-                        borderRadius: "6px 0 0 6px",
+                        borderRadius: "6px 0 0 6px !important",
                         borderRight: 0,
                       },
                       "&>div>div": {
@@ -400,7 +400,7 @@ export default function AddProject({ open, setOpen }) {
                     sx={{
                       "& input,&>div": { fontSize: "14px" },
                       "& fieldset": {
-                        borderRadius: "0 6px 6px 0",
+                        borderRadius: "0 6px 6px 0 !important",
                         borderLeft: 0,
                       },
                     }}
@@ -443,9 +443,9 @@ export default function AddProject({ open, setOpen }) {
                         </MenuItem>
                         <MenuItem
                           sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                          value={"twiceWeekly"}
+                          value={"fortnightly"}
                         >
-                          Twice Weekly
+                          fortnightly
                         </MenuItem>
                         <MenuItem
                           sx={{ textTransform: "capitalize", fontSize: "14px" }}
@@ -543,15 +543,21 @@ export default function AddProject({ open, setOpen }) {
                       >
                         <MenuItem
                           sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                          value={"initial"}
+                          value={"toDo"}
                         >
-                          Initial
+                          To do
                         </MenuItem>
                         <MenuItem
                           sx={{ textTransform: "capitalize", fontSize: "14px" }}
                           value={"inProgress"}
                         >
                           In Progress
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                          value={"inReview"}
+                        >
+                          In Review
                         </MenuItem>
                         <MenuItem
                           sx={{ textTransform: "capitalize", fontSize: "14px" }}
