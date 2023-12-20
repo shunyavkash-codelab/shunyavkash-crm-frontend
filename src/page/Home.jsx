@@ -241,7 +241,11 @@ export default function Home() {
                     }}
                   >
                     <Box
-                      sx={{ position: "absolute", top: "24px", right: "15px" }}
+                      sx={{
+                        position: "absolute",
+                        top: { xs: "18px", lg: "22px" },
+                        right: "15px",
+                      }}
                     >
                       <Box className="statusBtn intial">Initial</Box>
                     </Box>
