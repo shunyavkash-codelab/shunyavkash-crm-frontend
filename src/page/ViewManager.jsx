@@ -372,8 +372,10 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  311, Ambika Pinnacle, Lajamni chowk, <br /> Mota varachha,
-                  Surat- 395006
+                  {managerList.address}
+                  {managerList.address2}
+                  {managerList.landmark}
+                  {managerList.pincode}
                 </Typography>
               </Box>
             </Box>
