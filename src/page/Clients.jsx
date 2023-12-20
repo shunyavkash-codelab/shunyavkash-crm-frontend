@@ -96,12 +96,29 @@ export default function Clients() {
               >
                 Our Clients
               </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                client
-              </Typography>
+              <Box sx={{ display: "flex", gap: 0.5 }}>
+                <Link to={"/"} style={{ textDecoration: "none" }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      textTransform: "capitalize",
+                      color: "primary.main",
+                      transition: "all 0.4s ease-in-out",
+                      ":not(:hover)": {
+                        opacity: 0.7,
+                      },
+                    }}
+                  >
+                    Dashboard /
+                  </Typography>
+                </Link>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
+                >
+                  clients
+                </Typography>
+              </Box>
             </Box>
             <Box>
               <Link to="./add">

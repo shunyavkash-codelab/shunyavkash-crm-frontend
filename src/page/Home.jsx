@@ -68,18 +68,15 @@ export default function Home() {
         >
           <Box>
             <Box sx={{ mb: 3.25 }}>
-              <Typography
-                variant="h5"
-                sx={{ mb: 0.75, textTransform: "capitalize" }}
-              >
+              <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
                 DashBoard
               </Typography>
-              <Typography
+              {/* <Typography
                 variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
+                sx={{ opacity: 0.4, textTransform: "capitalize", mt: 0.75 }}
               >
                 DashBoard
-              </Typography>
+              </Typography> */}
             </Box>
             <Grid container rowSpacing={2.5} columnSpacing={2.5}>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
@@ -148,7 +145,7 @@ export default function Home() {
               </Grid>
             </Grid>
           </Box>
-          <Box sx={{ mt: 6 }}>
+          <Box sx={{ mt: 8 }}>
             <Box
               sx={{
                 mb: 3.25,
@@ -161,18 +158,15 @@ export default function Home() {
               }}
             >
               <Box>
-                <Typography
-                  variant="h5"
-                  sx={{ mb: 0.75, textTransform: "capitalize" }}
-                >
+                <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
                   Our Recent invoices
                 </Typography>
-                <Typography
+                {/* <Typography
                   variant="subtitle2"
-                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
+                  sx={{ opacity: 0.4, textTransform: "capitalize",mt: 0.75, }}
                 >
                   invoices
-                </Typography>
+                </Typography> */}
               </Box>
               <Box>
                 <Link to="./Invoices">

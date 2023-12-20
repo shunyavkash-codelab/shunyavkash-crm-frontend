@@ -92,12 +92,29 @@ export default function Manager() {
               >
                 Our Managers
               </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                Manager
-              </Typography>
+              <Box sx={{ display: "flex", gap: 0.5 }}>
+                <Link to={"/"} style={{ textDecoration: "none" }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      textTransform: "capitalize",
+                      color: "primary.main",
+                      transition: "all 0.4s ease-in-out",
+                      ":not(:hover)": {
+                        opacity: 0.7,
+                      },
+                    }}
+                  >
+                    Dashboard /
+                  </Typography>
+                </Link>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
+                >
+                  Managers
+                </Typography>
+              </Box>
             </Box>
             {user.role == 0 && (
               <Box>

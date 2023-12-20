@@ -65,12 +65,29 @@ export default function Manager() {
             >
               Client
             </Typography>
-            <Typography
-              variant="subtitle2"
-              sx={{ opacity: 0.4, textTransform: "capitalize" }}
-            >
-              Client
-            </Typography>
+            <Box sx={{ display: "flex", gap: 0.5 }}>
+              <Link to={"/clients"} style={{ textDecoration: "none" }}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    textTransform: "capitalize",
+                    color: "primary.main",
+                    transition: "all 0.4s ease-in-out",
+                    ":not(:hover)": {
+                      opacity: 0.7,
+                    },
+                  }}
+                >
+                  clients /
+                </Typography>
+              </Link>
+              <Typography
+                variant="subtitle2"
+                sx={{ opacity: 0.4, textTransform: "capitalize" }}
+              >
+                Client
+              </Typography>
+            </Box>
           </Box>
           <Box
             sx={{

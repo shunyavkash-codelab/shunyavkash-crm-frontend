@@ -207,13 +207,19 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                   MenuListProps={{
                     "aria-labelledby": "basic-button",
                   }}
+                  sx={{
+                    "& ul.css-6hp17o-MuiList-root-MuiMenu-list": {
+                      maxWidth: "300px",
+                    },
+                  }}
                 >
                   <MenuItem
+                    disableRipple
                     sx={{
                       p: 2,
                       display: "flex",
-                      alignItems: "center",
-                      gap: 2.5,
+                      alignItems: "start",
+                      gap: 1.75,
                       cursor: "text",
                       bgcolor: "transparent!important",
                     }}
@@ -253,12 +259,15 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                         variant="overline"
                         sx={{
                           opacity: 0.4,
-                          lineHeight: 1,
+                          lineHeight: 1.1,
                           textTransform: "lowercase",
                           display: "block",
+                          wordBreak: "break-word",
+                          textWrap: "wrap",
                         }}
                       >
-                        {user.email ? user.email : "aaron@example.com"}
+                        {/* {user.email ? user.email : "aaron@example.com"} */}
+                        hiren.polara@shunyavkash.com
                       </Typography>
                     </Box>
                   </MenuItem>
