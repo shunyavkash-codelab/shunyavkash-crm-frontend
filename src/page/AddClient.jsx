@@ -12,6 +12,7 @@ import {
   Typography,
   Button,
   Autocomplete,
+  InputAdornment,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import FileUploadButton from "../component/FileUploadButton";
@@ -33,6 +34,7 @@ export default function AddClient() {
   const navigate = useNavigate();
   const [clientList, setClientList] = useState(false);
   const [countryList, setCountryList] = useState([]);
+  const [country, setCountry] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -242,86 +244,6 @@ export default function AddClient() {
                       },
                     }}
                   >
-                    {/* <FormControl
-                      size="small"
-                      sx={{
-                        minWidth: "102px",
-                        maxWidth: "102px",
-                        bgcolor: "#f4f4f4",
-                      }}
-                    >
-                      <Field
-                        name="file"
-                        render={({ field, form }) => (
-                          <Select
-                            id="mobileCode"
-                            defaultValue={clientList?.mobileCode}
-                            sx={{
-                              fontSize: "14px",
-                              "& input,&>div": {
-                                fontSize: "14px",
-                              },
-                              "&>div": {
-                                pr: "24px!important",
-                                display: "flex",
-                                alignItems: "center",
-                              },
-                              "&>svg": { fontSize: "18px" },
-                              "& fieldset": {
-                                borderRadius: "6px 0 0 6px",
-                                borderRight: 0,
-                              },
-                            }}
-                            onChange={(event) => {
-                              form.setFieldValue(
-                                "mobileCode",
-                                event.target.value
-                              );
-                            }}
-                            InputProps={
-                              location.pathname.includes("/view/") && {
-                                readOnly: true,
-                              }
-                            }
-                          >
-                            {countryList.map((item) => (
-                              <>
-                                <MenuItem
-                                  // InputLabelProps={{
-                                  //   shrink: true,
-                                  // }}
-                                  sx={{ textTransform: "capitalize" }}
-                                  value={item._id}
-                                >
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      gap: 0.75,
-                                    }}
-                                  >
-                                    <img
-                                      srcSet={`https://flagcdn.com/w40/${item.code.toLowerCase()}.png 2x`}
-                                      src={`https://flagcdn.com/w20/${item.code.toLowerCase()}.png`}
-                                      style={{
-                                        maxHeight: "14px",
-                                        maxWidth: "25px",
-                                      }}
-                                    ></img>
-                                    <Typography
-                                      variant="subtitle2"
-                                      sx={{ lineHeight: 1 }}
-                                    >
-                                      {item.phone}
-                                    </Typography>
-                                  </Box>
-                                </MenuItem>
-                              </>
-                            ))}
-                          </Select>
-                        )}
-                      />
-                    </FormControl> */}
                     <Autocomplete
                       size="small"
                       id="country-select-demo"
@@ -342,9 +264,15 @@ export default function AddClient() {
                           right: "0!important",
                         },
                       }}
+                      value={formik.values.mobileCode}
+                      onChange={(event, newValue) => {
+                        formik.setFieldValue("mobileCode", newValue.phone); // Update Formik field value
+                        setCountry(newValue);
+                      }}
+                      name="mobileCode"
                       options={countryList}
                       autoHighlight
-                      getOptionLabel={(option) => option.phone}
+                      getOptionLabel={(option) => option.label}
                       renderOption={(props, option) => (
                         <Box
                           component="li"
@@ -363,15 +291,33 @@ export default function AddClient() {
                           +{option.phone}
                         </Box>
                       )}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          inputProps={{
-                            ...params.inputProps,
-                            autoComplete: "new-password", // disable autocomplete and autofill
-                          }}
-                        />
-                      )}
+                      renderInput={(params) => {
+                        return (
+                          <TextField
+                            {...params}
+                            InputProps={{
+                              ...params.InputProps,
+                              startAdornment: country ? (
+                                <InputAdornment
+                                  position="start"
+                                  sx={{
+                                    marginLeft: "10px",
+                                    marginRight: 0,
+                                  }}
+                                >
+                                  <img
+                                    loading="lazy"
+                                    width="20"
+                                    src={`https://flagcdn.com/w20/${country.code.toLowerCase()}.png`}
+                                    srcSet={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png 2x`}
+                                    alt=""
+                                  />
+                                </InputAdornment>
+                              ) : null,
+                            }}
+                          />
+                        );
+                      }}
                     />
                     <TextField
                       fullWidth
