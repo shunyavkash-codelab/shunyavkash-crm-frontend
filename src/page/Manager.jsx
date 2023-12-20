@@ -31,7 +31,6 @@ export default function Manager() {
   const { accessToken, user } = useAuth();
 
   const fetchManagers = async () => {
-    console.log("");
     try {
       const res = await apiCall({
         url: APIS.MANAGER.LIST,

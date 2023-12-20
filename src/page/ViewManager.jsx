@@ -24,6 +24,7 @@ import { useAuth } from "../hooks/store/useAuth.js";
 import PhoneIcon from "@mui/icons-material/PhoneIphone";
 import CompanyIcon from "@mui/icons-material/BusinessOutlined";
 import { useParams } from "react-router-dom";
+import AddressIcon from "@mui/icons-material/LocationOnOutlined";
 
 export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -145,7 +146,7 @@ export default function Manager() {
                     width: "100%",
                     objectFit: "cover",
                     borderRadius: "100%",
-                    boxShadow: "0 0 6px 6px rgba(226, 226, 226,1)",
+                    boxShadow: "rgb(0, 0, 0,5%) 0px 0px 6px 6px",
                   }}
                 />
               </Box>
@@ -355,6 +356,24 @@ export default function Manager() {
                   }}
                 >
                   {managerList.websiteURL}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1.5,
+                  gridColumn: { sm: "span 2" },
+                }}
+              >
+                <AddressIcon sx={{ mt: 0.25 }} />
+                <Typography
+                  variant="body2"
+                  sx={{
+                    textTransform: "capitalize",
+                  }}
+                >
+                  311, Ambika Pinnacle, Lajamni chowk, <br /> Mota varachha,
+                  Surat- 395006
                 </Typography>
               </Box>
             </Box>

@@ -120,7 +120,7 @@ export default function Manager() {
                     width: "100%",
                     objectFit: "cover",
                     borderRadius: "100%",
-                    boxShadow: "0 0 6px 6px rgba(226, 226, 226,1)",
+                    boxShadow: "rgb(0, 0, 0,5%) 0px 0px 6px 6px",
                   }}
                 />
               </Box>
@@ -169,7 +169,7 @@ export default function Manager() {
                     width: "100%",
                     objectFit: "cover",
                     borderRadius: "100%",
-                    boxShadow: "0 0 6px 6px rgba(226, 226, 226,1)",
+                    boxShadow: "rgb(0, 0, 0,5%) 0px 0px 6px 6px",
                   }}
                 />
               </Box>
