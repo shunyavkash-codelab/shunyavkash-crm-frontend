@@ -69,80 +69,77 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Button
+              sx={{
+                color: "text.primary",
+                display: { lg: "none" },
+                p: 0,
+                minWidth: 0,
+                borderRadius: 1,
+              }}
+              onClick={() => {
+                setShowSidebar(!showSidebar);
+              }}
+            >
+              <ToggleIcon
+                sx={{
+                  width: "auto",
+                  height: "32px",
+                }}
+              />
+            </Button>
             {location.pathname == "/" ? (
               ""
             ) : (
-              <Box>
-                <Button
+              <Search
+                sx={{
+                  position: "relative",
+                  ml: 0,
+                  width: "280px",
+                  height: "40px",
+                  display: { xs: "none", sm: "inline-flex" },
+                }}
+              >
+                <SearchIconWrapper
                   sx={{
-                    color: "text.primary",
-                    display: { lg: "none" },
-                    p: 0,
-                    minWidth: 0,
-                    borderRadius: 1,
-                    mr: 1.5,
-                  }}
-                  onClick={() => {
-                    setShowSidebar(!showSidebar);
-                  }}
-                >
-                  <ToggleIcon
-                    sx={{
+                    zIndex: 1,
+                    color: "rgba(42, 64, 98, 50%)",
+                    position: "absolute",
+                    top: "50%",
+                    left: "10px",
+                    transform: "translateY(-50%)",
+                    height: "24px",
+                    "&>svg": {
+                      height: "100%",
                       width: "auto",
-                      height: "32px",
-                    }}
-                  />
-                </Button>
-                <Search
-                  sx={{
-                    position: "relative",
-                    ml: 0,
-                    width: "280px",
-                    height: "40px",
-                    display: { xs: "none", sm: "inline-flex" },
+                    },
                   }}
                 >
-                  <SearchIconWrapper
-                    sx={{
-                      zIndex: 1,
-                      color: "rgba(42, 64, 98, 50%)",
-                      position: "absolute",
-                      top: "50%",
-                      left: "10px",
-                      transform: "translateY(-50%)",
-                      height: "24px",
-                      "&>svg": {
-                        height: "100%",
-                        width: "auto",
-                      },
-                    }}
-                  >
-                    <SearchIcon />
-                  </SearchIconWrapper>
-                  <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ "aria-label": "search" }}
-                    sx={{
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ "aria-label": "search" }}
+                  sx={{
+                    width: "100%",
+                    "&>input": {
                       width: "100%",
-                      "&>input": {
+                      borderRadius: 6,
+                      border: "1px solid",
+                      borderColor: "rgba(0,0,0,0.1)",
+                      transition: "all 0.2s ease-in-out",
+                      py: 1,
+                      pl: 5,
+                      pr: 2,
+                      bgcolor: "white",
+                      ":focus": {
                         width: "100%",
-                        borderRadius: 6,
-                        border: "1px solid",
-                        borderColor: "rgba(0,0,0,0.1)",
-                        transition: "all 0.2s ease-in-out",
-                        py: 1,
-                        pl: 5,
-                        pr: 2,
-                        bgcolor: "white",
-                        ":focus": {
-                          width: "100%",
-                          borderColor: "text.primary",
-                        },
+                        borderColor: "text.primary",
                       },
-                    }}
-                  />
-                </Search>
-              </Box>
+                    },
+                  }}
+                />
+              </Search>
             )}
           </Box>
           <Box sx={{ position: "relative" }}>
