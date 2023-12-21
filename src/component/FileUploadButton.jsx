@@ -25,12 +25,13 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
         <>
           <Box
             sx={{
+              height: { xs: "100px", sm: "200px" },
               border: "1px solid rgba(0,0,0,0.15)",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               px: 2,
-              py: 0.75,
+              py: 1,
               borderRadius: 1.5,
               "&:hover": {
                 borderColor: "text.primary",
@@ -39,30 +40,39 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
           >
             <Box
               sx={{
+                position: "relative",
+                height: "100%",
+                maxWidth: "100%",
                 display: "flex",
-                alignItems: "end",
-                height: { xs: "86px", sm: "186px" },
-                width: { xs: "86px", sm: "186px" },
-                gap: 1,
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               <img
                 src={file}
                 style={{
-                  height: "100%",
-                  width: "100%",
+                  minWidth: "100px",
+                  maxWidth: "500px",
+                  maxHeight: "100%",
                   objectFit: "cover",
                   borderRadius: "6px",
-                  padding: "8px",
-                  border: "1px solid rgba(0,0,0,0.1)",
                 }}
               />
               <IconButton
                 aria-label="close"
                 onClick={() => setFile(false)}
                 sx={{
+                  position: "absolute",
+                  top: "6px",
+                  right: "6px",
+                  borderRadius: "100%",
+                  bgcolor: "white",
                   padding: "4px",
+                  boxShadow: "0 0 10px rgba(0,0,0,0.15)",
                   "& svg": { fontSize: { xs: "20px", sm: "24px" } },
+                  "&:hover": {
+                    bgcolor: "white",
+                  },
                 }}
                 disabled={view == true}
               >

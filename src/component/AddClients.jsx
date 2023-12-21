@@ -50,7 +50,7 @@ export default function AddManager({ open, setOpen }) {
           noValidate
           autoComplete="off"
           sx={{
-            bgcolor: "background.white",
+            bgcolor: "white",
             position: "absolute",
             top: { xs: 0, md: "50%" },
             left: { xs: 0, md: "50%" },
