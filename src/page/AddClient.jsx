@@ -235,7 +235,6 @@ export default function AddClient() {
                       location.pathname.includes("/view/") && { readOnly: true }
                     }
                   />
-
                   <Box
                     sx={{
                       display: "flex",
@@ -346,8 +345,7 @@ export default function AddClient() {
                       value={formik.values.mobileNumber}
                     />
                   </Box>
-
-                  <FormControl
+                  {/* <FormControl
                     fullWidth
                     size="small"
                     sx={{
@@ -397,7 +395,7 @@ export default function AddClient() {
                         </Select>
                       )}
                     />
-                  </FormControl>
+                  </FormControl> */}
                   <TextField
                     fullWidth
                     size="small"
@@ -432,6 +430,7 @@ export default function AddClient() {
                     // }}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      gridColumn: { sm: "span 2" },
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.websiteURL}

@@ -61,7 +61,7 @@ export default function SideBar({
           }}
         >
           <img
-            src="./images/shunyavkash-logo.svg"
+            src="/images/shunyavkash-logo.svg"
             style={{ height: "auto", width: "100%" }}
             alt="shunyavkash-logo"
           />
