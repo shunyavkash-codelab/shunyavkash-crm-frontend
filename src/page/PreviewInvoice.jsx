@@ -86,48 +86,43 @@ export default function Invoices() {
                 >
                   Shunyavkash PVT. LTD
                 </Typography>
-                <Box>
+                <Box
+                  sx={{
+                    mt: 1,
+                  }}
+                >
+                  <Typography
+                    variant="subtitle3"
+                    sx={{
+                      lineHeight: 1.5,
+                      display: "block",
+                    }}
+                  >
+                    311, Ambika Pinnacle, Lajamni chowk,
+                    <br /> Mota varachha, Surat- 395006
+                  </Typography>
                   <Box
                     sx={{
-                      mt: 1,
+                      mt: 2.5,
                     }}
                   >
                     <Typography
                       variant="subtitle3"
                       sx={{
-                        lineHeight: 1.5,
-                        fontSize: "13px",
                         display: "block",
                       }}
                     >
-                      311, Ambika Pinnacle, Lajamni chowk,
-                      <br /> Mota varachha, Surat- 395006
+                      +91 8155926380
                     </Typography>
-                    <Box
+                    <Typography
+                      variant="subtitle3"
                       sx={{
-                        mt: 2.5,
+                        mt: 0.75,
+                        display: "block",
                       }}
                     >
-                      <Typography
-                        variant="subtitle3"
-                        sx={{
-                          display: "block",
-                          fontSize: "13px",
-                        }}
-                      >
-                        +91 8155926380
-                      </Typography>
-                      <Typography
-                        variant="subtitle3"
-                        sx={{
-                          mt: 0.75,
-                          display: "block",
-                          fontSize: "13px",
-                        }}
-                      >
-                        hiren.polra@shunyavkash.com
-                      </Typography>
-                    </Box>
+                      hiren.polra@shunyavkash.com
+                    </Typography>
                   </Box>
                 </Box>
               </Box>
@@ -174,8 +169,8 @@ export default function Invoices() {
                   Hiren Polara
                 </Typography>
                 <Typography
-                  variant="subtitle2"
-                  sx={{ mt: 1, fontSize: "13px" }}
+                  variant="subtitle3"
+                  sx={{ mt: 1, display: "block", lineHeight: "1.5" }}
                 >
                   311, Ambika Pinnacle, Lajamni chowk,
                   <br /> Mota varachha, Surat- 395006
@@ -189,14 +184,12 @@ export default function Invoices() {
                     display: "flex",
                     justifyContent: "space-between",
                     gap: 3.75,
+                    "&>*": {
+                      lineHeight: 1,
+                      display: "block",
+                    },
                     "& > *:first-child": {
                       opacity: "0.50",
-                      fontSize: "13px",
-                      lineHeight: 1,
-                    },
-                    "& > *:last-child": {
-                      fontSize: "13px",
-                      lineHeight: 1,
                     },
                   },
                   "&>*:not(:first-child)": {
@@ -205,16 +198,16 @@ export default function Invoices() {
                 }}
               >
                 <Box>
-                  <Typography variant="subtitle2">Invoice No:</Typography>
-                  <Typography variant="subtitle2">001</Typography>
+                  <Typography variant="subtitle3">Invoice No:</Typography>
+                  <Typography variant="subtitle3">001</Typography>
                 </Box>
                 <Box>
-                  <Typography variant="subtitle2">Invoice Date:</Typography>
-                  <Typography variant="subtitle2">13/12/2023</Typography>
+                  <Typography variant="subtitle3">Invoice Date:</Typography>
+                  <Typography variant="subtitle3">13/12/2023</Typography>
                 </Box>
                 <Box>
-                  <Typography variant="subtitle2">invoice Due:</Typography>
-                  <Typography variant="subtitle2">13/1/2023</Typography>
+                  <Typography variant="subtitle3">invoice Due:</Typography>
+                  <Typography variant="subtitle3">13/1/2023</Typography>
                 </Box>
               </Box>
             </Box>
@@ -232,7 +225,7 @@ export default function Invoices() {
               <Typography variant="h6" sx={{ mt: 1.25 }}>
                 Shunyavkash CRM
               </Typography>
-              <Typography variant="subtitle2" sx={{ mt: 1, fontSize: "13px" }}>
+              <Typography variant="subtitle3" sx={{ mt: 1, display: "block",line-height:1.5 }}>
                 In this project we have created design & dynamic.
               </Typography>
             </Box> */}
@@ -241,7 +234,6 @@ export default function Invoices() {
               sx={{
                 my: 7,
                 borderRadius: 2.5,
-                boxShadow: "0 0 10px rgba(0,0,0,0.1)",
               }}
             >
               <Table
@@ -253,7 +245,7 @@ export default function Invoices() {
                   "& th,& td": {
                     borderBottom: 0,
                   },
-                  "& tbody tr > *": {
+                  "& tbody tr > *,& tfoot tr > *": {
                     py: 1.5,
                   },
                   "& tbody tr,& tfoot tr": {
@@ -364,94 +356,38 @@ export default function Invoices() {
                   gap: 15,
                   "& > *": {
                     lineHeight: "1!important",
-                    display: "block",
+                    textTransform: "capitalize",
                   },
                 },
               }}
             >
               <Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize", fontWeight: 700 }}
-                >
+                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
                   subtotal:
                 </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize", fontWeight: 700 }}
-                >
+                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
                   $3633.61
                 </Typography>
               </Box>
               <Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  Discount (20%):
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  $0.00
-                </Typography>
+                <Typography variant="subtitle2">Discount (20%):</Typography>
+                <Typography variant="subtitle2">$0.00</Typography>
               </Box>
               <Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  shipping cost:
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  $0.00
-                </Typography>
+                <Typography variant="subtitle2">shipping cost:</Typography>
+                <Typography variant="subtitle2">$0.00</Typography>
               </Box>
               <Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  sales tax:
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  $450.00
-                </Typography>
+                <Typography variant="subtitle2">sales tax:</Typography>
+                <Typography variant="subtitle2">$450.00</Typography>
               </Box>
               <Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  total:
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  $4083.61
-                </Typography>
+                <Typography variant="subtitle2">total:</Typography>
+                <Typography variant="subtitle2">$4083.61</Typography>
               </Box>
               <Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  amount paid:
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  $0.00
-                </Typography>
+                <Typography variant="subtitle2">amount paid:</Typography>
+                <Typography variant="subtitle2">$0.00</Typography>
               </Box>
               <Box
                 sx={{
@@ -460,171 +396,57 @@ export default function Invoices() {
                   borderRadius: 2.5,
                 }}
               >
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize", fontWeight: 700 }}
-                >
+                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
                   balance due:
                 </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ textTransform: "capitalize", fontWeight: 700 }}
-                >
+                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
                   $4083.61
                 </Typography>
               </Box>
             </Box>
-
-            {/* <Box
-              sx={{
-                maxWidth: "fit-content",
-                textAlign: "right",
-                alignSelf: "start",
-                "& > *": {
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 3.75,
-                  "& > *:first-child": {
-                    opacity: "0.50",
-                    fontSize: "13px",
-                    lineHeight: 1,
-                  },
-                  "& > *:last-child": {
-                    fontSize: "13px",
-                    lineHeight: 1,
-                  },
-                },
-                "&>*:not(:first-child)": {
-                  mt: 1.5,
-                },
-              }}
-            >
-              <Box>
-                <Typography variant="subtitle2">Invoice No:</Typography>
-                <Typography variant="subtitle2">001</Typography>
-              </Box>
-              <Box>
-                <Typography variant="subtitle2">Invoice Date:</Typography>
-                <Typography variant="subtitle2">13/12/2023</Typography>
-              </Box>
-              <Box>
-                <Typography variant="subtitle2">invoice Due:</Typography>
-                <Typography variant="subtitle2">13/1/2023</Typography>
-              </Box>
-            </Box> */}
-
             <Box sx={{ maxWidth: "fit-content" }}>
-              <Typography
-                variant="body1"
-                sx={{ fontWeight: 700, lineHeight: 1 }}
-              >
-                Bank Details
-              </Typography>
+              <Typography variant="h6">Bank Details</Typography>
               <Box
                 sx={{
-                  mt: 2.25,
-                  "&>*": { "&:not(:first-child)": { mt: 1.75 } },
+                  mt: 1.5,
+                  "&>*": {
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 12.5,
+                    "&:not(:first-child)": { mt: 1.75 },
+                    "&>*": {
+                      lineHeight: "1!important",
+                      textTransform: "capitalize",
+                    },
+                  },
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 15,
-                    "&>*": {
-                      lineHeight: "1!important",
-                      display: "block",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize", opacity: 0.5 }}
-                  >
+                <Box>
+                  <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
                     Bank Name :
                   </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    Bank of baroda
-                  </Typography>
+                  <Typography variant="subtitle2">Bank of baroda</Typography>
                 </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 15,
-                    "&>*": {
-                      lineHeight: "1!important",
-                      display: "block",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize", opacity: 0.5 }}
-                  >
+                <Box>
+                  <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
                     IFSC Code :
                   </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    BOBN0005943
-                  </Typography>
+                  <Typography variant="subtitle2">BOBN0005943</Typography>
                 </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 15,
-                    "&>*": {
-                      lineHeight: "1!important",
-                      display: "block",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize", opacity: 0.5 }}
-                  >
+                <Box>
+                  <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
                     Account Holder Name :
                   </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    XYZ
-                  </Typography>
+                  <Typography variant="subtitle2">XYZ</Typography>
                 </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 15,
-                    "&>*": {
-                      lineHeight: "1!important",
-                      display: "block",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize", opacity: 0.5 }}
-                  >
+                <Box>
+                  <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
                     Account No :
                   </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    9510132728
-                  </Typography>
+                  <Typography variant="subtitle2">9510132728</Typography>
                 </Box>
               </Box>
             </Box>
-
             <Box
               sx={{
                 display: "flex",
@@ -633,35 +455,30 @@ export default function Invoices() {
                 mt: 6,
               }}
             >
-              <Box sx={{ maxWidth: "400px" }}>
-                <Typography
-                  variant="body1"
-                  sx={{ fontWeight: 700, lineHeight: 1 }}
-                >
-                  Notes
-                </Typography>
+              <Box sx={{ maxWidth: "500px" }}>
+                <Typography variant="h6">Notes</Typography>
                 <Box
                   sx={{
-                    mt: 2.25,
-                    "&>*": {
-                      display: "block",
-                      lineHeight: 1.5,
-                    },
+                    mt: 1,
                   }}
                 >
                   <Typography
                     variant="subtitle3"
-                    sx={{ fontSize: "13px", lineHeight: 1.5 }}
+                    sx={{ mt: 1, lineHeight: 1.5, display: "block" }}
                   >
                     ptototype-based programming is a style of object-oriented
-                    programming in which behaviour.
+                    <br /> programming in which behaviour.
                   </Typography>
                 </Box>
               </Box>
-              <Box sx={{ height: "100px" }}>
+              <Box sx={{ maxHeight: "80px", maxWidth: "200px", flexShrink: 0 }}>
                 <img
                   src="/images/sign.svg"
-                  style={{ height: "100%", width: "auto" }}
+                  style={{
+                    maxHeight: "inherit",
+                    width: "100%",
+                    display: "block",
+                  }}
                 ></img>
               </Box>
             </Box>
