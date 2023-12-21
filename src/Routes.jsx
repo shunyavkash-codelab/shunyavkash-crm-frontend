@@ -36,7 +36,7 @@ const routes = createBrowserRouter([
   { path: "/projects", Component: Projects },
   { path: "/Projects/add", Component: AddProject },
   { path: "/invoices", Component: Invoices },
-  { path: "/invoices/add", Component: AddInvoice },
+  { path: "/invoices/add/:invoiceNumber", Component: AddInvoice },
   { path: "/invoices/add/preview", Component: PreviewInvoice },
   { path: "/profile", Component: Profile },
 ]);

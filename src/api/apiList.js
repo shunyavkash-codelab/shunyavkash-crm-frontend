@@ -32,6 +32,9 @@ export const APIS = {
     DELETE: (bankId) => `/bank/${bankId}`,
     EDIT: (bankId) => `/bank/${bankId}`,
   },
+  INVOICE: {
+    GENERATENUM: "/invoice/generate-invoice-number",
+  },
   COUNTRY: {
     GET: "/country-code",
   },

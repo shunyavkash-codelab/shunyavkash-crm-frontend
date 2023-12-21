@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -28,6 +28,8 @@ import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
+import useApi from "../hooks/useApi";
+import { APIS } from "../api/apiList";
 
 const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -37,9 +39,25 @@ export default function Invoices() {
   const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
   const [showTable, setShowTable] = useState(invoiceTable);
   const [date, setDate] = useState("");
+  const { apiCall, isLoading } = useApi();
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setDate(event.target.value);
+  };
+
+  const invoiceNumberGenerate = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.INVOICE.GENERATENUM,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        navigate(`./add/${res.data.data}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -112,45 +130,44 @@ export default function Invoices() {
               </Box>
             </Box>
             <Box>
-              <Link to="./add">
-                <Button
-                  disableRipple
-                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
+              <Button
+                disableRipple
+                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                sx={{
+                  maxHeight: "42px",
+                  position: "relative",
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "primary.main",
+                  border: "1px solid",
+                  borderColor: "primary.main",
+                  color: "white",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  overflow: "hidden",
+                  "&:before": {
+                    content: "''",
+                    height: 0,
+                    width: "10rem",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    zIndex: "0",
+                    bgcolor: "white",
+                    transform: "rotate(-45deg) translate(-50%, -50%)",
+                    transformOrigin: "0% 0%",
+                    transition: "all 0.4s ease-in-out",
+                  },
+                  "&:hover": {
+                    color: "primary.main",
                     bgcolor: "primary.main",
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    color: "white",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      color: "primary.main",
-                      bgcolor: "primary.main",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                >
-                  <span style={{ position: "relative" }}>New Invoice</span>
-                </Button>
-              </Link>
+                    "&:before": { height: "10rem" },
+                  },
+                }}
+                onClick={invoiceNumberGenerate}
+              >
+                <span style={{ position: "relative" }}>New Invoice</span>
+              </Button>
             </Box>
           </Box>
           <Box
