@@ -62,6 +62,7 @@ export default function Invoices() {
   const navigate = useNavigate();
   const [clientList, setClientList] = useState([]);
   const [countryList, setCountryList] = useState([]);
+  const [projectList, setProjectList] = useState([]);
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
   const [adminList, setAdminList] = useState(false);
@@ -90,7 +91,7 @@ export default function Invoices() {
       mobileCode: adminList.mobileCode,
       mobileNumber: adminList.mobileNumber,
       name: clientList.name,
-      invoiceno: invoiceNumber,
+      invoiceNumber: invoiceNumber,
     },
     onSubmit: async (values) => {
       try {
@@ -120,7 +121,25 @@ export default function Invoices() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setClientList(res.data.data.data);
-        console.log(res.data.data.data, "------------------------120");
+        // console.log(res.data.data.data, "------------------------120");
+        formik.setFieldValue("name", res.data.data.name);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
+  // get project list by clientId
+  const fetchProject = async (clientId) => {
+    try {
+      const res = await apiCall({
+        url: APIS.PROJECT.CLIENTWISEPROJECT(clientId),
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setProjectList(res.data.data);
+        console.log(res.data.data, "------------------------142");
         formik.setFieldValue("name", res.data.data.name);
       }
     } catch (error) {
@@ -172,6 +191,7 @@ export default function Invoices() {
       return client._id === id;
     });
     setSelectedClient(clientAddress.address);
+    fetchProject(id);
     // console.log(clientAddress, "--------------------172");
   };
 
@@ -570,7 +590,7 @@ export default function Invoices() {
                         <TextField
                           fullWidth
                           size="small"
-                          id="invoiceno"
+                          id="invoiceNumber"
                           label="Invoice No"
                           autoComplete="off"
                           // defaultValue={adminList.email}
@@ -690,14 +710,17 @@ export default function Invoices() {
                       labelId="demo-simple-select-label"
                       id="select_project"
                       label="Select Project"
+                      // onChange={(e) => clientData(e.target.value)}
                       sx={{ fontSize: "12px" }}
                     >
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"Project 1"}
-                      >
-                        Project 1
-                      </MenuItem>
+                      {projectList.map((projectName) => (
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={projectName._id}
+                        >
+                          {projectName.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                   <TextField

@@ -24,6 +24,7 @@ export const APIS = {
     EDIT: (projectId) => `/project/${projectId}`,
     VIEW: (projectId) => `/project/${projectId}`,
     LIST: "/project/get-projects",
+    CLIENTWISEPROJECT: (clientId) => `/project/get-project-name/${clientId}`,
   },
   BANK: {
     ADD: "/bank/add",
