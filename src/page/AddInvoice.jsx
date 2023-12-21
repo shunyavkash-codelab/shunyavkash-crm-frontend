@@ -42,7 +42,20 @@ const MenuProps = {
   },
 };
 
-const names = ["Oliver Hansen", "Van Henry", "April Tucker", "Ralph Hubbard"];
+const names = [
+  "Oliver Hansen",
+  "Van Henry",
+  "April Tucker",
+  "Ralph Hubbard",
+  "ravi",
+  "akash",
+  "mayur",
+  "deep",
+  "prince",
+  "helohelohelohelohelohelohelohelohelohelohelohelohelohelohelo",
+  "bfhsgfsdfsgfjshgdfjshgdfhgd",
+  "bfshdjgfhsdgfhgvsdjhfdhjvfjs",
+];
 
 function getStyles(name, personName, theme) {
   return {
@@ -63,10 +76,12 @@ export default function Invoices() {
   const [clientList, setClientList] = useState([]);
   const [countryList, setCountryList] = useState([]);
   const [projectList, setProjectList] = useState([]);
+  console.log(projectList);
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
   const [adminList, setAdminList] = useState(false);
   const [selectedClient, setSelectedClient] = useState();
+  const [selectedProject, setSelectedProject] = useState();
   const handleChange = (event) => {
     const {
       target: { value },
@@ -92,6 +107,7 @@ export default function Invoices() {
       mobileNumber: adminList.mobileNumber,
       name: clientList.name,
       invoiceNumber: invoiceNumber,
+      projectDescription: "",
     },
     onSubmit: async (values) => {
       try {
@@ -186,14 +202,19 @@ export default function Invoices() {
     }
   };
 
-  const clientData = (id) => {
+  const clientData = async (id) => {
     const clientAddress = clientList.find((client) => {
       return client._id === id;
     });
     setSelectedClient(clientAddress.address);
-    fetchProject(id);
-    // console.log(clientAddress, "--------------------172");
+    await fetchProject(id);
+    // const projectName = projectList.find((project) => {
+    //   console.log(project, "------------------196");
+    // });
+    // setSelectedProject(projectName);
   };
+
+  const projectData = () => {};
 
   useEffect(() => {
     fetchClient();
@@ -712,6 +733,16 @@ export default function Invoices() {
                       label="Select Project"
                       // onChange={(e) => clientData(e.target.value)}
                       sx={{ fontSize: "12px" }}
+                      onChange={(event) => {
+                        let project = projectList.find(
+                          (project) => project._id === event.target.value
+                        );
+                        formik.setFieldValue(
+                          "projectDescription",
+                          project.description
+                        );
+                        setSelectedProject(project);
+                      }}
                     >
                       {projectList.map((projectName) => (
                         <MenuItem
@@ -726,7 +757,7 @@ export default function Invoices() {
                   <TextField
                     fullWidth
                     size="small"
-                    id="description"
+                    id="projectDescription"
                     label="Description"
                     autoComplete="off"
                     multiline
@@ -736,6 +767,11 @@ export default function Invoices() {
                       // width: "300px",
                       "&>label,& input,&>div": { fontSize: "12px" },
                     }}
+                    value={formik.values.projectDescription}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={formik.handleChange}
                   />
                 </Box>
               </Box>
