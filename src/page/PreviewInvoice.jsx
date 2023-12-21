@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -17,11 +17,14 @@ import {
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import { useAuth } from "../hooks/store/useAuth";
+import { usePDF } from "react-to-pdf";
 
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
+  const { invoiceNumber } = useParams();
+  const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
 
   return (
     <>
@@ -63,6 +66,7 @@ export default function Invoices() {
               maxWidth: "1280px",
               mx: "auto",
             }}
+            ref={targetRef}
           >
             <Box>
               <Box
@@ -865,6 +869,7 @@ export default function Invoices() {
                   "&:before": { height: "10rem" },
                 },
               }}
+              onClick={() => toPDF()}
             >
               <span style={{ position: "relative" }}>generate</span>
             </Button>

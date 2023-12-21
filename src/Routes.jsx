@@ -37,7 +37,7 @@ const routes = createBrowserRouter([
   { path: "/Projects/add", Component: AddProject },
   { path: "/invoices", Component: Invoices },
   { path: "/invoices/add/:invoiceNumber", Component: AddInvoice },
-  { path: "/invoices/add/preview", Component: PreviewInvoice },
+  { path: "/invoices/add/:invoiceNumber/preview", Component: PreviewInvoice },
   { path: "/profile", Component: Profile },
 ]);
 export default function Routes() {
