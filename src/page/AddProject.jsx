@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { styled, Button } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
+import AddClientsModal from "../component/AddClientsModal";
 import {
   Box,
   FormControl,
@@ -46,7 +47,7 @@ import { APIS } from "../api/apiList";
 //   };
 // }
 
-export default function AddProject({ open, setOpen }) {
+export default function AddProject() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [client, setClient] = useState("");
@@ -59,6 +60,9 @@ export default function AddProject({ open, setOpen }) {
   const navigate = useNavigate();
   const [currencylist, setCurrencyList] = useState([]);
   const [currencyValue, setCurrencyValue] = useState(null);
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
 
   const handleValueChange = (event, newValue) => {
     setCurrencyValue(newValue);
@@ -283,11 +287,56 @@ export default function AddProject({ open, setOpen }) {
                             {item.name}
                           </MenuItem>
                         ))}
+                        <MenuItem>
+                          <Box sx={{ display: "flex" }}>
+                            <Button
+                              disableRipple
+                              onClick={handleOpen}
+                              sx={{
+                                maxHeight: "36px",
+                                position: "relative",
+                                px: 2.5,
+                                py: 1,
+                                bgcolor: "primary.main",
+                                border: "1px solid",
+                                borderColor: "primary.main",
+                                color: "white",
+                                lineHeight: 1,
+                                borderRadius: 2.5,
+                                overflow: "hidden",
+                                display: "flex",
+                                justifyContent: "center",
+                                "&:before": {
+                                  content: "''",
+                                  height: 0,
+                                  width: "10rem",
+                                  position: "absolute",
+                                  top: "50%",
+                                  left: "50%",
+                                  zIndex: "0",
+                                  bgcolor: "white",
+                                  transform:
+                                    "rotate(-45deg) translate(-50%, -50%)",
+                                  transformOrigin: "0% 0%",
+                                  transition: "all 0.4s ease-in-out",
+                                },
+                                "&:hover": {
+                                  color: "primary.main",
+                                  bgcolor: "primary.main",
+                                  "&:before": { height: "10rem" },
+                                },
+                              }}
+                            >
+                              <span style={{ position: "relative" }}>
+                                Add Client
+                              </span>
+                            </Button>
+                          </Box>
+                        </MenuItem>
                       </Select>
                     )}
                   />
                 </FormControl>
-
                 <Box
                   sx={{
                     display: "flex",
@@ -408,7 +457,6 @@ export default function AddProject({ open, setOpen }) {
                     value={formik.values.perHourCharge}
                   />
                 </Box>
-
                 <FormControl
                   fullWidth
                   size="small"
@@ -662,6 +710,7 @@ export default function AddProject({ open, setOpen }) {
               </Box>
             </Box>
           </FormikProvider>
+          <AddClientsModal open={open} setOpen={setOpen} />
         </Box>
       </Box>
     </>
