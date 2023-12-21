@@ -242,164 +242,127 @@ export default function Manager() {
                   ravi.chodvadiya@shunyavkash.com
                 </Typography>
               </Box> */}
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                {/* <Typography
-                  variant="subtitle2"
+              {managerList.mobileNumber && (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                  <PhoneIcon />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      lineHeight: 1,
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {managerList.mobileCode} {managerList.mobileNumber}
+                  </Typography>
+                </Box>
+              )}
+              {managerList.gender && (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                  <img className="icon" src="/images/gender.svg"></img>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      lineHeight: 1,
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {managerList.gender}
+                  </Typography>
+                </Box>
+              )}
+              {managerList.companyName && (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                  <CompanyIcon />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      lineHeight: 1,
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {managerList.companyName}
+                  </Typography>
+                </Box>
+              )}
+
+              {managerList?.referenceName && (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                  <img className="icon" src="/images/reference.svg"></img>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      lineHeight: 1,
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {managerList?.referenceName}
+                  </Typography>
+                </Box>
+              )}
+              {managerList.websiteURL && (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                  <img className="icon" src="/images/website.svg"></img>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      lineHeight: 1,
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {managerList.websiteURL}
+                  </Typography>
+                </Box>
+              )}
+              {(managerList.address ||
+                managerList.address2 ||
+                managerList.landmark ||
+                managerList.pincode) && (
+                <Box
                   sx={{
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    textTransform: "capitalize",
-                    mb: 1.5,
+                    display: "flex",
+                    gap: 1.5,
+                    gridColumn: { sm: "span 2" },
                   }}
                 >
-                  mobile number
-                </Typography> */}
-                <PhoneIcon />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {managerList.mobileCode} {managerList.mobileNumber}
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                {/* <Typography
-                  variant="subtitle2"
-                  sx={{
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    textTransform: "capitalize",
-                    mb: 1.5,
-                  }}
-                >
-                  Gender
-                </Typography> */}
-                <img className="icon" src="/images/gender.svg"></img>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {managerList.gender}
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                {/* <Typography
-                  variant="subtitle2"
-                  sx={{
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    textTransform: "capitalize",
-                    mb: 1.5,
-                  }}
-                >
-                  company name
-                </Typography> */}
-                <CompanyIcon />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {managerList.companyName}
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                {/* <Typography
-                  variant="subtitle2"
-                  sx={{
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    textTransform: "capitalize",
-                    mb: 1.5,
-                  }}
-                >
-                  reference
-                </Typography> */}
-                <img className="icon" src="/images/reference.svg"></img>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {managerList?.referenceName}
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                {/* <Typography
-                  variant="subtitle2"
-                  sx={{
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    textTransform: "capitalize",
-                    mb: 1.5,
-                  }}
-                >
-                  reference
-                </Typography> */}
-                <img className="icon" src="/images/website.svg"></img>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    wordBreak: "break-word",
-                  }}
-                >
-                  {managerList.websiteURL}
-                </Typography>
-              </Box>
+                  <AddressIcon sx={{ mt: 0.25 }} />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {managerList.address}
+                    {managerList.address2}
+                    {managerList.landmark}
+                    {managerList.pincode}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+            {managerList.signature && (
               <Box
                 sx={{
-                  display: "flex",
-                  gap: 1.5,
-                  gridColumn: { sm: "span 2" },
+                  mt: { xs: 2.75, sm: 3.5 },
+                  maxHeight: { xs: "70px", sm: "80px" },
+                  maxWidth: { xs: "120px", sm: "135px" },
+                  minWidth: "100px",
                 }}
               >
-                <AddressIcon sx={{ mt: 0.25 }} />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    textTransform: "capitalize",
+                <img
+                  src={
+                    managerList.signature
+                      ? managerList.signature
+                      : "/images/signature.png"
+                  } //"/images/sign.svg"
+                  style={{
+                    maxHeight: "inherit",
+                    width: "100%",
+                    display: "block",
+                    borderRadius: "6px",
                   }}
-                >
-                  {managerList.address}
-                  {managerList.address2}
-                  {managerList.landmark}
-                  {managerList.pincode}
-                </Typography>
+                />
               </Box>
-            </Box>
-            <Box
-              sx={{
-                mt: { xs: 2.75, sm: 3.5 },
-                maxHeight: { xs: "70px", sm: "80px" },
-                maxWidth: { xs: "120px", sm: "135px" },
-                minWidth: "100px",
-              }}
-            >
-              <img
-                src={
-                  managerList.signature
-                    ? managerList.signature
-                    : "/images/signature.png"
-                } //"/images/sign.svg"
-                style={{
-                  maxHeight: "inherit",
-                  width: "100%",
-                  display: "block",
-                  borderRadius: "6px",
-                }}
-              />
-            </Box>
+            )}
           </Box>
         </Box>
       </Box>

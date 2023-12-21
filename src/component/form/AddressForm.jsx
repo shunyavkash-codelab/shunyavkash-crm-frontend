@@ -15,7 +15,6 @@ export default function AddressForm({ profileList }) {
   // yup data validator schhema
   const schema = Yup.object({
     address: Yup.string().required("Address is required.").trim(),
-    address2: Yup.string().required("Address2 is required.").trim(),
     landmark: Yup.string().required("landmark is required.").trim(),
     pincode: Yup.string()
       .required("pincode is required.")
@@ -99,10 +98,6 @@ export default function AddressForm({ profileList }) {
                 placeholder="Address"
                 onChange={formik.handleChange}
                 // value={formik.values.address2}
-                error={
-                  formik.touched.address2 && Boolean(formik.errors.address2)
-                }
-                helperText={formik.touched.address2 && formik.errors.address2}
               />
             </Box>
           </Grid>
