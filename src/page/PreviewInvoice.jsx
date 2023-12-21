@@ -96,6 +96,7 @@ export default function Invoices() {
                     sx={{
                       lineHeight: 1.5,
                       display: "block",
+                      fontSize: "13px",
                     }}
                   >
                     311, Ambika Pinnacle, Lajamni chowk,
@@ -110,6 +111,7 @@ export default function Invoices() {
                       variant="subtitle3"
                       sx={{
                         display: "block",
+                        fontSize: "13px",
                       }}
                     >
                       +91 8155926380
@@ -119,6 +121,7 @@ export default function Invoices() {
                       sx={{
                         mt: 0.75,
                         display: "block",
+                        fontSize: "13px",
                       }}
                     >
                       hiren.polra@shunyavkash.com
@@ -161,7 +164,7 @@ export default function Invoices() {
               <Box>
                 <Typography
                   variant="subtitle3"
-                  sx={{ fontWeight: 700, display: "block" }}
+                  sx={{ fontWeight: 700, display: "block", fontSize: "13px" }}
                 >
                   Bill to
                 </Typography>
@@ -170,7 +173,12 @@ export default function Invoices() {
                 </Typography>
                 <Typography
                   variant="subtitle3"
-                  sx={{ mt: 1, display: "block", lineHeight: "1.5" }}
+                  sx={{
+                    mt: 1,
+                    display: "block",
+                    lineHeight: "1.5",
+                    fontSize: "13px",
+                  }}
                 >
                   311, Ambika Pinnacle, Lajamni chowk,
                   <br /> Mota varachha, Surat- 395006
@@ -198,16 +206,58 @@ export default function Invoices() {
                 }}
               >
                 <Box>
-                  <Typography variant="subtitle3">Invoice No:</Typography>
-                  <Typography variant="subtitle3">001</Typography>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{
+                      fontSize: "13px",
+                    }}
+                  >
+                    Invoice No:
+                  </Typography>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{
+                      fontSize: "13px",
+                    }}
+                  >
+                    001
+                  </Typography>
                 </Box>
                 <Box>
-                  <Typography variant="subtitle3">Invoice Date:</Typography>
-                  <Typography variant="subtitle3">13/12/2023</Typography>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{
+                      fontSize: "13px",
+                    }}
+                  >
+                    Invoice Date:
+                  </Typography>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{
+                      fontSize: "13px",
+                    }}
+                  >
+                    13/12/2023
+                  </Typography>
                 </Box>
                 <Box>
-                  <Typography variant="subtitle3">invoice Due:</Typography>
-                  <Typography variant="subtitle3">13/1/2023</Typography>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{
+                      fontSize: "13px",
+                    }}
+                  >
+                    invoice Due:
+                  </Typography>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{
+                      fontSize: "13px",
+                    }}
+                  >
+                    13/1/2023
+                  </Typography>
                 </Box>
               </Box>
             </Box>
@@ -404,74 +454,91 @@ export default function Invoices() {
                 </Typography>
               </Box>
             </Box>
-            <Box sx={{ maxWidth: "fit-content" }}>
-              <Typography variant="h6">Bank Details</Typography>
-              <Box
-                sx={{
-                  mt: 1.5,
-                  "&>*": {
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 12.5,
-                    "&:not(:first-child)": { mt: 1.75 },
-                    "&>*": {
-                      lineHeight: "1!important",
-                      textTransform: "capitalize",
-                    },
-                  },
-                }}
-              >
-                <Box>
-                  <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
-                    Bank Name :
-                  </Typography>
-                  <Typography variant="subtitle2">Bank of baroda</Typography>
-                </Box>
-                <Box>
-                  <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
-                    IFSC Code :
-                  </Typography>
-                  <Typography variant="subtitle2">BOBN0005943</Typography>
-                </Box>
-                <Box>
-                  <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
-                    Account Holder Name :
-                  </Typography>
-                  <Typography variant="subtitle2">XYZ</Typography>
-                </Box>
-                <Box>
-                  <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
-                    Account No :
-                  </Typography>
-                  <Typography variant="subtitle2">9510132728</Typography>
-                </Box>
-              </Box>
-            </Box>
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
+                alignItems: "end",
                 gap: 2,
-                mt: 6,
               }}
             >
-              <Box sx={{ maxWidth: "500px" }}>
-                <Typography variant="h6">Notes</Typography>
-                <Box
-                  sx={{
-                    mt: 1,
-                  }}
-                >
-                  <Typography
-                    variant="subtitle3"
-                    sx={{ mt: 1, lineHeight: 1.5, display: "block" }}
+              <Box>
+                <Box sx={{ maxWidth: "fit-content" }}>
+                  <Typography variant="h6">Bank Details</Typography>
+                  <Box
+                    sx={{
+                      mt: 1.5,
+                      "&>*": {
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: 12.5,
+                        "&:not(:first-child)": { mt: 1.75 },
+                        "&>*": {
+                          lineHeight: "1!important",
+                          textTransform: "capitalize",
+                        },
+                      },
+                    }}
                   >
-                    ptototype-based programming is a style of object-oriented
-                    <br /> programming in which behaviour.
-                  </Typography>
+                    <Box>
+                      <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
+                        Bank Name :
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        Bank of baroda
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
+                        IFSC Code :
+                      </Typography>
+                      <Typography variant="subtitle2">BOBN0005943</Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
+                        Account Holder Name :
+                      </Typography>
+                      <Typography variant="subtitle2">XYZ</Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
+                        Account No :
+                      </Typography>
+                      <Typography variant="subtitle2">9510132728</Typography>
+                    </Box>
+                  </Box>
                 </Box>
+                {/* <Box sx={{ maxWidth: "500px", mt: 6 }}>
+                  <Typography variant="h6">Notes</Typography>
+                  <Box
+                    sx={{
+                      mt: 1,
+                    }}
+                  >
+                    <Typography
+                      variant="subtitle3"
+                      sx={{
+                        mt: 1,
+                        lineHeight: 1.5,
+                        display: "block",
+                        fontSize: "13px",
+                      }}
+                    >
+                      ptototype-based programming is a style of object-oriented
+                      <br /> programming in which behaviour.
+                    </Typography>
+                  </Box>
+                </Box> */}
               </Box>
-              <Box sx={{ maxHeight: "80px", maxWidth: "200px", flexShrink: 0 }}>
+              <Box
+                sx={{
+                  mt: 8.5,
+                  mr: 6,
+                  maxHeight: "80px",
+                  maxWidth: "200px",
+                  flexShrink: 0,
+                }}
+              >
                 <img
                   src="/images/sign.svg"
                   style={{
