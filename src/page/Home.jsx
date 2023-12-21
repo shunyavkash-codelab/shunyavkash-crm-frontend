@@ -433,37 +433,7 @@ export default function Home() {
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody
-                  sx={{
-                    "& .statusBtn": {
-                      color: "white",
-                      fontSize: "12px",
-                      p: 0.5,
-                      borderRadius: 1,
-                      maxWidth: "fit-content",
-                      lineHeight: 1,
-                    },
-                    "& .panding": {
-                      bgcolor: "secondary.main",
-                    },
-                    "& .done": {
-                      bgcolor: "success.main",
-                    },
-                    "& .actionsBtn": {
-                      display: "flex",
-                      alignItems: "center",
-                      gap: { xs: 1.25, sm: 1.5 },
-                      opacity: 0.3,
-                      "& button": {
-                        p: 0,
-                        minWidth: "auto",
-                        color: "black",
-                        "&:hover": { color: "primary.main" },
-                      },
-                      "& svg": { fontSize: { xs: "20px", sm: "22px" } },
-                    },
-                  }}
-                >
+                <TableBody>
                   <TableRow
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
@@ -480,7 +450,24 @@ export default function Home() {
                     <TableCell>12345</TableCell>
                     <TableCell>12/12/23</TableCell>
                     <TableCell>11815886</TableCell>
-                    <TableCell>
+                    <TableCell
+                      sx={{
+                        "& .statusBtn": {
+                          color: "white",
+                          fontSize: "12px",
+                          p: 0.5,
+                          borderRadius: 1,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
+                        },
+                        "& .panding": {
+                          bgcolor: "secondary.main",
+                        },
+                        "& .done": {
+                          bgcolor: "success.main",
+                        },
+                      }}
+                    >
                       <Box className="statusBtn panding">Pending</Box>
                       <Box
                         sx={{
@@ -495,7 +482,21 @@ export default function Home() {
                     </TableCell>
                     <TableCell>300.00$</TableCell>
                     <TableCell>
-                      <Box className="actionsBtn">
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: { xs: 1.25, sm: 1.5 },
+                          opacity: 0.3,
+                          "& button": {
+                            p: 0,
+                            minWidth: "auto",
+                            color: "black",
+                            "&:hover": { color: "primary.main" },
+                          },
+                          "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                        }}
+                      >
                         <Button disableRipple>
                           <VisibilityIcon />
                         </Button>
@@ -524,12 +525,43 @@ export default function Home() {
                     <TableCell>12345</TableCell>
                     <TableCell>12/12/23</TableCell>
                     <TableCell>11815886</TableCell>
-                    <TableCell>
-                      <Box className="statusBtn done">Done</Box>
+                    <TableCell
+                      sx={{
+                        "& .statusBtn": {
+                          color: "white",
+                          fontSize: "12px",
+                          p: 0.5,
+                          borderRadius: 1,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
+                        },
+                        "& .panding": {
+                          bgcolor: "secondary.main",
+                        },
+                        "& .done": {
+                          bgcolor: "success.main",
+                        },
+                      }}
+                    >
+                      <Box className="statusBtn done">done</Box>
                     </TableCell>
-                    <TableCell>150.00$</TableCell>
+                    <TableCell>300.00$</TableCell>
                     <TableCell>
-                      <Box className="actionsBtn">
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: { xs: 1.25, sm: 1.5 },
+                          opacity: 0.3,
+                          "& button": {
+                            p: 0,
+                            minWidth: "auto",
+                            color: "black",
+                            "&:hover": { color: "primary.main" },
+                          },
+                          "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                        }}
+                      >
                         <Button disableRipple>
                           <VisibilityIcon />
                         </Button>

@@ -326,7 +326,9 @@ export default function Project() {
                                 color: "black",
                                 "&:hover": { color: "primary.main" },
                               },
-                              "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                              "& svg": {
+                                fontSize: { xs: "20px", sm: "22px" },
+                              },
                             }}
                           >
                             <Button disableRipple>

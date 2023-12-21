@@ -219,7 +219,7 @@ export default function Clients() {
                 >
                   <TableHead>
                     <TableRow
-                      sx={{ "&>*": { lineHeight: 1, fontWeight: 700 } }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
                       <TableCell>Name</TableCell>
                       <TableCell>Company Name</TableCell>
@@ -287,49 +287,26 @@ export default function Clients() {
                             sx={{
                               display: "flex",
                               alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.75 },
+                              gap: { xs: 1.25, sm: 1.5 },
                               opacity: 0.3,
-                              "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
+                              "& button": {
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              },
+                              "& svg": {
+                                fontSize: { xs: "20px", sm: "22px" },
+                              },
                             }}
                           >
                             <Link to={`./view/${row._id}`}>
-                              <Button
-                                disableRipple
-                                sx={{
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "black",
-                                  "&:hover": { color: "primary.main" },
-                                }}
-                              >
+                              <Button disableRipple>
                                 <VisibilityIcon />
                               </Button>
                             </Link>
-                            {/* <Link to={`./view/${row._id}`}>
-                              <Button
-                                disableRipple
-                                sx={{
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "black",
-                                  "&:hover": { color: "primary.main" },
-                                }}
-                                // onClick={add}
-                              >
-                                <VisibilityIcon />
-                              </Button>
-                            </Link> */}
-
                             <Link to={`./edit/${row._id}`}>
-                              <Button
-                                disableRipple
-                                sx={{
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "black",
-                                  "&:hover": { color: "primary.main" },
-                                }}
-                              >
+                              <Button disableRipple>
                                 <CreateIcon />
                               </Button>
                             </Link>

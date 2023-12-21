@@ -217,7 +217,9 @@ export default function Manager() {
                 >
                   <TableHead>
                     <TableRow
-                      sx={{ "&>th": { lineHeight: 1, fontWeight: 700 } }}
+                      sx={{
+                        "&>th": { lineHeight: 1, fontWeight: 700 },
+                      }}
                     >
                       <TableCell>manager</TableCell>
                       <TableCell>Company Name</TableCell>
@@ -233,7 +235,6 @@ export default function Manager() {
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                           "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                          "&>*": { p: 1.5 },
                         }}
                       >
                         <TableCell component="th" scope="row">
@@ -283,26 +284,24 @@ export default function Manager() {
                             sx={{
                               display: "flex",
                               alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.75 },
+                              gap: { xs: 1.25, sm: 1.5 },
                               opacity: 0.3,
-                              "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
+                              "& button": {
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              },
+                              "& svg": {
+                                fontSize: { xs: "20px", sm: "22px" },
+                              },
                             }}
                           >
-                            <Box>
-                              <Link to={`./view/${row._id}`}>
-                                <Button
-                                  disableRipple
-                                  sx={{
-                                    p: 0,
-                                    minWidth: "auto",
-                                    color: "black",
-                                    "&:hover": { color: "primary.main" },
-                                  }}
-                                >
-                                  <VisibilityIcon />
-                                </Button>
-                              </Link>
-                            </Box>
+                            <Link to={`./view/${row._id}`}>
+                              <Button disableRipple>
+                                <VisibilityIcon />
+                              </Button>
+                            </Link>
                           </Box>
                         </TableCell>
                       </TableRow>
