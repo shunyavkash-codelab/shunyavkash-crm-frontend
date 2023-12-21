@@ -60,11 +60,12 @@ export default function Invoices() {
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
   const navigate = useNavigate();
-  const [clientList, setClientList] = useState(false);
+  const [clientList, setClientList] = useState([]);
   const [countryList, setCountryList] = useState([]);
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
   const [adminList, setAdminList] = useState(false);
+  const [selectedClient, setSelectedClient] = useState();
   const handleChange = (event) => {
     const {
       target: { value },
@@ -75,7 +76,8 @@ export default function Invoices() {
     );
   };
 
-  const { id } = useParams();
+  const { invoiceNumber } = useParams();
+
   const location = useLocation();
 
   const formik = useFormik({
@@ -87,18 +89,19 @@ export default function Invoices() {
       pincode: adminList.pincode,
       mobileCode: adminList.mobileCode,
       mobileNumber: adminList.mobileNumber,
-      // mobileNumber: clientList?.mobileNumber,
+      name: clientList.name,
+      invoiceno: invoiceNumber,
     },
     onSubmit: async (values) => {
       try {
         const res = await apiCall({
-          url: id ? APIS.CLIENT.EDIT(id) : APIS.CLIENT.ADD,
-          method: id ? "patch" : "post",
+          url: APIS.CLIENT.EDIT,
+          method: "post",
           data: JSON.stringify(values, null, 2),
         });
         if (res.data.success === true) {
           setSnack(res.data.message);
-          !id && navigate("/clients");
+          navigate("/clients");
         }
       } catch (error) {
         let errorMessage = error.response.data.message;
@@ -107,16 +110,18 @@ export default function Invoices() {
     },
   });
 
-  // get client list
-  const fetchClient = async (id) => {
+  // get client list all client
+  const fetchClient = async () => {
     try {
       const res = await apiCall({
-        url: APIS.CLIENT.VIEW(id),
+        url: APIS.CLIENT.LIST,
         method: "get",
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
-        setClientList(res.data.data);
+        setClientList(res.data.data.data);
+        console.log(res.data.data.data, "------------------------120");
+        formik.setFieldValue("name", res.data.data.name);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -155,19 +160,27 @@ export default function Invoices() {
         formik.setFieldValue("mobileCode", { phone: res.data.data.mobileCode });
         formik.setFieldValue("mobileNumber", res.data.data.mobileNumber);
         // formik.setFieldValue("address", res.data.data.address);
-        console.log(res.data.data, "----------------------144");
+        // console.log(res.data.data, "----------------------144");
       }
     } catch (error) {
       console.log(error, setSnack);
     }
   };
 
+  const clientData = (id) => {
+    const clientAddress = clientList.find((client) => {
+      return client._id === id;
+    });
+    setSelectedClient(clientAddress.address);
+    // console.log(clientAddress, "--------------------172");
+  };
+
   useEffect(() => {
-    if (id !== undefined) fetchClient(id);
+    fetchClient();
     fetchCountry();
     fetchAdmin();
   }, []);
-  console.log(formik.values.mobileCode);
+  // console.log(formik.values.mobileCode);
 
   return (
     <>
@@ -359,7 +372,7 @@ export default function Invoices() {
                                     },
                                   }}
                                   onChange={(_, newValue) => {
-                                    console.log(newValue);
+                                    // console.log(newValue);
                                     formik.setFieldValue(
                                       "mobileCode",
                                       newValue
@@ -394,7 +407,7 @@ export default function Invoices() {
                                     );
                                   }}
                                   renderInput={(params) => {
-                                    console.log(params);
+                                    // console.log(params);
                                     return <TextField {...params} />;
                                   }}
                                 />
@@ -494,14 +507,17 @@ export default function Invoices() {
                         labelId="demo-simple-select-label"
                         id="to"
                         label="To"
+                        onChange={(e) => clientData(e.target.value)}
                         sx={{ fontSize: "12px" }}
                       >
-                        <MenuItem
-                          sx={{ textTransform: "capitalize" }}
-                          value={"shunyavkash"}
-                        >
-                          Shunyavkash
-                        </MenuItem>
+                        {clientList.map((clientName) => (
+                          <MenuItem
+                            sx={{ textTransform: "capitalize" }}
+                            value={clientName._id}
+                          >
+                            {clientName.name}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                     <TextField
@@ -516,6 +532,10 @@ export default function Invoices() {
                         mt: 1.25,
                         // width: "300px",
                         "&>label,& input,&>div": { fontSize: "12px" },
+                      }}
+                      value={selectedClient}
+                      InputLabelProps={{
+                        shrink: true,
                       }}
                     />
                   </Box>
@@ -535,18 +555,41 @@ export default function Invoices() {
                           gap: 3.75,
                         }}
                       >
-                        <Typography
+                        {/* <Typography
                           variant="subtitle3"
                           sx={{ opacity: "0.50", fontSize: "13px" }}
                         >
                           Invoice No:
-                        </Typography>
-                        <Typography
+                        </Typography> */}
+                        {/* <Typography
                           variant="subtitle3"
                           sx={{ fontSize: "13px" }}
                         >
                           001
-                        </Typography>
+                        </Typography> */}
+                        <TextField
+                          fullWidth
+                          size="small"
+                          id="invoiceno"
+                          label="Invoice No"
+                          autoComplete="off"
+                          // defaultValue={adminList.email}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          sx={{
+                            "&>label,& input,&>div": {
+                              fontSize: "14px",
+                            },
+                          }}
+                          onChange={formik.handleChange}
+                          value={formik.values.invoiceNumber}
+                          InputProps={
+                            location.pathname.includes("/view/") && {
+                              readOnly: true,
+                            }
+                          }
+                        />
                       </Box>
                       <Box
                         sx={{
@@ -555,7 +598,7 @@ export default function Invoices() {
                           gap: 3.75,
                         }}
                       >
-                        <Typography
+                        {/* <Typography
                           variant="subtitle3"
                           sx={{ opacity: "0.50", fontSize: "13px" }}
                         >
@@ -566,7 +609,24 @@ export default function Invoices() {
                           sx={{ fontSize: "13px" }}
                         >
                           Dec 13th,2023
-                        </Typography>
+                        </Typography> */}
+                        <TextField
+                          fullWidth
+                          size="small"
+                          id="invoiceDate"
+                          label="Invoice Date"
+                          autoComplete="off"
+                          type="date"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          placeholder="mm/dd/yyyy"
+                          sx={{
+                            "&>label,& input,&>div": { fontSize: "14px" },
+                          }}
+                          onChange={formik.handleChange}
+                          // value={formik.values.startDate}
+                        />
                       </Box>
                       <Box
                         sx={{
@@ -575,18 +635,23 @@ export default function Invoices() {
                           gap: 3.75,
                         }}
                       >
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ opacity: "0.50", fontSize: "13px" }}
-                        >
-                          Due:
-                        </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontSize: "13px" }}
-                        >
-                          Jan 13th,2023
-                        </Typography>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          id="invoiceDueDate"
+                          label="Invoice Due Date"
+                          autoComplete="off"
+                          type="date"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          placeholder="mm/dd/yyyy"
+                          sx={{
+                            "&>label,& input,&>div": { fontSize: "14px" },
+                          }}
+                          onChange={formik.handleChange}
+                          // value={formik.values.startDate}
+                        />
                       </Box>
                     </Box>
                   </Box>
@@ -1018,6 +1083,16 @@ export default function Invoices() {
                     </MenuItem>
                   </Select>
                 </FormControl>
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="bankName"
+                  label="Bank Name"
+                  sx={{
+                    mt: 2.25,
+                    "&>label,& input,&>div": { fontSize: "13px" },
+                  }}
+                />
                 <TextField
                   fullWidth
                   size="small"
