@@ -225,10 +225,9 @@ export default function Project() {
                 >
                   <TableHead>
                     <TableRow
-                      sx={{ "&>*": { lineHeight: 1, fontWeight: 700 } }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
                       <TableCell>Project Name</TableCell>
-                      {/* <TableCell>Assign Member</TableCell> */}
                       <TableCell>Client</TableCell>
                       <TableCell>Manager</TableCell>
                       <TableCell>Start date</TableCell>
@@ -261,43 +260,54 @@ export default function Project() {
                           {row.currency}
                           {row.perHourCharge}/hour
                         </TableCell>
-                        <TableCell>
+                        <TableCell
+                          sx={{
+                            "& .statusBtn": {
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
+                            },
+                            // "& .toDo": {
+                            //   bgcolor: "grey.dark",
+                            // },
+                            // "& .inProgress": {
+                            //   bgcolor: "secondary.main",
+                            // },
+                            // "& .inReview": {
+                            //   bgcolor: "review.main",
+                            // },
+                            // "& .completed": {
+                            //   bgcolor: "success.main",
+                            // },
+                          }}
+                        >
                           <Box
+                            className="statusBtn"
                             sx={
-                              row.status === "completed"
+                              row.status === "initial"
                                 ? {
-                                    color: "white",
-                                    bgcolor: "success.main",
-                                    fontSize: "12px",
-                                    py: 0.5,
-                                    px: 0.75,
-                                    borderRadius: 1.5,
-                                    maxWidth: "fit-content",
-                                    lineHeight: 1,
-                                  }
-                                : "" || row.status === "initial"
-                                ? {
-                                    color: "white",
                                     bgcolor: "grey.dark",
-                                    fontSize: "12px",
-                                    py: 0.5,
-                                    px: 0.75,
-                                    borderRadius: 1.5,
-                                    maxWidth: "fit-content",
-                                    lineHeight: 1,
                                   }
-                                : "" || row.status === "inProgress"
+                                : "" || "completed"
                                 ? {
-                                    color: "white",
-                                    bgcolor: "secondary.main",
-                                    fontSize: "12px",
-                                    py: 0.5,
-                                    px: 0.75,
-                                    borderRadius: 1.5,
-                                    maxWidth: "fit-content",
-                                    lineHeight: 1,
+                                    bgcolor: "success.main",
                                   }
-                                : ""
+                                : "" /* || "inReview"
+                                ? {
+                                    bgcolor: "review.main",
+                                  }
+                                : "" */ || "inProgress"
+                                ? {
+                                    bgcolor: "secondary.main",
+                                  }
+                                : "" /* || "toDo"
+                                ? {
+                                    bgcolor: "grey.dark",
+                                  }
+                                : "" */
                             }
                           >
                             {row.status}
@@ -308,31 +318,21 @@ export default function Project() {
                             sx={{
                               display: "flex",
                               alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.75 },
+                              gap: { xs: 1.25, sm: 1.5 },
                               opacity: 0.3,
-                              "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
+                              "& button": {
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              },
+                              "& svg": { fontSize: { xs: "20px", sm: "22px" } },
                             }}
                           >
-                            <Button
-                              disableRipple
-                              sx={{
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              }}
-                            >
+                            <Button disableRipple>
                               <VisibilityIcon />
                             </Button>
-                            <Button
-                              disableRipple
-                              sx={{
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              }}
-                            >
+                            <Button disableRipple>
                               <CreateIcon />
                             </Button>
                           </Box>

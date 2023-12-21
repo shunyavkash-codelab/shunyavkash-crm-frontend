@@ -28,6 +28,7 @@ import { APIS } from "../api/apiList";
 import { useAuth } from "../hooks/store/useAuth";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
+import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -396,286 +397,154 @@ export default function Home() {
                 </Grid>
               </Grid>
             </Box> */}
-            <Box sx={{ display: showTable ? "none" : "block" }}>
-              <Box>
-                <Grid container rowSpacing={2} columnSpacing={2}>
-                  {gridItems.map((item) => (
-                    <Grid
-                      key={item}
-                      item
-                      xs={12}
-                      sm={6}
-                      md={4}
-                      lg={6}
-                      xl={4}
-                      xxl={3}
-                      sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
-                    >
-                      <Card
-                        variant="outlined"
-                        sx={{ height: "450px", borderRadius: 2.5 }}
-                      >
-                        {/* Add your card content here */}
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
-            </Box>
-            <Box sx={{ display: showTable ? "block" : "none" }}>
-              <TableContainer
-                component={Paper}
+            <TableContainer
+              component={Paper}
+              sx={{
+                border: "1px solid rgba(224, 224, 224, 1)",
+                borderRadius: 5,
+                mx: { xs: "-10px", sm: 0 },
+                width: { xs: "auto", sm: "auto" },
+                borderRadius: 2.5,
+              }}
+            >
+              <Table
+                className="projectTable"
                 sx={{
-                  border: "1px solid rgba(224, 224, 224, 1)",
-                  borderRadius: 5,
-                  mx: { xs: "-10px", sm: 0 },
-                  width: { xs: "auto", sm: "auto" },
-                  borderRadius: 2.5,
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
                 }}
+                aria-label="simple table"
               >
-                <Table
-                  className="projectTable"
+                <TableHead>
+                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                    <TableCell>Project Name</TableCell>
+                    <TableCell>Client</TableCell>
+                    <TableCell>Manager</TableCell>
+                    <TableCell>Invoice No.</TableCell>
+                    <TableCell>Invoice Date</TableCell>
+                    <TableCell>Payment Ref No.</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Total</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody
                   sx={{
-                    minWidth: 650,
-                    textTransform: "capitalize",
-                    textWrap: "nowrap",
-                    "& th,& td": { borderBottom: 0 },
-                    "& tbody tr": {
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    "& .statusBtn": {
+                      color: "white",
+                      fontSize: "12px",
+                      p: 0.5,
+                      borderRadius: 1,
+                      maxWidth: "fit-content",
+                      lineHeight: 1,
+                    },
+                    "& .panding": {
+                      bgcolor: "secondary.main",
+                    },
+                    "& .done": {
+                      bgcolor: "success.main",
+                    },
+                    "& .actionsBtn": {
+                      display: "flex",
+                      alignItems: "center",
+                      gap: { xs: 1.25, sm: 1.5 },
+                      opacity: 0.3,
+                      "& button": {
+                        p: 0,
+                        minWidth: "auto",
+                        color: "black",
+                        "&:hover": { color: "primary.main" },
+                      },
+                      "& svg": { fontSize: { xs: "20px", sm: "22px" } },
                     },
                   }}
-                  aria-label="simple table"
                 >
-                  <TableHead>
-                    <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
-                    >
-                      <TableCell>Project Name</TableCell>
-                      <TableCell>Client</TableCell>
-                      <TableCell>Manager</TableCell>
-                      <TableCell>Invoice No.</TableCell>
-                      <TableCell>Invoice Date</TableCell>
-                      <TableCell>Due Date</TableCell>
-                      <TableCell>Payment Ref No.</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell>Total</TableCell>
-                      <TableCell>Actions</TableCell>
-                      {/* <TableCell>Start date</TableCell>
-                  <TableCell>End date</TableCell> */}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-child td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
-                      }}
-                    >
-                      <TableCell>CRM</TableCell>
-                      <TableCell>Hiren</TableCell>
-                      <TableCell>Deep</TableCell>
-                      <TableCell>12345</TableCell>
-                      <TableCell>12-12-23</TableCell>
-                      <TableCell>13-12-23</TableCell>
-                      <TableCell>11815886</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            color: "white",
-                            bgcolor: "secondary.main",
-                            fontSize: "12px",
-                            py: 0.5,
-                            px: 0.75,
-                            borderRadius: 1.5,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          }}
-                        >
-                          Pending
-                        </Box>
-                      </TableCell>
-                      <TableCell>300.00$</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: { xs: 1.25, sm: 1.75 },
-                            opacity: 0.3,
-                            "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
-                          }}
-                        >
-                          <Button
-                            disableRipple
-                            sx={{
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "primary.main" },
-                            }}
-                          >
-                            <VisibilityIcon />
-                          </Button>
-                          <Button
-                            disableRipple
-                            sx={{
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "primary.main" },
-                            }}
-                          >
-                            <CreateIcon />
-                          </Button>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-child td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
-                      }}
-                    >
-                      <TableCell>CRM</TableCell>
-                      <TableCell>Hiren</TableCell>
-                      <TableCell>Deep</TableCell>
-                      <TableCell>12345</TableCell>
-                      <TableCell>12-12-23</TableCell>
-                      <TableCell>13-12-23</TableCell>
-                      <TableCell>11815886</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            color: "primary.contrastText",
-                            bgcolor: "success.main",
-                            fontSize: "12px",
-                            py: 0.5,
-                            px: 0.75,
-                            borderRadius: 1.5,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          }}
-                        >
-                          Done
-                        </Box>
-                      </TableCell>
-                      <TableCell>150.00$</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: { xs: 1.25, sm: 1.75 },
-                            opacity: 0.3,
-                            "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
-                          }}
-                        >
-                          <Button
-                            disableRipple
-                            sx={{
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "primary.main" },
-                            }}
-                          >
-                            <VisibilityIcon />
-                          </Button>
-                          <Button
-                            disableRipple
-                            sx={{
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "primary.main" },
-                            }}
-                          >
-                            <CreateIcon />
-                          </Button>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-child td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
-                      }}
-                    >
-                      <TableCell>CRM</TableCell>
-                      <TableCell>Hiren</TableCell>
-                      <TableCell>Deep</TableCell>
-                      <TableCell>12345</TableCell>
-                      <TableCell>12-12-23</TableCell>
-                      <TableCell>13-12-23</TableCell>
-                      <TableCell>11815886</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            color: "white",
-                            bgcolor: "secondary.main",
-                            fontSize: "12px",
-                            py: 0.5,
-                            px: 0.75,
-                            borderRadius: 1.5,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          }}
-                        >
-                          Pending
-                        </Box>
-                      </TableCell>
-                      <TableCell>850.00$</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: { xs: 1.25, sm: 1.75 },
-                            opacity: 0.3,
-                            "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
-                          }}
-                        >
-                          <Button
-                            disableRipple
-                            sx={{
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "primary.main" },
-                            }}
-                          >
-                            <VisibilityIcon />
-                          </Button>
-                          <Button
-                            disableRipple
-                            sx={{
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "primary.main" },
-                            }}
-                          >
-                            <CreateIcon />
-                          </Button>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Box>
+                  <TableRow
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                      "&:first-child td": {
+                        maxWidth: "250px",
+                        textWrap: "wrap",
+                      },
+                    }}
+                  >
+                    <TableCell>CRM</TableCell>
+                    <TableCell>Hiren</TableCell>
+                    <TableCell>Deep</TableCell>
+                    <TableCell>12345</TableCell>
+                    <TableCell>12/12/23</TableCell>
+                    <TableCell>11815886</TableCell>
+                    <TableCell>
+                      <Box className="statusBtn panding">Pending</Box>
+                      <Box
+                        sx={{
+                          fontSize: "13px",
+                          lineHeight: 1,
+                          textWrap: "nowrap",
+                          mt: 0.75,
+                        }}
+                      >
+                        Due on 13/12/23
+                      </Box>
+                    </TableCell>
+                    <TableCell>300.00$</TableCell>
+                    <TableCell>
+                      <Box className="actionsBtn">
+                        <Button disableRipple>
+                          <VisibilityIcon />
+                        </Button>
+                        <Button disableRipple>
+                          <MarkAsPaidIcon />
+                        </Button>
+                        <Button disableRipple>
+                          <CreateIcon />
+                        </Button>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                      "&:first-child td": {
+                        maxWidth: "250px",
+                        textWrap: "wrap",
+                      },
+                    }}
+                  >
+                    <TableCell>CRM</TableCell>
+                    <TableCell>Hiren</TableCell>
+                    <TableCell>Deep</TableCell>
+                    <TableCell>12345</TableCell>
+                    <TableCell>12/12/23</TableCell>
+                    <TableCell>11815886</TableCell>
+                    <TableCell>
+                      <Box className="statusBtn done">Done</Box>
+                    </TableCell>
+                    <TableCell>150.00$</TableCell>
+                    <TableCell>
+                      <Box className="actionsBtn">
+                        <Button disableRipple>
+                          <VisibilityIcon />
+                        </Button>
+                        <Button disableRipple>
+                          <MarkAsPaidIcon />
+                        </Button>
+                        <Button disableRipple>
+                          <CreateIcon />
+                        </Button>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Box>
         </Box>
       </Box>

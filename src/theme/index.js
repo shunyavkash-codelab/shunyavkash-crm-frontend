@@ -52,8 +52,8 @@ export const theme = createTheme({
       contrastText: "#FFFFFF",
     },
     secondary: {
-      main: "#FFC675",
-      light: "#828DF8",
+      main: "#f8ae00",
+      light: "rgba(248, 174, 0, 80%)",
       dark: "#b50458",
       contrastText: "#FFFFFF",
     },
@@ -67,6 +67,12 @@ export const theme = createTheme({
       main: "#4AD292",
       light: "rgba(74, 210, 146, 80%)",
       dark: "#0E8074",
+      contrastText: "#FFFFFF",
+    },
+    review: {
+      main: "#E16B16",
+      light: "rgba(225, 107, 22, 80%)",
+      dark: "#d35e0a",
       contrastText: "#FFFFFF",
     },
     error: {

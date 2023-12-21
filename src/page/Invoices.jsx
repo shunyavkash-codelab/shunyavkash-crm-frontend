@@ -397,19 +397,17 @@ export default function Invoices() {
                 <TableBody
                   sx={{
                     "& .statusBtn": {
+                      color: "white",
                       fontSize: "12px",
-                      py: 0.5,
-                      px: 0.75,
-                      borderRadius: 1.5,
+                      p: 0.5,
+                      borderRadius: 1,
                       maxWidth: "fit-content",
                       lineHeight: 1,
                     },
                     "& .panding": {
-                      color: "white",
                       bgcolor: "secondary.main",
                     },
                     "& .done": {
-                      color: "primary.contrastText",
                       bgcolor: "success.main",
                     },
                     "& .actionsBtn": {
