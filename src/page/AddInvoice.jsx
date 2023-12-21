@@ -76,7 +76,6 @@ export default function Invoices() {
   const [clientList, setClientList] = useState([]);
   const [countryList, setCountryList] = useState([]);
   const [projectList, setProjectList] = useState([]);
-  console.log(projectList);
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
   const [adminList, setAdminList] = useState(false);
@@ -137,7 +136,6 @@ export default function Invoices() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setClientList(res.data.data.data);
-        // console.log(res.data.data.data, "------------------------120");
         formik.setFieldValue("name", res.data.data.name);
       }
     } catch (error) {
@@ -155,7 +153,6 @@ export default function Invoices() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setProjectList(res.data.data);
-        console.log(res.data.data, "------------------------142");
         formik.setFieldValue("name", res.data.data.name);
       }
     } catch (error) {
@@ -194,8 +191,6 @@ export default function Invoices() {
         formik.setFieldValue("pincode", res.data.data.pincode);
         formik.setFieldValue("mobileCode", { phone: res.data.data.mobileCode });
         formik.setFieldValue("mobileNumber", res.data.data.mobileNumber);
-        // formik.setFieldValue("address", res.data.data.address);
-        // console.log(res.data.data, "----------------------144");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -208,10 +203,6 @@ export default function Invoices() {
     });
     setSelectedClient(clientAddress.address);
     await fetchProject(id);
-    // const projectName = projectList.find((project) => {
-    //   console.log(project, "------------------196");
-    // });
-    // setSelectedProject(projectName);
   };
 
   const projectData = () => {};
@@ -221,7 +212,6 @@ export default function Invoices() {
     fetchCountry();
     fetchAdmin();
   }, []);
-  // console.log(formik.values.mobileCode);
 
   return (
     <>
@@ -413,7 +403,6 @@ export default function Invoices() {
                                     },
                                   }}
                                   onChange={(_, newValue) => {
-                                    // console.log(newValue);
                                     formik.setFieldValue(
                                       "mobileCode",
                                       newValue
@@ -448,7 +437,6 @@ export default function Invoices() {
                                     );
                                   }}
                                   renderInput={(params) => {
-                                    // console.log(params);
                                     return <TextField {...params} />;
                                   }}
                                 />
