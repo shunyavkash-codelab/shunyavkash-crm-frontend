@@ -6,6 +6,7 @@ import { Box, TextField, Typography, Button } from "@mui/material";
 import { Field, FormikProvider, useFormik } from "formik";
 // import CloseIcon from "@mui/icons-material/Add";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { Translate } from "@mui/icons-material";
 
 const style = {
   position: "absolute",
@@ -69,27 +70,35 @@ export default function AddManager({ open, setOpen }) {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Button
-              disableRipple
-              disableElevation
-              component="label"
-              variant="contained"
-              id="cancle_icon"
-              startIcon={<CancelIcon sx={{ fontSize: "large" }} />}
+            <Box
               sx={{
-                // fontSize: 40,
-                padding: 0,
-                display: "block",
-                bgcolor: "transparent",
-                boxShadow: "none",
-                color: "text.primary",
-                transition: "0s",
-                ":hover": {
-                  bgcolor: "transparent",
-                  borderColor: "text.primary",
-                },
+                textAlign: "right",
+                transform: "Translate(50px , -70px)",
+                // me: 0,
               }}
-            ></Button>
+            >
+              <Button
+                disableRipple
+                disableElevation
+                component="label"
+                variant="contained"
+                id="cancle_icon"
+                startIcon={<CancelIcon sx={{ fontSize: "40px" }} />}
+                sx={{
+                  // fontSize: "40px",
+                  // "&>*(:first-child)": { fontSize: "40px" },
+                  padding: 0,
+                  display: "block",
+                  bgcolor: "transparent",
+                  color: "text.primary",
+                  transition: "0s",
+                  ":hover": {
+                    bgcolor: "transparent",
+                    borderColor: "text.primary",
+                  },
+                }}
+              ></Button>
+            </Box>
             <Box
               sx={{ display: "grid", gap: 2.25, maxWidth: "335px" }}
               id="transition-modal-title"
