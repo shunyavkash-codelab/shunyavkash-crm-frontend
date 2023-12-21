@@ -27,6 +27,7 @@ import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
+import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 
 const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -387,16 +388,45 @@ export default function Invoices() {
                     <TableCell>Manager</TableCell>
                     <TableCell>Invoice No.</TableCell>
                     <TableCell>Invoice Date</TableCell>
-                    <TableCell>Due Date</TableCell>
                     <TableCell>Payment Ref No.</TableCell>
                     <TableCell>Status</TableCell>
                     <TableCell>Total</TableCell>
                     <TableCell>Actions</TableCell>
-                    {/* <TableCell>Start date</TableCell>
-                  <TableCell>End date</TableCell> */}
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody
+                  sx={{
+                    "& .statusBtn": {
+                      fontSize: "12px",
+                      py: 0.5,
+                      px: 0.75,
+                      borderRadius: 1.5,
+                      maxWidth: "fit-content",
+                      lineHeight: 1,
+                    },
+                    "& .panding": {
+                      color: "white",
+                      bgcolor: "secondary.main",
+                    },
+                    "& .done": {
+                      color: "primary.contrastText",
+                      bgcolor: "success.main",
+                    },
+                    "& .actionsBtn": {
+                      display: "flex",
+                      alignItems: "center",
+                      gap: { xs: 1.25, sm: 1.5 },
+                      opacity: 0.3,
+                      "& button": {
+                        p: 0,
+                        minWidth: "auto",
+                        color: "black",
+                        "&:hover": { color: "primary.main" },
+                      },
+                      "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                    },
+                  }}
+                >
                   <TableRow
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
@@ -411,56 +441,31 @@ export default function Invoices() {
                     <TableCell>Hiren</TableCell>
                     <TableCell>Deep</TableCell>
                     <TableCell>12345</TableCell>
-                    <TableCell>12-12-23</TableCell>
-                    <TableCell>13-12-23</TableCell>
+                    <TableCell>12/12/23</TableCell>
                     <TableCell>11815886</TableCell>
                     <TableCell>
+                      <Box className="statusBtn panding">Pending</Box>
                       <Box
                         sx={{
-                          color: "white",
-                          bgcolor: "secondary.main",
-                          fontSize: "12px",
-                          py: 0.5,
-                          px: 0.75,
-                          borderRadius: 1.5,
-                          maxWidth: "fit-content",
+                          fontSize: "13px",
                           lineHeight: 1,
+                          textWrap: "nowrap",
+                          mt: 0.75,
                         }}
                       >
-                        Pending
+                        Due on 13/12/23
                       </Box>
                     </TableCell>
                     <TableCell>300.00$</TableCell>
                     <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: { xs: 1.25, sm: 1.75 },
-                          opacity: 0.3,
-                          "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
-                        }}
-                      >
-                        <Button
-                          disableRipple
-                          sx={{
-                            p: 0,
-                            minWidth: "auto",
-                            color: "black",
-                            "&:hover": { color: "primary.main" },
-                          }}
-                        >
+                      <Box className="actionsBtn">
+                        <Button disableRipple>
                           <VisibilityIcon />
                         </Button>
-                        <Button
-                          disableRipple
-                          sx={{
-                            p: 0,
-                            minWidth: "auto",
-                            color: "black",
-                            "&:hover": { color: "primary.main" },
-                          }}
-                        >
+                        <Button disableRipple>
+                          <MarkAsPaidIcon />
+                        </Button>
+                        <Button disableRipple>
                           <CreateIcon />
                         </Button>
                       </Box>
@@ -480,125 +485,21 @@ export default function Invoices() {
                     <TableCell>Hiren</TableCell>
                     <TableCell>Deep</TableCell>
                     <TableCell>12345</TableCell>
-                    <TableCell>12-12-23</TableCell>
-                    <TableCell>13-12-23</TableCell>
+                    <TableCell>12/12/23</TableCell>
                     <TableCell>11815886</TableCell>
                     <TableCell>
-                      <Box
-                        sx={{
-                          color: "primary.contrastText",
-                          bgcolor: "success.main",
-                          fontSize: "12px",
-                          py: 0.5,
-                          px: 0.75,
-                          borderRadius: 1.5,
-                          maxWidth: "fit-content",
-                          lineHeight: 1,
-                        }}
-                      >
-                        Done
-                      </Box>
+                      <Box className="statusBtn done">Done</Box>
                     </TableCell>
                     <TableCell>150.00$</TableCell>
                     <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: { xs: 1.25, sm: 1.75 },
-                          opacity: 0.3,
-                          "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
-                        }}
-                      >
-                        <Button
-                          disableRipple
-                          sx={{
-                            p: 0,
-                            minWidth: "auto",
-                            color: "black",
-                            "&:hover": { color: "primary.main" },
-                          }}
-                        >
+                      <Box className="actionsBtn">
+                        <Button disableRipple>
                           <VisibilityIcon />
                         </Button>
-                        <Button
-                          disableRipple
-                          sx={{
-                            p: 0,
-                            minWidth: "auto",
-                            color: "black",
-                            "&:hover": { color: "primary.main" },
-                          }}
-                        >
-                          <CreateIcon />
+                        <Button disableRipple>
+                          <MarkAsPaidIcon />
                         </Button>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&:first-child td": {
-                        maxWidth: "250px",
-                        textWrap: "wrap",
-                      },
-                    }}
-                  >
-                    <TableCell>CRM</TableCell>
-                    <TableCell>Hiren</TableCell>
-                    <TableCell>Deep</TableCell>
-                    <TableCell>12345</TableCell>
-                    <TableCell>12-12-23</TableCell>
-                    <TableCell>13-12-23</TableCell>
-                    <TableCell>11815886</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          color: "white",
-                          bgcolor: "secondary.main",
-                          fontSize: "12px",
-                          py: 0.5,
-                          px: 0.75,
-                          borderRadius: 1.5,
-                          maxWidth: "fit-content",
-                          lineHeight: 1,
-                        }}
-                      >
-                        Pending
-                      </Box>
-                    </TableCell>
-                    <TableCell>850.00$</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: { xs: 1.25, sm: 1.75 },
-                          opacity: 0.3,
-                          "&>svg": { fontSize: { xs: "20px", sm: "24px" } },
-                        }}
-                      >
-                        <Button
-                          disableRipple
-                          sx={{
-                            p: 0,
-                            minWidth: "auto",
-                            color: "black",
-                            "&:hover": { color: "primary.main" },
-                          }}
-                        >
-                          <VisibilityIcon />
-                        </Button>
-                        <Button
-                          disableRipple
-                          sx={{
-                            p: 0,
-                            minWidth: "auto",
-                            color: "black",
-                            "&:hover": { color: "primary.main" },
-                          }}
-                        >
+                        <Button disableRipple>
                           <CreateIcon />
                         </Button>
                       </Box>
