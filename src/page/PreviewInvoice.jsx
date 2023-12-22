@@ -18,6 +18,7 @@ import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import { useAuth } from "../hooks/store/useAuth";
 import { usePDF } from "react-to-pdf";
+import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -25,6 +26,8 @@ export default function Invoices() {
   const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
   const { invoiceNumber } = useParams();
   const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
+  const { invoiceData } = useInvoiceStore();
+  console.log(invoiceData, "--------------------30");
 
   return (
     <>
@@ -151,8 +154,7 @@ export default function Invoices() {
                       fontSize: "16px",
                     }}
                   >
-                    311, Ambika Pinnacle, Lajamni chowk,
-                    <br /> Mota varachha, Surat- 395006
+                    {invoiceData.address} {invoiceData.address2}
                   </Typography>
                   <Box
                     sx={{
@@ -166,7 +168,8 @@ export default function Invoices() {
                         fontSize: "16px",
                       }}
                     >
-                      +91 8155926380
+                      {invoiceData.mobileCode.phone} {invoiceData.mobileNumber}
+                      {/* +91 8155926380 */}
                     </Typography>
                     <Typography
                       variant="subtitle3"
@@ -176,7 +179,7 @@ export default function Invoices() {
                         fontSize: "16px",
                       }}
                     >
-                      hiren.polra@shunyavkash.com
+                      {invoiceData.email}
                     </Typography>
                   </Box>
                 </Box>
