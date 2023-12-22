@@ -296,9 +296,6 @@ export default function Invoices() {
                     borderBottom: 0,
                     fontSize: "16px",
                   },
-                  "& tbody tr > *,& tfoot tr > *": {
-                    py: 1.5,
-                  },
                   "& tbody tr,& tfoot tr": {
                     borderTop: "1px solid rgba(224, 224, 224, 1)",
                   },
@@ -320,9 +317,9 @@ export default function Invoices() {
                     }}
                   >
                     <TableCell>description</TableCell>
-                    <TableCell sx={{ width: "115px" }}>price/hours</TableCell>
-                    <TableCell sx={{ width: "115px" }}>hours</TableCell>
-                    <TableCell sx={{ width: "115px" }}>Amount</TableCell>
+                    <TableCell sx={{ width: "130px" }}>price/hours</TableCell>
+                    <TableCell sx={{ width: "90px" }}>hours</TableCell>
+                    <TableCell sx={{ width: "108px" }}>Amount</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -330,7 +327,7 @@ export default function Invoices() {
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       "&>*": {
-                        p: 1.5,
+                        py: 1.5,
                         "&:first-child": { fontWeight: "600" },
                       },
                     }}
@@ -344,7 +341,7 @@ export default function Invoices() {
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       "&>*": {
-                        p: 1.5,
+                        py: 1.5,
                         "&:first-child": { fontWeight: "600" },
                       },
                     }}
@@ -358,7 +355,7 @@ export default function Invoices() {
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       "&>*": {
-                        p: 1.5,
+                        py: 1.5,
                         "&:first-child": { fontWeight: "600" },
                       },
                     }}
@@ -374,7 +371,7 @@ export default function Invoices() {
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       "&>*": {
-                        p: 1.5,
+                        py: 1.5,
                         "&:first-child": { fontWeight: "600" },
                       },
                       bgcolor: "rgba(243 ,243 ,243 ,1)",

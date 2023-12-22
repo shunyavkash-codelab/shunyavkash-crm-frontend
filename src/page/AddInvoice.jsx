@@ -31,6 +31,7 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -765,14 +766,15 @@ export default function Invoices() {
                       }}
                     >
                       <TableCell>description</TableCell>
-                      <TableCell sx={{ width: "110px" }}>price/hours</TableCell>
-                      <TableCell sx={{ width: "110px" }}>hours</TableCell>
-                      <TableCell sx={{ width: "110px" }}>Amount</TableCell>
+                      <TableCell sx={{ width: "115px" }}>price/hours</TableCell>
+                      <TableCell sx={{ width: "90px" }}>hours</TableCell>
+                      <TableCell colSpan={2}>Amount</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     <TableRow
                       sx={{
+                        position: "relative",
                         "&:last-child td, &:last-child th": { border: 0 },
                         "&>td": { fontSize: { xs: "12px", sm: "14px" } },
                         "&>*": {
@@ -867,7 +869,17 @@ export default function Invoices() {
                           }
                         />
                       </TableCell>
-                      <TableCell>$00.00</TableCell>
+                      <TableCell sx={{ width: "95px" }}>$00.00</TableCell>
+                      <TableCell sx={{ width: "56px" }}>
+                        <DeleteIcon
+                          sx={{
+                            cursor: "pointer",
+                            "&:not(:hover)": {
+                              opacity: 0.5,
+                            },
+                          }}
+                        />
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                   <TableFooter>
@@ -924,7 +936,10 @@ export default function Invoices() {
                       <TableCell sx={{ fontWeight: "600", color: "black" }}>
                         Total:
                       </TableCell>
-                      <TableCell sx={{ fontWeight: "600", color: "black" }}>
+                      <TableCell
+                        colSpan={2}
+                        sx={{ fontWeight: "600", color: "black" }}
+                      >
                         $00.00
                       </TableCell>
                     </TableRow>
