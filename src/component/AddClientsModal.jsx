@@ -68,6 +68,7 @@ export default function AddClientsModal({ open, setOpen }) {
               component="label"
               variant="contained"
               id="cancle_icon"
+              className="modalCloseBtn"
               startIcon={
                 <CloseIcon
                   sx={{
@@ -84,12 +85,7 @@ export default function AddClientsModal({ open, setOpen }) {
                 padding: 0,
                 maxHeight: 0,
                 display: "block",
-                // bgcolor: "primary.main",
                 color: "#ffffff",
-                transition: "0s",
-                ":hover": {
-                  borderColor: "primary.main",
-                },
               }}
             ></Button>
             <Typography
