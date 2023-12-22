@@ -85,6 +85,52 @@
       -webkit-line-clamp: 2;
     }
 
+    .bg-style {
+      position: relative;
+      padding: 6px 14px 6px 10px;
+      background-color: rgba(74, 210, 146, 10%);
+      display: inline-flex;
+    }
+
+    .bg-style:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 3px;
+      background-color: rgba(74, 210, 146, 100%);
+    }
+
+    @keyframes swing {
+      0%,
+      30%,
+      50%,
+      70%,
+      100% {
+        transform: rotate(0deg);
+      }
+
+      10% {
+        transform: rotate(10deg);
+      }
+
+      40% {
+        transform: rotate(-10deg);
+      }
+
+      60% {
+        transform: rotate(5deg);
+      }
+
+      80% {
+        transform: rotate(-5deg);
+      }
+    }
+    .line-clamp-1 {
+      -webkit-line-clamp: 2;
+    }
+
     @keyframes swing {
       0%,
       30%,
