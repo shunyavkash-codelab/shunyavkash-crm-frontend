@@ -270,45 +270,32 @@ export default function Project() {
                               maxWidth: "fit-content",
                               lineHeight: 1,
                             },
-                            // "& .toDo": {
-                            //   bgcolor: "grey.dark",
-                            // },
-                            // "& .inProgress": {
-                            //   bgcolor: "secondary.main",
-                            // },
-                            // "& .inReview": {
-                            //   bgcolor: "review.main",
-                            // },
-                            // "& .completed": {
-                            //   bgcolor: "success.main",
-                            // },
+                            "& .toDo": {
+                              bgcolor: "grey.dark",
+                            },
+                            "& .inProgress": {
+                              bgcolor: "secondary.main",
+                            },
+                            "& .inReview": {
+                              bgcolor: "review.main",
+                            },
+                            "& .completed": {
+                              bgcolor: "success.main",
+                            },
                           }}
                         >
                           <Box
-                            className="statusBtn"
-                            sx={
+                            className={`statusBtn ${
                               row.status === "initial"
-                                ? {
-                                    bgcolor: "grey.dark",
-                                  }
-                                : "" || "completed"
-                                ? {
-                                    bgcolor: "success.main",
-                                  }
-                                : "" /* || "inReview"
-                                ? {
-                                    bgcolor: "review.main",
-                                  }
-                                : "" */ || "inProgress"
-                                ? {
-                                    bgcolor: "secondary.main",
-                                  }
-                                : "" /* || "toDo"
-                                ? {
-                                    bgcolor: "grey.dark",
-                                  }
-                                : "" */
-                            }
+                                ? "initial toDo"
+                                : row.status === "completed"
+                                ? "completed"
+                                : row.status === "inReview"
+                                ? "inReview"
+                                : row.status === "inProgress"
+                                ? "inProgress"
+                                : "toDo"
+                            }`}
                           >
                             {row.status}
                           </Box>
