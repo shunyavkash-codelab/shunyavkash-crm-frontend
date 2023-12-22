@@ -181,7 +181,7 @@ export default function AddProject() {
           <Box sx={{ mb: 3.25 }}>
             <Typography
               variant="h5"
-              sx={{ mb: 0.75, textTransform: "capitalize" }}
+              sx={{ mb: 2.25, textTransform: "capitalize" }}
             >
               Add Project
             </Typography>

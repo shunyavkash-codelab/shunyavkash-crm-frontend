@@ -5,7 +5,7 @@ import Fade from "@mui/material/Fade";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
 // import CloseIcon from "@mui/icons-material/Add";
-import CancelIcon from "@mui/icons-material/Cancel";
+import CloseIcon from "@mui/icons-material/Close";
 
 const style = {
   position: "absolute",
@@ -17,13 +17,10 @@ const style = {
   // border: "1px solid #000075",
   borderRadius: 2,
   boxShadow: 24,
-  // p: 4,
+  p: 4,
 };
 
 export default function AddClientsModal({ open, setOpen }) {
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => setOpen(false);
   const formik = useFormik({
     initialValues: {
@@ -65,49 +62,47 @@ export default function AddClientsModal({ open, setOpen }) {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Box
+            <Button
+              disableRipple
+              disableElevation
+              component="label"
+              variant="contained"
+              id="cancle_icon"
+              startIcon={
+                <CloseIcon
+                  sx={{
+                    fontSize: "45px !important",
+                    lineHeight: "normal",
+                    transform: "Translate(74px, -56px)",
+                  }}
+                  open={open}
+                  onClick={handleClose}
+                  aria-label="close"
+                />
+              }
               sx={{
-                textAlign: "right",
-                transform: "Translate(51px , -51px)",
+                padding: 0,
+                maxHeight: 0,
+                display: "block",
+                // bgcolor: "primary.main",
+                color: "#ffffff",
+                transition: "0s",
+                ":hover": {
+                  borderColor: "primary.main",
+                },
               }}
+            ></Button>
+            <Typography
+              variant="h5"
+              sx={{ mb: 2.5, textTransform: "capitalize" }}
             >
-              <Button
-                disableRipple
-                disableElevation
-                component="label"
-                variant="contained"
-                id="cancle_icon"
-                startIcon={
-                  <CancelIcon
-                    sx={{ fontSize: "50px !important", lineHeight: "normal" }}
-                    open={open}
-                    onClick={handleClose}
-                    aria-label="close"
-                  />
-                }
-                sx={{
-                  padding: 0,
-                  display: "block",
-                  bgcolor: "transparent",
-                  color: "text.primary",
-                  transition: "0s",
-                  ":hover": {
-                    bgcolor: "transparent",
-                    borderColor: "text.primary",
-                  },
-                }}
-              ></Button>
-            </Box>
+              Add Client
+            </Typography>
+
             <Box
               sx={{ display: "grid", gap: 2.25, width: "100%" }}
               id="transition-modal-title"
             >
-              <Typography
-                variant="h5"
-                sx={{ mb: 0.75, textTransform: "capitalize" }}
-              >
-                Add Client
-              </Typography>
               <Box
                 sx={{
                   display: "block",
