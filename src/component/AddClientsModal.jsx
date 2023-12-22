@@ -1,27 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import { Box, TextField, Typography, Button } from "@mui/material";
-import { Field, FormikProvider, useFormik } from "formik";
+import { Box, TextField, Button, Typography } from "@mui/material";
+import { useFormik } from "formik";
 // import CloseIcon from "@mui/icons-material/Add";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { Translate } from "@mui/icons-material";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 600,
   bgcolor: "background.paper",
   // border: "1px solid #000075",
   borderRadius: 2,
   boxShadow: 24,
-  p: 4,
+  // p: 4,
 };
 
-export default function AddManager({ open, setOpen }) {
+export default function AddClientsModal({ open, setOpen }) {
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
   const handleClose = () => setOpen(false);
   const formik = useFormik({
     initialValues: {
@@ -59,22 +61,14 @@ export default function AddManager({ open, setOpen }) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500,
-          },
-        }}
+        setOpen={setOpen}
       >
         <Fade in={open}>
           <Box sx={style}>
             <Box
               sx={{
                 textAlign: "right",
-                transform: "Translate(50px , -70px)",
-                // me: 0,
+                transform: "Translate(51px , -51px)",
               }}
             >
               <Button
@@ -83,10 +77,15 @@ export default function AddManager({ open, setOpen }) {
                 component="label"
                 variant="contained"
                 id="cancle_icon"
-                startIcon={<CancelIcon sx={{ fontSize: "40px" }} />}
+                startIcon={
+                  <CancelIcon
+                    sx={{ fontSize: "50px !important", lineHeight: "normal" }}
+                    open={open}
+                    onClick={handleClose}
+                    aria-label="close"
+                  />
+                }
                 sx={{
-                  // fontSize: "40px",
-                  // "&>*(:first-child)": { fontSize: "40px" },
                   padding: 0,
                   display: "block",
                   bgcolor: "transparent",
@@ -100,9 +99,15 @@ export default function AddManager({ open, setOpen }) {
               ></Button>
             </Box>
             <Box
-              sx={{ display: "grid", gap: 2.25, maxWidth: "335px" }}
+              sx={{ display: "grid", gap: 2.25, width: "100%" }}
               id="transition-modal-title"
             >
+              <Typography
+                variant="h5"
+                sx={{ mb: 0.75, textTransform: "capitalize" }}
+              >
+                Add Client
+              </Typography>
               <Box
                 sx={{
                   display: "block",
