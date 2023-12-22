@@ -254,517 +254,412 @@ export default function Invoices() {
               mx: "auto",
             }}
           >
-            <Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 2,
-                }}
-              >
-                <Box sx={{ textAlign: "left" }}>
-                  <Typography
-                    variant="h4"
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 2,
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontSize: "24px",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  Shunyavkash PVT. LTD
+                </Typography>
+                <Box
+                  sx={{
+                    mt: 1.75,
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="address"
+                    label="Address"
+                    autoComplete="off"
+                    onChange={formik.handleChange}
+                    // value={`${formik.values.address} ${formik.values.address2} ${formik.values.landmark} ${formik.values.pincode}`}
+                    value={
+                      formik.values.address +
+                      formik.values.address2 +
+                      formik.values.landmark +
+                      formik.values.pincode
+                    }
+                    InputProps={
+                      location.pathname.includes("/view/") && {
+                        readOnly: true,
+                      }
+                    }
+                    multiline
+                    rows={4}
                     sx={{
-                      fontSize: "28px",
-                      textTransform: "capitalize",
-                      lineHeight: 1.5,
+                      "&>label,& input,&>div": { fontSize: "12px" },
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      mt: 3.25,
                     }}
                   >
-                    Shunyavkash PVT. LTD
-                  </Typography>
-                  <Box>
                     <Box
                       sx={{
-                        mt: 1,
-                        "&>*:not(:first-child)": {
-                          mt: 2,
+                        display: "flex",
+                        "&:hover fieldset": {
+                          borderColor: "text.primary",
                         },
-                        textAlign: "left",
                       }}
                     >
-                      {/* <Typography variant="subtitle3" sx={{ opacity: 0.5 }}>
-                        Invoice no:
-                      </Typography> */}
+                      <Autocomplete
+                        size="small"
+                        id="country-select-demo"
+                        sx={{
+                          flexShrink: 0,
+                          width: { xs: "100px", sm: "120px" },
+                          "& input": { fontSize: "12px" },
+                          "& button[title='Clear']": {
+                            display: "none",
+                          },
+                          "& fieldset": {
+                            borderRadius: "6px 0 0 6px",
+                            borderRight: 0,
+                          },
+                          "&>div>div": {
+                            pr: "24px!important",
+                            bgcolor: "#f4f4f4",
+                          },
+                          "& input+div": {
+                            right: "0!important",
+                          },
+                        }}
+                        onChange={(_, newValue) => {
+                          formik.setFieldValue("mobileCode", newValue);
+                        }}
+                        value={formik.values.mobileCode}
+                        inputValue={formik.values.mobileCode?.phone}
+                        options={countryList}
+                        autoHighlight
+                        getOptionLabel={(option) => option.phone}
+                        renderOption={(props, option) => {
+                          return (
+                            <Box
+                              component="li"
+                              sx={{
+                                "& > img": {
+                                  mr: 0.75,
+                                  flexShrink: 0,
+                                },
+                                fontSize: "12px",
+                              }}
+                              {...props}
+                            >
+                              <img
+                                loading="lazy"
+                                width="20"
+                                height="14"
+                                src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                              />
+                              +{option.phone}
+                            </Box>
+                          );
+                        }}
+                        renderInput={(params) => {
+                          return <TextField {...params} />;
+                        }}
+                      />
                       <TextField
                         fullWidth
                         size="small"
-                        id="address"
-                        label="Address"
+                        id="mobileNumber"
+                        type="tel"
                         autoComplete="off"
-                        onChange={formik.handleChange}
-                        // value={`${formik.values.address} ${formik.values.address2} ${formik.values.landmark} ${formik.values.pincode}`}
-                        value={
-                          formik.values.address +
-                          formik.values.address2 +
-                          formik.values.landmark +
-                          formik.values.pincode
-                        }
+                        placeholder="Number"
                         InputProps={
                           location.pathname.includes("/view/") && {
                             readOnly: true,
                           }
                         }
-                        multiline
-                        rows={4}
+                        // InputLabelProps={{
+                        //   shrink: true,
+                        // }}
                         sx={{
-                          "&>label,& input,&>div": { fontSize: "12px" },
-                        }}
-                      />
-
-                      <Box
-                        sx={{
-                          mt: 0.25,
-                          "&>*:not(:first-child)": {
-                            mt: 0,
+                          "& input,&>div": { fontSize: "12px" },
+                          "& fieldset": {
+                            borderRadius: "0 6px 6px 0",
+                            borderLeft: 0,
                           },
-                          textAlign: "left",
                         }}
-                      >
-                        <FormikProvider value={formik}>
-                          <Box
-                            component="form"
-                            noValidate
-                            autoComplete="off"
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              formik.handleSubmit();
-                            }}
-                            sx={{
-                              // p: 2.5,
-                              // pt: 1.75,
-                              backgroundColor: "white",
-                              borderRadius: 2.5,
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                pt: 0.75,
-                                flexGrow: { md: 0 },
-                                overflowY: { md: "auto" },
-                                "& fieldset": {
-                                  borderRadius: 1.5,
-                                },
-                              }}
-                            >
-                              <TextField
-                                fullWidth
-                                size="small"
-                                id="email"
-                                label="Email"
-                                autoComplete="off"
-                                // defaultValue={adminList.email}
-                                InputLabelProps={{
-                                  shrink: true,
-                                }}
-                                sx={{
-                                  "&>label,& input,&>div": {
-                                    fontSize: "14px",
-                                  },
-                                }}
-                                onChange={formik.handleChange}
-                                value={formik.values.email}
-                                InputProps={
-                                  location.pathname.includes("/view/") && {
-                                    readOnly: true,
-                                  }
-                                }
-                              />
-
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  mt: 0.75,
-                                  "&:hover fieldset": {
-                                    borderColor: "text.primary",
-                                  },
-                                }}
-                              >
-                                <Autocomplete
-                                  size="small"
-                                  id="country-select-demo"
-                                  sx={{
-                                    flexShrink: 0,
-                                    width: { xs: "100px", sm: "120px" },
-                                    "& input": { fontSize: "14px" },
-                                    "& button[title='Clear']": {
-                                      display: "none",
-                                    },
-                                    "& fieldset": {
-                                      borderRadius: "6px 0 0 6px",
-                                      borderRight: 0,
-                                    },
-                                    "&>div>div": {
-                                      pr: "24px!important",
-                                      bgcolor: "#f4f4f4",
-                                    },
-                                    "& input+div": {
-                                      right: "0!important",
-                                    },
-                                  }}
-                                  onChange={(_, newValue) => {
-                                    formik.setFieldValue(
-                                      "mobileCode",
-                                      newValue
-                                    );
-                                  }}
-                                  value={formik.values.mobileCode}
-                                  inputValue={formik.values.mobileCode?.phone}
-                                  options={countryList}
-                                  autoHighlight
-                                  getOptionLabel={(option) => option.phone}
-                                  renderOption={(props, option) => {
-                                    return (
-                                      <Box
-                                        component="li"
-                                        sx={{
-                                          "& > img": {
-                                            mr: 0.75,
-                                            flexShrink: 0,
-                                          },
-                                          fontSize: { xs: "12px", sm: "14px" },
-                                        }}
-                                        {...props}
-                                      >
-                                        <img
-                                          loading="lazy"
-                                          width="20"
-                                          height="14"
-                                          src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                                        />
-                                        +{option.phone}
-                                      </Box>
-                                    );
-                                  }}
-                                  renderInput={(params) => {
-                                    return <TextField {...params} />;
-                                  }}
-                                />
-                                <TextField
-                                  fullWidth
-                                  size="small"
-                                  id="mobileNumber"
-                                  type="tel"
-                                  autoComplete="off"
-                                  placeholder="Number"
-                                  InputProps={
-                                    location.pathname.includes("/view/") && {
-                                      readOnly: true,
-                                    }
-                                  }
-                                  // InputLabelProps={{
-                                  //   shrink: true,
-                                  // }}
-                                  sx={{
-                                    "& input,&>div": { fontSize: "14px" },
-                                    "& fieldset": {
-                                      borderRadius: "0 6px 6px 0",
-                                      borderLeft: 0,
-                                    },
-                                  }}
-                                  onChange={formik.handleChange}
-                                  value={formik.values.mobileNumber}
-                                />
-                              </Box>
-                            </Box>
-                          </Box>
-                        </FormikProvider>
-                      </Box>
+                        onChange={formik.handleChange}
+                        value={formik.values.mobileNumber}
+                      />
                     </Box>
-                  </Box>
-                </Box>
-                <Box
-                  sx={{
-                    maxHeight: "140px",
-                    maxWidth: "240px",
-                    minWidth: "80px",
-                    flexShrink: 0,
-                  }}
-                >
-                  <img
-                    src="/images/logo.svg"
-                    style={{
-                      maxHeight: "inherit",
-                      width: "100%",
-                      display: "block",
-                    }}
-                  />
-                </Box>
-              </Box>
-
-              <Box sx={{ my: 4 }}>
-                <Divider sx={{ borderWidth: "2px", borderColor: "#ededed" }} />
-              </Box>
-
-              <Box sx={{ textAlign: "right", alignSelf: "end" }}>
-                <Typography variant="h4">Invoice</Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    mt: 6,
-                    gap: 2,
-                  }}
-                >
-                  <Box
-                    sx={{ textAlign: "left", maxWidth: "300px", width: "100%" }}
-                  >
-                    <Typography
-                      variant="body1"
-                      sx={{ fontWeight: 700, lineHeight: 1 }}
-                    >
-                      Bill to
-                    </Typography>
-                    <FormControl
-                      fullWidth
-                      size="small"
-                      sx={{
-                        mt: 1.25,
-                        // width: "300px",
-                        display: "flex",
-                        "&>label": { fontSize: "12px" },
-                        "&>div": { textAlign: "left" },
-                      }}
-                    >
-                      <InputLabel
-                        sx={{ textTransform: "capitalize" }}
-                        id="demo-simple-select-label"
-                      >
-                        To
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="to"
-                        label="To"
-                        onChange={(e) => clientData(e.target.value)}
-                        sx={{ fontSize: "12px" }}
-                      >
-                        {clientList.map((clientName) => (
-                          <MenuItem
-                            sx={{ textTransform: "capitalize" }}
-                            value={clientName._id}
-                          >
-                            {clientName.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
                     <TextField
                       fullWidth
                       size="small"
-                      id="address"
-                      label="Address"
+                      id="email"
+                      label="Email"
                       autoComplete="off"
-                      multiline
-                      rows={4}
-                      sx={{
-                        mt: 1.25,
-                        // width: "300px",
-                        "&>label,& input,&>div": { fontSize: "12px" },
-                      }}
-                      value={selectedClient}
+                      // defaultValue={adminList.email}
                       InputLabelProps={{
                         shrink: true,
                       }}
-                    />
-                  </Box>
-                  <Box sx={{ textAlign: "right", alignSelf: "start", mt: 3 }}>
-                    <Box
                       sx={{
-                        mt: 1,
-                        "&>*:not(:first-child)": {
-                          mt: 1,
+                        mt: 1.75,
+                        "&>label,& input,&>div": {
+                          fontSize: "12px",
                         },
                       }}
-                    >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          gap: 3.75,
-                        }}
-                      >
-                        {/* <Typography
-                          variant="subtitle3"
-                          sx={{ opacity: "0.50", fontSize: "13px" }}
-                        >
-                          Invoice No:
-                        </Typography> */}
-                        {/* <Typography
-                          variant="subtitle3"
-                          sx={{ fontSize: "13px" }}
-                        >
-                          001
-                        </Typography> */}
-                        <TextField
-                          fullWidth
-                          size="small"
-                          id="invoiceNumber"
-                          label="Invoice No"
-                          autoComplete="off"
-                          // defaultValue={adminList.email}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          sx={{
-                            "&>label,& input,&>div": {
-                              fontSize: "14px",
-                            },
-                          }}
-                          onChange={formik.handleChange}
-                          value={formik.values.invoiceNumber}
-                          InputProps={
-                            location.pathname.includes("/view/") && {
-                              readOnly: true,
-                            }
-                          }
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          gap: 3.75,
-                        }}
-                      >
-                        {/* <Typography
-                          variant="subtitle3"
-                          sx={{ opacity: "0.50", fontSize: "13px" }}
-                        >
-                          Invoice Date:
-                        </Typography>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{ fontSize: "13px" }}
-                        >
-                          Dec 13th,2023
-                        </Typography> */}
-                        <TextField
-                          fullWidth
-                          size="small"
-                          id="invoiceDate"
-                          label="Invoice Date"
-                          autoComplete="off"
-                          type="date"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          placeholder="mm/dd/yyyy"
-                          sx={{
-                            "&>label,& input,&>div": { fontSize: "14px" },
-                          }}
-                          onChange={formik.handleChange}
-                          // value={formik.values.startDate}
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          gap: 3.75,
-                        }}
-                      >
-                        <TextField
-                          fullWidth
-                          size="small"
-                          id="invoiceDueDate"
-                          label="Invoice Due Date"
-                          autoComplete="off"
-                          type="date"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          placeholder="mm/dd/yyyy"
-                          sx={{
-                            "&>label,& input,&>div": { fontSize: "14px" },
-                          }}
-                          onChange={formik.handleChange}
-                          // value={formik.values.startDate}
-                        />
-                      </Box>
-                    </Box>
+                      onChange={formik.handleChange}
+                      value={formik.values.email}
+                      InputProps={
+                        location.pathname.includes("/view/") && {
+                          readOnly: true,
+                        }
+                      }
+                    />
                   </Box>
                 </Box>
               </Box>
-
               <Box
                 sx={{
-                  mt: 6,
+                  maxHeight: "140px",
+                  maxWidth: "200px",
+                  minWidth: "80px",
+                  flexShrink: 0,
                 }}
               >
-                <Box sx={{ maxWidth: "300px", width: "100%" }}>
-                  <Typography
-                    variant="body1"
-                    sx={{ fontWeight: 700, lineHeight: 1 }}
-                  >
-                    Project
-                  </Typography>
-                  <FormControl
-                    fullWidth
-                    size="small"
-                    sx={{
-                      mt: 1.25,
-                      // width: "300px",
-                      display: "flex",
-                      "&>label": { fontSize: "12px" },
-                    }}
-                  >
-                    <InputLabel
-                      sx={{ textTransform: "capitalize" }}
-                      id="demo-simple-select-label"
-                    >
-                      Select Project
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="select_project"
-                      label="Select Project"
-                      // onChange={(e) => clientData(e.target.value)}
-                      sx={{ fontSize: "12px" }}
-                      onChange={(event) => {
-                        let project = projectList.find(
-                          (project) => project._id === event.target.value
-                        );
-                        formik.setFieldValue(
-                          "projectDescription",
-                          project.description
-                        );
-                        setSelectedProject(project);
-                      }}
-                    >
-                      {projectList.map((projectName) => (
-                        <MenuItem
-                          sx={{ textTransform: "capitalize" }}
-                          value={projectName._id}
-                        >
-                          {projectName.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="projectDescription"
-                    label="Description"
-                    autoComplete="off"
-                    multiline
-                    rows={4}
-                    sx={{
-                      mt: 1.25,
-                      // width: "300px",
-                      "&>label,& input,&>div": { fontSize: "12px" },
-                    }}
-                    value={formik.values.projectDescription}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={formik.handleChange}
-                  />
-                </Box>
+                <img
+                  src="/images/logo.svg"
+                  style={{
+                    maxHeight: "inherit",
+                    width: "100%",
+                    display: "block",
+                  }}
+                />
               </Box>
             </Box>
-            <Box sx={{ mt: 10 }}>
+            <Divider
+              sx={{ my: 3.5, borderWidth: "2px", borderColor: "#ededed" }}
+            />
+            <Typography variant="h4" sx={{ textAlign: "right" }}>
+              Invoice
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                mt: 6,
+                gap: 2,
+              }}
+            >
+              <Box sx={{ width: "300px" }}>
+                <Typography
+                  variant="subtitle3"
+                  sx={{ fontWeight: 700, display: "block", fontSize: "13px" }}
+                >
+                  Bill to
+                </Typography>
+                <FormControl
+                  fullWidth
+                  size="small"
+                  sx={{
+                    mt: 2,
+                    // width: "300px",
+                    display: "flex",
+                    "&>label": { fontSize: "12px" },
+                  }}
+                >
+                  <InputLabel
+                    sx={{ textTransform: "capitalize" }}
+                    id="demo-simple-select-label"
+                  >
+                    To
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="to"
+                    label="To"
+                    onChange={(e) => clientData(e.target.value)}
+                    sx={{ fontSize: "12px" }}
+                  >
+                    {clientList.map((clientName) => (
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value={clientName._id}
+                      >
+                        {clientName.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="address"
+                  label="Address"
+                  autoComplete="off"
+                  multiline
+                  rows={4}
+                  sx={{
+                    mt: 1.75,
+                    // width: "300px",
+                    "&>label,& input,&>div": { fontSize: "12px" },
+                  }}
+                  value={selectedClient}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Box>
+              <Box
+                sx={{
+                  maxWidth: "300px",
+                  "&>*:not(:first-child)": {
+                    mt: 1.75,
+                  },
+                }}
+              >
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="invoiceNumber"
+                  label="Invoice No"
+                  autoComplete="off"
+                  // defaultValue={adminList.email}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  sx={{
+                    "&>label,& input,&>div": {
+                      fontSize: "12px",
+                    },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.invoiceNumber}
+                  InputProps={
+                    location.pathname.includes("/view/") && {
+                      readOnly: true,
+                    }
+                  }
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="invoiceDate"
+                  label="Invoice Date"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "12px" },
+                  }}
+                  onChange={formik.handleChange}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="invoiceDueDate"
+                  label="Invoice Due Date"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "12px" },
+                  }}
+                  onChange={formik.handleChange}
+                />
+              </Box>
+            </Box>
+            {/* <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                mt: 6,
+                gap: 2,
+              }}
+            >
+              <Box sx={{ width: "300px" }}>
+                <Typography
+                  variant="subtitle3"
+                  sx={{ fontWeight: 700, display: "block", fontSize: "13px" }}
+                >
+                  project
+                </Typography>
+                <FormControl
+                  fullWidth
+                  size="small"
+                  sx={{
+                    mt: 2,
+                    // width: "300px",
+                    display: "flex",
+                    "&>label": { fontSize: "12px" },
+                  }}
+                >
+                  <InputLabel
+                    sx={{ textTransform: "capitalize" }}
+                    id="demo-simple-select-label"
+                  >
+                    Select Project
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="select_project"
+                    label="Select Project"
+                    // onChange={(e) => clientData(e.target.value)}
+                    sx={{ fontSize: "12px" }}
+                    onChange={(event) => {
+                      let project = projectList.find(
+                        (project) => project._id === event.target.value
+                      );
+                      formik.setFieldValue(
+                        "projectDescription",
+                        project.description
+                      );
+                      setSelectedProject(project);
+                    }}
+                  >
+                    {projectList.map((projectName) => (
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value={projectName._id}
+                      >
+                        {projectName.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="projectDescription"
+                  label="Description"
+                  autoComplete="off"
+                  multiline
+                  rows={4}
+                  sx={{
+                    mt: 1.75,
+                    // width: "300px",
+                    "&>label,& input,&>div": { fontSize: "12px" },
+                  }}
+                  value={formik.values.projectDescription}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={formik.handleChange}
+                />
+              </Box>
+            </Box> */}
+            <Box sx={{ my: 7 }}>
               <FormControl
                 fullWidth
                 size="small"
@@ -842,9 +737,11 @@ export default function Invoices() {
                     minWidth: 650,
                     textTransform: "capitalize",
                     textWrap: "nowrap",
-                    boxShadow: "0 0 10px rgba(0,0,0,1)",
                     "& th,& td": {
                       borderBottom: 0,
+                    },
+                    "& tbody tr > *,& tfoot tr > *": {
+                      py: 1.5,
                     },
                     "& tbody tr,& tfoot tr": {
                       borderTop: "1px solid rgba(224, 224, 224, 1)",
@@ -868,58 +765,12 @@ export default function Invoices() {
                       }}
                     >
                       <TableCell>description</TableCell>
-                      <TableCell>price per hours</TableCell>
-                      <TableCell>hours</TableCell>
-                      <TableCell>Amount</TableCell>
+                      <TableCell sx={{ width: "110px" }}>price/hours</TableCell>
+                      <TableCell sx={{ width: "110px" }}>hours</TableCell>
+                      <TableCell sx={{ width: "110px" }}>Amount</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&>*": {
-                          p: 1.5,
-                          "&:first-child": { fontWeight: "600" },
-                        },
-                      }}
-                    >
-                      <TableCell>Recurring Bill (Hosting)</TableCell>
-                      <TableCell>$652.87</TableCell>
-                      <TableCell>3</TableCell>
-                      <TableCell>$1,958.61</TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&>*": {
-                          p: 1.5,
-                          "&:first-child": { fontWeight: "600" },
-                        },
-                      }}
-                    >
-                      <TableCell>Recurring Bill (Domain)</TableCell>
-                      <TableCell>$239.00</TableCell>
-                      <TableCell>3</TableCell>
-                      <TableCell>$717.00</TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&>*": {
-                          p: 1.5,
-                          "&:first-child": { fontWeight: "600" },
-                        },
-                      }}
-                    >
-                      <TableCell>Web design</TableCell>
-                      <TableCell>$958.00</TableCell>
-                      <TableCell>1</TableCell>
-                      <TableCell>$958.00</TableCell>
-                    </TableRow>
-
                     <TableRow
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
@@ -935,14 +786,21 @@ export default function Invoices() {
                           fullWidth
                           size="small"
                           id="name"
-                          label="Task"
+                          // label="Task"
                           autoComplete="off"
+                          placeholder="Enter an item"
                           defaultValue={clientList?.name}
                           // InputLabelProps={{
                           //   shrink: true,
                           // }}
                           sx={{
-                            "&>label,& input,&>div": { fontSize: "14px" },
+                            "& input,&>div": { fontSize: "12px" },
+                            "& input,& fieldset": {
+                              marginLeft: "-12px",
+                            },
+                            "& fieldset": {
+                              borderColor: "transparent",
+                            },
                           }}
                           onChange={formik.handleChange}
                           value={formik.values.name}
@@ -958,23 +816,27 @@ export default function Invoices() {
                           fullWidth
                           size="small"
                           id="PricePerHours"
-                          type="tel"
                           autoComplete="off"
-                          defaultValue={clientList?.mobileNumber}
-                          placeholder="$"
+                          // label="Price"
+                          placeholder="$00.00"
                           InputProps={
                             location.pathname.includes("/view/") && {
                               readOnly: true,
                             }
                           }
-                          // InputLabelProps={{
-                          //   shrink: true,
-                          // }}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
                           sx={{
-                            "& input,&>div": { fontSize: "14px" },
+                            "& input,&>div": { fontSize: "12px" },
+                            "& input,& fieldset": {
+                              marginLeft: "-12px",
+                            },
+                            "& fieldset": {
+                              borderColor: "transparent",
+                            },
                           }}
                           onChange={formik.handleChange}
-                          value={formik.values.mobileNumber}
                         />
                       </TableCell>
                       <TableCell>
@@ -982,12 +844,19 @@ export default function Invoices() {
                           fullWidth
                           size="small"
                           id="number"
-                          label="Hours"
+                          // label="Hours"
                           autoComplete="off"
-                          defaultValue={clientList?.hours}
+                          inputProps={{ min: 1 }}
+                          defaultValue="1"
                           type="number"
                           sx={{
-                            "&>label,& input,&>div": { fontSize: "14px" },
+                            "& input,&>div": { fontSize: "12px" },
+                            "& input,& fieldset": {
+                              marginLeft: "-12px",
+                            },
+                            "& fieldset": {
+                              borderColor: "transparent",
+                            },
                           }}
                           onChange={formik.handleChange}
                           value={formik.values.hours}
@@ -998,7 +867,7 @@ export default function Invoices() {
                           }
                         />
                       </TableCell>
-                      <TableCell></TableCell>
+                      <TableCell>$00.00</TableCell>
                     </TableRow>
                   </TableBody>
                   <TableFooter>
@@ -1013,55 +882,50 @@ export default function Invoices() {
                         bgcolor: "rgba(243 ,243 ,243 ,1)",
                       }}
                     >
-                      <TableCell sx={{ "&:first-child": { px: 2, py: 0.5 } }}>
-                        <Link to="./preview">
-                          <Button
-                            disableRipple
-                            sx={{
-                              maxHeight: "36px",
-                              position: "relative",
-                              px: 2.5,
-                              py: 1.5,
+                      <TableCell sx={{ py: "4px!important" }}>
+                        <Button
+                          disableRipple
+                          sx={{
+                            maxHeight: "36px",
+                            position: "relative",
+                            px: 2.5,
+                            py: 1.5,
+                            bgcolor: "primary.main",
+                            border: "1px solid",
+                            borderColor: "primary.main",
+                            color: "white",
+                            lineHeight: 1,
+                            borderRadius: 2.5,
+                            overflow: "hidden",
+                            "&:before": {
+                              content: "''",
+                              height: 0,
+                              width: "10rem",
+                              position: "absolute",
+                              top: "50%",
+                              left: "50%",
+                              zIndex: "0",
+                              bgcolor: "white",
+                              transform: "rotate(-45deg) translate(-50%, -50%)",
+                              transformOrigin: "0% 0%",
+                              transition: "all 0.4s ease-in-out",
+                            },
+                            "&:hover": {
+                              color: "primary.main",
                               bgcolor: "primary.main",
-                              border: "1px solid",
-                              borderColor: "primary.main",
-                              color: "white",
-                              lineHeight: 1,
-                              borderRadius: 2.5,
-                              overflow: "hidden",
-                              "&:before": {
-                                content: "''",
-                                height: 0,
-                                width: "10rem",
-                                position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                zIndex: "0",
-                                bgcolor: "white",
-                                transform:
-                                  "rotate(-45deg) translate(-50%, -50%)",
-                                transformOrigin: "0% 0%",
-                                transition: "all 0.4s ease-in-out",
-                              },
-                              "&:hover": {
-                                color: "primary.main",
-                                bgcolor: "primary.main",
-                                "&:before": { height: "10rem" },
-                              },
-                            }}
-                          >
-                            <span style={{ position: "relative" }}>
-                              Add Task
-                            </span>
-                          </Button>
-                        </Link>
+                              "&:before": { height: "10rem" },
+                            },
+                          }}
+                        >
+                          <span style={{ position: "relative" }}>Add Task</span>
+                        </Button>
                       </TableCell>
                       <TableCell></TableCell>
                       <TableCell sx={{ fontWeight: "600", color: "black" }}>
                         Total:
                       </TableCell>
                       <TableCell sx={{ fontWeight: "600", color: "black" }}>
-                        $3633.61
+                        $00.00
                       </TableCell>
                     </TableRow>
                   </TableFooter>
@@ -1070,316 +934,164 @@ export default function Invoices() {
             </Box>
             <Box
               sx={{
-                mt: 6,
-                display: "flex",
-                justifyContent: "space-between",
-                gap: 2,
+                ml: "auto",
+                maxWidth: "fit-content",
+                "&>*": { px: 1.75, "&:not(:first-child)": { mt: 1.75 } },
+                "& > *": {
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 15,
+                  "& > *": {
+                    lineHeight: "1!important",
+                    textTransform: "capitalize",
+                  },
+                },
               }}
             >
-              <Box
-                sx={{
-                  maxWidth: "300px",
-                }}
-              >
-                <Typography
-                  variant="body1"
-                  sx={{ fontWeight: 700, lineHeight: 1, mb: 2.25 }}
-                >
-                  Bank Details
+              <Box>
+                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                  subtotal:
                 </Typography>
-                <FormControl
-                  fullWidth
-                  size="small"
-                  sx={{
-                    mt: 1,
-                    // width: "300px",
-                    display: "flex",
-                    "&>label": { fontSize: "12px" },
-                    "&>div": { textAlign: "left" },
-                  }}
-                >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
-                  >
-                    Select Bank
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="select Bank"
-                    label="Select Bank"
-                    sx={{ fontSize: "13px" }}
-                  >
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value={"Kotak"}
-                    >
-                      Kotak
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value={"HDFC"}
-                    >
-                      HDFC
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value={"Kotak"}
-                    >
-                      Custom Add
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="bankName"
-                  label="Bank Name"
-                  sx={{
-                    mt: 2.25,
-                    "&>label,& input,&>div": { fontSize: "13px" },
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="ifsc"
-                  label="IFSC Code"
-                  sx={{
-                    mt: 2.25,
-                    "&>label,& input,&>div": { fontSize: "13px" },
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="Acc Holder"
-                  label="Account Holder Name"
-                  autoComplete="off"
-                  multiline
-                  sx={{
-                    mt: 2.25,
-                    "&>label,& input,&>div": { fontSize: "13px" },
-                  }}
-                />
-
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="Acc Number"
-                  label="Account Number"
-                  sx={{
-                    mt: 2.25,
-                    "&>label,& input,&>div": { fontSize: "12px" },
-                  }}
-                />
+                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                  $3633.61
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="subtitle2">Discount (20%):</Typography>
+                <Typography variant="subtitle2">$0.00</Typography>
+              </Box>
+              <Box>
+                <Typography variant="subtitle2">shipping cost:</Typography>
+                <Typography variant="subtitle2">$0.00</Typography>
+              </Box>
+              <Box>
+                <Typography variant="subtitle2">sales tax:</Typography>
+                <Typography variant="subtitle2">$450.00</Typography>
+              </Box>
+              <Box>
+                <Typography variant="subtitle2">total:</Typography>
+                <Typography variant="subtitle2">$4083.61</Typography>
+              </Box>
+              <Box>
+                <Typography variant="subtitle2">amount paid:</Typography>
+                <Typography variant="subtitle2">$0.00</Typography>
               </Box>
               <Box
                 sx={{
-                  ml: "auto",
-                  flexShrink: 0,
-                  "&>*": { "&:not(:first-child)": { mt: 1.75 }, px: 1.75 },
+                  py: 1.75,
+                  bgcolor: "primary.light",
+                  borderRadius: 2.5,
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 15,
-                    "&>*": {
-                      lineHeight: "1!important",
-                      display: "block",
-                      fontWeight: "700!important",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    subtotal:
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    $3633.61
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 15,
-                    "&>*": {
-                      lineHeight: "1!important",
-                      display: "block",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    Discount (20%):
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    $0.00
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 15,
-                    "&>*": {
-                      lineHeight: "1!important",
-                      display: "block",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    shipping cost:
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    $0.00
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 15,
-                    "&>*": {
-                      lineHeight: "1!important",
-                      display: "block",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    sales tax:
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    $450.00
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 15,
-                    "&>*": {
-                      lineHeight: "1!important",
-                      display: "block",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    total:
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    $4083.61
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 15,
-                    "&>*": {
-                      lineHeight: "1!important",
-                      display: "block",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    amount paid:
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    $0.00
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    py: 1.75,
-                    bgcolor: "primary.light",
-                    borderRadius: 2.5,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 15,
-                    "&>*": {
-                      lineHeight: "1!important",
-                      display: "block",
-                      fontWeight: 700,
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    balance due:
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    $4083.61
-                  </Typography>
-                </Box>
+                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                  balance due:
+                </Typography>
+                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                  $4083.61
+                </Typography>
               </Box>
             </Box>
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
+                alignItems: "end",
                 gap: 2,
-                mt: 6,
               }}
             >
-              <Box sx={{ maxWidth: "400px", width: "100%" }}>
-                <Typography
-                  variant="body1"
-                  sx={{ fontWeight: 700, lineHeight: 1, fontSize: "16px" }}
-                >
-                  Notes
-                </Typography>
+              <Box>
                 <Box
                   sx={{
-                    mt: 0,
-                    "&>*": {
-                      display: "block",
-                      lineHeight: 1.5,
+                    maxWidth: "300px",
+                    "&>*:not(:first-child)": {
+                      mt: 1.75,
                     },
                   }}
                 >
+                  <Typography variant="h6">Bank Details</Typography>
+                  <FormControl
+                    fullWidth
+                    size="small"
+                    sx={{
+                      // width: "300px",
+                      display: "flex",
+                      "&>label": { fontSize: "12px" },
+                      "&>div": { textAlign: "left" },
+                    }}
+                  >
+                    <InputLabel
+                      sx={{ textTransform: "capitalize" }}
+                      id="demo-simple-select-label"
+                    >
+                      Select Bank
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="select Bank"
+                      label="Select Bank"
+                      sx={{ fontSize: "13px" }}
+                    >
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value={"Kotak"}
+                      >
+                        Kotak
+                      </MenuItem>
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value={"HDFC"}
+                      >
+                        HDFC
+                      </MenuItem>
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value={"Kotak"}
+                      >
+                        Custom Add
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="bankName"
+                    label="Bank Name"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "12px" },
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="ifsc"
+                    label="IFSC Code"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "12px" },
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="Acc Holder"
+                    label="Account Holder Name"
+                    autoComplete="off"
+                    multiline
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "12px" },
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="Acc Number"
+                    label="Account Number"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "12px" },
+                    }}
+                  />
+                </Box>
+                <Box sx={{ maxWidth: "500px", mt: 6 }}>
+                  <Typography variant="h6">Notes</Typography>
                   <TextField
                     fullWidth
                     size="small"
@@ -1389,16 +1101,28 @@ export default function Invoices() {
                     multiline
                     rows={4}
                     sx={{
-                      mt: 2.25,
+                      mt: 1.75,
                       "&>label,& input,&>div": { fontSize: "12px" },
                     }}
                   />
                 </Box>
               </Box>
-              <Box sx={{ height: "100px" }}>
+              <Box
+                sx={{
+                  mt: 8.5,
+                  mr: 6,
+                  maxHeight: "80px",
+                  maxWidth: "200px",
+                  flexShrink: 0,
+                }}
+              >
                 <img
                   src="/images/sign.svg"
-                  style={{ height: "100%", width: "auto" }}
+                  style={{
+                    maxHeight: "inherit",
+                    width: "100%",
+                    display: "block",
+                  }}
                 ></img>
               </Box>
             </Box>
