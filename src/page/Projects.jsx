@@ -331,9 +331,11 @@ export default function Project() {
                               },
                             }}
                           >
-                            <Button disableRipple>
-                              <VisibilityIcon />
-                            </Button>
+                            <Link to={`./view/${row._id}`}>
+                              <Button disableRipple>
+                                <VisibilityIcon />
+                              </Button>
+                            </Link>
                             <Button disableRipple>
                               <CreateIcon />
                             </Button>

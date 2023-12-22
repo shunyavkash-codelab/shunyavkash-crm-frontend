@@ -19,6 +19,7 @@ import Invoices from "./page/Invoices";
 import AddInvoice from "./page/AddInvoice";
 import PreviewInvoice from "./page/PreviewInvoice";
 import Profile from "./page/Profile";
+import ViewProject from "./page/ViewProject";
 
 const routes = createBrowserRouter([
   { path: "/signup", Component: SignUp },
@@ -35,6 +36,7 @@ const routes = createBrowserRouter([
   { path: "/Clients/view/:id", Component: ViewClient },
   { path: "/projects", Component: Projects },
   { path: "/Projects/add", Component: AddProject },
+  { path: "/Projects/view/:id", Component: ViewProject },
   { path: "/invoices", Component: Invoices },
   { path: "/invoices/add/:invoiceNumber", Component: AddInvoice },
   { path: "/invoices/add/:invoiceNumber/preview", Component: PreviewInvoice },
