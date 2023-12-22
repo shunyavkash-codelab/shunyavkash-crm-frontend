@@ -1,5 +1,4 @@
 import React from "react";
-import Backdrop from "@mui/material/Backdrop";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { Box, TextField, Button, Typography } from "@mui/material";
@@ -7,18 +6,11 @@ import { useFormik } from "formik";
 // import CloseIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 600,
-  bgcolor: "background.paper",
-  // border: "1px solid #000075",
-  borderRadius: 2,
-  boxShadow: 24,
-  p: 4,
-};
+// const style = {
+//   // @media only screen and(max-width: 768px){
+//   // height: "100vh",
+//   // }
+// };
 
 export default function AddClientsModal({ open, setOpen }) {
   const handleClose = () => setOpen(false);
@@ -61,39 +53,63 @@ export default function AddClientsModal({ open, setOpen }) {
         setOpen={setOpen}
       >
         <Fade in={open}>
-          <Box sx={style}>
-            <Button
-              disableRipple
-              disableElevation
-              component="label"
-              variant="contained"
-              id="cancle_icon"
-              className="modalCloseBtn"
-              startIcon={
-                <CloseIcon
-                  sx={{
-                    fontSize: "45px !important",
-                    lineHeight: "normal",
-                    transform: "Translate(74px, -56px)",
-                  }}
-                  open={open}
-                  onClick={handleClose}
-                  aria-label="close"
-                />
-              }
+          <Box
+            sx={{
+              position: { xs: "relative", sm: "absolute" },
+              top: { xs: 0, sm: "50%" },
+              left: { xs: 0, sm: "50%" },
+              transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
+              width: { xs: "100%", sm: 600 },
+              height: { xs: "100vh", sm: "unset" },
+              bgcolor: "background.paper",
+              borderRadius: { xs: 0, sm: 2 },
+              boxShadow: 24,
+              p: 4,
+            }}
+            className="modal"
+          >
+            <Box
               sx={{
-                padding: 0,
-                maxHeight: 0,
-                display: "block",
-                color: "#ffffff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
               }}
-            ></Button>
-            <Typography
-              variant="h5"
-              sx={{ mb: 2.5, textTransform: "capitalize" }}
             >
-              Add Client
-            </Typography>
+              <Button
+                disableRipple
+                disableElevation
+                component="label"
+                variant="contained"
+                id="cancle_icon"
+                className="modalCloseBtn"
+                startIcon={
+                  <CloseIcon
+                    sx={{
+                      fontSize: "unset",
+                    }}
+                    open={open}
+                    onClick={handleClose}
+                    aria-label="close"
+                  />
+                }
+                sx={{
+                  color: "#ffffff",
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  transform: { xs: "0", sm: "Translate(24px, -22px)" },
+                  borderRadius: "100%",
+                  minWidth: "unset",
+                  bgcolor: "primary.main",
+                }}
+              ></Button>
+              <Typography
+                variant="h5"
+                sx={{ mb: 2.5, textTransform: "capitalize" }}
+              >
+                Add Client
+              </Typography>
+            </Box>
 
             <Box
               sx={{ display: "grid", gap: 2.25, width: "100%" }}
