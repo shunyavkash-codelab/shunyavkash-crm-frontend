@@ -96,7 +96,7 @@ export default function Invoices() {
                     sx={{
                       lineHeight: 1.5,
                       display: "block",
-                      fontSize: "13px",
+                      fontSize: "16px",
                     }}
                   >
                     311, Ambika Pinnacle, Lajamni chowk,
@@ -111,7 +111,7 @@ export default function Invoices() {
                       variant="subtitle3"
                       sx={{
                         display: "block",
-                        fontSize: "13px",
+                        fontSize: "16px",
                       }}
                     >
                       +91 8155926380
@@ -121,7 +121,7 @@ export default function Invoices() {
                       sx={{
                         mt: 0.75,
                         display: "block",
-                        fontSize: "13px",
+                        fontSize: "16px",
                       }}
                     >
                       hiren.polra@shunyavkash.com
@@ -132,7 +132,7 @@ export default function Invoices() {
               <Box
                 sx={{
                   maxHeight: "140px",
-                  maxWidth: "200px",
+                  maxWidth: "230px",
                   minWidth: "80px",
                   flexShrink: 0,
                 }}
@@ -164,7 +164,7 @@ export default function Invoices() {
               <Box>
                 <Typography
                   variant="subtitle3"
-                  sx={{ fontWeight: 700, display: "block", fontSize: "13px" }}
+                  sx={{ fontWeight: 600, display: "block", fontSize: "15px" }}
                 >
                   Bill to
                 </Typography>
@@ -177,7 +177,7 @@ export default function Invoices() {
                     mt: 1,
                     display: "block",
                     lineHeight: "1.5",
-                    fontSize: "13px",
+                    fontSize: "16px",
                   }}
                 >
                   311, Ambika Pinnacle, Lajamni chowk,
@@ -209,7 +209,7 @@ export default function Invoices() {
                   <Typography
                     variant="subtitle3"
                     sx={{
-                      fontSize: "13px",
+                      fontSize: "16px",
                     }}
                   >
                     Invoice No:
@@ -217,7 +217,7 @@ export default function Invoices() {
                   <Typography
                     variant="subtitle3"
                     sx={{
-                      fontSize: "13px",
+                      fontSize: "16px",
                     }}
                   >
                     001
@@ -227,7 +227,7 @@ export default function Invoices() {
                   <Typography
                     variant="subtitle3"
                     sx={{
-                      fontSize: "13px",
+                      fontSize: "16px",
                     }}
                   >
                     Invoice Date:
@@ -235,7 +235,7 @@ export default function Invoices() {
                   <Typography
                     variant="subtitle3"
                     sx={{
-                      fontSize: "13px",
+                      fontSize: "16px",
                     }}
                   >
                     13/12/2023
@@ -245,7 +245,7 @@ export default function Invoices() {
                   <Typography
                     variant="subtitle3"
                     sx={{
-                      fontSize: "13px",
+                      fontSize: "16px",
                     }}
                   >
                     invoice Due:
@@ -253,7 +253,7 @@ export default function Invoices() {
                   <Typography
                     variant="subtitle3"
                     sx={{
-                      fontSize: "13px",
+                      fontSize: "16px",
                     }}
                   >
                     13/1/2023
@@ -294,6 +294,7 @@ export default function Invoices() {
                   textWrap: "nowrap",
                   "& th,& td": {
                     borderBottom: 0,
+                    fontSize: "16px",
                   },
                   "& tbody tr > *,& tfoot tr > *": {
                     py: 1.5,
@@ -319,16 +320,15 @@ export default function Invoices() {
                     }}
                   >
                     <TableCell>description</TableCell>
-                    <TableCell>price per hours</TableCell>
-                    <TableCell>hours</TableCell>
-                    <TableCell>Amount</TableCell>
+                    <TableCell sx={{ width: "115px" }}>price/hours</TableCell>
+                    <TableCell sx={{ width: "115px" }}>hours</TableCell>
+                    <TableCell sx={{ width: "115px" }}>Amount</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
                       "&>*": {
                         p: 1.5,
                         "&:first-child": { fontWeight: "600" },
@@ -343,7 +343,6 @@ export default function Invoices() {
                   <TableRow
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
                       "&>*": {
                         p: 1.5,
                         "&:first-child": { fontWeight: "600" },
@@ -358,7 +357,6 @@ export default function Invoices() {
                   <TableRow
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
                       "&>*": {
                         p: 1.5,
                         "&:first-child": { fontWeight: "600" },
@@ -375,7 +373,6 @@ export default function Invoices() {
                   <TableRow
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
                       "&>*": {
                         p: 1.5,
                         "&:first-child": { fontWeight: "600" },
@@ -412,32 +409,58 @@ export default function Invoices() {
               }}
             >
               <Box>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontWeight: 700, fontSize: "16px" }}
+                >
                   subtotal:
                 </Typography>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontWeight: 700, fontSize: "16px" }}
+                >
                   $3633.61
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="subtitle2">Discount (20%):</Typography>
-                <Typography variant="subtitle2">$0.00</Typography>
+                <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  Discount (20%):
+                </Typography>
+                <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  $0.00
+                </Typography>
               </Box>
               <Box>
-                <Typography variant="subtitle2">shipping cost:</Typography>
-                <Typography variant="subtitle2">$0.00</Typography>
+                <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  shipping cost:
+                </Typography>
+                <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  $0.00
+                </Typography>
               </Box>
               <Box>
-                <Typography variant="subtitle2">sales tax:</Typography>
-                <Typography variant="subtitle2">$450.00</Typography>
+                <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  sales tax:
+                </Typography>
+                <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  $450.00
+                </Typography>
               </Box>
               <Box>
-                <Typography variant="subtitle2">total:</Typography>
-                <Typography variant="subtitle2">$4083.61</Typography>
+                <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  total:
+                </Typography>
+                <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  $4083.61
+                </Typography>
               </Box>
               <Box>
-                <Typography variant="subtitle2">amount paid:</Typography>
-                <Typography variant="subtitle2">$0.00</Typography>
+                <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  amount paid:
+                </Typography>
+                <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  $0.00
+                </Typography>
               </Box>
               <Box
                 sx={{
@@ -446,10 +469,16 @@ export default function Invoices() {
                   borderRadius: 2.5,
                 }}
               >
-                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontWeight: 700, fontSize: "16px" }}
+                >
                   balance due:
                 </Typography>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{ fontWeight: 700, fontSize: "16px" }}
+                >
                   $4083.61
                 </Typography>
               </Box>
@@ -467,42 +496,48 @@ export default function Invoices() {
                   <Typography variant="h6">Bank Details</Typography>
                   <Box
                     sx={{
-                      mt: 1.5,
+                      mt: 2.25,
                       "&>*": {
                         display: "flex",
-                        justifyContent: "space-between",
-                        gap: 12.5,
+                        gap: 1.25,
                         "&:not(:first-child)": { mt: 1.75 },
                         "&>*": {
                           lineHeight: "1!important",
                           textTransform: "capitalize",
+                          fontSize: "16px!important",
+                          "&:first-child": {
+                            opacity: 0.5,
+                            width: "145px",
+                            display: "flex",
+                            justifyContent: "space-between",
+                          },
                         },
                       },
                     }}
                   >
                     <Box>
-                      <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
-                        Bank Name :
+                      <Typography variant="subtitle2">
+                        Bank Name<span>:</span>
                       </Typography>
                       <Typography variant="subtitle2">
                         Bank of baroda
                       </Typography>
                     </Box>
                     <Box>
-                      <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
-                        IFSC Code :
+                      <Typography variant="subtitle2">
+                        IFSC Code<span>:</span>
                       </Typography>
                       <Typography variant="subtitle2">BOBN0005943</Typography>
                     </Box>
                     <Box>
-                      <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
-                        Account Holder Name :
+                      <Typography variant="subtitle2">
+                        A/c Holder Name<span>:</span>
                       </Typography>
                       <Typography variant="subtitle2">XYZ</Typography>
                     </Box>
                     <Box>
-                      <Typography variant="subtitle2" sx={{ opacity: 0.5 }}>
-                        Account No :
+                      <Typography variant="subtitle2">
+                        A/c No.<span>:</span>
                       </Typography>
                       <Typography variant="subtitle2">9510132728</Typography>
                     </Box>
@@ -521,7 +556,7 @@ export default function Invoices() {
                         mt: 1,
                         lineHeight: 1.5,
                         display: "block",
-                        fontSize: "13px",
+                        fontSize: "16px",
                       }}
                     >
                       ptototype-based programming is a style of object-oriented
