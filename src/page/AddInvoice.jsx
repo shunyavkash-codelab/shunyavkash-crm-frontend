@@ -220,13 +220,13 @@ export default function Invoices() {
 
   return (
     <>
-      {/* <SideBar
+      <SideBar
         sideBarWidth={sideBarWidth}
         setSidebarWidth={setSidebarWidth}
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
         accessToken={accessToken}
-      /> */}
+      />
       <Header
         sideBarWidth={sideBarWidth}
         setSidebarWidth={setSidebarWidth}
@@ -262,37 +262,35 @@ export default function Invoices() {
             setSnack(errorMessage, "warning");
           }
         }}
-        sx={{ display: "flex", height: "100vh", ml: { lg: sideBarWidth } }}
       >
         {({ values }) => {
           console.log(values, "---------------------------240");
           return (
-            <Form
-              // component={"form"}
-
+            <Box
+              component="main"
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                gap: 2,
-                mt: 2.5,
+                pt: 13,
+                px: 2.5,
+                pb: 5,
+                height: "100%",
+                overflowY: "auto",
+                ml: { lg: sideBarWidth },
               }}
             >
-              <Box
-                component="main"
+              <Box sx={{ mb: 3.25, textAlign: "center" }}>
+                <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+                  Add Invoice
+                </Typography>
+              </Box>
+              <Form
+                // component={"form"}
                 sx={{
-                  flexGrow: 1,
-                  pt: 13,
-                  px: 2.5,
-                  pb: 5,
-                  height: "100%",
-                  overflowY: "auto",
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 2,
+                  mt: 2.5,
                 }}
               >
-                <Box sx={{ mb: 3.25 }}>
-                  <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
-                    Add Invoice
-                  </Typography>
-                </Box>
                 <Box
                   sx={{
                     bgcolor: "white",
@@ -309,7 +307,7 @@ export default function Invoices() {
                       gap: 2,
                     }}
                   >
-                    <Box>
+                    <Box sx={{ flexGrow: 1 }}>
                       <Typography
                         variant="h5"
                         sx={{
@@ -324,8 +322,12 @@ export default function Invoices() {
                           mt: 1.75,
                         }}
                       >
-                        <CustomFormikField name={"address"} />
-
+                        <CustomFormikField
+                          name={"address"}
+                          label="address"
+                          multiline
+                          rows={4}
+                        />
                         <Box
                           sx={{
                             mt: 3.25,
@@ -401,20 +403,18 @@ export default function Invoices() {
                                 );
                               }}
                             />
-
                             <CustomFormikField name={"mobileNumber"} />
                           </Box>
-
                           <CustomFormikField name="email" />
                         </Box>
                       </Box>
                     </Box>
                     <Box
                       sx={{
+                        flexShrink: 0,
                         maxHeight: "140px",
                         maxWidth: "200px",
                         minWidth: "80px",
-                        flexShrink: 0,
                       }}
                     >
                       <img
@@ -1050,58 +1050,27 @@ export default function Invoices() {
                     </Box>
                   </Box>
                 </Box>
-
-                {/* <Link to="./preview"> */}
-                <Button
-                  type="submit"
-                  disableRipple
+                <Box
                   sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    bgcolor: "success.main",
-                    border: "1px solid",
-                    borderColor: "success.main",
-                    color: "white",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      color: "success.main",
-                      bgcolor: "success.main",
-                      "&:before": { height: "10rem" },
-                    },
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: 2,
+                    mt: 2.5,
                   }}
                 >
-                  <span style={{ position: "relative" }}>Submit</span>
-                </Button>
-                {/* </Link> */}
-                <Link to="../invoices">
+                  {/* <Link to="./preview"> */}
                   <Button
+                    type="submit"
                     disableRipple
                     sx={{
                       maxHeight: "42px",
                       position: "relative",
                       px: 2.5,
                       py: 1.5,
-                      color: "text.primary",
-                      bgcolor: "#e4e4e4",
+                      bgcolor: "success.main",
                       border: "1px solid",
-                      borderColor: "#e4e4e4",
+                      borderColor: "success.main",
+                      color: "white",
                       lineHeight: 1,
                       borderRadius: 2.5,
                       overflow: "hidden",
@@ -1119,16 +1088,55 @@ export default function Invoices() {
                         transition: "all 0.4s ease-in-out",
                       },
                       "&:hover": {
-                        bgcolor: "#e4e4e4",
+                        color: "success.main",
+                        bgcolor: "success.main",
                         "&:before": { height: "10rem" },
                       },
                     }}
                   >
-                    <span style={{ position: "relative" }}>discard</span>
+                    <span style={{ position: "relative" }}>Submit</span>
                   </Button>
-                </Link>
-              </Box>
-            </Form>
+                  {/* </Link> */}
+                  <Link to="../invoices">
+                    <Button
+                      disableRipple
+                      sx={{
+                        maxHeight: "42px",
+                        position: "relative",
+                        px: 2.5,
+                        py: 1.5,
+                        color: "text.primary",
+                        bgcolor: "#e4e4e4",
+                        border: "1px solid",
+                        borderColor: "#e4e4e4",
+                        lineHeight: 1,
+                        borderRadius: 2.5,
+                        overflow: "hidden",
+                        "&:before": {
+                          content: "''",
+                          height: 0,
+                          width: "10rem",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          zIndex: "0",
+                          bgcolor: "white",
+                          transform: "rotate(-45deg) translate(-50%, -50%)",
+                          transformOrigin: "0% 0%",
+                          transition: "all 0.4s ease-in-out",
+                        },
+                        "&:hover": {
+                          bgcolor: "#e4e4e4",
+                          "&:before": { height: "10rem" },
+                        },
+                      }}
+                    >
+                      <span style={{ position: "relative" }}>discard</span>
+                    </Button>
+                  </Link>
+                </Box>
+              </Form>
+            </Box>
           );
         }}
       </Box>
