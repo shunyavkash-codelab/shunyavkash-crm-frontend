@@ -990,7 +990,7 @@ export default function Invoices() {
                       "& > *": {
                         display: "flex",
                         justifyContent: "space-between",
-                        gap: 6.25,
+                        gap: 10,
                         "& > *": {
                           lineHeight: "1!important",
                           textTransform: "capitalize",
@@ -1015,14 +1015,22 @@ export default function Invoices() {
                         alignItems: "center",
                         "& > *:last-child": {
                           maxWidth: "85px",
+                          "& input": {
+                            textAlign: "right",
+                          },
                         },
                       }}
                     >
                       <Typography
                         variant="subtitle2"
-                        sx={{ textWrap: "nowrap" }}
+                        sx={{
+                          textWrap: "nowrap",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                        }}
                       >
-                        Discount :{" "}
+                        Discount:{" "}
                         <Box
                           sx={{
                             alignItems: "center",
@@ -1047,6 +1055,9 @@ export default function Invoices() {
                         alignItems: "center",
                         "& > *:last-child": {
                           maxWidth: "85px",
+                          "& input": {
+                            textAlign: "right",
+                          },
                         },
                       }}
                     >
