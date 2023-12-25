@@ -88,6 +88,7 @@ export default function Invoices() {
   const [selectedProject, setSelectedProject] = useState();
   const { setInvoiceData } = useInvoiceStore();
   const { invoiceNumber } = useParams();
+  const [projectDescription, setProjectDescription] = useState();
 
   const handleChange = (event) => {
     const {
@@ -120,6 +121,7 @@ export default function Invoices() {
 
   // get project list by clientId
   const fetchProject = async (clientId) => {
+    console.log(clientId, "-----------------123");
     try {
       const res = await apiCall({
         url: APIS.PROJECT.CLIENTWISEPROJECT(clientId),
@@ -128,6 +130,8 @@ export default function Invoices() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setProjectList(res.data.data);
+
+        console.log(res.data.data, "---------------------132");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -158,18 +162,27 @@ export default function Invoices() {
       });
       if (res.data.success === true) {
         setAdminList(res.data.data);
-        console.log(res.data.data, "-------------------------160");
-        console.log(
-          res.data.data.bank[0].bankName,
-          "---------------------bank"
-        );
-        // formik.setFieldValue("email", res.data.data.email);
-        // formik.setFieldValue("address", res.data.data.address);
-        // formik.setFieldValue("address2", res.data.data.address2);
-        // formik.setFieldValue("landmark", res.data.data.landmark);
-        // formik.setFieldValue("pincode", res.data.data.pincode);
-        // formik.setFieldValue("mobileCode", { phone: res.data.data.mobileCode });
-        // formik.setFieldValue("mobileNumber", res.data.data.mobileNumber);
+        // console.log(res.data.data, "-------------------------160");
+        // console.log(
+        //   res.data.data.bank[0].bankName,
+        //   "---------------------bank"
+        // );
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
+  // get task details
+  const fetchTask = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.TASK.GET(id),
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setAdminList(res.data.data);
+        console.log(res.data.data, "-------------------------183");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -177,16 +190,22 @@ export default function Invoices() {
   };
 
   const clientData = async (id) => {
-    console.log(id, "---------------------174");
+    console.log(id, "---------------------191");
     const clientAddress = clientList.find((client) => {
       return client._id === id;
     });
-    console.log(clientAddress, "--------------------178");
+    console.log(clientAddress, "--------------------195");
     setSelectedClient(clientAddress.address);
     await fetchProject(id);
   };
-  console.log(selectedClient, "----------------------182");
-  // const projectData = () => {};
+
+  const handleProjectChange = async (event) => {
+    const projectId = event.target.value;
+    const project = projectList.find((proj) => proj._id === projectId);
+
+    // formik.setFieldValue('projectDescription', project.description);
+    setProjectDescription(project.description);
+  };
 
   useEffect(() => {
     fetchClient();
@@ -229,6 +248,8 @@ export default function Invoices() {
           task: [taskInitialValues],
           clientAddress: selectedClient || "",
           total: "10",
+          projectDescription: projectDescription || "",
+          // to: clientAddress._id,
           // projectDescription: "",
         }}
         onSubmit={async (values) => {
@@ -467,6 +488,79 @@ export default function Invoices() {
                       </FormControl>
                       <CustomFormikField name={"clientAddress"} />
                     </Box>
+                    <Box
+                      sx={{
+                        maxWidth: "300px",
+                        "&>*:not(:first-child)": {
+                          mt: 1.75,
+                        },
+                      }}
+                    >
+                      <CustomFormikField name={"invoiceNumber"} />
+                      <CustomFormikField name={"invoiceDueDate"} />
+                    </Box>
+                  </Box>
+
+                  {/* Project selection */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mt: 6,
+                      gap: 2,
+                    }}
+                  >
+                    <Box sx={{ width: "300px" }}>
+                      <Typography
+                        variant="subtitle3"
+                        sx={{
+                          fontWeight: 700,
+                          display: "block",
+                          fontSize: "13px",
+                        }}
+                      >
+                        Project
+                      </Typography>
+                      <FormControl
+                        fullWidth
+                        size="small"
+                        sx={{
+                          mt: 2,
+                          // width: "300px",
+                          display: "flex",
+                          "&>label": { fontSize: "12px" },
+                        }}
+                      >
+                        <InputLabel
+                          sx={{ textTransform: "capitalize" }}
+                          id="demo-simple-select-label"
+                        >
+                          Project
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="project"
+                          label="Project"
+                          // onChange={(e) => clientData(e.target.value)}
+                          sx={{ fontSize: "12px" }}
+                          onChange={handleProjectChange}
+                        >
+                          {projectList.map((projectName) => (
+                            <MenuItem
+                              key={projectName.name}
+                              sx={{ textTransform: "capitalize" }}
+                              value={projectName._id}
+                            >
+                              {projectName.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      {/* Project Description */}
+                      <CustomFormikField name={"projectDescription"} />
+                    </Box>
+
+                    {/* Invoice Number, DueDate */}
                     <Box
                       sx={{
                         maxWidth: "300px",
