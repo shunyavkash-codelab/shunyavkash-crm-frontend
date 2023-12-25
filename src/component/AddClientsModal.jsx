@@ -55,11 +55,11 @@ export default function AddClientsModal({ open, setOpen }) {
         <Fade in={open}>
           <Box
             sx={{
-              position: { xs: "relative", sm: "absolute" },
+              position: { xs: "absolute", sm: "relative" },
               top: { xs: 0, sm: "50%" },
               left: { xs: 0, sm: "50%" },
               transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
-              width: { xs: "100%", sm: 600 },
+              width: { xs: "100%", sm: 500, md: 600 },
               height: { xs: "100vh", sm: "unset" },
               bgcolor: "background.paper",
               borderRadius: { xs: 0, sm: 2 },
@@ -70,15 +70,24 @@ export default function AddClientsModal({ open, setOpen }) {
           >
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
+                display: { xs: "flex", sm: "block" },
+                alignItems: { xs: "center", sm: "start" },
+                justifyContent: { xs: "space-between", sm: "start" },
+                mb: 2,
               }}
             >
+              <Typography
+                variant="h5"
+                sx={{
+                  textTransform: "capitalize",
+                  textAlign: { xs: "center", sm: "left" },
+                }}
+              >
+                Add Client
+              </Typography>
               <Button
                 disableRipple
                 disableElevation
-                component="label"
                 variant="contained"
                 id="cancle_icon"
                 className="modalCloseBtn"
@@ -93,22 +102,22 @@ export default function AddClientsModal({ open, setOpen }) {
                   />
                 }
                 sx={{
+                  display: "inline-flex",
+                  alignItems: "center",
                   color: "#ffffff",
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  transform: { xs: "0", sm: "Translate(24px, -22px)" },
+                  position: { xs: "relative", sm: "absolute" },
+                  top: { xs: "unset", sm: "0" },
+                  right: { xs: "unset", sm: "0" },
+                  transform: {
+                    xs: "translate(0)",
+                    sm: "translate(24px, -22px)",
+                  },
                   borderRadius: "100%",
                   minWidth: "unset",
-                  bgcolor: "primary.main",
+                  p: 0,
+                  // bgcolor: "primary.main",
                 }}
               ></Button>
-              <Typography
-                variant="h5"
-                sx={{ mb: 2.5, textTransform: "capitalize" }}
-              >
-                Add Client
-              </Typography>
             </Box>
 
             <Box
@@ -209,7 +218,7 @@ export default function AddClientsModal({ open, setOpen }) {
                     label="Address"
                     autoComplete="off"
                     multiline
-                    rows={2}
+                    rows={4}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
                     }}
