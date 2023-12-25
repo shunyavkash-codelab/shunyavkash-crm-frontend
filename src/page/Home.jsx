@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -21,7 +22,6 @@ import ManagerIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
-import { Link } from "react-router-dom";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
@@ -29,6 +29,7 @@ import { useAuth } from "../hooks/store/useAuth";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
+import PlusIcon from "@mui/icons-material/Close";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -39,6 +40,7 @@ export default function Home() {
   const { accessToken, invoiceTable } = useAuth();
   const [showTable] = useState(invoiceTable);
   const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
+  const navigate = useNavigate();
 
   const fetchDashboardData = async () => {
     try {
@@ -58,6 +60,21 @@ export default function Home() {
   useEffect(() => {
     fetchDashboardData();
   }, []);
+
+  const invoiceNumberGenerate = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.INVOICE.GENERATENUM,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        navigate(`/invoices/add/${res.data.data}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Grid>
       <SideBar
@@ -100,25 +117,7 @@ export default function Home() {
             <Grid container rowSpacing={2.5} columnSpacing={2.5}>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  Title={"Total Manager"}
-                  // borderColor={"rgb(22, 108, 255, 100%)"}
-                  // boxShadow={"0 0 14px 0px rgb(22, 108, 255, 10%)"}
-                  Counter={dashboardData.totalManager || 0}
-                  icon={
-                    <ManagerIcon
-                      sx={{
-                        fontSize: { xs: "28px", sm: "32px" },
-                        color: "rgb(22, 108, 255, 100%)",
-                      }}
-                    />
-                  }
-                ></CounterCards>
-              </Grid>
-              <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
-                <CounterCards
-                  Title={"Total Clients"}
-                  // borderColor={"rgb(255, 198, 117, 100%)"}
-                  // boxShadow={"0 0 14px 0px rgb(255, 198, 117, 10%)"}
+                  Title={"Clients"}
                   Counter={dashboardData.totalClient || 0}
                   icon={
                     <ClientsIcon
@@ -132,9 +131,7 @@ export default function Home() {
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  Title={"Total projects"}
-                  // borderColor={"rgb(74, 210, 146, 100%)"}
-                  // boxShadow={"0 0 14px 0px rgb(74, 210, 146, 10%)"}
+                  Title={"projects"}
                   Counter={dashboardData.totalProject || 0}
                   icon={
                     <ProjectsIcon
@@ -148,15 +145,27 @@ export default function Home() {
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  Title={"Total invoices"}
-                  // borderColor={"rgb(255, 0, 67, 100%)"}
-                  // boxShadow={"0 0 14px 0px rgb(255, 0, 67, 10%)"}
+                  Title={"invoices"}
                   Counter={dashboardData.totalInvoice || 0}
                   icon={
                     <InvoicesIcon
                       sx={{
                         fontSize: { xs: "28px", sm: "32px" },
                         color: "rgb(255, 0, 67, 100%)",
+                      }}
+                    />
+                  }
+                ></CounterCards>
+              </Grid>
+              <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
+                <CounterCards
+                  Title={"memeber"}
+                  Counter={dashboardData.totalManager || 0}
+                  icon={
+                    <ManagerIcon
+                      sx={{
+                        fontSize: { xs: "28px", sm: "32px" },
+                        color: "rgb(22, 108, 255, 100%)",
                       }}
                     />
                   }
@@ -172,6 +181,7 @@ export default function Home() {
                 alignItems: { sm: "center" },
                 justifyContent: { sm: "space-between" },
                 flexDirection: { xs: "column", sm: "row" },
+                flexWrap: "wrap",
                 columnGap: 2,
                 rowGap: 2.5,
               }}
@@ -180,15 +190,48 @@ export default function Home() {
                 <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
                   Our Recent invoices
                 </Typography>
-                {/* <Typography
-                  variant="subtitle2"
-                  sx={{ opacity: 0.4, textTransform: "capitalize",mt: 0.75, }}
-                >
-                  invoices
-                </Typography> */}
               </Box>
-              <Box>
-                <Link to="./Invoices">
+              <Box sx={{ display: "flex", gap: 1 }}>
+                <Button
+                  disableRipple
+                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                  sx={{
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    border: "1px solid",
+                    borderColor: "primary.main",
+                    color: "primary.main",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "primary.main",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      color: "white",
+                      "&:before": { height: "10rem" },
+                    },
+                  }}
+                  onClick={invoiceNumberGenerate}
+                >
+                  <span style={{ position: "relative" }}>New Invoice</span>
+                </Button>
+                <Link
+                  to="./invoices"
+                  style={{ display: "inline-flex", textDecoration: "none" }}
+                >
                   <Button
                     disableRipple
                     sx={{

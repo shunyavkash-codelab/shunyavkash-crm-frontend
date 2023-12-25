@@ -1183,27 +1183,66 @@ export default function Invoices() {
                       </Box>
                     </Box>
                   </Box>
-                  <Box
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: 2,
+                    mt: 2.5,
+                  }}
+                >
+                  {/* <Link to="./preview"> */}
+                  <Button
+                    type="submit"
+                    disableRipple
                     sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: 2,
-                      mt: 2.5,
+                      maxHeight: "42px",
+                      position: "relative",
+                      px: 2.5,
+                      py: 1.5,
+                      bgcolor: "success.main",
+                      border: "1px solid",
+                      borderColor: "success.main",
+                      color: "white",
+                      lineHeight: 1,
+                      borderRadius: 2.5,
+                      overflow: "hidden",
+                      "&:before": {
+                        content: "''",
+                        height: 0,
+                        width: "10rem",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        zIndex: "0",
+                        bgcolor: "white",
+                        transform: "rotate(-45deg) translate(-50%, -50%)",
+                        transformOrigin: "0% 0%",
+                        transition: "all 0.4s ease-in-out",
+                      },
+                      "&:hover": {
+                        color: "success.main",
+                        bgcolor: "success.main",
+                        "&:before": { height: "10rem" },
+                      },
                     }}
                   >
-                    {/* <Link to="./preview"> */}
+                    <span style={{ position: "relative" }}>Submit</span>
+                  </Button>
+                  {/* </Link> */}
+                  <Link to="../invoices">
                     <Button
-                      type="submit"
                       disableRipple
                       sx={{
                         maxHeight: "42px",
                         position: "relative",
                         px: 2.5,
                         py: 1.5,
-                        bgcolor: "success.main",
+                        color: "text.primary",
+                        bgcolor: "#e4e4e4",
                         border: "1px solid",
-                        borderColor: "success.main",
-                        color: "white",
+                        borderColor: "#e4e4e4",
                         lineHeight: 1,
                         borderRadius: 2.5,
                         overflow: "hidden",
@@ -1221,53 +1260,14 @@ export default function Invoices() {
                           transition: "all 0.4s ease-in-out",
                         },
                         "&:hover": {
-                          color: "success.main",
-                          bgcolor: "success.main",
+                          bgcolor: "#e4e4e4",
                           "&:before": { height: "10rem" },
                         },
                       }}
                     >
-                      <span style={{ position: "relative" }}>Submit</span>
+                      <span style={{ position: "relative" }}>discard</span>
                     </Button>
-                    {/* </Link> */}
-                    <Link to="../invoices">
-                      <Button
-                        disableRipple
-                        sx={{
-                          maxHeight: "42px",
-                          position: "relative",
-                          px: 2.5,
-                          py: 1.5,
-                          color: "text.primary",
-                          bgcolor: "#e4e4e4",
-                          border: "1px solid",
-                          borderColor: "#e4e4e4",
-                          lineHeight: 1,
-                          borderRadius: 2.5,
-                          overflow: "hidden",
-                          "&:before": {
-                            content: "''",
-                            height: 0,
-                            width: "10rem",
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            zIndex: "0",
-                            bgcolor: "white",
-                            transform: "rotate(-45deg) translate(-50%, -50%)",
-                            transformOrigin: "0% 0%",
-                            transition: "all 0.4s ease-in-out",
-                          },
-                          "&:hover": {
-                            bgcolor: "#e4e4e4",
-                            "&:before": { height: "10rem" },
-                          },
-                        }}
-                      >
-                        <span style={{ position: "relative" }}>discard</span>
-                      </Button>
-                    </Link>
-                  </Box>
+                  </Link>
                 </Box>
               </Form>
             </Box>
