@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { styled, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import {
@@ -12,9 +12,8 @@ import {
   TextField,
   Typography,
   Autocomplete,
+  InputAdornment,
 } from "@mui/material";
-import { useTheme } from "@emotion/react";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useAuth } from "../hooks/store/useAuth";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
@@ -24,19 +23,7 @@ import { APIS } from "../api/apiList";
 import FileUploadButton from "../component/FileUploadButton";
 import * as Yup from "yup";
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
-export default function AddManager({ open, setOpen }) {
+export default function AddManager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [managerList, setManagerList] = useState([]);
@@ -45,11 +32,7 @@ export default function AddManager({ open, setOpen }) {
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
   const [countryList, setCountryList] = useState([]);
-
-  const [age, setAge] = React.useState("");
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+  const [country, setCountry] = useState(null);
 
   // yup data validator schhema
   const schema = Yup.object({
@@ -76,7 +59,7 @@ export default function AddManager({ open, setOpen }) {
       profile_img: undefined,
       companyLogo: undefined,
       signature: undefined,
-      mobileCode: "+1",
+      mobileCode: undefined,
     },
     onSubmit: async (values) => {
       try {
@@ -110,10 +93,8 @@ export default function AddManager({ open, setOpen }) {
       console.log(error, setSnack);
     }
   };
-  useEffect(() => {
-    fetchManagers();
-  }, []);
 
+  // get country list
   const fetchCountry = async () => {
     try {
       const res = await apiCall({
@@ -127,6 +108,11 @@ export default function AddManager({ open, setOpen }) {
       console.log(error, setSnack);
     }
   };
+
+  useEffect(() => {
+    fetchManagers();
+    fetchCountry();
+  }, []);
 
   return (
     <>
@@ -263,7 +249,7 @@ export default function AddManager({ open, setOpen }) {
                       "& input": { fontSize: "14px" },
                       "& button[title='Clear']": { display: "none" },
                       "& fieldset": {
-                        borderRadius: "6px 0 0 6px!important",
+                        borderRadius: "6px 0 0 6px !important",
                         borderRight: 0,
                       },
                       "&>div>div": {
@@ -274,9 +260,16 @@ export default function AddManager({ open, setOpen }) {
                         right: "0!important",
                       },
                     }}
+                    value={formik.values.mobileCode}
+                    onChange={(event, newValue) => {
+                      formik.setFieldValue("mobileCode", newValue.phone); // Update Formik field value
+                      console.log(newValue, "============");
+                      setCountry(newValue);
+                    }}
+                    name="mobileCode"
                     options={countryList}
                     autoHighlight
-                    getOptionLabel={(option) => option.phone}
+                    getOptionLabel={(option) => option.label}
                     renderOption={(props, option) => (
                       <Box
                         component="li"
@@ -295,17 +288,34 @@ export default function AddManager({ open, setOpen }) {
                         +{option.phone}
                       </Box>
                     )}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: "new-password", // disable autocomplete and autofill
-                        }}
-                      />
-                    )}
+                    renderInput={(params) => {
+                      return (
+                        <TextField
+                          {...params}
+                          InputProps={{
+                            ...params.InputProps,
+                            startAdornment: country ? (
+                              <InputAdornment
+                                position="start"
+                                sx={{
+                                  marginLeft: "10px",
+                                  marginRight: 0,
+                                }}
+                              >
+                                <img
+                                  loading="lazy"
+                                  width="20"
+                                  src={`https://flagcdn.com/w20/${country.code.toLowerCase()}.png`}
+                                  srcSet={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png 2x`}
+                                  alt=""
+                                />
+                              </InputAdornment>
+                            ) : null,
+                          }}
+                        />
+                      );
+                    }}
                   />
-
                   <TextField
                     fullWidth
                     size="small"

@@ -47,7 +47,7 @@ export default function AddClient() {
       address: clientList.address,
       profile_img: clientList?.profile_img,
       companyLogo: clientList?.companyLogo,
-      mobileCode: clientList?.mobileCode,
+      mobileCode: clientList?.mobileCode || undefined,
     },
     onSubmit: async (values) => {
       try {
