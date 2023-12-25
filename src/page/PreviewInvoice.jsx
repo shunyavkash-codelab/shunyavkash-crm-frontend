@@ -107,22 +107,22 @@ export default function Invoices() {
                 style={{ height: "100%", width: "auto" }}
               />
             </Box> */}
-            {/* <Box
+            <Box
               sx={{
                 position: "absolute",
                 top: "50%",
                 left: "50%",
-                transform: "translate(-50%,-50%)",
-                height: "890px",
-                opacity: 0.04,
+                transform: "translate(-50%,-50%) rotate(-45deg)",
+                height: "130px",
+                opacity: 0.06,
                 zIndex: 1,
               }}
             >
               <img
-                src="/images/Logo-with-text.svg"
+                src="/images/logo.svg"
                 style={{ height: "100%", width: "auto" }}
               />
-            </Box> */}
+            </Box>
             <Box
               sx={{
                 display: "flex",
@@ -341,7 +341,7 @@ export default function Invoices() {
                 component={Paper}
                 sx={{
                   my: 7,
-                  borderRadius: 2.5,
+                  // borderRadius: 2.5,
                   border: "2px solid rgba(128, 128, 128, 0.11)",
                   boxShadow: "none",
                   // bgcolor: "rgba(74, 210, 146, 10%)",
@@ -366,13 +366,11 @@ export default function Invoices() {
                   <TableHead>
                     <TableRow
                       sx={{
-                        // bgcolor: "#2A4062",
-                        bgcolor: "rgba(128, 128, 128, 0.11)",
-                        // borderBottom: "2px solid rgba(128, 128, 128, 0.11)",
+                        bgcolor: "text.primary",
                         "& th": {
                           lineHeight: 1,
                           fontWeight: 600,
-                          // color: "primary.main",
+                          color: "white",
                         },
                       }}
                     >
@@ -385,7 +383,6 @@ export default function Invoices() {
                   <TableBody
                     sx={{
                       "&>*:nth-child(odd)": {
-                        // bgcolor: "rgba(74, 210, 146, 10%)",
                         borderBottom: "2px solid rgba(128, 128, 128, 0.11)",
                       },
                     }}
@@ -448,12 +445,15 @@ export default function Invoices() {
                       <TableCell></TableCell>
                       <TableCell></TableCell>
                       <TableCell
-                        sx={{ fontWeight: "600", color: "text.primary" }}
+                        sx={{
+                          fontWeight: "700",
+                          color: "text.primary",
+                        }}
                       >
                         Total:
                       </TableCell>
                       <TableCell
-                        sx={{ fontWeight: "600", color: "text.primary" }}
+                        sx={{ fontWeight: "700", color: "text.primary" }}
                       >
                         $3633.61
                       </TableCell>
