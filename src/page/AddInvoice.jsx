@@ -692,8 +692,7 @@ export default function Invoices() {
                       fullWidth
                       size="small"
                       sx={{
-                        mt: 1,
-                        width: "450px",
+                        maxWidth: "480px",
                         display: "flex",
                         "&>label": { fontSize: "12px" },
                       }}
@@ -711,10 +710,13 @@ export default function Invoices() {
                         label="Select Tasks"
                         sx={{
                           fontSize: "12px",
+                          position: "relative",
                           "&>div": {
                             "&>div": {
                               position: "absolute",
                               top: "50%",
+                              left: "14px",
+                              right: "32px",
                               transform: "translateY(-50%)",
                               flexWrap: "nowrap",
                               overflowX: "auto",
