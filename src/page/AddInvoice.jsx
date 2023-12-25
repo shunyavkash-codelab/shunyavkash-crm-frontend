@@ -324,13 +324,20 @@ export default function Invoices() {
                       >
                         <CustomFormikField
                           name={"address"}
-                          label="address"
+                          label="Address"
                           multiline
-                          rows={4}
+                          rows={3}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
                         />
                         <Box
                           sx={{
                             mt: 3.25,
+                            maxWidth: "300px",
+                            "& > *:not(:first-child)": {
+                              mt: 1.75,
+                            },
                           }}
                         >
                           <Box
@@ -346,13 +353,13 @@ export default function Invoices() {
                               id="country-select-demo"
                               sx={{
                                 flexShrink: 0,
-                                width: { xs: "100px", sm: "120px" },
+                                width: { xs: "100px", sm: "112px" },
                                 "& input": { fontSize: "12px" },
                                 "& button[title='Clear']": {
                                   display: "none",
                                 },
                                 "& fieldset": {
-                                  borderRadius: "6px 0 0 6px",
+                                  borderRadius: "4px 0 0 4px",
                                   borderRight: 0,
                                 },
                                 "&>div>div": {
@@ -403,9 +410,33 @@ export default function Invoices() {
                                 );
                               }}
                             />
-                            <CustomFormikField name={"mobileNumber"} />
+                            <CustomFormikField
+                              name={"mobileNumber"}
+                              sx={{
+                                "&>label,& input,&>div": {
+                                  fontSize: "12px!important",
+                                },
+                                "& input": {
+                                  p: 0,
+                                },
+                                "&>div": {
+                                  py: "8.5px",
+                                  px: 1.75,
+                                },
+                                "& fieldset": {
+                                  borderRadius: "0 4px 4px 0",
+                                  borderLeft: 0,
+                                },
+                              }}
+                            />
                           </Box>
-                          <CustomFormikField name="email" />
+                          <CustomFormikField
+                            name="email"
+                            label="Email"
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
                         </Box>
                       </Box>
                     </Box>
@@ -441,7 +472,7 @@ export default function Invoices() {
                       gap: 2,
                     }}
                   >
-                    <Box sx={{ width: "300px" }}>
+                    <Box sx={{ flexGrow: 1, maxWidth: "300px" }}>
                       <Typography
                         variant="subtitle3"
                         sx={{
@@ -457,7 +488,7 @@ export default function Invoices() {
                         size="small"
                         sx={{
                           mt: 2,
-                          // width: "300px",
+                          mb: 1.75,
                           display: "flex",
                           "&>label": { fontSize: "12px" },
                         }}
@@ -486,92 +517,96 @@ export default function Invoices() {
                           ))}
                         </Select>
                       </FormControl>
-                      <CustomFormikField name={"clientAddress"} />
+                      <CustomFormikField
+                        name={"clientAddress"}
+                        label="Address"
+                        multiline
+                        rows={3}
+                      />
                     </Box>
                     <Box
                       sx={{
+                        flexGrow: 1,
                         maxWidth: "300px",
                         "&>*:not(:first-child)": {
                           mt: 1.75,
                         },
                       }}
                     >
-                      <CustomFormikField name={"invoiceNumber"} />
-                      <CustomFormikField name={"invoiceDueDate"} />
+                      <CustomFormikField
+                        name={"invoiceNumber"}
+                        label="invoice No."
+                      />
+                      <CustomFormikField
+                        name={"invoiceDate"}
+                        label="Invoice Date"
+                        type="date"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                      <CustomFormikField
+                        name={"invoiceDueDate"}
+                        label="Invoice Due"
+                        type="date"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
                     </Box>
                   </Box>
-
-                  {/* Project selection */}
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      mt: 6,
-                      gap: 2,
-                    }}
-                  >
-                    <Box sx={{ width: "300px" }}>
-                      <Typography
-                        variant="subtitle3"
-                        sx={{
-                          fontWeight: 700,
-                          display: "block",
-                          fontSize: "13px",
-                        }}
-                      >
-                        Project
-                      </Typography>
-                      <FormControl
-                        fullWidth
-                        size="small"
-                        sx={{
-                          mt: 2,
-                          // width: "300px",
-                          display: "flex",
-                          "&>label": { fontSize: "12px" },
-                        }}
-                      >
-                        <InputLabel
-                          sx={{ textTransform: "capitalize" }}
-                          id="demo-simple-select-label"
-                        >
-                          Project
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="project"
-                          label="Project"
-                          // onChange={(e) => clientData(e.target.value)}
-                          sx={{ fontSize: "12px" }}
-                          onChange={handleProjectChange}
-                        >
-                          {projectList.map((projectName) => (
-                            <MenuItem
-                              key={projectName.name}
-                              sx={{ textTransform: "capitalize" }}
-                              value={projectName._id}
-                            >
-                              {projectName.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                      {/* Project Description */}
-                      <CustomFormikField name={"projectDescription"} />
-                    </Box>
-
-                    {/* Invoice Number, DueDate */}
-                    <Box
+                  <Box sx={{ width: "300px", mt: 6 }}>
+                    <Typography
+                      variant="subtitle3"
                       sx={{
-                        maxWidth: "300px",
-                        "&>*:not(:first-child)": {
-                          mt: 1.75,
-                        },
+                        fontWeight: 700,
+                        display: "block",
+                        fontSize: "13px",
                       }}
                     >
-                      <CustomFormikField name={"invoiceNumber"} />
-                      <CustomFormikField name={"invoiceDueDate"} />
-                    </Box>
+                      Project
+                    </Typography>
+                    <FormControl
+                      fullWidth
+                      size="small"
+                      sx={{
+                        mt: 2,
+                        mb: 1.75,
+                        display: "flex",
+                        "&>label": { fontSize: "12px" },
+                      }}
+                    >
+                      <InputLabel
+                        sx={{ textTransform: "capitalize" }}
+                        id="demo-simple-select-label"
+                      >
+                        Project
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="project"
+                        label="Project"
+                        // onChange={(e) => clientData(e.target.value)}
+                        sx={{ fontSize: "12px" }}
+                        onChange={handleProjectChange}
+                      >
+                        {projectList.map((projectName) => (
+                          <MenuItem
+                            key={projectName.name}
+                            sx={{ textTransform: "capitalize" }}
+                            value={projectName._id}
+                          >
+                            {projectName.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <CustomFormikField
+                      name={"projectDescription"}
+                      label="Description"
+                      multiline
+                      rows={3}
+                    />
                   </Box>
                   {/* <Box
               sx={{
@@ -785,6 +820,8 @@ export default function Invoices() {
                               <Button
                                 disableRipple
                                 sx={{
+                                  ml: 1.5,
+                                  mb: 1.5,
                                   maxHeight: "36px",
                                   position: "relative",
                                   px: 2.5,
@@ -827,7 +864,6 @@ export default function Invoices() {
                             </>
                           )}
                         </FieldArray>
-
                         <TableFooter>
                           <TableRow
                             sx={{
@@ -912,7 +948,7 @@ export default function Invoices() {
                       "& > *": {
                         display: "flex",
                         justifyContent: "space-between",
-                        gap: 15,
+                        gap: 6.25,
                         "& > *": {
                           lineHeight: "1!important",
                           textTransform: "capitalize",
@@ -932,21 +968,43 @@ export default function Invoices() {
                         }, 0)}
                       </Typography>
                     </Box>
-                    <Box>
-                      <Typography variant="subtitle2">
+                    <Box
+                      sx={{
+                        alignItems: "center",
+                        "& > *:last-child": {
+                          maxWidth: "85px",
+                        },
+                      }}
+                    >
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ textWrap: "nowrap" }}
+                      >
                         Discount (20%):
                       </Typography>
-                      <Typography variant="subtitle2">$0.00</Typography>
+                      <CustomFormikField
+                        name={"discount"}
+                        placeholder="00.00"
+                      />
                     </Box>
-                    <Box>
-                      <Typography variant="subtitle2">
-                        shipping cost:
+                    <Box
+                      sx={{
+                        alignItems: "center",
+                        "& > *:last-child": {
+                          maxWidth: "85px",
+                        },
+                      }}
+                    >
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ textWrap: "nowrap" }}
+                      >
+                        sales tax:
                       </Typography>
-                      <Typography variant="subtitle2">$0.00</Typography>
-                    </Box>
-                    <Box>
-                      <Typography variant="subtitle2">sales tax:</Typography>
-                      <Typography variant="subtitle2">$450.00</Typography>
+                      <CustomFormikField
+                        name={"salesTax"}
+                        placeholder="00.00"
+                      />
                     </Box>
                     <Box>
                       <Typography variant="subtitle2">total:</Typography>
@@ -993,7 +1051,6 @@ export default function Invoices() {
                           fullWidth
                           size="small"
                           sx={{
-                            // width: "300px",
                             display: "flex",
                             "&>label": { fontSize: "12px" },
                             "&>div": { textAlign: "left" },
@@ -1029,14 +1086,27 @@ export default function Invoices() {
                             </MenuItem>
                           </Select>
                         </FormControl>
-                        <CustomFormikField name="bankName" />
-                        <CustomFormikField name="ifsc" />
-                        <CustomFormikField name="accHolder" />
-                        <CustomFormikField name="accNumber" />
+                        <CustomFormikField name="bankName" label="Bank Name" />
+                        <CustomFormikField name="ifsc" label="IFSC" />
+                        <CustomFormikField
+                          name="accHolder"
+                          label="A/c Holder Name"
+                        />
+                        <CustomFormikField
+                          name="accNumber"
+                          label="A/c Number"
+                        />
                       </Box>
                       <Box sx={{ maxWidth: "500px", mt: 6 }}>
-                        <Typography variant="h6">Notes</Typography>
-                        <CustomFormikField name="description" />
+                        <Typography variant="h6" sx={{ mb: 1.75 }}>
+                          Notes
+                        </Typography>
+                        <CustomFormikField
+                          name="description"
+                          label="Descrption"
+                          multiline
+                          rows={3}
+                        />
                       </Box>
                     </Box>
                     <Box

@@ -17,17 +17,11 @@ export default function CustomFormikField({ name, ...params }) {
               // onChange={formikBag.handleChange}
               // onBlur={formikBag.handleBlur}
               fullWidth
+              size="small"
               sx={{
                 maxWidth: "300px",
                 "&>label,& input,&>div": {
                   fontSize: "12px!important",
-                },
-                "& input": {
-                  p: 0,
-                },
-                "&>div": {
-                  py: "8.5px",
-                  px: 1.75,
                 },
                 // "& input,& fieldset": {
                 //   marginLeft: "-12px",
@@ -35,9 +29,6 @@ export default function CustomFormikField({ name, ...params }) {
                 // "& fieldset": {
                 //   borderColor: "transparent",
                 // },
-              }}
-              InputLabelProps={{
-                shrink: true,
               }}
               helperText={
                 form.errors.firstName &&

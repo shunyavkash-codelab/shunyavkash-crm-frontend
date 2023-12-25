@@ -20,8 +20,24 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
             },
           }}
         >
-          <TableCell>
-            <CustomFormikField name={name + ".name"} />
+          <TableCell
+            sx={{
+              "& > *": {
+                maxWidth: "unset",
+                ml: -1,
+              },
+              "& fieldset": {
+                borderColor: "transparent",
+              },
+              "& input": {
+                px: 1,
+              },
+            }}
+          >
+            <CustomFormikField
+              name={name + ".name"}
+              placeholder="Enter an items"
+            />
             {/* <TextField
               component={Field}
               fullWidth
@@ -51,8 +67,25 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
               }
             /> */}
           </TableCell>
-          <TableCell>
-            <CustomFormikField name={name + ".pricePerHours"} />
+          <TableCell
+            sx={{
+              "& > *": {
+                ml: -1,
+              },
+              "& fieldset": {
+                borderColor: "transparent",
+              },
+              "& input": {
+                px: 1,
+              },
+            }}
+          >
+            <CustomFormikField
+              name={name + ".pricePerHours"}
+              placeholder="00.00"
+              inputProps={{ min: 1 }}
+              type="number"
+            />
             {/* <TextField
               component={Field}
               fullWidth
@@ -82,8 +115,25 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
               onChange={handleAmountChange}
             /> */}
           </TableCell>
-          <TableCell>
-            <CustomFormikField name={name + ".number"} />
+          <TableCell
+            sx={{
+              "& > *": {
+                ml: -1,
+              },
+              "& fieldset": {
+                borderColor: "transparent",
+              },
+              "& input": {
+                px: 1,
+              },
+            }}
+          >
+            <CustomFormikField
+              name={name + ".number"}
+              placeholder="00"
+              inputProps={{ min: 1 }}
+              type="number"
+            />
             {/* <TextField
               component={Field}
               fullWidth
