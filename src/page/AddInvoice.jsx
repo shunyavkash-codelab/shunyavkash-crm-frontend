@@ -892,7 +892,12 @@ export default function Invoices() {
                             <TableCell
                               sx={{ fontWeight: "600", color: "black" }}
                             >
-                              $00.00
+                              $
+                              {values.task.reduce((accum, taskDetail) => {
+                                accum +=
+                                  taskDetail.pricePerHours * taskDetail.number;
+                                return accum;
+                              }, 0)}
                             </TableCell>
                           </TableRow>
                         </TableFooter>
@@ -920,7 +925,11 @@ export default function Invoices() {
                         subtotal:
                       </Typography>
                       <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                        $3633.61
+                        $
+                        {values.task.reduce((accum, taskDetail) => {
+                          accum += taskDetail.pricePerHours * taskDetail.number;
+                          return accum;
+                        }, 0)}
                       </Typography>
                     </Box>
                     <Box>
