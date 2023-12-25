@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -27,7 +27,7 @@ export default function Invoices() {
   const { invoiceNumber } = useParams();
   const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
   const { invoiceData } = useInvoiceStore();
-  console.log(invoiceData, "--------------------30");
+  const navigate = useNavigate();
 
   return (
     <>
@@ -693,43 +693,45 @@ export default function Invoices() {
             >
               <span style={{ position: "relative" }}>generate</span>
             </Button>
-            <Link to="/invoices/add">
-              <Button
-                disableRipple
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  color: "text.primary",
+
+            <Button
+              disableRipple
+              sx={{
+                maxHeight: "42px",
+                position: "relative",
+                px: 2.5,
+                py: 1.5,
+                color: "text.primary",
+                bgcolor: "#e4e4e4",
+                border: "1px solid",
+                borderColor: "#e4e4e4",
+                lineHeight: 1,
+                borderRadius: 2.5,
+                overflow: "hidden",
+                "&:before": {
+                  content: "''",
+                  height: 0,
+                  width: "10rem",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  zIndex: "0",
+                  bgcolor: "white",
+                  transform: "rotate(-45deg) translate(-50%, -50%)",
+                  transformOrigin: "0% 0%",
+                  transition: "all 0.4s ease-in-out",
+                },
+                "&:hover": {
                   bgcolor: "#e4e4e4",
-                  border: "1px solid",
-                  borderColor: "#e4e4e4",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    bgcolor: "#e4e4e4",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>discard</span>
-              </Button>
-            </Link>
+                  "&:before": { height: "10rem" },
+                },
+              }}
+              onClick={() => {
+                navigate(`/invoices/add/${invoiceNumber}`);
+              }}
+            >
+              <span style={{ position: "relative" }}>discard</span>
+            </Button>
           </Box>
         </Box>
       </Box>
