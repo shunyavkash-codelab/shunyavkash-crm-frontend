@@ -73,7 +73,7 @@ export default function AddClientsModal({ open, setOpen }) {
                 display: { xs: "flex", sm: "block" },
                 alignItems: { xs: "center", sm: "start" },
                 justifyContent: { xs: "space-between", sm: "start" },
-                mb: 2,
+                mb: 2.5,
               }}
             >
               <Typography

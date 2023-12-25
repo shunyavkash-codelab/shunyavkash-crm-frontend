@@ -26,7 +26,7 @@ export default function Invoices() {
   const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
   const { invoiceNumber } = useParams();
   const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
-  const { invoiceData } = useInvoiceStore();
+  // const { invoiceData } = useInvoiceStore();
   const navigate = useNavigate();
 
   return (
@@ -72,6 +72,7 @@ export default function Invoices() {
               maxWidth: "1280px",
               width: "100%",
               mx: "auto",
+              p: 6.75,
             }}
             ref={targetRef}
           >
@@ -106,7 +107,7 @@ export default function Invoices() {
                 style={{ height: "100%", width: "auto" }}
               />
             </Box> */}
-            <Box
+            {/* <Box
               sx={{
                 position: "absolute",
                 top: "50%",
@@ -121,14 +122,14 @@ export default function Invoices() {
                 src="/images/Logo-with-text.svg"
                 style={{ height: "100%", width: "auto" }}
               />
-            </Box>
+            </Box> */}
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
                 gap: 2,
-                p: 6.75,
-                bgcolor: "rgba(74, 210, 146, 10%)",
+                // p: 6.75,
+                // bgcolor: "rgba(74, 210, 146, 10%)",
               }}
             >
               <Box>
@@ -154,7 +155,7 @@ export default function Invoices() {
                       fontSize: "16px",
                     }}
                   >
-                    {invoiceData.address} {invoiceData.address2}
+                    {/* {invoiceData.address} {invoiceData.address2} */}
                   </Typography>
                   <Box
                     sx={{
@@ -168,7 +169,7 @@ export default function Invoices() {
                         fontSize: "16px",
                       }}
                     >
-                      {invoiceData.mobileCode.phone} {invoiceData.mobileNumber}
+                      {/* {invoiceData.mobileCode.phone} {invoiceData.mobileNumber} */}
                       {/* +91 8155926380 */}
                     </Typography>
                     <Typography
@@ -179,7 +180,7 @@ export default function Invoices() {
                         fontSize: "16px",
                       }}
                     >
-                      {invoiceData.email}
+                      {/* {invoiceData.email} */}
                     </Typography>
                   </Box>
                 </Box>
@@ -202,14 +203,11 @@ export default function Invoices() {
                 />
               </Box>
             </Box>
-            {/* <Divider
+            <Divider
               sx={{ borderWidth: "2px", borderColor: "#ededed", my: 3.5 }}
-            /> */}
-            <Box sx={{ p: 6.75, pt: 3.5 }}>
-              <Typography
-                variant="h4"
-                sx={{ textAlign: "right", color: "success.main" }}
-              >
+            />
+            <Box>
+              <Typography variant="h4" sx={{ textAlign: "right" }}>
                 Invoice
               </Typography>
               <Box
@@ -344,8 +342,9 @@ export default function Invoices() {
                 sx={{
                   my: 7,
                   borderRadius: 2.5,
-                  border: "2px solid rgba(74, 210, 146, 50%)",
+                  border: "2px solid rgba(128, 128, 128, 0.11)",
                   boxShadow: "none",
+                  // bgcolor: "rgba(74, 210, 146, 10%)",
                 }}
               >
                 <Table
@@ -367,11 +366,13 @@ export default function Invoices() {
                   <TableHead>
                     <TableRow
                       sx={{
-                        bgcolor: "success.main",
+                        // bgcolor: "#2A4062",
+                        bgcolor: "rgba(128, 128, 128, 0.11)",
+                        // borderBottom: "2px solid rgba(128, 128, 128, 0.11)",
                         "& th": {
                           lineHeight: 1,
                           fontWeight: 600,
-                          color: "white",
+                          // color: "primary.main",
                         },
                       }}
                     >
@@ -384,13 +385,14 @@ export default function Invoices() {
                   <TableBody
                     sx={{
                       "&>*:nth-child(odd)": {
-                        bgcolor: "rgba(74, 210, 146, 10%)",
+                        // bgcolor: "rgba(74, 210, 146, 10%)",
+                        borderBottom: "2px solid rgba(128, 128, 128, 0.11)",
                       },
                     }}
                   >
                     <TableRow
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&:last-child td, &:last-child th": { border: 1 },
                         "&>*": {
                           py: 1.5,
                           "&:first-child": { fontWeight: "600" },
@@ -409,6 +411,7 @@ export default function Invoices() {
                           py: 1.5,
                           "&:first-child": { fontWeight: "600" },
                         },
+                        borderBottom: "2px solid rgba(128, 128, 128, 0.11)",
                       }}
                     >
                       <TableCell>Recurring Bill (Domain)</TableCell>
@@ -439,14 +442,19 @@ export default function Invoices() {
                           py: 1.5,
                           "&:first-child": { fontWeight: "600" },
                         },
+                        bgcolor: "rgba(128, 128, 128, 0.11)",
                       }}
                     >
                       <TableCell></TableCell>
                       <TableCell></TableCell>
-                      <TableCell sx={{ fontWeight: "600", color: "black" }}>
+                      <TableCell
+                        sx={{ fontWeight: "600", color: "text.primary" }}
+                      >
                         Total:
                       </TableCell>
-                      <TableCell sx={{ fontWeight: "600", color: "black" }}>
+                      <TableCell
+                        sx={{ fontWeight: "600", color: "text.primary" }}
+                      >
                         $3633.61
                       </TableCell>
                     </TableRow>
@@ -526,7 +534,7 @@ export default function Invoices() {
                 <Box
                   sx={{
                     py: 1.75,
-                    bgcolor: "rgba(74, 210, 146, 10%)",
+                    bgcolor: "rgba(128, 128, 128, 0.11)",
                     borderRadius: 2.5,
                   }}
                 >
@@ -541,7 +549,6 @@ export default function Invoices() {
                     sx={{
                       fontWeight: 700,
                       fontSize: "16px",
-                      color: "success.main",
                     }}
                   >
                     $4083.61
