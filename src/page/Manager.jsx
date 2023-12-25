@@ -21,6 +21,7 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
 import { useAuth } from "../hooks/store/useAuth.js";
+import { useSearchData } from "../hooks/store/useSearchData.js";
 
 export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -29,12 +30,14 @@ export default function Manager() {
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const { accessToken, user } = useAuth();
+  const { searchData } = useSearchData();
 
   const fetchManagers = async () => {
     try {
       const res = await apiCall({
         url: APIS.MANAGER.LIST,
         method: "get",
+        params: { search: searchData },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
@@ -47,6 +50,9 @@ export default function Manager() {
   useEffect(() => {
     fetchManagers();
   }, []);
+  useEffect(() => {
+    if (searchData !== undefined) fetchManagers();
+  }, [searchData]);
   return (
     <>
       <SideBar

@@ -24,6 +24,7 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
 import { useAuth } from "../hooks/store/useAuth.js";
+import { useSearchData } from "../hooks/store/useSearchData.js";
 
 export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -32,12 +33,14 @@ export default function Clients() {
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const { accessToken } = useAuth();
+  const { searchData } = useSearchData();
 
   const fetchclientData = async () => {
     try {
       const res = await apiCall({
         url: APIS.CLIENT.LIST,
         method: "get",
+        params: { search: searchData },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
@@ -50,6 +53,9 @@ export default function Clients() {
   useEffect(() => {
     fetchclientData();
   }, []);
+  useEffect(() => {
+    if (searchData !== undefined) fetchclientData();
+  }, [searchData]);
 
   return (
     <>

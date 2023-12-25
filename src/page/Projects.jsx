@@ -12,38 +12,33 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Avatar,
-  Icon,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
-import AvatarGroup from "@mui/material/AvatarGroup";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import handleApiError from "../utils/handleApiError";
-import AddProject from "../component/AddProject";
-import ViewProject from "../component/ViewProject";
 import { APIS } from "../api/apiList";
 import { useAuth } from "../hooks/store/useAuth";
+import { useSearchData } from "../hooks/store/useSearchData";
 
 export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [projectList, setProjectList] = useState([]);
-  const [openAdd, setOpenAdd] = useState(false);
-  const [openView, setOpenView] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const { accessToken } = useAuth();
+  const { searchData } = useSearchData();
   const fetchManagers = async () => {
     try {
       const res = await apiCall({
         url: APIS.PROJECT.LIST,
         method: "get",
+        params: { search: searchData },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
@@ -57,6 +52,9 @@ export default function Project() {
   useEffect(() => {
     fetchManagers();
   }, []);
+  useEffect(() => {
+    if (searchData !== undefined) fetchManagers();
+  }, [searchData]);
   return (
     <>
       <SideBar

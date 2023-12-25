@@ -17,6 +17,7 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/store/useAuth";
+import { useSearchData } from "../hooks/store/useSearchData";
 
 const Search = styled("div")();
 const SearchIconWrapper = styled("div")();
@@ -30,6 +31,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
   const navigate = useNavigate();
   let location = useLocation();
   const open = Boolean(anchorEl);
+  const { setSearchData } = useSearchData();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -137,6 +139,10 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                         borderColor: "text.primary",
                       },
                     },
+                  }}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    setSearchData(e.target.value);
                   }}
                 />
               </Search>
