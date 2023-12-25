@@ -982,7 +982,20 @@ export default function Invoices() {
                         variant="subtitle2"
                         sx={{ textWrap: "nowrap" }}
                       >
-                        Discount (20%):
+                        Discount :{" "}
+                        <Box
+                          sx={{
+                            alignItems: "center",
+                            "& > *:last-child": {
+                              maxWidth: "85px",
+                            },
+                          }}
+                        >
+                          <CustomFormikField
+                            name={"discount"}
+                            placeholder="00.00"
+                          />
+                        </Box>
                       </Typography>
                       <CustomFormikField
                         name={"discount"}
@@ -1066,7 +1079,7 @@ export default function Invoices() {
                           </InputLabel>
                           <Select
                             labelId="demo-simple-select-label"
-                            id="select Bank"
+                            id="select_Bank"
                             label="Select Bank"
                             sx={{ fontSize: "13px" }}
                           >
@@ -1074,7 +1087,7 @@ export default function Invoices() {
                               adminList.bank.map((bank) => (
                                 <MenuItem
                                   sx={{ textTransform: "capitalize" }}
-                                  value={"Kotak"}
+                                  value={bank.bankName}
                                 >
                                   {bank.bankName}
                                 </MenuItem>
@@ -1082,7 +1095,7 @@ export default function Invoices() {
 
                             <MenuItem
                               sx={{ textTransform: "capitalize" }}
-                              value={"Kotak"}
+                              value={"Custom Add"}
                             >
                               Custom Add
                             </MenuItem>
