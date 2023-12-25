@@ -35,6 +35,7 @@ import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import InvoiceTable from "../component/InvoiceTable";
 import CustomFormikField from "../component/form/CustomFormikField";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import { Details } from "@mui/icons-material";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -89,6 +90,7 @@ export default function Invoices() {
   const { setInvoiceData } = useInvoiceStore();
   const { invoiceNumber } = useParams();
   const [projectDescription, setProjectDescription] = useState();
+  const [bankDetails, setBankDetails] = useState({});
 
   const handleChange = (event) => {
     const {
@@ -121,7 +123,6 @@ export default function Invoices() {
 
   // get project list by clientId
   const fetchProject = async (clientId) => {
-    console.log(clientId, "-----------------123");
     try {
       const res = await apiCall({
         url: APIS.PROJECT.CLIENTWISEPROJECT(clientId),
@@ -182,7 +183,6 @@ export default function Invoices() {
       });
       if (res.data.success === true) {
         setAdminList(res.data.data);
-        console.log(res.data.data, "-------------------------183");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -190,11 +190,9 @@ export default function Invoices() {
   };
 
   const clientData = async (id) => {
-    console.log(id, "---------------------191");
     const clientAddress = clientList.find((client) => {
       return client._id === id;
     });
-    console.log(clientAddress, "--------------------195");
     setSelectedClient(clientAddress.address);
     await fetchProject(id);
   };
@@ -205,6 +203,44 @@ export default function Invoices() {
 
     // formik.setFieldValue('projectDescription', project.description);
     setProjectDescription(project.description);
+  };
+
+  // Bank Details
+  const handleBankChange = async (event) => {
+    const bankId = event.target.value;
+
+    if (Array.isArray(adminList.bank)) {
+      const bankD = adminList.bank.find((bank) => bank._id === bankId);
+
+      if (bankD) {
+        setBankDetails({
+          bankName: bankD.bankName,
+          IFSC: bankD.IFSC,
+          holderName: bankD.holderName,
+          accountNumber: bankD.accountNumber,
+        });
+      } else {
+        console.log("Bank not found");
+      }
+    } else {
+      console.log("adminList.bank is not an array");
+    }
+
+    // adminList.bank.map((bank) => {
+    //   console.log(bank, "----------------------217");
+    //   const bankD = bank.find((ban) => ban._id === bankId);
+    //   setBankDetails({
+    //     bankName: bankD.bankName,
+    //     IFSC: bankD.IFSC,
+    //     holderName: bankD.holderName,
+    //     accountNumber: bankD.accountNumber,
+    //   });
+    // }
+    // );
+    // const project = fetchAdmin.find((proj) => proj._id === projectId);
+
+    // // formik.setFieldValue('projectDescription', project.description);
+    // setProjectDescription(project.description);
   };
 
   useEffect(() => {
@@ -249,6 +285,10 @@ export default function Invoices() {
           clientAddress: selectedClient || "",
           total: "10",
           projectDescription: projectDescription || "",
+          bankName: bankDetails.bankName,
+          IFSC: bankDetails.IFSC,
+          holderName: bankDetails.holderName,
+          accountNumber: bankDetails.accountNumber,
           // to: clientAddress._id,
           // projectDescription: "",
         }}
@@ -461,102 +501,18 @@ export default function Invoices() {
                   <Divider
                     sx={{ my: 3.5, borderWidth: "2px", borderColor: "#ededed" }}
                   />
-                  <Box>
-                    <Typography variant="h4" sx={{ textAlign: "right" }}>
-                      Invoice
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        mt: 6,
-                        gap: 2,
-                      }}
-                    >
-                      <Box sx={{ flexGrow: 1, maxWidth: "300px" }}>
-                        <Typography
-                          variant="subtitle3"
-                          sx={{
-                            fontWeight: 700,
-                            display: "block",
-                            fontSize: "13px",
-                          }}
-                        >
-                          Bill to
-                        </Typography>
-                        <FormControl
-                          fullWidth
-                          size="small"
-                          sx={{
-                            mt: 2,
-                            mb: 1.75,
-                            display: "flex",
-                            "&>label": { fontSize: "12px" },
-                          }}
-                        >
-                          <InputLabel
-                            sx={{ textTransform: "capitalize" }}
-                            id="demo-simple-select-label"
-                          >
-                            To
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="to"
-                            label="To"
-                            onChange={(e) => clientData(e.target.value)}
-                            sx={{ fontSize: "12px" }}
-                          >
-                            {clientList.map((clientName) => (
-                              <MenuItem
-                                key={clientName.name}
-                                sx={{ textTransform: "capitalize" }}
-                                value={clientName._id}
-                              >
-                                {clientName.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                        <CustomFormikField
-                          name={"clientAddress"}
-                          label="Address"
-                          multiline
-                          rows={3}
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          flexGrow: 1,
-                          maxWidth: "300px",
-                          "&>*:not(:first-child)": {
-                            mt: 1.75,
-                          },
-                        }}
-                      >
-                        <CustomFormikField
-                          name={"invoiceNumber"}
-                          label="invoice No."
-                        />
-                        <CustomFormikField
-                          name={"invoiceDate"}
-                          label="Invoice Date"
-                          type="date"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                        <CustomFormikField
-                          name={"invoiceDueDate"}
-                          label="Invoice Due"
-                          type="date"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                    <Box sx={{ width: "300px", mt: 6 }}>
+                  <Typography variant="h4" sx={{ textAlign: "right" }}>
+                    Invoice
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mt: 6,
+                      gap: 2,
+                    }}
+                  >
+                    <Box sx={{ flexGrow: 1, maxWidth: "300px" }}>
                       <Typography
                         variant="subtitle3"
                         sx={{
@@ -565,7 +521,7 @@ export default function Invoices() {
                           fontSize: "13px",
                         }}
                       >
-                        Project
+                        Bill to
                       </Typography>
                       <FormControl
                         fullWidth
@@ -581,35 +537,118 @@ export default function Invoices() {
                           sx={{ textTransform: "capitalize" }}
                           id="demo-simple-select-label"
                         >
-                          Project
+                          To
                         </InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
-                          id="project"
-                          label="Project"
-                          // onChange={(e) => clientData(e.target.value)}
+                          id="to"
+                          label="To"
+                          onChange={(e) => clientData(e.target.value)}
                           sx={{ fontSize: "12px" }}
-                          onChange={handleProjectChange}
                         >
-                          {projectList.map((projectName) => (
+                          {clientList.map((clientName) => (
                             <MenuItem
-                              key={projectName.name}
+                              key={clientName.name}
                               sx={{ textTransform: "capitalize" }}
-                              value={projectName._id}
+                              value={clientName._id}
                             >
-                              {projectName.name}
+                              {clientName.name}
                             </MenuItem>
                           ))}
                         </Select>
                       </FormControl>
                       <CustomFormikField
-                        name={"projectDescription"}
-                        label="Description"
+                        name={"clientAddress"}
+                        label="Address"
                         multiline
                         rows={3}
                       />
                     </Box>
-                    {/* <Box
+                    <Box
+                      sx={{
+                        flexGrow: 1,
+                        maxWidth: "300px",
+                        "&>*:not(:first-child)": {
+                          mt: 1.75,
+                        },
+                      }}
+                    >
+                      <CustomFormikField
+                        name={"invoiceNumber"}
+                        label="invoice No."
+                      />
+                      <CustomFormikField
+                        name={"invoiceDate"}
+                        label="Invoice Date"
+                        type="date"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                      <CustomFormikField
+                        name={"invoiceDueDate"}
+                        label="Invoice Due"
+                        type="date"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                    </Box>
+                  </Box>
+                  <Box sx={{ width: "300px", mt: 6 }}>
+                    <Typography
+                      variant="subtitle3"
+                      sx={{
+                        fontWeight: 700,
+                        display: "block",
+                        fontSize: "13px",
+                      }}
+                    >
+                      Project
+                    </Typography>
+                    <FormControl
+                      fullWidth
+                      size="small"
+                      sx={{
+                        mt: 2,
+                        mb: 1.75,
+                        display: "flex",
+                        "&>label": { fontSize: "12px" },
+                      }}
+                    >
+                      <InputLabel
+                        sx={{ textTransform: "capitalize" }}
+                        id="demo-simple-select-label"
+                      >
+                        Project
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="project"
+                        label="Project"
+                        // onChange={(e) => clientData(e.target.value)}
+                        sx={{ fontSize: "12px" }}
+                        onChange={handleProjectChange}
+                      >
+                        {projectList.map((projectName) => (
+                          <MenuItem
+                            key={projectName.name}
+                            sx={{ textTransform: "capitalize" }}
+                            value={projectName._id}
+                          >
+                            {projectName.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <CustomFormikField
+                      name={"projectDescription"}
+                      label="Description"
+                      multiline
+                      rows={3}
+                    />
+                  </Box>
+                  {/* <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -688,208 +727,198 @@ export default function Invoices() {
                 />
               </Box>
             </Box> */}
-                    <Box sx={{ my: 7 }}>
-                      <FormControl
-                        fullWidth
-                        size="small"
-                        sx={{
-                          maxWidth: "480px",
-                          display: "flex",
-                          "&>label": { fontSize: "12px" },
-                        }}
+                  <Box sx={{ my: 7 }}>
+                    <FormControl
+                      fullWidth
+                      size="small"
+                      sx={{
+                        maxWidth: "480px",
+                        display: "flex",
+                        "&>label": { fontSize: "12px" },
+                      }}
+                    >
+                      <InputLabel
+                        sx={{ textTransform: "capitalize" }}
+                        id="demo-simple-select-label"
                       >
-                        <InputLabel
-                          sx={{ textTransform: "capitalize" }}
-                          id="demo-simple-select-label"
-                        >
-                          Select Tasks
-                        </InputLabel>
-                        <Select
-                          multiple
-                          labelId="demo-simple-select-label"
-                          id="select_tasks"
-                          label="Select Tasks"
-                          sx={{
-                            fontSize: "12px",
-                            position: "relative",
+                        Select Tasks
+                      </InputLabel>
+                      <Select
+                        multiple
+                        labelId="demo-simple-select-label"
+                        id="select_tasks"
+                        label="Select Tasks"
+                        sx={{
+                          fontSize: "12px",
+                          position: "relative",
+                          "&>div": {
                             "&>div": {
-                              "&>div": {
-                                position: "absolute",
-                                top: "50%",
-                                left: "14px",
-                                right: "32px",
-                                transform: "translateY(-50%)",
-                                flexWrap: "nowrap",
-                                overflowX: "auto",
-                                "&::-webkit-scrollbar": { display: "none" },
-                                "&>*": {
-                                  height: "auto",
-                                  "&>span": {
-                                    py: 0.25,
-                                    px: 1,
-                                    fontSize: "12px",
-                                  },
+                              position: "absolute",
+                              top: "50%",
+                              left: "14px",
+                              right: "32px",
+                              transform: "translateY(-50%)",
+                              flexWrap: "nowrap",
+                              overflowX: "auto",
+                              "&::-webkit-scrollbar": { display: "none" },
+                              "&>*": {
+                                height: "auto",
+                                "&>span": {
+                                  py: 0.25,
+                                  px: 1,
+                                  fontSize: "12px",
                                 },
                               },
                             },
-                          }}
-                          value={personName}
-                          onChange={handleChange}
-                          renderValue={(selected) => (
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                gap: 0.5,
-                              }}
-                            >
-                              {selected.map((value) => (
-                                <Chip key={value} label={value} />
-                              ))}
-                            </Box>
-                          )}
-                          MenuProps={MenuProps}
-                        >
-                          {names.map((name) => (
-                            <MenuItem
-                              key={name}
-                              value={name}
-                              style={getStyles(name, personName, theme)}
-                            >
-                              {name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                      <TableContainer
-                        component={Paper}
-                        sx={{
-                          mt: 2,
-                          borderRadius: 2.5,
+                          },
                         }}
+                        value={personName}
+                        onChange={handleChange}
+                        renderValue={(selected) => (
+                          <Box
+                            sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
+                          >
+                            {selected.map((value) => (
+                              <Chip key={value} label={value} />
+                            ))}
+                          </Box>
+                        )}
+                        MenuProps={MenuProps}
                       >
-                        <Table
-                          className="projectTable"
-                          sx={{
-                            minWidth: 650,
-                            textTransform: "capitalize",
-                            textWrap: "nowrap",
-                            "& th,& td": {
-                              borderBottom: 0,
-                            },
-                            "& tbody tr > *,& tfoot tr > *": {
-                              py: 1.5,
-                            },
-                            "& tbody tr,& tfoot tr": {
-                              borderTop: "1px solid rgba(224, 224, 224, 1)",
-                            },
-                            "& tbody tr td:first-child": {
-                              maxWidth: "400px",
-                              textWrap: "wrap",
-                            },
-                          }}
-                          aria-label="simple table"
-                        >
-                          <TableHead>
-                            <TableRow
-                              sx={{
-                                "& th": {
+                        {names.map((name) => (
+                          <MenuItem
+                            key={name}
+                            value={name}
+                            style={getStyles(name, personName, theme)}
+                          >
+                            {name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <TableContainer
+                      component={Paper}
+                      sx={{
+                        mt: 2,
+                        borderRadius: 2.5,
+                      }}
+                    >
+                      <Table
+                        className="projectTable"
+                        sx={{
+                          minWidth: 650,
+                          textTransform: "capitalize",
+                          textWrap: "nowrap",
+                          "& th,& td": {
+                            borderBottom: 0,
+                          },
+                          "& tbody tr > *,& tfoot tr > *": {
+                            py: 1.5,
+                          },
+                          "& tbody tr,& tfoot tr": {
+                            borderTop: "1px solid rgba(224, 224, 224, 1)",
+                          },
+                          "& tbody tr td:first-child": {
+                            maxWidth: "400px",
+                            textWrap: "wrap",
+                          },
+                        }}
+                        aria-label="simple table"
+                      >
+                        <TableHead>
+                          <TableRow
+                            sx={{
+                              "& th": {
+                                lineHeight: 1,
+                                fontWeight: 600,
+                                bgcolor: "rgb(22 119 255/ 6%)",
+                                color: "black",
+                              },
+                            }}
+                          >
+                            <TableCell>description</TableCell>
+                            <TableCell sx={{ width: "110px" }}>
+                              price/hours
+                            </TableCell>
+                            <TableCell sx={{ width: "110px" }}>hours</TableCell>
+                            <TableCell sx={{ width: "110px" }}>
+                              Amount
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        {/* component render   */}
+                        {/* {Array.from({ length: taskCount }, (_, i) => ( */}
+                        <FieldArray name="task">
+                          {({ insert, remove, push }) => (
+                            <>
+                              {values.task.map((taskDetail, i) => (
+                                <InvoiceTable
+                                  values={values.task[i]}
+                                  name={`task.${i}`}
+                                  key={i}
+                                  taskDetail={taskDetail}
+                                />
+                              ))}
+                              <Button
+                                disableRipple
+                                sx={{
+                                  ml: 1.5,
+                                  mb: 1.5,
+                                  maxHeight: "36px",
+                                  position: "relative",
+                                  px: 2.5,
+                                  py: 1.5,
+                                  bgcolor: "primary.main",
+                                  border: "1px solid",
+                                  borderColor: "primary.main",
+                                  color: "white",
                                   lineHeight: 1,
-                                  fontWeight: 600,
-                                  bgcolor: "rgb(22 119 255/ 6%)",
-                                  color: "black",
-                                },
-                              }}
-                            >
-                              <TableCell>description</TableCell>
-                              <TableCell sx={{ width: "110px" }}>
-                                price/hours
-                              </TableCell>
-                              <TableCell sx={{ width: "110px" }}>
-                                hours
-                              </TableCell>
-                              <TableCell sx={{ width: "110px" }}>
-                                Amount
-                              </TableCell>
-                            </TableRow>
-                          </TableHead>
-                          {/* component render   */}
-                          {/* {Array.from({ length: taskCount }, (_, i) => ( */}
-                          <FieldArray name="task">
-                            {({ insert, remove, push }) => (
-                              <>
-                                {values.task.map((taskDetail, i) => (
-                                  <InvoiceTable
-                                    values={values.task[i]}
-                                    name={`task.${i}`}
-                                    key={i}
-                                    taskDetail={taskDetail}
-                                  />
-                                ))}
-                                <Button
-                                  disableRipple
-                                  sx={{
-                                    ml: 1.5,
-                                    mb: 1.5,
-                                    maxHeight: "36px",
-                                    position: "relative",
-                                    px: 2.5,
-                                    py: 1.5,
+                                  borderRadius: 2.5,
+                                  overflow: "hidden",
+                                  "&:before": {
+                                    content: "''",
+                                    height: 0,
+                                    width: "10rem",
+                                    position: "absolute",
+                                    top: "50%",
+                                    left: "50%",
+                                    zIndex: "0",
+                                    bgcolor: "white",
+                                    transform:
+                                      "rotate(-45deg) translate(-50%, -50%)",
+                                    transformOrigin: "0% 0%",
+                                    transition: "all 0.4s ease-in-out",
+                                  },
+                                  "&:hover": {
+                                    color: "primary.main",
                                     bgcolor: "primary.main",
-                                    border: "1px solid",
-                                    borderColor: "primary.main",
-                                    color: "white",
-                                    lineHeight: 1,
-                                    borderRadius: 2.5,
-                                    overflow: "hidden",
-                                    "&:before": {
-                                      content: "''",
-                                      height: 0,
-                                      width: "10rem",
-                                      position: "absolute",
-                                      top: "50%",
-                                      left: "50%",
-                                      zIndex: "0",
-                                      bgcolor: "white",
-                                      transform:
-                                        "rotate(-45deg) translate(-50%, -50%)",
-                                      transformOrigin: "0% 0%",
-                                      transition: "all 0.4s ease-in-out",
-                                    },
-                                    "&:hover": {
-                                      color: "primary.main",
-                                      bgcolor: "primary.main",
-                                      "&:before": { height: "10rem" },
-                                    },
-                                  }}
-                                  onClick={() => {
-                                    push(taskInitialValues);
-                                  }}
-                                >
-                                  <span style={{ position: "relative" }}>
-                                    Add Task
-                                  </span>
-                                </Button>
-                              </>
-                            )}
-                          </FieldArray>
-                          <TableFooter>
-                            <TableRow
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                                "&>td": {
-                                  fontSize: { xs: "12px", sm: "14px" },
-                                },
-                                "&>*": {
-                                  p: 1.5,
-                                  "&:first-child": { fontWeight: "600" },
-                                },
-                                bgcolor: "rgba(243 ,243 ,243 ,1)",
-                              }}
-                            >
-                              {/* <TableCell sx={{ py: "4px!important" }}>
+                                    "&:before": { height: "10rem" },
+                                  },
+                                }}
+                                onClick={() => {
+                                  push(taskInitialValues);
+                                }}
+                              >
+                                <span style={{ position: "relative" }}>
+                                  Add Task
+                                </span>
+                              </Button>
+                            </>
+                          )}
+                        </FieldArray>
+                        <TableFooter>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                              "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                              "&>*": {
+                                p: 1.5,
+                                "&:first-child": { fontWeight: "600" },
+                              },
+                              bgcolor: "rgba(243 ,243 ,243 ,1)",
+                            }}
+                          >
+                            {/* <TableCell sx={{ py: "4px!important" }}>
                               <Button
                                 disableRipple
                                 sx={{
@@ -931,256 +960,228 @@ export default function Invoices() {
                                 </span>
                               </Button>
                             </TableCell> */}
-                              <TableCell></TableCell>
-                              <TableCell></TableCell>
-                              <TableCell
-                                sx={{ fontWeight: "600", color: "black" }}
-                              >
-                                Total:
-                              </TableCell>
-                              <TableCell
-                                sx={{ fontWeight: "600", color: "black" }}
-                              >
-                                $
-                                {values.task.reduce((accum, taskDetail) => {
-                                  accum +=
-                                    taskDetail.pricePerHours *
-                                    taskDetail.number;
-                                  return accum;
-                                }, 0)}
-                              </TableCell>
-                            </TableRow>
-                          </TableFooter>
-                        </Table>
-                      </TableContainer>
-                    </Box>
-                    <Box
-                      sx={{
-                        ml: "auto",
-                        maxWidth: "fit-content",
-                        "&>*": {
-                          px: 1.75,
-                          "&:not(:first-child)": { mt: 1.75 },
-                        },
-                        "& > *": {
-                          display: "flex",
-                          justifyContent: "space-between",
-                          gap: 6.25,
-                          "& > *": {
-                            lineHeight: "1!important",
-                            textTransform: "capitalize",
-                          },
-                        },
-                      }}
-                    >
-                      <Box>
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontWeight: 700 }}
-                        >
-                          subtotal:
-                        </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontWeight: 700 }}
-                        >
-                          $
-                          {values.task.reduce((accum, taskDetail) => {
-                            accum +=
-                              taskDetail.pricePerHours * taskDetail.number;
-                            return accum;
-                          }, 0)}
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          alignItems: "center",
-                          "& > *:last-child": {
-                            maxWidth: "85px",
-                            "& input": {
-                              textAlign: "right",
-                            },
-                          },
-                        }}
-                      >
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ textWrap: "nowrap" }}
-                        >
-                          Discount :{" "}
-                          <Box
-                            sx={{
-                              alignItems: "center",
-                              "& > *:last-child": {
-                                maxWidth: "85px",
-                              },
-                            }}
-                          >
-                            <CustomFormikField
-                              name={"discount"}
-                              placeholder="00.00"
-                            />
-                          </Box>
-                        </Typography>
-                        <CustomFormikField
-                          name={"discount"}
-                          placeholder="00.00"
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          alignItems: "center",
-                          "& > *:last-child": {
-                            maxWidth: "85px",
-                            "& input": {
-                              textAlign: "right",
-                            },
-                          },
-                        }}
-                      >
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ textWrap: "nowrap" }}
-                        >
-                          sales tax:
-                        </Typography>
-                        <CustomFormikField
-                          name={"salesTax"}
-                          placeholder="00.00"
-                        />
-                      </Box>
-                      <Box>
-                        <Typography variant="subtitle2">total:</Typography>
-                        <Typography variant="subtitle2">$4083.61</Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant="subtitle2">
-                          amount paid:
-                        </Typography>
-                        <Typography variant="subtitle2">$0.00</Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          py: 1.75,
-                          bgcolor: "primary.light",
-                          borderRadius: 2.5,
-                        }}
-                      >
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontWeight: 700 }}
-                        >
-                          balance due:
-                        </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontWeight: 700 }}
-                        >
-                          $4083.61
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box
-                      sx={{
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell
+                              sx={{ fontWeight: "600", color: "black" }}
+                            >
+                              Total:
+                            </TableCell>
+                            <TableCell
+                              sx={{ fontWeight: "600", color: "black" }}
+                            >
+                              $
+                              {values.task.reduce((accum, taskDetail) => {
+                                accum +=
+                                  taskDetail.pricePerHours * taskDetail.number;
+                                return accum;
+                              }, 0)}
+                            </TableCell>
+                          </TableRow>
+                        </TableFooter>
+                      </Table>
+                    </TableContainer>
+                  </Box>
+                  <Box
+                    sx={{
+                      ml: "auto",
+                      maxWidth: "fit-content",
+                      "&>*": { px: 1.75, "&:not(:first-child)": { mt: 1.75 } },
+                      "& > *": {
                         display: "flex",
                         justifyContent: "space-between",
-                        alignItems: "end",
-                        gap: 2,
+                        gap: 6.25,
+                        "& > *": {
+                          lineHeight: "1!important",
+                          textTransform: "capitalize",
+                        },
+                      },
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                        subtotal:
+                      </Typography>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                        $
+                        {values.task.reduce((accum, taskDetail) => {
+                          accum += taskDetail.pricePerHours * taskDetail.number;
+                          return accum;
+                        }, 0)}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        alignItems: "center",
+                        "& > *:last-child": {
+                          maxWidth: "85px",
+                        },
                       }}
                     >
-                      <Box>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ textWrap: "nowrap" }}
+                      >
+                        Discount :{" "}
                         <Box
                           sx={{
-                            maxWidth: "300px",
-                            "&>*:not(:first-child)": {
-                              mt: 1.75,
+                            alignItems: "center",
+                            "& > *:last-child": {
+                              maxWidth: "85px",
                             },
                           }}
                         >
-                          <Typography variant="h6">Bank Details</Typography>
-                          <FormControl
-                            fullWidth
-                            size="small"
-                            sx={{
-                              display: "flex",
-                              "&>label": { fontSize: "12px" },
-                              "&>div": { textAlign: "left" },
-                            }}
-                          >
-                            <InputLabel
-                              sx={{ textTransform: "capitalize" }}
-                              id="demo-simple-select-label"
-                            >
-                              Select Bank
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="select_Bank"
-                              label="Select Bank"
-                              sx={{ fontSize: "13px" }}
-                            >
-                              {adminList.bank &&
-                                adminList.bank.map((bank) => (
-                                  <MenuItem
-                                    sx={{ textTransform: "capitalize" }}
-                                    value={bank.bankName}
-                                  >
-                                    {bank.bankName}
-                                  </MenuItem>
-                                ))}
-
-                              <MenuItem
-                                sx={{ textTransform: "capitalize" }}
-                                value={"Custom Add"}
-                              >
-                                Custom Add
-                              </MenuItem>
-                            </Select>
-                          </FormControl>
                           <CustomFormikField
-                            name="bankName"
-                            label="Bank Name"
-                          />
-                          <CustomFormikField name="ifsc" label="IFSC" />
-                          <CustomFormikField
-                            name="accHolder"
-                            label="A/c Holder Name"
-                          />
-                          <CustomFormikField
-                            name="accNumber"
-                            label="A/c Number"
+                            name={"discount"}
+                            placeholder="00.00"
                           />
                         </Box>
-                        <Box sx={{ maxWidth: "500px", mt: 6 }}>
-                          <Typography variant="h6" sx={{ mb: 1.75 }}>
-                            Notes
-                          </Typography>
-                          <CustomFormikField
-                            name="description"
-                            label="Descrption"
-                            multiline
-                            rows={3}
-                          />
-                        </Box>
-                      </Box>
+                      </Typography>
+                      <CustomFormikField
+                        name={"discount"}
+                        placeholder="00.00"
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        alignItems: "center",
+                        "& > *:last-child": {
+                          maxWidth: "85px",
+                        },
+                      }}
+                    >
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ textWrap: "nowrap" }}
+                      >
+                        sales tax:
+                      </Typography>
+                      <CustomFormikField
+                        name={"salesTax"}
+                        placeholder="00.00"
+                      />
+                    </Box>
+                    <Box>
+                      <Typography variant="subtitle2">total:</Typography>
+                      <Typography variant="subtitle2">$4083.61</Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="subtitle2">amount paid:</Typography>
+                      <Typography variant="subtitle2">$0.00</Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        py: 1.75,
+                        bgcolor: "primary.light",
+                        borderRadius: 2.5,
+                      }}
+                    >
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                        balance due:
+                      </Typography>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                        $4083.61
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "end",
+                      gap: 2,
+                    }}
+                  >
+                    <Box>
                       <Box
                         sx={{
-                          mt: 8.5,
-                          mr: 6,
-                          maxHeight: "80px",
-                          maxWidth: "200px",
-                          flexShrink: 0,
+                          maxWidth: "300px",
+                          "&>*:not(:first-child)": {
+                            mt: 1.75,
+                          },
                         }}
                       >
-                        <img
-                          src="/images/sign.svg"
-                          style={{
-                            maxHeight: "inherit",
-                            width: "100%",
-                            display: "block",
+                        <Typography variant="h6">Bank Details</Typography>
+                        <FormControl
+                          fullWidth
+                          size="small"
+                          sx={{
+                            display: "flex",
+                            "&>label": { fontSize: "12px" },
+                            "&>div": { textAlign: "left" },
                           }}
-                        ></img>
+                        >
+                          <InputLabel
+                            sx={{ textTransform: "capitalize" }}
+                            id="demo-simple-select-label"
+                          >
+                            Select Bank
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="select_Bank"
+                            label="Select Bank"
+                            sx={{ fontSize: "13px" }}
+                            onChange={handleBankChange}
+                          >
+                            {adminList.bank &&
+                              adminList.bank.map((bank) => (
+                                <MenuItem
+                                  sx={{ textTransform: "capitalize" }}
+                                  value={bank._id}
+                                >
+                                  {bank.bankName}
+                                </MenuItem>
+                              ))}
+
+                            <MenuItem
+                              sx={{ textTransform: "capitalize" }}
+                              value={"Custom Add"}
+                            >
+                              Custom Add
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
+                        <CustomFormikField name="bankName" label="Bank Name" />
+                        <CustomFormikField name="IFSC" label="IFSC" />
+                        <CustomFormikField
+                          name="holderName"
+                          label="A/c Holder Name"
+                        />
+                        <CustomFormikField
+                          name="accountNumber"
+                          label="A/c Number"
+                        />
                       </Box>
+                      <Box sx={{ maxWidth: "500px", mt: 6 }}>
+                        <Typography variant="h6" sx={{ mb: 1.75 }}>
+                          Notes
+                        </Typography>
+                        <CustomFormikField
+                          name="description"
+                          label="Descrption"
+                          multiline
+                          rows={3}
+                        />
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        mt: 8.5,
+                        mr: 6,
+                        maxHeight: "80px",
+                        maxWidth: "200px",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <img
+                        src="/images/sign.svg"
+                        style={{
+                          maxHeight: "inherit",
+                          width: "100%",
+                          display: "block",
+                        }}
+                      ></img>
                     </Box>
                   </Box>
                 </Box>
