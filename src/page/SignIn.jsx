@@ -10,10 +10,16 @@ import { APIS } from "../api/apiList";
 import { useAuth } from "../hooks/store/useAuth";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import Checkbox from "@mui/material/Checkbox";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
-  const { apiCall, isLoading } = useApi();
+  const {
+    apiCall,
+    // isLoading
+  } = useApi();
   const { setSnack } = useSnack();
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -78,16 +84,22 @@ export default function SignIn() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          maxWidth: { xs: "100%", md: "1200px" },
+          margin: "0 auto",
         }}
       >
         <Box
           sx={{
             padding: { xs: 2, sm: 3 },
             flexGrow: 1,
-            maxWidth: "350px",
-            borderRadius: 2.5,
+            maxWidth: "1000px",
+            margin: "0 auto",
+            borderRadius: "10px 0 0 10px",
             bgcolor: "white",
-            mx: 1.5,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            // mx: 1.5,
           }}
         >
           <Box
@@ -95,20 +107,42 @@ export default function SignIn() {
             noValidate
             autoComplete="off"
             onSubmit={formik.handleSubmit}
+            sx={{
+              minWidth: "350px",
+              minHeight: "600px",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
           >
-            <Typography
-              id="modal-modal-title"
-              variant="h6"
-              sx={{
-                textAlign: "center",
-                fontSize: { xs: "22px", sm: "26px" },
-                textTransform: "capitalize",
-                mb: 3.75,
-                fontWeight: 700,
-              }}
-            >
-              Sign in
-            </Typography>
+            <Box>
+              <Typography
+                id="modal-modal-title"
+                variant="h6"
+                sx={{
+                  textAlign: "start",
+                  fontSize: { xs: "22px", sm: "26px" },
+                  textTransform: "capitalize",
+                  // mb: 3.75,
+                  mb: 1.2,
+                  fontWeight: 700,
+                }}
+              >
+                👋 Welcome Back!
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  mb: 6.75,
+                  color: "grey.dark",
+                  display: "block",
+                }}
+              >
+                Enter your details to access your account
+              </Typography>
+            </Box>
             <Box
               sx={{
                 "&>*:not(:first-child)": { mt: 2 },
@@ -178,32 +212,87 @@ export default function SignIn() {
                 sx={{
                   p: 1.75,
                   bgcolor: "success.main",
+                  // bgcolor: "text.primary",
                   color: "white",
                   lineHeight: 1,
                   borderRadius: 2.5,
-                  "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
+                  // textTransform: "uppercase",
+                  "&:hover": {
+                    // bgcolor: "primary.main",
+                    bgcolor: "rgb(74, 210, 146, 80%)",
+                  },
                 }}
                 type="submit"
               >
                 sign in
               </Button>
             </Box>
-          </Box>
-          <Box sx={{ mt: 2.5 }}>
-            <Link
-              href="./forgot-password"
-              underline="none"
+            <Box
               sx={{
-                display: "inline-block",
-                mb: 1.25,
-                cursor: "pointer",
-                lineHeight: 1,
-                fontSize: "14px",
+                mt: 2.5,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
               }}
             >
-              Forgot password?
-            </Link>
-            {/* <Typography sx={{ fontSize: "14px" }}>
+              <Box>
+                <FormControl
+                  component="fieldset"
+                  sx={{
+                    "&>label,&>span": {
+                      p: 0,
+                      pl: 1,
+                    },
+                  }}
+                >
+                  <FormControlLabel
+                    value="start"
+                    control={<Checkbox />}
+                    label="Remember Me"
+                    sx={{
+                      "&>span:not(:first-child)": {
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        lineHeight: 1,
+                        pl: 0.75,
+                      },
+
+                      "& svg": {
+                        fontSize: "16px",
+                      },
+                      pr: 0,
+                      py: 0,
+                      mr: 0,
+                      p: 0,
+                      display: "block",
+                      "&>label,&>span": {
+                        p: 0,
+                        pe: 0.75,
+                      },
+                    }}
+                  />
+                </FormControl>
+              </Box>
+              <Link
+                href="./forgot-password"
+                underline="none"
+                sx={{
+                  display: "inline-block",
+                  // mb: 1.25,
+                  cursor: "pointer",
+                  lineHeight: 1,
+                  fontSize: "12px",
+                  fontWeight: "600",
+                  // color: "text.primary",
+                  "&:hover": {
+                    color: "rgb(22, 119, 255, 80%)",
+                  },
+                }}
+              >
+                Forgot password?
+              </Link>
+            </Box>
+            {/* <Typography sx={{ fontSize: "14px", mt: 2 }}>
               Don't have an account?
               <Link
                 underline="none"
@@ -212,12 +301,35 @@ export default function SignIn() {
                   display: "inline-block",
                   ml: 0.75,
                   cursor: "pointer",
-                  lineHeight: 1,
+                  lineHeight: 1,  
                 }}
               >
-                Sign up
+                Create an account
               </Link>
             </Typography> */}
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            background:
+              "linear-gradient(180deg, rgba(255,255,255,1) 15%, rgba(22,119,255,1) 100%)",
+            // background:
+            //   "linear-gradient(180deg, rgba(255,255,255,1) 15%, rgba(42,64,98,1) 100%)",
+            width: "50%",
+            minHeight: "648px",
+            // height: "100%",
+            display: "flex",
+            alignItems: "center",
+            p: 3,
+            borderRadius: "0 10px 10px 0",
+          }}
+        >
+          <Box>
+            <img
+              src="./images/login-preview.png"
+              style={{ height: "auto", width: "100%" }}
+              alt="signin"
+            />
           </Box>
         </Box>
       </Box>
