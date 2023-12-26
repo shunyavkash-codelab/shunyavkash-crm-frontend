@@ -19,6 +19,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/store/useAuth";
 import { useSearchData } from "../hooks/store/useSearchData";
 import PlusIcon from "@mui/icons-material/Close";
+import InvitationModal from "../component/InvitationModal";
 
 const Search = styled("div")();
 const SearchIconWrapper = styled("div")();
@@ -45,6 +46,9 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
     setSnack("Logout successfully.");
     navigate("/signin");
   };
+
+  const [modalOpen, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
 
   return (
     <>
@@ -160,6 +164,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
             <Box>
               <Button
                 disableRipple
+                onClick={handleOpen}
                 sx={{
                   minWidth: "unset",
                   maxHeight: "42px",
@@ -343,6 +348,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
           </Box>
         </Box>
       </AppBar>
+      <InvitationModal open={modalOpen} setOpen={setOpen} />
     </>
   );
 }
