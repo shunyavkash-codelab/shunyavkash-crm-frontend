@@ -420,15 +420,7 @@ export default function Invoices() {
                           mt: 1.75,
                         }}
                       >
-                        <CustomFormikField
-                          name={"address"}
-                          label="Address"
-                          multiline
-                          rows={3}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
+                        <Typography>{adminList.address}</Typography>
                         <Box
                           sx={{
                             mt: 3.25,
@@ -446,7 +438,15 @@ export default function Invoices() {
                               },
                             }}
                           >
-                            <Autocomplete
+                            <img
+                              loading="lazy"
+                              width="20"
+                              height="14"
+                              src={`https://flagcdn.com/w20/in.png`}
+                            />
+                            <Typography>{adminList.mobileNumber}</Typography>
+
+                            {/* <Autocomplete
                               size="small"
                               id="country-select-demo"
                               name="mobileCode"
@@ -508,8 +508,8 @@ export default function Invoices() {
                                   />
                                 );
                               }}
-                            />
-                            <CustomFormikField
+                            /> */}
+                            {/* <CustomFormikField
                               name={"mobileNumber"}
                               sx={{
                                 "&>label,& input,&>div": {
@@ -527,15 +527,11 @@ export default function Invoices() {
                                   borderLeft: 0,
                                 },
                               }}
-                            />
+                            /> */}
                           </Box>
-                          <CustomFormikField
-                            name="email"
-                            label="Email"
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                          />
+                          <Box>
+                            <Typography>Email : {adminList.email}</Typography>
+                          </Box>
                         </Box>
                       </Box>
                     </Box>
