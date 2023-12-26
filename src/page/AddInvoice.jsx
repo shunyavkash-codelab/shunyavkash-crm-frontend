@@ -47,21 +47,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "ravi",
-  "akash",
-  "mayur",
-  "deep",
-  "prince",
-  "helohelohelohelohelohelohelohelohelohelohelohelohelohelohelo",
-  "bfhsgfsdfsgfjshgdfjshgdfhgd",
-  "bfshdjgfhsdgfhgvsdjhfdhjvfjs",
-];
-
 function getStyles(name, personName, theme) {
   return {
     fontWeight:
@@ -84,22 +69,39 @@ export default function Invoices() {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
   const [adminList, setAdminList] = useState(false);
+  const [taskList, setTaskList] = useState([]);
   const [selectedClient, setSelectedClient] = useState();
   const [taskCount, setTaskCount] = useState(1);
   const [selectedProject, setSelectedProject] = useState();
   const { setInvoiceData } = useInvoiceStore();
   const { invoiceNumber } = useParams();
   const [projectDescription, setProjectDescription] = useState();
-  const [bankDetails, setBankDetails] = useState({});
+  const [bankDetails, setBankDetails] = useState(false);
+  const [discountPer, setDiscountPer] = useState(0);
+  const [discountRS, setDiscountRS] = useState(0);
+  // console.log(taskList, "-------------------------95");
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    console.log(value);
+    setPersonName(value);
+  };
+
+  // discount
+  const handleDiscountPerChange = (subTotal, event) => {
+    const percentage = parseFloat(event.target.value) || 0;
+    console.log(percentage, "-----------------------95");
+    setDiscountPer(percentage);
+    setDiscountRS((percentage / 100) * subTotal);
+  };
+
+  const handleDiscountRSChange = (subTotal, event) => {
+    const amount = parseFloat(event.target.value) || 0;
+    console.log(amount, "-----------------------102");
+    setDiscountRS(amount);
+    setDiscountPer((amount / subTotal) * 100); // Assuming you have 'subtotal' defined
   };
 
   const location = useLocation();
@@ -163,11 +165,6 @@ export default function Invoices() {
       });
       if (res.data.success === true) {
         setAdminList(res.data.data);
-        // console.log(res.data.data, "-------------------------160");
-        // console.log(
-        //   res.data.data.bank[0].bankName,
-        //   "---------------------bank"
-        // );
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -182,27 +179,30 @@ export default function Invoices() {
         method: "get",
       });
       if (res.data.success === true) {
-        setAdminList(res.data.data);
+        setTaskList(res.data.data);
       }
     } catch (error) {
       console.log(error, setSnack);
     }
   };
 
+  // client Data
   const clientData = async (id) => {
     const clientAddress = clientList.find((client) => {
       return client._id === id;
     });
-    setSelectedClient(clientAddress.address);
+    setSelectedClient(clientAddress);
     await fetchProject(id);
   };
 
+  // project Data
   const handleProjectChange = async (event) => {
     const projectId = event.target.value;
     const project = projectList.find((proj) => proj._id === projectId);
 
     // formik.setFieldValue('projectDescription', project.description);
-    setProjectDescription(project.description);
+    setProjectDescription(project);
+    await fetchTask(project._id);
   };
 
   // Bank Details
@@ -214,13 +214,14 @@ export default function Invoices() {
 
       if (bankD) {
         setBankDetails({
+          bankId: bankId,
           bankName: bankD.bankName,
           IFSC: bankD.IFSC,
           holderName: bankD.holderName,
           accountNumber: bankD.accountNumber,
         });
       } else {
-        console.log("Bank not found");
+        setBankDetails(false);
       }
     } else {
       console.log("adminList.bank is not an array");
@@ -243,16 +244,23 @@ export default function Invoices() {
     // setProjectDescription(project.description);
   };
 
+  const getSubTotal = (task) => {
+    return task.reduce((accum, taskDetail) => {
+      accum += taskDetail.pricePerHours * taskDetail.number;
+      return accum;
+    }, 0);
+  };
+
+  // find Due Date
+  const currentDate = new Date();
+  const fifteenDaysAgo = new Date();
+  fifteenDaysAgo.setDate(currentDate.getDate() + 15);
+
   useEffect(() => {
     fetchClient();
     fetchCountry();
     fetchAdmin();
   }, []);
-
-  // task increment
-  const taskIncrement = () => {
-    setTaskCount(taskCount + 1);
-  };
 
   return (
     <>
@@ -275,27 +283,92 @@ export default function Invoices() {
         initialValues={{
           email: adminList.email,
           address: adminList.address,
-          address2: adminList.address2,
-          landmark: "",
-          pincode: "",
           mobileCode: adminList.mobileCode,
           mobileNumber: adminList.mobileNumber,
-          invoiceNumber: "",
-          task: [taskInitialValues],
-          clientAddress: selectedClient || "",
+          invoiceNumber: invoiceNumber,
+          task: taskList
+            .filter((task) => personName.includes(task.taskName))
+            .map((task) => ({
+              _id: task._id,
+              name: task.taskName,
+              number: task.hours || "00.00",
+              pricePerHours: task.perHourCharge || "00.00",
+              amount: task.hours * task.perHourCharge,
+            })),
+          clientAddress: selectedClient?.address || "",
           total: "10",
-          projectDescription: projectDescription || "",
-          bankName: bankDetails.bankName,
-          IFSC: bankDetails.IFSC,
-          holderName: bankDetails.holderName,
-          accountNumber: bankDetails.accountNumber,
-          // to: clientAddress._id,
-          // projectDescription: "",
+          projectDescription: projectDescription?.description || "",
+          customBankName: "",
+          customIFSC: "",
+          customHolderName: "",
+          customAccountNumber: "",
+          // to: Formik.values,
+          project: "",
+          salesTax: 0,
+          invoiceDate: new Date().toISOString().split("T")[0],
+          invoiceDueDate: fifteenDaysAgo.toISOString().split("T")[0],
         }}
         onSubmit={async (values) => {
           try {
             console.log(values, "==================submit");
-            setInvoiceData(values);
+            let tasks = values.task.map((tas) => {
+              return {
+                taskName: tas.name,
+                price_hours: tas.pricePerHours,
+                hours: tas.number,
+                amount: tas.amount || tas.pricePerHours * tas.number,
+              };
+            });
+            // let taskId = values.task.map((id) => if(id._id){id._id});
+            let taskId = values.task.filter((id) => id._id).map((id) => id._id);
+            let obj = {
+              from: {
+                address: values.address,
+                email: values.email,
+                mobileCode: values.mobileCode,
+                mobileNumber: values.mobileNumber,
+              },
+              managerId: adminList._id,
+              clientId: selectedClient?._id,
+              to: {
+                name: selectedClient.name,
+                address: values.clientAddress,
+              },
+              invoiceNumber: values.invoiceNumber,
+              invoiceDate: values.invoiceDate,
+              invoiceDueDate: values.invoiceDueDate,
+              projectId: projectDescription._id,
+              project: {
+                name: projectDescription?.name,
+                description: values.projectDescription,
+              },
+              taskIds: taskId,
+              tasks: tasks,
+              totals: {
+                subTotal: `${getSubTotal(values.task)}`,
+                discountRS: parseFloat(discountRS).toFixed(2),
+                discountPer: parseFloat(discountPer).toFixed(2),
+                salesTax: parseFloat(values.salesTax).toFixed(2),
+                total: `${(
+                  parseFloat(values.salesTax) +
+                  parseFloat(getSubTotal(values.task)) -
+                  parseFloat(discountRS)
+                ).toFixed(2)}`,
+                amountPaid: "",
+                balanceDue: "",
+              },
+              bankId: bankDetails.bankId,
+              bank: {
+                bankName: bankDetails.bankName || values.customBankName,
+                IFSC: bankDetails.IFSC || values.customIFSC,
+                holderName: bankDetails.holderName || values.customHolderName,
+                accountNumber:
+                  bankDetails.accountNumber || values.customeAccountNumber,
+              },
+              note: values.note,
+            };
+
+            setInvoiceData(obj);
             navigate("./preview");
           } catch (error) {
             let errorMessage = error.response.data.message;
@@ -303,8 +376,8 @@ export default function Invoices() {
           }
         }}
       >
-        {({ values }) => {
-          console.log(values, "---------------------------240");
+        {({ values, ...rest }) => {
+          console.log(values, rest, "---------------------------240");
           return (
             <Box
               component="main"
@@ -391,6 +464,7 @@ export default function Invoices() {
                             <Autocomplete
                               size="small"
                               id="country-select-demo"
+                              name="mobileCode"
                               sx={{
                                 flexShrink: 0,
                                 width: { xs: "100px", sm: "112px" },
@@ -785,13 +859,17 @@ export default function Invoices() {
                         )}
                         MenuProps={MenuProps}
                       >
-                        {names.map((name) => (
+                        {taskList.map((taskName) => (
                           <MenuItem
-                            key={name}
-                            value={name}
-                            style={getStyles(name, personName, theme)}
+                            key={taskName}
+                            value={taskName.taskName}
+                            style={getStyles(
+                              taskName.taskName,
+                              personName,
+                              theme
+                            )}
                           >
-                            {name}
+                            {taskName.taskName}
                           </MenuItem>
                         ))}
                       </Select>
@@ -837,6 +915,7 @@ export default function Invoices() {
                             }}
                           >
                             <TableCell>description</TableCell>
+
                             <TableCell sx={{ width: "110px" }}>
                               price/hours
                             </TableCell>
@@ -970,12 +1049,7 @@ export default function Invoices() {
                             <TableCell
                               sx={{ fontWeight: "600", color: "black" }}
                             >
-                              $
-                              {values.task.reduce((accum, taskDetail) => {
-                                accum +=
-                                  taskDetail.pricePerHours * taskDetail.number;
-                                return accum;
-                              }, 0)}
+                              ${getSubTotal(values.task)}
                             </TableCell>
                           </TableRow>
                         </TableFooter>
@@ -1003,11 +1077,7 @@ export default function Invoices() {
                         subtotal:
                       </Typography>
                       <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                        $
-                        {values.task.reduce((accum, taskDetail) => {
-                          accum += taskDetail.pricePerHours * taskDetail.number;
-                          return accum;
-                        }, 0)}
+                        ${getSubTotal(values.task)}
                       </Typography>
                     </Box>
                     <Box
@@ -1030,7 +1100,7 @@ export default function Invoices() {
                           gap: 1,
                         }}
                       >
-                        Discount:{" "}
+                        Discount:
                         <Box
                           sx={{
                             alignItems: "center",
@@ -1040,13 +1110,23 @@ export default function Invoices() {
                           }}
                         >
                           <CustomFormikField
-                            name={"discount"}
-                            placeholder="00.00"
+                            name={"discountPer"}
+                            value={discountPer}
+                            placeholder="0%"
+                            onChange={handleDiscountPerChange.bind(
+                              null,
+                              getSubTotal(values.task)
+                            )}
                           />
                         </Box>
                       </Typography>
                       <CustomFormikField
-                        name={"discount"}
+                        name={"discountRS"}
+                        value={discountRS}
+                        onChange={handleDiscountRSChange.bind(
+                          null,
+                          getSubTotal(values.task)
+                        )}
                         placeholder="00.00"
                       />
                     </Box>
@@ -1074,7 +1154,12 @@ export default function Invoices() {
                     </Box>
                     <Box>
                       <Typography variant="subtitle2">total:</Typography>
-                      <Typography variant="subtitle2">$4083.61</Typography>
+                      <Typography variant="subtitle2">
+                        $
+                        {+values.salesTax +
+                          getSubTotal(values.task) -
+                          discountRS}
+                      </Typography>
                     </Box>
                     <Box>
                       <Typography variant="subtitle2">amount paid:</Typography>
@@ -1091,7 +1176,10 @@ export default function Invoices() {
                         balance due:
                       </Typography>
                       <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                        $4083.61
+                        $
+                        {+values.salesTax +
+                          getSubTotal(values.task) -
+                          discountRS}
                       </Typography>
                     </Box>
                   </Box>
@@ -1153,23 +1241,54 @@ export default function Invoices() {
                             </MenuItem>
                           </Select>
                         </FormControl>
-                        <CustomFormikField name="bankName" label="Bank Name" />
-                        <CustomFormikField name="IFSC" label="IFSC" />
-                        <CustomFormikField
-                          name="holderName"
-                          label="A/c Holder Name"
-                        />
-                        <CustomFormikField
-                          name="accountNumber"
-                          label="A/c Number"
-                        />
+                        {!bankDetails && (
+                          <>
+                            <CustomFormikField
+                              name="customBankName"
+                              label="Bank Name"
+                            />
+                            <CustomFormikField name="customIFSC" label="IFSC" />
+                            <CustomFormikField
+                              name="customHolderName"
+                              label="A/c Holder Name"
+                            />
+                            <CustomFormikField
+                              name="customeAccountNumber"
+                              label="A/c Number"
+                            />
+                          </>
+                        )}
+                        {bankDetails && (
+                          <>
+                            <CustomFormikField
+                              name="bankName"
+                              label="Bank Name"
+                              value={bankDetails.bankName}
+                            />
+                            <CustomFormikField
+                              name="IFSC"
+                              value={bankDetails.IFSC}
+                              label="IFSC"
+                            />
+                            <CustomFormikField
+                              name="holderName"
+                              label="A/c Holder Name"
+                              value={bankDetails.holderName}
+                            />
+                            <CustomFormikField
+                              name="accountNumber"
+                              label="A/c Number"
+                              value={bankDetails.accountNumber}
+                            />
+                          </>
+                        )}
                       </Box>
                       <Box sx={{ maxWidth: "500px", mt: 6 }}>
                         <Typography variant="h6" sx={{ mb: 1.75 }}>
                           Notes
                         </Typography>
                         <CustomFormikField
-                          name="description"
+                          name="note"
                           label="Descrption"
                           multiline
                           rows={3}

@@ -35,8 +35,8 @@ export default function CustomFormikField({ name, ...params }) {
                 form.touched.firstName &&
                 String(form.errors.firstName)
               }
-              {...params}
               {...field}
+              {...params}
             />
           </>
         );
