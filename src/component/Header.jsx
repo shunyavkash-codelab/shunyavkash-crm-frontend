@@ -18,6 +18,7 @@ import { useSnack } from "../hooks/store/useSnack";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/store/useAuth";
 import { useSearchData } from "../hooks/store/useSearchData";
+import PlusIcon from "@mui/icons-material/Close";
 
 const Search = styled("div")();
 const SearchIconWrapper = styled("div")();
@@ -148,7 +149,50 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
               </Search>
             )}
           </Box>
-          <Box sx={{ position: "relative" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              position: "relative",
+            }}
+          >
+            <Box>
+              <Button
+                disableRipple
+                sx={{
+                  minWidth: "unset",
+                  maxHeight: "42px",
+                  position: "relative",
+                  p: 1,
+                  border: "1px solid",
+                  borderColor: "primary.main",
+                  color: "primary.main",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  overflow: "hidden",
+                  "&:before": {
+                    content: "''",
+                    height: 0,
+                    width: "10rem",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    zIndex: "0",
+                    bgcolor: "primary.main",
+                    transform: "rotate(-45deg) translate(-50%, -50%)",
+                    transformOrigin: "0% 0%",
+                    transition: "all 0.4s ease-in-out",
+                  },
+                  "&:hover": {
+                    color: "white",
+                    "&:before": { height: "10rem" },
+                  },
+                }}
+              >
+                <PlusIcon sx={{ transform: "rotate(45deg)" }} />
+              </Button>
+            </Box>
             {isLoading ? (
               <>Loading..</>
             ) : (

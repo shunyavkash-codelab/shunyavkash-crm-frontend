@@ -159,7 +159,7 @@ export default function Home() {
               </Grid>
               <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                 <CounterCards
-                  Title={"memeber"}
+                  Title={"members"}
                   Counter={dashboardData.totalManager || 0}
                   icon={
                     <ManagerIcon
