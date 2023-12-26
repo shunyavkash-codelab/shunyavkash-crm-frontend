@@ -77,15 +77,21 @@ export default function SignIn() {
     },
   });
   return (
-    <Box component="main" sx={{ height: "100vh" }}>
+    <Box
+      component="main"
+      sx={{
+        height: { xs: "100%", sm: "100vh" },
+      }}
+    >
       <Box
         sx={{
           height: "100%",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          maxWidth: { xs: "100%", md: "1200px" },
+          maxWidth: { xs: "100%", xl: "800px", sm: "601px" },
           margin: "0 auto",
+          flexDirection: { xs: "column", sm: "row" },
         }}
       >
         <Box
@@ -109,7 +115,7 @@ export default function SignIn() {
             onSubmit={formik.handleSubmit}
             sx={{
               minWidth: "350px",
-              minHeight: "600px",
+              minHeight: { xs: "100%", sm: "553px" },
               height: "100%",
               display: "flex",
               flexDirection: "column",
@@ -315,8 +321,8 @@ export default function SignIn() {
               "linear-gradient(180deg, rgba(255,255,255,1) 15%, rgba(22,119,255,1) 100%)",
             // background:
             //   "linear-gradient(180deg, rgba(255,255,255,1) 15%, rgba(42,64,98,1) 100%)",
-            width: "50%",
-            minHeight: "648px",
+            width: { xs: "50%", sm: "100%" },
+            minHeight: "601px",
             // height: "100%",
             display: "flex",
             alignItems: "center",
@@ -324,7 +330,13 @@ export default function SignIn() {
             borderRadius: "0 10px 10px 0",
           }}
         >
-          <Box>
+          <Box
+            style={{
+              maxWidth: "600px",
+              // height: "100%",
+              flexGrow: 1,
+            }}
+          >
             <img
               src="./images/login-preview.png"
               style={{ height: "auto", width: "100%" }}
