@@ -9,9 +9,7 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
   TableFooter,
-  TextField,
   FormControl,
   InputLabel,
   Select,
@@ -34,8 +32,6 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import InvoiceTable from "../component/InvoiceTable";
 import CustomFormikField from "../component/form/CustomFormikField";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import { Details } from "@mui/icons-material";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -71,40 +67,33 @@ export default function Invoices() {
   const [adminList, setAdminList] = useState(false);
   const [taskList, setTaskList] = useState([]);
   const [selectedClient, setSelectedClient] = useState();
-  const [taskCount, setTaskCount] = useState(1);
-  const [selectedProject, setSelectedProject] = useState();
   const { setInvoiceData } = useInvoiceStore();
   const { invoiceNumber } = useParams();
   const [projectDescription, setProjectDescription] = useState();
   const [bankDetails, setBankDetails] = useState(false);
   const [discountPer, setDiscountPer] = useState(0);
   const [discountRS, setDiscountRS] = useState(0);
-  // console.log(taskList, "-------------------------95");
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    console.log(value);
     setPersonName(value);
   };
 
   // discount
   const handleDiscountPerChange = (subTotal, event) => {
     const percentage = parseFloat(event.target.value) || 0;
-    console.log(percentage, "-----------------------95");
     setDiscountPer(percentage);
     setDiscountRS((percentage / 100) * subTotal);
   };
 
   const handleDiscountRSChange = (subTotal, event) => {
     const amount = parseFloat(event.target.value) || 0;
-    console.log(amount, "-----------------------102");
     setDiscountRS(amount);
     setDiscountPer((amount / subTotal) * 100); // Assuming you have 'subtotal' defined
   };
 
-  const location = useLocation();
   const taskInitialValues = { name: "", pricePerHours: "", number: "1" };
 
   // get client list all client
@@ -133,8 +122,6 @@ export default function Invoices() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setProjectList(res.data.data);
-
-        console.log(res.data.data, "---------------------132");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -211,7 +198,6 @@ export default function Invoices() {
 
     if (Array.isArray(adminList.bank)) {
       const bankD = adminList.bank.find((bank) => bank._id === bankId);
-      console.log(bankD, "---------------------214");
       if (bankD) {
         setBankDetails({
           bankId: bankId,
@@ -311,7 +297,6 @@ export default function Invoices() {
         }}
         onSubmit={async (values) => {
           try {
-            console.log(values, "==================submit");
             let tasks = values.task.map((tas) => {
               return {
                 taskName: tas.name,

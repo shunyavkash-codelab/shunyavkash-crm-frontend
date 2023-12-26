@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -23,12 +23,11 @@ import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
+  const { accessToken } = useAuth();
   const { invoiceNumber } = useParams();
   const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
   const { invoiceData } = useInvoiceStore();
   const navigate = useNavigate();
-  console.log(invoiceData, "-----------------31");
 
   return (
     <>
