@@ -26,8 +26,9 @@ export default function Invoices() {
   const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
   const { invoiceNumber } = useParams();
   const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
-  // const { invoiceData } = useInvoiceStore();
+  const { invoiceData } = useInvoiceStore();
   const navigate = useNavigate();
+  console.log(invoiceData, "-----------------31");
 
   return (
     <>
@@ -155,7 +156,7 @@ export default function Invoices() {
                       fontSize: "16px",
                     }}
                   >
-                    {/* {invoiceData.address} {invoiceData.address2} */}
+                    {invoiceData.from.address}
                   </Typography>
                   <Box
                     sx={{
@@ -169,8 +170,8 @@ export default function Invoices() {
                         fontSize: "16px",
                       }}
                     >
-                      {/* {invoiceData.mobileCode.phone} {invoiceData.mobileNumber} */}
-                      {/* +91 8155926380 */}
+                      {invoiceData.from.mobileCode}{" "}
+                      {invoiceData.from.mobileNumber}
                     </Typography>
                     <Typography
                       variant="subtitle3"
@@ -181,6 +182,7 @@ export default function Invoices() {
                       }}
                     >
                       {/* {invoiceData.email} */}
+                      {invoiceData.from.email}
                     </Typography>
                   </Box>
                 </Box>
@@ -227,7 +229,7 @@ export default function Invoices() {
                     Bill to
                   </Typography>
                   <Typography variant="h6" sx={{ mt: 1.25 }}>
-                    Hiren Polara
+                    {invoiceData?.to?.name}
                   </Typography>
                   <Typography
                     variant="subtitle3"
@@ -238,8 +240,7 @@ export default function Invoices() {
                       fontSize: "16px",
                     }}
                   >
-                    311, Ambika Pinnacle, Lajamni chowk,
-                    <br /> Mota varachha, Surat- 395006
+                    {invoiceData?.to?.address}
                   </Typography>
                 </Box>
                 <Box
@@ -278,7 +279,7 @@ export default function Invoices() {
                         fontSize: "16px",
                       }}
                     >
-                      001
+                      {invoiceData?.invoiceNumber}
                     </Typography>
                   </Box>
                   <Box>
@@ -296,7 +297,7 @@ export default function Invoices() {
                         fontSize: "16px",
                       }}
                     >
-                      13/12/2023
+                      {invoiceData?.invoiceDate}
                     </Typography>
                   </Box>
                   <Box>
@@ -314,7 +315,7 @@ export default function Invoices() {
                         fontSize: "16px",
                       }}
                     >
-                      13/1/2023
+                      {invoiceData?.invoiceDueDate}
                     </Typography>
                   </Box>
                 </Box>
@@ -387,21 +388,24 @@ export default function Invoices() {
                       },
                     }}
                   >
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 1 },
-                        "&>*": {
-                          py: 1.5,
-                          "&:first-child": { fontWeight: "600" },
-                        },
-                      }}
-                    >
-                      <TableCell>Recurring Bill (Hosting)</TableCell>
-                      <TableCell>$652.87</TableCell>
-                      <TableCell>3</TableCell>
-                      <TableCell>$1,958.61</TableCell>
-                    </TableRow>
-                    <TableRow
+                    {invoiceData?.tasks.map((task) => (
+                      <TableRow
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 1 },
+                          "&>*": {
+                            py: 1.5,
+                            "&:first-child": { fontWeight: "600" },
+                          },
+                        }}
+                      >
+                        <TableCell>{task.taskName}</TableCell>
+                        <TableCell>${task.price_hours}</TableCell>
+                        <TableCell>{task.hours}</TableCell>
+                        <TableCell>${task.amount}</TableCell>
+                      </TableRow>
+                    ))}
+
+                    {/* <TableRow
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
                         "&>*": {
@@ -415,8 +419,8 @@ export default function Invoices() {
                       <TableCell>$239.00</TableCell>
                       <TableCell>3</TableCell>
                       <TableCell>$717.00</TableCell>
-                    </TableRow>
-                    <TableRow
+                    </TableRow> */}
+                    {/* <TableRow
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
                         "&>*": {
@@ -429,7 +433,7 @@ export default function Invoices() {
                       <TableCell>$958.00</TableCell>
                       <TableCell>1</TableCell>
                       <TableCell>$958.00</TableCell>
-                    </TableRow>
+                    </TableRow> */}
                   </TableBody>
                   <TableFooter>
                     <TableRow
@@ -455,7 +459,7 @@ export default function Invoices() {
                       <TableCell
                         sx={{ fontWeight: "700", color: "text.primary" }}
                       >
-                        $3633.61
+                        ${invoiceData?.totals.subTotal}
                       </TableCell>
                     </TableRow>
                   </TableFooter>
@@ -488,31 +492,44 @@ export default function Invoices() {
                     variant="subtitle2"
                     sx={{ fontWeight: 700, fontSize: "16px" }}
                   >
-                    $3633.61
+                    $
+                    {invoiceData?.totals.subTotal
+                      ? invoiceData.totals.subTotal
+                      : "00.00"}
                   </Typography>
                 </Box>
                 <Box>
                   <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    Discount (20%):
+                    Discount (
+                    {invoiceData?.totals.discountPer
+                      ? invoiceData.totals.discountPer
+                      : "0"}
+                    %):
                   </Typography>
                   <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    $0.00
+                    $
+                    {invoiceData?.totals.discountRS
+                      ? invoiceData.totals.discountRS
+                      : "00.00"}
                   </Typography>
                 </Box>
-                <Box>
+                {/* <Box>
                   <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
                     shipping cost:
                   </Typography>
                   <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
                     $0.00
                   </Typography>
-                </Box>
+                </Box> */}
                 <Box>
                   <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
                     sales tax:
                   </Typography>
                   <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    $450.00
+                    $
+                    {invoiceData?.totals.salesTax
+                      ? invoiceData.totals.salesTax
+                      : "00.00"}
                   </Typography>
                 </Box>
                 <Box>
@@ -520,7 +537,10 @@ export default function Invoices() {
                     total:
                   </Typography>
                   <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    $4083.61
+                    $
+                    {invoiceData?.totals.total
+                      ? invoiceData.totals.total
+                      : "00.00"}
                   </Typography>
                 </Box>
                 <Box>
@@ -528,7 +548,10 @@ export default function Invoices() {
                     amount paid:
                   </Typography>
                   <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    $0.00
+                    $
+                    {invoiceData?.totals.amountPaid
+                      ? invoiceData.totals.amountPaid
+                      : "00.00"}
                   </Typography>
                 </Box>
                 <Box
@@ -551,7 +574,10 @@ export default function Invoices() {
                       fontSize: "16px",
                     }}
                   >
-                    $4083.61
+                    $
+                    {invoiceData?.totals.balanceDue
+                      ? invoiceData.totals.balanceDue
+                      : "00.00"}
                   </Typography>
                 </Box>
               </Box>
@@ -594,26 +620,32 @@ export default function Invoices() {
                           Bank Name<span>:</span>
                         </Typography>
                         <Typography variant="subtitle2">
-                          Bank of baroda
+                          {invoiceData.bank.bankName}
                         </Typography>
                       </Box>
                       <Box>
                         <Typography variant="subtitle2">
                           IFSC Code<span>:</span>
                         </Typography>
-                        <Typography variant="subtitle2">BOBN0005943</Typography>
+                        <Typography variant="subtitle2">
+                          {invoiceData.bank.IFSC}
+                        </Typography>
                       </Box>
                       <Box>
                         <Typography variant="subtitle2">
                           A/c Holder Name<span>:</span>
                         </Typography>
-                        <Typography variant="subtitle2">XYZ</Typography>
+                        <Typography variant="subtitle2">
+                          {invoiceData.bank.holderName}
+                        </Typography>
                       </Box>
                       <Box>
                         <Typography variant="subtitle2">
                           A/c No.<span>:</span>
                         </Typography>
-                        <Typography variant="subtitle2">9510132728</Typography>
+                        <Typography variant="subtitle2">
+                          {invoiceData.bank.accountNumber}
+                        </Typography>
                       </Box>
                     </Box>
                   </Box>

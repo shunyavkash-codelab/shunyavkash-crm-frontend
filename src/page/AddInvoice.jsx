@@ -211,7 +211,7 @@ export default function Invoices() {
 
     if (Array.isArray(adminList.bank)) {
       const bankD = adminList.bank.find((bank) => bank._id === bankId);
-
+      console.log(bankD, "---------------------214");
       if (bankD) {
         setBankDetails({
           bankId: bankId,
@@ -219,6 +219,7 @@ export default function Invoices() {
           IFSC: bankD.IFSC,
           holderName: bankD.holderName,
           accountNumber: bankD.accountNumber,
+          label: bankD.label,
         });
       } else {
         setBankDetails(false);
@@ -362,8 +363,7 @@ export default function Invoices() {
                 bankName: bankDetails.bankName || values.customBankName,
                 IFSC: bankDetails.IFSC || values.customIFSC,
                 holderName: bankDetails.holderName || values.customHolderName,
-                accountNumber:
-                  bankDetails.accountNumber || values.customeAccountNumber,
+                accountNumber: bankDetails.label || values.customeAccountNumber,
               },
               note: values.note,
             };
@@ -1276,9 +1276,9 @@ export default function Invoices() {
                               value={bankDetails.holderName}
                             />
                             <CustomFormikField
-                              name="accountNumber"
+                              name="label"
                               label="A/c Number"
-                              value={bankDetails.accountNumber}
+                              value={bankDetails.label}
                             />
                           </>
                         )}
