@@ -265,9 +265,17 @@ export default function AddClient() {
                       }}
                       value={formik.values.mobileCode}
                       onChange={(event, newValue) => {
-                        formik.setFieldValue("mobileCode", newValue.phone); // Update Formik field value
+                        formik.setFieldValue("mobileCode", newValue?.phone); // Update Formik field value
                         setCountry(newValue);
                       }}
+                      defaultValue={
+                        countryList[
+                          countryList.findIndex(
+                            (country) =>
+                              `${country?.phone}` === clientList.mobileCode
+                          )
+                        ]
+                      }
                       name="mobileCode"
                       options={countryList}
                       autoHighlight
