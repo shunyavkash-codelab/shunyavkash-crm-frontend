@@ -176,7 +176,7 @@ export default function TeamMembers() {
                     }}
                   >
                     <TableCell>manager</TableCell>
-                    <TableCell sx={{ width: "300px" }}>Role</TableCell>
+                    <TableCell sx={{ width: "250px" }}>Role</TableCell>
                     <TableCell>invite</TableCell>
                     <TableCell sx={{ width: "140px" }}>Actions</TableCell>
                   </TableRow>

@@ -75,15 +75,15 @@ export default function SideBar({
                 icon: <DashboardIcon />,
                 link: "/",
               },
+              { text: "Manager", icon: <ManagerIcon />, link: "/managers" },
+              { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
+              { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
+              { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
               {
                 text: "Members",
                 icon: <MembersIcon />,
                 link: "/teamMembers",
               },
-              { text: "Manager", icon: <ManagerIcon />, link: "/managers" },
-              { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
-              { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
-              { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
             ].map((item, index) => (
               <ListItem
                 key={item.text}

@@ -7,7 +7,7 @@ import { APIS } from "../api/apiList";
 import { useFormik } from "formik";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as Yup from "yup";
-import VisibilityIconSet from "../component/VisibilityIconSet";
+import PasswordField from "../component/PasswordField";
 
 export default function ConfirmPassword() {
   const { setSnack } = useSnack();
@@ -106,14 +106,14 @@ export default function ConfirmPassword() {
                   }}
                 >
                   <Box sx={{ position: "relative" }}>
-                    <VisibilityIconSet
+                    <PasswordField
                       formik={formik}
                       id={"password"}
                       label={"Password"}
                     />
                   </Box>
                   <Box sx={{ position: "relative" }}>
-                    <VisibilityIconSet
+                    <PasswordField
                       formik={formik}
                       id={"confirm_password"}
                       label={"Confirm Password"}

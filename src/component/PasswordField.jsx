@@ -3,7 +3,7 @@ import { Box, TextField } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-export default function VisibilityIconSet({ id, label, formik }) {
+export default function PasswordField({ id, label, formik }) {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
