@@ -33,7 +33,7 @@ export default function Project() {
   const { setSnack } = useSnack();
   const { accessToken } = useAuth();
   const { searchData } = useSearchData();
-  const fetchManagers = async () => {
+  const fetchProjects = async () => {
     try {
       const res = await apiCall({
         url: APIS.PROJECT.LIST,
@@ -50,10 +50,10 @@ export default function Project() {
     }
   };
   useEffect(() => {
-    fetchManagers();
+    fetchProjects();
   }, []);
   useEffect(() => {
-    if (searchData !== undefined) fetchManagers();
+    if (searchData !== undefined) fetchProjects();
   }, [searchData]);
   return (
     <>
@@ -321,9 +321,11 @@ export default function Project() {
                                 <VisibilityIcon />
                               </Button>
                             </Link>
-                            <Button disableRipple>
-                              <CreateIcon />
-                            </Button>
+                            <Link to={`./edit/${row._id}`}>
+                              <Button disableRipple>
+                                <CreateIcon />
+                              </Button>
+                            </Link>
                           </Box>
                         </TableCell>
                       </TableRow>

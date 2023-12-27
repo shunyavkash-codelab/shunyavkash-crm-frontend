@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { styled, Button } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -26,33 +26,9 @@ import { useNavigate } from "react-router-dom";
 import { Field, FormikProvider, useFormik } from "formik";
 import { APIS } from "../api/apiList";
 
-// const ITEM_HEIGHT = 48;
-// const ITEM_PADDING_TOP = 8;
-// const MenuProps = {
-//   PaperProps: {
-//     style: {
-//       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-//     },
-//   },
-// };
-
-// const names = ["Oliver Hansen", "Van Henry", "April Tucker", "Ralph Hubbard"];
-
-// function getStyles(name, personName, theme) {
-//   return {
-//     fontWeight:
-//       personName.indexOf(name) === -1
-//         ? theme.typography.fontWeightRegular
-//         : theme.typography.fontWeightMedium,
-//   };
-// }
-
 export default function AddProject() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [client, setClient] = useState("");
-  const [payPeriod, setPayPeriod] = useState("");
-  const [status, setStatus] = useState("");
   const [clientList, setClientList] = useState([]);
   const { accessToken } = useAuth();
   const { setSnack } = useSnack();
@@ -60,7 +36,8 @@ export default function AddProject() {
   const navigate = useNavigate();
   const [currencylist, setCurrencyList] = useState([]);
   const [currencyValue, setCurrencyValue] = useState(null);
-
+  const [projectData, setProjectData] = useState(null);
+  const { id } = useParams();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
 
@@ -72,30 +49,32 @@ export default function AddProject() {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      clientId: "",
-      description: "",
-      startDate: "",
-      endDate: "",
-      perHourCharge: "",
-      currency: currencyValue,
-      payPeriod: "",
-      prefix: "",
-      status: "",
+      name: projectData?.name,
+      clientId: projectData?.clientId,
+      description: projectData?.description,
+      startDate: projectData?.startDate,
+      endDate: projectData?.endDate,
+      perHourCharge: projectData?.perHourCharge,
+      currency: projectData?.currency,
+      payPeriod: projectData?.payPeriod,
+      prefix: projectData?.prefix,
+      status: projectData?.status,
     },
+    enableReinitialize: true,
     onSubmit: async (values) => {
       try {
-        values.currency = currencyValue?.symbol;
+        // values.currency = currencyValue?.symbol;
         const res = await apiCall({
-          url: APIS.PROJECT.ADD,
-          method: "post",
+          url: id ? APIS.PROJECT.EDIT(id) : APIS.PROJECT.ADD,
+          method: id ? "patch" : "post",
           data: JSON.stringify(values, null, 2),
         });
-        if (res.status === 201) {
+        if (res.data.success === true) {
           setSnack(res.data.message);
-          navigate("/clients");
+          !id && navigate("/project");
         }
       } catch (error) {
+        console.log(error, "=================77");
         let errorMessage = error.response.data.message;
         setSnack(errorMessage, "warning");
       }
@@ -116,7 +95,23 @@ export default function AddProject() {
       console.log(error, setSnack);
     }
   };
+
+  const fetchProject = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.PROJECT.VIEW(id),
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setProjectData(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
   useEffect(() => {
+    if (id !== undefined) fetchProject(id);
     fetchClients();
     fetchCurrency();
   }, []);
@@ -183,7 +178,7 @@ export default function AddProject() {
               variant="h5"
               sx={{ mb: 2.25, textTransform: "capitalize" }}
             >
-              Add Project
+              {projectData ? "Edit Project" : "Add Project"}
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
               <Link to={"/projects"} style={{ textDecoration: "none" }}>
@@ -205,147 +200,153 @@ export default function AddProject() {
                 variant="subtitle2"
                 sx={{ opacity: 0.4, textTransform: "capitalize" }}
               >
-                Add Project
+                {projectData ? "Edit Project" : "Add Project"}
               </Typography>
             </Box>
           </Box>
-          <FormikProvider value={formik}>
-            <Box
-              component="form"
-              noValidate
-              autoComplete="off"
-              sx={{
-                p: 2.5,
-                pt: 1.75,
-                backgroundColor: "white",
-                borderRadius: 2.5,
-              }}
-              onSubmit={formik.handleSubmit}
-            >
+          {(projectData || id === undefined) && (
+            <FormikProvider value={formik}>
               <Box
+                component="form"
+                noValidate
+                autoComplete="off"
                 sx={{
-                  pt: 0.75,
-                  flexGrow: { md: 0 },
-                  overflowY: { md: "auto" },
-                  "& fieldset": {
-                    borderRadius: 1.5,
-                  },
-                  display: "grid",
-                  gridTemplateColumns: {
-                    xs: "repeat(1, 1fr)",
-                    sm: "repeat(2, 1fr)",
-                  },
-                  gap: 2.5,
+                  p: 2.5,
+                  pt: 1.75,
+                  backgroundColor: "white",
+                  borderRadius: 2.5,
+                }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  formik.handleSubmit();
                 }}
               >
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="name"
-                  label="Project Name"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                  }}
-                  onChange={formik.handleChange}
-                  value={formik.values.name}
-                />
-                <FormControl
-                  fullWidth
-                  size="small"
-                  sx={{
-                    "&>label": { fontSize: "14px" },
-                  }}
-                >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
-                  >
-                    Client
-                  </InputLabel>
-                  <Field
-                    name="file"
-                    render={({ field, form }) => (
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="clientId"
-                        label="Client"
-                        sx={{ fontSize: "14px" }}
-                        {...field}
-                        onChange={(event) => {
-                          form.setFieldValue("clientId", event.target.value);
-                        }}
-                      >
-                        {clientList.map((item) => (
-                          <MenuItem
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "14px",
-                            }}
-                            value={item._id}
-                          >
-                            {item.name}
-                          </MenuItem>
-                        ))}
-                        <MenuItem>
-                          <Box sx={{ display: "flex" }}>
-                            <Button
-                              disableRipple
-                              onClick={handleOpen}
-                              sx={{
-                                maxHeight: "36px",
-                                position: "relative",
-                                px: 2.5,
-                                py: 1,
-                                bgcolor: "primary.main",
-                                border: "1px solid",
-                                borderColor: "primary.main",
-                                color: "white",
-                                lineHeight: 1,
-                                borderRadius: 2.5,
-                                overflow: "hidden",
-                                display: "flex",
-                                justifyContent: "center",
-                                "&:before": {
-                                  content: "''",
-                                  height: 0,
-                                  width: "10rem",
-                                  position: "absolute",
-                                  top: "50%",
-                                  left: "50%",
-                                  zIndex: "0",
-                                  bgcolor: "white",
-                                  transform:
-                                    "rotate(-45deg) translate(-50%, -50%)",
-                                  transformOrigin: "0% 0%",
-                                  transition: "all 0.4s ease-in-out",
-                                },
-                                "&:hover": {
-                                  color: "primary.main",
-                                  bgcolor: "primary.main",
-                                  "&:before": { height: "10rem" },
-                                },
-                              }}
-                            >
-                              <span style={{ position: "relative" }}>
-                                Add Client
-                              </span>
-                            </Button>
-                          </Box>
-                        </MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
                 <Box
                   sx={{
-                    display: "flex",
-                    "&:hover fieldset": {
-                      borderColor: "text.primary",
+                    pt: 0.75,
+                    flexGrow: { md: 0 },
+                    overflowY: { md: "auto" },
+                    "& fieldset": {
+                      borderRadius: 1.5,
                     },
+                    display: "grid",
+                    gridTemplateColumns: {
+                      xs: "repeat(1, 1fr)",
+                      sm: "repeat(2, 1fr)",
+                    },
+                    gap: 2.5,
                   }}
                 >
-                  {/* <FormControl
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="name"
+                    label="Project Name"
+                    autoComplete="off"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                    }}
+                    defaultValue={projectData?.name}
+                    onChange={formik.handleChange}
+                    value={formik.values.name}
+                  />
+                  <FormControl
+                    fullWidth
+                    size="small"
+                    sx={{
+                      "&>label": { fontSize: "14px" },
+                    }}
+                  >
+                    <InputLabel
+                      sx={{ textTransform: "capitalize" }}
+                      id="demo-simple-select-label"
+                    >
+                      Client
+                    </InputLabel>
+                    <Field
+                      name="file"
+                      render={({ field, form }) => (
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="clientId"
+                          label="Client"
+                          sx={{ fontSize: "14px" }}
+                          {...field}
+                          defaultValue={projectData.clientId}
+                          onChange={(event) => {
+                            form.setFieldValue("clientId", event.target.value);
+                          }}
+                        >
+                          {clientList.map((item) => (
+                            <MenuItem
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: "14px",
+                              }}
+                              value={item._id}
+                            >
+                              {item.name}
+                            </MenuItem>
+                          ))}
+                          <MenuItem>
+                            <Box sx={{ display: "flex" }}>
+                              <Button
+                                disableRipple
+                                onClick={handleOpen}
+                                sx={{
+                                  maxHeight: "36px",
+                                  position: "relative",
+                                  px: 2.5,
+                                  py: 1,
+                                  bgcolor: "primary.main",
+                                  border: "1px solid",
+                                  borderColor: "primary.main",
+                                  color: "white",
+                                  lineHeight: 1,
+                                  borderRadius: 2.5,
+                                  overflow: "hidden",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  "&:before": {
+                                    content: "''",
+                                    height: 0,
+                                    width: "10rem",
+                                    position: "absolute",
+                                    top: "50%",
+                                    left: "50%",
+                                    zIndex: "0",
+                                    bgcolor: "white",
+                                    transform:
+                                      "rotate(-45deg) translate(-50%, -50%)",
+                                    transformOrigin: "0% 0%",
+                                    transition: "all 0.4s ease-in-out",
+                                  },
+                                  "&:hover": {
+                                    color: "primary.main",
+                                    bgcolor: "primary.main",
+                                    "&:before": { height: "10rem" },
+                                  },
+                                }}
+                              >
+                                <span style={{ position: "relative" }}>
+                                  Add Client
+                                </span>
+                              </Button>
+                            </Box>
+                          </MenuItem>
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      "&:hover fieldset": {
+                        borderColor: "text.primary",
+                      },
+                    }}
+                  >
+                    {/* <FormControl
                     size="small"
                     sx={{
                       minWidth: "85px",
@@ -394,322 +395,360 @@ export default function AddProject() {
                       </MenuItem>
                     </Select>
                   </FormControl> */}
-                  <Autocomplete
+                    <Autocomplete
+                      size="small"
+                      id="country-select-demo"
+                      sx={{
+                        flexShrink: 0,
+                        width: "85px",
+                        "& input": { fontSize: "14px" },
+                        "& button[title='Clear']": { display: "none" },
+                        "& fieldset": {
+                          borderRadius: "6px 0 0 6px !important",
+                          borderRight: 0,
+                        },
+                        "&>div>div": {
+                          pr: "24px!important",
+                          bgcolor: "#f4f4f4",
+                        },
+                        "& input+div": {
+                          right: "0!important",
+                        },
+                      }}
+                      options={currencylist}
+                      autoHighlight
+                      getOptionLabel={(option) => option.symbol}
+                      renderOption={(props, option) => (
+                        <Box
+                          component="li"
+                          sx={{
+                            "& > img": { mr: 0.75, flexShrink: 0 },
+                            fontSize: { xs: "12px", sm: "14px" },
+                          }}
+                          {...props}
+                        >
+                          ({option.symbol}) {option.code}
+                        </Box>
+                      )}
+                      defaultValue={
+                        currencylist[
+                          currencylist.findIndex(
+                            (currency) =>
+                              currency.symbol === projectData.currency
+                          )
+                        ]
+                      }
+                      value={formik.values.currency}
+                      onChange={(event, newValue) => {
+                        formik.setFieldValue("currency", newValue.symbol); // Update Formik field value
+                      }}
+                      renderInput={(params) => (
+                        <TextField name="currency" {...params} />
+                      )}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="perHourCharge"
+                      type="tel"
+                      autoComplete="off"
+                      placeholder="Per Hours Charge"
+                      sx={{
+                        "& input,&>div": { fontSize: "14px" },
+                        "& fieldset": {
+                          borderRadius: "0 6px 6px 0 !important",
+                          borderLeft: 0,
+                        },
+                      }}
+                      defaultValue={projectData.perHourCharge}
+                      onChange={formik.handleChange}
+                      value={formik.values.perHourCharge}
+                    />
+                  </Box>
+                  <FormControl
+                    fullWidth
                     size="small"
-                    id="country-select-demo"
                     sx={{
-                      flexShrink: 0,
-                      width: "85px",
-                      "& input": { fontSize: "14px" },
-                      "& button[title='Clear']": { display: "none" },
-                      "& fieldset": {
-                        borderRadius: "6px 0 0 6px !important",
-                        borderRight: 0,
-                      },
-                      "&>div>div": {
-                        pr: "24px!important",
-                        bgcolor: "#f4f4f4",
-                      },
-                      "& input+div": {
-                        right: "0!important",
-                      },
+                      "&>label": { fontSize: "14px" },
                     }}
-                    options={currencylist}
-                    autoHighlight
-                    getOptionLabel={(option) => option.code}
-                    renderOption={(props, option) => (
-                      <Box
-                        component="li"
-                        id="currency"
-                        sx={{
-                          "& > img": { mr: 0.75, flexShrink: 0 },
-                          fontSize: { xs: "12px", sm: "14px" },
-                        }}
-                        // onChange={(event) => {
-                        //   option.setFieldValue("currency", event.target.value);
-                        // }}
-                        {...props}
-                      >
-                        ({option.symbol}) {option.code}
-                      </Box>
-                    )}
-                    renderInput={(params) => (
-                      <TextField name="currency" {...params} />
-                    )}
-                    value={currencyValue}
-                    onChange={handleValueChange}
+                  >
+                    <InputLabel
+                      sx={{ textTransform: "capitalize" }}
+                      id="demo-simple-select-label"
+                    >
+                      Pay Period
+                    </InputLabel>
+                    <Field
+                      name="file"
+                      render={({ field, form }) => (
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="payPeriod"
+                          label="Pay Period"
+                          sx={{ fontSize: "14px" }}
+                          {...field}
+                          defaultValue={projectData.payPeriod}
+                          onChange={(event) => {
+                            form.setFieldValue("payPeriod", event.target.value);
+                          }}
+                        >
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"weekly"}
+                          >
+                            Weekly
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"fortnightly"}
+                          >
+                            fortnightly
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"monthly"}
+                          >
+                            Monthly
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"yearly"}
+                          >
+                            Yearly
+                          </MenuItem>
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="startDate"
+                    label="Project Start"
+                    autoComplete="off"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="mm/dd/yyyy"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                    }}
+                    defaultValue={projectData?.startDate}
+                    onChange={formik.handleChange}
+                    value={formik.values.startDate}
                   />
                   <TextField
                     fullWidth
                     size="small"
-                    id="perHourCharge"
-                    type="tel"
+                    id="endDate"
+                    label="Project End"
                     autoComplete="off"
-                    placeholder="Per Hours Charge"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="mm/dd/yyyy"
                     sx={{
-                      "& input,&>div": { fontSize: "14px" },
-                      "& fieldset": {
-                        borderRadius: "0 6px 6px 0 !important",
-                        borderLeft: 0,
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                    }}
+                    defaultValue={projectData?.endDate}
+                    onChange={formik.handleChange}
+                    value={formik.values.endDate}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="prefix"
+                    label="Prefix"
+                    autoComplete="off"
+                    inputProps={{ maxLength: 3 }}
+                    sx={{
+                      "&>label,& input,&>div": {
+                        fontSize: "14px",
+                      },
+                      "& input": {
+                        textTransform: "uppercase",
                       },
                     }}
+                    defaultValue={projectData?.prefix}
                     onChange={formik.handleChange}
-                    value={formik.values.perHourCharge}
+                    value={formik.values.prefix}
+                  />
+                  <FormControl
+                    fullWidth
+                    size="small"
+                    sx={{
+                      "&>label": { fontSize: "14px" },
+                    }}
+                  >
+                    <InputLabel
+                      sx={{ textTransform: "capitalize" }}
+                      id="demo-simple-select-label"
+                    >
+                      Status
+                    </InputLabel>
+                    <Field
+                      name="file"
+                      render={({ field, form }) => (
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="status"
+                          label="Status"
+                          sx={{ fontSize: "14px" }}
+                          {...field}
+                          defaultValue={projectData.status}
+                          onChange={(event) => {
+                            form.setFieldValue("status", event.target.value);
+                          }}
+                        >
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"toDo"}
+                          >
+                            To do
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"inProgress"}
+                          >
+                            In Progress
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"inReview"}
+                          >
+                            In Review
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"completed"}
+                          >
+                            Completed
+                          </MenuItem>
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="description"
+                    label="Description"
+                    autoComplete="off"
+                    multiline
+                    rows={4}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      gridColumn: { sm: "span 2" },
+                    }}
+                    defaultValue={projectData?.description}
+                    onChange={formik.handleChange}
+                    value={formik.values.description}
                   />
                 </Box>
-                <FormControl
-                  fullWidth
-                  size="small"
-                  sx={{
-                    "&>label": { fontSize: "14px" },
-                  }}
-                >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
-                  >
-                    Pay Period
-                  </InputLabel>
-                  <Field
-                    name="file"
-                    render={({ field, form }) => (
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="payPeriod"
-                        label="Pay Period"
-                        sx={{ fontSize: "14px" }}
-                        {...field}
-                        onChange={(event) => {
-                          form.setFieldValue("payPeriod", event.target.value);
-                        }}
-                      >
-                        <MenuItem
-                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                          value={"weekly"}
-                        >
-                          Weekly
-                        </MenuItem>
-                        <MenuItem
-                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                          value={"fortnightly"}
-                        >
-                          fortnightly
-                        </MenuItem>
-                        <MenuItem
-                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                          value={"monthly"}
-                        >
-                          Monthly
-                        </MenuItem>
-                        <MenuItem
-                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                          value={"yearly"}
-                        >
-                          Yearly
-                        </MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="startDate"
-                  label="Project Start"
-                  autoComplete="off"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  placeholder="mm/dd/yyyy"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                  }}
-                  onChange={formik.handleChange}
-                  value={formik.values.startDate}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="endDate"
-                  label="Project End"
-                  autoComplete="off"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  placeholder="mm/dd/yyyy"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                  }}
-                  onChange={formik.handleChange}
-                  value={formik.values.endDate}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="prefix"
-                  label="Prefix"
-                  autoComplete="off"
-                  inputProps={{ maxLength: 3 }}
-                  sx={{
-                    "&>label,& input,&>div": {
-                      fontSize: "14px",
-                    },
-                    "& input": {
-                      textTransform: "uppercase",
-                    },
-                  }}
-                  onChange={formik.handleChange}
-                  value={formik.values.prefix}
-                />
-                <FormControl
-                  fullWidth
-                  size="small"
-                  sx={{
-                    "&>label": { fontSize: "14px" },
-                  }}
-                >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
-                  >
-                    Status
-                  </InputLabel>
-                  <Field
-                    name="file"
-                    render={({ field, form }) => (
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="status"
-                        label="Status"
-                        sx={{ fontSize: "14px" }}
-                        {...field}
-                        onChange={(event) => {
-                          form.setFieldValue("status", event.target.value);
-                        }}
-                      >
-                        <MenuItem
-                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                          value={"toDo"}
-                        >
-                          To do
-                        </MenuItem>
-                        <MenuItem
-                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                          value={"inProgress"}
-                        >
-                          In Progress
-                        </MenuItem>
-                        <MenuItem
-                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                          value={"inReview"}
-                        >
-                          In Review
-                        </MenuItem>
-                        <MenuItem
-                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                          value={"completed"}
-                        >
-                          Completed
-                        </MenuItem>
-                      </Select>
-                    )}
-                  />
-                </FormControl>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="description"
-                  label="Description"
-                  autoComplete="off"
-                  multiline
-                  rows={4}
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                    gridColumn: { sm: "span 2" },
-                  }}
-                  onChange={formik.handleChange}
-                  value={formik.values.description}
-                />
-              </Box>
-              <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-                <Button
-                  disableRipple
-                  type="submit"
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    bgcolor: "success.main",
-                    border: "1px solid",
-                    borderColor: "success.main",
-                    color: "white",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      color: "success.main",
+                <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                  <Button
+                    disableRipple
+                    type="submit"
+                    sx={{
+                      maxHeight: "42px",
+                      position: "relative",
+                      px: 2.5,
+                      py: 1.5,
                       bgcolor: "success.main",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                >
-                  <span style={{ position: "relative" }}>Submit</span>
-                </Button>
-                <Button
-                  disableRipple
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    color: "text.primary",
-                    bgcolor: "#e4e4e4",
-                    border: "1px solid",
-                    borderColor: "#e4e4e4",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
+                      border: "1px solid",
+                      borderColor: "success.main",
+                      color: "white",
+                      lineHeight: 1,
+                      borderRadius: 2.5,
+                      overflow: "hidden",
+                      "&:before": {
+                        content: "''",
+                        height: 0,
+                        width: "10rem",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        zIndex: "0",
+                        bgcolor: "white",
+                        transform: "rotate(-45deg) translate(-50%, -50%)",
+                        transformOrigin: "0% 0%",
+                        transition: "all 0.4s ease-in-out",
+                      },
+                      "&:hover": {
+                        color: "success.main",
+                        bgcolor: "success.main",
+                        "&:before": { height: "10rem" },
+                      },
+                    }}
+                  >
+                    <span style={{ position: "relative" }}>Submit</span>
+                  </Button>
+                  <Button
+                    disableRipple
+                    sx={{
+                      maxHeight: "42px",
+                      position: "relative",
+                      px: 2.5,
+                      py: 1.5,
+                      color: "text.primary",
                       bgcolor: "#e4e4e4",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                  onClick={() => navigate("/projects")}
-                >
-                  <span style={{ position: "relative" }}>discard</span>
-                </Button>
+                      border: "1px solid",
+                      borderColor: "#e4e4e4",
+                      lineHeight: 1,
+                      borderRadius: 2.5,
+                      overflow: "hidden",
+                      "&:before": {
+                        content: "''",
+                        height: 0,
+                        width: "10rem",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        zIndex: "0",
+                        bgcolor: "white",
+                        transform: "rotate(-45deg) translate(-50%, -50%)",
+                        transformOrigin: "0% 0%",
+                        transition: "all 0.4s ease-in-out",
+                      },
+                      "&:hover": {
+                        bgcolor: "#e4e4e4",
+                        "&:before": { height: "10rem" },
+                      },
+                    }}
+                    onClick={() => navigate("/projects")}
+                  >
+                    <span style={{ position: "relative" }}>discard</span>
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-          </FormikProvider>
+            </FormikProvider>
+          )}
           <AddClientsModal open={open} setOpen={setOpen} />
         </Box>
       </Box>
