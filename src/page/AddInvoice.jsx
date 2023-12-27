@@ -179,6 +179,7 @@ export default function Invoices() {
       return client._id === id;
     });
     setSelectedClient(clientAddress);
+    console.log(clientAddress, "-------------------------182");
     await fetchProject(id);
   };
 
@@ -612,12 +613,17 @@ export default function Invoices() {
                           ))}
                         </Select>
                       </FormControl>
-                      <CustomFormikField
+                      <Typography>{selectedClient?.address}</Typography>
+                      <Typography>
+                        <Link href="#">Edit Client</Link>
+                      </Typography>
+
+                      {/* <CustomFormikField
                         name={"clientAddress"}
                         label="Address"
                         multiline
                         rows={3}
-                      />
+                      /> */}
                     </Box>
                     <Box
                       sx={{
