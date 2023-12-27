@@ -114,14 +114,15 @@ export default function Invoices() {
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%,-50%) rotate(-45deg)",
-                height: "130px",
+                width: "700px",
                 opacity: 0.06,
                 zIndex: 1,
+                display: "inline-flex",
               }}
             >
               <img
                 src="/images/logo.svg"
-                style={{ height: "100%", width: "auto" }}
+                style={{ height: "auto", width: "100%", flexShrink: 0 }}
               />
             </Box>
             <Box
