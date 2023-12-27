@@ -81,13 +81,8 @@ export default function SignIn() {
       component="main"
       sx={{
         height: "100%",
-        backgroundImage:
-          "url('./images/blue-abstract-gradient-wave-wallpaper.png')",
-        // backgroundImage:
-        //   "url('https://images.wallpapersden.com/image/download/line-light-background_aGVsZpSZmpqtpaSklGdqa2WtZmtlZQ.jpg')",
+        backgroundImage: "url('./images/signin-bg-img.png')",
         backgroundRepeat: "no-repeat",
-        // height: { xs: "100%", sm: "80%", xxl: "100vh" },
-        // backgroundPosition: "initial",
         backgroundSize: "cover",
       }}
     >
@@ -121,10 +116,8 @@ export default function SignIn() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            // minHeight: { xs: "500px", md: "600px" },
             minHeight: "400px",
             width: "100%",
-            // mx: 1.5,
           }}
         >
           <Box
