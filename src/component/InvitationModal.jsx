@@ -233,6 +233,7 @@ export default function AddClientsModal({ open, setOpen }) {
                 </Button>
                 <Button
                   disableRipple
+                  onClick={() => setOpen(false)}
                   sx={{
                     maxHeight: "42px",
                     position: "relative",

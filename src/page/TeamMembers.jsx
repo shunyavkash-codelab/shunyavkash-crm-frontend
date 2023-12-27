@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -8,11 +8,8 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField,
   Typography,
   Button,
-  Autocomplete,
-  InputAdornment,
   TableContainer,
   Paper,
   Table,
@@ -27,11 +24,13 @@ import { useAuth } from "../hooks/store/useAuth";
 import PlusIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/CheckOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import InvitationModal from "../component/InvitationModal";
 
 export default function TeamMembers() {
   const { accessToken } = useAuth();
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [modalOpen, setOpen] = useState(false);
 
   return (
     <>
@@ -105,45 +104,44 @@ export default function TeamMembers() {
                 </Typography>
               </Box>
             </Box>
-            <Link to="./add">
-              <Button
-                disableRipple
-                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
+            <Button
+              disableRipple
+              onClick={() => setOpen(true)}
+              startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+              sx={{
+                maxHeight: "42px",
+                position: "relative",
+                px: 2.5,
+                py: 1.5,
+                bgcolor: "primary.main",
+                border: "1px solid",
+                borderColor: "primary.main",
+                color: "white",
+                lineHeight: 1,
+                borderRadius: 2.5,
+                overflow: "hidden",
+                "&:before": {
+                  content: "''",
+                  height: 0,
+                  width: "10rem",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  zIndex: "0",
+                  bgcolor: "white",
+                  transform: "rotate(-45deg) translate(-50%, -50%)",
+                  transformOrigin: "0% 0%",
+                  transition: "all 0.4s ease-in-out",
+                },
+                "&:hover": {
+                  color: "primary.main",
                   bgcolor: "primary.main",
-                  border: "1px solid",
-                  borderColor: "primary.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "primary.main",
-                    bgcolor: "primary.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>New Member</span>
-              </Button>
-            </Link>
+                  "&:before": { height: "10rem" },
+                },
+              }}
+            >
+              <span style={{ position: "relative" }}>New Member</span>
+            </Button>
           </Box>
           <Box component="form">
             <TableContainer
@@ -506,6 +504,7 @@ export default function TeamMembers() {
               </Table>
             </TableContainer>
           </Box>
+          <InvitationModal open={modalOpen} setOpen={setOpen} />
         </Box>
       </Box>
     </>
