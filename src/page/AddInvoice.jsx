@@ -389,14 +389,7 @@ export default function Invoices() {
                     Add Invoice
                   </Typography>
                 </Box>
-                <Form
-                  sx={{
-                    "&:not(:hover) .editIcon": {
-                      opacity: "0",
-                      pointerEvents: "none",
-                    },
-                  }}
-                >
+                <Form>
                   <Box
                     sx={{
                       bgcolor: "white",
@@ -404,6 +397,10 @@ export default function Invoices() {
                       borderRadius: 2.5,
                       maxWidth: "1280px",
                       mx: "auto",
+                      "&:not(:hover) .editIcon": {
+                        opacity: "0",
+                        pointerEvents: "none",
+                      },
                     }}
                   >
                     <Box
@@ -471,7 +468,7 @@ export default function Invoices() {
                               position: "absolute",
                               left: "-30px",
                               bottom: 0,
-                              opacity: 0.2,
+                              opacity: 0.4,
                               "& > *": {
                                 color: "text.primary",
                               },
@@ -600,7 +597,7 @@ export default function Invoices() {
                                 position: "absolute",
                                 left: "-30px",
                                 bottom: 0,
-                                opacity: 0.2,
+                                opacity: 0.4,
                                 "& > *": {
                                   color: "text.primary",
                                 },
@@ -665,9 +662,9 @@ export default function Invoices() {
                               sx={{
                                 fontSize: "16px",
                               }}
+                              name="invoiceNumber"
                             >
-                              99999999999
-                              {/* {invoiceData?.invoiceNumber} */}
+                              {invoiceNumber}
                             </Typography>
                           </Box>
                           <Box>
@@ -688,9 +685,11 @@ export default function Invoices() {
                               sx={{
                                 fontSize: "16px",
                               }}
+                              name="invoiceDate"
                             >
-                              99/99/9999
+                              {/* 8u998090 */}
                               {/* {invoiceData?.invoiceDate} */}
+                              {new Date().toISOString().split("T")[0]}
                             </Typography>
                           </Box>
                           <Box>
@@ -711,8 +710,9 @@ export default function Invoices() {
                               sx={{
                                 fontSize: "16px",
                               }}
+                              name="invoiceDueDate"
                             >
-                              99/99/9999
+                              {fifteenDaysAgo.toISOString().split("T")[0]}
                               {/* {invoiceData?.invoiceDueDate} */}
                             </Typography>
                           </Box>
@@ -724,7 +724,7 @@ export default function Invoices() {
                             position: "absolute",
                             right: "-30px",
                             bottom: 0,
-                            opacity: 0.2,
+                            opacity: 0.4,
                             "& > *": {
                               color: "text.primary",
                             },
@@ -845,7 +845,7 @@ export default function Invoices() {
                                 position: "absolute",
                                 left: "-30px",
                                 bottom: 0,
-                                opacity: 0.2,
+                                opacity: 0.4,
                                 "& > *": {
                                   color: "text.primary",
                                 },
