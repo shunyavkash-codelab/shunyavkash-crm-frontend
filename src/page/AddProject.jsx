@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { styled, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import AddClientsModal from "../component/AddClientsModal";
@@ -15,16 +15,13 @@ import {
   Autocomplete,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import InputAdornment from "@mui/material/InputAdornment";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import { useAuth } from "../hooks/store/useAuth";
-
-import Chip from "@mui/material/Chip";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import { useNavigate } from "react-router-dom";
 import { Field, FormikProvider, useFormik } from "formik";
 import { APIS } from "../api/apiList";
+import moment from "moment";
 
 export default function AddProject() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -35,25 +32,18 @@ export default function AddProject() {
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
   const [currencylist, setCurrencyList] = useState([]);
-  const [currencyValue, setCurrencyValue] = useState(null);
   const [projectData, setProjectData] = useState(null);
   const { id } = useParams();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-
-  const handleValueChange = (event, newValue) => {
-    setCurrencyValue(newValue);
-    // You can perform additional actions here based on the new selected value
-  };
-  console.log(currencyValue);
 
   const formik = useFormik({
     initialValues: {
       name: projectData?.name,
       clientId: projectData?.clientId,
       description: projectData?.description,
-      startDate: projectData?.startDate,
-      endDate: projectData?.endDate,
+      startDate: moment(projectData?.startDate).format("YYYY-MM-DD"),
+      endDate: moment(projectData?.endDate).format("YYYY-MM-DD"),
       perHourCharge: projectData?.perHourCharge,
       currency: projectData?.currency,
       payPeriod: projectData?.payPeriod,
@@ -557,6 +547,7 @@ export default function AddProject() {
                     label="Project End"
                     autoComplete="off"
                     type="date"
+                    value={formik.values.endDate}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -564,9 +555,9 @@ export default function AddProject() {
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
                     }}
-                    defaultValue={projectData?.endDate}
+                    // defaultValue={projectData?.endDate}
                     onChange={formik.handleChange}
-                    value={formik.values.endDate}
+                    // value={formik.values.endDate}
                   />
                   <TextField
                     fullWidth
