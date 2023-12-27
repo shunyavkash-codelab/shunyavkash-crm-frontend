@@ -80,38 +80,35 @@ export default function SignIn() {
     <Box
       component="main"
       sx={{
-        height: {
-          xs: "100%",
-          sm: "100vh",
-        },
-        // backgroundImage: "url('./images/svg-shap.png')",
-        backgroundImage: "url('./images/svg-shap-2.png')",
+        height: "100%",
+        backgroundImage:
+          "url('./images/blue-abstract-gradient-wave-wallpaper.png')",
+        // backgroundImage:
+        //   "url('https://images.wallpapersden.com/image/download/line-light-background_aGVsZpSZmpqtpaSklGdqa2WtZmtlZQ.jpg')",
         backgroundRepeat: "no-repeat",
-        height: "100vh",
-        backgroundPosition: "bottom",
-        backgroundSize: "100%",
-        backgroundColor: "#f8f8f8",
+        // height: { xs: "100%", sm: "80%", xxl: "100vh" },
+        // backgroundPosition: "initial",
+        backgroundSize: "cover",
       }}
     >
       <Box
         sx={{
-          height: "100%",
+          height: "100vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          // maxWidth: { xs: "100%", sm: "400px", xl: "500px", xxl: "600px" },
           maxWidth: "420px",
           margin: "0 auto",
           flexDirection: "column",
         }}
       >
         <Box
-          sx={{ maxHeight: "80px", maxWidth: "200px", flexShrink: 0, mb: 4 }}
+          sx={{ maxWidth: "200px", maxheight: "80px", flexShrink: 0, mb: 4 }}
         >
           <img
             src="./images/logo.svg"
             alt="img"
-            style={{ maxWidth: "200px", maxheight: "80px" }}
+            style={{ maxWidth: "100%", maxheight: "100%" }}
           />
         </Box>
         <Box
@@ -153,7 +150,6 @@ export default function SignIn() {
                   textAlign: "start",
                   fontSize: { xs: "22px", sm: "26px" },
                   textTransform: "capitalize",
-                  // mb: 3.75,
                   mb: 1.2,
                   fontWeight: 700,
                 }}
