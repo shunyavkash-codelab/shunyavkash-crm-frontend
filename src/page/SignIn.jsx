@@ -89,7 +89,7 @@ export default function SignIn() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          maxWidth: { xs: "100%", xl: "800px", sm: "601px" },
+          maxWidth: { xs: "100%", xl: "800px", sm: "700px" },
           margin: "0 auto",
           flexDirection: { xs: "column", sm: "row" },
         }}
@@ -105,6 +105,8 @@ export default function SignIn() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            minHeight: { xs: "500px", md: "600px" },
+            width: "100%",
             // mx: 1.5,
           }}
         >
@@ -114,8 +116,8 @@ export default function SignIn() {
             autoComplete="off"
             onSubmit={formik.handleSubmit}
             sx={{
-              minWidth: "350px",
-              minHeight: { xs: "100%", sm: "553px" },
+              minWidth: { xs: "350px", sm: "100%" },
+              minHeight: { xs: "100%", sm: "100%" },
               height: "100%",
               display: "flex",
               flexDirection: "column",
@@ -321,19 +323,19 @@ export default function SignIn() {
               "linear-gradient(180deg, rgba(255,255,255,1) 15%, rgba(22,119,255,1) 100%)",
             // background:
             //   "linear-gradient(180deg, rgba(255,255,255,1) 15%, rgba(42,64,98,1) 100%)",
-            width: { xs: "50%", sm: "100%" },
-            minHeight: "601px",
+            width: { xs: "100%" },
+            minHeight: { xs: "100%", sm: "500px", md: "600px" },
             // height: "100%",
             display: "flex",
             alignItems: "center",
             p: 3,
-            borderRadius: "0 10px 10px 0",
+            borderRadius: { xs: "0", sm: "0 10px 10px 0" },
           }}
         >
           <Box
             style={{
               maxWidth: "600px",
-              // height: "100%",
+              height: "100%",
               flexGrow: 1,
             }}
           >
