@@ -18,7 +18,6 @@ import { useSnack } from "../hooks/store/useSnack";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/store/useAuth";
 import { useSearchData } from "../hooks/store/useSearchData";
-import PlusIcon from "@mui/icons-material/Close";
 import InvitationModal from "../component/InvitationModal";
 
 const Search = styled("div")();
@@ -157,7 +156,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: 2,
+              gap: 1,
               position: "relative",
             }}
           >
@@ -166,13 +165,14 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                 disableRipple
                 onClick={handleOpen}
                 sx={{
-                  minWidth: "unset",
                   maxHeight: "42px",
                   position: "relative",
-                  p: 1,
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "primary.main",
                   border: "1px solid",
                   borderColor: "primary.main",
-                  color: "primary.main",
+                  color: "white",
                   lineHeight: 1,
                   borderRadius: 2.5,
                   overflow: "hidden",
@@ -184,18 +184,19 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                     top: "50%",
                     left: "50%",
                     zIndex: "0",
-                    bgcolor: "primary.main",
+                    bgcolor: "white",
                     transform: "rotate(-45deg) translate(-50%, -50%)",
                     transformOrigin: "0% 0%",
                     transition: "all 0.4s ease-in-out",
                   },
                   "&:hover": {
-                    color: "white",
+                    color: "primary.main",
+                    bgcolor: "primary.main",
                     "&:before": { height: "10rem" },
                   },
                 }}
               >
-                <PlusIcon sx={{ transform: "rotate(45deg)" }} />
+                <span style={{ position: "relative" }}>invite</span>
               </Button>
             </Box>
             {isLoading ? (

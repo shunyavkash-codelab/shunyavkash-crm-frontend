@@ -12,6 +12,7 @@ import ManagerIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
+import MembersIcon from "@mui/icons-material/BadgeOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -74,6 +75,11 @@ export default function SideBar({
                 icon: <DashboardIcon />,
                 link: "/",
               },
+              {
+                text: "Members",
+                icon: <MembersIcon />,
+                link: "/teamMembers",
+              },
               { text: "Manager", icon: <ManagerIcon />, link: "/managers" },
               { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
               { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
@@ -130,6 +136,55 @@ export default function SideBar({
             ))}
           </List>
         </Box>
+        {/* <List sx={{ px: 2, py: 1.25, bgcolor: "#f1f2f8" }}>
+          <ListItem
+            disablePadding
+            sx={{
+              transition: "all 0.4s ease-in-out",
+              "&:not(:first-child)": { mt: 0.75 },
+              borderRadius: "10px",
+              overflow: "hidden",
+              color: location.pathname == "/teamMembers" && "primary.main",
+              bgcolor: location.pathname == "/teamMembers" && "primary.light",
+              "&:hover": {
+                boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
+                "& svg": {
+                  animation: "swing ease-in-out 0.4s alternate",
+                },
+              },
+            }}
+          >
+            <ListItemButton
+              disableRipple
+              component={Link}
+              to="/teamMembers"
+              sx={{
+                p: 1.5,
+                transition: "all 0.4s ease-in-out",
+                "&:hover": {
+                  color: "primary.main",
+                  bgcolor:
+                    location.pathname == "/teamMembers"
+                      ? "transparent"
+                      : "primary.light",
+                },
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  color: "currentcolor",
+                  minWidth: "40px",
+                }}
+              >
+                <MembersIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ my: 0, "&>span": { fontSize: "14px" } }}
+                primary="Team Members"
+              />
+            </ListItemButton>
+          </ListItem>
+        </List> */}
       </Box>
       <Box
         onClick={() => {
