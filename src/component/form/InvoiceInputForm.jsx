@@ -15,12 +15,23 @@ import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-export default function AddClientsModal({ open, setOpen }) {
+export default function InvoiceInputForm({
+  open,
+  setOpen,
+  fields,
+  label,
+  val,
+}) {
   const handleClose = () => setOpen(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
+  console.log(val, "-------------------------29");
+  val.forEach((obj) => {
+    Object.entries(obj).forEach(([key, value]) => {
+      console.log(`Key: ${key}, Value: ${value}`);
+    });
+  });
   return (
     <>
       <Modal
@@ -61,7 +72,7 @@ export default function AddClientsModal({ open, setOpen }) {
                   fontSize: { xs: "24px", sm: "26px" },
                 }}
               >
-                Invitation Member
+                {label}
               </Typography>
               <Button
                 disableRipple
@@ -99,92 +110,32 @@ export default function AddClientsModal({ open, setOpen }) {
               ></Button>
             </Box>
             <Box component="form" autoComplete="off">
-              <Box sx={{ display: "grid", gap: 2.25, width: "100%" }}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="name"
-                  label="Name"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="email"
-                  label="Email"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                  }}
-                />
-                <Box sx={{ position: "relative" }}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="password"
-                    label="Password"
-                    name="password"
-                    autoComplete="off"
-                    type={showPassword ? "text" : "password"}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "& input": { pr: 5 },
-                    }}
-                  />
+              {val.map((obj, index) =>
+                Object.entries(obj).map(([key, value]) => (
                   <Box
-                    onClick={handleClickShowPassword}
+                    key={index + key} // Make sure to provide a unique key for each iteration
                     sx={{
-                      position: "absolute",
-                      top: "50%",
-                      right: "16px",
-                      opacity: "50%",
-                      cursor: "pointer",
-                      transform: "translateY(-50%)",
-                      display: "inline-flex",
-                      "& svg": { fontSize: "20px" },
+                      display: "grid",
+                      gap: 2.25,
+                      width: "100%",
+                      marginBottom: "10px",
                     }}
                   >
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id={key}
+                      label={key}
+                      autoComplete="off"
+                      defaultValue={value}
+                      sx={{
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                      }}
+                    />
                   </Box>
-                </Box>
-                <FormControl
-                  fullWidth
-                  size="small"
-                  sx={{
-                    "&>label": { fontSize: "14px" },
-                  }}
-                >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
-                  >
-                    Role
-                  </InputLabel>
-                  <Select id="role" label="Role" sx={{ fontSize: "14px" }}>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                      value={"Super Admin"}
-                    >
-                      super admin
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                      value={"Manager"}
-                    >
-                      manager
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                      value={"Member"}
-                    >
-                      member
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
+                ))
+              )}
+
               <Box
                 sx={{
                   display: "flex",
