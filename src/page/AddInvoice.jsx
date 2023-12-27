@@ -17,11 +17,12 @@ import {
   Button,
   Divider,
   Autocomplete,
+  Tooltip,
+  TableBody,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import { useAuth } from "../hooks/store/useAuth";
-
 import { useTheme } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import { FieldArray, Form, Formik } from "formik";
@@ -33,6 +34,7 @@ import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import InvoiceTable from "../component/InvoiceTable";
 import CustomFormikField from "../component/form/CustomFormikField";
 import InvitationModal from "../component/InvitationModal";
+import EditIcon from "@mui/icons-material/CreateOutlined";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -386,13 +388,13 @@ export default function Invoices() {
                   Add Invoice
                 </Typography>
               </Box>
-              <Form
-                // component={"form"}
+              <Box
+                component="form"
                 sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: 2,
-                  mt: 2.5,
+                  "&:not(:hover) .editIcon": {
+                    opacity: "0",
+                    pointerEvents: "none",
+                  },
                 }}
               >
                 <Box
@@ -411,7 +413,7 @@ export default function Invoices() {
                       gap: 2,
                     }}
                   >
-                    <Box sx={{ flexGrow: 1 }}>
+                    <Box sx={{ flexGrow: 1, maxWidth: "390px" }}>
                       <Typography
                         variant="h5"
                         sx={{
@@ -423,139 +425,78 @@ export default function Invoices() {
                       </Typography>
                       <Box
                         sx={{
-                          mt: 1.75,
+                          mt: 1,
+                          position: "relative",
                         }}
                       >
-                        <Typography>{adminList.address}</Typography>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{
+                            lineHeight: 1.5,
+                            display: "block",
+                            fontSize: "16px",
+                          }}
+                        >
+                          {adminList.address}
+                        </Typography>
                         <Box
                           sx={{
-                            mt: 3.25,
-                            maxWidth: "300px",
-                            "& > *:not(:first-child)": {
-                              mt: 1.75,
+                            mt: 2.5,
+                          }}
+                        >
+                          <Typography
+                            variant="subtitle3"
+                            sx={{
+                              display: "block",
+                              fontSize: "16px",
+                            }}
+                          >
+                            {adminList.mobileCode} {adminList.mobileNumber}
+                          </Typography>
+                          <Typography
+                            variant="subtitle3"
+                            sx={{
+                              mt: 0.75,
+                              display: "block",
+                              fontSize: "16px",
+                            }}
+                          >
+                            {adminList.email}
+                          </Typography>
+                        </Box>
+                        <Box
+                          className="editIcon"
+                          sx={{
+                            display: "inline-flex",
+                            position: "absolute",
+                            left: "-30px",
+                            bottom: 0,
+                            opacity: 0.2,
+                            "& > *": {
+                              color: "text.primary",
                             },
                           }}
                         >
-                          <Box
-                            sx={{
-                              display: "flex",
-                              "&:hover fieldset": {
-                                borderColor: "text.primary",
-                              },
-                            }}
-                          >
-                            <img
-                              loading="lazy"
-                              width="20"
-                              height="14"
-                              src={`https://flagcdn.com/w20/in.png`}
-                            />
-                            <Typography>
-                              {adminList.mobileCode} {adminList.mobileNumber}
-                            </Typography>
-
-                            {/* <Autocomplete
-                              size="small"
-                              id="country-select-demo"
-                              name="mobileCode"
-                              sx={{
-                                flexShrink: 0,
-                                width: { xs: "100px", sm: "112px" },
-                                "& input": { fontSize: "12px" },
-                                "& button[title='Clear']": {
-                                  display: "none",
-                                },
-                                "& fieldset": {
-                                  borderRadius: "4px 0 0 4px",
-                                  borderRight: 0,
-                                },
-                                "&>div>div": {
-                                  pr: "24px!important",
-                                  bgcolor: "#f4f4f4",
-                                },
-                                "& input+div": {
-                                  right: "0!important",
-                                },
+                          <Tooltip title="Edit" arrow>
+                            <Link
+                              href="#"
+                              onClick={handleOpen}
+                              style={{
+                                display: "inline-flex",
                               }}
-                              // onChange={(_, newValue) => {
-                              //   formik.setFieldValue("mobileCode", newValue);
-                              // }}
-                              // value={formik.values.mobileCode}
-                              // inputValue={formik.values.mobileCode?.phone}
-                              options={countryList}
-                              autoHighlight
-                              getOptionLabel={(option) => option.phone}
-                              renderOption={(props, option) => {
-                                return (
-                                  <Box
-                                    component="li"
-                                    sx={{
-                                      "& > img": {
-                                        mr: 0.75,
-                                        flexShrink: 0,
-                                      },
-                                      fontSize: "12px",
-                                    }}
-                                    {...props}
-                                  >
-                                    <img
-                                      loading="lazy"
-                                      width="20"
-                                      height="14"
-                                      src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                                    />
-                                    +{option.phone}
-                                  </Box>
-                                );
-                              }}
-                              renderInput={(params) => {
-                                return (
-                                  <CustomFormikField
-                                    name={"mobileCode"}
-                                    {...params}
-                                  />
-                                );
-                              }}
-                            /> */}
-                            {/* <CustomFormikField
-                              name={"mobileNumber"}
-                              sx={{
-                                "&>label,& input,&>div": {
-                                  fontSize: "12px!important",
-                                },
-                                "& input": {
-                                  p: 0,
-                                },
-                                "&>div": {
-                                  py: "8.5px",
-                                  px: 1.75,
-                                },
-                                "& fieldset": {
-                                  borderRadius: "0 4px 4px 0",
-                                  borderLeft: 0,
-                                },
-                              }}
-                            /> */}
-                          </Box>
-                          <Box>
-                            <Typography>Email : {adminList.email}</Typography>
-                          </Box>
-                          <Box>
-                            <Typography>
-                              <Link href="#" onClick={handleOpen}>
-                                Edit Business Information
-                              </Link>
-                            </Typography>
-                          </Box>
+                            >
+                              <EditIcon />
+                            </Link>
+                          </Tooltip>
                         </Box>
                       </Box>
                     </Box>
                     <Box
                       sx={{
-                        flexShrink: 0,
                         maxHeight: "140px",
-                        maxWidth: "200px",
+                        maxWidth: "230px",
                         minWidth: "80px",
+                        flexShrink: 0,
                       }}
                     >
                       <img
@@ -582,13 +523,20 @@ export default function Invoices() {
                       gap: 2,
                     }}
                   >
-                    <Box sx={{ flexGrow: 1, maxWidth: "300px" }}>
+                    <Box
+                      sx={{
+                        flexGrow: 1,
+                        maxWidth: "390px",
+                        position: "relative",
+                      }}
+                    >
                       <Typography
+                        className="bg-style"
                         variant="subtitle3"
                         sx={{
-                          fontWeight: 700,
-                          display: "block",
-                          fontSize: "13px",
+                          fontWeight: 600,
+                          fontSize: "15px",
+                          textTransform: "capitalize",
                         }}
                       >
                         Bill to
@@ -597,9 +545,10 @@ export default function Invoices() {
                         fullWidth
                         size="small"
                         sx={{
+                          maxWidth: "300px",
                           mt: 2,
-                          mb: 1.75,
                           display: "flex",
+                          textTransform: "capitalize",
                           "&>label": { fontSize: "12px" },
                         }}
                       >
@@ -627,23 +576,171 @@ export default function Invoices() {
                           ))}
                         </Select>
                       </FormControl>
-                      <Typography>{selectedClient?.address}</Typography>
                       {selectedClient?.address && (
-                        <Typography>
-                          <Link href="#" onClick={handleOpen}>
-                            Edit Client
-                          </Link>
-                        </Typography>
+                        <>
+                          <Typography
+                            variant="subtitle3"
+                            sx={{
+                              mt: 1.75,
+                              lineHeight: 1.5,
+                              display: "block",
+                              fontSize: "16px",
+                            }}
+                          >
+                            {selectedClient?.address}
+                          </Typography>
+                          <Box
+                            className="editIcon"
+                            sx={{
+                              display: "inline-flex",
+                              position: "absolute",
+                              left: "-30px",
+                              bottom: 0,
+                              opacity: 0.2,
+                              "& > *": {
+                                color: "text.primary",
+                              },
+                            }}
+                          >
+                            <Tooltip title="Edit" arrow>
+                              <Link
+                                href="#"
+                                onClick={handleOpen}
+                                style={{
+                                  display: "inline-flex",
+                                }}
+                              >
+                                <EditIcon />
+                              </Link>
+                            </Tooltip>
+                          </Box>
+                        </>
                       )}
-
-                      {/* <CustomFormikField
-                        name={"clientAddress"}
-                        label="Address"
-                        multiline
-                        rows={3}
-                      /> */}
                     </Box>
+                    {/* invoice number/date/due */}
                     <Box
+                      sx={{
+                        position: "relative",
+                        alignSelf: "start",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          "& > *": {
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: 1.25,
+                            "&>*": {
+                              lineHeight: 1,
+                              display: "block",
+                            },
+                            "& > *:first-child": {
+                              opacity: "0.50",
+                            },
+                          },
+                          "&>*:not(:first-child)": {
+                            mt: 1.5,
+                          },
+                        }}
+                      >
+                        <Box>
+                          <Typography
+                            variant="subtitle3"
+                            sx={{
+                              fontSize: "16px",
+                              display: "flex",
+                              justifyContent: "space-between",
+                              textTransform: "capitalize",
+                              width: "107px",
+                            }}
+                          >
+                            Invoice No <span>:</span>
+                          </Typography>
+                          <Typography
+                            variant="subtitle3"
+                            sx={{
+                              fontSize: "16px",
+                            }}
+                          >
+                            99999999999
+                            {/* {invoiceData?.invoiceNumber} */}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            variant="subtitle3"
+                            sx={{
+                              fontSize: "16px",
+                              display: "flex",
+                              justifyContent: "space-between",
+                              textTransform: "capitalize",
+                              width: "107px",
+                            }}
+                          >
+                            Invoice Date <span>:</span>
+                          </Typography>
+                          <Typography
+                            variant="subtitle3"
+                            sx={{
+                              fontSize: "16px",
+                            }}
+                          >
+                            99/99/9999
+                            {/* {invoiceData?.invoiceDate} */}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            variant="subtitle3"
+                            sx={{
+                              fontSize: "16px",
+                              display: "flex",
+                              justifyContent: "space-between",
+                              textTransform: "capitalize",
+                              width: "107px",
+                            }}
+                          >
+                            Due Date <span>:</span>
+                          </Typography>
+                          <Typography
+                            variant="subtitle3"
+                            sx={{
+                              fontSize: "16px",
+                            }}
+                          >
+                            99/99/9999
+                            {/* {invoiceData?.invoiceDueDate} */}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Box
+                        className="editIcon"
+                        sx={{
+                          display: "inline-flex",
+                          position: "absolute",
+                          right: "-30px",
+                          bottom: 0,
+                          opacity: 0.2,
+                          "& > *": {
+                            color: "text.primary",
+                          },
+                        }}
+                      >
+                        <Tooltip title="Edit" arrow>
+                          <Link
+                            href="#"
+                            onClick={handleOpen}
+                            style={{
+                              display: "inline-flex",
+                            }}
+                          >
+                            <EditIcon />
+                          </Link>
+                        </Tooltip>
+                      </Box>
+                    </Box>
+                    {/* invoice number/date/due dynamic */}
+                    {/* <Box
                       sx={{
                         flexGrow: 1,
                         maxWidth: "300px",
@@ -672,148 +769,100 @@ export default function Invoices() {
                           shrink: true,
                         }}
                       />
-                    </Box>
+                    </Box> */}
                   </Box>
-                  <Box sx={{ width: "300px", mt: 6 }}>
-                    <Typography
-                      variant="subtitle3"
-                      sx={{
-                        fontWeight: 700,
-                        display: "block",
-                        fontSize: "13px",
-                      }}
+                  {selectedClient && (
+                    <Box
+                      sx={{ maxWidth: "750px", mt: 6, position: "relative" }}
                     >
-                      Project
-                    </Typography>
-                    <FormControl
-                      fullWidth
-                      size="small"
-                      sx={{
-                        mt: 2,
-                        mb: 1.75,
-                        display: "flex",
-                        "&>label": { fontSize: "12px" },
-                      }}
-                    >
-                      <InputLabel
-                        sx={{ textTransform: "capitalize" }}
-                        id="demo-simple-select-label"
+                      <Typography
+                        className="bg-style"
+                        variant="subtitle3"
+                        sx={{
+                          fontWeight: 600,
+                          fontSize: "15px",
+                          textTransform: "capitalize",
+                        }}
                       >
-                        Project
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="project"
-                        label="Project"
-                        // onChange={(e) => clientData(e.target.value)}
-                        sx={{ fontSize: "12px" }}
-                        onChange={handleProjectChange}
-                      >
-                        {projectList.map((projectName) => (
-                          <MenuItem
-                            key={projectName.name}
-                            sx={{ textTransform: "capitalize" }}
-                            value={projectName._id}
-                          >
-                            {projectName.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <Typography>{projectDescription?.description}</Typography>
-                    {projectDescription?.description && (
-                      <Typography>
-                        <Link href="#" onClick={handleOpen}>
-                          Edit Project
-                        </Link>
+                        project
                       </Typography>
-                    )}
-                    {/* <CustomFormikField
-                      name={"projectDescription"}
-                      label="Description"
-                      multiline
-                      rows={3}
-                    /> */}
-                  </Box>
-                  {/* <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                mt: 6,
-                gap: 2,
-              }}
-            >
-              <Box sx={{ width: "300px" }}>
-                <Typography
-                  variant="subtitle3"
-                  sx={{ fontWeight: 700, display: "block", fontSize: "13px" }}
-                >
-                  project
-                </Typography>
-                <FormControl
-                  fullWidth
-                  size="small"
-                  sx={{
-                    mt: 2,
-                    // width: "300px",
-                    display: "flex",
-                    "&>label": { fontSize: "12px" },
-                  }}
-                >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
-                  >
-                    Select Project
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="select_project"
-                    label="Select Project"
-                    // onChange={(e) => clientData(e.target.value)}
-                    sx={{ fontSize: "12px" }}
-                    onChange={(event) => {
-                      let project = projectList.find(
-                        (project) => project._id === event.target.value
-                      );
-                      formik.setFieldValue(
-                        "projectDescription",
-                        project.description
-                      );
-                      setSelectedProject(project);
-                    }}
-                  >
-                    {projectList.map((projectName) => (
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={projectName._id}
+                      <FormControl
+                        fullWidth
+                        size="small"
+                        sx={{
+                          maxWidth: "300px",
+                          mt: 2,
+                          display: "flex",
+                          "&>label": { fontSize: "12px" },
+                        }}
                       >
-                        {projectName.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="projectDescription"
-                  label="Description"
-                  autoComplete="off"
-                  multiline
-                  rows={4}
-                  sx={{
-                    mt: 1.75,
-                    // width: "300px",
-                    "&>label,& input,&>div": { fontSize: "12px" },
-                  }}
-                  value={formik.values.projectDescription}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={formik.handleChange}
-                />
-              </Box>
-            </Box> */}
+                        <InputLabel
+                          sx={{ textTransform: "capitalize" }}
+                          id="demo-simple-select-label"
+                        >
+                          Project
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="project"
+                          label="Project"
+                          // onChange={(e) => clientData(e.target.value)}
+                          sx={{ fontSize: "12px" }}
+                          onChange={handleProjectChange}
+                        >
+                          {projectList.map((projectName) => (
+                            <MenuItem
+                              key={projectName.name}
+                              sx={{ textTransform: "capitalize" }}
+                              value={projectName._id}
+                            >
+                              {projectName.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      {projectDescription?.description && (
+                        <>
+                          <Typography
+                            variant="subtitle3"
+                            sx={{
+                              mt: 1.75,
+                              lineHeight: 1.5,
+                              display: "block",
+                              fontSize: "16px",
+                            }}
+                          >
+                            {projectDescription?.description}
+                          </Typography>
+                          <Box
+                            className="editIcon"
+                            sx={{
+                              display: "inline-flex",
+                              position: "absolute",
+                              left: "-30px",
+                              bottom: 0,
+                              opacity: 0.2,
+                              "& > *": {
+                                color: "text.primary",
+                              },
+                            }}
+                          >
+                            <Tooltip title="Edit" arrow>
+                              <Link
+                                href="#"
+                                onClick={handleOpen}
+                                style={{
+                                  display: "inline-flex",
+                                }}
+                              >
+                                <EditIcon />
+                              </Link>
+                            </Tooltip>
+                          </Box>
+                        </>
+                      )}
+                    </Box>
+                  )}
                   <Box sx={{ my: 7 }}>
                     <FormControl
                       fullWidth
@@ -943,19 +992,21 @@ export default function Invoices() {
                         <FieldArray name="task">
                           {({ insert, remove, push }) => (
                             <>
-                              {values.task.map((taskDetail, i) => (
-                                <InvoiceTable
-                                  values={values.task[i]}
-                                  name={`task.${i}`}
-                                  key={i}
-                                  taskDetail={taskDetail}
-                                />
-                              ))}
+                              <TableBody>
+                                {values.task.map((taskDetail, i) => (
+                                  <InvoiceTable
+                                    values={values.task[i]}
+                                    name={`task.${i}`}
+                                    key={i}
+                                    taskDetail={taskDetail}
+                                  />
+                                ))}
+                              </TableBody>
                               <Button
                                 disableRipple
                                 sx={{
                                   ml: 1.5,
-                                  mb: 1.5,
+                                  my: 1.5,
                                   maxHeight: "36px",
                                   position: "relative",
                                   px: 2.5,
@@ -1413,7 +1464,7 @@ export default function Invoices() {
                     </Button>
                   </Link>
                 </Box>
-              </Form>
+              </Box>
             </Box>
           );
         }}

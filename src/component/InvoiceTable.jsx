@@ -8,37 +8,32 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
   const location = useLocation();
 
   return (
-    <>
-      <TableBody>
-        <TableRow
-          sx={{
-            "&:last-child td, &:last-child th": { border: 0 },
-            "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-            "&>*": {
-              p: 1.5,
-              "&:first-child": { fontWeight: "600" },
-            },
-          }}
-        >
-          <TableCell
-            sx={{
-              "& > *": {
-                maxWidth: "unset",
-                ml: -1,
-              },
-              "& fieldset": {
-                borderColor: "transparent",
-              },
-              "& input": {
-                px: 1,
-              },
-            }}
-          >
-            <CustomFormikField
-              name={name + ".name"}
-              placeholder="Enter an items"
-            />
-            {/* <TextField
+    <TableRow
+      sx={{
+        "&:last-child td, &:last-child th": { border: 0 },
+        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+        "&>*": {
+          p: 1.5,
+          "&:first-child": { fontWeight: "600" },
+        },
+      }}
+    >
+      <TableCell
+        sx={{
+          "& > *": {
+            maxWidth: "unset",
+            ml: -1,
+          },
+          "& fieldset": {
+            borderColor: "transparent",
+          },
+          "& input": {
+            px: 1,
+          },
+        }}
+      >
+        <CustomFormikField name={name + ".name"} placeholder="Enter an items" />
+        {/* <TextField
               component={Field}
               fullWidth
               size="small"
@@ -66,27 +61,27 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
                 }
               }
             /> */}
-          </TableCell>
-          <TableCell
-            sx={{
-              "& > *": {
-                ml: -1,
-              },
-              "& fieldset": {
-                borderColor: "transparent",
-              },
-              "& input": {
-                px: 1,
-              },
-            }}
-          >
-            <CustomFormikField
-              name={name + ".pricePerHours"}
-              placeholder="00.00"
-              inputProps={{ min: 1 }}
-              type="number"
-            />
-            {/* <TextField
+      </TableCell>
+      <TableCell
+        sx={{
+          "& > *": {
+            ml: -1,
+          },
+          "& fieldset": {
+            borderColor: "transparent",
+          },
+          "& input": {
+            px: 1,
+          },
+        }}
+      >
+        <CustomFormikField
+          name={name + ".pricePerHours"}
+          placeholder="00.00"
+          inputProps={{ min: 1 }}
+          type="number"
+        />
+        {/* <TextField
               component={Field}
               fullWidth
               size="small"
@@ -114,27 +109,27 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
               }}
               onChange={handleAmountChange}
             /> */}
-          </TableCell>
-          <TableCell
-            sx={{
-              "& > *": {
-                ml: -1,
-              },
-              "& fieldset": {
-                borderColor: "transparent",
-              },
-              "& input": {
-                px: 1,
-              },
-            }}
-          >
-            <CustomFormikField
-              name={name + ".number"}
-              placeholder="00"
-              inputProps={{ min: 1 }}
-              type="number"
-            />
-            {/* <TextField
+      </TableCell>
+      <TableCell
+        sx={{
+          "& > *": {
+            ml: -1,
+          },
+          "& fieldset": {
+            borderColor: "transparent",
+          },
+          "& input": {
+            px: 1,
+          },
+        }}
+      >
+        <CustomFormikField
+          name={name + ".number"}
+          placeholder="00"
+          inputProps={{ min: 1 }}
+          type="number"
+        />
+        {/* <TextField
               component={Field}
               fullWidth
               size="small"
@@ -161,10 +156,8 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
               }
               onChange={handleAmountChange}
             /> */}
-          </TableCell>
-          <TableCell>${values.number * values.pricePerHours || 0}</TableCell>
-        </TableRow>
-      </TableBody>
-    </>
+      </TableCell>
+      <TableCell>${values.number * values.pricePerHours || 0}</TableCell>
+    </TableRow>
   );
 }

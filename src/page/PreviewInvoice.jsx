@@ -108,6 +108,7 @@ export default function Invoices() {
               />
             </Box> */}
             <Box
+              className="watermark"
               sx={{
                 position: "absolute",
                 top: "50%",
@@ -132,7 +133,7 @@ export default function Invoices() {
                 // bgcolor: "rgba(74, 210, 146, 10%)",
               }}
             >
-              <Box>
+              <Box sx={{ flexGrow: 1, maxWidth: "390px" }}>
                 <Typography
                   variant="h5"
                   sx={{
@@ -219,23 +220,30 @@ export default function Invoices() {
                   gap: 2,
                 }}
               >
-                <Box>
+                <Box sx={{ maxWidth: "390px" }}>
                   <Typography
                     className="bg-style"
                     variant="subtitle3"
-                    sx={{ fontWeight: 600, fontSize: "15px" }}
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: "15px",
+                      textTransform: "capitalize",
+                    }}
                   >
                     Bill to
                   </Typography>
-                  <Typography variant="h6" sx={{ mt: 1.25 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ mt: 1.25, textTransform: "capitalize" }}
+                  >
                     {invoiceData?.to?.name}
                   </Typography>
                   <Typography
                     variant="subtitle3"
                     sx={{
-                      mt: 1,
+                      mt: 1.75,
+                      lineHeight: 1.5,
                       display: "block",
-                      lineHeight: "1.5",
                       fontSize: "16px",
                     }}
                   >
@@ -249,7 +257,7 @@ export default function Invoices() {
                     "& > *": {
                       display: "flex",
                       justifyContent: "space-between",
-                      gap: 3.75,
+                      gap: 1.25,
                       "&>*": {
                         lineHeight: 1,
                         display: "block",
@@ -268,9 +276,13 @@ export default function Invoices() {
                       variant="subtitle3"
                       sx={{
                         fontSize: "16px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        textTransform: "capitalize",
+                        width: "107px",
                       }}
                     >
-                      Invoice No:
+                      Invoice No <span>:</span>
                     </Typography>
                     <Typography
                       variant="subtitle3"
@@ -286,9 +298,13 @@ export default function Invoices() {
                       variant="subtitle3"
                       sx={{
                         fontSize: "16px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        textTransform: "capitalize",
+                        width: "107px",
                       }}
                     >
-                      Invoice Date:
+                      Invoice Date <span>:</span>
                     </Typography>
                     <Typography
                       variant="subtitle3"
@@ -304,9 +320,13 @@ export default function Invoices() {
                       variant="subtitle3"
                       sx={{
                         fontSize: "16px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        textTransform: "capitalize",
+                        width: "107px",
                       }}
                     >
-                      invoice Due:
+                      Due Date <span>:</span>
                     </Typography>
                     <Typography
                       variant="subtitle3"
@@ -320,23 +340,26 @@ export default function Invoices() {
                 </Box>
               </Box>
               {/* <Box
-              sx={{
-                mt: 6,
-              }}
-            >
-              <Typography
-                variant="subtitle3"
-                sx={{ fontWeight: 700, display: "block" }}
+                sx={{
+                  mt: 6,
+                }}
               >
-                Project
-              </Typography>
-              <Typography variant="h6" sx={{ mt: 1.25 }}>
-                Shunyavkash CRM
-              </Typography>
-              <Typography variant="subtitle3" sx={{ mt: 1, display: "block",line-height:1.5 }}>
-                In this project we have created design & dynamic.
-              </Typography>
-            </Box> */}
+                <Typography
+                  variant="subtitle3"
+                  sx={{ fontWeight: 700, display: "block",textTransform: "capitalize" }}
+                >
+                  Project
+                </Typography>
+                <Typography variant="h6" sx={{ mt: 1.25 }}>
+                  Shunyavkash CRM
+                </Typography>
+                <Typography
+                  variant="subtitle3"
+                  sx={{ mt: 1, display: "block", lineHeight: 1.5 }}
+                >
+                  In this project we have created design & dynamic.
+                </Typography>
+              </Box> */}
               <TableContainer
                 component={Paper}
                 sx={{
