@@ -1,19 +1,12 @@
 import React, { useState } from "react";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
+import { Box, TextField, Button, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useFormik } from "formik";
+import { APIS } from "../../api/apiList.js";
+import { useSnack } from "../../hooks/store/useSnack.js";
+import useApi from "../../hooks/useApi";
 
 export default function InvoiceInputForm({
   open,
@@ -23,14 +16,46 @@ export default function InvoiceInputForm({
   val,
 }) {
   const handleClose = () => setOpen(false);
+  const { apiCall, isLoading } = useApi();
+  const { setSnack } = useSnack();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  console.log(val, "-------------------------29");
-  val.forEach((obj) => {
-    Object.entries(obj).forEach(([key, value]) => {
-      console.log(`Key: ${key}, Value: ${value}`);
-    });
+  const formik = useFormik({
+    initialValues: {
+      address: "",
+      address2: "",
+      landmark: "",
+      pincode: "",
+      email: "",
+      mobileNumber: "",
+      mobileCode: "",
+    },
+    onSubmit: async (values) => {
+      const nonBlankValues = Object.entries(values).reduce(
+        (acc, [key, value]) => {
+          // Check if the value is not blank (empty or undefined)
+          if (value !== "" && value !== undefined) {
+            acc[key] = value;
+          }
+          return acc;
+        },
+        {}
+      );
+      try {
+        const res = await apiCall({
+          url: APIS.ADMIN.EDIT,
+          method: "patch",
+          data: JSON.stringify(nonBlankValues, null, 2),
+        });
+        if (res.data.success === true) {
+          setSnack(res.data.message);
+          console.log(res.data.data);
+          setOpen(false);
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
   });
   return (
     <>
@@ -109,7 +134,11 @@ export default function InvoiceInputForm({
                 }
               ></Button>
             </Box>
-            <Box component="form" autoComplete="off">
+            <Box
+              component="form"
+              autoComplete="off"
+              onSubmit={formik.handleSubmit}
+            >
               {val.map((obj, index) =>
                 Object.entries(obj).map(([key, value]) => (
                   <Box
@@ -131,6 +160,8 @@ export default function InvoiceInputForm({
                       sx={{
                         "&>label,& input,&>div": { fontSize: "14px" },
                       }}
+                      onChange={formik.handleChange}
+                      value={formik.values.key}
                     />
                   </Box>
                 ))

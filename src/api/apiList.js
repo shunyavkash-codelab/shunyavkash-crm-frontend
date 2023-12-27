@@ -44,6 +44,7 @@ export const APIS = {
   },
   ADMIN: {
     GET: "admin/getAdmin",
+    EDIT: "/admin/edit",
   },
   TASK: {
     GET: (projectId) => `task/tasks/${projectId}`,
