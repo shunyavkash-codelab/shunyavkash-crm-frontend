@@ -10,10 +10,8 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
   return (
     <TableRow
       sx={{
-        "&:last-child td, &:last-child th": { border: 0 },
-        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
         "&>*": {
-          p: 1.5,
+          py: 1,
           "&:first-child": { fontWeight: "600" },
         },
       }}
@@ -32,7 +30,11 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
           },
         }}
       >
-        <CustomFormikField name={name + ".name"} placeholder="Enter an items" />
+        <CustomFormikField
+          name={name + ".name"}
+          multiline
+          placeholder="Enter an items"
+        />
         {/* <TextField
               component={Field}
               fullWidth

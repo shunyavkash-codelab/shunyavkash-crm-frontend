@@ -261,7 +261,6 @@ export default function Invoices() {
                       gap: 1.25,
                       "&>*": {
                         lineHeight: 1,
-                        display: "block",
                       },
                       "& > *:first-child": {
                         opacity: "0.50",
@@ -365,10 +364,7 @@ export default function Invoices() {
                 component={Paper}
                 sx={{
                   my: 7,
-                  // borderRadius: 2.5,
-                  border: "2px solid rgba(128, 128, 128, 0.11)",
                   boxShadow: "none",
-                  // bgcolor: "rgba(74, 210, 146, 10%)",
                 }}
               >
                 <Table
@@ -406,15 +402,14 @@ export default function Invoices() {
                   </TableHead>
                   <TableBody
                     sx={{
-                      "&>*:nth-child(odd)": {
-                        borderBottom: "2px solid rgba(128, 128, 128, 0.11)",
+                      "&>*:not(:first-child)": {
+                        borderTop: "2px solid rgba(128, 128, 128, 0.11)",
                       },
                     }}
                   >
                     {invoiceData?.tasks.map((task) => (
                       <TableRow
                         sx={{
-                          "&:last-child td, &:last-child th": { border: 1 },
                           "&>*": {
                             py: 1.5,
                             "&:first-child": { fontWeight: "600" },
@@ -612,7 +607,7 @@ export default function Invoices() {
                   gap: 2,
                 }}
               >
-                <Box>
+                <Box sx={{ maxWidth: "450px" }}>
                   <Box sx={{ maxWidth: "fit-content" }}>
                     <Typography variant="h6" className="bg-style">
                       Bank Details
@@ -672,7 +667,7 @@ export default function Invoices() {
                       </Box>
                     </Box>
                   </Box>
-                  {/* <Box sx={{ maxWidth: "500px", mt: 6 }}>
+                  {/* <Box sx={{ mt: 6 }}>
                   <Typography variant="h6">Notes</Typography>
                   <Box
                     sx={{

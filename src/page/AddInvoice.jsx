@@ -278,6 +278,9 @@ export default function Invoices() {
         initialValues={{
           email: adminList.email,
           address: adminList.address,
+          address2: adminList.address2,
+          landmark: adminList.landmark,
+          pincode: adminList.pincode,
           mobileCode: adminList.mobileCode,
           mobileNumber: adminList.mobileNumber,
           invoiceNumber: invoiceNumber,
@@ -318,6 +321,9 @@ export default function Invoices() {
             let obj = {
               from: {
                 address: values.address,
+                address2: values.address2,
+                landmark: values.landmark,
+                pincode: values.pincode,
                 email: values.email,
                 mobileCode: values.mobileCode,
                 mobileNumber: values.mobileNumber,
@@ -434,7 +440,8 @@ export default function Invoices() {
                               fontSize: "16px",
                             }}
                           >
-                            {adminList.address}
+                            {adminList.address} {adminList.address2}
+                            {adminList.landmark} {adminList.pincode}
                           </Typography>
                           <Box
                             sx={{
@@ -948,7 +955,7 @@ export default function Invoices() {
                         component={Paper}
                         sx={{
                           mt: 2,
-                          borderRadius: 2.5,
+                          boxShadow: "none",
                         }}
                       >
                         <Table
@@ -959,28 +966,28 @@ export default function Invoices() {
                             textWrap: "nowrap",
                             "& th,& td": {
                               borderBottom: 0,
-                            },
-                            "& tbody tr > *,& tfoot tr > *": {
-                              py: 1.5,
-                            },
-                            "& tbody tr,& tfoot tr": {
-                              borderTop: "1px solid rgba(224, 224, 224, 1)",
+                              fontSize: "16px",
                             },
                             "& tbody tr td:first-child": {
                               maxWidth: "400px",
                               textWrap: "wrap",
                             },
+                            // "& tbody tr > *,& tfoot tr > *": {
+                            //   py: 1.5,
+                            // },
+                            // "& tbody tr,& tfoot tr": {
+                            //   borderTop: "1px solid rgba(224, 224, 224, 1)",
+                            // },
                           }}
-                          aria-label="simple table"
                         >
                           <TableHead>
                             <TableRow
                               sx={{
+                                bgcolor: "text.primary",
                                 "& th": {
                                   lineHeight: 1,
                                   fontWeight: 600,
-                                  bgcolor: "rgb(22 119 255/ 6%)",
-                                  color: "black",
+                                  color: "white",
                                 },
                               }}
                             >
@@ -1002,7 +1009,14 @@ export default function Invoices() {
                           <FieldArray name="task">
                             {({ insert, remove, push }) => (
                               <>
-                                <TableBody>
+                                <TableBody
+                                  sx={{
+                                    "&>*": {
+                                      borderBottom:
+                                        "2px solid rgba(128, 128, 128, 0.11)",
+                                    },
+                                  }}
+                                >
                                   {values.task.map((taskDetail, i) => (
                                     <InvoiceTable
                                       values={values.task[i]}
@@ -1021,9 +1035,9 @@ export default function Invoices() {
                                     position: "relative",
                                     px: 2.5,
                                     py: 1.5,
-                                    bgcolor: "primary.main",
+                                    bgcolor: "text.primary",
                                     border: "1px solid",
-                                    borderColor: "primary.main",
+                                    borderColor: "text.primary",
                                     color: "white",
                                     lineHeight: 1,
                                     borderRadius: 2.5,
@@ -1043,8 +1057,8 @@ export default function Invoices() {
                                       transition: "all 0.4s ease-in-out",
                                     },
                                     "&:hover": {
-                                      color: "primary.main",
-                                      bgcolor: "primary.main",
+                                      color: "text.primary",
+                                      bgcolor: "text.primary",
                                       "&:before": { height: "10rem" },
                                     },
                                   }}
@@ -1187,7 +1201,7 @@ export default function Invoices() {
                             gap: 1,
                           }}
                         >
-                          Discount:
+                          Discount (%):
                           <Box
                             sx={{
                               alignItems: "center",
@@ -1286,57 +1300,137 @@ export default function Invoices() {
                         gap: 2,
                       }}
                     >
-                      <Box>
-                        <Box
-                          sx={{
-                            maxWidth: "300px",
-                            "&>*:not(:first-child)": {
-                              mt: 1.75,
-                            },
-                          }}
-                        >
-                          <Typography variant="h6">Bank Details</Typography>
-                          <FormControl
-                            fullWidth
-                            size="small"
+                      <Box sx={{ minWidth: "300px", maxWidth: "450px" }}>
+                        <Box>
+                          <Typography
+                            variant="h6"
+                            className="bg-style"
+                            sx={{ mb: 2 }}
+                          >
+                            Bank Details
+                          </Typography>
+                          <Box
                             sx={{
-                              display: "flex",
-                              "&>label": { fontSize: "12px" },
-                              "&>div": { textAlign: "left" },
+                              "&>*:not(:first-child)": {
+                                mt: 1.75,
+                              },
                             }}
                           >
-                            <InputLabel
-                              sx={{ textTransform: "capitalize" }}
-                              id="demo-simple-select-label"
+                            <FormControl
+                              fullWidth
+                              size="small"
+                              sx={{
+                                display: "flex",
+                                "&>label": { fontSize: "12px" },
+                                "&>div": { textAlign: "left" },
+                              }}
                             >
-                              Select Bank
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="select_Bank"
-                              label="Select Bank"
-                              sx={{ fontSize: "13px" }}
-                              onChange={handleBankChange}
-                            >
-                              {adminList.bank &&
-                                adminList.bank.map((bank) => (
-                                  <MenuItem
-                                    sx={{ textTransform: "capitalize" }}
-                                    value={bank._id}
-                                  >
-                                    {bank.bankName}
-                                  </MenuItem>
-                                ))}
-
-                              <MenuItem
+                              <InputLabel
                                 sx={{ textTransform: "capitalize" }}
-                                value={"Custom Add"}
+                                id="demo-simple-select-label"
                               >
-                                Custom Add
-                              </MenuItem>
-                            </Select>
-                          </FormControl>
-                          {!bankDetails && (
+                                Select Bank
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="select_Bank"
+                                label="Select Bank"
+                                sx={{ fontSize: "13px" }}
+                                onChange={handleBankChange}
+                              >
+                                {adminList.bank &&
+                                  adminList.bank.map((bank) => (
+                                    <MenuItem
+                                      sx={{ textTransform: "capitalize" }}
+                                      value={bank._id}
+                                    >
+                                      {bank.bankName}
+                                    </MenuItem>
+                                  ))}
+
+                                <MenuItem
+                                  sx={{ textTransform: "capitalize" }}
+                                  value={"Custom Add"}
+                                >
+                                  <Link
+                                    href="#"
+                                    onClick={handleOpen}
+                                    style={{
+                                      display: "inline-flex",
+                                      textDecoration: "none",
+                                      color: "#2A4062",
+                                      width: "100%",
+                                    }}
+                                  >
+                                    Custom Add
+                                  </Link>
+                                </MenuItem>
+                              </Select>
+                            </FormControl>
+                            {!bankDetails && (
+                              <>
+                                <Box
+                                  sx={{
+                                    mt: 2.25,
+                                    "&>*": {
+                                      display: "flex",
+                                      gap: 1.25,
+                                      "&:not(:first-child)": { mt: 1.75 },
+                                      "&>*": {
+                                        lineHeight: "1!important",
+                                        textTransform: "capitalize",
+                                        fontSize: "16px!important",
+                                        "&:first-child": {
+                                          opacity: 0.5,
+                                          width: "145px",
+                                          display: "flex",
+                                          justifyContent: "space-between",
+                                        },
+                                      },
+                                    },
+                                  }}
+                                >
+                                  <Box>
+                                    <Typography variant="subtitle2">
+                                      Bank Name<span>:</span>
+                                    </Typography>
+                                    <Typography variant="subtitle2">
+                                      kotak
+                                      {/* {invoiceData.bank.bankName} */}
+                                    </Typography>
+                                  </Box>
+                                  <Box>
+                                    <Typography variant="subtitle2">
+                                      IFSC Code<span>:</span>
+                                    </Typography>
+                                    <Typography variant="subtitle2">
+                                      vdfvdfv455151
+                                      {/* {invoiceData.bank.IFSC} */}
+                                    </Typography>
+                                  </Box>
+                                  <Box>
+                                    <Typography variant="subtitle2">
+                                      A/c Holder Name<span>:</span>
+                                    </Typography>
+                                    <Typography variant="subtitle2">
+                                      ravi
+                                      {/* {invoiceData.bank.holderName} */}
+                                    </Typography>
+                                  </Box>
+                                  <Box>
+                                    <Typography variant="subtitle2">
+                                      A/c No.<span>:</span>
+                                    </Typography>
+                                    <Typography variant="subtitle2">
+                                      2564364345364
+                                      {/* {invoiceData.bank.accountNumber} */}
+                                    </Typography>
+                                  </Box>
+                                </Box>
+                              </>
+                            )}
+                          </Box>
+                          {/* {!bankDetails && (
                             <>
                               <CustomFormikField
                                 name="customBankName"
@@ -1379,10 +1473,10 @@ export default function Invoices() {
                                 value={bankDetails.label}
                               />
                             </>
-                          )}
+                          )} */}
                         </Box>
-                        <Box sx={{ maxWidth: "500px", mt: 6 }}>
-                          <Typography variant="h6" sx={{ mb: 1.75 }}>
+                        <Box sx={{ mt: 6 }}>
+                          <Typography variant="h6" sx={{ mb: 2 }}>
                             Notes
                           </Typography>
                           <CustomFormikField
@@ -1507,6 +1601,9 @@ export default function Invoices() {
                 val={[
                   {
                     address: values.address,
+                    address2: values.address2,
+                    landmark: values.landmark,
+                    pincode: values.pincode,
                     mobileNumber: values.mobileNumber,
                     email: values.email,
                   },
