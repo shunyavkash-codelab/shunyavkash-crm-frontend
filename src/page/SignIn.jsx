@@ -80,7 +80,17 @@ export default function SignIn() {
     <Box
       component="main"
       sx={{
-        height: { xs: "100%", sm: "100vh" },
+        height: {
+          xs: "100%",
+          sm: "100vh",
+        },
+        // backgroundImage: "url('./images/svg-shap.png')",
+        backgroundImage: "url('./images/svg-shap-2.png')",
+        backgroundRepeat: "no-repeat",
+        height: "100vh",
+        backgroundPosition: "bottom",
+        backgroundSize: "100%",
+        backgroundColor: "#f8f8f8",
       }}
     >
       <Box
@@ -89,23 +99,33 @@ export default function SignIn() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          maxWidth: { xs: "100%", xl: "800px", sm: "700px" },
+          // maxWidth: { xs: "100%", sm: "400px", xl: "500px", xxl: "600px" },
+          maxWidth: "420px",
           margin: "0 auto",
-          flexDirection: { xs: "column", sm: "row" },
+          flexDirection: "column",
         }}
       >
         <Box
+          sx={{ maxHeight: "80px", maxWidth: "200px", flexShrink: 0, mb: 4 }}
+        >
+          <img
+            src="./images/logo.svg"
+            alt="img"
+            style={{ maxWidth: "200px", maxheight: "80px" }}
+          />
+        </Box>
+        <Box
           sx={{
             padding: { xs: 2, sm: 3 },
-            flexGrow: 1,
-            maxWidth: "1000px",
             margin: "0 auto",
-            borderRadius: "10px 0 0 10px",
+            borderRadius: "10px",
             bgcolor: "white",
+            boxShadow: "0 0 20px rgba(0,0,0,0.1)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            minHeight: { xs: "500px", md: "600px" },
+            // minHeight: { xs: "500px", md: "600px" },
+            minHeight: "400px",
             width: "100%",
             // mx: 1.5,
           }}
@@ -116,7 +136,7 @@ export default function SignIn() {
             autoComplete="off"
             onSubmit={formik.handleSubmit}
             sx={{
-              minWidth: { xs: "350px", sm: "100%" },
+              minWidth: { xs: "100%", sm: "260px", xl: "300px", xxl: "350px" },
               minHeight: { xs: "100%", sm: "100%" },
               height: "100%",
               display: "flex",
@@ -220,11 +240,9 @@ export default function SignIn() {
                 sx={{
                   p: 1.75,
                   bgcolor: "success.main",
-                  // bgcolor: "text.primary",
                   color: "white",
                   lineHeight: 1,
                   borderRadius: 2.5,
-                  // textTransform: "uppercase",
                   "&:hover": {
                     // bgcolor: "primary.main",
                     bgcolor: "rgb(74, 210, 146, 80%)",
@@ -317,7 +335,7 @@ export default function SignIn() {
             </Typography> */}
           </Box>
         </Box>
-        <Box
+        {/* <Box
           sx={{
             background:
               "linear-gradient(180deg, rgba(255,255,255,1) 15%, rgba(22,119,255,1) 100%)",
@@ -328,7 +346,7 @@ export default function SignIn() {
             // height: "100%",
             display: "flex",
             alignItems: "center",
-            p: 3,
+            p: { xs: "3", sm: "2" },
             borderRadius: { xs: "0", sm: "0 10px 10px 0" },
           }}
         >
@@ -345,7 +363,7 @@ export default function SignIn() {
               alt="signin"
             />
           </Box>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
