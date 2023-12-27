@@ -15,6 +15,7 @@ import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
 import MembersIcon from "@mui/icons-material/BadgeOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useAuth } from "../hooks/store/useAuth";
 
 export default function SideBar({
   sideBarWidth,
@@ -30,6 +31,7 @@ export default function SideBar({
       navigate("/signin");
     }
   }, []);
+  const { user } = useAuth();
   return (
     <>
       <Box
@@ -79,7 +81,7 @@ export default function SideBar({
               { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
               { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
               { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
-              {
+              user.role == 0 && {
                 text: "Members",
                 icon: <MembersIcon />,
                 link: "/teamMembers",
