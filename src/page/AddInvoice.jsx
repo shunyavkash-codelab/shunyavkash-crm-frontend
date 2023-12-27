@@ -32,6 +32,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import InvoiceTable from "../component/InvoiceTable";
 import CustomFormikField from "../component/form/CustomFormikField";
+import InvitationModal from "../component/InvitationModal";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -73,6 +74,10 @@ export default function Invoices() {
   const [bankDetails, setBankDetails] = useState(false);
   const [discountPer, setDiscountPer] = useState(0);
   const [discountRS, setDiscountRS] = useState(0);
+
+  // model open
+  const [modalOpen, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
 
   const handleChange = (event) => {
     const {
@@ -445,7 +450,9 @@ export default function Invoices() {
                               height="14"
                               src={`https://flagcdn.com/w20/in.png`}
                             />
-                            <Typography>{adminList.mobileNumber}</Typography>
+                            <Typography>
+                              {adminList.mobileCode} {adminList.mobileNumber}
+                            </Typography>
 
                             {/* <Autocomplete
                               size="small"
@@ -533,6 +540,13 @@ export default function Invoices() {
                           <Box>
                             <Typography>Email : {adminList.email}</Typography>
                           </Box>
+                          <Box>
+                            <Typography>
+                              <Link href="#" onClick={handleOpen}>
+                                Edit Business Information
+                              </Link>
+                            </Typography>
+                          </Box>
                         </Box>
                       </Box>
                     </Box>
@@ -614,9 +628,13 @@ export default function Invoices() {
                         </Select>
                       </FormControl>
                       <Typography>{selectedClient?.address}</Typography>
-                      <Typography>
-                        <Link href="#">Edit Client</Link>
-                      </Typography>
+                      {selectedClient?.address && (
+                        <Typography>
+                          <Link href="#" onClick={handleOpen}>
+                            Edit Client
+                          </Link>
+                        </Typography>
+                      )}
 
                       {/* <CustomFormikField
                         name={"clientAddress"}
@@ -702,12 +720,20 @@ export default function Invoices() {
                         ))}
                       </Select>
                     </FormControl>
-                    <CustomFormikField
+                    <Typography>{projectDescription?.description}</Typography>
+                    {projectDescription?.description && (
+                      <Typography>
+                        <Link href="#" onClick={handleOpen}>
+                          Edit Project
+                        </Link>
+                      </Typography>
+                    )}
+                    {/* <CustomFormikField
                       name={"projectDescription"}
                       label="Description"
                       multiline
                       rows={3}
-                    />
+                    /> */}
                   </Box>
                   {/* <Box
               sx={{
@@ -1392,6 +1418,7 @@ export default function Invoices() {
           );
         }}
       </Box>
+      <InvitationModal open={modalOpen} setOpen={setOpen}></InvitationModal>
     </>
   );
 }
