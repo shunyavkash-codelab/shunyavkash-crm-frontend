@@ -47,7 +47,7 @@ export default function AddClientsModal({ open, setOpen }) {
         });
         if (res.data.success === true) {
           setSnack(res.data.message);
-          navigate("/teamMembers");
+          navigate("/employees");
         }
       } catch (error) {
         let errorMessage = error.response.data.message;

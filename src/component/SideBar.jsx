@@ -84,7 +84,7 @@ export default function SideBar({
               user.role == 0 && {
                 text: "Members",
                 icon: <MembersIcon />,
-                link: "/teamMembers",
+                link: "/employees",
               },
             ].map((item, index) => (
               <ListItem
@@ -146,8 +146,8 @@ export default function SideBar({
               "&:not(:first-child)": { mt: 0.75 },
               borderRadius: "10px",
               overflow: "hidden",
-              color: location.pathname == "/teamMembers" && "primary.main",
-              bgcolor: location.pathname == "/teamMembers" && "primary.light",
+              color: location.pathname == "/employees" && "primary.main",
+              bgcolor: location.pathname == "/employees" && "primary.light",
               "&:hover": {
                 boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
                 "& svg": {
@@ -159,14 +159,14 @@ export default function SideBar({
             <ListItemButton
               disableRipple
               component={Link}
-              to="/teamMembers"
+              to="/employees"
               sx={{
                 p: 1.5,
                 transition: "all 0.4s ease-in-out",
                 "&:hover": {
                   color: "primary.main",
                   bgcolor:
-                    location.pathname == "/teamMembers"
+                    location.pathname == "/employees"
                       ? "transparent"
                       : "primary.light",
                 },

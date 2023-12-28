@@ -15,6 +15,7 @@ export const APIS = {
   },
   EMPLOYEE: {
     ADD: "/manager/add",
+    ALLLIST: "/manager/get-all-employees",
   },
   CLIENT: {
     ADD: "/client/add",

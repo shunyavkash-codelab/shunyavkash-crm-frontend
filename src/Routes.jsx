@@ -20,7 +20,7 @@ import AddInvoice from "./page/AddInvoice";
 import PreviewInvoice from "./page/PreviewInvoice";
 import Profile from "./page/Profile";
 import ViewProject from "./page/ViewProject";
-import TeamMembers from "./page/TeamMembers";
+import Employees from "./page/Employees";
 
 const routes = createBrowserRouter([
   { path: "/signup", Component: SignUp },
@@ -42,7 +42,7 @@ const routes = createBrowserRouter([
   { path: "/invoices", Component: Invoices },
   { path: "/invoices/add/:invoiceNumber", Component: AddInvoice },
   { path: "/invoices/add/:invoiceNumber/preview", Component: PreviewInvoice },
-  { path: "/teamMembers", Component: TeamMembers },
+  { path: "/employees", Component: Employees },
   { path: "/profile", Component: Profile },
 ]);
 export default function Routes() {
