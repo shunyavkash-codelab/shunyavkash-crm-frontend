@@ -551,6 +551,7 @@ export default function Invoices() {
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
+                        alignItems: "start",
                         mt: 6,
                         gap: 2,
                       }}

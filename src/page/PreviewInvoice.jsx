@@ -76,37 +76,6 @@ export default function Invoices() {
             }}
             ref={targetRef}
           >
-            {/* <Box
-              className="water-mark"
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%,-50%) rotate(-45deg)",
-                fontSize: "120px",
-                fontWeight: 700,
-                opacity: 0.04,
-                zIndex: 1,
-              }}
-            >
-              shunyavkash
-            </Box> */}
-            {/* <Box
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%,-50%)",
-                height: "550px",
-                opacity: 0.04,
-                zIndex: 1,
-              }}
-            >
-              <img
-                src="/images/logo-2.svg"
-                style={{ height: "100%", width: "auto" }}
-              />
-            </Box> */}
             <Box
               className="watermark"
               sx={{
@@ -130,15 +99,12 @@ export default function Invoices() {
                 display: "flex",
                 justifyContent: "space-between",
                 gap: 2,
-                // p: 6.75,
-                // bgcolor: "rgba(74, 210, 146, 10%)",
               }}
             >
               <Box sx={{ flexGrow: 1, maxWidth: "390px" }}>
                 <Typography
-                  variant="h5"
+                  variant="h4"
                   sx={{
-                    fontSize: "24px",
                     textTransform: "capitalize",
                   }}
                 >
@@ -152,7 +118,7 @@ export default function Invoices() {
                   <Typography
                     variant="subtitle3"
                     sx={{
-                      lineHeight: 1.5,
+                      lineHeight: 1.6,
                       display: "block",
                       fontSize: "16px",
                     }}
@@ -161,7 +127,7 @@ export default function Invoices() {
                   </Typography>
                   <Box
                     sx={{
-                      mt: 2.5,
+                      mt: 3.5,
                     }}
                   >
                     <Typography
@@ -191,7 +157,7 @@ export default function Invoices() {
               <Box
                 sx={{
                   maxHeight: "140px",
-                  maxWidth: "230px",
+                  maxWidth: "300px",
                   minWidth: "80px",
                   flexShrink: 0,
                 }}
@@ -206,50 +172,75 @@ export default function Invoices() {
                 />
               </Box>
             </Box>
-            <Divider
-              sx={{ borderWidth: "2px", borderColor: "#ededed", my: 3.5 }}
-            />
-            <Box>
-              <Typography variant="h4" sx={{ textAlign: "right" }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, my: 6 }}>
+              <Divider
+                sx={{
+                  border: "1px solid rgba(0,0,0,0.1)",
+                  flexGrow: 1,
+                }}
+              />
+              <Typography
+                variant="h3"
+                sx={{
+                  flexShrink: 0,
+                  letterSpacing: "4px",
+                  textTransform: "uppercase",
+                }}
+              >
                 Invoice
               </Typography>
+              <Divider
+                sx={{
+                  border: "1px solid rgba(0,0,0,0.1)",
+                  flexGrow: 1,
+                }}
+              />
+            </Box>
+            <Box>
+              {/* <Typography variant="h4" sx={{ textAlign: "right" }}>
+                Invoice
+              </Typography> */}
               <Box
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  mt: 6,
+                  mt: 3.5,
                   gap: 2,
                 }}
               >
-                <Box sx={{ maxWidth: "390px" }}>
+                <Box sx={{ display: "flex", gap: 5 }}>
                   <Typography
                     className="bg-style"
                     variant="subtitle3"
                     sx={{
+                      flexShrink: 0,
                       fontWeight: 600,
-                      fontSize: "15px",
+                      fontSize: "16px",
                       textTransform: "capitalize",
                     }}
                   >
                     Bill to
                   </Typography>
-                  <Typography
-                    variant="h6"
-                    sx={{ mt: 1.25, textTransform: "capitalize" }}
-                  >
-                    {invoiceData?.to?.name}
-                  </Typography>
-                  <Typography
-                    variant="subtitle3"
-                    sx={{
-                      mt: 1.75,
-                      lineHeight: 1.5,
-                      display: "block",
-                      fontSize: "16px",
-                    }}
-                  >
-                    {invoiceData?.to?.address}
-                  </Typography>
+                  <Box sx={{ mt: -0.5 }}>
+                    <Typography
+                      variant="h6"
+                      sx={{ textTransform: "capitalize", fontSize: "22px" }}
+                    >
+                      {invoiceData?.to?.name}
+                    </Typography>
+                    <Typography
+                      variant="subtitle3"
+                      sx={{
+                        maxWidth: "390px",
+                        mt: 1.75,
+                        lineHeight: 1.6,
+                        display: "block",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {invoiceData?.to?.address}
+                    </Typography>
+                  </Box>
                 </Box>
                 <Box
                   sx={{
@@ -257,13 +248,20 @@ export default function Invoices() {
                     alignSelf: "start",
                     "& > *": {
                       display: "flex",
-                      justifyContent: "space-between",
                       gap: 1.25,
                       "&>*": {
                         lineHeight: 1,
                       },
-                      "& > *:first-child": {
-                        opacity: "0.50",
+                      "&>*:first-child": {
+                        fontSize: "16px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        textTransform: "capitalize",
+                        width: "118px",
+                        fontWeight: 600,
+                      },
+                      "&>*:last-child": {
+                        fontSize: "16px",
                       },
                     },
                     "&>*:not(:first-child)": {
@@ -272,68 +270,26 @@ export default function Invoices() {
                   }}
                 >
                   <Box>
-                    <Typography
-                      variant="subtitle3"
-                      sx={{
-                        fontSize: "16px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        textTransform: "capitalize",
-                        width: "107px",
-                      }}
-                    >
-                      Invoice No <span>:</span>
+                    <Typography variant="subtitle3">
+                      Invoice No. <span>:</span>
                     </Typography>
-                    <Typography
-                      variant="subtitle3"
-                      sx={{
-                        fontSize: "16px",
-                      }}
-                    >
+                    <Typography variant="subtitle3">
                       {invoiceData?.invoiceNumber}
                     </Typography>
                   </Box>
                   <Box>
-                    <Typography
-                      variant="subtitle3"
-                      sx={{
-                        fontSize: "16px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        textTransform: "capitalize",
-                        width: "107px",
-                      }}
-                    >
+                    <Typography variant="subtitle3">
                       Invoice Date <span>:</span>
                     </Typography>
-                    <Typography
-                      variant="subtitle3"
-                      sx={{
-                        fontSize: "16px",
-                      }}
-                    >
+                    <Typography variant="subtitle3">
                       {invoiceData?.invoiceDate}
                     </Typography>
                   </Box>
                   <Box>
-                    <Typography
-                      variant="subtitle3"
-                      sx={{
-                        fontSize: "16px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        textTransform: "capitalize",
-                        width: "107px",
-                      }}
-                    >
+                    <Typography variant="subtitle3">
                       Due Date <span>:</span>
                     </Typography>
-                    <Typography
-                      variant="subtitle3"
-                      sx={{
-                        fontSize: "16px",
-                      }}
-                    >
+                    <Typography variant="subtitle3">
                       {invoiceData?.invoiceDueDate}
                     </Typography>
                   </Box>
@@ -341,29 +297,49 @@ export default function Invoices() {
               </Box>
               {/* <Box
                 sx={{
-                  mt: 6,
+                  mt: 8.25,
+                  display: "flex",
+                  gap: 5,
                 }}
               >
                 <Typography
+                  className="bg-style"
                   variant="subtitle3"
-                  sx={{ fontWeight: 700, display: "block",textTransform: "capitalize" }}
+                  sx={{
+                    flexShrink: 0,
+                    fontWeight: 600,
+                    fontSize: "16px",
+                    textTransform: "capitalize",
+                  }}
                 >
                   Project
                 </Typography>
-                <Typography variant="h6" sx={{ mt: 1.25 }}>
-                  Shunyavkash CRM
-                </Typography>
-                <Typography
-                  variant="subtitle3"
-                  sx={{ mt: 1, display: "block", lineHeight: 1.5 }}
-                >
-                  In this project we have created design & dynamic.
-                </Typography>
+                <Box sx={{ mt: -0.5 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ textTransform: "capitalize", fontSize: "22px" }}
+                  >
+                    Shunyavkash CRM
+                  </Typography>
+                  <Typography
+                    variant="subtitle3"
+                    sx={{
+                      maxWidth: "390px",
+                      mt: 1.75,
+                      lineHeight: 1.6,
+                      display: "block",
+                      fontSize: "16px",
+                    }}
+                  >
+                    In this project we have created design & dynamic.
+                  </Typography>
+                </Box>
               </Box> */}
               <TableContainer
                 component={Paper}
                 sx={{
-                  my: 7,
+                  mt: 7,
+                  mb: 3.5,
                   boxShadow: "none",
                 }}
               >
@@ -374,40 +350,68 @@ export default function Invoices() {
                     textTransform: "capitalize",
                     textWrap: "nowrap",
                     "& th,& td": {
-                      borderBottom: 0,
                       fontSize: "16px",
-                    },
-                    "& tbody tr td:first-child": {
-                      maxWidth: "400px",
-                      textWrap: "wrap",
+                      border: 0,
                     },
                   }}
                 >
                   <TableHead>
                     <TableRow
                       sx={{
-                        bgcolor: "text.primary",
                         "& th": {
                           lineHeight: 1,
                           fontWeight: 600,
-                          color: "white",
+                          p: 0,
+                          "& span": {
+                            bgcolor: "text.primary",
+                            fontWeight: "700",
+                            display: "block",
+                            color: "white",
+                            p: 2,
+                          },
+                          "&:first-child span": {
+                            borderRadius: "10px 0 0 10px",
+                          },
+                          "&:last-child span": {
+                            borderRadius: "0 10px 10px 0",
+                          },
                         },
                       }}
                     >
-                      <TableCell>description</TableCell>
-                      <TableCell sx={{ width: "130px" }}>price/hours</TableCell>
-                      <TableCell sx={{ width: "90px" }}>hours</TableCell>
-                      <TableCell sx={{ width: "108px" }}>Amount</TableCell>
+                      <TableCell>
+                        <span>description</span>
+                      </TableCell>
+                      <TableCell sx={{ width: "130px" }}>
+                        <span>price/hours</span>
+                      </TableCell>
+                      <TableCell sx={{ width: "90px" }}>
+                        <span>hours</span>
+                      </TableCell>
+                      <TableCell
+                        sx={{ width: "108px", borderRadius: "0 10px 10px 0" }}
+                      >
+                        <span>Amount</span>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody
                     sx={{
-                      "&>*:not(:first-child)": {
-                        borderTop: "2px solid rgba(128, 128, 128, 0.11)",
+                      "&>*": {
+                        "&:nth-child(even) span": {
+                          bgcolor: "#f3f3f3",
+                        },
+                        "&>*": {
+                          "&:first-child span": {
+                            borderRadius: "10px 0 0 10px",
+                          },
+                          "&:last-child span": {
+                            borderRadius: "0 10px 10px 0",
+                          },
+                        },
                       },
                     }}
                   >
-                    {invoiceData?.tasks.map((task) => (
+                    {/* {invoiceData?.tasks.map((task) => (
                       <TableRow
                         sx={{
                           "&>*": {
@@ -421,47 +425,134 @@ export default function Invoices() {
                         <TableCell>{task.hours}</TableCell>
                         <TableCell>${task.amount}</TableCell>
                       </TableRow>
-                    ))}
-
-                    {/* <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>*": {
-                          py: 1.5,
-                          "&:first-child": { fontWeight: "600" },
-                        },
-                        borderBottom: "2px solid rgba(128, 128, 128, 0.11)",
-                      }}
-                    >
-                      <TableCell>Recurring Bill (Domain)</TableCell>
-                      <TableCell>$239.00</TableCell>
-                      <TableCell>3</TableCell>
-                      <TableCell>$717.00</TableCell>
-                    </TableRow> */}
-                    {/* <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>*": {
-                          py: 1.5,
-                          "&:first-child": { fontWeight: "600" },
-                        },
-                      }}
-                    >
-                      <TableCell>Web design</TableCell>
-                      <TableCell>$958.00</TableCell>
-                      <TableCell>1</TableCell>
-                      <TableCell>$958.00</TableCell>
-                    </TableRow> */}
-                  </TableBody>
-                  <TableFooter>
+                    ))} */}
                     <TableRow
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
                         "&>*": {
-                          py: 1.5,
-                          "&:first-child": { fontWeight: "600" },
+                          p: "0!important",
+                          fontWeight: "500",
+                          "&:first-child": {
+                            maxWidth: "400px",
+                            textWrap: "wrap",
+                          },
+                          "&>span": {
+                            display: "block",
+                            px: "16px",
+                            py: "14px",
+                          },
                         },
-                        bgcolor: "rgba(128, 128, 128, 0.11)",
+                      }}
+                    >
+                      <TableCell>
+                        <span>Recurring Bill (Domain)</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>$239.00</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>3</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>$717.00</span>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        "&>*": {
+                          p: "0!important",
+                          fontWeight: "500",
+                          "&:first-child": {
+                            maxWidth: "400px",
+                            textWrap: "wrap",
+                          },
+                          "&>span": {
+                            display: "block",
+                            px: "16px",
+                            py: "14px",
+                          },
+                        },
+                      }}
+                    >
+                      <TableCell>
+                        <span>Recurring Bill (Domain)</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>$239.00</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>3</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>$717.00</span>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        "&>*": {
+                          p: "0!important",
+                          fontWeight: "500",
+                          "&:first-child": {
+                            maxWidth: "400px",
+                            textWrap: "wrap",
+                          },
+                          "&>span": {
+                            display: "block",
+                            px: "16px",
+                            py: "14px",
+                          },
+                        },
+                      }}
+                    >
+                      <TableCell>
+                        <span>Recurring Bill (Domain)</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>$239.00</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>3</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>$717.00</span>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow
+                      sx={{
+                        "&>*": {
+                          p: "0!important",
+                          fontWeight: "500",
+                          "&:first-child": {
+                            maxWidth: "400px",
+                            textWrap: "wrap",
+                          },
+                          "&>span": {
+                            display: "block",
+                            px: "16px",
+                            py: "14px",
+                          },
+                        },
+                      }}
+                    >
+                      <TableCell>
+                        <span>Recurring Bill (Domain)</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>$239.00</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>3</span>
+                      </TableCell>
+                      <TableCell>
+                        <span>$717.00</span>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                  {/* <TableFooter>
+                    <TableRow
+                      sx={{
+                        "&>*": {
+                          py: 1.75,
+                        },
                       }}
                     >
                       <TableCell></TableCell>
@@ -480,21 +571,28 @@ export default function Invoices() {
                         ${invoiceData?.totals.subTotal}
                       </TableCell>
                     </TableRow>
-                  </TableFooter>
+                  </TableFooter> */}
                 </Table>
               </TableContainer>
               <Box
                 sx={{
                   ml: "auto",
                   maxWidth: "fit-content",
-                  "&>*": { px: 1.75, "&:not(:first-child)": { mt: 1.75 } },
-                  "& > *": {
+                  "&>*": {
+                    "&:not(:first-child)": { mt: 1.75 },
+                    px: 1.75,
                     display: "flex",
                     justifyContent: "space-between",
-                    gap: 15,
-                    "& > *": {
+                    gap: 9.75,
+                    "&>*": {
                       lineHeight: "1!important",
-                      textTransform: "capitalize",
+                      "&:first-child": {
+                        textTransform: "capitalize",
+                        width: "140px",
+                      },
+                      "&:last-child": {
+                        width: "78px",
+                      },
                     },
                   },
                 }}
@@ -504,7 +602,7 @@ export default function Invoices() {
                     variant="subtitle2"
                     sx={{ fontWeight: 700, fontSize: "16px" }}
                   >
-                    subtotal:
+                    subtotal
                   </Typography>
                   <Typography
                     variant="subtitle2"
@@ -517,73 +615,56 @@ export default function Invoices() {
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontSize: "16px", fontWeight: 600 }}
+                  >
                     Discount (
                     {invoiceData?.totals.discountPer
                       ? invoiceData.totals.discountPer
                       : "0"}
-                    %):
+                    %)
                   </Typography>
-                  <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontSize: "16px", fontWeight: 500 }}
+                  >
                     $
                     {invoiceData?.totals.discountRS
                       ? invoiceData.totals.discountRS
                       : "00.00"}
                   </Typography>
                 </Box>
-                {/* <Box>
-                  <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    shipping cost:
-                  </Typography>
-                  <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    $0.00
-                  </Typography>
-                </Box> */}
                 <Box>
-                  <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    sales tax:
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontSize: "16px", fontWeight: 600 }}
+                  >
+                    tax
                   </Typography>
-                  <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ fontSize: "16px", fontWeight: 500 }}
+                  >
                     $
                     {invoiceData?.totals.salesTax
                       ? invoiceData.totals.salesTax
                       : "00.00"}
                   </Typography>
                 </Box>
-                <Box>
-                  <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    total:
-                  </Typography>
-                  <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    $
-                    {invoiceData?.totals.total
-                      ? invoiceData.totals.total
-                      : "00.00"}
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    amount paid:
-                  </Typography>
-                  <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
-                    $
-                    {invoiceData?.totals.amountPaid
-                      ? invoiceData.totals.amountPaid
-                      : "00.00"}
-                  </Typography>
-                </Box>
                 <Box
                   sx={{
                     py: 1.75,
-                    bgcolor: "rgba(128, 128, 128, 0.11)",
+                    bgcolor: "text.primary",
                     borderRadius: 2.5,
+                    color: "white",
                   }}
                 >
                   <Typography
                     variant="subtitle2"
                     sx={{ fontWeight: 700, fontSize: "16px" }}
                   >
-                    balance due:
+                    total
                   </Typography>
                   <Typography
                     variant="subtitle2"
@@ -593,8 +674,8 @@ export default function Invoices() {
                     }}
                   >
                     $
-                    {invoiceData?.totals.balanceDue
-                      ? invoiceData.totals.balanceDue
+                    {invoiceData?.totals.total
+                      ? invoiceData.totals.total
                       : "00.00"}
                   </Typography>
                 </Box>
@@ -609,25 +690,50 @@ export default function Invoices() {
               >
                 <Box sx={{ maxWidth: "450px" }}>
                   <Box sx={{ maxWidth: "fit-content" }}>
-                    <Typography variant="h6" className="bg-style">
-                      Bank Details
-                    </Typography>
+                    <Box>
+                      <Typography
+                        variant="h6"
+                        className="bg-style"
+                        sx={{
+                          position: "relative",
+                          fontSize: "20px",
+                          mb: 1.25,
+                          pb: 1.25,
+                          display: "inline-block",
+                          "&:before": {
+                            content: '""',
+                            position: "absolute",
+                            bottom: 0,
+                            left: 0,
+                            width: "150px",
+                            height: "1px",
+                            bgcolor: "rgba(0,0,0,0.2)",
+                          },
+                        }}
+                      >
+                        Bank Details
+                      </Typography>
+                      <Typography>
+                        Payment can be transfer via bank transfer to below
+                        details.
+                      </Typography>
+                    </Box>
                     <Box
                       sx={{
-                        mt: 2.25,
+                        mt: 3.5,
                         "&>*": {
                           display: "flex",
                           gap: 1.25,
                           "&:not(:first-child)": { mt: 1.75 },
                           "&>*": {
+                            fontSize: "16px!important",
                             lineHeight: "1!important",
                             textTransform: "capitalize",
-                            fontSize: "16px!important",
                             "&:first-child": {
-                              opacity: 0.5,
-                              width: "145px",
+                              width: "110px",
                               display: "flex",
                               justifyContent: "space-between",
+                              fontWeight: 600,
                             },
                           },
                         },
@@ -643,15 +749,15 @@ export default function Invoices() {
                       </Box>
                       <Box>
                         <Typography variant="subtitle2">
-                          IFSC Code<span>:</span>
+                          A/c No.<span>:</span>
                         </Typography>
                         <Typography variant="subtitle2">
-                          {invoiceData.bank.IFSC}
+                          {invoiceData.bank.accountNumber}
                         </Typography>
                       </Box>
                       <Box>
                         <Typography variant="subtitle2">
-                          A/c Holder Name<span>:</span>
+                          A/c Name<span>:</span>
                         </Typography>
                         <Typography variant="subtitle2">
                           {invoiceData.bank.holderName}
@@ -659,35 +765,43 @@ export default function Invoices() {
                       </Box>
                       <Box>
                         <Typography variant="subtitle2">
-                          A/c No.<span>:</span>
+                          IFSC Code<span>:</span>
                         </Typography>
-                        <Typography variant="subtitle2">
-                          {invoiceData.bank.accountNumber}
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ textTransform: "uppercase" }}
+                        >
+                          {invoiceData.bank.IFSC}
                         </Typography>
                       </Box>
                     </Box>
                   </Box>
-                  {/* <Box sx={{ mt: 6 }}>
-                  <Typography variant="h6">Notes</Typography>
-                  <Box
-                    sx={{
-                      mt: 1,
-                    }}
-                  >
+                  {/* <Box sx={{ mt: 7.25 }}>
                     <Typography
-                      variant="subtitle3"
+                      variant="h6"
+                      sx={{ fontSize: "20px", textTransform: "capitalize" }}
+                    >
+                      notes
+                    </Typography>
+                    <Box
                       sx={{
-                        mt: 1,
-                        lineHeight: 1.5,
-                        display: "block",
-                        fontSize: "16px",
+                        mt: 1.75,
                       }}
                     >
-                      ptototype-based programming is a style of object-oriented
-                      <br /> programming in which behaviour.
-                    </Typography>
-                  </Box>
-                </Box> */}
+                      <Typography
+                        variant="subtitle3"
+                        sx={{
+                          lineHeight: 1.6,
+                          display: "block",
+                          fontSize: "16px",
+                        }}
+                      >
+                        ptototype-based programming is a style of
+                        object-oriented
+                        <br /> programming in which behaviour.
+                      </Typography>
+                    </Box>
+                  </Box> */}
                 </Box>
                 <Box
                   sx={{
@@ -750,7 +864,6 @@ export default function Invoices() {
             >
               <span style={{ position: "relative" }}>generate</span>
             </Button>
-
             <Button
               disableRipple
               sx={{

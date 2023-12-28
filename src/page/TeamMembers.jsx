@@ -450,6 +450,169 @@ export default function TeamMembers() {
                         "& .accepted": {
                           bgcolor: "success.main",
                         },
+                        "& .notInvited": {
+                          bgcolor: "grey.dark",
+                        },
+                      }}
+                    >
+                      <Box className="statusBtn notInvited">not invited</Box>
+                    </TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: { xs: 1.25, sm: 1.5 },
+                          "& button": {
+                            p: 0,
+                            minWidth: "unset",
+                            color: "black",
+                            "&:hover": { color: "primary.main" },
+                          },
+                          "& svg": {
+                            fontSize: { xs: "20px", sm: "22px" },
+                          },
+                        }}
+                      >
+                        <Tooltip title="Save" arrow>
+                          <Button
+                            disableRipple
+                            disableElevation
+                            sx={{
+                              transition: "all 0.4s ease-in-out",
+                              "&:hover": {
+                                bgcolor: "transparent",
+                              },
+                              "&:not(:hover)": { opacity: 0.2 },
+                            }}
+                          >
+                            <SaveIcon disableRipple />
+                          </Button>
+                        </Tooltip>
+                        <Tooltip title="Delete" arrow>
+                          <Button
+                            disableRipple
+                            sx={{
+                              transition: "all 0.4s ease-in-out",
+                              "&:not(:hover)": { opacity: 0.2 },
+                            }}
+                          >
+                            <DeleteIcon />
+                          </Button>
+                        </Tooltip>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                    }}
+                  >
+                    <TableCell component="th" scope="row">
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1.75,
+                        }}
+                      >
+                        <Avatar
+                          sx={{
+                            width: "36px",
+                            height: "36px",
+                          }}
+                          alt="avatar"
+                          src=""
+                        />
+                        <Box>
+                          <Typography
+                            sx={{
+                              mb: 0.75,
+                              lineHeight: 1,
+                              fontWeight: 600,
+                              fontSize: { xs: "14px", sm: "16px" },
+                            }}
+                          >
+                            sujit hirapara
+                          </Typography>
+                          <Typography
+                            sx={{
+                              lineHeight: 1,
+                              textTransform: "lowercase",
+                              fontSize: { xs: "12px", sm: "14px" },
+                            }}
+                          >
+                            sujit.hirapara@shunyavkash.com
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <FormControl
+                        fullWidth
+                        size="small"
+                        sx={{
+                          "&>label": { fontSize: "14px" },
+                        }}
+                      >
+                        <InputLabel
+                          sx={{ textTransform: "capitalize" }}
+                          id="demo-simple-select-label"
+                        >
+                          Role
+                        </InputLabel>
+                        <Select
+                          id="role"
+                          label="Role"
+                          sx={{ fontSize: "14px" }}
+                        >
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"Super Admin"}
+                          >
+                            super admin
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"Manager"}
+                          >
+                            manager
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"Member"}
+                          >
+                            member
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        "& .statusBtn": {
+                          color: "white",
+                          fontSize: "12px",
+                          p: 0.5,
+                          borderRadius: 1,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
+                        },
+                        "& .notAccepted": {
+                          bgcolor: "secondary.main",
+                        },
+                        "& .accepted": {
+                          bgcolor: "success.main",
+                        },
                       }}
                     >
                       <Box className="statusBtn notAccepted">not accepted</Box>
