@@ -11,9 +11,11 @@ import useApi from "../../hooks/useApi";
 export default function InvoiceInputForm({
   open,
   setOpen,
-  fields,
   label,
   val,
+  uniqId,
+  identify,
+  onSuccess = () => {},
 }) {
   const handleClose = () => setOpen(false);
   const { apiCall, isLoading } = useApi();
@@ -28,6 +30,7 @@ export default function InvoiceInputForm({
       email: "",
       mobileNumber: "",
       mobileCode: "",
+      description: "",
     },
     onSubmit: async (values) => {
       const nonBlankValues = Object.entries(values).reduce(
@@ -41,15 +44,44 @@ export default function InvoiceInputForm({
         {}
       );
       try {
-        const res = await apiCall({
-          url: APIS.ADMIN.EDIT,
-          method: "patch",
-          data: JSON.stringify(nonBlankValues, null, 2),
-        });
+        let res;
+        if (identify == 1) {
+          res = await apiCall({
+            url: APIS.ADMIN.EDIT,
+            method: "patch",
+            data: JSON.stringify(nonBlankValues, null, 2),
+          });
+        } else if (identify == 2) {
+          res = await apiCall({
+            url: APIS.CLIENT.EDIT(uniqId),
+            method: "patch",
+            data: JSON.stringify(nonBlankValues, null, 2),
+          });
+        } else if (identify == 3) {
+          res = await apiCall({
+            url: APIS.PROJECT.EDIT(uniqId),
+            method: "patch",
+            data: JSON.stringify(nonBlankValues, null, 2),
+          });
+        } else if (identify == 4) {
+          res = await apiCall({
+            url: APIS.ADMIN.EDIT,
+            method: "patch",
+            data: JSON.stringify(nonBlankValues, null, 2),
+          });
+        } else if (identify == 5) {
+          res = await apiCall({
+            url: APIS.ADMIN.EDIT,
+            method: "patch",
+            data: JSON.stringify(nonBlankValues, null, 2),
+          });
+        }
+
         if (res.data.success === true) {
           setSnack(res.data.message);
           console.log(res.data.data);
           setOpen(false);
+          onSuccess();
         }
       } catch (error) {
         let errorMessage = error.response.data.message;

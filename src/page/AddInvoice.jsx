@@ -46,6 +46,11 @@ const MenuProps = {
   },
 };
 
+// find Due Date
+const currentDate = new Date();
+const fifteenDaysAgo = new Date();
+fifteenDaysAgo.setDate(currentDate.getDate() + 15);
+
 function getStyles(name, personName, theme) {
   return {
     fontWeight:
@@ -72,14 +77,26 @@ export default function Invoices() {
   const [selectedClient, setSelectedClient] = useState();
   const { setInvoiceData } = useInvoiceStore();
   const { invoiceNumber } = useParams();
-  const [projectDescription, setProjectDescription] = useState();
+  const [projectDescription, setProjectDescription] = useState(false);
   const [bankDetails, setBankDetails] = useState(false);
   const [discountPer, setDiscountPer] = useState(0);
   const [discountRS, setDiscountRS] = useState(0);
 
-  // model open
-  const [modalOpen, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  // model open for admin
+  const [fromOpen, setFromOpen] = useState(false);
+  const [clientOpen, setClientOpen] = useState(false);
+  const [projectOpen, setProjectOpen] = useState(false);
+  const [invoiceOpen, setInvoiceOpen] = useState(false);
+  const [bankOpen, setBnakOpen] = useState(false);
+  const [invoiceNO, setInvoiceNO] = useState(invoiceNumber);
+
+  const [invoiceDATE, setInvoiceDATE] = useState(
+    currentDate.toISOString().split("T")[0]
+  );
+  const [invoiceDUEDATE, setInvoiceDUEDATE] = useState(
+    fifteenDaysAgo.toISOString().split("T")[0]
+  );
+  // const handleOpen = () => setFromOpen(true);
 
   const handleChange = (event) => {
     const {
@@ -129,6 +146,14 @@ export default function Invoices() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setProjectList(res.data.data);
+        if (projectDescription) {
+          setProjectDescription((prevProject) => {
+            const project = res.data.data.find(
+              (proj) => proj._id === prevProject._id
+            );
+            return project || {};
+          });
+        }
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -186,7 +211,6 @@ export default function Invoices() {
       return client._id === id;
     });
     setSelectedClient(clientAddress);
-    console.log(clientAddress, "-------------------------182");
     await fetchProject(id);
   };
 
@@ -206,6 +230,7 @@ export default function Invoices() {
 
     if (Array.isArray(adminList.bank)) {
       const bankD = adminList.bank.find((bank) => bank._id === bankId);
+      console.log(bankD, "---------------------220");
       if (bankD) {
         setBankDetails({
           bankId: bankId,
@@ -221,7 +246,7 @@ export default function Invoices() {
     } else {
       console.log("adminList.bank is not an array");
     }
-
+    console.log(bankDetails, "------------------------235");
     // adminList.bank.map((bank) => {
     //   console.log(bank, "----------------------217");
     //   const bankD = bank.find((ban) => ban._id === bankId);
@@ -245,11 +270,6 @@ export default function Invoices() {
       return accum;
     }, 0);
   };
-
-  // find Due Date
-  const currentDate = new Date();
-  const fifteenDaysAgo = new Date();
-  fifteenDaysAgo.setDate(currentDate.getDate() + 15);
 
   useEffect(() => {
     fetchClient();
@@ -283,7 +303,7 @@ export default function Invoices() {
           pincode: adminList.pincode,
           mobileCode: adminList.mobileCode,
           mobileNumber: adminList.mobileNumber,
-          invoiceNumber: invoiceNumber,
+          invoiceNumber: invoiceNO,
           task: taskList
             .filter((task) => personName.includes(task.taskName))
             .map((task) => ({
@@ -303,11 +323,12 @@ export default function Invoices() {
           // to: Formik.values,
           project: "",
           salesTax: 0,
-          invoiceDate: new Date().toISOString().split("T")[0],
-          invoiceDueDate: fifteenDaysAgo.toISOString().split("T")[0],
+          invoiceDate: invoiceDATE,
+          invoiceDueDate: invoiceDUEDATE,
         }}
         onSubmit={async (values) => {
           try {
+            console.log(values, "--------------------323-values");
             let tasks = values.task.map((tas) => {
               return {
                 taskName: tas.name,
@@ -368,7 +389,7 @@ export default function Invoices() {
             };
 
             setInvoiceData(obj);
-            navigate("./preview");
+            navigate(`/invoices/add/${invoiceNO}/preview`);
           } catch (error) {
             let errorMessage = error.response.data.message;
             setSnack(errorMessage, "warning");
@@ -377,6 +398,9 @@ export default function Invoices() {
       >
         {({ values, ...rest }) => {
           console.log(values, rest, "---------------------------240");
+          setInvoiceNO(values.invoiceNumber);
+          setInvoiceDATE(values.invoiceDate);
+          setInvoiceDUEDATE(values.invoiceDueDate);
           return (
             <>
               <Box
@@ -484,7 +508,7 @@ export default function Invoices() {
                             <Tooltip title="Edit" arrow>
                               <Link
                                 href="#"
-                                onClick={handleOpen}
+                                onClick={() => setFromOpen(true)}
                                 style={{
                                   display: "inline-flex",
                                 }}
@@ -613,7 +637,7 @@ export default function Invoices() {
                               <Tooltip title="Edit" arrow>
                                 <Link
                                   href="#"
-                                  onClick={handleOpen}
+                                  onClick={() => setClientOpen(true)}
                                   style={{
                                     display: "inline-flex",
                                   }}
@@ -626,7 +650,7 @@ export default function Invoices() {
                         )}
                       </Box>
                       {/* invoice number/date/due */}
-                      <Box
+                      {/*<Box
                         sx={{
                           position: "relative",
                           alignSelf: "start",
@@ -674,7 +698,7 @@ export default function Invoices() {
                               {invoiceNumber}
                             </Typography>
                           </Box>
-                          <Box>
+                        <Box>
                             <Typography
                               variant="subtitle3"
                               sx={{
@@ -694,12 +718,10 @@ export default function Invoices() {
                               }}
                               name="invoiceDate"
                             >
-                              {/* 8u998090 */}
-                              {/* {invoiceData?.invoiceDate} */}
                               {new Date().toISOString().split("T")[0]}
-                            </Typography>
-                          </Box>
-                          <Box>
+                            </Typography> 
+                          </Box> 
+                        <Box>
                             <Typography
                               variant="subtitle3"
                               sx={{
@@ -720,11 +742,11 @@ export default function Invoices() {
                               name="invoiceDueDate"
                             >
                               {fifteenDaysAgo.toISOString().split("T")[0]}
-                              {/* {invoiceData?.invoiceDueDate} */}
+                              {invoiceData?.invoiceDueDate}
                             </Typography>
-                          </Box>
-                        </Box>
-                        <Box
+                          </Box> 
+                      </Box>  */}
+                      {/* <Box
                           className="editIcon"
                           sx={{
                             display: "inline-flex",
@@ -740,7 +762,7 @@ export default function Invoices() {
                           <Tooltip title="Edit" arrow>
                             <Link
                               href="#"
-                              onClick={handleOpen}
+                              onClick={() => setInvoiceOpen(true)}
                               style={{
                                 display: "inline-flex",
                               }}
@@ -748,39 +770,39 @@ export default function Invoices() {
                               <EditIcon />
                             </Link>
                           </Tooltip>
-                        </Box>
-                      </Box>
+                        </Box> 
+                      </Box> */}
                       {/* invoice number/date/due dynamic */}
-                      {/* <Box
-                      sx={{
-                        flexGrow: 1,
-                        maxWidth: "300px",
-                        "&>*:not(:first-child)": {
-                          mt: 1.75,
-                        },
-                      }}
-                    >
-                      <CustomFormikField
-                        name={"invoiceNumber"}
-                        label="invoice No."
-                      />
-                      <CustomFormikField
-                        name={"invoiceDate"}
-                        label="Invoice Date"
-                        type="date"
-                        InputLabelProps={{
-                          shrink: true,
+                      <Box
+                        sx={{
+                          flexGrow: 1,
+                          maxWidth: "300px",
+                          "&>*:not(:first-child)": {
+                            mt: 1.75,
+                          },
                         }}
-                      />
-                      <CustomFormikField
-                        name={"invoiceDueDate"}
-                        label="Invoice Due"
-                        type="date"
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                    </Box> */}
+                      >
+                        <CustomFormikField
+                          name={"invoiceNumber"}
+                          label="invoice No."
+                        />
+                        <CustomFormikField
+                          name={"invoiceDate"}
+                          label="Invoice Date"
+                          type="date"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+                        <CustomFormikField
+                          name={"invoiceDueDate"}
+                          label="Invoice Due"
+                          type="date"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+                      </Box>
                     </Box>
                     {selectedClient && (
                       <Box
@@ -861,7 +883,7 @@ export default function Invoices() {
                               <Tooltip title="Edit" arrow>
                                 <Link
                                   href="#"
-                                  onClick={handleOpen}
+                                  onClick={() => setProjectOpen(true)}
                                   style={{
                                     display: "inline-flex",
                                   }}
@@ -1354,7 +1376,7 @@ export default function Invoices() {
                                 >
                                   <Link
                                     href="#"
-                                    onClick={handleOpen}
+                                    onClick={() => setBnakOpen(true)}
                                     style={{
                                       display: "inline-flex",
                                       textDecoration: "none",
@@ -1390,13 +1412,28 @@ export default function Invoices() {
                                     },
                                   }}
                                 >
-                                  <Box>
+                                  <CustomFormikField
+                                    name="customBankName"
+                                    label="Bank Name"
+                                  />
+                                  <CustomFormikField
+                                    name="customIFSC"
+                                    label="IFSC"
+                                  />
+                                  <CustomFormikField
+                                    name="customHolderName"
+                                    label="A/c Holder Name"
+                                  />
+                                  <CustomFormikField
+                                    name="customeAccountNumber"
+                                    label="A/c Number"
+                                  />
+                                  {/* <Box>
                                     <Typography variant="subtitle2">
                                       Bank Name<span>:</span>
                                     </Typography>
                                     <Typography variant="subtitle2">
-                                      kotak
-                                      {/* {invoiceData.bank.bankName} */}
+                                      {bankDetails.bankName}
                                     </Typography>
                                   </Box>
                                   <Box>
@@ -1404,8 +1441,7 @@ export default function Invoices() {
                                       IFSC Code<span>:</span>
                                     </Typography>
                                     <Typography variant="subtitle2">
-                                      vdfvdfv455151
-                                      {/* {invoiceData.bank.IFSC} */}
+                                      {bankDetails.IFSC}
                                     </Typography>
                                   </Box>
                                   <Box>
@@ -1413,8 +1449,7 @@ export default function Invoices() {
                                       A/c Holder Name<span>:</span>
                                     </Typography>
                                     <Typography variant="subtitle2">
-                                      ravi
-                                      {/* {invoiceData.bank.holderName} */}
+                                      {bankDetails.holderName}
                                     </Typography>
                                   </Box>
                                   <Box>
@@ -1422,10 +1457,46 @@ export default function Invoices() {
                                       A/c No.<span>:</span>
                                     </Typography>
                                     <Typography variant="subtitle2">
-                                      2564364345364
-                                      {/* {invoiceData.bank.accountNumber} */}
+                                      {bankDetails.accountNumber}
                                     </Typography>
-                                  </Box>
+                                  </Box> */}
+                                </Box>
+                              </>
+                            )}
+
+                            {bankDetails && (
+                              <>
+                                <Box>
+                                  <Typography variant="subtitle2">
+                                    Bank Name<span>:</span>
+                                  </Typography>
+                                  <Typography variant="subtitle2">
+                                    {bankDetails.bankName}
+                                  </Typography>
+                                </Box>
+                                <Box>
+                                  <Typography variant="subtitle2">
+                                    IFSC Code<span>:</span>
+                                  </Typography>
+                                  <Typography variant="subtitle2">
+                                    {bankDetails.IFSC}
+                                  </Typography>
+                                </Box>
+                                <Box>
+                                  <Typography variant="subtitle2">
+                                    A/c Holder Name<span>:</span>
+                                  </Typography>
+                                  <Typography variant="subtitle2">
+                                    {bankDetails.holderName}
+                                  </Typography>
+                                </Box>
+                                <Box>
+                                  <Typography variant="subtitle2">
+                                    A/c No.<span>:</span>
+                                  </Typography>
+                                  <Typography variant="subtitle2">
+                                    {bankDetails.label}
+                                  </Typography>
                                 </Box>
                               </>
                             )}
@@ -1594,10 +1665,10 @@ export default function Invoices() {
                   </Box>
                 </Form>
               </Box>
+              {/* admin information edit */}
               <InvoiceInputForm
-                open={modalOpen}
-                setOpen={setOpen}
-                fields={["address", "mobileNumber", "email"]}
+                open={fromOpen}
+                setOpen={setFromOpen}
                 val={[
                   {
                     address: values.address,
@@ -1608,7 +1679,66 @@ export default function Invoices() {
                     email: values.email,
                   },
                 ]}
+                onSuccess={fetchAdmin}
                 label={"Edit Business Information"}
+                identify={1}
+              />
+              {/* client information edit */}
+              <InvoiceInputForm
+                open={clientOpen}
+                setOpen={setClientOpen}
+                val={[
+                  {
+                    address: values.clientAddress,
+                  },
+                ]}
+                onSuccess={fetchClient}
+                // onSuccess={
+                //   selectedClient?._id
+                //     ? fetchProject.bind(null, selectedClient._id)
+                //     : () => {}
+                // }
+                label={"Edit Client Information"}
+                uniqId={selectedClient?._id}
+                identify={2}
+              />
+              {/* project information edit */}
+              <InvoiceInputForm
+                open={projectOpen}
+                setOpen={setProjectOpen}
+                val={[
+                  {
+                    description: projectDescription?.description,
+                  },
+                ]}
+                onSuccess={
+                  selectedClient?._id
+                    ? fetchProject.bind(null, selectedClient._id)
+                    : () => {}
+                }
+                label={"Edit Project Information"}
+                uniqId={projectDescription?._id}
+                identify={3}
+              />
+              {/* invoice information edit */}
+              <InvoiceInputForm
+                open={invoiceOpen}
+                setOpen={setInvoiceOpen}
+                val={[
+                  {
+                    invoiceNumber: invoiceNumber,
+                    invoiceDate: new Date().toISOString().split("T")[0],
+                    invoiceDueDate: fifteenDaysAgo.toISOString().split("T")[0],
+                  },
+                ]}
+                // onSuccess={
+                //   selectedClient?._id
+                //     ? fetchProject.bind(null, selectedClient._id)
+                //     : () => {}
+                // }
+                label={"Edit Invoice Information"}
+                // uniqId={projectDescription?._id}
+                identify={3}
               />
             </>
           );
