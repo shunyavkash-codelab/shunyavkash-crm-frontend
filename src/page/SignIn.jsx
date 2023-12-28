@@ -81,7 +81,7 @@ export default function SignIn() {
       component="main"
       sx={{
         height: "100%",
-        backgroundImage: "url('./images/signin-bg-img.png')",
+        backgroundImage: "url('./images/bg-svg.png')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
@@ -98,7 +98,12 @@ export default function SignIn() {
         }}
       >
         <Box
-          sx={{ maxWidth: "200px", maxheight: "80px", flexShrink: 0, mb: 4 }}
+          sx={{
+            maxWidth: "200px",
+            maxheight: "80px",
+            flexShrink: 0,
+            mb: 6.625,
+          }}
         >
           <img
             src="./images/logo.svg"
@@ -108,16 +113,10 @@ export default function SignIn() {
         </Box>
         <Box
           sx={{
-            padding: { xs: 2, sm: 3 },
-            margin: "0 auto",
+            padding: { xs: 3, sm: 5 },
             borderRadius: "10px",
             bgcolor: "white",
-            boxShadow: "0 0 20px rgba(0,0,0,0.1)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "400px",
-            width: "100%",
+            boxShadow: "0 0 20px rgba(0,0,0,0.05)",
           }}
         >
           <Box
@@ -147,7 +146,8 @@ export default function SignIn() {
                   fontWeight: 700,
                 }}
               >
-                👋 Welcome Back!
+                {/* 👋 */}
+                Welcome Back!
               </Typography>
               <Typography
                 variant="subtitle2"
@@ -178,7 +178,13 @@ export default function SignIn() {
                 name="email"
                 autoComplete="off"
                 sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
+                  "&>label,& input,&>div": {
+                    fontSize: "14px",
+                  },
+                  "& input": {
+                    py: 1.38,
+                    px: 1.75,
+                  },
                 }}
                 onChange={formik.handleChange}
                 value={formik.values.email}
@@ -197,7 +203,11 @@ export default function SignIn() {
                   type={showPassword ? "text" : "password"}
                   sx={{
                     "&>label,& input,&>div": { fontSize: "14px" },
-                    "& input": { pr: 5 },
+                    "& input": {
+                      pr: 5,
+                      py: 1.38,
+                      px: 1.75,
+                    },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.password}
@@ -223,6 +233,73 @@ export default function SignIn() {
                   {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                 </Box>
               </Box>
+
+              <Box
+                sx={{
+                  mt: 2.5,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box>
+                  <FormControl
+                    component="fieldset"
+                    sx={{
+                      "&>label,&>span": {
+                        p: 0,
+                        pl: 1,
+                      },
+                    }}
+                  >
+                    <FormControlLabel
+                      value="start"
+                      control={<Checkbox />}
+                      label="Remember Me"
+                      // color="success.main"
+                      sx={{
+                        "&>span:not(:first-child)": {
+                          fontSize: "14px",
+                          fontWeight: 500,
+                          lineHeight: 1,
+                          pl: 0.75,
+                          color: "text.secondary",
+                        },
+
+                        "& svg": {
+                          fontSize: "20px",
+                          color: "text.primary",
+                          // color: "success.main",
+                        },
+                        pr: 0,
+                        py: 0,
+                        mr: 0,
+                        p: 0,
+                        // display: "block",
+                        "&>label,&>span": {
+                          p: "0 6px 0 0",
+                        },
+                      }}
+                    />
+                  </FormControl>
+                </Box>
+                <Link
+                  href="./forgot-password"
+                  underline="none"
+                  sx={{
+                    display: "inline-block",
+                    cursor: "pointer",
+                    lineHeight: 1,
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    "&:hover": {
+                      color: "rgb(22, 119, 255, 80%)",
+                    },
+                  }}
+                >
+                  Forgot password?
+                </Link>
+              </Box>
               <Button
                 disableRipple
                 fullWidth
@@ -241,71 +318,6 @@ export default function SignIn() {
               >
                 sign in
               </Button>
-            </Box>
-            <Box
-              sx={{
-                mt: 2.5,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box>
-                <FormControl
-                  component="fieldset"
-                  sx={{
-                    "&>label,&>span": {
-                      p: 0,
-                      pl: 1,
-                    },
-                  }}
-                >
-                  <FormControlLabel
-                    value="start"
-                    control={<Checkbox />}
-                    label="Remember Me"
-                    sx={{
-                      "&>span:not(:first-child)": {
-                        fontSize: "12px",
-                        fontWeight: 600,
-                        lineHeight: 1,
-                        pl: 0.75,
-                      },
-
-                      "& svg": {
-                        fontSize: "16px",
-                      },
-                      pr: 0,
-                      py: 0,
-                      mr: 0,
-                      p: 0,
-                      display: "block",
-                      "&>label,&>span": {
-                        p: 0,
-                        pe: 0.75,
-                      },
-                    }}
-                  />
-                </FormControl>
-              </Box>
-              <Link
-                href="./forgot-password"
-                underline="none"
-                sx={{
-                  display: "inline-block",
-                  // mb: 1.25,
-                  cursor: "pointer",
-                  lineHeight: 1,
-                  fontSize: "12px",
-                  fontWeight: "600",
-                  // color: "text.primary",
-                  "&:hover": {
-                    color: "rgb(22, 119, 255, 80%)",
-                  },
-                }}
-              >
-                Forgot password?
-              </Link>
             </Box>
             {/* <Typography sx={{ fontSize: "14px", mt: 2 }}>
               Don't have an account?
