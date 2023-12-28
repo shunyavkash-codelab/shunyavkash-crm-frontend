@@ -14,12 +14,47 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Field, FormikProvider, useFormik } from "formik";
+import { APIS } from "../api/apiList";
+import { useSnack } from "../hooks/store/useSnack";
+import useApi from "../hooks/useApi";
+import { useNavigate } from "react-router-dom";
 
 export default function AddClientsModal({ open, setOpen }) {
   const handleClose = () => setOpen(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const [employeeList, setEmployeeList] = useState(false);
+  const { setSnack } = useSnack();
+  const { apiCall, isLoading } = useApi();
+  const navigate = useNavigate();
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      role: "",
+    },
+    onSubmit: async (values) => {
+      console.log(values, "---------------------47");
+      try {
+        const res = await apiCall({
+          url: APIS.EMPLOYEE.ADD,
+          method: "post",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.data.success === true) {
+          setSnack(res.data.message);
+          navigate("/teamMembers");
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
 
   return (
     <>
@@ -61,7 +96,7 @@ export default function AddClientsModal({ open, setOpen }) {
                   fontSize: { xs: "24px", sm: "26px" },
                 }}
               >
-                Invitation Member
+                Invitation Employee
               </Typography>
               <Button
                 disableRipple
@@ -98,177 +133,215 @@ export default function AddClientsModal({ open, setOpen }) {
                 }
               ></Button>
             </Box>
-            <Box component="form" autoComplete="off">
-              <Box sx={{ display: "grid", gap: 2.25, width: "100%" }}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="name"
-                  label="Name"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="email"
-                  label="Email"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                  }}
-                />
-                <Box sx={{ position: "relative" }}>
+            <FormikProvider value={formik}>
+              <Box
+                component="form"
+                autoComplete="off"
+                onSubmit={formik.handleSubmit}
+              >
+                <Box sx={{ display: "grid", gap: 2.25, width: "100%" }}>
                   <TextField
                     fullWidth
                     size="small"
-                    id="password"
-                    label="Password"
-                    name="password"
+                    id="name"
+                    label="Name"
                     autoComplete="off"
-                    type={showPassword ? "text" : "password"}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
-                      "& input": { pr: 5 },
                     }}
+                    onChange={formik.handleChange}
+                    value={formik.values.name}
                   />
-                  <Box
-                    onClick={handleClickShowPassword}
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="email"
+                    label="Email"
+                    autoComplete="off"
                     sx={{
-                      position: "absolute",
-                      top: "50%",
-                      right: "16px",
-                      opacity: "50%",
-                      cursor: "pointer",
-                      transform: "translateY(-50%)",
-                      display: "inline-flex",
-                      "& svg": { fontSize: "20px" },
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.email}
+                  />
+                  <Box sx={{ position: "relative" }}>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="password"
+                      label="Password"
+                      name="password"
+                      autoComplete="off"
+                      type={showPassword ? "text" : "password"}
+                      sx={{
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                        "& input": { pr: 5 },
+                      }}
+                      onChange={formik.handleChange}
+                      value={formik.values.password}
+                    />
+                    <Box
+                      onClick={handleClickShowPassword}
+                      sx={{
+                        position: "absolute",
+                        top: "50%",
+                        right: "16px",
+                        opacity: "50%",
+                        cursor: "pointer",
+                        transform: "translateY(-50%)",
+                        display: "inline-flex",
+                        "& svg": { fontSize: "20px" },
+                      }}
+                    >
+                      {showPassword ? (
+                        <VisibilityIcon />
+                      ) : (
+                        <VisibilityOffIcon />
+                      )}
+                    </Box>
+                  </Box>
+                  <FormControl
+                    fullWidth
+                    size="small"
+                    sx={{
+                      "&>label": { fontSize: "14px" },
                     }}
                   >
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </Box>
+                    <InputLabel
+                      sx={{ textTransform: "capitalize" }}
+                      id="demo-simple-select-label"
+                    >
+                      Role
+                    </InputLabel>
+                    <Field
+                      name="file"
+                      render={({ field, form }) => (
+                        <Select
+                          id="role"
+                          label="Role"
+                          sx={{ fontSize: "14px" }}
+                          {...field}
+                          onChange={(event) => {
+                            form.setFieldValue("role", event.target.value);
+                          }}
+                        >
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"superAdmin"}
+                          >
+                            super admin
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"manager"}
+                          >
+                            manager
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"employee"}
+                          >
+                            employee
+                          </MenuItem>
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
                 </Box>
-                <FormControl
-                  fullWidth
-                  size="small"
+                <Box
                   sx={{
-                    "&>label": { fontSize: "14px" },
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: { xs: "column", sm: "row" },
+                    gap: { xs: 1.5, sm: 2 },
+                    mt: 2.5,
                   }}
                 >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
-                  >
-                    Role
-                  </InputLabel>
-                  <Select id="role" label="Role" sx={{ fontSize: "14px" }}>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                      value={"Super Admin"}
-                    >
-                      super admin
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                      value={"Manager"}
-                    >
-                      manager
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                      value={"Member"}
-                    >
-                      member
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  flexDirection: { xs: "column", sm: "row" },
-                  gap: { xs: 1.5, sm: 2 },
-                  mt: 2.5,
-                }}
-              >
-                <Button
-                  disableRipple
-                  type="submit"
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    bgcolor: "success.main",
-                    border: "1px solid",
-                    borderColor: "success.main",
-                    color: "white",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      color: "success.main",
+                  <Button
+                    disableRipple
+                    type="submit"
+                    sx={{
+                      maxHeight: "42px",
+                      position: "relative",
+                      px: 2.5,
+                      py: 1.5,
                       bgcolor: "success.main",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                >
-                  <span style={{ position: "relative" }}>Submit</span>
-                </Button>
-                <Button
-                  disableRipple
-                  onClick={() => setOpen(false)}
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    color: "text.primary",
-                    bgcolor: "#e4e4e4",
-                    border: "1px solid",
-                    borderColor: "#e4e4e4",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
+                      border: "1px solid",
+                      borderColor: "success.main",
+                      color: "white",
+                      lineHeight: 1,
+                      borderRadius: 2.5,
+                      overflow: "hidden",
+                      "&:before": {
+                        content: "''",
+                        height: 0,
+                        width: "10rem",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        zIndex: "0",
+                        bgcolor: "white",
+                        transform: "rotate(-45deg) translate(-50%, -50%)",
+                        transformOrigin: "0% 0%",
+                        transition: "all 0.4s ease-in-out",
+                      },
+                      "&:hover": {
+                        color: "success.main",
+                        bgcolor: "success.main",
+                        "&:before": { height: "10rem" },
+                      },
+                    }}
+                  >
+                    <span style={{ position: "relative" }}>Submit</span>
+                  </Button>
+                  <Button
+                    disableRipple
+                    onClick={() => setOpen(false)}
+                    sx={{
+                      maxHeight: "42px",
+                      position: "relative",
+                      px: 2.5,
+                      py: 1.5,
+                      color: "text.primary",
                       bgcolor: "#e4e4e4",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                >
-                  <span style={{ position: "relative" }}>discard</span>
-                </Button>
+                      border: "1px solid",
+                      borderColor: "#e4e4e4",
+                      lineHeight: 1,
+                      borderRadius: 2.5,
+                      overflow: "hidden",
+                      "&:before": {
+                        content: "''",
+                        height: 0,
+                        width: "10rem",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        zIndex: "0",
+                        bgcolor: "white",
+                        transform: "rotate(-45deg) translate(-50%, -50%)",
+                        transformOrigin: "0% 0%",
+                        transition: "all 0.4s ease-in-out",
+                      },
+                      "&:hover": {
+                        bgcolor: "#e4e4e4",
+                        "&:before": { height: "10rem" },
+                      },
+                    }}
+                  >
+                    <span style={{ position: "relative" }}>discard</span>
+                  </Button>
+                </Box>
               </Box>
-            </Box>
+            </FormikProvider>
           </Box>
         </Fade>
       </Modal>

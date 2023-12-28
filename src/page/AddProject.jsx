@@ -262,7 +262,7 @@ export default function AddProject() {
                           label="Client"
                           sx={{ fontSize: "14px" }}
                           {...field}
-                          defaultValue={projectData.clientId}
+                          defaultValue={projectData?.clientId}
                           onChange={(event) => {
                             form.setFieldValue("clientId", event.target.value);
                           }}
@@ -424,7 +424,7 @@ export default function AddProject() {
                         currencylist[
                           currencylist.findIndex(
                             (currency) =>
-                              currency.symbol === projectData.currency
+                              currency.symbol === projectData?.currency
                           )
                         ]
                       }
@@ -450,7 +450,7 @@ export default function AddProject() {
                           borderLeft: 0,
                         },
                       }}
-                      defaultValue={projectData.perHourCharge}
+                      defaultValue={projectData?.perHourCharge}
                       onChange={formik.handleChange}
                       value={formik.values.perHourCharge}
                     />
@@ -477,7 +477,7 @@ export default function AddProject() {
                           label="Pay Period"
                           sx={{ fontSize: "14px" }}
                           {...field}
-                          defaultValue={projectData.payPeriod}
+                          defaultValue={projectData?.payPeriod}
                           onChange={(event) => {
                             form.setFieldValue("payPeriod", event.target.value);
                           }}
@@ -600,7 +600,7 @@ export default function AddProject() {
                           label="Status"
                           sx={{ fontSize: "14px" }}
                           {...field}
-                          defaultValue={projectData.status}
+                          defaultValue={projectData?.status}
                           onChange={(event) => {
                             form.setFieldValue("status", event.target.value);
                           }}

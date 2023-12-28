@@ -13,6 +13,9 @@ export const APIS = {
     VIEWLIST: "/manager/get-managers",
     LIST: "/manager/get-managers",
   },
+  EMPLOYEE: {
+    ADD: "/manager/add",
+  },
   CLIENT: {
     ADD: "/client/add",
     EDIT: (clientId) => `/client/${clientId}`,
