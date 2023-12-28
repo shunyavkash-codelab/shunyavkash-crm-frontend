@@ -1343,6 +1343,7 @@ export default function Invoices() {
                               fullWidth
                               size="small"
                               sx={{
+                                maxWidth: "300px",
                                 display: "flex",
                                 "&>label": { fontSize: "12px" },
                                 "&>div": { textAlign: "left" },
@@ -1392,44 +1393,23 @@ export default function Invoices() {
                             </FormControl>
                             {!bankDetails && (
                               <>
-                                <Box
-                                  sx={{
-                                    mt: 2.25,
-                                    "&>*": {
-                                      display: "flex",
-                                      gap: 1.25,
-                                      "&:not(:first-child)": { mt: 1.75 },
-                                      "&>*": {
-                                        lineHeight: "1!important",
-                                        textTransform: "capitalize",
-                                        fontSize: "16px!important",
-                                        "&:first-child": {
-                                          opacity: 0.5,
-                                          width: "145px",
-                                          display: "flex",
-                                          justifyContent: "space-between",
-                                        },
-                                      },
-                                    },
-                                  }}
-                                >
-                                  <CustomFormikField
-                                    name="customBankName"
-                                    label="Bank Name"
-                                  />
-                                  <CustomFormikField
-                                    name="customIFSC"
-                                    label="IFSC"
-                                  />
-                                  <CustomFormikField
-                                    name="customHolderName"
-                                    label="A/c Holder Name"
-                                  />
-                                  <CustomFormikField
-                                    name="customeAccountNumber"
-                                    label="A/c Number"
-                                  />
-                                  {/* <Box>
+                                <CustomFormikField
+                                  name="customBankName"
+                                  label="Bank Name"
+                                />
+                                <CustomFormikField
+                                  name="customIFSC"
+                                  label="IFSC"
+                                />
+                                <CustomFormikField
+                                  name="customHolderName"
+                                  label="A/c Holder Name"
+                                />
+                                <CustomFormikField
+                                  name="customeAccountNumber"
+                                  label="A/c Number"
+                                />
+                                {/* <Box>
                                     <Typography variant="subtitle2">
                                       Bank Name<span>:</span>
                                     </Typography>
@@ -1461,43 +1441,64 @@ export default function Invoices() {
                                       {bankDetails.accountNumber}
                                     </Typography>
                                   </Box> */}
-                                </Box>
                               </>
                             )}
 
                             {bankDetails && (
                               <>
-                                <Box>
-                                  <Typography variant="subtitle2">
-                                    Bank Name<span>:</span>
-                                  </Typography>
-                                  <Typography variant="subtitle2">
-                                    {bankDetails.bankName}
-                                  </Typography>
-                                </Box>
-                                <Box>
-                                  <Typography variant="subtitle2">
-                                    IFSC Code<span>:</span>
-                                  </Typography>
-                                  <Typography variant="subtitle2">
-                                    {bankDetails.IFSC}
-                                  </Typography>
-                                </Box>
-                                <Box>
-                                  <Typography variant="subtitle2">
-                                    A/c Holder Name<span>:</span>
-                                  </Typography>
-                                  <Typography variant="subtitle2">
-                                    {bankDetails.holderName}
-                                  </Typography>
-                                </Box>
-                                <Box>
-                                  <Typography variant="subtitle2">
-                                    A/c No.<span>:</span>
-                                  </Typography>
-                                  <Typography variant="subtitle2">
-                                    {bankDetails.label}
-                                  </Typography>
+                                <Box
+                                  sx={{
+                                    mt: 2.25,
+                                    "&>*": {
+                                      display: "flex",
+                                      gap: 1.25,
+                                      "&:not(:first-child)": { mt: 1.75 },
+                                      "&>*": {
+                                        lineHeight: "1!important",
+                                        textTransform: "capitalize",
+                                        fontSize: "16px!important",
+                                        "&:first-child": {
+                                          opacity: 0.5,
+                                          width: "145px",
+                                          display: "flex",
+                                          justifyContent: "space-between",
+                                        },
+                                      },
+                                    },
+                                  }}
+                                >
+                                  <Box>
+                                    <Typography variant="subtitle2">
+                                      Bank Name<span>:</span>
+                                    </Typography>
+                                    <Typography variant="subtitle2">
+                                      {bankDetails.bankName}
+                                    </Typography>
+                                  </Box>
+                                  <Box>
+                                    <Typography variant="subtitle2">
+                                      IFSC Code<span>:</span>
+                                    </Typography>
+                                    <Typography variant="subtitle2">
+                                      {bankDetails.IFSC}
+                                    </Typography>
+                                  </Box>
+                                  <Box>
+                                    <Typography variant="subtitle2">
+                                      A/c Holder Name<span>:</span>
+                                    </Typography>
+                                    <Typography variant="subtitle2">
+                                      {bankDetails.holderName}
+                                    </Typography>
+                                  </Box>
+                                  <Box>
+                                    <Typography variant="subtitle2">
+                                      A/c No.<span>:</span>
+                                    </Typography>
+                                    <Typography variant="subtitle2">
+                                      {bankDetails.label}
+                                    </Typography>
+                                  </Box>
                                 </Box>
                               </>
                             )}

@@ -197,9 +197,6 @@ export default function Invoices() {
               />
             </Box>
             <Box>
-              {/* <Typography variant="h4" sx={{ textAlign: "right" }}>
-                Invoice
-              </Typography> */}
               <Box
                 sx={{
                   display: "flex",
@@ -411,7 +408,7 @@ export default function Invoices() {
                       },
                     }}
                   >
-                    {/* {invoiceData?.tasks.map((task) => (
+                    {invoiceData?.tasks.map((task) => (
                       <TableRow
                         sx={{
                           "&>*": {
@@ -425,8 +422,8 @@ export default function Invoices() {
                         <TableCell>{task.hours}</TableCell>
                         <TableCell>${task.amount}</TableCell>
                       </TableRow>
-                    ))} */}
-                    <TableRow
+                    ))}
+                    {/* <TableRow
                       sx={{
                         "&>*": {
                           p: "0!important",
@@ -545,7 +542,7 @@ export default function Invoices() {
                       <TableCell>
                         <span>$717.00</span>
                       </TableCell>
-                    </TableRow>
+                    </TableRow> */}
                   </TableBody>
                   {/* <TableFooter>
                     <TableRow
