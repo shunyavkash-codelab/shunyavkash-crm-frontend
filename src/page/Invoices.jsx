@@ -62,6 +62,10 @@ export default function Invoices() {
     }
   };
 
+  const viewInvoice = async (invoiceNumber) => {
+    navigate(`/invoices/view/${invoiceNumber}`);
+  };
+
   const listInvoice = async () => {
     try {
       const res = await apiCall({
@@ -538,7 +542,10 @@ export default function Invoices() {
                               "& svg": { fontSize: { xs: "20px", sm: "22px" } },
                             }}
                           >
-                            <Button disableRipple>
+                            <Button
+                              disableRipple
+                              onClick={() => viewInvoice(row.invoiceNumber)}
+                            >
                               <VisibilityIcon />
                             </Button>
                             <Button disableRipple>
