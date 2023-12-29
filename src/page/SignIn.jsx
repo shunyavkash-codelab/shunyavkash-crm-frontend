@@ -80,37 +80,26 @@ export default function SignIn() {
     <Box
       component="main"
       sx={{
-        height: "100%",
-        backgroundImage: "url('./images/bg-svg.png')",
+        height: "100vh",
+        backgroundImage: "url('./images/wave-img2.png')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Box
         sx={{
-          height: "100vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          maxWidth: "420px",
           margin: "0 auto",
           flexDirection: "column",
+          width: "100%",
+          borderRadius: "10px",
         }}
       >
-        <Box
-          sx={{
-            maxWidth: "200px",
-            maxheight: "80px",
-            flexShrink: 0,
-            mb: 6.625,
-          }}
-        >
-          <img
-            src="./images/logo.svg"
-            alt="img"
-            style={{ maxWidth: "100%", maxheight: "100%" }}
-          />
-        </Box>
         <Box
           sx={{
             padding: { xs: 3, sm: 5 },
@@ -134,6 +123,21 @@ export default function SignIn() {
               flexShrink: 0,
             }}
           >
+            <Box
+              sx={{
+                maxWidth: "200px",
+                maxheight: "80px",
+                flexShrink: 0,
+                pb: 6.625,
+                // margin: "0 auto",
+              }}
+            >
+              <img
+                src="./images/logo.svg"
+                alt="img"
+                style={{ maxWidth: "100%", maxheight: "100%" }}
+              />
+            </Box>
             <Box>
               <Typography
                 id="modal-modal-title"
