@@ -12,6 +12,11 @@ import {
   TableRow,
   Paper,
   Tooltip,
+  Grow,
+  Popper,
+  MenuItem,
+  MenuList,
+  ClickAwayListener,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
@@ -19,14 +24,34 @@ import Header from "../component/Header";
 import PriorityIcon from "@mui/icons-material/Tour";
 import StartTimeIcon from "@mui/icons-material/PlayCircle";
 import StopTimeIcon from "@mui/icons-material/StopCircle";
+import StatusIcon from "@mui/icons-material/RadioButtonChecked";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 
-export default function Home() {
+const options = ["urgent", "high", "normal", "low"];
+
+export default function EmployeeDashboard() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, invoiceTable } = useAuth();
-
   const [startTime, setStartTime] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+    setOpen(false);
+  };
+  console.log(selectedIndex);
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setOpen(false);
+  };
 
   return (
     <>
@@ -65,8 +90,8 @@ export default function Home() {
               <Grid item xs={12} md={6} xl={4} sx={{ height: "100%" }}>
                 <Box
                   sx={{
-                    py: { xs: 3, sm: 3.25 },
-                    px: { xs: 3, sm: 2.5 },
+                    py: 2.5,
+                    px: 2,
                     bgcolor: "white",
                     boxShadow: "0 0 14px 0px rgb(42, 64, 98, 10%)",
                     color: "text.primary",
@@ -88,11 +113,11 @@ export default function Home() {
                       component={Paper}
                       sx={{
                         boxShadow: "none",
+                        borderRadius: 0,
                       }}
                     >
                       <Table
                         sx={{
-                          minWidth: { xs: "512px" },
                           textTransform: "capitalize",
                           textWrap: "nowrap",
                           "& th,& td": { borderBottom: 0 },
@@ -101,47 +126,68 @@ export default function Home() {
                         <TableHead>
                           <TableRow
                             sx={{
-                              borderBottom: "1px dashed rgba(0,0,0,0.2)",
+                              bgcolor: "#ECECEC",
                               "& th": {
                                 lineHeight: 1,
                                 fontWeight: 600,
+                                p: 1.5,
+                                fontSize: "12px",
                               },
                             }}
                           >
-                            <TableCell sx={{ p: 1.5, pl: 0 }}>
+                            <TableCell></TableCell>
+                            <TableCell
+                              colspan={2}
+                              sx={{ minWidth: "200px", pl: 1 }}
+                            >
                               Task Name
                             </TableCell>
-                            <TableCell sx={{ p: 1.5, width: "100px" }}>
-                              Due date
-                            </TableCell>
-                            <TableCell sx={{ p: 1.5, width: "75px" }}>
+                            <TableCell sx={{ width: "75px" }}>
                               Priority
                             </TableCell>
-                            <TableCell sx={{ p: 1.5, pr: 0, width: "90px" }}>
-                              Track Time
+                            <TableCell
+                              sx={{
+                                width: "100px",
+                                textAlign: "center",
+                              }}
+                            >
+                              Due date
+                            </TableCell>
+                            <TableCell sx={{ pr: 1, width: "62px" }}>
+                              Track
                             </TableCell>
                           </TableRow>
                         </TableHead>
-                        <TableBody>
+                        <TableBody
+                          sx={{
+                            "&>*:nth-child(even) span": {
+                              bgcolor: "red",
+                            },
+                          }}
+                        >
                           <TableRow
                             sx={{
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
                               "&>td": {
-                                fontSize: { xs: "12px", sm: "14px" },
+                                fontSize: "12px",
                               },
                             }}
                           >
-                            <TableCell sx={{ p: "12px", pl: 0 }}>
-                              Lorem Ipsum is simply dummy text of the printing
-                              and typesetting industry
-                            </TableCell>
-                            <TableCell sx={{ p: "12px" }}>30/12/2023</TableCell>
-                            <TableCell sx={{ p: "12px" }}>
-                              <Box
+                            <TableCell
+                              variant="contained"
+                              ref={anchorRef}
+                              sx={{ p: 0 }}
+                            >
+                              <Button
+                                onClick={handleToggle}
+                                disableRipple
                                 className="urgent"
                                 sx={{
+                                  bgcolor: "transparent!important",
+                                  minWidth: "unset",
+                                  padding: "0 6px 0 0",
                                   display: "flex",
                                   "&.urgent": {
                                     color: "#B13A41",
@@ -157,10 +203,125 @@ export default function Home() {
                                   },
                                 }}
                               >
+                                <StatusIcon sx={{ fontSize: "16px" }} />
+                              </Button>
+                              <Popper
+                                sx={{
+                                  zIndex: 1,
+                                }}
+                                open={open}
+                                anchorEl={anchorRef.current}
+                                role={undefined}
+                                transition
+                                disablePortal
+                              >
+                                {({ TransitionProps, placement }) => (
+                                  <Grow
+                                    {...TransitionProps}
+                                    style={{
+                                      transformOrigin:
+                                        placement === "bottom"
+                                          ? "center top"
+                                          : "center bottom",
+                                    }}
+                                  >
+                                    <Paper>
+                                      <ClickAwayListener
+                                        onClickAway={handleClose}
+                                      >
+                                        <MenuList
+                                          id="split-button-menu"
+                                          autoFocusItem
+                                        >
+                                          {options.map((option, index) => (
+                                            <MenuItem
+                                              key={option}
+                                              selected={index === selectedIndex}
+                                              onClick={(event) =>
+                                                handleMenuItemClick(
+                                                  event,
+                                                  index
+                                                )
+                                              }
+                                              sx={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                gap: 1,
+                                                fontSize: "14px",
+                                              }}
+                                            >
+                                              <Box
+                                                className={option}
+                                                sx={{
+                                                  display: "flex",
+                                                  "&.urgent": {
+                                                    color: "#B13A41",
+                                                  },
+                                                  "&.high": {
+                                                    color: "secondary.main",
+                                                  },
+                                                  "&.normal": {
+                                                    color: "primary.main",
+                                                  },
+                                                  "&.low": {
+                                                    color: "grey.dark",
+                                                  },
+                                                }}
+                                              >
+                                                <Tooltip title="Urgent" arrow>
+                                                  <StatusIcon
+                                                    sx={{ fontSize: "18px" }}
+                                                  />
+                                                </Tooltip>
+                                              </Box>
+                                              {option}
+                                            </MenuItem>
+                                          ))}
+                                        </MenuList>
+                                      </ClickAwayListener>
+                                    </Paper>
+                                  </Grow>
+                                )}
+                              </Popper>
+                            </TableCell>
+                            <TableCell sx={{ p: "12px", pl: 0, lineHeight: 1 }}>
+                              <Box
+                                className="truncate line-clamp-1"
+                                sx={{ opacity: 0.6 }}
+                              >
+                                Lorem Ipsum is simply dummy text of the printing
+                                and typesetting industry
+                              </Box>
+                            </TableCell>
+                            <TableCell sx={{ p: "12px" }}>
+                              <Box
+                                className="urgent"
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  "&.urgent": {
+                                    color: "#B13A41",
+                                  },
+                                  "&.high": {
+                                    color: "secondary.main",
+                                  },
+                                  "&.normal": {
+                                    color: "primary.main",
+                                  },
+                                  "&.low": {
+                                    color: "grey.dark",
+                                  },
+                                }}
+                              >
                                 <Tooltip title="Urgent" arrow>
-                                  <PriorityIcon sx={{ fontSize: "20px" }} />
+                                  <PriorityIcon sx={{ fontSize: "16px" }} />
                                 </Tooltip>
                               </Box>
+                            </TableCell>
+                            <TableCell
+                              sx={{ p: "12px", lineHeight: 1, opacity: 0.6 }}
+                            >
+                              30/12/2023
                             </TableCell>
                             <TableCell sx={{ p: "12px", pr: 0 }}>
                               <Button
@@ -169,37 +330,27 @@ export default function Home() {
                                 }}
                                 disableRipple
                                 sx={{
-                                  display: "flex",
-                                  justifyContent: "start",
-                                  gap: 0.5,
+                                  minWidth: "unset",
                                   p: 0,
                                   bgcolor: "transparent!important",
+                                  display: "block",
+                                  mx: "auto",
                                 }}
                               >
                                 <StartTimeIcon
                                   sx={{
-                                    fontSize: "20px",
+                                    fontSize: "16px",
                                     color: "#008844",
                                     display: startTime ? "none" : "block",
                                   }}
                                 />
                                 <StopTimeIcon
                                   sx={{
-                                    fontSize: "20px",
+                                    fontSize: "16px",
                                     color: "error.main",
                                     display: startTime ? "block" : "none",
                                   }}
                                 />
-                                <Box
-                                  sx={{
-                                    fontSize: "13px",
-                                    lineHeight: 1,
-                                    fontWeight: "500",
-                                    color: "text.primary",
-                                  }}
-                                >
-                                  00:00:00
-                                </Box>
                               </Button>
                             </TableCell>
                           </TableRow>
