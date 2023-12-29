@@ -74,7 +74,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
             alignItems: "center",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
             <Button
               sx={{
                 color: "text.primary",
@@ -220,7 +220,8 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                     borderRadius: 6,
                     gap: 1,
                     py: { xs: 0, sm: 0.75 },
-                    px: { xs: 0, sm: 1.5 },
+                    pl: { xs: 0, sm: 1.5 },
+                    pr: { xs: 0, sm: 1 },
                     bgcolor: "white",
                   }}
                 >

@@ -73,7 +73,7 @@ export default function SideBar({
           <List>
             {[
               {
-                text: "DashBoard",
+                text: "Dashboard",
                 icon: <DashboardIcon />,
                 link: "/",
               },
@@ -85,6 +85,11 @@ export default function SideBar({
                 text: "Members",
                 icon: <MembersIcon />,
                 link: "/employees",
+              },
+              {
+                text: "Employee Dashboard",
+                icon: <InvoicesIcon />,
+                link: "/EmployeeDashboard",
               },
             ].map((item, index) => (
               <ListItem

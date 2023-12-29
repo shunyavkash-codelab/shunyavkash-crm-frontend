@@ -76,7 +76,7 @@ export default function Home() {
   };
 
   return (
-    <Grid>
+    <>
       <SideBar
         sideBarWidth={sideBarWidth}
         setSidebarWidth={setSidebarWidth}
@@ -623,6 +623,6 @@ export default function Home() {
           </Box>
         </Box>
       </Box>
-    </Grid>
+    </>
   );
 }
