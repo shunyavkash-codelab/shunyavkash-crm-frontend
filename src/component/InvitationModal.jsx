@@ -47,6 +47,7 @@ export default function AddClientsModal({ open, setOpen }) {
         });
         if (res.data.success === true) {
           setSnack(res.data.message);
+          setOpen(false);
           navigate("/employees");
         }
       } catch (error) {
@@ -269,6 +270,8 @@ export default function AddClientsModal({ open, setOpen }) {
                   <Button
                     disableRipple
                     type="submit"
+                    open={open}
+                    onClick={handleClose}
                     sx={{
                       maxHeight: "42px",
                       position: "relative",

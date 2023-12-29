@@ -1,3 +1,5 @@
+import Employees from "../page/Employees";
+
 export const APIS = {
   DASHBOARD: {
     DATA: "/dashboard/dashboard",
@@ -16,6 +18,7 @@ export const APIS = {
   EMPLOYEE: {
     ADD: "/manager/add",
     ALLLIST: "/manager/get-all-employees",
+    DELETE: (employeeId) => `/manager/${employeeId}`,
   },
   CLIENT: {
     ADD: "/client/add",

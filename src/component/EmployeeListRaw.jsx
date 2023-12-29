@@ -14,16 +14,21 @@ import {
 import React, { useState } from "react";
 import SaveIcon from "@mui/icons-material/CheckOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import { useFormik } from "formik";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList.js";
 import { useSnack } from "../hooks/store/useSnack";
 
-export default function EmployeeListRaw({ row, uniqId }) {
+export default function EmployeeListRaw({
+  row,
+  uniqId,
+  setEmployeesList,
+  employeesList,
+}) {
   const [role, setRole] = useState();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
 
+  // edit employee and manager
   const editRole = async (id) => {
     try {
       const res = await apiCall({
@@ -40,6 +45,28 @@ export default function EmployeeListRaw({ row, uniqId }) {
       setSnack(errorMessage, "warning");
     }
   };
+
+  // delete employee and manager
+  const deleteEmpandman = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.EMPLOYEE.DELETE(id),
+        method: "delete",
+      });
+      if (res.status === 200) {
+        setSnack(res.data.message);
+        updateEmployeeList(id);
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
+    }
+  };
+
+  const updateEmployeeList = (id) => {
+    setEmployeesList(employeesList.filter((employee) => employee._id !== id));
+  };
+
   return (
     <>
       <TableRow
@@ -214,6 +241,7 @@ export default function EmployeeListRaw({ row, uniqId }) {
                   transition: "all 0.4s ease-in-out",
                   "&:not(:hover)": { opacity: 0.2 },
                 }}
+                onClick={() => deleteEmpandman(uniqId)}
               >
                 <DeleteIcon />
               </Button>

@@ -40,32 +40,6 @@ export default function Employees() {
   const [employeesList, setEmployeesList] = useState([]);
   const { searchData } = useSearchData();
 
-  const formik = useFormik({
-    initialValues: {
-      role: "",
-    },
-    enableReinitialize: true,
-    onSubmit: async (values) => {
-      console.log(values, "----------------------50");
-      // try {
-      //   // values.currency = currencyValue?.symbol;
-      //   const res = await apiCall({
-      //     url: id ? APIS.PROJECT.EDIT(id) : APIS.PROJECT.ADD,
-      //     method: id ? "patch" : "post",
-      //     data: JSON.stringify(values, null, 2),
-      //   });
-      //   if (res.data.success === true) {
-      //     setSnack(res.data.message);
-      //     !id && navigate("/project");
-      //   }
-      // } catch (error) {
-      //   console.log(error, "=================77");
-      //   let errorMessage = error.response.data.message;
-      //   setSnack(errorMessage, "warning");
-      // }
-    },
-  });
-
   const fetchEmployees = async () => {
     try {
       const res = await apiCall({
@@ -199,13 +173,7 @@ export default function Employees() {
           </Box>
 
           {/* <FormikProvider value={formik}> */}
-          <Box
-            component="form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              formik.handleSubmit();
-            }}
-          >
+          <Box>
             <TableContainer
               component={Paper}
               sx={{
@@ -243,7 +211,12 @@ export default function Employees() {
                 </TableHead>
                 <TableBody>
                   {employeesList.map((row) => (
-                    <EmployeeListRaw row={row} uniqId={row._id} />
+                    <EmployeeListRaw
+                      row={row}
+                      uniqId={row._id}
+                      setEmployeesList={setEmployeesList}
+                      employeesList={employeesList}
+                    />
                   ))}
                 </TableBody>
               </Table>
