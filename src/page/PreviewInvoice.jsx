@@ -46,6 +46,7 @@ export default function Invoices() {
       if (res.status === 201) {
         setSnack(res.data.message);
         toPDF();
+        navigate("/invoices");
       }
       if (res.status === 409) {
         let errorMessage = res.data.message;

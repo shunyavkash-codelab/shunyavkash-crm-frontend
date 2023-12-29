@@ -72,7 +72,7 @@ export default function SignIn() {
         }
       } catch (error) {
         let errorMessage = error.response.data.message;
-        setSnack(errorMessage, "warning");
+        setSnack(errorMessage, "error");
       }
     },
   });
