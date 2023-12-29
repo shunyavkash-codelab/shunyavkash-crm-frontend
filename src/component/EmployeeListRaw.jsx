@@ -14,14 +14,31 @@ import {
 import React, { useState } from "react";
 import SaveIcon from "@mui/icons-material/CheckOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import { useFormik } from "formik";
+import useApi from "../hooks/useApi";
+import { APIS } from "../api/apiList.js";
+import { useSnack } from "../hooks/store/useSnack";
 
 export default function EmployeeListRaw({ row, uniqId }) {
-  const [role, setRole] = useState(
-    row?.role == 0 ? "SuperAdmin" : row?.role == 1 ? "Manager" : "Employee"
-  );
-  //   console.log(role, "-------------------22");
-  const editRole = (id) => {
-    console.log(role, "-------------------24");
+  const [role, setRole] = useState();
+  const { apiCall, isLoading } = useApi();
+  const { setSnack } = useSnack();
+
+  const editRole = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.EDIT(id),
+        method: "patch",
+        data: { role: role == "SuperAdmin" ? 0 : role == "Manager" ? 1 : 2 },
+      });
+      if (res.status === 200) {
+        setSnack(res.data.message);
+        setRole(null);
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
+    }
   };
   return (
     <>
@@ -177,6 +194,7 @@ export default function EmployeeListRaw({ row, uniqId }) {
                 type="submit"
                 disableRipple
                 disableElevation
+                disabled={!role}
                 sx={{
                   transition: "all 0.4s ease-in-out",
                   "&:hover": {
@@ -184,7 +202,7 @@ export default function EmployeeListRaw({ row, uniqId }) {
                   },
                   "&:not(:hover)": { opacity: 0.2 },
                 }}
-                onClick={editRole(uniqId)}
+                onClick={() => editRole(uniqId)}
               >
                 <SaveIcon disableRipple />
               </Button>
