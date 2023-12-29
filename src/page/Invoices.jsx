@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -30,6 +30,7 @@ import CreateIcon from "@mui/icons-material/CreateOutlined";
 import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList";
+import { useSnack } from "../hooks/store/useSnack";
 
 const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -41,6 +42,8 @@ export default function Invoices() {
   const [date, setDate] = useState("");
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
+  const { setSnack } = useSnack();
+  const [invoiceList, setInvoiceList] = useState([]);
 
   const handleChange = (event) => {
     setDate(event.target.value);
@@ -59,6 +62,25 @@ export default function Invoices() {
       console.log(error);
     }
   };
+
+  const listInvoice = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.INVOICE.LIST,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setInvoiceList(res.data.data.data);
+        console.log(res.data.data.data, "-----------------------75");
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    listInvoice();
+  }, []);
 
   return (
     <>
@@ -346,7 +368,7 @@ export default function Invoices() {
               mb: 1.75,
             }}
           >
-            50 Invoices found
+            {invoiceList.length} Invoices found
           </Typography>
           <Box sx={{ display: showTable ? "none" : "block" }}>
             <Box>
@@ -405,153 +427,95 @@ export default function Invoices() {
                     <TableCell>Manager</TableCell>
                     <TableCell>Invoice No.</TableCell>
                     <TableCell>Invoice Date</TableCell>
-                    <TableCell>Payment Ref No.</TableCell>
                     <TableCell>Status</TableCell>
                     <TableCell>Total</TableCell>
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&:first-child td": {
-                        maxWidth: "250px",
-                        textWrap: "wrap",
-                      },
-                    }}
-                  >
-                    <TableCell>CRM</TableCell>
-                    <TableCell>Hiren</TableCell>
-                    <TableCell>Deep</TableCell>
-                    <TableCell>12345</TableCell>
-                    <TableCell>12/12/23</TableCell>
-                    <TableCell>11815886</TableCell>
-                    <TableCell
+                  {invoiceList.map((row) => (
+                    <TableRow
                       sx={{
-                        "& .statusBtn": {
-                          color: "white",
-                          fontSize: "12px",
-                          p: 0.5,
-                          borderRadius: 1,
-                          maxWidth: "fit-content",
-                          lineHeight: 1,
-                        },
-                        "& .panding": {
-                          bgcolor: "secondary.main",
-                        },
-                        "& .done": {
-                          bgcolor: "success.main",
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&:first-child td": {
+                          maxWidth: "250px",
+                          textWrap: "wrap",
                         },
                       }}
                     >
-                      <Box className="statusBtn panding">Pending</Box>
-                      <Box
+                      <TableCell>{row.projectName}</TableCell>
+                      <TableCell>{row.clientName}</TableCell>
+                      <TableCell>{row.managerName}</TableCell>
+                      <TableCell>{row.invoiceNumber}</TableCell>
+                      <TableCell>{row.invoiceDate}</TableCell>
+                      <TableCell
                         sx={{
-                          fontSize: "13px",
-                          lineHeight: 1,
-                          textWrap: "nowrap",
-                          mt: 0.75,
-                        }}
-                      >
-                        Due on 13/12/23
-                      </Box>
-                    </TableCell>
-                    <TableCell>300.00$</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: { xs: 1.25, sm: 1.5 },
-                          opacity: 0.3,
-                          "& button": {
-                            p: 0,
-                            minWidth: "auto",
-                            color: "black",
-                            "&:hover": { color: "primary.main" },
+                          "& .statusBtn": {
+                            color: "white",
+                            fontSize: "12px",
+                            p: 0.5,
+                            borderRadius: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
                           },
-                          "& svg": { fontSize: { xs: "20px", sm: "22px" } },
-                        }}
-                      >
-                        <Button disableRipple>
-                          <VisibilityIcon />
-                        </Button>
-                        <Button disableRipple>
-                          <MarkAsPaidIcon />
-                        </Button>
-                        <Button disableRipple>
-                          <CreateIcon />
-                        </Button>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&:first-child td": {
-                        maxWidth: "250px",
-                        textWrap: "wrap",
-                      },
-                    }}
-                  >
-                    <TableCell>CRM</TableCell>
-                    <TableCell>Hiren</TableCell>
-                    <TableCell>Deep</TableCell>
-                    <TableCell>12345</TableCell>
-                    <TableCell>12/12/23</TableCell>
-                    <TableCell>11815886</TableCell>
-                    <TableCell
-                      sx={{
-                        "& .statusBtn": {
-                          color: "white",
-                          fontSize: "12px",
-                          p: 0.5,
-                          borderRadius: 1,
-                          maxWidth: "fit-content",
-                          lineHeight: 1,
-                        },
-                        "& .panding": {
-                          bgcolor: "secondary.main",
-                        },
-                        "& .done": {
-                          bgcolor: "success.main",
-                        },
-                      }}
-                    >
-                      <Box className="statusBtn done">Done</Box>
-                    </TableCell>
-                    <TableCell>150.00$</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: { xs: 1.25, sm: 1.5 },
-                          opacity: 0.3,
-                          "& button": {
-                            p: 0,
-                            minWidth: "auto",
-                            color: "black",
-                            "&:hover": { color: "primary.main" },
+                          "& .pending": {
+                            bgcolor: "secondary.main",
                           },
-                          "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                          "& .success": {
+                            bgcolor: "success.main",
+                          },
                         }}
                       >
-                        <Button disableRipple>
-                          <VisibilityIcon />
-                        </Button>
-                        <Button disableRipple>
-                          <MarkAsPaidIcon />
-                        </Button>
-                        <Button disableRipple>
-                          <CreateIcon />
-                        </Button>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
+                        <Box
+                          className={`statusBtn ${
+                            row.status == "success" ? "success" : "pending"
+                          }`}
+                        >
+                          {row.status}
+                        </Box>
+                        <Box
+                          sx={{
+                            fontSize: "13px",
+                            lineHeight: 1,
+                            textWrap: "nowrap",
+                            mt: 0.75,
+                          }}
+                        >
+                          {row.invoiceDueDate}
+                          {/* Due on 13/12/23 */}
+                        </Box>
+                      </TableCell>
+                      <TableCell>${row.totals.total}</TableCell>
+                      <TableCell>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: { xs: 1.25, sm: 1.5 },
+                            opacity: 0.3,
+                            "& button": {
+                              p: 0,
+                              minWidth: "auto",
+                              color: "black",
+                              "&:hover": { color: "primary.main" },
+                            },
+                            "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                          }}
+                        >
+                          <Button disableRipple>
+                            <VisibilityIcon />
+                          </Button>
+                          <Button disableRipple>
+                            <MarkAsPaidIcon />
+                          </Button>
+                          <Button disableRipple>
+                            <CreateIcon />
+                          </Button>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>

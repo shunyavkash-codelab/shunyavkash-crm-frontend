@@ -41,6 +41,7 @@ export default function Home() {
   const [showTable] = useState(invoiceTable);
   const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
   const navigate = useNavigate();
+  const [invoiceList, setInvoiceList] = useState([]);
 
   const fetchDashboardData = async () => {
     try {
@@ -57,8 +58,25 @@ export default function Home() {
       // handleApiError(error, setSnack);
     }
   };
+
+  const listInvoice = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.INVOICE.LIST,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setInvoiceList(res.data.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
   useEffect(() => {
     fetchDashboardData();
+    listInvoice();
   }, []);
 
   const invoiceNumberGenerate = async () => {
@@ -470,153 +488,94 @@ export default function Home() {
                     <TableCell>Manager</TableCell>
                     <TableCell>Invoice No.</TableCell>
                     <TableCell>Invoice Date</TableCell>
-                    <TableCell>Payment Ref No.</TableCell>
                     <TableCell>Status</TableCell>
                     <TableCell>Total</TableCell>
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&:first-child td": {
-                        maxWidth: "250px",
-                        textWrap: "wrap",
-                      },
-                    }}
-                  >
-                    <TableCell>CRM</TableCell>
-                    <TableCell>Hiren</TableCell>
-                    <TableCell>Deep</TableCell>
-                    <TableCell>12345</TableCell>
-                    <TableCell>12/12/23</TableCell>
-                    <TableCell>11815886</TableCell>
-                    <TableCell
+                  {invoiceList.map((row) => (
+                    <TableRow
                       sx={{
-                        "& .statusBtn": {
-                          color: "white",
-                          fontSize: "12px",
-                          p: 0.5,
-                          borderRadius: 1,
-                          maxWidth: "fit-content",
-                          lineHeight: 1,
-                        },
-                        "& .panding": {
-                          bgcolor: "secondary.main",
-                        },
-                        "& .done": {
-                          bgcolor: "success.main",
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&:first-child td": {
+                          maxWidth: "250px",
+                          textWrap: "wrap",
                         },
                       }}
                     >
-                      <Box className="statusBtn panding">Pending</Box>
-                      <Box
+                      <TableCell>{row.projectName}</TableCell>
+                      <TableCell>{row.clientName}</TableCell>
+                      <TableCell>{row.managerName}</TableCell>
+                      <TableCell>{row.invoiceNumber}</TableCell>
+                      <TableCell>{row.invoiceDate}</TableCell>
+                      <TableCell
                         sx={{
-                          fontSize: "13px",
-                          lineHeight: 1,
-                          textWrap: "nowrap",
-                          mt: 0.75,
-                        }}
-                      >
-                        Due on 13/12/23
-                      </Box>
-                    </TableCell>
-                    <TableCell>300.00$</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: { xs: 1.25, sm: 1.5 },
-                          opacity: 0.3,
-                          "& button": {
-                            p: 0,
-                            minWidth: "auto",
-                            color: "black",
-                            "&:hover": { color: "primary.main" },
+                          "& .statusBtn": {
+                            color: "white",
+                            fontSize: "12px",
+                            p: 0.5,
+                            borderRadius: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
                           },
-                          "& svg": { fontSize: { xs: "20px", sm: "22px" } },
-                        }}
-                      >
-                        <Button disableRipple>
-                          <VisibilityIcon />
-                        </Button>
-                        <Button disableRipple>
-                          <MarkAsPaidIcon />
-                        </Button>
-                        <Button disableRipple>
-                          <CreateIcon />
-                        </Button>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&:first-child td": {
-                        maxWidth: "250px",
-                        textWrap: "wrap",
-                      },
-                    }}
-                  >
-                    <TableCell>CRM</TableCell>
-                    <TableCell>Hiren</TableCell>
-                    <TableCell>Deep</TableCell>
-                    <TableCell>12345</TableCell>
-                    <TableCell>12/12/23</TableCell>
-                    <TableCell>11815886</TableCell>
-                    <TableCell
-                      sx={{
-                        "& .statusBtn": {
-                          color: "white",
-                          fontSize: "12px",
-                          p: 0.5,
-                          borderRadius: 1,
-                          maxWidth: "fit-content",
-                          lineHeight: 1,
-                        },
-                        "& .panding": {
-                          bgcolor: "secondary.main",
-                        },
-                        "& .done": {
-                          bgcolor: "success.main",
-                        },
-                      }}
-                    >
-                      <Box className="statusBtn done">done</Box>
-                    </TableCell>
-                    <TableCell>300.00$</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: { xs: 1.25, sm: 1.5 },
-                          opacity: 0.3,
-                          "& button": {
-                            p: 0,
-                            minWidth: "auto",
-                            color: "black",
-                            "&:hover": { color: "primary.main" },
+                          "& .pending": {
+                            bgcolor: "secondary.main",
                           },
-                          "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                          "& .success": {
+                            bgcolor: "success.main",
+                          },
                         }}
                       >
-                        <Button disableRipple>
-                          <VisibilityIcon />
-                        </Button>
-                        <Button disableRipple>
-                          <MarkAsPaidIcon />
-                        </Button>
-                        <Button disableRipple>
-                          <CreateIcon />
-                        </Button>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
+                        <Box
+                          className={`statusBtn ${
+                            row.status == "success" ? "success" : "pending"
+                          }`}
+                        >
+                          {row.status}
+                        </Box>
+                        <Box
+                          sx={{
+                            fontSize: "13px",
+                            lineHeight: 1,
+                            textWrap: "nowrap",
+                            mt: 0.75,
+                          }}
+                        >
+                          Due on 13/12/23
+                        </Box>
+                      </TableCell>
+                      <TableCell>300.00$</TableCell>
+                      <TableCell>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: { xs: 1.25, sm: 1.5 },
+                            opacity: 0.3,
+                            "& button": {
+                              p: 0,
+                              minWidth: "auto",
+                              color: "black",
+                              "&:hover": { color: "primary.main" },
+                            },
+                            "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                          }}
+                        >
+                          <Button disableRipple>
+                            <VisibilityIcon />
+                          </Button>
+                          <Button disableRipple>
+                            <MarkAsPaidIcon />
+                          </Button>
+                          <Button disableRipple>
+                            <CreateIcon />
+                          </Button>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>
