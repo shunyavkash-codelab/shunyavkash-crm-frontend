@@ -13,6 +13,7 @@ import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
 import MembersIcon from "@mui/icons-material/BadgeOutlined";
+import AccessTimeIcon from "@mui/icons-material/AccessTimeOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "../hooks/store/useAuth";
@@ -93,7 +94,7 @@ export default function SideBar({
               },
               {
                 text: "Apply Leave",
-                icon: <InvoicesIcon />,
+                icon: <AccessTimeIcon />,
                 link: "/applyleave",
               },
             ].map((item, index) => (
