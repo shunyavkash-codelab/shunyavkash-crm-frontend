@@ -23,6 +23,7 @@ import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList";
 import { useSnack } from "../hooks/store/useSnack";
 import { Warning } from "@mui/icons-material";
+import moment from "moment";
 
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -308,7 +309,7 @@ export default function Invoices() {
                       Invoice Date <span>:</span>
                     </Typography>
                     <Typography variant="subtitle3">
-                      {invoiceData?.invoiceDate}
+                      {moment(invoiceData?.invoiceDate).format("DD/MM/YYYY")}
                     </Typography>
                   </Box>
                   <Box>
@@ -316,7 +317,7 @@ export default function Invoices() {
                       Due Date <span>:</span>
                     </Typography>
                     <Typography variant="subtitle3">
-                      {invoiceData?.invoiceDueDate}
+                      {moment(invoiceData?.invoiceDueDate).format("DD/MM/YYYY")}
                     </Typography>
                   </Box>
                 </Box>
