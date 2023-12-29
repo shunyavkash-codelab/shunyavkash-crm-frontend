@@ -22,6 +22,7 @@ import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList";
 import { useSnack } from "../hooks/store/useSnack";
+import { Warning } from "@mui/icons-material";
 
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -45,6 +46,10 @@ export default function Invoices() {
       if (res.status === 201) {
         setSnack(res.data.message);
         toPDF();
+      }
+      if (res.status === 409) {
+        let errorMessage = res.data.message;
+        setSnack(errorMessage, "warning");
       }
     } catch (error) {
       let errorMessage = error.response.data.message;
