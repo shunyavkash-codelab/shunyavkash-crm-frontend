@@ -35,6 +35,9 @@ import InvoiceTable from "../component/InvoiceTable";
 import CustomFormikField from "../component/form/CustomFormikField";
 import InvoiceInputForm from "../component/form/InvoiceInputForm";
 import EditIcon from "@mui/icons-material/CreateOutlined";
+import * as Yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -97,6 +100,30 @@ export default function Invoices() {
     fifteenDaysAgo.toISOString().split("T")[0]
   );
   // const handleOpen = () => setFromOpen(true);
+
+  // validation
+  const schema = Yup.object({
+    invoiceNumber: Yup.string()
+      .required("Invoice number is required")
+      .test(
+        "is-unique-invoiceNumber",
+        "This invoice number is already taken",
+        async function (value) {
+          console.log(value, "------------------112");
+          try {
+            let result = await apiCall({
+              url: APIS.INVOICE.CHECKINVOICENUMBER(value),
+              method: "get",
+            });
+            console.log(result, "---------------------118");
+            if (result.data.success) return true;
+            else return false;
+          } catch (error) {
+            return false;
+          }
+        }
+      ),
+  });
 
   const handleChange = (event) => {
     const {
@@ -294,6 +321,7 @@ export default function Invoices() {
       />
       <Box
         component={Formik}
+        validationSchema={schema}
         enableReinitialize={true}
         initialValues={{
           email: adminList.email,

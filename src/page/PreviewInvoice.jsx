@@ -19,6 +19,9 @@ import Header from "../component/Header";
 import { useAuth } from "../hooks/store/useAuth";
 import { usePDF } from "react-to-pdf";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
+import useApi from "../hooks/useApi";
+import { APIS } from "../api/apiList";
+import { useSnack } from "../hooks/store/useSnack";
 
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -28,6 +31,26 @@ export default function Invoices() {
   const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
   const { invoiceData } = useInvoiceStore();
   const navigate = useNavigate();
+  const { apiCall, isLoading } = useApi();
+  const { setSnack } = useSnack();
+  console.log(invoiceData, "------------------36");
+  // add invoice
+  const addInvoice = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.INVOICE.ADD,
+        method: "post",
+        data: JSON.stringify(invoiceData, null, 2),
+      });
+      if (res.status === 201) {
+        setSnack(res.data.message);
+        toPDF();
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
+    }
+  };
 
   return (
     <>
@@ -857,7 +880,7 @@ export default function Invoices() {
                   "&:before": { height: "10rem" },
                 },
               }}
-              onClick={() => toPDF()}
+              onClick={() => addInvoice()}
             >
               <span style={{ position: "relative" }}>generate</span>
             </Button>

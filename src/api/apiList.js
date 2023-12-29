@@ -42,6 +42,8 @@ export const APIS = {
   },
   INVOICE: {
     GENERATENUM: "/invoice/generate-invoice-number",
+    ADD: "/invoice/add",
+    CHECKINVOICENUMBER: (number) => `/invoice/check-invoice-number/${number}`,
   },
   COUNTRY: {
     GET: "/country-code",

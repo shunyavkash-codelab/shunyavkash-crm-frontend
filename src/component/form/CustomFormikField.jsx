@@ -13,8 +13,8 @@ export default function CustomFormikField({ name, ...params }) {
         return (
           <>
             <TextField
-              error={Boolean(form.errors.firstName && form.touched.firstName)}
-              // onChange={formikBag.handleChange}
+              error={form.touched[name] && Boolean(form.errors[name])}
+              helperText={form.touched[name] && form.errors[name]}
               // onBlur={formikBag.handleBlur}
               fullWidth
               size="small"
@@ -30,11 +30,6 @@ export default function CustomFormikField({ name, ...params }) {
                 //   borderColor: "transparent",
                 // },
               }}
-              helperText={
-                form.errors.firstName &&
-                form.touched.firstName &&
-                String(form.errors.firstName)
-              }
               {...field}
               {...params}
             />
