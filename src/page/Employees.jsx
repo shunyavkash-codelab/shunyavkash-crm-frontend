@@ -172,53 +172,87 @@ export default function Employees() {
 
           {/* <FormikProvider value={formik}> */}
           <Box>
-            <TableContainer
-              component={Paper}
-              sx={{
-                border: "1px solid rgba(224, 224, 224, 1)",
-                borderRadius: 5,
-                mx: { xs: "-10px", sm: 0 },
-                width: { xs: "auto", sm: "auto" },
-                borderRadius: 2.5,
-              }}
-            >
-              <Table
-                className="managerTable"
+            {employeesList.length === 0 ? (
+              <Box
                 sx={{
-                  minWidth: 650,
-                  textTransform: "capitalize",
-                  textWrap: "nowrap",
-                  "& th,& td": { borderBottom: 0 },
-                  "& tbody tr": {
-                    borderTop: "1px solid rgba(224, 224, 224, 1)",
-                  },
+                  width: "100%",
+                  display: "block",
+                  padding: "25px 16px",
+                  backgroundColor: "primary.light",
+                  textAlign: "center",
+                  borderRadius: 2.5,
                 }}
-                aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow
+                <Typography
+                  mb={1.5}
+                  variant="h4"
+                  sx={{
+                    fontSize: "20px",
+                    color: "#1677FF",
+                    fontWeight: "500",
+                    letterSpacing: "0.5px",
+                  }}
+                >
+                  No data available in table
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{ fontSize: 14, color: "#848484", fontWeight: "400" }}
+                >
+                  Currently there no data available!
+                </Typography>
+              </Box>
+            ) : (
+              <>
+                <TableContainer
+                  component={Paper}
+                  sx={{
+                    border: "1px solid rgba(224, 224, 224, 1)",
+                    borderRadius: 5,
+                    mx: { xs: "-10px", sm: 0 },
+                    width: { xs: "auto", sm: "auto" },
+                    borderRadius: 2.5,
+                  }}
+                >
+                  <Table
+                    className="managerTable"
                     sx={{
-                      "&>th": { lineHeight: 1, fontWeight: 700 },
+                      minWidth: 650,
+                      textTransform: "capitalize",
+                      textWrap: "nowrap",
+                      "& th,& td": { borderBottom: 0 },
+                      "& tbody tr": {
+                        borderTop: "1px solid rgba(224, 224, 224, 1)",
+                      },
                     }}
+                    aria-label="simple table"
                   >
-                    <TableCell>employee</TableCell>
-                    <TableCell sx={{ width: "250px" }}>Role</TableCell>
-                    <TableCell>invite</TableCell>
-                    <TableCell sx={{ width: "140px" }}>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {employeesList.map((row) => (
-                    <EmployeeListRaw
-                      row={row}
-                      uniqId={row._id}
-                      setEmployeesList={setEmployeesList}
-                      employeesList={employeesList}
-                    />
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                    <TableHead>
+                      <TableRow
+                        sx={{
+                          "&>th": { lineHeight: 1, fontWeight: 700 },
+                        }}
+                      >
+                        <TableCell>employee</TableCell>
+                        <TableCell sx={{ width: "250px" }}>Role</TableCell>
+                        <TableCell>invite</TableCell>
+                        <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {employeesList.map((row) => (
+                        <EmployeeListRaw
+                          row={row}
+                          uniqId={row._id}
+                          setEmployeesList={setEmployeesList}
+                          employeesList={employeesList}
+                        />
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </>
+            )}
           </Box>
           {/* </FormikProvider> */}
           <InvitationModal open={modalOpen} setOpen={setOpen} />
