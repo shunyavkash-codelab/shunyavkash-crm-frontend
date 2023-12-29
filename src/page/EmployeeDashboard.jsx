@@ -11,18 +11,22 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Tooltip,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import PriorityIcon from "@mui/icons-material/Tour";
 import StartTimeIcon from "@mui/icons-material/PlayCircle";
+import StopTimeIcon from "@mui/icons-material/StopCircle";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, invoiceTable } = useAuth();
+
+  const [startTime, setStartTime] = useState(false);
 
   return (
     <>
@@ -58,7 +62,7 @@ export default function Home() {
               </Typography>
             </Box>
             <Grid container rowSpacing={2} columnSpacing={2}>
-              <Grid item xs={12} md={6} sx={{ height: "100%" }}>
+              <Grid item xs={12} md={6} xl={4} sx={{ height: "100%" }}>
                 <Box
                   sx={{
                     py: { xs: 3, sm: 3.25 },
@@ -88,6 +92,7 @@ export default function Home() {
                     >
                       <Table
                         sx={{
+                          minWidth: { xs: "512px" },
                           textTransform: "capitalize",
                           textWrap: "nowrap",
                           "& th,& td": { borderBottom: 0 },
@@ -95,15 +100,21 @@ export default function Home() {
                       >
                         <TableHead>
                           <TableRow
-                            sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
+                            sx={{
+                              borderBottom: "1px dashed rgba(0,0,0,0.2)",
+                              "& th": {
+                                lineHeight: 1,
+                                fontWeight: 600,
+                              },
+                            }}
                           >
                             <TableCell sx={{ p: 1.5, pl: 0 }}>
                               Task Name
                             </TableCell>
-                            <TableCell sx={{ p: 1.5, width: "110px" }}>
+                            <TableCell sx={{ p: 1.5, width: "100px" }}>
                               Due date
                             </TableCell>
-                            <TableCell sx={{ p: 1.5, width: "90px" }}>
+                            <TableCell sx={{ p: 1.5, width: "75px" }}>
                               Priority
                             </TableCell>
                             <TableCell sx={{ p: 1.5, pr: 0, width: "90px" }}>
@@ -123,9 +134,10 @@ export default function Home() {
                             }}
                           >
                             <TableCell sx={{ p: "12px", pl: 0 }}>
-                              Task
+                              Lorem Ipsum is simply dummy text of the printing
+                              and typesetting industry
                             </TableCell>
-                            <TableCell sx={{ p: "12px" }}>30/12/23</TableCell>
+                            <TableCell sx={{ p: "12px" }}>30/12/2023</TableCell>
                             <TableCell sx={{ p: "12px" }}>
                               <Box
                                 className="urgent"
@@ -145,23 +157,49 @@ export default function Home() {
                                   },
                                 }}
                               >
-                                <PriorityIcon sx={{ fontSize: "20px" }} />
+                                <Tooltip title="Urgent" arrow>
+                                  <PriorityIcon sx={{ fontSize: "20px" }} />
+                                </Tooltip>
                               </Box>
                             </TableCell>
                             <TableCell sx={{ p: "12px", pr: 0 }}>
                               <Button
+                                onClick={() => {
+                                  setStartTime(!startTime);
+                                }}
+                                disableRipple
                                 sx={{
                                   display: "flex",
                                   justifyContent: "start",
+                                  gap: 0.5,
                                   p: 0,
+                                  bgcolor: "transparent!important",
                                 }}
                               >
                                 <StartTimeIcon
                                   sx={{
                                     fontSize: "20px",
                                     color: "#008844",
+                                    display: startTime ? "none" : "block",
                                   }}
                                 />
+                                <StopTimeIcon
+                                  sx={{
+                                    fontSize: "20px",
+                                    color: "error.main",
+                                    display: startTime ? "block" : "none",
+                                  }}
+                                />
+                                <Box
+                                  sx={{
+                                    fontSize: "13px",
+                                    lineHeight: 1,
+                                    fontWeight: "500",
+                                    color: "text.primary",
+                                  }}
+                                >
+                                  00:00:00
+                                </Box>
                               </Button>
                             </TableCell>
                           </TableRow>
@@ -191,29 +229,6 @@ export default function Home() {
                     }}
                   >
                     Upcoming Due
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={12} xxl={4} sx={{ height: "100%" }}>
-                <Box
-                  sx={{
-                    py: { xs: 3, sm: 3.25 },
-                    px: { xs: 3, sm: 2.5 },
-                    bgcolor: "white",
-                    boxShadow: "0 0 14px 0px rgb(42, 64, 98, 10%)",
-                    color: "text.primary",
-                    borderRadius: 2.5,
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      textTransform: "capitalize",
-                      mb: { xs: 3.5, sm: 4.5 },
-                      fontSize: { xs: "16px", sm: "18px" },
-                    }}
-                  >
-                    Tracked Time By You (This Week)
                   </Typography>
                 </Box>
               </Grid> */}

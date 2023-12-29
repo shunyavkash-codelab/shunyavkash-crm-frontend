@@ -23,6 +23,7 @@ import PreviewInvoice from "./page/PreviewInvoice";
 import Profile from "./page/Profile";
 import ViewProject from "./page/ViewProject";
 import Employees from "./page/Employees";
+import ApplyLeave from "./page/ApplyLeave";
 
 const routes = createBrowserRouter([
   { path: "/signup", Component: SignUp },
@@ -48,6 +49,7 @@ const routes = createBrowserRouter([
   { path: "/invoices/add/:invoiceNumber/preview", Component: PreviewInvoice },
   { path: "/employees", Component: Employees },
   { path: "/profile", Component: Profile },
+  { path: "/applyleave", Component: ApplyLeave },
 ]);
 export default function Routes() {
   return (

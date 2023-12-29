@@ -91,6 +91,11 @@ export default function SideBar({
                 icon: <InvoicesIcon />,
                 link: "/EmployeeDashboard",
               },
+              {
+                text: "Apply Leave",
+                icon: <InvoicesIcon />,
+                link: "/applyleave",
+              },
             ].map((item, index) => (
               <ListItem
                 key={item.text}
