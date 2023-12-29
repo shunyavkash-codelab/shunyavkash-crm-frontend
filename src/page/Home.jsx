@@ -30,6 +30,7 @@ import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 import PlusIcon from "@mui/icons-material/Close";
+import moment from "moment";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -509,7 +510,9 @@ export default function Home() {
                       <TableCell>{row.clientName}</TableCell>
                       <TableCell>{row.managerName}</TableCell>
                       <TableCell>{row.invoiceNumber}</TableCell>
-                      <TableCell>{row.invoiceDate}</TableCell>
+                      <TableCell>
+                        {moment(row.invoiceDate).format("DD/MM/YYYY")}
+                      </TableCell>
                       <TableCell
                         sx={{
                           "& .statusBtn": {
@@ -543,10 +546,10 @@ export default function Home() {
                             mt: 0.75,
                           }}
                         >
-                          Due on 13/12/23
+                          {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
                         </Box>
                       </TableCell>
-                      <TableCell>300.00$</TableCell>
+                      <TableCell>${row.totals.total}</TableCell>
                       <TableCell>
                         <Box
                           sx={{
