@@ -16,7 +16,6 @@ import {
   MenuItem,
   Button,
   Divider,
-  Autocomplete,
   Tooltip,
   TableBody,
 } from "@mui/material";
@@ -29,15 +28,13 @@ import { FieldArray, Form, Formik } from "formik";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import InvoiceTable from "../component/InvoiceTable";
 import CustomFormikField from "../component/form/CustomFormikField";
 import InvoiceInputForm from "../component/form/InvoiceInputForm";
 import EditIcon from "@mui/icons-material/CreateOutlined";
 import * as Yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -90,7 +87,7 @@ export default function Invoices() {
   const [clientOpen, setClientOpen] = useState(false);
   const [projectOpen, setProjectOpen] = useState(false);
   const [invoiceOpen, setInvoiceOpen] = useState(false);
-  const [bankOpen, setBnakOpen] = useState(false);
+  const [bankOpen, setBankOpen] = useState(false);
   const [invoiceNO, setInvoiceNO] = useState(invoiceNumber);
 
   const [invoiceDATE, setInvoiceDATE] = useState(
@@ -109,13 +106,11 @@ export default function Invoices() {
         "is-unique-invoiceNumber",
         "This invoice number is already taken",
         async function (value) {
-          console.log(value, "------------------112");
           try {
             let result = await apiCall({
               url: APIS.INVOICE.CHECKINVOICENUMBER(value),
               method: "get",
             });
-            console.log(result, "---------------------118");
             if (result.data.success) return true;
             else return false;
           } catch (error) {
@@ -257,7 +252,6 @@ export default function Invoices() {
 
     if (Array.isArray(adminList.bank)) {
       const bankD = adminList.bank.find((bank) => bank._id === bankId);
-      console.log(bankD, "---------------------220");
       if (bankD) {
         setBankDetails({
           bankId: bankId,
@@ -273,7 +267,6 @@ export default function Invoices() {
     } else {
       console.log("adminList.bank is not an array");
     }
-    console.log(bankDetails, "------------------------235");
     // adminList.bank.map((bank) => {
     //   console.log(bank, "----------------------217");
     //   const bankD = bank.find((ban) => ban._id === bankId);
@@ -356,7 +349,6 @@ export default function Invoices() {
         }}
         onSubmit={async (values) => {
           try {
-            console.log(values, "--------------------323-values");
             let tasks = values.task.map((tas) => {
               return {
                 taskName: tas.name,
@@ -1406,7 +1398,7 @@ export default function Invoices() {
                                 >
                                   <Link
                                     href="#"
-                                    onClick={() => setBnakOpen(true)}
+                                    onClick={() => setBankOpen(true)}
                                     style={{
                                       display: "inline-flex",
                                       textDecoration: "none",
