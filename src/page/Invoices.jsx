@@ -22,8 +22,6 @@ import {
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import { useAuth } from "../hooks/store/useAuth";
-import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
-import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
@@ -31,6 +29,7 @@ import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList";
 import { useSnack } from "../hooks/store/useSnack";
+import moment from "moment";
 
 const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -396,130 +395,167 @@ export default function Invoices() {
               </Grid>
             </Box>
           </Box>
-          <Box sx={{ display: showTable ? "block" : "none" }}>
-            <TableContainer
-              component={Paper}
+          {invoiceList.length === 0 ? (
+            <Box
               sx={{
-                border: "1px solid rgba(224, 224, 224, 1)",
-                borderRadius: 5,
-                mx: { xs: "-10px", sm: 0 },
-                width: { xs: "auto", sm: "auto" },
+                width: "100%",
+                display: "block",
+                padding: "25px 16px",
+                backgroundColor: "primary.light",
+                textAlign: "center",
                 borderRadius: 2.5,
               }}
             >
-              <Table
-                className="projectTable"
+              <Typography
+                mb={1.5}
+                variant="h4"
                 sx={{
-                  minWidth: 650,
-                  textTransform: "capitalize",
-                  textWrap: "nowrap",
-                  "& th,& td": { borderBottom: 0 },
-                  "& tbody tr": {
-                    borderTop: "1px solid rgba(224, 224, 224, 1)",
-                  },
+                  fontSize: "20px",
+                  color: "#1677FF",
+                  fontWeight: "500",
+                  letterSpacing: "0.5px",
                 }}
-                aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                    <TableCell>Project Name</TableCell>
-                    <TableCell>Client</TableCell>
-                    <TableCell>Manager</TableCell>
-                    <TableCell>Invoice No.</TableCell>
-                    <TableCell>Invoice Date</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Total</TableCell>
-                    <TableCell>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {invoiceList.map((row) => (
+                No data available in table
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ fontSize: 14, color: "#848484", fontWeight: "400" }}
+              >
+                Currently there no data available!
+              </Typography>
+            </Box>
+          ) : (
+            <Box sx={{ display: showTable ? "block" : "none" }}>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  border: "1px solid rgba(224, 224, 224, 1)",
+                  borderRadius: 5,
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
+                }}
+              >
+                <Table
+                  className="projectTable"
+                  sx={{
+                    minWidth: 650,
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": { borderBottom: 0 },
+                    "& tbody tr": {
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
                     <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-child td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
-                      }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
-                      <TableCell>{row.projectName}</TableCell>
-                      <TableCell>{row.clientName}</TableCell>
-                      <TableCell>{row.managerName}</TableCell>
-                      <TableCell>{row.invoiceNumber}</TableCell>
-                      <TableCell>{row.invoiceDate}</TableCell>
-                      <TableCell
+                      <TableCell>Project Name</TableCell>
+                      <TableCell>Client</TableCell>
+                      <TableCell>Manager</TableCell>
+                      <TableCell>Invoice No.</TableCell>
+                      <TableCell>Invoice Date</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Total</TableCell>
+                      <TableCell>Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {invoiceList.map((row) => (
+                      <TableRow
                         sx={{
-                          "& .statusBtn": {
-                            color: "white",
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          },
-                          "& .pending": {
-                            bgcolor: "secondary.main",
-                          },
-                          "& .success": {
-                            bgcolor: "success.main",
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&:first-child td": {
+                            maxWidth: "250px",
+                            textWrap: "wrap",
                           },
                         }}
                       >
-                        <Box
-                          className={`statusBtn ${
-                            row.status == "success" ? "success" : "pending"
-                          }`}
-                        >
-                          {row.status}
-                        </Box>
-                        <Box
+                        <TableCell>{row.projectName}</TableCell>
+                        <TableCell>{row.clientName}</TableCell>
+                        <TableCell>{row.managerName}</TableCell>
+                        <TableCell>{row.invoiceNumber}</TableCell>
+                        <TableCell>
+                          {moment(row.invoiceDate).format("DD/MM/YYYY")}
+                        </TableCell>
+                        <TableCell
                           sx={{
-                            fontSize: "13px",
-                            lineHeight: 1,
-                            textWrap: "nowrap",
-                            mt: 0.75,
-                          }}
-                        >
-                          {row.invoiceDueDate}
-                          {/* Due on 13/12/23 */}
-                        </Box>
-                      </TableCell>
-                      <TableCell>${row.totals.total}</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: { xs: 1.25, sm: 1.5 },
-                            opacity: 0.3,
-                            "& button": {
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "primary.main" },
+                            "& .statusBtn": {
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
                             },
-                            "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                            "& .pending": {
+                              bgcolor: "secondary.main",
+                            },
+                            "& .success": {
+                              bgcolor: "success.main",
+                            },
                           }}
                         >
-                          <Button disableRipple>
-                            <VisibilityIcon />
-                          </Button>
-                          <Button disableRipple>
-                            <MarkAsPaidIcon />
-                          </Button>
-                          <Button disableRipple>
-                            <CreateIcon />
-                          </Button>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
+                          <Box
+                            className={`statusBtn ${
+                              row.status == "success" ? "success" : "pending"
+                            }`}
+                          >
+                            {row.status}
+                          </Box>
+                          <Box
+                            sx={{
+                              fontSize: "13px",
+                              lineHeight: 1,
+                              textWrap: "nowrap",
+                              mt: 0.75,
+                            }}
+                          >
+                            {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
+
+                            {/* Due on 13/12/23 */}
+                          </Box>
+                        </TableCell>
+                        <TableCell>${row.totals.total}</TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: { xs: 1.25, sm: 1.5 },
+                              opacity: 0.3,
+                              "& button": {
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              },
+                              "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                            }}
+                          >
+                            <Button disableRipple>
+                              <VisibilityIcon />
+                            </Button>
+                            <Button disableRipple>
+                              <MarkAsPaidIcon />
+                            </Button>
+                            <Button disableRipple>
+                              <CreateIcon />
+                            </Button>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+          )}
         </Box>
       </Box>
     </>
