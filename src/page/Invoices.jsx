@@ -29,6 +29,7 @@ import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList";
 import { useSnack } from "../hooks/store/useSnack";
+import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import moment from "moment";
 
 const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
@@ -43,6 +44,7 @@ export default function Invoices() {
   const navigate = useNavigate();
   const { setSnack } = useSnack();
   const [invoiceList, setInvoiceList] = useState([]);
+  const { setInvoiceData } = useInvoiceStore();
 
   const handleChange = (event) => {
     setDate(event.target.value);
@@ -62,7 +64,8 @@ export default function Invoices() {
     }
   };
 
-  const viewInvoice = async (invoiceNumber) => {
+  const viewInvoice = async (invoiceNumber, row) => {
+    setInvoiceData(row);
     navigate(`/invoices/view/${invoiceNumber}`);
   };
 
@@ -75,7 +78,6 @@ export default function Invoices() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setInvoiceList(res.data.data.data);
-        console.log(res.data.data.data, "-----------------------75");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -544,7 +546,9 @@ export default function Invoices() {
                           >
                             <Button
                               disableRipple
-                              onClick={() => viewInvoice(row.invoiceNumber)}
+                              onClick={() =>
+                                viewInvoice(row.invoiceNumber, row)
+                              }
                             >
                               <VisibilityIcon />
                             </Button>

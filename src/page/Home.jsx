@@ -5,7 +5,6 @@ import {
   Typography,
   Grid,
   Button,
-  Avatar,
   Table,
   TableBody,
   TableCell,
@@ -13,7 +12,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Card,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -31,6 +29,7 @@ import CreateIcon from "@mui/icons-material/CreateOutlined";
 import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 import PlusIcon from "@mui/icons-material/Close";
 import moment from "moment";
+import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -39,10 +38,9 @@ export default function Home() {
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const { accessToken, invoiceTable } = useAuth();
-  const [showTable] = useState(invoiceTable);
-  const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
   const navigate = useNavigate();
   const [invoiceList, setInvoiceList] = useState([]);
+  const { setInvoiceData } = useInvoiceStore();
 
   const fetchDashboardData = async () => {
     try {
@@ -58,6 +56,11 @@ export default function Home() {
       console.log(error, setSnack);
       // handleApiError(error, setSnack);
     }
+  };
+
+  const viewInvoice = async (invoiceNumber, row) => {
+    setInvoiceData(row);
+    navigate(`/invoices/view/${invoiceNumber}`);
   };
 
   const listInvoice = async () => {
@@ -566,7 +569,10 @@ export default function Home() {
                             "& svg": { fontSize: { xs: "20px", sm: "22px" } },
                           }}
                         >
-                          <Button disableRipple>
+                          <Button
+                            disableRipple
+                            onClick={() => viewInvoice(row.invoiceNumber, row)}
+                          >
                             <VisibilityIcon />
                           </Button>
                           <Button disableRipple>

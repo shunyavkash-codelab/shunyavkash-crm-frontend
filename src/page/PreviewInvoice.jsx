@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -10,7 +10,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  TableFooter,
   Button,
   Divider,
 } from "@mui/material";
@@ -22,7 +21,6 @@ import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList";
 import { useSnack } from "../hooks/store/useSnack";
-import { Warning } from "@mui/icons-material";
 import moment from "moment";
 
 export default function Invoices() {
@@ -35,23 +33,30 @@ export default function Invoices() {
   const navigate = useNavigate();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  console.log(invoiceData, "------------------36");
+  const location = useLocation();
+  let view = location.pathname.includes("/view/") ? true : false;
+
   // add invoice
   const addInvoice = async () => {
     try {
-      const res = await apiCall({
-        url: APIS.INVOICE.ADD,
-        method: "post",
-        data: JSON.stringify(invoiceData, null, 2),
-      });
-      if (res.status === 201) {
-        setSnack(res.data.message);
+      if (!view) {
+        const res = await apiCall({
+          url: APIS.INVOICE.ADD,
+          method: "post",
+          data: JSON.stringify(invoiceData, null, 2),
+        });
+        if (res.status === 201) {
+          setSnack(res.data.message);
+          toPDF();
+          navigate("/invoices");
+        }
+        if (res.status === 409) {
+          let errorMessage = res.data.message;
+          setSnack(errorMessage, "warning");
+        }
+      } else {
         toPDF();
-        navigate("/invoices");
-      }
-      if (res.status === 409) {
-        let errorMessage = res.data.message;
-        setSnack(errorMessage, "warning");
+        setSnack("PDF download successfully.");
       }
     } catch (error) {
       let errorMessage = error.response.data.message;
@@ -91,7 +96,7 @@ export default function Invoices() {
               variant="h5"
               sx={{ textTransform: "capitalize", textAlign: "center" }}
             >
-              Preview Invoice
+              {view ? "View" : "Preview"} Invoice
             </Typography>
           </Box>
           <Box
@@ -889,7 +894,9 @@ export default function Invoices() {
               }}
               onClick={() => addInvoice()}
             >
-              <span style={{ position: "relative" }}>generate</span>
+              <span style={{ position: "relative" }}>
+                {view ? "download" : "generate"}
+              </span>
             </Button>
             <Button
               disableRipple
@@ -924,10 +931,14 @@ export default function Invoices() {
                 },
               }}
               onClick={() => {
-                navigate(`/invoices/add/${invoiceNumber}`);
+                view
+                  ? navigate("/invoices")
+                  : navigate(`/invoices/add/${invoiceNumber}`);
               }}
             >
-              <span style={{ position: "relative" }}>discard</span>
+              <span style={{ position: "relative" }}>
+                {view ? "back" : "discard"}
+              </span>
             </Button>
           </Box>
         </Box>
