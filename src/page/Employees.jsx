@@ -4,10 +4,6 @@ import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import {
   Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Typography,
   Button,
   TableContainer,
@@ -17,8 +13,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Avatar,
-  Tooltip,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import PlusIcon from "@mui/icons-material/Close";
@@ -27,8 +21,8 @@ import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList.js";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import { useSnack } from "../hooks/store/useSnack";
-import { Field, useFormik, FormikProvider } from "formik";
 import EmployeeListRaw from "../component/EmployeeListRaw.jsx";
+import { useInviteMemberStore } from "../hooks/store/useInviteMemberStore.js";
 
 export default function Employees() {
   const { accessToken } = useAuth();
@@ -39,6 +33,7 @@ export default function Employees() {
   const { setSnack } = useSnack();
   const [employeesList, setEmployeesList] = useState([]);
   const { searchData } = useSearchData();
+  const { inviteMemberStore } = useInviteMemberStore();
 
   const fetchEmployees = async () => {
     try {
@@ -50,7 +45,6 @@ export default function Employees() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setEmployeesList(res.data.data.data);
-        console.log(res.data.data.data, "------------------------80");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -59,6 +53,10 @@ export default function Employees() {
   useEffect(() => {
     fetchEmployees();
   }, []);
+  useEffect(() => {
+    if (inviteMemberStore)
+      setEmployeesList([...[inviteMemberStore], ...employeesList]);
+  }, [inviteMemberStore]);
 
   return (
     <>

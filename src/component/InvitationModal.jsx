@@ -19,16 +19,16 @@ import { APIS } from "../api/apiList";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import { useNavigate } from "react-router-dom";
+import { useInviteMemberStore } from "../hooks/store/useInviteMemberStore.js";
 
 export default function AddClientsModal({ open, setOpen }) {
   const handleClose = () => setOpen(false);
-
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const [employeeList, setEmployeeList] = useState(false);
   const { setSnack } = useSnack();
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
+  const { setInviteMemberStore } = useInviteMemberStore();
 
   const formik = useFormik({
     initialValues: {
@@ -38,7 +38,6 @@ export default function AddClientsModal({ open, setOpen }) {
       role: "",
     },
     onSubmit: async (values) => {
-      console.log(values, "---------------------47");
       try {
         const res = await apiCall({
           url: APIS.EMPLOYEE.ADD,
@@ -48,6 +47,7 @@ export default function AddClientsModal({ open, setOpen }) {
         if (res.data.success === true) {
           setSnack(res.data.message);
           setOpen(false);
+          setInviteMemberStore(res.data.data);
           navigate("/employees");
         }
       } catch (error) {
