@@ -31,7 +31,7 @@ const routes = createBrowserRouter([
   { path: "/forgot-password", Component: ForgotPassword },
   { path: "/confirm-password", Component: ConfirmPassword },
   { path: "/", Component: Home },
-  { path: "/employeedashboard", Component: EmployeeDashboard },
+  { path: "/employee-dashboard", Component: EmployeeDashboard },
   { path: "/employeedashboard2", Component: EmployeeDashboard2 },
   { path: "/managers", Component: Manager },
   { path: "/managers/add", Component: AddManager },

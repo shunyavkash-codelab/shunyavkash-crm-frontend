@@ -20,19 +20,63 @@ import { useAuth } from "../hooks/store/useAuth";
 
 export default function SideBar({
   sideBarWidth,
-  setSidebarWidth,
   showSidebar,
   setShowSidebar,
   accessToken,
 }) {
   const navigate = useNavigate();
   let location = useLocation();
+  const { user } = useAuth();
+
+  let sidebarList = [
+    {
+      text: "Dashboard",
+      icon: <DashboardIcon />,
+      link: "/",
+    },
+    { text: "Manager", icon: <ManagerIcon />, link: "/managers" },
+    { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
+    { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
+    { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
+    {
+      text: "Members",
+      icon: <MembersIcon />,
+      link: "/employees",
+    },
+    {
+      text: "Employee Dashboard",
+      icon: <InvoicesIcon />,
+      link: "/employee-dashboard",
+    },
+    {
+      text: "Apply Leave",
+      icon: <AccessTimeIcon />,
+      link: "/applyleave",
+    },
+  ];
+  let newArray = sidebarList.filter((ele) => {
+    return (
+      !(
+        [
+          "Members",
+          "Invoices",
+          "Clients",
+          "Manager",
+          "Projects",
+          "Dashboard",
+        ].includes(ele.text) && user.role !== 0
+      ) &&
+      !(
+        ["Apply Leave", "Employee Dashboard"].includes(ele.text) &&
+        user.role == 0
+      )
+    );
+  });
   useEffect(() => {
     if (!accessToken) {
       navigate("/signin");
     }
   }, []);
-  const { user } = useAuth();
   return (
     <>
       <Box
@@ -72,32 +116,7 @@ export default function SideBar({
         </Box>
         <Box sx={{ flexGrow: 1, height: "500px", overflowY: "auto", px: 2 }}>
           <List>
-            {[
-              {
-                text: "Dashboard",
-                icon: <DashboardIcon />,
-                link: "/",
-              },
-              { text: "Manager", icon: <ManagerIcon />, link: "/managers" },
-              { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
-              { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
-              { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
-              user.role == 0 && {
-                text: "Members",
-                icon: <MembersIcon />,
-                link: "/employees",
-              },
-              {
-                text: "Employee Dashboard",
-                icon: <InvoicesIcon />,
-                link: "/EmployeeDashboard",
-              },
-              {
-                text: "Apply Leave",
-                icon: <AccessTimeIcon />,
-                link: "/applyleave",
-              },
-            ].map((item, index) => (
+            {newArray.map((item, index) => (
               <ListItem
                 key={item.text}
                 disablePadding

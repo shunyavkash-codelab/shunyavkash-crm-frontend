@@ -68,7 +68,8 @@ export default function SignIn() {
             userId: _id,
           });
           setSnack(res.data.message);
-          navigate("/");
+          if (role == 0) navigate("/");
+          else navigate("/employee-dashboard");
         }
       } catch (error) {
         let errorMessage = error.response.data.message;

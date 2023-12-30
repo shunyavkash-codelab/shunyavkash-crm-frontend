@@ -37,7 +37,7 @@ export default function Home() {
   const [dashboardData, setDashboardData] = useState(false);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken, invoiceTable } = useAuth();
+  const { accessToken, user } = useAuth();
   const navigate = useNavigate();
   const [invoiceList, setInvoiceList] = useState([]);
   const { setInvoiceData } = useInvoiceStore();
@@ -112,159 +112,122 @@ export default function Home() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
-      <Box sx={{ display: "flex", height: "100vh", ml: { lg: sideBarWidth } }}>
+      {user.role == 0 ? (
         <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            pt: 13,
-            px: 2.5,
-            pb: 2.5,
-            height: "100%",
-            overflowY: "auto",
-          }}
+          sx={{ display: "flex", height: "100vh", ml: { lg: sideBarWidth } }}
         >
-          <Box>
-            <Box sx={{ mb: 3.25 }}>
-              <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
-                DashBoard
-              </Typography>
-              {/* <Typography
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              pt: 13,
+              px: 2.5,
+              pb: 2.5,
+              height: "100%",
+              overflowY: "auto",
+            }}
+          >
+            <Box>
+              <Box sx={{ mb: 3.25 }}>
+                <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+                  DashBoard
+                </Typography>
+                {/* <Typography
                 variant="subtitle2"
                 sx={{ opacity: 0.4, textTransform: "capitalize", mt: 0.75 }}
               >
                 DashBoard
               </Typography> */}
-            </Box>
-            <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-              <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
-                <CounterCards
-                  Title={"Clients"}
-                  Counter={dashboardData.totalClient || 0}
-                  icon={
-                    <ClientsIcon
-                      sx={{
-                        fontSize: { xs: "28px", sm: "32px" },
-                        color: "rgb(255, 198, 117, 100%)",
-                      }}
-                    />
-                  }
-                ></CounterCards>
-              </Grid>
-              <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
-                <CounterCards
-                  Title={"projects"}
-                  Counter={dashboardData.totalProject || 0}
-                  icon={
-                    <ProjectsIcon
-                      sx={{
-                        fontSize: { xs: "28px", sm: "32px" },
-                        color: "rgb(74, 210, 146, 100%)",
-                      }}
-                    />
-                  }
-                ></CounterCards>
-              </Grid>
-              <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
-                <CounterCards
-                  Title={"invoices"}
-                  Counter={dashboardData.totalInvoice || 0}
-                  icon={
-                    <InvoicesIcon
-                      sx={{
-                        fontSize: { xs: "28px", sm: "32px" },
-                        color: "rgb(255, 0, 67, 100%)",
-                      }}
-                    />
-                  }
-                ></CounterCards>
-              </Grid>
-              <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
-                <CounterCards
-                  Title={"members"}
-                  Counter={dashboardData.totalManager || 0}
-                  icon={
-                    <ManagerIcon
-                      sx={{
-                        fontSize: { xs: "28px", sm: "32px" },
-                        color: "rgb(22, 108, 255, 100%)",
-                      }}
-                    />
-                  }
-                ></CounterCards>
-              </Grid>
-            </Grid>
-          </Box>
-          <Box sx={{ mt: 8 }}>
-            <Box
-              sx={{
-                mb: 3.25,
-                display: "flex",
-                alignItems: { sm: "center" },
-                justifyContent: { sm: "space-between" },
-                flexDirection: { xs: "column", sm: "row" },
-                flexWrap: "wrap",
-                columnGap: 2,
-                rowGap: 2.5,
-              }}
-            >
-              <Box>
-                <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
-                  Our Recent invoices
-                </Typography>
               </Box>
-              <Box sx={{ display: "flex", gap: 1 }}>
-                <Button
-                  disableRipple
-                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    color: "primary.main",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "primary.main",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      color: "white",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                  onClick={invoiceNumberGenerate}
-                >
-                  <span style={{ position: "relative" }}>New Invoice</span>
-                </Button>
-                <Link
-                  to="./invoices"
-                  style={{ display: "inline-flex", textDecoration: "none" }}
-                >
+              <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+                <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
+                  <CounterCards
+                    Title={"Clients"}
+                    Counter={dashboardData.totalClient || 0}
+                    icon={
+                      <ClientsIcon
+                        sx={{
+                          fontSize: { xs: "28px", sm: "32px" },
+                          color: "rgb(255, 198, 117, 100%)",
+                        }}
+                      />
+                    }
+                  ></CounterCards>
+                </Grid>
+                <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
+                  <CounterCards
+                    Title={"projects"}
+                    Counter={dashboardData.totalProject || 0}
+                    icon={
+                      <ProjectsIcon
+                        sx={{
+                          fontSize: { xs: "28px", sm: "32px" },
+                          color: "rgb(74, 210, 146, 100%)",
+                        }}
+                      />
+                    }
+                  ></CounterCards>
+                </Grid>
+                <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
+                  <CounterCards
+                    Title={"invoices"}
+                    Counter={dashboardData.totalInvoice || 0}
+                    icon={
+                      <InvoicesIcon
+                        sx={{
+                          fontSize: { xs: "28px", sm: "32px" },
+                          color: "rgb(255, 0, 67, 100%)",
+                        }}
+                      />
+                    }
+                  ></CounterCards>
+                </Grid>
+                <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
+                  <CounterCards
+                    Title={"members"}
+                    Counter={dashboardData.totalManager || 0}
+                    icon={
+                      <ManagerIcon
+                        sx={{
+                          fontSize: { xs: "28px", sm: "32px" },
+                          color: "rgb(22, 108, 255, 100%)",
+                        }}
+                      />
+                    }
+                  ></CounterCards>
+                </Grid>
+              </Grid>
+            </Box>
+            <Box sx={{ mt: 8 }}>
+              <Box
+                sx={{
+                  mb: 3.25,
+                  display: "flex",
+                  alignItems: { sm: "center" },
+                  justifyContent: { sm: "space-between" },
+                  flexDirection: { xs: "column", sm: "row" },
+                  flexWrap: "wrap",
+                  columnGap: 2,
+                  rowGap: 2.5,
+                }}
+              >
+                <Box>
+                  <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+                    Our Recent invoices
+                  </Typography>
+                </Box>
+                <Box sx={{ display: "flex", gap: 1 }}>
                   <Button
                     disableRipple
+                    startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
                     sx={{
                       maxHeight: "42px",
                       position: "relative",
                       px: 2.5,
                       py: 1.5,
-                      bgcolor: "primary.main",
                       border: "1px solid",
                       borderColor: "primary.main",
-                      color: "white",
+                      color: "primary.main",
                       lineHeight: 1,
                       borderRadius: 2.5,
                       overflow: "hidden",
@@ -276,24 +239,64 @@ export default function Home() {
                         top: "50%",
                         left: "50%",
                         zIndex: "0",
-                        bgcolor: "white",
+                        bgcolor: "primary.main",
                         transform: "rotate(-45deg) translate(-50%, -50%)",
                         transformOrigin: "0% 0%",
                         transition: "all 0.4s ease-in-out",
                       },
                       "&:hover": {
-                        color: "primary.main",
-                        bgcolor: "primary.main",
+                        color: "white",
                         "&:before": { height: "10rem" },
                       },
                     }}
+                    onClick={invoiceNumberGenerate}
                   >
-                    <span style={{ position: "relative" }}>View all</span>
+                    <span style={{ position: "relative" }}>New Invoice</span>
                   </Button>
-                </Link>
+                  <Link
+                    to="./invoices"
+                    style={{ display: "inline-flex", textDecoration: "none" }}
+                  >
+                    <Button
+                      disableRipple
+                      sx={{
+                        maxHeight: "42px",
+                        position: "relative",
+                        px: 2.5,
+                        py: 1.5,
+                        bgcolor: "primary.main",
+                        border: "1px solid",
+                        borderColor: "primary.main",
+                        color: "white",
+                        lineHeight: 1,
+                        borderRadius: 2.5,
+                        overflow: "hidden",
+                        "&:before": {
+                          content: "''",
+                          height: 0,
+                          width: "10rem",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          zIndex: "0",
+                          bgcolor: "white",
+                          transform: "rotate(-45deg) translate(-50%, -50%)",
+                          transformOrigin: "0% 0%",
+                          transition: "all 0.4s ease-in-out",
+                        },
+                        "&:hover": {
+                          color: "primary.main",
+                          bgcolor: "primary.main",
+                          "&:before": { height: "10rem" },
+                        },
+                      }}
+                    >
+                      <span style={{ position: "relative" }}>View all</span>
+                    </Button>
+                  </Link>
+                </Box>
               </Box>
-            </Box>
-            {/* <Box>
+              {/* <Box>
               <Grid container rowSpacing={2.5} columnSpacing={2.5}>
                 <Grid
                   item
@@ -462,135 +465,142 @@ export default function Home() {
                 </Grid>
               </Grid>
             </Box> */}
-            <TableContainer
-              component={Paper}
-              sx={{
-                border: "1px solid rgba(224, 224, 224, 1)",
-                borderRadius: 5,
-                mx: { xs: "-10px", sm: 0 },
-                width: { xs: "auto", sm: "auto" },
-                borderRadius: 2.5,
-              }}
-            >
-              <Table
-                className="projectTable"
+              <TableContainer
+                component={Paper}
                 sx={{
-                  minWidth: 650,
-                  textTransform: "capitalize",
-                  textWrap: "nowrap",
-                  "& th,& td": { borderBottom: 0 },
-                  "& tbody tr": {
-                    borderTop: "1px solid rgba(224, 224, 224, 1)",
-                  },
+                  border: "1px solid rgba(224, 224, 224, 1)",
+                  borderRadius: 5,
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
                 }}
-                aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                    <TableCell>Project Name</TableCell>
-                    <TableCell>Client</TableCell>
-                    <TableCell>Manager</TableCell>
-                    <TableCell>Invoice No.</TableCell>
-                    <TableCell>Invoice Date</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Total</TableCell>
-                    <TableCell>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {invoiceList.map((row) => (
+                <Table
+                  className="projectTable"
+                  sx={{
+                    minWidth: 650,
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": { borderBottom: 0 },
+                    "& tbody tr": {
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
                     <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-child td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
-                      }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
-                      <TableCell>{row.projectName}</TableCell>
-                      <TableCell>{row.clientName}</TableCell>
-                      <TableCell>{row.managerName}</TableCell>
-                      <TableCell>{row.invoiceNumber}</TableCell>
-                      <TableCell>
-                        {moment(row.invoiceDate).format("DD/MM/YYYY")}
-                      </TableCell>
-                      <TableCell
+                      <TableCell>Project Name</TableCell>
+                      <TableCell>Client</TableCell>
+                      <TableCell>Manager</TableCell>
+                      <TableCell>Invoice No.</TableCell>
+                      <TableCell>Invoice Date</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Total</TableCell>
+                      <TableCell>Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {invoiceList.map((row) => (
+                      <TableRow
                         sx={{
-                          "& .statusBtn": {
-                            color: "white",
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          },
-                          "& .pending": {
-                            bgcolor: "secondary.main",
-                          },
-                          "& .success": {
-                            bgcolor: "success.main",
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&:first-child td": {
+                            maxWidth: "250px",
+                            textWrap: "wrap",
                           },
                         }}
                       >
-                        <Box
-                          className={`statusBtn ${
-                            row.status == "success" ? "success" : "pending"
-                          }`}
-                        >
-                          {row.status}
-                        </Box>
-                        <Box
+                        <TableCell>{row.projectName}</TableCell>
+                        <TableCell>{row.clientName}</TableCell>
+                        <TableCell>{row.managerName}</TableCell>
+                        <TableCell>{row.invoiceNumber}</TableCell>
+                        <TableCell>
+                          {moment(row.invoiceDate).format("DD/MM/YYYY")}
+                        </TableCell>
+                        <TableCell
                           sx={{
-                            fontSize: "13px",
-                            lineHeight: 1,
-                            textWrap: "nowrap",
-                            mt: 0.75,
-                          }}
-                        >
-                          {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
-                        </Box>
-                      </TableCell>
-                      <TableCell>${row.totals.total}</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: { xs: 1.25, sm: 1.5 },
-                            opacity: 0.3,
-                            "& button": {
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "primary.main" },
+                            "& .statusBtn": {
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
                             },
-                            "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                            "& .pending": {
+                              bgcolor: "secondary.main",
+                            },
+                            "& .success": {
+                              bgcolor: "success.main",
+                            },
                           }}
                         >
-                          <Button
-                            disableRipple
-                            onClick={() => viewInvoice(row.invoiceNumber, row)}
+                          <Box
+                            className={`statusBtn ${
+                              row.status == "success" ? "success" : "pending"
+                            }`}
                           >
-                            <VisibilityIcon />
-                          </Button>
-                          <Button disableRipple>
-                            <MarkAsPaidIcon />
-                          </Button>
-                          <Button disableRipple>
-                            <CreateIcon />
-                          </Button>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                            {row.status}
+                          </Box>
+                          <Box
+                            sx={{
+                              fontSize: "13px",
+                              lineHeight: 1,
+                              textWrap: "nowrap",
+                              mt: 0.75,
+                            }}
+                          >
+                            {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
+                          </Box>
+                        </TableCell>
+                        <TableCell>${row.totals.total}</TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: { xs: 1.25, sm: 1.5 },
+                              opacity: 0.3,
+                              "& button": {
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              },
+                              "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                            }}
+                          >
+                            <Button
+                              disableRipple
+                              onClick={() =>
+                                viewInvoice(row.invoiceNumber, row)
+                              }
+                            >
+                              <VisibilityIcon />
+                            </Button>
+                            <Button disableRipple>
+                              <MarkAsPaidIcon />
+                            </Button>
+                            <Button disableRipple>
+                              <CreateIcon />
+                            </Button>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
           </Box>
         </Box>
-      </Box>
+      ) : (
+        navigate("/employee-dashboard")
+      )}
     </>
   );
 }
