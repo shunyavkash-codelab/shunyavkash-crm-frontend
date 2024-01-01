@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   Grid,
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -11,56 +10,30 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Tooltip,
-  Grow,
-  Popper,
-  MenuItem,
-  MenuList,
-  ClickAwayListener,
+  TablePagination,
+  Pagination,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import PriorityIcon from "@mui/icons-material/Tour";
-import StartTimeIcon from "@mui/icons-material/PlayCircle";
-import StopTimeIcon from "@mui/icons-material/StopCircle";
-import StatusIcon from "@mui/icons-material/SquareRounded";
-import ArrowIcon from "@mui/icons-material/ArrowForwardRounded";
 import { BarChart } from "@mui/x-charts/BarChart";
-
-const options = ["urgent", "high", "normal", "low"];
+import TaskDetail from "../component/employeeDashboard/TaskDetail";
+import TaskCard from "../component/employeeDashboard/TaskCard";
 
 export default function EmployeeDashboard() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, user } = useAuth();
-  const [startTime, setStartTime] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
-    setOpen(false);
+  const [page, setPage] = React.useState(2);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
-  console.log(selectedIndex);
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-    setOpen(false);
-  };
-
-  const tasks = [
-    "Web design",
-    "web devlopment",
-    "img compressor",
-    "svg design",
-    "create dynamic",
-  ];
 
   return (
     <>
@@ -108,329 +81,8 @@ export default function EmployeeDashboard() {
                   },
                 }}
               >
-                <Grid item xs={12} xl={4}>
-                  <Box
-                    sx={{
-                      py: 2.5,
-                      px: 2,
-                      bgcolor: "white",
-                      boxShadow: "0 0 14px 0px rgb(42, 64, 98, 10%)",
-                      color: "text.primary",
-                      borderRadius: 2.5,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        gap: 2,
-                        mb: 3,
-                      }}
-                    >
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          textTransform: "capitalize",
-                          fontSize: { xs: "16px", sm: "18px" },
-                        }}
-                      >
-                        Today's Priority
-                      </Typography>
-                      <Button
-                        disableRipple
-                        sx={{
-                          bgcolor: "transparent!important",
-                          p: 0,
-                          lineHeight: 1,
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 0.5,
-                          color: "#00ac8d",
-                          "&:hover svg": {
-                            transform: "translatex(2px)",
-                          },
-                        }}
-                      >
-                        See all
-                        <ArrowIcon
-                          sx={{
-                            fontSize: "20px",
-                            transition: "all 0.4s ease-in-out",
-                          }}
-                        />
-                      </Button>
-                    </Box>
-                    <Box>
-                      <TableContainer
-                        component={Paper}
-                        sx={{
-                          boxShadow: "none",
-                          borderRadius: 0,
-                        }}
-                      >
-                        <Table
-                          sx={{
-                            textTransform: "capitalize",
-                            textWrap: "nowrap",
-                            "& th,& td": { borderBottom: 0 },
-                          }}
-                        >
-                          <TableHead>
-                            <TableRow
-                              sx={{
-                                bgcolor: "#ECECEC",
-                                "& th": {
-                                  lineHeight: 1,
-                                  fontWeight: 600,
-                                  p: 1.25,
-                                  fontSize: "12px",
-                                },
-                              }}
-                            >
-                              <TableCell
-                                colspan={2}
-                                sx={{ minWidth: "200px", pl: 1 }}
-                              >
-                                Task Name
-                              </TableCell>
-                              <TableCell sx={{ width: "64px" }}>
-                                Priority
-                              </TableCell>
-                              <TableCell
-                                sx={{
-                                  width: "84px",
-                                  textAlign: "center",
-                                }}
-                              >
-                                Due date
-                              </TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody
-                            sx={{
-                              "&>*:nth-child(even) span": {
-                                bgcolor: "red",
-                              },
-                            }}
-                          >
-                            {tasks.map((task) => (
-                              <TableRow
-                                key={task.id}
-                                sx={{
-                                  "&:last-child td, &:last-child th": {
-                                    border: 0,
-                                  },
-                                  "&>td": {
-                                    fontSize: "12px",
-                                    p: 1.25,
-                                  },
-                                }}
-                              >
-                                <TableCell
-                                  variant="contained"
-                                  ref={anchorRef}
-                                  sx={{ px: 1.5, width: "58px" }}
-                                >
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      gap: 0.75,
-                                    }}
-                                  >
-                                    <Button
-                                      onClick={() => {
-                                        setStartTime(!startTime);
-                                      }}
-                                      disableRipple
-                                      sx={{
-                                        minWidth: "unset",
-                                        p: 0,
-                                        bgcolor: "transparent!important",
-                                        display: "block",
-                                      }}
-                                    >
-                                      <StartTimeIcon
-                                        sx={{
-                                          fontSize: "16px",
-                                          color: "#008844",
-                                          display: startTime ? "none" : "block",
-                                        }}
-                                      />
-                                      <StopTimeIcon
-                                        sx={{
-                                          fontSize: "16px",
-                                          color: "error.main",
-                                          display: startTime ? "block" : "none",
-                                        }}
-                                      />
-                                    </Button>
-                                    <Button
-                                      onClick={handleToggle}
-                                      disableRipple
-                                      className="urgent"
-                                      sx={{
-                                        bgcolor: "transparent!important",
-                                        minWidth: "unset",
-                                        padding: 0,
-                                        display: "flex",
-                                        "&.urgent": {
-                                          color: "#B13A41",
-                                        },
-                                        "&.high": {
-                                          color: "secondary.main",
-                                        },
-                                        "&.normal": {
-                                          color: "primary.main",
-                                        },
-                                        "&.low": {
-                                          color: "grey.dark",
-                                        },
-                                      }}
-                                    >
-                                      <StatusIcon sx={{ fontSize: "16px" }} />
-                                    </Button>
-                                  </Box>
-                                  <Popper
-                                    sx={{
-                                      zIndex: 1,
-                                    }}
-                                    open={open}
-                                    anchorEl={anchorRef.current}
-                                    role={undefined}
-                                    transition
-                                    disablePortal
-                                  >
-                                    {({ TransitionProps, placement }) => (
-                                      <Grow
-                                        {...TransitionProps}
-                                        style={{
-                                          transformOrigin:
-                                            placement === "bottom"
-                                              ? "center top"
-                                              : "center bottom",
-                                        }}
-                                      >
-                                        <Paper>
-                                          <ClickAwayListener
-                                            onClickAway={handleClose}
-                                          >
-                                            <MenuList
-                                              id="split-button-menu"
-                                              autoFocusItem
-                                            >
-                                              {options.map((option, index) => (
-                                                <MenuItem
-                                                  key={option}
-                                                  selected={
-                                                    index === selectedIndex
-                                                  }
-                                                  onClick={(event) =>
-                                                    handleMenuItemClick(
-                                                      event,
-                                                      index
-                                                    )
-                                                  }
-                                                  sx={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    gap: 1,
-                                                    fontSize: "12px",
-                                                  }}
-                                                >
-                                                  <Box
-                                                    className={option}
-                                                    sx={{
-                                                      display: "flex",
-                                                      "&.urgent": {
-                                                        color: "#B13A41",
-                                                      },
-                                                      "&.high": {
-                                                        color: "secondary.main",
-                                                      },
-                                                      "&.normal": {
-                                                        color: "primary.main",
-                                                      },
-                                                      "&.low": {
-                                                        color: "grey.dark",
-                                                      },
-                                                    }}
-                                                  >
-                                                    <Tooltip
-                                                      title="Urgent"
-                                                      arrow
-                                                    >
-                                                      <StatusIcon
-                                                        sx={{
-                                                          fontSize: "16px",
-                                                        }}
-                                                      />
-                                                    </Tooltip>
-                                                  </Box>
-                                                  {option}
-                                                </MenuItem>
-                                              ))}
-                                            </MenuList>
-                                          </ClickAwayListener>
-                                        </Paper>
-                                      </Grow>
-                                    )}
-                                  </Popper>
-                                </TableCell>
-                                <TableCell
-                                  sx={{ pl: "0!important", lineHeight: 1 }}
-                                >
-                                  <Box
-                                    className="truncate line-clamp-1"
-                                    sx={{ opacity: 0.6 }}
-                                  >
-                                    Lorem Ipsum is simply dummy text of the
-                                    printing and typesetting industry
-                                  </Box>
-                                </TableCell>
-                                <TableCell>
-                                  <Box
-                                    className="urgent"
-                                    sx={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      "&.urgent": {
-                                        color: "#B13A41",
-                                      },
-                                      "&.high": {
-                                        color: "secondary.main",
-                                      },
-                                      "&.normal": {
-                                        color: "primary.main",
-                                      },
-                                      "&.low": {
-                                        color: "grey.dark",
-                                      },
-                                    }}
-                                  >
-                                    <Tooltip title="Urgent" arrow>
-                                      <PriorityIcon sx={{ fontSize: "16px" }} />
-                                    </Tooltip>
-                                  </Box>
-                                </TableCell>
-                                <TableCell
-                                  sx={{
-                                    p: "12px",
-                                    lineHeight: 1,
-                                    opacity: 0.6,
-                                  }}
-                                >
-                                  30/12/2023
-                                </TableCell>
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                    </Box>
-                  </Box>
-                </Grid>
+                <TaskCard heading={"Today's Priority"} />
+                <TaskCard heading={"Upcoming Due (Task)"} />
                 <Grid item xs={12} xl={4}>
                   <Box
                     sx={{
@@ -455,7 +107,8 @@ export default function EmployeeDashboard() {
                         variant="h6"
                         sx={{
                           textTransform: "capitalize",
-                          fontSize: { xs: "16px", sm: "18px" },
+                          lineHeight: 1.4,
+                          fontSize: { xs: "15px", sm: "18px" },
                         }}
                       >
                         Tracked Time By You
@@ -465,7 +118,7 @@ export default function EmployeeDashboard() {
                         sx={{
                           fontWeight: 600,
                           textTransform: "capitalize",
-                          fontSize: "16px",
+                          fontSize: "15px",
                         }}
                       >
                         (42 Hours)
@@ -483,6 +136,7 @@ export default function EmployeeDashboard() {
                         series={[
                           {
                             data: [2, 4, 5, 3, 8, 4],
+                            label: "Hours",
                             color: "#00ac8d",
                           },
                         ]}
@@ -493,6 +147,96 @@ export default function EmployeeDashboard() {
                   </Box>
                 </Grid>
               </Grid>
+              <Box sx={{ mt: 8 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                    gap: 3,
+                    mb: 3.25,
+                  }}
+                >
+                  <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+                    Employee Tasks
+                  </Typography>
+                  <TablePagination
+                    component="div"
+                    count={10}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    sx={{
+                      "&>div": {
+                        p: 0,
+                        minHeight: "24px",
+                        "& .MuiTablePagination-selectLabel": {
+                          lineHeight: 1,
+                        },
+                        "& .MuiTablePagination-input": {
+                          mr: 0,
+                          "&>div": {
+                            p: "0 24px 0 0",
+                          },
+                        },
+                        "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                          {
+                            display: "none",
+                          },
+                      },
+                    }}
+                  />
+                </Box>
+                <TableContainer
+                  component={Paper}
+                  sx={{
+                    border: "1px solid rgba(224, 224, 224, 1)",
+                    borderRadius: 2.5,
+                  }}
+                >
+                  <Table
+                    className="projectTable"
+                    sx={{
+                      minWidth: 650,
+                      textTransform: "capitalize",
+                      textWrap: "nowrap",
+                      "& th,& td": { borderBottom: 0 },
+                      "& tbody tr": {
+                        borderTop: "1px solid rgba(224, 224, 224, 1)",
+                      },
+                    }}
+                  >
+                    <TableHead>
+                      <TableRow
+                        sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                      >
+                        <TableCell sx={{ minWidth: "300px" }} colSpan={2}>
+                          Task Name
+                        </TableCell>
+                        <TableCell sx={{ width: "150px" }}>Priority</TableCell>
+                        <TableCell sx={{ width: "150px" }}>Due Date</TableCell>
+                        <TableCell sx={{ width: "150px" }}>Assignee</TableCell>
+                        <TableCell sx={{ width: "150px" }}>
+                          Time Tracked
+                        </TableCell>
+                        <TableCell sx={{ width: "150px" }}>Actions</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TaskDetail
+                        task={"some thing is fishy!"}
+                        showExtraDetail
+                      />
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <Pagination
+                  count={3}
+                  sx={{ mt: 3.5, "& ul": { justifyContent: "center" } }}
+                />
+              </Box>
             </Box>
           </Box>
         </Box>

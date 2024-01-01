@@ -14,6 +14,7 @@ import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
 import MembersIcon from "@mui/icons-material/BadgeOutlined";
 import AccessTimeIcon from "@mui/icons-material/AccessTimeOutlined";
+import EmployeeDashboardIcon from "@mui/icons-material/AccountBoxOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "../hooks/store/useAuth";
@@ -45,7 +46,7 @@ export default function SideBar({
     },
     {
       text: "Employee Dashboard",
-      icon: <InvoicesIcon />,
+      icon: <EmployeeDashboardIcon />,
       link: "/employee-dashboard",
     },
     {
