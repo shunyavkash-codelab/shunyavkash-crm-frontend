@@ -218,7 +218,7 @@ const TaskDetail = ({ task, showExtraDetail = false }) => {
       <TableCell sx={{ pl: "0!important", lineHeight: 1 }}>
         <Box
           className="truncate line-clamp-1"
-          sx={{ opacity: showExtraDetail ? 1 : 0.6 }}
+          sx={{ opacity: showExtraDetail ? 1 : 0.6, lineHeight: 1.2 }}
         >
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry

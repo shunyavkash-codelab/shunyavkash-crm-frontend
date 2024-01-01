@@ -12,7 +12,7 @@ import ManagerIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
-import MembersIcon from "@mui/icons-material/BadgeOutlined";
+import EmployeesIcon from "@mui/icons-material/BadgeOutlined";
 import AccessTimeIcon from "@mui/icons-material/AccessTimeOutlined";
 import EmployeeDashboardIcon from "@mui/icons-material/AccountBoxOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -40,8 +40,8 @@ export default function SideBar({
     { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
     { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
     {
-      text: "Members",
-      icon: <MembersIcon />,
+      text: "Employees",
+      icon: <EmployeesIcon />,
       link: "/employees",
     },
     {

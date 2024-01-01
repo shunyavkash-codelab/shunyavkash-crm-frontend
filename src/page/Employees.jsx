@@ -130,7 +130,7 @@ export default function Employees() {
                 </Typography>
               </Box>
             </Box>
-            <Button
+            {/* <Button
               disableRipple
               onClick={() => setOpen(true)}
               startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
@@ -167,7 +167,7 @@ export default function Employees() {
               }}
             >
               <span style={{ position: "relative" }}>New Employee</span>
-            </Button>
+            </Button> */}
           </Box>
 
           {/* <FormikProvider value={formik}> */}

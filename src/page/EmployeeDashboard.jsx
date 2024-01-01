@@ -174,6 +174,7 @@ export default function EmployeeDashboard() {
                         minHeight: "24px",
                         "& .MuiTablePagination-selectLabel": {
                           lineHeight: 1,
+                          fontWeight: 600,
                         },
                         "& .MuiTablePagination-input": {
                           mr: 0,
@@ -233,7 +234,8 @@ export default function EmployeeDashboard() {
                   </Table>
                 </TableContainer>
                 <Pagination
-                  count={3}
+                  count={50}
+                  siblingCount={0}
                   sx={{ mt: 3.5, "& ul": { justifyContent: "center" } }}
                 />
               </Box>
