@@ -13,14 +13,6 @@ import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-{
-  /* <style>
-.css - hyxlzm{
-    display:"none";
-}
-</style> */
-}
-
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
