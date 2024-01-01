@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -67,6 +67,7 @@ export default function Invoices() {
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
   const navigate = useNavigate();
+  const location = useLocation();
   const [clientList, setClientList] = useState([]);
   const [countryList, setCountryList] = useState([]);
   const [projectList, setProjectList] = useState([]);
@@ -97,7 +98,7 @@ export default function Invoices() {
   const [invoiceDUEDATE, setInvoiceDUEDATE] = useState(
     fifteenDaysAgo.toISOString().split("T")[0]
   );
-
+  let edit = location.pathname.includes("/edit/");
   // get single project detile by projectId
   const fetchProjectDetail = useCallback(async () => {
     try {
@@ -109,18 +110,31 @@ export default function Invoices() {
         setSnack(res.data.message);
         setSelectedProjectId(res.data.data._id);
         setProjectDescription(res.data.data);
-        console.log(res.data.data, "----------------------110");
       }
     } catch (error) {
       console.log(error, setSnack);
     }
   }, []);
 
+  // set initial data for update
+
   useEffect(() => {
     if (invoiceData?.projectId) {
       fetchProjectDetail(invoiceData?.projectId);
     }
   }, [invoiceData?.projectId]);
+
+  useEffect(() => {
+    if (invoiceData?.tasks) {
+      setPersonName(invoiceData.tasks.map((task) => task.taskName));
+    }
+  }, [invoiceData?.projectId]);
+  useEffect(() => {
+    if (invoiceData?.projectId) {
+      fetchTask(invoiceData?.projectId);
+    }
+  }, [invoiceData?.projectId]);
+  // end initail data for update invoice
   // validation
   const schema = Yup.object({
     invoiceNumber: Yup.string()
@@ -134,7 +148,8 @@ export default function Invoices() {
               url: APIS.INVOICE.CHECKINVOICENUMBER(value),
               method: "get",
             });
-            if (result.data.success) return true;
+
+            if (result.data.success || edit) return true;
             else return false;
           } catch (error) {
             return false;
@@ -142,11 +157,23 @@ export default function Invoices() {
         }
       ),
   });
+  useEffect(() => {
+    if (invoiceData?.invoiceDate) {
+      setInvoiceDATE(
+        new Date(invoiceData?.invoiceDate)?.toISOString().split("T")[0]
+      );
+      setInvoiceDUEDATE(
+        new Date(invoiceData?.invoiceDueDate)?.toISOString().split("T")[0]
+      );
+    }
+  }, [invoiceData?.invoiceDate]);
+  // console.log(invoiceDATE);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
+    console.log(personName, "personName");
     setPersonName(value);
   };
 
@@ -275,12 +302,12 @@ export default function Invoices() {
     // formik.setFieldValue('projectDescription', project.description);
     setProjectDescription(project);
     await fetchTask(project._id);
+    setPersonName([]);
   };
 
   // Bank Details
   const handleBankChange = async (event) => {
     const bankId = event.target.value;
-
     if (Array.isArray(adminList.bank)) {
       const bankD = adminList.bank.find((bank) => bank._id === bankId);
       if (bankD) {
@@ -312,7 +339,6 @@ export default function Invoices() {
     fetchCountry();
     fetchAdmin();
   }, []);
-
   return (
     <>
       <SideBar
@@ -387,10 +413,10 @@ export default function Invoices() {
                 mobileNumber: values.mobileNumber,
               },
               managerId: adminList._id,
-              clientId: selectedClient?._id,
+              clientId: selectedClient?._id || invoiceData?.clientId,
               to: {
-                name: selectedClient.name,
-                address: values.clientAddress,
+                name: selectedClient?.name || invoiceData?.clientName,
+                address: values.clientAddress || invoiceData?.to?.address,
               },
               invoiceNumber: values.invoiceNumber,
               invoiceDate: values.invoiceDate,
@@ -424,9 +450,8 @@ export default function Invoices() {
               },
               note: values.note,
             };
-
             setInvoiceData(obj);
-            navigate(`/invoices/add/${invoiceNO}/preview`);
+            navigate(`/invoices/edit/${invoiceNO}/preview`);
           } catch (error) {
             let errorMessage = error.response.data.message;
             setSnack(errorMessage, "warning");
@@ -633,7 +658,7 @@ export default function Invoices() {
                             label="To"
                             onChange={(e) => clientData(e.target.value)}
                             sx={{ fontSize: "12px" }}
-                            defaultValue={invoiceData.clientId}
+                            defaultValue={invoiceData?.clientId}
                           >
                             {clientList.map((clientName) => (
                               <MenuItem
@@ -647,7 +672,7 @@ export default function Invoices() {
                           </Select>
                         </FormControl>
                         {(selectedClient?.address ||
-                          invoiceData.to.address) && (
+                          invoiceData?.to?.address) && (
                           <>
                             <Typography
                               variant="subtitle3"
@@ -659,7 +684,7 @@ export default function Invoices() {
                               }}
                             >
                               {selectedClient?.address ||
-                                invoiceData.to.address}
+                                invoiceData?.to?.address}
                             </Typography>
                             <Box
                               className="editIcon"
@@ -825,6 +850,7 @@ export default function Invoices() {
                         <CustomFormikField
                           name={"invoiceNumber"}
                           label="invoice No."
+                          disabled={edit ? true : false}
                         />
                         <CustomFormikField
                           name={"invoiceDate"}
@@ -833,6 +859,7 @@ export default function Invoices() {
                           InputLabelProps={{
                             shrink: true,
                           }}
+                          defaultValue={"10/10/2023"}
                         />
                         <CustomFormikField
                           name={"invoiceDueDate"}
@@ -844,7 +871,7 @@ export default function Invoices() {
                         />
                       </Box>
                     </Box>
-                    {(selectedClient || invoiceData.clientId) && (
+                    {(selectedClient || invoiceData?.clientId) && (
                       <Box
                         sx={{ maxWidth: "750px", mt: 6, position: "relative" }}
                       >
@@ -959,7 +986,7 @@ export default function Invoices() {
                           labelId="demo-simple-select-label"
                           id="select_tasks"
                           label="Select Tasks"
-                          defaultValue={invoiceData.taskIds}
+                          // defaultValue={invoiceData?.taskIds}
                           sx={{
                             fontSize: "12px",
                             position: "relative",
@@ -1402,6 +1429,7 @@ export default function Invoices() {
                                 id="select_Bank"
                                 label="Select Bank"
                                 sx={{ fontSize: "13px" }}
+                                defaultValue={invoiceData?.bankId}
                                 onChange={handleBankChange}
                               >
                                 {adminList.bank &&
@@ -1409,6 +1437,9 @@ export default function Invoices() {
                                     <MenuItem
                                       sx={{ textTransform: "capitalize" }}
                                       value={bank._id}
+                                      onClick={() =>
+                                        bankOpen && setBankOpen(false)
+                                      }
                                     >
                                       {bank.bankName}
                                     </MenuItem>
@@ -1433,7 +1464,7 @@ export default function Invoices() {
                                 </MenuItem>
                               </Select>
                             </FormControl>
-                            {!bankDetails && (
+                            {bankOpen && (
                               <>
                                 <CustomFormikField
                                   name="customBankName"
@@ -1486,7 +1517,7 @@ export default function Invoices() {
                               </>
                             )}
 
-                            {bankDetails && (
+                            {!bankOpen && (
                               <>
                                 <Box
                                   sx={{
@@ -1514,7 +1545,8 @@ export default function Invoices() {
                                       Bank Name<span>:</span>
                                     </Typography>
                                     <Typography variant="subtitle2">
-                                      {bankDetails.bankName}
+                                      {bankDetails.bankName ||
+                                        invoiceData?.bank?.bankName}
                                     </Typography>
                                   </Box>
                                   <Box>
@@ -1522,7 +1554,8 @@ export default function Invoices() {
                                       IFSC Code<span>:</span>
                                     </Typography>
                                     <Typography variant="subtitle2">
-                                      {bankDetails.IFSC}
+                                      {bankDetails.IFSC ||
+                                        invoiceData?.bank?.IFSC}
                                     </Typography>
                                   </Box>
                                   <Box>
@@ -1530,7 +1563,8 @@ export default function Invoices() {
                                       A/c Holder Name<span>:</span>
                                     </Typography>
                                     <Typography variant="subtitle2">
-                                      {bankDetails.holderName}
+                                      {bankDetails.holderName ||
+                                        invoiceData?.bank?.holderName}
                                     </Typography>
                                   </Box>
                                   <Box>
@@ -1538,7 +1572,8 @@ export default function Invoices() {
                                       A/c No.<span>:</span>
                                     </Typography>
                                     <Typography variant="subtitle2">
-                                      {bankDetails.label}
+                                      {bankDetails.label ||
+                                        invoiceData?.bank?.accountNumber}
                                     </Typography>
                                   </Box>
                                 </Box>
@@ -1771,7 +1806,11 @@ export default function Invoices() {
                 val={[
                   {
                     invoiceNumber: invoiceNumber,
-                    invoiceDate: new Date().toISOString().split("T")[0],
+                    invoiceDate:
+                      // new Date(invoiceData.invoiceDATE)
+                      //   .toISOString()
+                      //   .split("T")[0] ||
+                      new Date().toISOString().split("T")[0],
                     invoiceDueDate: fifteenDaysAgo.toISOString().split("T")[0],
                   },
                 ]}
