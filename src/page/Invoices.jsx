@@ -44,7 +44,7 @@ export default function Invoices() {
   const navigate = useNavigate();
   const { setSnack } = useSnack();
   const [invoiceList, setInvoiceList] = useState([]);
-  const { setInvoiceData } = useInvoiceStore();
+  const { setInvoiceData, resetInvoiceStore } = useInvoiceStore();
 
   const handleChange = (event) => {
     setDate(event.target.value);
@@ -64,9 +64,16 @@ export default function Invoices() {
     }
   };
 
+  //view invoice
   const viewInvoice = async (invoiceNumber, row) => {
     setInvoiceData(row);
     navigate(`/invoices/view/${invoiceNumber}`);
+  };
+
+  //edit invoice
+  const editInvoice = async (invoiceNumber, row) => {
+    setInvoiceData(row);
+    navigate(`/invoices/edit/${invoiceNumber}`);
   };
 
   const listInvoice = async () => {
@@ -85,6 +92,7 @@ export default function Invoices() {
   };
   useEffect(() => {
     listInvoice();
+    resetInvoiceStore();
   }, []);
 
   return (
@@ -557,7 +565,12 @@ export default function Invoices() {
                             <Button disableRipple>
                               <MarkAsPaidIcon />
                             </Button>
-                            <Button disableRipple>
+                            <Button
+                              disableRipple
+                              onClick={() =>
+                                editInvoice(row.invoiceNumber, row)
+                              }
+                            >
                               <CreateIcon />
                             </Button>
                           </Box>

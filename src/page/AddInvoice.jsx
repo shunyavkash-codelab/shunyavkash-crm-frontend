@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -75,12 +75,13 @@ export default function Invoices() {
   const [adminList, setAdminList] = useState(false);
   const [taskList, setTaskList] = useState([]);
   const [selectedClient, setSelectedClient] = useState();
-  const { setInvoiceData } = useInvoiceStore();
+  const { setInvoiceData, invoiceData } = useInvoiceStore();
   const { invoiceNumber } = useParams();
   const [projectDescription, setProjectDescription] = useState(false);
   const [bankDetails, setBankDetails] = useState(false);
   const [discountPer, setDiscountPer] = useState(0);
   const [discountRS, setDiscountRS] = useState(0);
+  const [selectedProjectId, setSelectedProjectId] = useState("");
 
   // model open for admin
   const [fromOpen, setFromOpen] = useState(false);
@@ -96,8 +97,30 @@ export default function Invoices() {
   const [invoiceDUEDATE, setInvoiceDUEDATE] = useState(
     fifteenDaysAgo.toISOString().split("T")[0]
   );
-  // const handleOpen = () => setFromOpen(true);
 
+  // get single project detile by projectId
+  const fetchProjectDetail = useCallback(async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.PROJECT.VIEW(invoiceData.projectId),
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setSelectedProjectId(res.data.data._id);
+        setProjectDescription(res.data.data);
+        console.log(res.data.data, "----------------------110");
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (invoiceData?.projectId) {
+      fetchProjectDetail(invoiceData?.projectId);
+    }
+  }, [invoiceData?.projectId]);
   // validation
   const schema = Yup.object({
     invoiceNumber: Yup.string()
@@ -168,6 +191,7 @@ export default function Invoices() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setProjectList(res.data.data);
+        setSelectedProjectId(res.data.data[0]._id);
         if (projectDescription) {
           setProjectDescription((prevProject) => {
             const project = res.data.data.find(
@@ -181,6 +205,12 @@ export default function Invoices() {
       console.log(error, setSnack);
     }
   };
+
+  useEffect(() => {
+    if (invoiceData?.clientId) {
+      fetchProject(invoiceData?.clientId);
+    }
+  }, [invoiceData?.clientId]);
 
   // get country list
   const fetchCountry = async () => {
@@ -239,6 +269,7 @@ export default function Invoices() {
   // project Data
   const handleProjectChange = async (event) => {
     const projectId = event.target.value;
+    setSelectedProjectId(projectId);
     const project = projectList.find((proj) => proj._id === projectId);
 
     // formik.setFieldValue('projectDescription', project.description);
@@ -267,21 +298,6 @@ export default function Invoices() {
     } else {
       console.log("adminList.bank is not an array");
     }
-    // adminList.bank.map((bank) => {
-    //   console.log(bank, "----------------------217");
-    //   const bankD = bank.find((ban) => ban._id === bankId);
-    //   setBankDetails({
-    //     bankName: bankD.bankName,
-    //     IFSC: bankD.IFSC,
-    //     holderName: bankD.holderName,
-    //     accountNumber: bankD.accountNumber,
-    //   });
-    // }
-    // );
-    // const project = fetchAdmin.find((proj) => proj._id === projectId);
-
-    // // formik.setFieldValue('projectDescription', project.description);
-    // setProjectDescription(project.description);
   };
 
   const getSubTotal = (task) => {
@@ -312,6 +328,7 @@ export default function Invoices() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
+      {selectedProjectId || "not selected"}
       <Box
         component={Formik}
         validationSchema={schema}
@@ -417,7 +434,6 @@ export default function Invoices() {
         }}
       >
         {({ values, ...rest }) => {
-          console.log(values, rest, "---------------------------240");
           setInvoiceNO(values.invoiceNumber);
           setInvoiceDATE(values.invoiceDate);
           setInvoiceDUEDATE(values.invoiceDueDate);
@@ -617,6 +633,7 @@ export default function Invoices() {
                             label="To"
                             onChange={(e) => clientData(e.target.value)}
                             sx={{ fontSize: "12px" }}
+                            defaultValue={invoiceData.clientId}
                           >
                             {clientList.map((clientName) => (
                               <MenuItem
@@ -629,7 +646,8 @@ export default function Invoices() {
                             ))}
                           </Select>
                         </FormControl>
-                        {selectedClient?.address && (
+                        {(selectedClient?.address ||
+                          invoiceData.to.address) && (
                           <>
                             <Typography
                               variant="subtitle3"
@@ -640,7 +658,8 @@ export default function Invoices() {
                                 fontSize: "16px",
                               }}
                             >
-                              {selectedClient?.address}
+                              {selectedClient?.address ||
+                                invoiceData.to.address}
                             </Typography>
                             <Box
                               className="editIcon"
@@ -825,7 +844,7 @@ export default function Invoices() {
                         />
                       </Box>
                     </Box>
-                    {selectedClient && (
+                    {(selectedClient || invoiceData.clientId) && (
                       <Box
                         sx={{ maxWidth: "750px", mt: 6, position: "relative" }}
                       >
@@ -863,6 +882,8 @@ export default function Invoices() {
                             // onChange={(e) => clientData(e.target.value)}
                             sx={{ fontSize: "12px" }}
                             onChange={handleProjectChange}
+                            value={selectedProjectId}
+                            // defaultValue={projectDescription._id}
                           >
                             {projectList.map((projectName) => (
                               <MenuItem
@@ -938,6 +959,7 @@ export default function Invoices() {
                           labelId="demo-simple-select-label"
                           id="select_tasks"
                           label="Select Tasks"
+                          defaultValue={invoiceData.taskIds}
                           sx={{
                             fontSize: "12px",
                             position: "relative",
