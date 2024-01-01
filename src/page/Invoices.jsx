@@ -482,7 +482,9 @@ export default function Invoices() {
                           },
                         }}
                       >
-                        <TableCell>{row.projectName}</TableCell>
+                        <TableCell value={row.projectId}>
+                          {row.projectName}
+                        </TableCell>
                         <TableCell>{row.clientName}</TableCell>
                         <TableCell>{row.managerName}</TableCell>
                         <TableCell>{row.invoiceNumber}</TableCell>
