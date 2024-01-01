@@ -61,7 +61,7 @@ export default function AddProject() {
         });
         if (res.data.success === true) {
           setSnack(res.data.message);
-          !id && navigate("/project");
+          !id && navigate("/projects");
         }
       } catch (error) {
         console.log(error, "=================77");
