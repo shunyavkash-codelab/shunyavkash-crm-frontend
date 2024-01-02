@@ -31,6 +31,9 @@ import Woman2OutlinedIcon from "@mui/icons-material/Woman2Outlined";
 import SportsSoccerOutlinedIcon from "@mui/icons-material/SportsSoccerOutlined";
 import SickOutlinedIcon from "@mui/icons-material/SickOutlined";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import IconButton from "@mui/material/IconButton";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import AddClientsModal from "../component/AddClientsModal";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -78,6 +81,9 @@ export default function Home() {
     console.log(files);
     setUrl(files.base64);
   };
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
 
   return (
     <>
@@ -426,15 +432,23 @@ export default function Home() {
                 <Typography className="cardTitle">
                   employment details
                 </Typography>
-                <Chip
-                  label="Edit"
-                  icon={<EditIcon />}
-                  color="primary"
-                  variant="outlined"
-                  size="small"
-                  sx={{ cursor: "pointer", height: "unset", py: 0.5, px: 0.75 }}
-                />
+                <Button
+                  onClick={handleOpen}
+                  startIcon={<EditIcon sx={{ width: 16 }} />}
+                  sx={{
+                    cursor: "pointer",
+                    height: "unset",
+                    py: 0.3,
+                    px: 1.5,
+                    border: "1px solid",
+                    borderColor: "primary.main",
+                    borderRadius: 4,
+                  }}
+                >
+                  Edit
+                </Button>
               </Box>
+              <AddClientsModal open={open} setOpen={setOpen} />
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
