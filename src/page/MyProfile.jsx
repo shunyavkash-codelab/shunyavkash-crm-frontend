@@ -12,7 +12,7 @@ import {
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 import PropTypes from "prop-types";
 import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import DetailsList from "../component/employee/DetailsList";
@@ -30,6 +30,7 @@ import Man2OutlinedIcon from "@mui/icons-material/Man2Outlined";
 import Woman2OutlinedIcon from "@mui/icons-material/Woman2Outlined";
 import SportsSoccerOutlinedIcon from "@mui/icons-material/SportsSoccerOutlined";
 import SickOutlinedIcon from "@mui/icons-material/SickOutlined";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -506,6 +507,20 @@ export default function Home() {
                     Icon={<DateIcon />}
                   />
                 </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <DetailsList
+                    Title={"hobbies"}
+                    Text={"Bording Games, Gym, Traveling"}
+                    Icon={<SportsSoccerOutlinedIcon />}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <DetailsList
+                    Title={"phobia"}
+                    Text={"Nothing"}
+                    Icon={<SickOutlinedIcon />}
+                  />
+                </Grid>
               </Grid>
             </Box>
             <Box>
@@ -599,7 +614,7 @@ export default function Home() {
             </Box>
             <Box>
               <Box className="cardHeader">
-                <Typography className="cardTitle">Details</Typography>
+                <Typography className="cardTitle">Document Details</Typography>
                 <Chip
                   label="Edit"
                   icon={<EditIcon />}
@@ -609,20 +624,127 @@ export default function Home() {
                   sx={{ cursor: "pointer", height: "unset", py: 0.5, px: 0.75 }}
                 />
               </Box>
+              {/* <Typography sx={{ fontSize: 14, px: 3, mb: 1.5 }}>
+                Degree Certification
+              </Typography> */}
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
-                <Grid item xs={12} md={6}>
-                  <DetailsList
-                    Title={"hobbies"}
-                    Text={"Playing Games"}
-                    Icon={<SportsSoccerOutlinedIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                  <DetailsList
-                    Title={"phobia"}
-                    Text={"Nothing"}
-                    Icon={<SickOutlinedIcon />}
-                  />
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={12}
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 1,
+                    alignItems: "center",
+                  }}
+                >
+                  <Link
+                    href="javascript:void(0)"
+                    target="_blank"
+                    sx={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-block",
+                      "& > div": {
+                        mb: 0,
+                      },
+                    }}
+                  >
+                    <DetailsList
+                      Title={"HSC-SSC certification"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                    />
+                  </Link>
+                  <Link
+                    href="javascript:void(0)"
+                    target="_blank"
+                    sx={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-block",
+                      "& > div": {
+                        mb: 0,
+                      },
+                    }}
+                  >
+                    <DetailsList
+                      Title={"Adhar Card"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                    />
+                  </Link>
+                  <Link
+                    href="javascript:void(0)"
+                    target="_blank"
+                    sx={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-block",
+                      "& > div": {
+                        mb: 0,
+                      },
+                    }}
+                  >
+                    <DetailsList
+                      Title={"Adress Proof"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                    />
+                  </Link>
+                  <Link
+                    href="javascript:void(0)"
+                    target="_blank"
+                    sx={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-block",
+                      "& > div": {
+                        mb: 0,
+                      },
+                    }}
+                  >
+                    <DetailsList
+                      Title={"Property tax bill"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                    />
+                  </Link>
+                  <Link
+                    href="javascript:void(0)"
+                    target="_blank"
+                    sx={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-block",
+                      "& > div": {
+                        mb: 0,
+                      },
+                    }}
+                  >
+                    <DetailsList
+                      Title={"Electricity bill"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                    />
+                  </Link>
                 </Grid>
               </Grid>
             </Box>
