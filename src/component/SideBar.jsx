@@ -45,6 +45,11 @@ export default function SideBar({
       link: "/employees",
     },
     {
+      text: "Setup my Profile",
+      icon: <EmployeeDashboardIcon />,
+      link: "/my-profile",
+    },
+    {
       text: "Employee Dashboard",
       icon: <EmployeeDashboardIcon />,
       link: "/employee-dashboard",
