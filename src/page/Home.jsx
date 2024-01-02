@@ -113,9 +113,7 @@ export default function Home() {
         setShowSidebar={setShowSidebar}
       />
       {user.role == 0 ? (
-        <Box
-          sx={{ display: "flex", height: "100vh", ml: { lg: sideBarWidth } }}
-        >
+        <Box sx={{ ml: { lg: sideBarWidth } }}>
           <Box
             component="main"
             sx={{

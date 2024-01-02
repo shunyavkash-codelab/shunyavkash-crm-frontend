@@ -84,9 +84,7 @@ export default function Invoices() {
         setShowSidebar={setShowSidebar}
       />
       {invoiceData && (
-        <Box
-          sx={{ display: "flex", height: "100vh", ml: { lg: sideBarWidth } }}
-        >
+        <Box sx={{ ml: { lg: sideBarWidth } }}>
           <Box
             component="main"
             sx={{

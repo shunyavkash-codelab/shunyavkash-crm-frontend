@@ -151,16 +151,17 @@ export default function AddProject() {
       <Box
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        sx={{ height: "100vh", ml: { lg: sideBarWidth } }}
+        sx={{ ml: { lg: sideBarWidth } }}
       >
         <Box
           sx={{
-            flexGrow: 1,
             pt: 13,
             px: 2.5,
             pb: 2.5,
             height: "100%",
             overflowY: "auto",
+            maxWidth: "1200px",
+            mx: "auto",
           }}
         >
           <Box sx={{ mb: 3.25 }}>
@@ -440,7 +441,7 @@ export default function AddProject() {
                       fullWidth
                       size="small"
                       id="perHourCharge"
-                      type="tel"
+                      type="number"
                       autoComplete="off"
                       placeholder="Per Hours Charge"
                       sx={{
