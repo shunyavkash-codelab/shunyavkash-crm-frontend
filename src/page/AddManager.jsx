@@ -207,10 +207,12 @@ export default function AddManager() {
                   fullWidth
                   size="small"
                   id="name"
-                  label="Name"
+                  label="Full Name"
                   autoComplete="off"
                   sx={{
                     "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { textTransform: "capitalize", py: 1.5 },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.name}
@@ -226,6 +228,8 @@ export default function AddManager() {
                   autoComplete="off"
                   sx={{
                     "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { py: 1.5 },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.email}
@@ -245,8 +249,9 @@ export default function AddManager() {
                     size="small"
                     id="country-select-demo"
                     sx={{
+                      mr: "-1px",
                       flexShrink: 0,
-                      width: { xs: "100px", sm: "120px" },
+                      width: { xs: "102px", sm: "114px" },
                       "& input": { fontSize: "14px" },
                       "& button[title='Clear']": { display: "none" },
                       "& fieldset": {
@@ -254,7 +259,7 @@ export default function AddManager() {
                         borderRight: 0,
                       },
                       "&>div>div": {
-                        pr: "24px!important",
+                        p: "9px 24px 10px 6px!important",
                         bgcolor: "#f4f4f4",
                       },
                       "& input+div": {
@@ -275,15 +280,15 @@ export default function AddManager() {
                       <Box
                         component="li"
                         sx={{
-                          "& > img": { mr: 0.75, flexShrink: 0 },
+                          "& > img": { mr: 0.5, flexShrink: 0 },
                           fontSize: { xs: "12px", sm: "14px" },
                         }}
                         {...props}
                       >
                         <img
                           loading="lazy"
-                          width="20"
-                          height="14"
+                          width="18"
+                          height="12"
                           src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
                         />
                         +{option.phone}
@@ -326,6 +331,8 @@ export default function AddManager() {
                     placeholder="Number"
                     sx={{
                       "& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": { textTransform: "capitalize", py: 1.5 },
                       "& fieldset": {
                         borderRadius: "0 6px 6px 0!important",
                         borderLeft: 0,
@@ -340,7 +347,8 @@ export default function AddManager() {
                   fullWidth
                   size="small"
                   sx={{
-                    "&>label": { fontSize: "14px" },
+                    "&>label": { fontSize: "14px", top: "4px" },
+                    "&>div>div": { py: 1.5 },
                   }}
                   error={formik.touched.gender && Boolean(formik.errors.gender)}
                   helperText={formik.touched.gender && formik.errors.gender}
@@ -393,6 +401,8 @@ export default function AddManager() {
                   autoComplete="off"
                   sx={{
                     "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { py: 1.5 },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.companyName}
@@ -409,7 +419,8 @@ export default function AddManager() {
                   fullWidth
                   size="small"
                   sx={{
-                    "&>label": { fontSize: "14px" },
+                    "&>label": { fontSize: "14px", top: "4px" },
+                    "&>div>div": { py: 1.5 },
                   }}
                 >
                   <InputLabel
@@ -466,14 +477,34 @@ export default function AddManager() {
                   autoComplete="off"
                   sx={{
                     "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { py: 1.5 },
                     gridColumn: { sm: "span 2" },
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.websiteURL}
                 />
-
-                <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
-                  <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
+              </Box>
+              <Box
+                sx={{
+                  mt: 2.5,
+                  "& fieldset": {
+                    borderRadius: 1.5,
+                  },
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "repeat(1, 1fr)",
+                    md: "repeat(2, 1fr)",
+                    xxl: "repeat(3, 1fr)",
+                  },
+                  gap: 2.5,
+                }}
+              >
+                <Box sx={{ gridColumn: { md: "span 1" } }}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ lineHeight: 1, mb: 1.25 }}
+                  >
                     Profile Image
                   </Typography>
                   <FileUploadButton
@@ -483,8 +514,11 @@ export default function AddManager() {
                   />
                 </Box>
 
-                <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
-                  <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
+                <Box sx={{ gridColumn: { md: "span 1" } }}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ lineHeight: 1, mb: 1.25 }}
+                  >
                     Company Logo
                   </Typography>
                   <FileUploadButton
@@ -494,8 +528,11 @@ export default function AddManager() {
                   />
                 </Box>
 
-                <Box sx={{ gridColumn: { sm: "span 2" } }}>
-                  <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1 }}>
+                <Box sx={{ gridColumn: { md: "span 2", xxl: "span 1" } }}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ lineHeight: 1, mb: 1.25 }}
+                  >
                     Signature
                   </Typography>
                   <FileUploadButton

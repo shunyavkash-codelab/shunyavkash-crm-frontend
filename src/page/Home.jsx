@@ -117,12 +117,13 @@ export default function Home() {
           <Box
             component="main"
             sx={{
-              flexGrow: 1,
               pt: 13,
               px: 2.5,
               pb: 2.5,
               height: "100%",
               overflowY: "auto",
+              maxWidth: "1200px",
+              mx: "auto",
             }}
           >
             <Box>
@@ -182,7 +183,7 @@ export default function Home() {
                 </Grid>
                 <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                   <CounterCards
-                    Title={"members"}
+                    Title={"employees"}
                     Counter={dashboardData.totalManager || 0}
                     icon={
                       <ManagerIcon

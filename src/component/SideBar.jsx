@@ -107,7 +107,6 @@ export default function SideBar({
           sx={{
             flexShrink: 0,
             display: "flex",
-            mb: "15px",
             px: 3.5,
             pb: "23px",
             borderBottom: "1px solid rgba(0,0,0,0.1)",
@@ -120,8 +119,16 @@ export default function SideBar({
             alt="shunyavkash-logo"
           />
         </Box>
-        <Box sx={{ flexGrow: 1, height: "500px", overflowY: "auto", px: 2 }}>
-          <List>
+        <Box
+          sx={{
+            flexGrow: 1,
+            height: "500px",
+            overflowY: "auto",
+            pt: "15px",
+            px: 2,
+          }}
+        >
+          <List sx={{ pt: 0, pb: "15px" }}>
             {newArray.map((item, index) => (
               <ListItem
                 key={item.text}

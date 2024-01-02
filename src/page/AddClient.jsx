@@ -216,14 +216,13 @@ export default function AddClient() {
                     fullWidth
                     size="small"
                     id="name"
-                    label="Name"
+                    label="Full Name"
                     autoComplete="off"
                     defaultValue={clientList?.name}
-                    // InputLabelProps={{
-                    //   shrink: true,
-                    // }}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": { py: 1.5 },
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.name}
@@ -233,6 +232,7 @@ export default function AddClient() {
                     error={formik.touched.name && Boolean(formik.errors.name)}
                     helperText={formik.touched.name && formik.errors.name}
                   />
+
                   <TextField
                     fullWidth
                     size="small"
@@ -240,11 +240,10 @@ export default function AddClient() {
                     label="Email"
                     autoComplete="off"
                     defaultValue={clientList?.email}
-                    // InputLabelProps={{
-                    //   shrink: true,
-                    // }}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": { py: 1.5 },
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.email}
@@ -254,6 +253,7 @@ export default function AddClient() {
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
                   />
+
                   <Box
                     sx={{
                       display: "flex",
@@ -266,8 +266,9 @@ export default function AddClient() {
                       size="small"
                       id="country-select-demo"
                       sx={{
+                        mr: "-1px",
                         flexShrink: 0,
-                        width: { xs: "100px", sm: "120px" },
+                        width: { xs: "102px", sm: "114px" },
                         "& input": { fontSize: "14px" },
                         "& button[title='Clear']": { display: "none" },
                         "& fieldset": {
@@ -275,7 +276,7 @@ export default function AddClient() {
                           borderRight: 0,
                         },
                         "&>div>div": {
-                          pr: "24px!important",
+                          p: "9px 24px 10px 6px!important",
                           bgcolor: "#f4f4f4",
                         },
                         "& input+div": {
@@ -310,15 +311,15 @@ export default function AddClient() {
                         <Box
                           component="li"
                           sx={{
-                            "& > img": { mr: 0.75, flexShrink: 0 },
+                            "& > img": { mr: 0.5, flexShrink: 0 },
                             fontSize: { xs: "12px", sm: "14px" },
                           }}
                           {...props}
                         >
                           <img
                             loading="lazy"
-                            width="20"
-                            height="14"
+                            width="18"
+                            height="12"
                             src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
                           />
                           +{option.phone}
@@ -365,11 +366,10 @@ export default function AddClient() {
                           readOnly: true,
                         }
                       }
-                      // InputLabelProps={{
-                      //   shrink: true,
-                      // }}
                       sx={{
                         "& input,&>div": { fontSize: "14px" },
+                        "&>label": { top: "4px" },
+                        "& input": { py: 1.5 },
                         "& fieldset": {
                           borderRadius: "0 6px 6px 0 !important",
                           borderLeft: 0,
@@ -387,57 +387,7 @@ export default function AddClient() {
                       }
                     />
                   </Box>
-                  {/* <FormControl
-                    fullWidth
-                    size="small"
-                    sx={{
-                      "&>label": { fontSize: "14px" },
-                    }}
-                  >
-                    <InputLabel
-                      sx={{ textTransform: "capitalize" }}
-                      id="demo-simple-select-label"
-                    >
-                      gender
-                    </InputLabel>
-                    <Field
-                      name="file"
-                      render={({ field, form }) => (
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="gender"
-                          label="Gender"
-                          defaultValue={clientList?.gender}
-                          InputProps={
-                            location.pathname.includes("/view/") && {
-                              readOnly: true,
-                            }
-                          }
-                          // InputLabelProps={{
-                          //   shrink: true,
-                          // }}
-                          sx={{ fontSize: "14px" }}
-                          {...field}
-                          onChange={(event) => {
-                            form.setFieldValue("gender", event.target.value);
-                          }}
-                        >
-                          <MenuItem
-                            sx={{ textTransform: "capitalize" }}
-                            value={"Male"}
-                          >
-                            Male
-                          </MenuItem>
-                          <MenuItem
-                            sx={{ textTransform: "capitalize" }}
-                            value={"Female"}
-                          >
-                            Female
-                          </MenuItem>
-                        </Select>
-                      )}
-                    />
-                  </FormControl> */}
+
                   <TextField
                     fullWidth
                     size="small"
@@ -448,15 +398,15 @@ export default function AddClient() {
                     InputProps={
                       location.pathname.includes("/view/") && { readOnly: true }
                     }
-                    // InputLabelProps={{
-                    //   shrink: true,
-                    // }}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": { py: 1.5 },
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.companyName}
                   />
+
                   <TextField
                     fullWidth
                     size="small"
@@ -467,16 +417,16 @@ export default function AddClient() {
                     InputProps={
                       location.pathname.includes("/view/") && { readOnly: true }
                     }
-                    // InputLabelProps={{
-                    //   shrink: true,
-                    // }}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": { py: 1.5 },
                       gridColumn: { sm: "span 2" },
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.websiteURL}
                   />
+
                   <TextField
                     fullWidth
                     size="small"
@@ -489,28 +439,23 @@ export default function AddClient() {
                     InputProps={
                       location.pathname.includes("/view/") && { readOnly: true }
                     }
-                    // InputLabelProps={{
-                    //   shrink: true,
-                    // }}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "&>div": { py: 1.5 },
                       gridColumn: { sm: "span 2" },
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.address}
                   />
+
                   <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
                     <Typography
                       variant="subtitle1"
-                      sx={{ lineHeight: 1, mb: 1 }}
+                      sx={{ lineHeight: 1, mb: 1.25 }}
                     >
                       Profile Image
                     </Typography>
-                    {/* <img
-                      src={clientList.profile_img}
-                      alt="Profile"
-                      style={{ maxWidth: "100%", maxHeight: "200px" }}
-                    /> */}
                     <FileUploadButton
                       formik={formik}
                       id={"profile_img"}
@@ -519,18 +464,14 @@ export default function AddClient() {
                       view={location.pathname.includes("/view/") ? true : false}
                     />
                   </Box>
+
                   <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
                     <Typography
                       variant="subtitle1"
-                      sx={{ lineHeight: 1, mb: 1 }}
+                      sx={{ lineHeight: 1, mb: 1.25 }}
                     >
                       Company Logo
                     </Typography>
-                    {/* <img
-                      src={clientList.companyLogo}
-                      alt="Compnay logo"
-                      style={{ maxWidth: "100%", maxHeight: "200px" }}
-                    /> */}
                     <FileUploadButton
                       formik={formik}
                       id="companyLogo"
