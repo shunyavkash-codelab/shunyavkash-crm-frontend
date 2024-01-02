@@ -248,7 +248,10 @@ export default function AddProject() {
                     fullWidth
                     size="small"
                     sx={{
-                      "&>label": { fontSize: "14px", top: "4px" },
+                      "&>label": {
+                        fontSize: "14px",
+                        top: "4px",
+                      },
                       "&>div>div": { py: 1.5 },
                     }}
                   >
@@ -420,7 +423,10 @@ export default function AddProject() {
                     fullWidth
                     size="small"
                     sx={{
-                      "&>label": { fontSize: "14px", top: "4px" },
+                      "&>label": {
+                        fontSize: "14px",
+                        top: "4px",
+                      },
                       "&>div>div": { py: 1.5 },
                     }}
                   >
@@ -554,7 +560,10 @@ export default function AddProject() {
                     fullWidth
                     size="small"
                     sx={{
-                      "&>label": { fontSize: "14px", top: "4px" },
+                      "&>label": {
+                        fontSize: "14px",
+                        top: "4px",
+                      },
                       "&>div>div": { py: 1.5 },
                     }}
                   >
@@ -580,41 +589,71 @@ export default function AddProject() {
                             form.setFieldValue("status", event.target.value);
                           }}
                         >
-                          <MenuItem
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "14px",
-                            }}
-                            value={"toDo"}
-                          >
-                            To do
+                          <MenuItem value={"toDo"}>
+                            <Box
+                              sx={{
+                                color: "white",
+                                fontSize: "12px",
+                                p: 0.5,
+                                borderRadius: 1,
+                                maxWidth: "fit-content",
+                                lineHeight: 1,
+                                bgcolor: "grey.dark",
+                              }}
+                            >
+                              To Do
+                            </Box>
                           </MenuItem>
-                          <MenuItem
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "14px",
-                            }}
-                            value={"inProgress"}
-                          >
-                            In Progress
+                          <MenuItem value={"inProgress"}>
+                            <Box
+                              sx={{
+                                color: "white",
+                                fontSize: "12px",
+                                p: 0.5,
+                                borderRadius: 1,
+                                maxWidth: "fit-content",
+                                lineHeight: 1,
+                                bgcolor: "grey.dark",
+                                bgcolor: "secondary.main",
+                              }}
+                            >
+                              In Progress
+                            </Box>
                           </MenuItem>
-                          <MenuItem
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "14px",
-                            }}
-                            value={"inReview"}
-                          >
-                            In Review
+                          <MenuItem value={"inReview"}>
+                            <Box
+                              sx={{
+                                color: "white",
+                                fontSize: "12px",
+                                p: 0.5,
+                                borderRadius: 1,
+                                maxWidth: "fit-content",
+                                lineHeight: 1,
+                                bgcolor: "grey.dark",
+                                bgcolor: "secondary.main",
+                                bgcolor: "review.main",
+                              }}
+                            >
+                              In Review
+                            </Box>
                           </MenuItem>
-                          <MenuItem
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "14px",
-                            }}
-                            value={"completed"}
-                          >
-                            Completed
+                          <MenuItem value={"completed"}>
+                            <Box
+                              sx={{
+                                color: "white",
+                                fontSize: "12px",
+                                p: 0.5,
+                                borderRadius: 1,
+                                maxWidth: "fit-content",
+                                lineHeight: 1,
+                                bgcolor: "grey.dark",
+                                bgcolor: "secondary.main",
+                                bgcolor: "review.main",
+                                bgcolor: "success.main",
+                              }}
+                            >
+                              Completed
+                            </Box>
                           </MenuItem>
                         </Select>
                       )}
