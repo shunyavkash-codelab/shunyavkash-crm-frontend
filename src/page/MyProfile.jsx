@@ -16,7 +16,20 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import DetailsList from "../component/employee/DetailsList";
+import Grid3x3Icon from "@mui/icons-material/Grid3x3";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
+import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import EditIcon from "@mui/icons-material/CreateOutlined";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import ReactFileReader from "react-file-reader";
+import WcOutlinedIcon from "@mui/icons-material/WcOutlined";
+import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import Man2OutlinedIcon from "@mui/icons-material/Man2Outlined";
+import Woman2OutlinedIcon from "@mui/icons-material/Woman2Outlined";
+import SportsSoccerOutlinedIcon from "@mui/icons-material/SportsSoccerOutlined";
+import SickOutlinedIcon from "@mui/icons-material/SickOutlined";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,6 +69,15 @@ export default function Home() {
     setValue(newValue);
   };
 
+  const [url, setUrl] = useState(
+    "https://gull-html-laravel.ui-lib.com/assets/images/faces/1.jpg"
+  );
+
+  const handleFiles = (files) => {
+    console.log(files);
+    setUrl(files.base64);
+  };
+
   return (
     <>
       <SideBar
@@ -89,7 +111,7 @@ export default function Home() {
               variant="h5"
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
-              user profile
+              User Profile
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
               <Link to={"/"} style={{ textDecoration: "none" }}>
@@ -111,12 +133,20 @@ export default function Home() {
                 variant="subtitle2"
                 sx={{ opacity: 0.4, textTransform: "capitalize" }}
               >
-                profile
+                Deep Bhimani
               </Typography>
             </Box>
           </Box>
-          <Box sx={{ bgcolor: "white", borderRadius: 4, overflow: "hidden" }}>
-            <Box
+          <Box
+            sx={{
+              bgcolor: "white",
+              borderRadius: 4,
+              overflow: "hidden",
+              p: 2,
+              pb: 0,
+            }}
+          >
+            {/* <Box
               sx={{
                 padding: "100px 50px",
                 display: "flex",
@@ -130,49 +160,87 @@ export default function Home() {
                 alt="logo-text-white"
                 style={{ maxHeight: "150px" }}
               />
-            </Box>
+            </Box> */}
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
                 gap: 2,
-                mt: -6.25,
-                mx: 3.75,
+                mt: 0,
+                // mx: 3.75,
               }}
             >
-              <Avatar
+              <Box
                 sx={{
-                  width: "100px",
+                  position: "relative",
                   borderRadius: "100%",
-                  bgcolor: "grey.light",
-                  height: "100px",
-                  flexShrink: 0,
-                  boxShadow: "0 0 0 4px white",
+                  overflow: "hidden",
                 }}
-                alt="avatar"
-                src={
-                  "https://gull-html-laravel.ui-lib.com/assets/images/faces/1.jpg"
-                }
-              />
+              >
+                <Avatar
+                  sx={{
+                    width: "100px",
+                    borderRadius: "100%",
+                    bgcolor: "grey.light",
+                    height: "100px",
+                    flexShrink: 0,
+                    boxShadow: "0 0 0 4px white",
+                  }}
+                  alt="avatar"
+                  src={url}
+                />
+                <Button
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    width: "100%",
+                    backgroundColor: "rgba(0,0,0,0.4)",
+                    "&:hover": {
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                    },
+                  }}
+                >
+                  <ReactFileReader
+                    fileTypes={[".png", ".jpg"]}
+                    base64={true}
+                    handleFiles={handleFiles}
+                    as={Button}
+                  >
+                    <CameraAltIcon
+                      sx={{
+                        fontSize: 20,
+                        color: "white",
+                        display: "block",
+                      }}
+                    />
+                  </ReactFileReader>
+                </Button>
+              </Box>
               <Box
                 sx={{
                   flexGrow: 1,
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "flex-end",
+                  alignItems: "flex-start",
                 }}
               >
                 <Box
                   sx={{
                     display: "flex",
+                    alignItems: "flex-start",
                     flexDirection: "column",
-                    gap: 3,
+                    gap: 1.3,
                     py: 1.25,
                   }}
                 >
+                  <Chip
+                    label="Employee"
+                    sx={{ height: "auto", py: "2px" }}
+                  ></Chip>
                   <Typography
                     variant="h5"
-                    sx={{ color: "white", fontWeight: 500 }}
+                    sx={{ color: "black", fontWeight: 500 }}
                   >
                     Deep Bhimani
                   </Typography>
@@ -191,6 +259,7 @@ export default function Home() {
                     >
                       Frontend development
                     </Typography>
+                    {/* Todo : This Button is visible for admin only */}
                     <Chip
                       label={changeStatus ? "Active" : "Deactive"}
                       color={changeStatus ? "success" : "error"}
@@ -293,9 +362,14 @@ export default function Home() {
               scrollButtons={false}
               sx={{
                 mt: 2,
-                "& .MuiTabs-flexContainer": { justifyContent: "center" },
+                "& .MuiTabs-flexContainer": {
+                  justifyContent: "flex-start",
+                  px: 2,
+                  borderTop: "1px solid rgba(0,0,0,0.1)",
+                },
                 "& button": {
                   textTransform: "capitalize",
+                  py: 2.25,
                 },
               }}
             >
@@ -372,35 +446,35 @@ export default function Home() {
                   <DetailsList
                     Title={"employee id"}
                     Text={"1234"}
-                    Icon={<DateIcon />}
+                    Icon={<Grid3x3Icon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"work email"}
                     Text={"deep.bhimani@shunyavkash.com"}
-                    Icon={<DateIcon />}
+                    Icon={<EmailOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"designation"}
                     Text={"Frontend Devlopment"}
-                    Icon={<DateIcon />}
+                    Icon={<AccountBoxOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"role"}
                     Text={"Employee"}
-                    Icon={<DateIcon />}
+                    Icon={<PermIdentityOutlinedIcon />}
                   />
                 </Grid>
               </Grid>
             </Box>
             <Box>
               <Box className="cardHeader">
-                <Typography className="cardTitle">personal details</Typography>
+                <Typography className="cardTitle">Personal Details</Typography>
                 <Chip
                   label="Edit"
                   icon={<EditIcon />}
@@ -415,21 +489,14 @@ export default function Home() {
                   <DetailsList
                     Title={"full name"}
                     Text={"deep bhimani"}
-                    Icon={<DateIcon />}
+                    Icon={<PermIdentityOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"gender"}
                     Text={"male"}
-                    Icon={<DateIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                  <DetailsList
-                    Title={"personal email"}
-                    Text={"deepbhimani6@gmail.com"}
-                    Icon={<DateIcon />}
+                    Icon={<WcOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
@@ -443,7 +510,7 @@ export default function Home() {
             </Box>
             <Box>
               <Box className="cardHeader">
-                <Typography className="cardTitle">contact details</Typography>
+                <Typography className="cardTitle">Contact Details</Typography>
                 <Chip
                   label="Edit"
                   icon={<EditIcon />}
@@ -458,14 +525,22 @@ export default function Home() {
                   <DetailsList
                     Title={"Phone number"}
                     Text={"+91 6359276907"}
-                    Icon={<DateIcon />}
+                    Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"whatsApp number"}
                     Text={"+91 6359276907"}
-                    Icon={<DateIcon />}
+                    // Todo : Add whatsapp icon here
+                    Icon={<PhoneOutlinedIcon />}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <DetailsList
+                    Title={"personal email"}
+                    Text={"deepbhimani6@gmail.com"}
+                    Icon={<EmailOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
@@ -474,14 +549,14 @@ export default function Home() {
                     Text={
                       "403, saffron luxuria, near shyamdham mandir, jakatnaka, surat 395006."
                     }
-                    Icon={<DateIcon />}
+                    Icon={<HomeOutlinedIcon />}
                   />
                 </Grid>
               </Grid>
             </Box>
             <Box>
               <Box className="cardHeader">
-                <Typography className="cardTitle">family details</Typography>
+                <Typography className="cardTitle">Family Details</Typography>
                 <Chip
                   label="Edit"
                   icon={<EditIcon />}
@@ -496,35 +571,35 @@ export default function Home() {
                   <DetailsList
                     Title={"father's name"}
                     Text={"Navnitbhai"}
-                    Icon={<DateIcon />}
+                    Icon={<Man2OutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"mother's name"}
                     Text={"Induben"}
-                    Icon={<DateIcon />}
+                    Icon={<Woman2OutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"sister's name"}
                     Text={"Urvisha"}
-                    Icon={<DateIcon />}
+                    Icon={<Woman2OutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"father's number"}
                     Text={"+91 9099962993"}
-                    Icon={<DateIcon />}
+                    Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
               </Grid>
             </Box>
             <Box>
               <Box className="cardHeader">
-                <Typography className="cardTitle">details</Typography>
+                <Typography className="cardTitle">Details</Typography>
                 <Chip
                   label="Edit"
                   icon={<EditIcon />}
@@ -539,14 +614,14 @@ export default function Home() {
                   <DetailsList
                     Title={"hobbies"}
                     Text={"Playing Games"}
-                    Icon={<DateIcon />}
+                    Icon={<SportsSoccerOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"phobia"}
                     Text={"Nothing"}
-                    Icon={<DateIcon />}
+                    Icon={<SickOutlinedIcon />}
                   />
                 </Grid>
               </Grid>
