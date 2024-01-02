@@ -102,8 +102,11 @@ export default function Invoices() {
   // get single project detile by projectId
   const fetchProjectDetail = useCallback(async () => {
     try {
+      if (!invoiceData?.projectId) {
+        return;
+      }
       const res = await apiCall({
-        url: APIS.PROJECT.VIEW(invoiceData.projectId),
+        url: APIS.PROJECT.VIEW(invoiceData?.projectId),
         method: "get",
       });
       if (res.data.success === true) {
@@ -173,7 +176,6 @@ export default function Invoices() {
     const {
       target: { value },
     } = event;
-    console.log(personName, "personName");
     setPersonName(value);
   };
 
@@ -278,6 +280,7 @@ export default function Invoices() {
       });
       if (res.data.success === true) {
         setTaskList(res.data.data);
+        console.log(res.data.data, "-------------------284");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -339,6 +342,82 @@ export default function Invoices() {
     fetchCountry();
     fetchAdmin();
   }, []);
+
+  // add task
+  const addTask = async (task) => {
+    const randomFiveDigitNumber = Math.floor(10000 + Math.random() * 90000);
+    let taskPriority = ["Urgent", "High", "Normal", "Low"];
+    const randomPriority =
+      taskPriority[Math.floor(Math.random() * taskPriority.length)];
+
+    let obj = {
+      projectId: task.projectId,
+      taskNo: randomFiveDigitNumber.toString(),
+      taskName: task.name,
+      hours: task.number,
+      taskPriority: randomPriority,
+      perHourCharge: task.pricePerHours,
+    };
+
+    // return task;
+    try {
+      const res = await apiCall({
+        url: APIS.TASK.ADD,
+        method: "post",
+        data: JSON.stringify(obj, null, 2),
+      });
+      if (res.data.success === true) {
+        setTaskList(res.data.data);
+        return res.data.data;
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
+  const compairTask = async (task) => {
+    const isIdMatch = taskList.some((item) => item._id === task._id);
+    if (isIdMatch) {
+      // Id match
+      let taskName = taskList.some(
+        (taskName) => taskName.taskName == task.name
+      );
+      let pricePerHours = taskList.some(
+        (pricePerHours) => pricePerHours.perHourCharge == task.pricePerHours
+      );
+      let hours = taskList.some((hours) => hours.hours == task.number);
+      if (taskName && pricePerHours && hours) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
+  // update task
+  const updateTask = async (task) => {
+    let obj = {
+      taskName: task.name,
+      hours: task.number,
+      perHourCharge: task.pricePerHours,
+    };
+    try {
+      const res = await apiCall({
+        url: APIS.TASK.EDIT(task._id),
+        method: "patch",
+        data: JSON.stringify(obj, null, 2),
+      });
+      if (res.data.success === true) {
+        setTaskList(res.data.data);
+        return res.data.data;
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
   return (
     <>
       <SideBar
@@ -386,11 +465,31 @@ export default function Invoices() {
           customAccountNumber: "",
           // to: Formik.values,
           project: "",
-          salesTax: 0,
+          salesTax: invoiceData?.totals?.discountPer || 0,
           invoiceDate: invoiceDATE,
           invoiceDueDate: invoiceDUEDATE,
         }}
         onSubmit={async (values) => {
+          for (let i = 0; i < values.task.length; i++) {
+            let compairtask = await compairTask(values.task[i]);
+            if (!compairtask) {
+              if (!values.task[i]._id) {
+                console.log("insert call");
+                //   // API call
+                values.task[i].amount =
+                  values.task[i].number * values.task[i].pricePerHours;
+                values.task[i].projectId = projectDescription._id;
+                values.task[i].taskName = values.task[i].name;
+
+                let addtask = await addTask(values.task[i]);
+                values.task[i]._id = addtask._id;
+              } else {
+                // update
+                let updatetask = await updateTask(values.task[i]);
+              }
+            }
+          }
+
           try {
             let tasks = values.task.map((tas) => {
               return {
@@ -1304,7 +1403,9 @@ export default function Invoices() {
                           >
                             <CustomFormikField
                               name={"discountPer"}
-                              value={discountPer}
+                              value={
+                                discountPer || invoiceData?.totals?.discountPer
+                              }
                               placeholder="0%"
                               onChange={handleDiscountPerChange.bind(
                                 null,
@@ -1315,7 +1416,7 @@ export default function Invoices() {
                         </Typography>
                         <CustomFormikField
                           name={"discountRS"}
-                          value={discountRS}
+                          value={discountRS || invoiceData?.totals?.discountRS}
                           onChange={handleDiscountRSChange.bind(
                             null,
                             getSubTotal(values.task)
@@ -1343,6 +1444,7 @@ export default function Invoices() {
                         <CustomFormikField
                           name={"salesTax"}
                           placeholder="00.00"
+                          // value={invoiceData?.totals?.discountPer}
                         />
                       </Box>
                       <Box>

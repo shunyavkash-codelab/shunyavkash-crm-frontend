@@ -35,7 +35,7 @@ export default function Invoices() {
   const { setSnack } = useSnack();
   const location = useLocation();
   let view = location.pathname.includes("/view/") ? true : false;
-
+  console.log(invoiceData, "--------------------38");
   // add invoice
   const addInvoice = async () => {
     try {
@@ -45,7 +45,7 @@ export default function Invoices() {
           method: "post",
           data: JSON.stringify(invoiceData, null, 2),
         });
-        if (res.status === 201) {
+        if (res.data.success === true) {
           setSnack(res.data.message);
           toPDF();
           navigate("/invoices");
@@ -164,6 +164,9 @@ export default function Invoices() {
                       }}
                     >
                       {invoiceData.from.address}
+                      {invoiceData.from.address2}
+                      {invoiceData.from.landmark}
+                      {invoiceData.from.pincode}
                     </Typography>
                     <Box
                       sx={{
