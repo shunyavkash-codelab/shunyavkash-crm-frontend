@@ -440,7 +440,7 @@ export default function AddProject() {
                       fullWidth
                       size="small"
                       id="perHourCharge"
-                      type="tel"
+                      type="number"
                       autoComplete="off"
                       placeholder="Per Hours Charge"
                       sx={{

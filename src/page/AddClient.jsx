@@ -21,6 +21,7 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import * as Yup from "yup";
 
 export default function AddClient() {
   const { id } = useParams();
@@ -36,7 +37,20 @@ export default function AddClient() {
   const [countryList, setCountryList] = useState([]);
   const [country, setCountry] = useState(null);
 
+  // yup data validator schhema
+  const schema = Yup.object({
+    name: Yup.string().required("Name is required.").trim(),
+    email: Yup.string()
+      .email("Field should contain a valid e-mail")
+      .max(255)
+      .required("Email is required.")
+      .trim(),
+    mobileNumber: Yup.string().required("Mobile number is required.").trim(),
+    mobileCode: Yup.string().required("Mobile code is required.").trim(),
+  });
+
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       name: clientList?.name,
       email: clientList?.email,
@@ -215,6 +229,8 @@ export default function AddClient() {
                     InputProps={
                       location.pathname.includes("/view/") && { readOnly: true }
                     }
+                    error={formik.touched.name && Boolean(formik.errors.name)}
+                    helperText={formik.touched.name && formik.errors.name}
                   />
                   <TextField
                     fullWidth
@@ -234,6 +250,8 @@ export default function AddClient() {
                     InputProps={
                       location.pathname.includes("/view/") && { readOnly: true }
                     }
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
                   />
                   <Box
                     sx={{
@@ -277,6 +295,13 @@ export default function AddClient() {
                         ]
                       }
                       name="mobileCode"
+                      error={
+                        formik.touched.mobileCode &&
+                        Boolean(formik.errors.mobileCode)
+                      }
+                      helperText={
+                        formik.touched.mobileCode && formik.errors.mobileCode
+                      }
                       options={countryList}
                       autoHighlight
                       getOptionLabel={(option) => option.label}
@@ -330,7 +355,7 @@ export default function AddClient() {
                       fullWidth
                       size="small"
                       id="mobileNumber"
-                      type="tel"
+                      type="number"
                       autoComplete="off"
                       placeholder="Number"
                       defaultValue={clientList?.mobileNumber}
@@ -351,6 +376,14 @@ export default function AddClient() {
                       }}
                       onChange={formik.handleChange}
                       value={formik.values.mobileNumber}
+                      error={
+                        formik.touched.mobileNumber &&
+                        Boolean(formik.errors.mobileNumber)
+                      }
+                      helperText={
+                        formik.touched.mobileNumber &&
+                        formik.errors.mobileNumber
+                      }
                     />
                   </Box>
                   {/* <FormControl
