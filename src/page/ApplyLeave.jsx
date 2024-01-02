@@ -8,15 +8,8 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
-<<<<<<< HEAD
 import { useFormik } from "formik";
 import moment from "moment";
-=======
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
->>>>>>> 005278ccbdd0ff2aea059aab4715e3c0d4e21b15
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
