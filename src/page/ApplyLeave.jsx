@@ -3,7 +3,6 @@ import { Box, TextField, Button, Typography } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import { FormControl } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -249,7 +248,7 @@ export default function Home() {
                         position: "relative",
                         color: "#65748B",
                         cursor: "pointer",
-                        // margin: "0px 10px 0px 10px",
+                        margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "18px",
                         width: "18px",
@@ -289,7 +288,6 @@ export default function Home() {
                   label="Select end date"
                   autoComplete="off"
                   type="date"
-                  value={formik.values.endDate}
                   InputLabelProps={{
                     shrink: true,
                   }}
