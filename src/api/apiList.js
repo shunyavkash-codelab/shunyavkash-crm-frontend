@@ -58,5 +58,7 @@ export const APIS = {
   },
   TASK: {
     GET: (projectId) => `task/tasks/${projectId}`,
+    ADD: "/task/add",
+    EDIT: (taskId) => `task/${taskId}`,
   },
 };

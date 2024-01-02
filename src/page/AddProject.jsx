@@ -236,16 +236,20 @@ export default function AddProject() {
                     autoComplete="off"
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": { py: 1.5 },
                     }}
                     defaultValue={projectData?.name}
                     onChange={formik.handleChange}
                     value={formik.values.name}
                   />
+
                   <FormControl
                     fullWidth
                     size="small"
                     sx={{
-                      "&>label": { fontSize: "14px" },
+                      "&>label": { fontSize: "14px", top: "4px" },
+                      "&>div>div": { py: 1.5 },
                     }}
                   >
                     <InputLabel
@@ -329,6 +333,7 @@ export default function AddProject() {
                       )}
                     />
                   </FormControl>
+
                   <Box
                     sx={{
                       display: "flex",
@@ -337,59 +342,11 @@ export default function AddProject() {
                       },
                     }}
                   >
-                    {/* <FormControl
-                    size="small"
-                    sx={{
-                      minWidth: "85px",
-                      maxWidth: "85px",
-                      bgcolor: "#f4f4f4",
-                    }}
-                  >
-                    <Select
-                      sx={{
-                        fontSize: "14px",
-                        "& input,&>div": { fontSize: "14px" },
-                        "&>div": {
-                          pr: "24px!important",
-                          display: "flex",
-                          alignItems: "center",
-                        },
-                        "&>svg": { fontSize: "18px" },
-                        "& fieldset": {
-                          borderRadius: "6px 0 0 6px !important",
-                          borderRight: 0,
-                        },
-                      }}
-                    >
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"₹"}
-                      >
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1.25,
-                          }}
-                        >
-                          <img
-                            src="https://img.freepik.com/free-vector/illustration-india-flag_53876-27130.jpg"
-                            style={{ maxHeight: "14px", maxWidth: "25px" }}
-                          ></img>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ lineHeight: 1 }}
-                          >
-                            ₹
-                          </Typography>
-                        </Box>
-                      </MenuItem>
-                    </Select>
-                  </FormControl> */}
                     <Autocomplete
                       size="small"
                       id="country-select-demo"
                       sx={{
+                        mr: "-1px",
                         flexShrink: 0,
                         width: "85px",
                         "& input": { fontSize: "14px" },
@@ -399,7 +356,7 @@ export default function AddProject() {
                           borderRight: 0,
                         },
                         "&>div>div": {
-                          pr: "24px!important",
+                          p: "9px 24px 10px 6px!important",
                           bgcolor: "#f4f4f4",
                         },
                         "& input+div": {
@@ -446,6 +403,8 @@ export default function AddProject() {
                       placeholder="Per Hours Charge"
                       sx={{
                         "& input,&>div": { fontSize: "14px" },
+                        "&>label": { top: "4px" },
+                        "& input": { py: 1.5 },
                         "& fieldset": {
                           borderRadius: "0 6px 6px 0 !important",
                           borderLeft: 0,
@@ -456,11 +415,13 @@ export default function AddProject() {
                       value={formik.values.perHourCharge}
                     />
                   </Box>
+
                   <FormControl
                     fullWidth
                     size="small"
                     sx={{
-                      "&>label": { fontSize: "14px" },
+                      "&>label": { fontSize: "14px", top: "4px" },
+                      "&>div>div": { py: 1.5 },
                     }}
                   >
                     <InputLabel
@@ -476,7 +437,11 @@ export default function AddProject() {
                           labelId="demo-simple-select-label"
                           id="payPeriod"
                           label="Pay Period"
-                          sx={{ fontSize: "14px" }}
+                          sx={{
+                            fontSize: "14px",
+                            "&>label": { top: "4px" },
+                            "& input": { py: 1.5 },
+                          }}
                           {...field}
                           defaultValue={projectData?.payPeriod}
                           onChange={(event) => {
@@ -523,6 +488,7 @@ export default function AddProject() {
                       )}
                     />
                   </FormControl>
+
                   <TextField
                     fullWidth
                     size="small"
@@ -536,11 +502,13 @@ export default function AddProject() {
                     placeholder="mm/dd/yyyy"
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": { py: 1.5 },
                     }}
                     defaultValue={projectData?.startDate}
                     onChange={formik.handleChange}
                     value={formik.values.startDate}
                   />
+
                   <TextField
                     fullWidth
                     size="small"
@@ -555,11 +523,11 @@ export default function AddProject() {
                     placeholder="mm/dd/yyyy"
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": { py: 1.5 },
                     }}
-                    // defaultValue={projectData?.endDate}
                     onChange={formik.handleChange}
-                    // value={formik.values.endDate}
                   />
+
                   <TextField
                     fullWidth
                     size="small"
@@ -571,19 +539,23 @@ export default function AddProject() {
                       "&>label,& input,&>div": {
                         fontSize: "14px",
                       },
+                      "&>label": { top: "4px" },
                       "& input": {
                         textTransform: "uppercase",
+                        py: 1.5,
                       },
                     }}
                     defaultValue={projectData?.prefix}
                     onChange={formik.handleChange}
                     value={formik.values.prefix}
                   />
+
                   <FormControl
                     fullWidth
                     size="small"
                     sx={{
-                      "&>label": { fontSize: "14px" },
+                      "&>label": { fontSize: "14px", top: "4px" },
+                      "&>div>div": { py: 1.5 },
                     }}
                   >
                     <InputLabel
@@ -599,7 +571,9 @@ export default function AddProject() {
                           labelId="demo-simple-select-label"
                           id="status"
                           label="Status"
-                          sx={{ fontSize: "14px" }}
+                          sx={{
+                            fontSize: "14px",
+                          }}
                           {...field}
                           defaultValue={projectData?.status}
                           onChange={(event) => {
@@ -646,6 +620,7 @@ export default function AddProject() {
                       )}
                     />
                   </FormControl>
+
                   <TextField
                     fullWidth
                     size="small"
@@ -656,6 +631,8 @@ export default function AddProject() {
                     rows={4}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "&>div": { py: 1.5 },
                       gridColumn: { sm: "span 2" },
                     }}
                     defaultValue={projectData?.description}

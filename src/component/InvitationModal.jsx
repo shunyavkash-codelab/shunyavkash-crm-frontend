@@ -72,7 +72,7 @@ export default function AddClientsModal({ open, setOpen }) {
               top: { xs: 0, sm: "50%" },
               left: { xs: 0, sm: "50%" },
               transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
-              width: { xs: "100%", sm: 500, md: 600 },
+              width: { xs: "100%", sm: "500px" },
               height: { xs: "100vh", sm: "unset" },
               bgcolor: "background.paper",
               borderRadius: { xs: 0, sm: 2 },

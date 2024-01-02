@@ -220,11 +220,12 @@ export default function Invoices() {
               noValidate
               autoComplete="off"
               sx={{
+                flexGrow: 1,
                 display: "flex",
                 flexDirection: "column",
                 gap: 2.5,
                 "& fieldset": { borderRadius: "6px" },
-                width: { xs: "100%", sm: "75%", md: "50%" },
+                maxWidth: "320px",
               }}
             >
               <FormControl
