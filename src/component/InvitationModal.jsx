@@ -68,33 +68,30 @@ export default function AddClientsModal({ open, setOpen }) {
         <Fade in={open}>
           <Box
             sx={{
-              position: { xs: "absolute", sm: "relative" },
+              position: "absolute",
               top: { xs: 0, sm: "50%" },
               left: { xs: 0, sm: "50%" },
-              transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
+              transform: { sm: "translate(-50%, -50%)" },
               width: { xs: "100%", sm: "500px" },
               height: { xs: "100vh", sm: "unset" },
-              bgcolor: "background.paper",
-              borderRadius: { xs: 0, sm: 2 },
-              boxShadow: 24,
-              py: 4,
-              px: { xs: 2, sm: 4 },
+              bgcolor: "white",
+              borderRadius: { sm: 2.5 },
+              py: { xs: 2.25, sm: 2.75 },
+              px: { xs: 2.25, sm: 3.25 },
             }}
-            className="modal"
           >
             <Box
               sx={{
                 display: { xs: "flex", sm: "block" },
-                alignItems: { xs: "center", sm: "start" },
-                justifyContent: { xs: "space-between", sm: "start" },
-                mb: 3.75,
+                alignItems: "center",
+                justifyContent: "space-between",
+                mb: 3.25,
               }}
             >
               <Typography
                 variant="h5"
                 sx={{
                   textTransform: "capitalize",
-                  fontSize: { xs: "24px", sm: "26px" },
                 }}
               >
                 Invitation Employee
@@ -102,37 +99,32 @@ export default function AddClientsModal({ open, setOpen }) {
               <Button
                 disableRipple
                 disableElevation
-                variant="contained"
                 id="cancle_icon"
-                className="modalCloseBtn"
                 sx={{
-                  display: "inline-flex",
-                  alignItems: "center",
                   color: "white",
-                  position: { xs: "static", sm: "absolute" },
+                  position: { sm: "absolute" },
                   top: { sm: "0" },
                   right: { sm: "0" },
-                  transform: {
-                    sm: "translate(22px, -22px)",
-                  },
+                  transform: { sm: "translate(22px, -22px)" },
                   borderRadius: "100%",
                   minWidth: "unset",
                   p: 0,
-                  flexShrink: 0,
-                  width: { xs: "36px", sm: "44px" },
-                  height: { xs: "36px", sm: "44px" },
+                  height: "44px",
+                  width: "44px",
+                  "&,&:hover": {
+                    bgcolor: "text.primary",
+                  },
                 }}
-                startIcon={
-                  <CloseIcon
-                    sx={{
-                      fontSize: "unset",
-                    }}
-                    open={open}
-                    onClick={handleClose}
-                    aria-label="close"
-                  />
-                }
-              ></Button>
+              >
+                <CloseIcon
+                  sx={{
+                    fontSize: "25px",
+                  }}
+                  open={open}
+                  onClick={handleClose}
+                  aria-label="close"
+                />
+              </Button>
             </Box>
             <FormikProvider value={formik}>
               <Box
@@ -140,12 +132,12 @@ export default function AddClientsModal({ open, setOpen }) {
                 autoComplete="off"
                 onSubmit={formik.handleSubmit}
               >
-                <Box sx={{ display: "grid", gap: 2.25, width: "100%" }}>
+                <Box sx={{ display: "grid", gap: 2.25 }}>
                   <TextField
                     fullWidth
                     size="small"
                     id="name"
-                    label="Name"
+                    label="Full Name"
                     autoComplete="off"
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
@@ -306,7 +298,7 @@ export default function AddClientsModal({ open, setOpen }) {
                   >
                     <span style={{ position: "relative" }}>Submit</span>
                   </Button>
-                  <Button
+                  {/* <Button
                     disableRipple
                     onClick={() => setOpen(false)}
                     sx={{
@@ -341,7 +333,7 @@ export default function AddClientsModal({ open, setOpen }) {
                     }}
                   >
                     <span style={{ position: "relative" }}>discard</span>
-                  </Button>
+                  </Button> */}
                 </Box>
               </Box>
             </FormikProvider>

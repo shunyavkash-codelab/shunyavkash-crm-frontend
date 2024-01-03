@@ -59,32 +59,30 @@ export default function AddClientsModal({ open, setOpen }) {
         <Fade in={open}>
           <Box
             sx={{
-              position: { xs: "absolute", sm: "relative" },
+              position: "absolute",
               top: { xs: 0, sm: "50%" },
               left: { xs: 0, sm: "50%" },
-              transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
-              width: { xs: "100%", sm: 500, md: 600 },
+              transform: { sm: "translate(-50%, -50%)" },
+              width: { xs: "100%", sm: "500px" },
               height: { xs: "100vh", sm: "unset" },
-              bgcolor: "background.paper",
-              borderRadius: { xs: 0, sm: 2 },
-              boxShadow: 24,
-              p: 4,
+              bgcolor: "white",
+              borderRadius: { sm: 2.5 },
+              py: { xs: 2.25, sm: 2.75 },
+              px: { xs: 2.25, sm: 3.25 },
             }}
-            className="modal"
           >
             <Box
               sx={{
                 display: { xs: "flex", sm: "block" },
-                alignItems: { xs: "center", sm: "start" },
-                justifyContent: { xs: "space-between", sm: "start" },
-                mb: 2.5,
+                alignItems: "center",
+                justifyContent: "space-between",
+                mb: 3.25,
               }}
             >
               <Typography
                 variant="h5"
                 sx={{
                   textTransform: "capitalize",
-                  textAlign: { xs: "center", sm: "left" },
                 }}
               >
                 Add Client
@@ -92,416 +90,148 @@ export default function AddClientsModal({ open, setOpen }) {
               <Button
                 disableRipple
                 disableElevation
-                variant="contained"
                 id="cancle_icon"
-                className="modalCloseBtn"
-                startIcon={
-                  <CloseIcon
-                    sx={{
-                      fontSize: "unset",
-                    }}
-                    open={open}
-                    onClick={handleClose}
-                    aria-label="close"
-                  />
-                }
                 sx={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  color: "#ffffff",
-                  position: { xs: "relative", sm: "absolute" },
-                  top: { xs: "unset", sm: "0" },
-                  right: { xs: "unset", sm: "0" },
-                  transform: {
-                    xs: "translate(0)",
-                    sm: "translate(24px, -22px)",
-                  },
+                  color: "white",
+                  position: { sm: "absolute" },
+                  top: { sm: "0" },
+                  right: { sm: "0" },
+                  transform: { sm: "translate(22px, -22px)" },
                   borderRadius: "100%",
                   minWidth: "unset",
                   p: 0,
-                  // bgcolor: "primary.main",
+                  height: "44px",
+                  width: "44px",
+                  "&,&:hover": {
+                    bgcolor: "text.primary",
+                  },
                 }}
-              ></Button>
+              >
+                <CloseIcon
+                  sx={{
+                    fontSize: "25px",
+                  }}
+                  open={open}
+                  onClick={handleClose}
+                  aria-label="close"
+                />
+              </Button>
             </Box>
-
-            <Box
-              sx={{ display: "grid", gap: 2.25, width: "100%" }}
-              id="transition-modal-title"
-            >
+            <Box component="form" autoComplete="off">
               <Box
+                sx={{ display: "grid", gap: 2.25 }}
+                id="transition-modal-title"
+              >
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="name"
+                  label="Name"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="email"
+                  label="Email"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.email}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="number"
+                  label="Number"
+                  type="tel"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.number}
+                  error={formik.touched.number && Boolean(formik.errors.number)}
+                  helperText={formik.touched.number && formik.errors.number}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="companyName"
+                  label="Company Name"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.companyName}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="address"
+                  label="Address"
+                  autoComplete="off"
+                  multiline
+                  rows={4}
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                  }}
+                />
+              </Box>
+            </Box>
+            <Box sx={{ textAlign: "center", mt: 2.5 }}>
+              <Button
+                disableRipple
+                type="submit"
                 sx={{
-                  display: "block",
+                  maxHeight: "42px",
+                  position: "relative",
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "success.main",
+                  border: "1px solid",
+                  borderColor: "success.main",
+                  color: "white",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  overflow: "hidden",
+                  "&:before": {
+                    content: "''",
+                    height: 0,
+                    width: "10rem",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    zIndex: "0",
+                    bgcolor: "white",
+                    transform: "rotate(-45deg) translate(-50%, -50%)",
+                    transformOrigin: "0% 0%",
+                    transition: "all 0.4s ease-in-out",
+                  },
+                  "&:hover": {
+                    color: "success.main",
+                    bgcolor: "success.main",
+                    "&:before": { height: "10rem" },
+                  },
                 }}
               >
-                <Box>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="name"
-                    label="Name"
-                    autoComplete="off"
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
-                  />
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "block",
-                }}
-              >
-                <Box>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="email"
-                    label="Email"
-                    autoComplete="off"
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.email}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                  />
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "block",
-                }}
-              >
-                <Box>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="number"
-                    label="Number"
-                    type="tel"
-                    autoComplete="off"
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.number}
-                    error={
-                      formik.touched.number && Boolean(formik.errors.number)
-                    }
-                    helperText={formik.touched.number && formik.errors.number}
-                  />
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "block",
-                }}
-              >
-                <Box>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="companyName"
-                    label="Company Name"
-                    autoComplete="off"
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.companyName}
-                  />
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "block",
-                }}
-              >
-                <Box>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="address"
-                    label="Address"
-                    autoComplete="off"
-                    multiline
-                    rows={4}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                    }}
-                  />
-                </Box>
-              </Box>
-              {/* <Typography
-                id="transition-modal-description"
-                sx={{ mt: 2 }}
-              ></Typography> */}
+                <span style={{ position: "relative" }}>Submit</span>
+              </Button>
             </Box>
           </Box>
         </Fade>
-        {/* <Box
-          component="form"
-          noValidate
-          autoComplete="off"
-          sx={{
-            bgcolor: "background.white",
-            position: "absolute",
-            top: { xs: 0, md: "50%" },
-            left: { xs: 0, md: "50%" },
-            transform: { md: "translate(-50%, -50%)" },
-            padding: 3,
-            pt: { xs: 0, md: 3 },
-            width: { xs: "100%", md: "620px" },
-            height: { xs: "100vh", md: "unset" },
-            borderRadius: { md: 2.5 },
-            overflowY: { xs: "auto", md: "unset" },
-            display: { md: "flex" },
-            flexDirection: { md: "column" },
-            maxHeight: { md: "88vh" },
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 2,
-              pt: { xs: 1.5, md: 0 },
-              pb: 2.25,
-              position: { xs: "sticky", md: "unset" },
-              top: { xs: 0, md: "unset" },
-              bgcolor: "white",
-              zIndex: 2,
-              flexShrink: { md: 0 },
-            }}
-          >
-            <Typography
-              id="modal-modal-title"
-              variant="h6"
-              sx={{
-                fontSize: { xs: "18px", sm: "22px", md: "18px" },
-                textTransform: "capitalize",
-              }}
-            >
-              Add new manager
-            </Typography>
-            <Box
-              onClick={() => setOpen(false)}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "44px",
-                width: "44px",
-                borderRadius: "100%",
-                bgcolor: "text.primary",
-                color: "white",
-                cursor: "pointer",
-                position: { md: "absolute" },
-                top: { md: 0 },
-                right: { md: 0 },
-                transform: { md: "translate(50%, -50%)" },
-              }}
-            >
-              <CloseIcon sx={{ transform: "rotate(45deg)" }} />
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              pt: 0.75,
-              flexGrow: { md: 0 },
-              overflowY: { md: "auto" },
-              "&>*:not(:first-child)": { mt: 2 },
-              "& fieldset": {
-                borderRadius: 1.5,
-                "& legend": { fontSize: "0.65em" },
-              },
-            }}
-          >
-            <TextField
-              fullWidth
-              size="small"
-              required
-              id="name"
-              label="Name"
-              autoComplete="off"
-              sx={{
-                "&>label,& input,&>div": { fontSize: "14px" },
-              }}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              required
-              id="email"
-              label="Email"
-              autoComplete="off"
-              sx={{
-                "&>label,& input,&>div": { fontSize: "14px" },
-              }}
-            />
-            <TextField
-              required
-              fullWidth
-              size="small"
-              id="mobile"
-              label="Mobile Number"
-              type="phone"
-              autoComplete="off"
-              sx={{
-                "&>label,& input,&>div": { fontSize: "14px" },
-              }}
-            />
-            <FormControl
-              fullWidth
-              size="small"
-              sx={{
-                "&>label": { fontSize: "14px" },
-              }}
-            >
-              <InputLabel
-                sx={{ textTransform: "capitalize" }}
-                id="demo-simple-select-label"
-              >
-                gender
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={gender}
-                label="Gender"
-                onChange={handleChange}
-                sx={{ fontSize: "14px" }}
-              >
-                <MenuItem sx={{ textTransform: "capitalize" }} value={"male"}>
-                  Male
-                </MenuItem>
-                <MenuItem sx={{ textTransform: "capitalize" }} value={"female"}>
-                  Female
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize" }}
-                  value={"transgender"}
-                >
-                  Transgender
-                </MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              required
-              fullWidth
-              size="small"
-              id="outlined-string"
-              label="Company Name"
-              autoComplete="off"
-              sx={{
-                "&>label,& input,&>div": { fontSize: "14px" },
-              }}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              id="outlined-string"
-              label="Website"
-              autoComplete="off"
-              sx={{
-                "&>label,& input,&>div": { fontSize: "14px" },
-              }}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              id="outlined-string"
-              label="Address"
-              autoComplete="off"
-              multiline
-              rows={2}
-              sx={{
-                "&>label,& input,&>div": { fontSize: "14px" },
-              }}
-            />
-            <Box>
-              <Typography variant="subtitle2" sx={{ lineHeight: 1, mb: 1 }}>
-                Profile Image
-              </Typography>
-              <Button
-                disableRipple
-                disableElevation
-                component="label"
-                variant="contained"
-                id="profile_img"
-                startIcon={<CloudUploadIcon />}
-                sx={{
-                  textTransform: "capitalize",
-                  width: "100%",
-                  borderRadius: 1.5,
-                  bgcolor: "transparent",
-                  border: "1px solid rgba(0,0,0,0.15)",
-                  boxShadow: "none",
-                  color: "text.primary",
-                  transition: "0s",
-                  ":hover": {
-                    bgcolor: "transparent",
-                    borderColor: "text.primary",
-                  },
-                }}
-              >
-                Profile Image
-                <VisuallyHiddenInput id="test" type="file" />
-              </Button>
-            </Box>
-            <Box>
-              <Typography variant="subtitle2" sx={{ lineHeight: 1, mb: 1 }}>
-                Company Logo
-              </Typography>
-              <Button
-                disableRipple
-                disableElevation
-                component="label"
-                variant="contained"
-                id="company_logo"
-                startIcon={<CloudUploadIcon />}
-                sx={{
-                  textTransform: "capitalize",
-                  width: "100%",
-                  borderRadius: 1.5,
-                  bgcolor: "transparent",
-                  border: "1px solid rgba(0,0,0,0.15)",
-                  boxShadow: "none",
-                  color: "text.primary",
-                  transition: "0s",
-                  ":hover": {
-                    bgcolor: "transparent",
-                    borderColor: "text.primary",
-                  },
-                }}
-              >
-                Company Logo
-                <VisuallyHiddenInput id="test" type="file" />
-              </Button>
-            </Box>
-            <Button
-              disableRipple
-              sx={{
-                px: 2.5,
-                py: 1.5,
-                bgcolor: "success.main",
-                color: "white",
-                lineHeight: 1,
-                borderRadius: 2.5,
-                maxHeight: "42px",
-                "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
-              }}
-            >
-              Submit
-            </Button>
-          </Box>
-        </Box> */}
       </Modal>
     </>
   );

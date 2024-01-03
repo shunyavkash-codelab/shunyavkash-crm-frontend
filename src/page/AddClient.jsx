@@ -352,7 +352,7 @@ export default function AddClient() {
                       fullWidth
                       size="small"
                       id="mobileNumber"
-                      type="number"
+                      type="tel"
                       autoComplete="off"
                       placeholder="Number"
                       defaultValue={clientList?.mobileNumber}
