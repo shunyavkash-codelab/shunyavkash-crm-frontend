@@ -44,26 +44,14 @@ export default function Home() {
       />
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
           ml: { lg: sideBarWidth },
         }}
       >
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            pt: 13,
-            px: 2.5,
-            pb: 2.5,
-            height: "100%",
-            overflowY: "auto",
-            mt: 11.25,
-          }}
-        >
+        <Box component="main">
           <Box
             sx={{
-              maxWidth: { xs: "100%", md: "700px" },
+              mt: 11.25,
+              maxWidth: "700px",
               width: "100%",
               margin: "0 auto",
               bgcolor: "white",

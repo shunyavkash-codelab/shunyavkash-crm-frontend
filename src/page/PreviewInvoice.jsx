@@ -85,17 +85,7 @@ export default function Invoices() {
       />
       {invoiceData && (
         <Box sx={{ ml: { lg: sideBarWidth } }}>
-          <Box
-            component="main"
-            sx={{
-              flexGrow: 1,
-              pt: 13,
-              px: 2.5,
-              pb: 5,
-              height: "100%",
-              overflowY: "auto",
-            }}
-          >
+          <Box component="main">
             <Box sx={{ mb: 3.25 }}>
               <Typography
                 variant="h5"

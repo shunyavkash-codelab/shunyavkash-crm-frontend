@@ -128,16 +128,15 @@ export default function AddClientsModal({ open, setOpen }) {
                     bgcolor: "text.primary",
                   },
                 }}
-                startIcon={
-                  <CloseIcon
-                    sx={{
-                      fontSize: "25px",
-                    }}
-                    onClick={() => setOpen(false)}
-                    aria-label="close"
-                  />
-                }
-              ></Button>
+              >
+                <CloseIcon
+                  sx={{
+                    fontSize: "25px",
+                  }}
+                  onClick={() => setOpen(false)}
+                  aria-label="close"
+                />
+              </Button>
             </Box>
             <FormikProvider value={formik}>
               <Box

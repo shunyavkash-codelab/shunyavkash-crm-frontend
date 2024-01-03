@@ -114,18 +114,7 @@ export default function Home() {
       />
       {user.role == 0 ? (
         <Box sx={{ ml: { lg: sideBarWidth } }}>
-          <Box
-            component="main"
-            sx={{
-              pt: 13,
-              px: 2.5,
-              pb: 2.5,
-              height: "100%",
-              overflowY: "auto",
-              maxWidth: "1200px",
-              mx: "auto",
-            }}
-          >
+          <Box component="main">
             <Box>
               <Box sx={{ mb: 3.25 }}>
                 <Typography variant="h5" sx={{ textTransform: "capitalize" }}>

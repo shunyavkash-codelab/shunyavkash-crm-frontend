@@ -134,37 +134,32 @@ export default function InvoiceInputForm({
               <Button
                 disableRipple
                 disableElevation
-                variant="contained"
                 id="cancle_icon"
-                className="modalCloseBtn"
                 sx={{
-                  display: "inline-flex",
-                  alignItems: "center",
                   color: "white",
-                  position: { xs: "static", sm: "absolute" },
+                  position: { sm: "absolute" },
                   top: { sm: "0" },
                   right: { sm: "0" },
-                  transform: {
-                    sm: "translate(22px, -22px)",
-                  },
+                  transform: { sm: "translate(22px, -22px)" },
                   borderRadius: "100%",
                   minWidth: "unset",
                   p: 0,
-                  flexShrink: 0,
-                  width: { xs: "36px", sm: "44px" },
-                  height: { xs: "36px", sm: "44px" },
+                  height: "44px",
+                  width: "44px",
+                  "&,&:hover": {
+                    bgcolor: "text.primary",
+                  },
                 }}
-                startIcon={
-                  <CloseIcon
-                    sx={{
-                      fontSize: "unset",
-                    }}
-                    open={open}
-                    onClick={handleClose}
-                    aria-label="close"
-                  />
-                }
-              ></Button>
+              >
+                <CloseIcon
+                  sx={{
+                    fontSize: "25px",
+                  }}
+                  open={open}
+                  onClick={handleClose}
+                  aria-label="close"
+                />
+              </Button>
             </Box>
             <Box
               component="form"
