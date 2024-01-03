@@ -4,10 +4,6 @@ import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import {
   Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
   Button,
@@ -16,7 +12,7 @@ import {
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import FileUploadButton from "../component/FileUploadButton";
-import { Field, FormikProvider, useFormik } from "formik";
+import {  FormikProvider, useFormik } from "formik";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
@@ -31,7 +27,7 @@ export default function AddClient() {
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
   const { setSnack } = useSnack();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const navigate = useNavigate();
   const [clientList, setClientList] = useState(false);
   const [countryList, setCountryList] = useState([]);

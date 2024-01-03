@@ -1,23 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  Chip,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Avatar,
-} from "@mui/material";
+import { Box, Typography, Chip } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import PlusIcon from "@mui/icons-material/Close";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "@mui/material/Link";
 import { Box, TextField, Typography, Button } from "@mui/material";
 import { APIS } from "../api/apiList";
@@ -9,7 +9,7 @@ import * as Yup from "yup";
 
 export default function ForgotPassword() {
   const { setSnack } = useSnack();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
 
   // yup data validator schhema
   const schema = Yup.object({
