@@ -46,7 +46,6 @@ export default function Home() {
         sx={{
           display: "flex",
           alignItems: "center",
-          height: "100vh",
           ml: { lg: sideBarWidth },
         }}
       >
@@ -59,7 +58,7 @@ export default function Home() {
             pb: 2.5,
             height: "100%",
             overflowY: "auto",
-            position: "relative",
+            mt: 11.25,
           }}
         >
           <Box
@@ -70,11 +69,7 @@ export default function Home() {
               bgcolor: "white",
               boxShadow: "0 0 10px rgba(0 ,0, 0, 0.1)",
               borderRadius: "10px",
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              height: { xs: "100%", md: "unset" },
+              height: "100%",
             }}
           >
             <Box
@@ -117,42 +112,31 @@ export default function Home() {
                     value="paid"
                     control={<Radio />}
                     label="Paid"
-                    className="css-hyxlzm"
                     sx={{
                       "&>*:first-child": {
-                        position: "relative",
-                        color: "#65748B",
-                        cursor: "pointer",
-                        transition: "all 0.3s",
                         margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "18px",
                         width: "18px",
-                      },
-                      "&, &.Mui-checked": {
-                        color: "text.primary",
+                        "& svg": {
+                          color: "text.primary",
+                        },
                       },
                     }}
-                    defaultChecked
                   />
                   <FormControlLabel
                     value="unpaid"
                     control={<Radio />}
                     label="Unpaid"
-                    className="css-hyxlzm"
                     sx={{
                       "&>*:first-child": {
-                        position: "relative",
-                        color: "#65748B",
-                        cursor: "pointer",
-                        transition: "all 0.3s",
                         margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "18px",
                         width: "18px",
-                      },
-                      "&, &.Mui-checked": {
-                        color: "text.primary",
+                        "& svg": {
+                          color: "text.primary",
+                        },
                       },
                     }}
                   />
@@ -160,20 +144,15 @@ export default function Home() {
                     value="sick"
                     control={<Radio />}
                     label="Sick"
-                    className="css-hyxlzm"
                     sx={{
                       "&>*:first-child": {
-                        position: "relative",
-                        color: "#65748B",
-                        cursor: "pointer",
-                        transition: "all 0.5s",
                         margin: "0px 10px 0px 10px",
                         padding: 0,
-                        height: "18px",
-                        width: "18px",
-                      },
-                      "&, &.Mui-checked": {
-                        color: "text.secondary",
+                        height: "14px",
+                        width: "14px",
+                        "& svg": {
+                          color: "text.primary",
+                        },
                       },
                     }}
                   />
@@ -203,17 +182,13 @@ export default function Home() {
                     className="css-hyxlzm"
                     sx={{
                       "&>*:first-child": {
-                        position: "relative",
-                        color: "#65748B",
-                        cursor: "pointer",
-                        transition: "all 0.3s",
                         margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "18px",
                         width: "18px",
-                      },
-                      "&, &.Mui-checked": {
-                        color: "text.primary",
+                        "& svg": {
+                          color: "text.primary",
+                        },
                       },
                     }}
                   />
@@ -224,17 +199,13 @@ export default function Home() {
                     className="css-hyxlzm"
                     sx={{
                       "&>*:first-child": {
-                        position: "relative",
-                        color: "#65748B",
-                        cursor: "pointer",
-                        transition: "all 0.3s",
                         margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "18px",
                         width: "18px",
-                      },
-                      "&, &.Mui-checked": {
-                        color: "text.primary",
+                        "& svg": {
+                          color: "text.primary",
+                        },
                       },
                     }}
                   />
@@ -245,17 +216,13 @@ export default function Home() {
                     className="css-hyxlzm"
                     sx={{
                       "&>*:first-child": {
-                        position: "relative",
-                        color: "#65748B",
-                        cursor: "pointer",
                         margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "18px",
                         width: "18px",
-                        transition: "all 0.5s",
-                      },
-                      "&, &.Mui-checked": {
-                        color: "text.secondary",
+                        "& svg": {
+                          color: "text.primary",
+                        },
                       },
                     }}
                   />
