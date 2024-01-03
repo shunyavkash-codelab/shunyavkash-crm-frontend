@@ -25,7 +25,7 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
         <>
           <Box
             sx={{
-              height: { xs: "100px", sm: "200px" },
+              height: { xs: "100px", sm: "170px" },
               border: "1px solid rgba(0,0,0,0.15)",
               display: "flex",
               justifyContent: "center",
