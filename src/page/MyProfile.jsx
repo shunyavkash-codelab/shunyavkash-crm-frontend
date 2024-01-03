@@ -34,6 +34,10 @@ import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import IconButton from "@mui/material/IconButton";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import AddClientsModal from "../component/AddClientsModal";
+import ModalComponent from "../component/ModalComponent";
+import TextField from "@mui/material/TextField";
+
+import UserSalary from "../page/UserSalary";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -82,7 +86,7 @@ export default function Home() {
     setUrl(files.base64);
   };
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
 
   return (
@@ -448,7 +452,39 @@ export default function Home() {
                   Edit
                 </Button>
               </Box>
-              <AddClientsModal open={open} setOpen={setOpen} />
+              {/* <AddClientsModal open={open} setOpen={setOpen} /> */}
+              <ModalComponent
+                open={open}
+                setOpen={setOpen}
+                modalTitle="Employment Details"
+              >
+                <Grid container rowSpacing={5} columnSpacing={2.5}>
+                  <Grid item xs={12} md={12} lg={6}>
+                    <TextField
+                      fullWidth
+                      size="normal"
+                      id="name"
+                      label="Name"
+                      autoComplete="off"
+                      sx={{
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12} lg={6}>
+                    <TextField
+                      fullWidth
+                      size="normal"
+                      id="name"
+                      label="Name"
+                      autoComplete="off"
+                      sx={{
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              </ModalComponent>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
@@ -765,7 +801,9 @@ export default function Home() {
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={1}>
-            <Box>Salary</Box>
+            <Box>
+              <UserSalary></UserSalary>
+            </Box>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={2}>
             <Box>Leave</Box>

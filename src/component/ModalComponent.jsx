@@ -3,9 +3,8 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { Box, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
-// import CloseIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
-import { Children } from "react";
+import Backdrop from "@mui/material/Backdrop";
 
 // const style = {
 //   // @media only screen and(max-width: 768px){
@@ -13,7 +12,20 @@ import { Children } from "react";
 //   // }
 // };
 
-export default function ModalComponent({ open, setOpen }) {
+const modalStyle = {
+  position: { xs: "absolute", sm: "relative" },
+  top: { xs: 0, sm: "50%" },
+  left: { xs: 0, sm: "50%" },
+  transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
+  width: { xs: "100%", sm: 500, md: 600 },
+  height: { xs: "100vh", sm: "unset" },
+  bgcolor: "background.paper",
+  borderRadius: { xs: 0, sm: 2 },
+  boxShadow: 24,
+  p: 3,
+};
+
+export default function ModalComponent({ open, setOpen, ...props }) {
   const handleClose = () => setOpen(false);
   const formik = useFormik({
     initialValues: {
@@ -51,24 +63,17 @@ export default function ModalComponent({ open, setOpen }) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        setOpen={setOpen}
+        onClose={handleClose}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
       >
         <Fade in={open}>
-          <Box
-            sx={{
-              position: { xs: "absolute", sm: "relative" },
-              top: { xs: 0, sm: "50%" },
-              left: { xs: 0, sm: "50%" },
-              transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
-              width: { xs: "100%", sm: 500, md: 600 },
-              height: { xs: "100vh", sm: "unset" },
-              bgcolor: "background.paper",
-              borderRadius: { xs: 0, sm: 2 },
-              boxShadow: 24,
-              p: 4,
-            }}
-            className="modal"
-          >
+          <Box sx={modalStyle} className="modal">
             <Box
               sx={{
                 display: { xs: "flex", sm: "block" },
@@ -82,9 +87,13 @@ export default function ModalComponent({ open, setOpen }) {
                 sx={{
                   textTransform: "capitalize",
                   textAlign: { xs: "center", sm: "left" },
+                  fontSize: 20,
+                  fontWeight: "600",
+                  pb: 2.5,
+                  borderBottom: "1px solid #f5f5f5",
                 }}
               >
-                {Children.title}
+                {props.modalTitle}
               </Typography>
               <Button
                 disableRipple
@@ -120,7 +129,7 @@ export default function ModalComponent({ open, setOpen }) {
                 }}
               ></Button>
             </Box>
-            {Children}
+            {props.children}
           </Box>
         </Fade>
       </Modal>
