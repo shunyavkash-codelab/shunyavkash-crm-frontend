@@ -29,7 +29,7 @@ export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [projectList, setProjectList] = useState([]);
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const { accessToken } = useAuth();
   const { searchData } = useSearchData();

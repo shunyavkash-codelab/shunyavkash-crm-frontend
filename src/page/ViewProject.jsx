@@ -1,40 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Avatar,
-  Chip,
-} from "@mui/material";
+import { Box, Typography, Chip } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import PlusIcon from "@mui/icons-material/Close";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
 import { useAuth } from "../hooks/store/useAuth.js";
-import PhoneIcon from "@mui/icons-material/PhoneIphone";
-import CompanyIcon from "@mui/icons-material/BusinessOutlined";
 import { useParams } from "react-router-dom";
-import AddressIcon from "@mui/icons-material/LocationOnOutlined";
 import ManagerIcon from "@mui/icons-material/PersonOutlined";
 import DescriptionIcon from "@mui/icons-material/DescriptionOutlined";
-import StatusIcon from "@mui/icons-material/TrafficOutlined";
 
 export default function ViewProject() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { apiCall, isLoading } = useApi();
-  const { accessToken, user } = useAuth();
+  const { apiCall } = useApi();
+  const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const [projectList, setProjectList] = useState([]);
   const { id } = useParams();

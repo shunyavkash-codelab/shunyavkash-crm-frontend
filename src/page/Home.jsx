@@ -143,57 +143,65 @@ export default function Home() {
                   <CounterCards
                     Title={"Clients"}
                     Counter={dashboardData.totalClient || 0}
-                    icon={
-                      <ClientsIcon
-                        sx={{
-                          fontSize: { xs: "28px", sm: "32px" },
-                          color: "rgb(255, 198, 117, 100%)",
-                        }}
-                      />
-                    }
-                  ></CounterCards>
+                    Text={"lorem ipsum sit amet."}
+                    Link={"/clients"}
+                    // Icon={
+                    //   <ClientsIcon
+                    //     sx={{
+                    //       fontSize: { xs: "28px", sm: "32px" },
+                    //       // color: "rgb(22, 108, 255, 100%)",
+                    //     }}
+                    //   />
+                    // }
+                  />
                 </Grid>
                 <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                   <CounterCards
                     Title={"projects"}
                     Counter={dashboardData.totalProject || 0}
-                    icon={
-                      <ProjectsIcon
-                        sx={{
-                          fontSize: { xs: "28px", sm: "32px" },
-                          color: "rgb(74, 210, 146, 100%)",
-                        }}
-                      />
-                    }
-                  ></CounterCards>
+                    Text={"lorem ipsum sit amet."}
+                    Link={"/projects"}
+                    // Icon={
+                    //   <ProjectsIcon
+                    //     sx={{
+                    //       fontSize: { xs: "28px", sm: "32px" },
+                    //       // color: "rgb(255, 198, 117, 100%)",
+                    //     }}
+                    //   />
+                    // }
+                  />
                 </Grid>
                 <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                   <CounterCards
                     Title={"invoices"}
                     Counter={dashboardData.totalInvoice || 0}
-                    icon={
-                      <InvoicesIcon
-                        sx={{
-                          fontSize: { xs: "28px", sm: "32px" },
-                          color: "rgb(255, 0, 67, 100%)",
-                        }}
-                      />
-                    }
-                  ></CounterCards>
+                    Text={"lorem ipsum sit amet."}
+                    Link={"/invoices"}
+                    // Icon={
+                    //   <InvoicesIcon
+                    //     sx={{
+                    //       fontSize: { xs: "28px", sm: "32px" },
+                    //       // color: "rgb(74, 210, 146, 100%)",
+                    //     }}
+                    //   />
+                    // }
+                  />
                 </Grid>
                 <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
                   <CounterCards
                     Title={"employees"}
                     Counter={dashboardData.totalManager || 0}
-                    icon={
-                      <ManagerIcon
-                        sx={{
-                          fontSize: { xs: "28px", sm: "32px" },
-                          color: "rgb(22, 108, 255, 100%)",
-                        }}
-                      />
-                    }
-                  ></CounterCards>
+                    Text={"lorem ipsum sit amet."}
+                    Link={"/employees"}
+                    // Icon={
+                    //   <ManagerIcon
+                    //     sx={{
+                    //       fontSize: { xs: "28px", sm: "32px" },
+                    //       // color: "rgb(255, 0, 67, 100%)",
+                    //     }}
+                    //   />
+                    // }
+                  />
                 </Grid>
               </Grid>
             </Box>
@@ -547,7 +555,7 @@ export default function Home() {
                           </Box>
                           <Box
                             sx={{
-                              fontSize: "13px",
+                              fontSize: "12px",
                               lineHeight: 1,
                               textWrap: "nowrap",
                               mt: 0.75,

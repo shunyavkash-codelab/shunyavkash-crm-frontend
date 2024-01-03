@@ -29,7 +29,7 @@ export default function AddManager() {
   const [managerList, setManagerList] = useState([]);
   const { accessToken } = useAuth();
   const { setSnack } = useSnack();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const navigate = useNavigate();
   const [countryList, setCountryList] = useState([]);
   const [country, setCountry] = useState(null);

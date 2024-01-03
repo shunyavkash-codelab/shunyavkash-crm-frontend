@@ -31,7 +31,7 @@ export default function Invoices() {
   const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
   const { invoiceData } = useInvoiceStore();
   const navigate = useNavigate();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const location = useLocation();
   let view = location.pathname.includes("/view/") ? true : false;
