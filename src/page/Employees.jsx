@@ -235,7 +235,7 @@ export default function Employees() {
                       >
                         <TableCell>employee</TableCell>
                         <TableCell sx={{ width: "250px" }}>Role</TableCell>
-                        <TableCell>invite</TableCell>
+                        <TableCell>status</TableCell>
                         <TableCell sx={{ width: "140px" }}>Actions</TableCell>
                       </TableRow>
                     </TableHead>
