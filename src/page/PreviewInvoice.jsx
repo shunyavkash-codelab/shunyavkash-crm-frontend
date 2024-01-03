@@ -246,7 +246,6 @@ export default function Invoices() {
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
-                    mt: 3.5,
                     gap: 2,
                   }}
                 >
@@ -255,6 +254,7 @@ export default function Invoices() {
                       className="bg-style"
                       variant="subtitle3"
                       sx={{
+                        display: "block",
                         flexShrink: 0,
                         fontWeight: 600,
                         fontSize: "16px",
