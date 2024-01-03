@@ -138,72 +138,50 @@ export default function Home() {
                 DashBoard
               </Typography> */}
               </Box>
-              <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-                <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
-                  <CounterCards
-                    Title={"Clients"}
-                    Counter={dashboardData.totalClient || 0}
-                    Text={"lorem ipsum sit amet."}
-                    Link={"/clients"}
-                    // Icon={
-                    //   <ClientsIcon
-                    //     sx={{
-                    //       fontSize: { xs: "28px", sm: "32px" },
-                    //       // color: "rgb(22, 108, 255, 100%)",
-                    //     }}
-                    //   />
-                    // }
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
-                  <CounterCards
-                    Title={"projects"}
-                    Counter={dashboardData.totalProject || 0}
-                    Text={"lorem ipsum sit amet."}
-                    Link={"/projects"}
-                    // Icon={
-                    //   <ProjectsIcon
-                    //     sx={{
-                    //       fontSize: { xs: "28px", sm: "32px" },
-                    //       // color: "rgb(255, 198, 117, 100%)",
-                    //     }}
-                    //   />
-                    // }
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
-                  <CounterCards
-                    Title={"invoices"}
-                    Counter={dashboardData.totalInvoice || 0}
-                    Text={"lorem ipsum sit amet."}
-                    Link={"/invoices"}
-                    // Icon={
-                    //   <InvoicesIcon
-                    //     sx={{
-                    //       fontSize: { xs: "28px", sm: "32px" },
-                    //       // color: "rgb(74, 210, 146, 100%)",
-                    //     }}
-                    //   />
-                    // }
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} xl={3} sx={{ height: "100%" }}>
-                  <CounterCards
-                    Title={"employees"}
-                    Counter={dashboardData.totalManager || 0}
-                    Text={"lorem ipsum sit amet."}
-                    Link={"/employees"}
-                    // Icon={
-                    //   <ManagerIcon
-                    //     sx={{
-                    //       fontSize: { xs: "28px", sm: "32px" },
-                    //       // color: "rgb(255, 0, 67, 100%)",
-                    //     }}
-                    //   />
-                    // }
-                  />
-                </Grid>
-              </Grid>
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "repeat(1,1fr)",
+                    sm: "repeat(2,1fr)",
+                    xl: "repeat(4,1fr)",
+                  },
+                  gap: 2.5,
+                }}
+              >
+                <CounterCards
+                  CardBgcolor={"rgb(22 119 255/ 10%)"}
+                  Title={"Clients"}
+                  Counter={dashboardData.totalClient || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/clients"}
+                  ArrowBgColor={"rgb(22 119 255 / 60%)"}
+                />
+                <CounterCards
+                  CardBgcolor={"rgba(248, 174, 0, 10%)"}
+                  Title={"projects"}
+                  Counter={dashboardData.totalProject || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/projects"}
+                  ArrowBgColor={"rgba(248, 174, 0, 60%)"}
+                />
+                <CounterCards
+                  CardBgcolor={"rgba(74, 210, 146, 10%)"}
+                  Title={"invoices"}
+                  Counter={dashboardData.totalInvoice || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/invoices"}
+                  ArrowBgColor={"rgba(74, 210, 146, 60%)"}
+                />
+                <CounterCards
+                  CardBgcolor={"rgba(244, 67, 54, 10%)"}
+                  Title={"employees"}
+                  Counter={dashboardData.totalManager || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/employees"}
+                  ArrowBgColor={"rgba(244, 67, 54, 60%)"}
+                />
+              </Box>
             </Box>
             <Box sx={{ mt: 8 }}>
               <Box

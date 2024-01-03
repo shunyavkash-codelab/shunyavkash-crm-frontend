@@ -9,10 +9,12 @@ export default function CounterCards(props) {
       <Box
         sx={{
           p: { xs: 3, sm: 2.5 },
-          bgcolor: "white",
-          boxShadow: "0 0 14px 0px rgb(42, 64, 98, 10%)",
+          bgcolor: props.CardBgcolor,
           color: "text.primary",
           borderRadius: 2.5,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
       >
         <Box sx={{ mb: 3.75 }}>
@@ -41,14 +43,13 @@ export default function CounterCards(props) {
             fontSize: { xs: "32px", sm: "36px" },
           }}
         >
-          {/* {props.Icon} */}
           {props.Counter}
           <Link to={props.Link}>
             <Box
               sx={{
                 display: "inline-flex",
                 p: 1,
-                bgcolor: "text.primary",
+                bgcolor: props.ArrowBgColor,
                 borderRadius: "10px",
                 color: "white",
               }}
