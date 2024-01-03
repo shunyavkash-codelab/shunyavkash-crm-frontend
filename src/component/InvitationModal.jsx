@@ -20,9 +20,9 @@ import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import { useNavigate } from "react-router-dom";
 import { useInviteMemberStore } from "../hooks/store/useInviteMemberStore.js";
+import * as Yup from "yup";
 
 export default function AddClientsModal({ open, setOpen }) {
-  const handleClose = () => setOpen(false);
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const { setSnack } = useSnack();
@@ -30,7 +30,20 @@ export default function AddClientsModal({ open, setOpen }) {
   const navigate = useNavigate();
   const { setInviteMemberStore } = useInviteMemberStore();
 
+  // yup data validator schhema
+  const schema = Yup.object({
+    name: Yup.string().required("Name is required.").trim(),
+    email: Yup.string()
+      .email("Field should contain a valid e-mail")
+      .max(255)
+      .required("Email is required.")
+      .trim(),
+    password: Yup.string().required("Password is required.").trim(),
+    role: Yup.string().required("Role is required.").trim(),
+  });
+
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       name: "",
       email: "",
@@ -115,16 +128,16 @@ export default function AddClientsModal({ open, setOpen }) {
                     bgcolor: "text.primary",
                   },
                 }}
-              >
-                <CloseIcon
-                  sx={{
-                    fontSize: "25px",
-                  }}
-                  open={open}
-                  onClick={handleClose}
-                  aria-label="close"
-                />
-              </Button>
+                startIcon={
+                  <CloseIcon
+                    sx={{
+                      fontSize: "25px",
+                    }}
+                    onClick={() => setOpen(false)}
+                    aria-label="close"
+                  />
+                }
+              ></Button>
             </Box>
             <FormikProvider value={formik}>
               <Box
@@ -144,6 +157,8 @@ export default function AddClientsModal({ open, setOpen }) {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.name}
+                    error={formik.touched.name && Boolean(formik.errors.name)}
+                    helperText={formik.touched.name && formik.errors.name}
                   />
                   <TextField
                     fullWidth
@@ -156,6 +171,8 @@ export default function AddClientsModal({ open, setOpen }) {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.email}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
                   />
                   <Box sx={{ position: "relative" }}>
                     <TextField
@@ -172,6 +189,13 @@ export default function AddClientsModal({ open, setOpen }) {
                       }}
                       onChange={formik.handleChange}
                       value={formik.values.password}
+                      error={
+                        formik.touched.password &&
+                        Boolean(formik.errors.password)
+                      }
+                      helperText={
+                        formik.touched.password && formik.errors.password
+                      }
                     />
                     <Box
                       onClick={handleClickShowPassword}
@@ -217,6 +241,10 @@ export default function AddClientsModal({ open, setOpen }) {
                           onChange={(event) => {
                             form.setFieldValue("role", event.target.value);
                           }}
+                          error={
+                            formik.touched.role && Boolean(formik.errors.role)
+                          }
+                          helperText={formik.touched.role && formik.errors.role}
                         >
                           <MenuItem
                             sx={{
@@ -262,8 +290,6 @@ export default function AddClientsModal({ open, setOpen }) {
                   <Button
                     disableRipple
                     type="submit"
-                    open={open}
-                    onClick={handleClose}
                     sx={{
                       maxHeight: "42px",
                       position: "relative",

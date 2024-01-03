@@ -46,7 +46,7 @@ export default function AddClient() {
   });
 
   const formik = useFormik({
-    validationSchema: schema,
+    // validationSchema: schema,
     initialValues: {
       name: clientList?.name,
       email: clientList?.email,
@@ -60,11 +60,18 @@ export default function AddClient() {
       mobileCode: clientList?.mobileCode || undefined,
     },
     onSubmit: async (values) => {
+      let formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        if (value) {
+          formData.append(key, value);
+        }
+      });
       try {
         const res = await apiCall({
           url: id ? APIS.CLIENT.EDIT(id) : APIS.CLIENT.ADD,
           method: id ? "patch" : "post",
-          data: JSON.stringify(values, null, 2),
+          headers: "multipart/form-data",
+          data: formData,
         });
         if (res.data.success === true) {
           setSnack(res.data.message);
@@ -292,13 +299,6 @@ export default function AddClient() {
                         ]
                       }
                       name="mobileCode"
-                      error={
-                        formik.touched.mobileCode &&
-                        Boolean(formik.errors.mobileCode)
-                      }
-                      helperText={
-                        formik.touched.mobileCode && formik.errors.mobileCode
-                      }
                       options={countryList}
                       autoHighlight
                       getOptionLabel={(option) => option.label}
@@ -323,6 +323,7 @@ export default function AddClient() {
                       renderInput={(params) => {
                         return (
                           <TextField
+                            name="mobileCode"
                             {...params}
                             InputProps={{
                               ...params.InputProps,
@@ -344,6 +345,14 @@ export default function AddClient() {
                                 </InputAdornment>
                               ) : null,
                             }}
+                            error={
+                              formik.touched.mobileCode &&
+                              Boolean(formik.errors.mobileCode)
+                            }
+                            helperText={
+                              formik.touched.mobileCode &&
+                              formik.errors.mobileCode
+                            }
                           />
                         );
                       }}

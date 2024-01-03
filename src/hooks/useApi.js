@@ -6,7 +6,7 @@ export default function useApi() {
   const [isLoading, setIsLoading] = useState(false);
   const { accessToken } = useAuth();
   const apiCall = useCallback(async function (
-    config = { url: "", method: "", params: {}, data: {} }
+    config = { url: "", method: "", headers: "", params: {}, data: {} }
   ) {
     const apiInstance = instance;
 
@@ -18,6 +18,8 @@ export default function useApi() {
           (reqConfig) => {
             if (!reqConfig.headers.Authorization)
               reqConfig.headers.Authorization = "Bearer " + accessToken;
+            if (config.headers)
+              reqConfig.headers["Content-Type"] = config.headers;
             return reqConfig;
           },
           (error) => Promise.reject(error)
