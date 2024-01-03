@@ -5,6 +5,7 @@ import { Box, TextField, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
 // import CloseIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
+import * as Yup from "yup";
 
 // const style = {
 //   // @media only screen and(max-width: 768px){
@@ -14,29 +15,32 @@ import CloseIcon from "@mui/icons-material/Close";
 
 export default function AddClientsModal({ open, setOpen }) {
   const handleClose = () => setOpen(false);
+
+  // yup data validator schhema
+  const schema = Yup.object({
+    name: Yup.string().required("Name is required.").trim(),
+    email: Yup.string().required("Client is required.").trim(),
+    number: Yup.string().required("Start date is required.").trim(),
+  });
+
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       name: "",
-      clientId: "",
-      description: "",
-      startDate: "",
-      endDate: "",
-      perHourCharge: "",
-      payPeriod: "",
-      prefix: "",
-      status: "",
+      email: "",
+      number: "",
     },
     onSubmit: async (values) => {
       // try {
       //   values.currency = currencyValue?.symbol;
       //   const res = await apiCall({
-      //     url: APIS.PROJECT.ADD,
+      //     url: APIS.CLIENT.ADD,
       //     method: "post",
       //     data: JSON.stringify(values, null, 2),
       //   });
       //   if (res.status === 201) {
       //     setSnack(res.data.message);
-      //     navigate("/clients");
+      //     setOpen(false);
       //   }
       // } catch (error) {
       //   let errorMessage = error.response.data.message;
@@ -141,6 +145,8 @@ export default function AddClientsModal({ open, setOpen }) {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.name}
+                    error={formik.touched.name && Boolean(formik.errors.name)}
+                    helperText={formik.touched.name && formik.errors.name}
                   />
                 </Box>
               </Box>
@@ -161,6 +167,8 @@ export default function AddClientsModal({ open, setOpen }) {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.email}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
                   />
                 </Box>
               </Box>
@@ -182,6 +190,10 @@ export default function AddClientsModal({ open, setOpen }) {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.number}
+                    error={
+                      formik.touched.number && Boolean(formik.errors.number)
+                    }
+                    helperText={formik.touched.number && formik.errors.number}
                   />
                 </Box>
               </Box>

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import FileUploadButton from "../component/FileUploadButton";
-import {  FormikProvider, useFormik } from "formik";
+import { FormikProvider, useFormik } from "formik";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
@@ -85,7 +85,6 @@ export default function AddClient() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setClientList(res.data.data);
       }
     } catch (error) {
