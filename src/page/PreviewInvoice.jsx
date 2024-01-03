@@ -444,6 +444,9 @@ export default function Invoices() {
                           "&:nth-child(even) span": {
                             bgcolor: "#f3f3f3",
                           },
+                          "&:nth-child(odd):last-child": {
+                            borderBottom: "1px solid rgba(0,0,0,0.1)",
+                          },
                           "&>*": {
                             "&:first-child span": {
                               borderRadius: "10px 0 0 10px",
@@ -455,7 +458,7 @@ export default function Invoices() {
                         },
                       }}
                     >
-                      {invoiceData?.tasks.map((task) => (
+                      {/* {invoiceData?.tasks.map((task) => (
                         <TableRow
                           sx={{
                             "&>*": {
@@ -469,153 +472,98 @@ export default function Invoices() {
                           <TableCell>{task.hours}</TableCell>
                           <TableCell>${task.amount}</TableCell>
                         </TableRow>
-                      ))}
-                      {/* <TableRow
-                      sx={{
-                        "&>*": {
-                          p: "0!important",
-                          fontWeight: "500",
-                          "&:first-child": {
-                            maxWidth: "400px",
-                            textWrap: "wrap",
-                          },
-                          "&>span": {
-                            display: "block",
-                            px: "16px",
-                            py: "14px",
-                          },
-                        },
-                      }}
-                    >
-                      <TableCell>
-                        <span>Recurring Bill (Domain)</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$239.00</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>3</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$717.00</span>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        "&>*": {
-                          p: "0!important",
-                          fontWeight: "500",
-                          "&:first-child": {
-                            maxWidth: "400px",
-                            textWrap: "wrap",
-                          },
-                          "&>span": {
-                            display: "block",
-                            px: "16px",
-                            py: "14px",
-                          },
-                        },
-                      }}
-                    >
-                      <TableCell>
-                        <span>Recurring Bill (Domain)</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$239.00</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>3</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$717.00</span>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        "&>*": {
-                          p: "0!important",
-                          fontWeight: "500",
-                          "&:first-child": {
-                            maxWidth: "400px",
-                            textWrap: "wrap",
-                          },
-                          "&>span": {
-                            display: "block",
-                            px: "16px",
-                            py: "14px",
-                          },
-                        },
-                      }}
-                    >
-                      <TableCell>
-                        <span>Recurring Bill (Domain)</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$239.00</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>3</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$717.00</span>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        "&>*": {
-                          p: "0!important",
-                          fontWeight: "500",
-                          "&:first-child": {
-                            maxWidth: "400px",
-                            textWrap: "wrap",
-                          },
-                          "&>span": {
-                            display: "block",
-                            px: "16px",
-                            py: "14px",
-                          },
-                        },
-                      }}
-                    >
-                      <TableCell>
-                        <span>Recurring Bill (Domain)</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$239.00</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>3</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$717.00</span>
-                      </TableCell>
-                    </TableRow> */}
-                    </TableBody>
-                    {/* <TableFooter>
-                    <TableRow
-                      sx={{
-                        "&>*": {
-                          py: 1.75,
-                        },
-                      }}
-                    >
-                      <TableCell></TableCell>
-                      <TableCell></TableCell>
-                      <TableCell
+                      ))} */}
+                      <TableRow
                         sx={{
-                          fontWeight: "700",
-                          color: "text.primary",
+                          "&>*": {
+                            p: "0!important",
+                            fontWeight: "500",
+                            "&:first-child": {
+                              maxWidth: "400px",
+                              textWrap: "wrap",
+                            },
+                            "&>span": {
+                              display: "block",
+                              px: "16px",
+                              py: "14px",
+                            },
+                          },
                         }}
                       >
-                        Total:
-                      </TableCell>
-                      <TableCell
-                        sx={{ fontWeight: "700", color: "text.primary" }}
+                        <TableCell>
+                          <span>Recurring Bill (Domain)</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$239.00</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>3</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$717.00</span>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow
+                        sx={{
+                          "&>*": {
+                            p: "0!important",
+                            fontWeight: "500",
+                            "&:first-child": {
+                              maxWidth: "400px",
+                              textWrap: "wrap",
+                            },
+                            "&>span": {
+                              display: "block",
+                              px: "16px",
+                              py: "14px",
+                            },
+                          },
+                        }}
                       >
-                        ${invoiceData?.totals.subTotal}
-                      </TableCell>
-                    </TableRow>
-                  </TableFooter> */}
+                        <TableCell>
+                          <span>Recurring Bill (Domain)</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$239.00</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>3</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$717.00</span>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow
+                        sx={{
+                          "&>*": {
+                            p: "0!important",
+                            fontWeight: "500",
+                            "&:first-child": {
+                              maxWidth: "400px",
+                              textWrap: "wrap",
+                            },
+                            "&>span": {
+                              display: "block",
+                              px: "16px",
+                              py: "14px",
+                            },
+                          },
+                        }}
+                      >
+                        <TableCell>
+                          <span>Recurring Bill (Domain)</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$239.00</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>3</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$717.00</span>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
                   </Table>
                 </TableContainer>
                 <Box

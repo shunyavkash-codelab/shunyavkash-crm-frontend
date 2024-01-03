@@ -9,7 +9,6 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableFooter,
   FormControl,
   InputLabel,
   Select,
@@ -18,6 +17,8 @@ import {
   Divider,
   Tooltip,
   TableBody,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -86,6 +87,7 @@ export default function Invoices() {
   const [selectedProjectId, setSelectedProjectId] = useState("");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+  const [showWatermark, setShowWatermark] = useState(true);
 
   // model open for admin
   const [fromOpen, setFromOpen] = useState(false);
@@ -585,7 +587,25 @@ export default function Invoices() {
                     Add Invoice
                   </Typography>
                 </Box>
-                <Form>
+                <Form style={{ position: "relative" }}>
+                  <Box
+                    className="watermark"
+                    sx={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%,-50%) rotate(-45deg)",
+                      width: "700px",
+                      opacity: 0.06,
+                      zIndex: 1,
+                      display: showWatermark ? "inline-flex" : "none",
+                    }}
+                  >
+                    <img
+                      src="/images/logo.svg"
+                      style={{ height: "auto", width: "100%", flexShrink: 0 }}
+                    />
+                  </Box>
                   <Box
                     sx={{
                       bgcolor: "white",
@@ -851,7 +871,7 @@ export default function Invoices() {
                                 variant="subtitle3"
                                 sx={{
                                   mt: 1.75,
-                                  lineHeight: 1.5,
+                                  lineHeight: 1.6,
                                   display: "block",
                                   fontSize: "16px",
                                 }}
@@ -931,8 +951,8 @@ export default function Invoices() {
                       {(selectedClient || invoiceData?.clientId) && (
                         <Box
                           sx={{
-                            maxWidth: "750px",
                             mt: 6,
+                            maxWidth: "750px",
                             position: "relative",
                           }}
                         >
@@ -940,8 +960,9 @@ export default function Invoices() {
                             className="bg-style"
                             variant="subtitle3"
                             sx={{
+                              display: "block",
                               fontWeight: 600,
-                              fontSize: "15px",
+                              fontSize: "16px",
                               textTransform: "capitalize",
                             }}
                           >
@@ -990,7 +1011,7 @@ export default function Invoices() {
                                 variant="subtitle3"
                                 sx={{
                                   mt: 1.75,
-                                  lineHeight: 1.5,
+                                  lineHeight: 1.6,
                                   display: "block",
                                   fontSize: "16px",
                                 }}
@@ -1026,7 +1047,7 @@ export default function Invoices() {
                           )}
                         </Box>
                       )}
-                      <Box sx={{ my: 7 }}>
+                      <Box sx={{ mt: 7, mb: 3.5 }}>
                         {selectedProjectId && (
                           <FormControl
                             fullWidth
@@ -1116,46 +1137,51 @@ export default function Invoices() {
                           <Table
                             className="projectTable"
                             sx={{
+                              borderBottom:
+                                "1px solid rgba(128, 128, 128, 0.1)",
                               minWidth: 650,
                               textTransform: "capitalize",
                               textWrap: "nowrap",
                               "& th,& td": {
-                                borderBottom: 0,
                                 fontSize: "16px",
+                                border: 0,
                               },
-                              "& tbody tr td:first-child": {
-                                maxWidth: "400px",
-                                textWrap: "wrap",
-                              },
-                              // "& tbody tr > *,& tfoot tr > *": {
-                              //   py: 1.5,
-                              // },
-                              // "& tbody tr,& tfoot tr": {
-                              //   borderTop: "1px solid rgba(224, 224, 224, 1)",
-                              // },
                             }}
                           >
                             <TableHead>
                               <TableRow
                                 sx={{
-                                  bgcolor: "text.primary",
                                   "& th": {
                                     lineHeight: 1,
                                     fontWeight: 600,
-                                    color: "white",
+                                    p: 0,
+                                    "& span": {
+                                      bgcolor: "text.primary",
+                                      fontWeight: "700",
+                                      display: "block",
+                                      color: "white",
+                                      p: 2,
+                                    },
+                                    "&:first-child span": {
+                                      borderRadius: "10px 0 0 10px",
+                                    },
+                                    "&:last-child span": {
+                                      borderRadius: "0 10px 10px 0",
+                                    },
                                   },
                                 }}
                               >
-                                <TableCell>description</TableCell>
-
-                                <TableCell sx={{ width: "110px" }}>
-                                  price/hours
+                                <TableCell>
+                                  <span>description</span>
                                 </TableCell>
-                                <TableCell sx={{ width: "110px" }}>
-                                  hours
+                                <TableCell sx={{ width: "130px" }}>
+                                  <span>price/hours</span>
                                 </TableCell>
-                                <TableCell sx={{ width: "110px" }}>
-                                  Amount
+                                <TableCell sx={{ width: "90px" }}>
+                                  <span>hours</span>
+                                </TableCell>
+                                <TableCell sx={{ width: "108px" }}>
+                                  <span>Amount</span>
                                 </TableCell>
                               </TableRow>
                             </TableHead>
@@ -1168,7 +1194,10 @@ export default function Invoices() {
                                     sx={{
                                       "&>*": {
                                         borderBottom:
-                                          "2px solid rgba(128, 128, 128, 0.11)",
+                                          "1px solid rgba(128, 128, 128, 0.1)",
+                                        "& td": {
+                                          p: 1,
+                                        },
                                       },
                                     }}
                                   >
@@ -1181,125 +1210,53 @@ export default function Invoices() {
                                       />
                                     ))}
                                   </TableBody>
-                                  <Button
-                                    disableRipple
-                                    sx={{
-                                      ml: 1.5,
-                                      my: 1.5,
-                                      maxHeight: "36px",
-                                      position: "relative",
-                                      px: 2.5,
-                                      py: 1.5,
-                                      bgcolor: "text.primary",
-                                      border: "1px solid",
-                                      borderColor: "text.primary",
-                                      color: "white",
-                                      lineHeight: 1,
-                                      borderRadius: 2.5,
-                                      overflow: "hidden",
-                                      "&:before": {
-                                        content: "''",
-                                        height: 0,
-                                        width: "10rem",
-                                        position: "absolute",
-                                        top: "50%",
-                                        left: "50%",
-                                        zIndex: "0",
-                                        bgcolor: "white",
-                                        transform:
-                                          "rotate(-45deg) translate(-50%, -50%)",
-                                        transformOrigin: "0% 0%",
-                                        transition: "all 0.4s ease-in-out",
-                                      },
-                                      "&:hover": {
-                                        color: "text.primary",
+                                  <Box sx={{ m: 1 }}>
+                                    <Button
+                                      disableRipple
+                                      sx={{
+                                        maxHeight: "36px",
+                                        position: "relative",
+                                        px: 2.5,
+                                        py: 1.5,
                                         bgcolor: "text.primary",
-                                        "&:before": { height: "10rem" },
-                                      },
-                                    }}
-                                    onClick={() => {
-                                      push(taskInitialValues);
-                                    }}
-                                  >
-                                    <span style={{ position: "relative" }}>
-                                      Add Task
-                                    </span>
-                                  </Button>
+                                        border: "1px solid",
+                                        borderColor: "text.primary",
+                                        color: "white",
+                                        lineHeight: 1,
+                                        borderRadius: 2.5,
+                                        overflow: "hidden",
+                                        "&:before": {
+                                          content: "''",
+                                          height: 0,
+                                          width: "10rem",
+                                          position: "absolute",
+                                          top: "50%",
+                                          left: "50%",
+                                          zIndex: "0",
+                                          bgcolor: "white",
+                                          transform:
+                                            "rotate(-45deg) translate(-50%, -50%)",
+                                          transformOrigin: "0% 0%",
+                                          transition: "all 0.4s ease-in-out",
+                                        },
+                                        "&:hover": {
+                                          color: "text.primary",
+                                          bgcolor: "text.primary",
+                                          "&:before": { height: "10rem" },
+                                        },
+                                      }}
+                                      onClick={() => {
+                                        push(taskInitialValues);
+                                      }}
+                                    >
+                                      <span style={{ position: "relative" }}>
+                                        Add Task
+                                      </span>
+                                    </Button>
+                                  </Box>
                                 </>
                               )}
                             </FieldArray>
-                            <TableFooter>
-                              <TableRow
-                                sx={{
-                                  "&:last-child td, &:last-child th": {
-                                    border: 0,
-                                  },
-                                  "&>td": {
-                                    fontSize: { xs: "12px", sm: "14px" },
-                                  },
-                                  "&>*": {
-                                    p: 1.5,
-                                    "&:first-child": { fontWeight: "600" },
-                                  },
-                                  bgcolor: "rgba(243 ,243 ,243 ,1)",
-                                }}
-                              >
-                                {/* <TableCell sx={{ py: "4px!important" }}>
-                              <Button
-                                disableRipple
-                                sx={{
-                                  maxHeight: "36px",
-                                  position: "relative",
-                                  px: 2.5,
-                                  py: 1.5,
-                                  bgcolor: "primary.main",
-                                  border: "1px solid",
-                                  borderColor: "primary.main",
-                                  color: "white",
-                                  lineHeight: 1,
-                                  borderRadius: 2.5,
-                                  overflow: "hidden",
-                                  "&:before": {
-                                    content: "''",
-                                    height: 0,
-                                    width: "10rem",
-                                    position: "absolute",
-                                    top: "50%",
-                                    left: "50%",
-                                    zIndex: "0",
-                                    bgcolor: "white",
-                                    transform:
-                                      "rotate(-45deg) translate(-50%, -50%)",
-                                    transformOrigin: "0% 0%",
-                                    transition: "all 0.4s ease-in-out",
-                                  },
-                                  "&:hover": {
-                                    color: "primary.main",
-                                    bgcolor: "primary.main",
-                                    "&:before": { height: "10rem" },
-                                  },
-                                }}
-                                onClick={taskIncrement}
-                              >
-                                <span style={{ position: "relative" }}>
-                                  not Task
-                                </span>
-                              </Button>
-                            </TableCell> */}
-                                <TableCell></TableCell>
-                                <TableCell></TableCell>
-                                <TableCell
-                                  sx={{ fontWeight: "600", color: "black" }}
-                                >
-                                  Total:
-                                </TableCell>
-                                <TableCell
-                                  sx={{ fontWeight: "600", color: "black" }}
-                                >
-                                  ${getSubTotal(values.task)}
-                                </TableCell>
-                              </TableRow>
-                            </TableFooter>
                           </Table>
                         </TableContainer>
                       </Box>
@@ -1308,16 +1265,20 @@ export default function Invoices() {
                           ml: "auto",
                           maxWidth: "fit-content",
                           "&>*": {
-                            px: 1.75,
                             "&:not(:first-child)": { mt: 1.75 },
-                          },
-                          "& > *": {
+                            px: 1.75,
                             display: "flex",
                             justifyContent: "space-between",
-                            gap: 10,
-                            "& > *": {
+                            gap: 9.75,
+                            "&>*": {
                               lineHeight: "1!important",
-                              textTransform: "capitalize",
+                              "&:first-child": {
+                                textTransform: "capitalize",
+                                width: "140px",
+                              },
+                              "&:last-child": {
+                                width: "78px",
+                              },
                             },
                           },
                         }}
@@ -1325,13 +1286,13 @@ export default function Invoices() {
                         <Box>
                           <Typography
                             variant="subtitle2"
-                            sx={{ fontWeight: 700 }}
+                            sx={{ fontWeight: 700, fontSize: "16px" }}
                           >
-                            subtotal:
+                            subtotal
                           </Typography>
                           <Typography
                             variant="subtitle2"
-                            sx={{ fontWeight: 700 }}
+                            sx={{ fontWeight: 700, fontSize: "16px" }}
                           >
                             ${getSubTotal(values.task)}
                           </Typography>
@@ -1341,9 +1302,6 @@ export default function Invoices() {
                             alignItems: "center",
                             "& > *:last-child": {
                               maxWidth: "85px",
-                              "& input": {
-                                textAlign: "right",
-                              },
                             },
                           }}
                         >
@@ -1354,14 +1312,15 @@ export default function Invoices() {
                               display: "flex",
                               alignItems: "center",
                               gap: 1,
+                              fontSize: "16px",
+                              fontWeight: 600,
                             }}
                           >
-                            Discount (%):
+                            Discount (%)
                             <Box
                               sx={{
-                                alignItems: "center",
                                 "& > *:last-child": {
-                                  maxWidth: "85px",
+                                  width: "66px",
                                 },
                               }}
                             >
@@ -1396,55 +1355,41 @@ export default function Invoices() {
                             alignItems: "center",
                             "& > *:last-child": {
                               maxWidth: "85px",
-                              "& input": {
-                                textAlign: "right",
-                              },
                             },
                           }}
                         >
                           <Typography
                             variant="subtitle2"
-                            sx={{ textWrap: "nowrap" }}
+                            sx={{
+                              textWrap: "nowrap",
+                              fontSize: "16px",
+                              fontWeight: 600,
+                            }}
                           >
-                            sales tax:
+                            tax
                           </Typography>
                           <CustomFormikField
                             name={"salesTax"}
                             placeholder="00.00"
-                            // value={invoiceData?.totals?.discountPer}
                           />
-                        </Box>
-                        <Box>
-                          <Typography variant="subtitle2">total:</Typography>
-                          <Typography variant="subtitle2">
-                            $
-                            {+values.salesTax +
-                              getSubTotal(values.task) -
-                              discountRS}
-                          </Typography>
-                        </Box>
-                        <Box>
-                          <Typography variant="subtitle2">
-                            amount paid:
-                          </Typography>
-                          <Typography variant="subtitle2">$0.00</Typography>
                         </Box>
                         <Box
                           sx={{
                             py: 1.75,
-                            bgcolor: "primary.light",
+                            bgcolor: "text.primary",
                             borderRadius: 2.5,
+                            color: "white",
                           }}
                         >
                           <Typography
                             variant="subtitle2"
-                            sx={{ fontWeight: 700 }}
+                            sx={{ fontWeight: 700, fontSize: "16px" }}
                           >
-                            balance due:
+                            total
                           </Typography>
                           <Typography
                             variant="subtitle2"
-                            sx={{ fontWeight: 700 }}
+                            sx={{ fontWeight: 700, fontSize: "16px" }}
                           >
                             $
                             {+values.salesTax +
@@ -1466,7 +1411,11 @@ export default function Invoices() {
                             <Typography
                               variant="h6"
                               className="bg-style"
-                              sx={{ mb: 2 }}
+                              sx={{
+                                fontSize: "20px",
+                                mb: 2,
+                                display: "inline-block",
+                              }}
                             >
                               Bank Details
                             </Typography>
@@ -1551,38 +1500,6 @@ export default function Invoices() {
                                     name="customeAccountNumber"
                                     label="A/c Number"
                                   />
-                                  {/* <Box>
-                                    <Typography variant="subtitle2">
-                                      Bank Name<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.bankName}
-                                    </Typography>
-                                  </Box>
-                                  <Box>
-                                    <Typography variant="subtitle2">
-                                      IFSC Code<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.IFSC}
-                                    </Typography>
-                                  </Box>
-                                  <Box>
-                                    <Typography variant="subtitle2">
-                                      A/c Holder Name<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.holderName}
-                                    </Typography>
-                                  </Box>
-                                  <Box>
-                                    <Typography variant="subtitle2">
-                                      A/c No.<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.accountNumber}
-                                    </Typography>
-                                  </Box> */}
                                 </>
                               )}
 
@@ -1590,20 +1507,20 @@ export default function Invoices() {
                                 <>
                                   <Box
                                     sx={{
-                                      mt: 2.25,
+                                      mt: 3.5,
                                       "&>*": {
                                         display: "flex",
                                         gap: 1.25,
                                         "&:not(:first-child)": { mt: 1.75 },
                                         "&>*": {
+                                          fontSize: "16px!important",
                                           lineHeight: "1!important",
                                           textTransform: "capitalize",
-                                          fontSize: "16px!important",
                                           "&:first-child": {
-                                            opacity: 0.5,
-                                            width: "145px",
+                                            width: "110px",
                                             display: "flex",
                                             justifyContent: "space-between",
+                                            fontWeight: 600,
                                           },
                                         },
                                       },
@@ -1629,7 +1546,7 @@ export default function Invoices() {
                                     </Box>
                                     <Box>
                                       <Typography variant="subtitle2">
-                                        A/c Holder Name<span>:</span>
+                                        A/c Name<span>:</span>
                                       </Typography>
                                       <Typography variant="subtitle2">
                                         {bankDetails.holderName ||
@@ -1649,53 +1566,16 @@ export default function Invoices() {
                                 </>
                               )}
                             </Box>
-                            {/* {!bankDetails && (
-                            <>
-                              <CustomFormikField
-                                name="customBankName"
-                                label="Bank Name"
-                              />
-                              <CustomFormikField
-                                name="customIFSC"
-                                label="IFSC"
-                              />
-                              <CustomFormikField
-                                name="customHolderName"
-                                label="A/c Holder Name"
-                              />
-                              <CustomFormikField
-                                name="customeAccountNumber"
-                                label="A/c Number"
-                              />
-                            </>
-                          )}
-                          {bankDetails && (
-                            <>
-                              <CustomFormikField
-                                name="bankName"
-                                label="Bank Name"
-                                value={bankDetails.bankName}
-                              />
-                              <CustomFormikField
-                                name="IFSC"
-                                value={bankDetails.IFSC}
-                                label="IFSC"
-                              />
-                              <CustomFormikField
-                                name="holderName"
-                                label="A/c Holder Name"
-                                value={bankDetails.holderName}
-                              />
-                              <CustomFormikField
-                                name="label"
-                                label="A/c Number"
-                                value={bankDetails.label}
-                              />
-                            </>
-                          )} */}
                           </Box>
                           <Box sx={{ mt: 6 }}>
-                            <Typography variant="h6" sx={{ mb: 2 }}>
+                            <Typography
+                              variant="h6"
+                              sx={{
+                                fontSize: "20px",
+                                mb: 2,
+                                display: "block",
+                              }}
+                            >
                               Notes
                             </Typography>
                             <CustomFormikField
@@ -1725,6 +1605,48 @@ export default function Invoices() {
                           ></img>
                         </Box>
                       </Box>
+                    </Box>
+                    <Box sx={{ mt: 3 }}>
+                      <FormControlLabel
+                        label="Add watermark"
+                        sx={{
+                          userSelect: "none",
+                          m: 0,
+                          "&>span:last-child": {
+                            ml: 1,
+                          },
+                        }}
+                        control={
+                          <Checkbox
+                            onClick={() => setShowWatermark(!showWatermark)}
+                            disableRipple
+                            sx={{
+                              p: 0,
+                              position: "relative",
+                              borderRadius: "4px",
+                              width: "20px",
+                              height: "20px",
+                              bgcolor: "text.primary",
+                              "& svg": { opacity: 0 },
+                              "&:before": {
+                                content: "'✓'",
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%,-50%)",
+                                opacity: 0,
+                                transition: "all 0.2s ease-in-out",
+                                color: "white",
+                                fontSize: "14px",
+                              },
+                              "&.Mui-checked:before": {
+                                opacity: 1,
+                              },
+                            }}
+                            defaultChecked
+                          />
+                        }
+                      />
                     </Box>
                   </Box>
                   <Box

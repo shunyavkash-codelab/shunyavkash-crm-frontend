@@ -11,22 +11,26 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
     <TableRow
       sx={{
         "&>*": {
-          py: 1,
           "&:first-child": { fontWeight: "600" },
+          "&:last-child": {
+            px: 2,
+          },
+          "& > *": {
+            maxWidth: "unset",
+            "& input": {
+              p: 1,
+            },
+            "& fieldset": {
+              borderColor: "transparent",
+            },
+          },
         },
       }}
     >
       <TableCell
         sx={{
-          "& > *": {
-            maxWidth: "unset",
-            ml: -1,
-          },
-          "& fieldset": {
-            borderColor: "transparent",
-          },
-          "& input": {
-            px: 1,
+          "&>div>div": {
+            p: 1,
           },
         }}
       >
@@ -35,129 +39,22 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
           multiline
           placeholder="Enter an items"
         />
-        {/* <TextField
-              component={Field}
-              fullWidth
-              size="small"
-              name={name + ".name"}
-              //   id="name"
-              // label="Task"
-              autoComplete="off"
-              placeholder="Enter an item"
-              //   defaultValue={clientList?.name}
-              // InputLabelProps={{
-              //   shrink: true,
-              // }}
-              sx={{
-                "& input,&>div": { fontSize: "12px" },
-                "& input,& fieldset": {
-                  marginLeft: "-12px",
-                },
-                "& fieldset": {
-                  borderColor: "transparent",
-                },
-              }}
-              InputProps={
-                location.pathname.includes("/view/") && {
-                  readOnly: true,
-                }
-              }
-            /> */}
       </TableCell>
-      <TableCell
-        sx={{
-          "& > *": {
-            ml: -1,
-          },
-          "& fieldset": {
-            borderColor: "transparent",
-          },
-          "& input": {
-            px: 1,
-          },
-        }}
-      >
+      <TableCell>
         <CustomFormikField
           name={name + ".pricePerHours"}
           placeholder="00.00"
           inputProps={{ min: 1 }}
           type="number"
         />
-        {/* <TextField
-              component={Field}
-              fullWidth
-              size="small"
-              name={name + ".pricePerHours"}
-              id="pricePerHours"
-              autoComplete="off"
-              // label="Price"
-              placeholder="$00.00"
-              InputProps={
-                location.pathname.includes("/view/") && {
-                  readOnly: true,
-                }
-              }
-              InputLabelProps={{
-                shrink: true,
-              }}
-              sx={{
-                "& input,&>div": { fontSize: "12px" },
-                "& input,& fieldset": {
-                  marginLeft: "-12px",
-                },
-                "& fieldset": {
-                  borderColor: "transparent",
-                },
-              }}
-              onChange={handleAmountChange}
-            /> */}
       </TableCell>
-      <TableCell
-        sx={{
-          "& > *": {
-            ml: -1,
-          },
-          "& fieldset": {
-            borderColor: "transparent",
-          },
-          "& input": {
-            px: 1,
-          },
-        }}
-      >
+      <TableCell>
         <CustomFormikField
           name={name + ".number"}
           placeholder="00"
           inputProps={{ min: 1 }}
           type="number"
         />
-        {/* <TextField
-              component={Field}
-              fullWidth
-              size="small"
-              name={name + ".number"}
-              id="number"
-              // label="Hours"
-              autoComplete="off"
-              inputProps={{ min: 1 }}
-              defaultValue="1"
-              type="number"
-              sx={{
-                "& input,&>div": { fontSize: "12px" },
-                "& input,& fieldset": {
-                  marginLeft: "-12px",
-                },
-                "& fieldset": {
-                  borderColor: "transparent",
-                },
-              }}
-              InputProps={
-                location.pathname.includes("/view/") && {
-                  readOnly: true,
-                }
-              }
-              onChange={handleAmountChange}
-            /> */}
       </TableCell>
       <TableCell>${values.number * values.pricePerHours || 0}</TableCell>
     </TableRow>
