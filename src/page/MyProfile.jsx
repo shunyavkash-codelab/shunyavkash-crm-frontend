@@ -36,6 +36,10 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import AddClientsModal from "../component/AddClientsModal";
 import ModalComponent from "../component/ModalComponent";
 import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
 
 import UserSalary from "../page/UserSalary";
 
@@ -157,21 +161,6 @@ export default function Home() {
               pb: 0,
             }}
           >
-            {/* <Box
-              sx={{
-                padding: "100px 50px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                bgcolor: "#002544",
-              }}
-            >
-              <img
-                src="/images/logo-text-white.svg"
-                alt="logo-text-white"
-                style={{ maxHeight: "150px" }}
-              />
-            </Box> */}
             <Box
               sx={{
                 display: "flex",
@@ -434,7 +423,7 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">
-                  employment details
+                  Employment Details
                 </Typography>
                 <Button
                   onClick={handleOpen}
@@ -452,39 +441,6 @@ export default function Home() {
                   Edit
                 </Button>
               </Box>
-              {/* <AddClientsModal open={open} setOpen={setOpen} /> */}
-              <ModalComponent
-                open={open}
-                setOpen={setOpen}
-                modalTitle="Employment Details"
-              >
-                <Grid container rowSpacing={5} columnSpacing={2.5}>
-                  <Grid item xs={12} md={12} lg={6}>
-                    <TextField
-                      fullWidth
-                      size="normal"
-                      id="name"
-                      label="Name"
-                      autoComplete="off"
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={12} lg={6}>
-                    <TextField
-                      fullWidth
-                      size="normal"
-                      id="name"
-                      label="Name"
-                      autoComplete="off"
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                      }}
-                    />
-                  </Grid>
-                </Grid>
-              </ModalComponent>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
@@ -523,17 +479,25 @@ export default function Home() {
                 </Grid>
               </Grid>
             </Box>
+
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Personal Details</Typography>
-                <Chip
-                  label="Edit"
-                  icon={<EditIcon />}
-                  color="primary"
-                  variant="outlined"
-                  size="small"
-                  sx={{ cursor: "pointer", height: "unset", py: 0.5, px: 0.75 }}
-                />
+                <Button
+                  onClick={handleOpen}
+                  startIcon={<EditIcon sx={{ width: 16 }} />}
+                  sx={{
+                    cursor: "pointer",
+                    height: "unset",
+                    py: 0.3,
+                    px: 1.5,
+                    border: "1px solid",
+                    borderColor: "primary.main",
+                    borderRadius: 4,
+                  }}
+                >
+                  Edit
+                </Button>
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} lg={4}>
@@ -573,17 +537,25 @@ export default function Home() {
                 </Grid>
               </Grid>
             </Box>
+
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Contact Details</Typography>
-                <Chip
-                  label="Edit"
-                  icon={<EditIcon />}
-                  color="primary"
-                  variant="outlined"
-                  size="small"
-                  sx={{ cursor: "pointer", height: "unset", py: 0.5, px: 0.75 }}
-                />
+                <Button
+                  onClick={handleOpen}
+                  startIcon={<EditIcon sx={{ width: 16 }} />}
+                  sx={{
+                    cursor: "pointer",
+                    height: "unset",
+                    py: 0.3,
+                    px: 1.5,
+                    border: "1px solid",
+                    borderColor: "primary.main",
+                    borderRadius: 4,
+                  }}
+                >
+                  Edit
+                </Button>
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} lg={4}>
@@ -619,17 +591,25 @@ export default function Home() {
                 </Grid>
               </Grid>
             </Box>
+
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Family Details</Typography>
-                <Chip
-                  label="Edit"
-                  icon={<EditIcon />}
-                  color="primary"
-                  variant="outlined"
-                  size="small"
-                  sx={{ cursor: "pointer", height: "unset", py: 0.5, px: 0.75 }}
-                />
+                <Button
+                  onClick={handleOpen}
+                  startIcon={<EditIcon sx={{ width: 16 }} />}
+                  sx={{
+                    cursor: "pointer",
+                    height: "unset",
+                    py: 0.3,
+                    px: 1.5,
+                    border: "1px solid",
+                    borderColor: "primary.main",
+                    borderRadius: 4,
+                  }}
+                >
+                  Edit
+                </Button>
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} lg={4}>
@@ -662,17 +642,25 @@ export default function Home() {
                 </Grid>
               </Grid>
             </Box>
+
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Document Details</Typography>
-                <Chip
-                  label="Edit"
-                  icon={<EditIcon />}
-                  color="primary"
-                  variant="outlined"
-                  size="small"
-                  sx={{ cursor: "pointer", height: "unset", py: 0.5, px: 0.75 }}
-                />
+                <Button
+                  onClick={handleOpen}
+                  startIcon={<EditIcon sx={{ width: 16 }} />}
+                  sx={{
+                    cursor: "pointer",
+                    height: "unset",
+                    py: 0.3,
+                    px: 1.5,
+                    border: "1px solid",
+                    borderColor: "primary.main",
+                    borderRadius: 4,
+                  }}
+                >
+                  Edit
+                </Button>
               </Box>
               {/* <Typography sx={{ fontSize: 14, px: 3, mb: 1.5 }}>
                 Degree Certification
@@ -805,9 +793,161 @@ export default function Home() {
               <UserSalary></UserSalary>
             </Box>
           </CustomTabPanel>
+
           <CustomTabPanel value={value} index={2}>
             <Box>Leave</Box>
           </CustomTabPanel>
+
+          <ModalComponent
+            open={open}
+            setOpen={setOpen}
+            modalTitle="Employment Details"
+          >
+            <Box component="form">
+              <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={6}
+                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+                >
+                  <FormControl fullWidth sx={{ m: 1 }}>
+                    <OutlinedInput
+                      placeholder="Date Of Joining"
+                      sx={{ fontSize: 14 }}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <DateIcon />
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={6}
+                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+                >
+                  <FormControl fullWidth sx={{ m: 1 }}>
+                    <OutlinedInput
+                      placeholder="Employee Id"
+                      sx={{ fontSize: 14 }}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <Grid3x3Icon />
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={6}
+                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+                >
+                  <FormControl fullWidth sx={{ m: 1 }}>
+                    <OutlinedInput
+                      placeholder="Work Email"
+                      type="email"
+                      sx={{ fontSize: 14 }}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <EmailOutlinedIcon />
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={6}
+                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+                >
+                  <FormControl fullWidth sx={{ m: 1 }}>
+                    <OutlinedInput
+                      placeholder="Designation"
+                      sx={{ fontSize: 14 }}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <AccountBoxOutlinedIcon />
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={6}
+                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+                >
+                  <FormControl fullWidth sx={{ m: 1 }}>
+                    <OutlinedInput
+                      placeholder="Role"
+                      sx={{ fontSize: 14 }}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <PermIdentityOutlinedIcon />
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={12}
+                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+                >
+                  <Button
+                    disableRipple
+                    sx={{
+                      maxHeight: "42px",
+                      position: "relative",
+                      px: 2.5,
+                      py: 1.5,
+                      bgcolor: "success.main",
+                      border: "1px solid",
+                      borderColor: "success.main",
+                      color: "white",
+                      lineHeight: 1,
+                      borderRadius: 2.5,
+                      overflow: "hidden",
+                      "&:before": {
+                        content: "''",
+                        height: 0,
+                        width: "10rem",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        zIndex: "0",
+                        bgcolor: "white",
+                        transform: "rotate(-45deg) translate(-50%, -50%)",
+                        transformOrigin: "0% 0%",
+                        transition: "all 0.4s ease-in-out",
+                      },
+                      "&:hover": {
+                        color: "success.main",
+                        bgcolor: "success.main",
+                        "&:before": { height: "10rem" },
+                      },
+                    }}
+                  >
+                    <span style={{ position: "relative" }}>Save</span>
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </ModalComponent>
         </Box>
       </Box>
     </>
