@@ -73,8 +73,9 @@ export default function SideBar({
         ].includes(ele.text) && user.role !== 0
       ) &&
       !(
-        ["Apply Leave", "Employee Dashboard"].includes(ele.text) &&
-        user.role == 0
+        ["Apply Leave", "Employee Dashboard", "Setup my Profile"].includes(
+          ele.text
+        ) && user.role == 0
       )
     );
   });

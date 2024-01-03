@@ -35,6 +35,7 @@ import CustomFormikField from "../component/form/CustomFormikField";
 import InvoiceInputForm from "../component/form/InvoiceInputForm";
 import EditIcon from "@mui/icons-material/CreateOutlined";
 import * as Yup from "yup";
+import AddClientsModal from "../component/AddClientsModal";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -83,6 +84,8 @@ export default function Invoices() {
   const [discountPer, setDiscountPer] = useState(0);
   const [discountRS, setDiscountRS] = useState(0);
   const [selectedProjectId, setSelectedProjectId] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
 
   // model open for admin
   const [fromOpen, setFromOpen] = useState(false);
@@ -768,6 +771,53 @@ export default function Invoices() {
                                 {clientName.name}
                               </MenuItem>
                             ))}
+                            <MenuItem>
+                              <Box sx={{ display: "flex" }}>
+                                <Button
+                                  disableRipple
+                                  onClick={handleOpen}
+                                  sx={{
+                                    maxHeight: "36px",
+                                    position: "relative",
+                                    px: 2.5,
+                                    py: 1,
+                                    bgcolor: "primary.main",
+                                    border: "1px solid",
+                                    borderColor: "primary.main",
+                                    color: "white",
+                                    lineHeight: 1,
+                                    borderRadius: 2.5,
+                                    overflow: "hidden",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    "&:before": {
+                                      content: "''",
+                                      height: 0,
+                                      width: "10rem",
+                                      position: "absolute",
+                                      top: "50%",
+                                      left: "50%",
+                                      zIndex: "0",
+                                      bgcolor: "white",
+                                      transform:
+                                        "rotate(-45deg) translate(-50%, -50%)",
+                                      transformOrigin: "0% 0%",
+                                      transition: "all 0.4s ease-in-out",
+                                    },
+                                    "&:hover": {
+                                      color: "primary.main",
+                                      bgcolor: "primary.main",
+                                      "&:before": { height: "10rem" },
+                                    },
+                                  }}
+                                >
+                                  <span style={{ position: "relative" }}>
+                                    Add Client
+                                  </span>
+                                </Button>
+                              </Box>
+                            </MenuItem>
+                            <AddClientsModal open={open} setOpen={setOpen} />
                           </Select>
                         </FormControl>
                         {(selectedClient?.address ||
@@ -946,11 +996,19 @@ export default function Invoices() {
                           },
                         }}
                       >
-                        <CustomFormikField
-                          name={"invoiceNumber"}
-                          label="invoice No."
-                          disabled={edit ? true : false}
-                        />
+                        <Box
+                          sx={{
+                            "& input": {
+                              textTransform: "uppercase",
+                            },
+                          }}
+                        >
+                          <CustomFormikField
+                            name={"invoiceNumber"}
+                            label="invoice No."
+                            disabled={edit ? true : false}
+                          />
+                        </Box>
                         <CustomFormikField
                           name={"invoiceDate"}
                           label="Invoice Date"
@@ -1065,87 +1123,89 @@ export default function Invoices() {
                       </Box>
                     )}
                     <Box sx={{ my: 7 }}>
-                      <FormControl
-                        fullWidth
-                        size="small"
-                        sx={{
-                          maxWidth: "480px",
-                          display: "flex",
-                          "&>label": { fontSize: "12px" },
-                        }}
-                      >
-                        <InputLabel
-                          sx={{ textTransform: "capitalize" }}
-                          id="demo-simple-select-label"
-                        >
-                          Select Tasks
-                        </InputLabel>
-                        <Select
-                          multiple
-                          labelId="demo-simple-select-label"
-                          id="select_tasks"
-                          label="Select Tasks"
-                          // defaultValue={invoiceData?.taskIds}
+                      {selectedClient && (
+                        <FormControl
+                          fullWidth
+                          size="small"
                           sx={{
-                            fontSize: "12px",
-                            position: "relative",
-                            "&>div": {
+                            mb: 2,
+                            maxWidth: "480px",
+                            display: "flex",
+                            "&>label": { fontSize: "12px" },
+                          }}
+                        >
+                          <InputLabel
+                            sx={{ textTransform: "capitalize" }}
+                            id="demo-simple-select-label"
+                          >
+                            Select Tasks
+                          </InputLabel>
+                          <Select
+                            multiple
+                            labelId="demo-simple-select-label"
+                            id="select_tasks"
+                            label="Select Tasks"
+                            // defaultValue={invoiceData?.taskIds}
+                            sx={{
+                              fontSize: "12px",
+                              position: "relative",
                               "&>div": {
-                                position: "absolute",
-                                top: "50%",
-                                left: "14px",
-                                right: "32px",
-                                transform: "translateY(-50%)",
-                                flexWrap: "nowrap",
-                                overflowX: "auto",
-                                "&::-webkit-scrollbar": { display: "none" },
-                                "&>*": {
-                                  height: "auto",
-                                  "&>span": {
-                                    py: 0.25,
-                                    px: 1,
-                                    fontSize: "12px",
+                                "&>div": {
+                                  position: "absolute",
+                                  top: "50%",
+                                  left: "14px",
+                                  right: "32px",
+                                  transform: "translateY(-50%)",
+                                  flexWrap: "nowrap",
+                                  overflowX: "auto",
+                                  "&::-webkit-scrollbar": { display: "none" },
+                                  "&>*": {
+                                    height: "auto",
+                                    "&>span": {
+                                      py: 0.25,
+                                      px: 1,
+                                      fontSize: "12px",
+                                    },
                                   },
                                 },
                               },
-                            },
-                          }}
-                          value={personName}
-                          onChange={handleChange}
-                          renderValue={(selected) => (
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                gap: 0.5,
-                              }}
-                            >
-                              {selected.map((value) => (
-                                <Chip key={value} label={value} />
-                              ))}
-                            </Box>
-                          )}
-                          MenuProps={MenuProps}
-                        >
-                          {taskList.map((taskName) => (
-                            <MenuItem
-                              key={taskName}
-                              value={taskName.taskName}
-                              style={getStyles(
-                                taskName.taskName,
-                                personName,
-                                theme
-                              )}
-                            >
-                              {taskName.taskName}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
+                            }}
+                            value={personName}
+                            onChange={handleChange}
+                            renderValue={(selected) => (
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  flexWrap: "wrap",
+                                  gap: 0.5,
+                                }}
+                              >
+                                {selected.map((value) => (
+                                  <Chip key={value} label={value} />
+                                ))}
+                              </Box>
+                            )}
+                            MenuProps={MenuProps}
+                          >
+                            {taskList.map((taskName) => (
+                              <MenuItem
+                                key={taskName}
+                                value={taskName.taskName}
+                                style={getStyles(
+                                  taskName.taskName,
+                                  personName,
+                                  theme
+                                )}
+                              >
+                                {taskName.taskName}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      )}
                       <TableContainer
                         component={Paper}
                         sx={{
-                          mt: 2,
                           boxShadow: "none",
                         }}
                       >
@@ -1530,7 +1590,7 @@ export default function Invoices() {
                                 labelId="demo-simple-select-label"
                                 id="select_Bank"
                                 label="Select Bank"
-                                sx={{ fontSize: "13px" }}
+                                sx={{ fontSize: "12px" }}
                                 defaultValue={invoiceData?.bankId}
                                 onChange={handleBankChange}
                               >
