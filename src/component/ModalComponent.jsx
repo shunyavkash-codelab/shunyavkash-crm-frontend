@@ -99,38 +99,36 @@ export default function ModalComponent({ open, setOpen, ...props }) {
               <Button
                 disableRipple
                 disableElevation
-                variant="contained"
                 id="cancle_icon"
-                className="modalCloseBtn"
-                startIcon={
-                  <CloseIcon
-                    sx={{
-                      fontSize: "unset",
-                    }}
-                    open={open}
-                    onClick={handleClose}
-                    aria-label="close"
-                  />
-                }
                 sx={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  color: "#ffffff",
-                  position: { xs: "relative", sm: "absolute" },
-                  top: { xs: "unset", sm: "0" },
-                  right: { xs: "unset", sm: "0" },
-                  transform: {
-                    xs: "translate(0)",
-                    sm: "translate(24px, -22px)",
-                  },
+                  color: "white",
+                  position: { sm: "absolute" },
+                  top: { sm: "0" },
+                  right: { sm: "0" },
+                  transform: { sm: "translate(22px, -22px)" },
                   borderRadius: "100%",
                   minWidth: "unset",
                   p: 0,
-                  // bgcolor: "primary.main",
+                  height: "44px",
+                  width: "44px",
+                  "&,&:hover": {
+                    bgcolor: "text.primary",
+                  },
                 }}
-              ></Button>
+              >
+                <CloseIcon
+                  sx={{
+                    fontSize: "25px",
+                  }}
+                  open={open}
+                  onClick={handleClose}
+                  aria-label="close"
+                />
+              </Button>
             </Box>
-            {props.children}
+            <Box sx={{ maxHeight: "80vh", overflowY: "auto" }}>
+              {props.children}
+            </Box>
           </Box>
         </Fade>
       </Modal>
