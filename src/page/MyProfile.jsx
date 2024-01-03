@@ -46,6 +46,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 
 import UserSalary from "../page/UserSalary";
 import ImageUploder from "../component/form/ImageUploder";
+import UserLeave from "./UserLeave";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -799,7 +800,7 @@ export default function Home() {
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={2}>
-            <Box>Leave</Box>
+            <UserLeave></UserLeave>
           </CustomTabPanel>
 
           <ModalComponent
