@@ -61,11 +61,13 @@ export default function AddClient() {
     },
     onSubmit: async (values) => {
       let formData = new FormData();
+      console.log(values.profile_img);
       Object.entries(values).forEach(([key, value]) => {
         if (value) {
           formData.append(key, value);
         }
       });
+
       try {
         const res = await apiCall({
           url: id ? APIS.CLIENT.EDIT(id) : APIS.CLIENT.ADD,
