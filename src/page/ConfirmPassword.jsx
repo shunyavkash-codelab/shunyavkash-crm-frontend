@@ -36,7 +36,7 @@ export default function ConfirmPassword() {
     onSubmit: async (values) => {
       try {
         if (values.password !== values.confirm_password) {
-          throw "Password and confirm password not match.";
+          throw new Error("Password and confirm password do not match.");
         }
         const res = await apiCall({
           url: APIS.MANAGER.RESETPASSWORD,
