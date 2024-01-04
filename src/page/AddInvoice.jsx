@@ -123,7 +123,8 @@ export default function Invoices() {
     } catch (error) {
       console.log(error, setSnack);
     }
-  }, []);
+    // }, []);
+  });
 
   // set initial data for update
 
@@ -347,7 +348,8 @@ export default function Invoices() {
     fetchClient();
     fetchCountry();
     fetchAdmin();
-  }, []);
+    // }, []);
+  });
 
   // add task
   const addTask = async (task) => {
@@ -386,12 +388,12 @@ export default function Invoices() {
     if (isIdMatch) {
       // Id match
       let taskName = taskList.some(
-        (taskName) => taskName.taskName == task.name
+        (taskName) => taskName.taskName === task.name
       );
       let pricePerHours = taskList.some(
-        (pricePerHours) => pricePerHours.perHourCharge == task.pricePerHours
+        (pricePerHours) => pricePerHours.perHourCharge === task.pricePerHours
       );
-      let hours = taskList.some((hours) => hours.hours == task.number);
+      let hours = taskList.some((hours) => hours.hours === task.number);
       if (taskName && pricePerHours && hours) {
         return true;
       } else {
