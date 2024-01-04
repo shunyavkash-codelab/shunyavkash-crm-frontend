@@ -15,8 +15,8 @@ import { useParams } from "react-router-dom";
 export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, user } = useAuth();
-  const { apiCall, isLoading } = useApi();
+  const { accessToken } = useAuth();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const [clientList, setClientList] = useState([]);
   const { id } = useParams();
@@ -37,7 +37,8 @@ export default function Manager() {
   };
   useEffect(() => {
     viewClient();
-  }, []);
+    // }, []);
+  });
   return (
     <>
       <SideBar
