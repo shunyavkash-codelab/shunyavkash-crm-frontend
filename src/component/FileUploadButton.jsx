@@ -57,6 +57,7 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
                   objectFit: "cover",
                   borderRadius: "6px",
                 }}
+                alt="images"
               />
               <IconButton
                 aria-label="close"
@@ -74,7 +75,7 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
                     bgcolor: "white",
                   },
                 }}
-                disabled={view == true}
+                disabled={view === true}
               >
                 <CloseIcon />
               </IconButton>
@@ -116,7 +117,7 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
           }}
         >
           {label}
-          {view == false && (
+          {view === false && (
             <Field
               name="file"
               render={({ field, form }) => (
