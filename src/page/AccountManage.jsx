@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import SideBar from "../component/SideBar";
-import useApi from "../hooks/useApi";
-import { useSnack } from "../hooks/store/useSnack";
 import { useAuth } from "../hooks/store/useAuth";
 import Header from "../component/Header";
 import {
@@ -10,6 +8,7 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
+  Link,
   Paper,
   Radio,
   RadioGroup,
@@ -30,13 +29,9 @@ import PlusIcon from "@mui/icons-material/Close";
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [dashboardData, setDashboardData] = useState(false);
-  const { apiCall, isLoading } = useApi();
-  const { setSnack } = useSnack();
-  const { accessToken, user } = useAuth();
-
+  const { accessToken } = useAuth();
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  //   const handleOpen = () => setOpen(true);
 
   const leaves = [
     {
@@ -128,7 +123,8 @@ function AccountManage() {
             >
               Account Management
             </Typography>
-            <Button
+            <Link
+              href="/account-add"
               disableRipple
               startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
               sx={{
@@ -162,7 +158,7 @@ function AccountManage() {
               }}
             >
               <span style={{ position: "relative" }}>New Account</span>
-            </Button>
+            </Link>
           </Stack>
           <Grid container rowSpacing={2.5} columnSpacing={2.5} mt={0}>
             <Grid item xs={6} md={3} lg={3}>

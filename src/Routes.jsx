@@ -26,6 +26,7 @@ import Employees from "./page/Employees";
 import ApplyLeave from "./page/ApplyLeave";
 import MyProfile from "./page/MyProfile";
 import AccountManage from "./page/AccountManage";
+import AccountAdd from "./page/AccountAdd";
 
 const routes = createBrowserRouter([
   { path: "/signup", Component: SignUp },
@@ -57,6 +58,7 @@ const routes = createBrowserRouter([
   { path: "/applyleave", Component: ApplyLeave },
   { path: "/my-profile", Component: MyProfile },
   { path: "/account-management", Component: AccountManage },
+  { path: "/account-add", Component: AccountAdd },
 ]);
 export default function Routes() {
   return (
