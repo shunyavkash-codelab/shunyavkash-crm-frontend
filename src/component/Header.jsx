@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   InputBase,
@@ -8,7 +8,6 @@ import {
   Avatar,
   Divider,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import ToggleIcon from "@mui/icons-material/MenuOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import Menu from "@mui/material/Menu";
@@ -20,13 +19,10 @@ import { useAuth } from "../hooks/store/useAuth";
 import { useSearchData } from "../hooks/store/useSearchData";
 import InvitationModal from "../component/InvitationModal";
 
-const Search = styled("div")();
-const SearchIconWrapper = styled("div")();
-const StyledInputBase = styled(InputBase)();
-
 export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { apiCall, isLoading } = useApi();
+  // const { apiCall, isLoading } = useApi();
+  const { isLoading } = useApi();
   const { user, logout } = useAuth();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
@@ -57,7 +53,6 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
           py: 2.25,
           px: 2.5,
           top: 0,
-          width: `calc(100% - ${sideBarWidth})`,
           bgcolor: "white",
           boxShadow: "none",
           border: 0,
@@ -94,10 +89,10 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                 }}
               />
             </Button>
-            {location.pathname == "/" ? (
+            {location.pathname === "/" ? (
               ""
             ) : (
-              <Search
+              <Box
                 sx={{
                   position: "relative",
                   ml: 0,
@@ -106,7 +101,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                   display: { xs: "none", sm: "inline-flex" },
                 }}
               >
-                <SearchIconWrapper
+                <Box
                   sx={{
                     zIndex: 1,
                     color: "rgba(42, 64, 98, 50%)",
@@ -122,8 +117,8 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                   }}
                 >
                   <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
+                </Box>
+                <InputBase
                   placeholder="Search…"
                   inputProps={{ "aria-label": "search" }}
                   sx={{
@@ -149,7 +144,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                     setSearchData(e.target.value);
                   }}
                 />
-              </Search>
+              </Box>
             )}
           </Box>
           <Box
@@ -160,7 +155,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
               position: "relative",
             }}
           >
-            {user.role == 0 && (
+            {user.role === 0 && (
               <Box>
                 <Button
                   disableRipple
@@ -232,7 +227,6 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                       color: "text.primary",
                       lineHeight: 1,
                       display: { xs: "none", sm: "block" },
-                      textTransform: "capitalize",
                     }}
                   >
                     Hi,{" "}
