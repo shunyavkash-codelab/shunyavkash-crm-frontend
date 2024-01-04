@@ -12,22 +12,22 @@ import Backdrop from "@mui/material/Backdrop";
 //   // }
 // };
 
-const modalStyle = {
-  position: { xs: "absolute", sm: "relative" },
-  top: { xs: 0, sm: "50%" },
-  left: { xs: 0, sm: "50%" },
-  transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
-  width: "100%",
-  maxWidth: { xs: "100%", sm: 500, md: 600 },
-  height: { xs: "100vh", sm: "unset" },
-  bgcolor: "background.paper",
-  borderRadius: { xs: 0, sm: 2 },
-  boxShadow: 24,
-  p: 3,
-};
-
 export default function SendSalaryModal({ open, setOpen, ...props }) {
   const handleClose = () => setOpen(false);
+  const modalSize = props.size;
+  const modalStyle = {
+    position: { xs: "absolute", sm: "relative" },
+    top: { xs: 0, sm: "50%" },
+    left: { xs: 0, sm: "50%" },
+    transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
+    width: "100%",
+    maxWidth: { xs: "100%", sm: 500, md: 600 },
+    height: { xs: "100vh", sm: "unset" },
+    bgcolor: "background.paper",
+    borderRadius: { xs: 0, sm: 2 },
+    boxShadow: 24,
+    p: 3,
+  };
   return (
     <>
       <Modal
@@ -44,7 +44,11 @@ export default function SendSalaryModal({ open, setOpen, ...props }) {
         }}
       >
         <Fade in={open}>
-          <Box sx={modalStyle} className="modal">
+          <Box
+            sx={modalStyle}
+            className="modal"
+            style={modalSize == "large" ? { maxWidth: 800 } : ""}
+          >
             <Box
               sx={{
                 display: { xs: "flex", sm: "block" },
