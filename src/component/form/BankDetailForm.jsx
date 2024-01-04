@@ -12,7 +12,6 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
 import { APIS } from "../../api/apiList";
-import { useAuth } from "../../hooks/store/useAuth";
 import { useSnack } from "../../hooks/store/useSnack";
 import styled from "@emotion/styled";
 import { v4 as uuidv4 } from "uuid";
@@ -69,8 +68,7 @@ const IOSSwitch = styled((props) => (
 }));
 
 export default function BankDetailForm({ profileList }) {
-  const { apiCall, isLoading } = useApi();
-  const { accessToken, userId } = useAuth();
+  const { apiCall } = useApi();
   const [defaultChecked, setDefaultChecked] = useState({ id: "" });
   const { setSnack } = useSnack();
   const [bankList, setBankList] = useState([]);
@@ -142,7 +140,7 @@ export default function BankDetailForm({ profileList }) {
     },
   });
 
-  const [deleteBankData, setDeleteBankData] = useState(false);
+  const [setDeleteBankData] = useState(false);
 
   // delete bank
   const deleteBankdetail = async (id) => {
@@ -184,7 +182,8 @@ export default function BankDetailForm({ profileList }) {
 
   useEffect(() => {
     fetchBank();
-  }, []);
+    // }, []);
+  });
 
   return (
     <>
@@ -292,7 +291,7 @@ export default function BankDetailForm({ profileList }) {
                   placeholder="Bank account holder name"
                   onChange={formik.handleChange}
                   InputProps={
-                    row.unSaved == true
+                    row.unSaved === true
                       ? { readOnly: false }
                       : { readOnly: true }
                   }
@@ -311,7 +310,7 @@ export default function BankDetailForm({ profileList }) {
                   placeholder="Bank name"
                   onChange={formik.handleChange}
                   InputProps={
-                    row.unSaved == true
+                    row.unSaved === true
                       ? { readOnly: false }
                       : { readOnly: true }
                   }
@@ -328,7 +327,7 @@ export default function BankDetailForm({ profileList }) {
                   defaultValue={row.label}
                   placeholder="Account number"
                   InputProps={
-                    row.unSaved == true
+                    row.unSaved === true
                       ? { readOnly: false }
                       : { readOnly: true }
                   }
@@ -347,7 +346,7 @@ export default function BankDetailForm({ profileList }) {
                   placeholder="Confirm account number"
                   onChange={formik.handleChange}
                   InputProps={
-                    row.unSaved == true
+                    row.unSaved === true
                       ? { readOnly: false }
                       : { readOnly: true }
                   }
@@ -366,7 +365,7 @@ export default function BankDetailForm({ profileList }) {
                   placeholder="IFSC"
                   onChange={formik.handleChange}
                   InputProps={
-                    row.unSaved == true
+                    row.unSaved === true
                       ? { readOnly: false }
                       : { readOnly: true }
                   }

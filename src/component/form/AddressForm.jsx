@@ -8,8 +8,8 @@ import { useSnack } from "../../hooks/store/useSnack";
 import * as Yup from "yup";
 
 export default function AddressForm({ profileList }) {
-  const { apiCall, isLoading } = useApi();
-  const { accessToken, userId } = useAuth();
+  const { apiCall } = useApi();
+  const { userId } = useAuth();
   const { setSnack } = useSnack();
 
   // yup data validator schhema
