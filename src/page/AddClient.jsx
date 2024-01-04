@@ -41,7 +41,10 @@ export default function AddClient() {
       .max(255)
       .required("Email is required.")
       .trim(),
-    mobileNumber: Yup.string().required("Mobile number is required.").trim(),
+    mobileNumber: Yup.string()
+      .required("Mobile number is required.")
+      .trim()
+      .matches(/^[0-9]+$/, "Mobile number must only contain numeric digits"),
     mobileCode: Yup.string().required("Mobile code is required.").trim(),
   });
 
@@ -359,10 +362,12 @@ export default function AddClient() {
                       placeholder="Number"
                       defaultValue={clientList?.mobileNumber}
                       InputProps={
-                        location.pathname.includes("/view/") && {
+                        (location.pathname.includes("/view/") && {
                           readOnly: true,
-                        }
+                        },
+                        { maxLength: 10 })
                       }
+                      inputProps={{ maxLength: 10 }}
                       sx={{
                         "& input,&>div": { fontSize: "14px" },
                         "&>label": { top: "4px" },

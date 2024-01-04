@@ -31,9 +31,9 @@ export default function SignIn() {
   // yup data validator schhema
   const schema = Yup.object({
     email: Yup.string()
-      .email("Field should contain a valid e-mail")
+      .email("Enter an valid email address")
       .max(255)
-      .required("email is required.")
+      .required("Email is required.")
       .trim(),
     password: Yup.string().required("Password is required.").trim(),
   });

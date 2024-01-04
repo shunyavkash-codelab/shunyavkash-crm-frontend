@@ -88,7 +88,6 @@ export default function BankDetailForm({ profileList }) {
 
     onSubmit: async (values) => {
       try {
-        console.log(values, "-----------------91");
         // add bank details
         if (values.id.length > 24) {
           let value = {
@@ -186,7 +185,6 @@ export default function BankDetailForm({ profileList }) {
   useEffect(() => {
     fetchBank();
   }, []);
-  // console.log(bankList, defaultChecked, "------------------------------126");
 
   return (
     <>

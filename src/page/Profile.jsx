@@ -155,7 +155,6 @@ function a11yProps(index) {
 // }));
 export default function Profile() {
   const handleFiles = (files) => {
-    console.log(files, "----------------------158");
     setUrl(files);
     formik.setFieldValue("profile_img", files?.fileList[0]);
   };
@@ -183,7 +182,6 @@ export default function Profile() {
       profile_img: profileList.profile_img,
     },
     onSubmit: async (values) => {
-      console.log(values, url?.fileList[0], "-----------------------185");
       let formData = new FormData();
       // values.profile_img = url?.fileList[0];
       Object.entries(values).forEach(([key, value]) => {

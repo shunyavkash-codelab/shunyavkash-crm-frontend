@@ -49,6 +49,7 @@ export default function AddClientsModal({ open, setOpen }) {
       email: "",
       password: "",
       role: "",
+      jobRole: "",
     },
     onSubmit: async (values) => {
       try {
@@ -276,6 +277,22 @@ export default function AddClientsModal({ open, setOpen }) {
                       )}
                     />
                   </FormControl>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="jobRole"
+                    label="Job Role"
+                    autoComplete="off"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.jobRole}
+                    error={
+                      formik.touched.jobRole && Boolean(formik.errors.jobRole)
+                    }
+                    helperText={formik.touched.jobRole && formik.errors.jobRole}
+                  />
                 </Box>
                 <Box
                   sx={{

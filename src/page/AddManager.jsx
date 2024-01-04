@@ -42,6 +42,10 @@ export default function AddManager() {
       .max(255)
       .required("email is required.")
       .trim(),
+    mobileNumber: Yup.string().matches(
+      /^[0-9]+$/,
+      "Mobile number must only contain numeric digits"
+    ),
     companyName: Yup.string().required("Company name is required.").trim(),
     reference: Yup.string().required("Reference name is required.").trim(),
   });
@@ -259,7 +263,6 @@ export default function AddManager() {
                     value={formik.values.mobileCode}
                     onChange={(event, newValue) => {
                       formik.setFieldValue("mobileCode", newValue.phone); // Update Formik field value
-                      console.log(newValue, "============");
                       setCountry(newValue);
                     }}
                     name="mobileCode"
@@ -320,6 +323,7 @@ export default function AddManager() {
                     type="tel"
                     autoComplete="off"
                     placeholder="Number"
+                    inputProps={{ maxLength: 10 }}
                     sx={{
                       "& input,&>div": { fontSize: "14px" },
                       "&>label": { top: "4px" },
@@ -331,6 +335,13 @@ export default function AddManager() {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.mobileNumber}
+                    error={
+                      formik.touched.mobileNumber &&
+                      Boolean(formik.errors.mobileNumber)
+                    }
+                    helperText={
+                      formik.touched.mobileNumber && formik.errors.mobileNumber
+                    }
                   />
                 </Box>
 
