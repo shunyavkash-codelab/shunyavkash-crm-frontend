@@ -14,69 +14,26 @@ import {
   TableHead,
   TableRow,
   Paper,
+  TextField,
+  Stack,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import ModalComponent from "../component/ModalComponent.jsx";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
-import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import DetailsList from "../component/employee/DetailsList";
-import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
-// import EditIcon from "@mui/icons-material/Edit";
-// import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-// import RedeemIcon from "@mui/icons-material/Redeem";
-// import PriceCheckIcon from "@mui/icons-material/PriceCheck";
-// import PaidIcon from "@mui/icons-material/Paid";
-// import moment from "moment";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
-// import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-// import CreateIcon from "@mui/icons-material/CreateOutlined";
-// import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
-// import { Add } from "@mui/icons-material";
-// import { Field } from "formik";
-// import UserSalary from "../page/UserSalary";
-
-// const formik = useFormik({
-//   validationSchema: schema,
-//   initialValues: {
-//     name: projectData?.name,
-//     clientId: projectData?.clientId,
-//     description: projectData?.description,
-//     startDate: moment(projectData?.startDate).format("YYYY-MM-DD"),
-//     endDate: moment(projectData?.endDate).format("YYYY-MM-DD"),
-//     perHourCharge: projectData?.perHourCharge,
-//     currency: projectData?.currency,
-//     payPeriod: projectData?.payPeriod,
-//     // prefix: projectData?.prefix,
-//     status: projectData?.status,
-//   },
-//   enableReinitialize: true,
-//   onSubmit: async (values) => {
-//     try {
-//       // values.currency = currencyValue?.symbol;
-//       const res = await apiCall({
-//         url: id ? APIS.PROJECT.EDIT(id) : APIS.PROJECT.ADD,
-//         method: id ? "patch" : "post",
-//         data: JSON.stringify(values, null, 2),
-//       });
-//       if (res.data.success === true) {
-//         setSnack(res.data.message);
-//         !id && navigate("/projects");
-//       }
-//     } catch (error) {
-//       console.log(error, "=================77");
-//       let errorMessage = error.response.data.message;
-//       setSnack(errorMessage, "warning");
-//     }
-//   },
-// });
+import Person2Icon from "@mui/icons-material/Person2";
+import RedeemIcon from "@mui/icons-material/Redeem";
+import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
+import NumbersIcon from "@mui/icons-material/Numbers";
 
 export default function UserSalary() {
   const [openBank, setOpenBank] = React.useState(false);
@@ -84,22 +41,23 @@ export default function UserSalary() {
 
   const handleOpenBank = () => setOpenBank(true);
   const handleOpenSalary = () => setOpenSalary(true);
-
-  const [projectData] = useState(null);
+  const [date, setDate] = useState("");
   const { setInvoiceData } = useInvoiceStore();
   const navigate = useNavigate();
-  const [invoiceList] = useState([]);
   const viewInvoice = async (invoiceNumber, row) => {
     setInvoiceData(row);
     navigate(`/invoices/view/${invoiceNumber}`);
   };
+  const [setOpen] = React.useState(false);
+  const handleChange = (event) => {
+    setDate(event.target.value);
+  };
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
   return (
     <>
       <Box sx={{ bgcolor: "white", borderRadius: 4, mt: 3, p: 4 }}>
         <Box
+          onClick={handleOpenBank}
           sx={{
             height: "100%",
             bgcolor: "rgb(22 119 255/ 6%)",
@@ -113,6 +71,7 @@ export default function UserSalary() {
             margin: "0 auto",
             width: "100%",
             transition: "all .5s",
+            cursor: "pointer",
             "&:hover": {
               bgcolor: "#f5f5f5",
               border: "2px dashed rgba(0,0,0,0.2)",
@@ -134,7 +93,6 @@ export default function UserSalary() {
                 bgcolor: "transparent",
               },
             }}
-            onClick={handleOpenBank}
           >
             <AddIcon />
             Add Your Bank Details
@@ -200,11 +158,128 @@ export default function UserSalary() {
             mb: 3,
           }}
         >
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
             <Typography variant="h6" sx={{ fontWeight: "500" }}>
               Salary Details
             </Typography>
-            <Box>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Box
+                component="form"
+                noValidate
+                autoComplete="off"
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "end",
+                  gap: 2.5,
+                  "& fieldset": { borderRadius: "6px" },
+                  minWidth: "140px",
+                }}
+              >
+                <FormControl
+                  size="small"
+                  sx={{
+                    "&>label": { fontSize: "14px" },
+                    flexGrow: 1,
+                  }}
+                >
+                  <InputLabel
+                    sx={{ textTransform: "capitalize" }}
+                    id="date-wise-select-label"
+                  >
+                    Date
+                  </InputLabel>
+                  <Select
+                    labelId="date-wise-select-label"
+                    id="demo-simple-select"
+                    value={date}
+                    label="Date"
+                    onChange={handleChange}
+                    sx={{
+                      fontSize: "14px",
+                      "&": {
+                        bgcolor: "white",
+                      },
+                    }}
+                  >
+                    <MenuItem
+                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                      value={"lastWeek"}
+                    >
+                      Last Week
+                    </MenuItem>
+                    <MenuItem
+                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                      value={"lastMonth"}
+                    >
+                      Last Month
+                    </MenuItem>
+                    <MenuItem
+                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                      value={"lastQuarter"}
+                    >
+                      Last Quarter
+                    </MenuItem>
+                    <MenuItem
+                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                      value={"lastYear"}
+                    >
+                      Last Year
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                {date == "CustomRange" && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: { xs: "column", sm: "row" },
+                      "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                      gap: 2.5,
+                      flexShrink: 0,
+                    }}
+                  >
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="form"
+                      label="From"
+                      autoComplete="off"
+                      type="date"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      placeholder="mm/dd/yyyy"
+                      sx={{
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                        "&": {
+                          bgcolor: "white",
+                          borderRadius: 1.5,
+                        },
+                      }}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="to"
+                      label="To"
+                      autoComplete="off"
+                      type="date"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      placeholder="mm/dd/yyyy"
+                      sx={{
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                        "&": {
+                          bgcolor: "white",
+                          borderRadius: 1.5,
+                        },
+                      }}
+                    />
+                  </Box>
+                )}
+              </Box>
               {/* Todos : This button visable only admin */}
               <Button
                 onClick={handleOpenSalary}
@@ -221,49 +296,9 @@ export default function UserSalary() {
               >
                 Add Salary
               </Button>
-            </Box>
+            </Stack>
           </Box>
         </Box>
-        {/* <Grid container rowSpacing={3} columnSpacing={2} sx={{ py: 3 }}>
-            <Grid item xs={12} md={6} lg={2}>
-              <DetailsList
-                Title={""}
-                Text={"Deep Bhimani"}
-                Icon={<AccountBoxOutlinedIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={2}>
-              <DetailsList
-                Title={""}
-                Text={"10000$"}
-                Icon={<PriceCheckIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={2}>
-              <DetailsList Title={"status"} Text={"paid"} Icon={<PaidIcon />} />
-            </Grid>
-            <Grid item xs={12} md={6} lg={2}>
-              <DetailsList
-                Title={""}
-                Text={"100$"}
-                Icon={<RedeemIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={2}>
-              <DetailsList
-                Title={""}
-                Text={"03/01/2024"}
-                Icon={<CalendarMonthIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} md={6} lg={2}>
-              <DetailsList
-                Title={"Order"}
-                Text={"Ascending"}
-                Icon={<CalendarMonthIcon />}
-              />
-            </Grid>
-          </Grid> */}
 
         <TableContainer
           component={Paper}
@@ -351,7 +386,7 @@ export default function UserSalary() {
                 }}
               >
                 <TableCell>04/01/2024</TableCell>
-                <TableCell>Joel Male</TableCell>
+                <TableCell>Deep Bhimani</TableCell>
                 <TableCell>500000$</TableCell>
                 <TableCell
                   sx={{
@@ -393,8 +428,8 @@ export default function UserSalary() {
                   },
                 }}
               >
-                <TableCell>04/01/2024</TableCell>
-                <TableCell>Prince Suvagiya</TableCell>
+                <TableCell>05/01/2024</TableCell>
+                <TableCell>Deep Bhimani</TableCell>
                 <TableCell>600000$</TableCell>
                 <TableCell
                   sx={{
@@ -436,7 +471,7 @@ export default function UserSalary() {
                   },
                 }}
               >
-                <TableCell>03/01/2024</TableCell>
+                <TableCell>06/01/2024</TableCell>
                 <TableCell>Deep Bhimani</TableCell>
                 <TableCell>100000$</TableCell>
                 <TableCell
@@ -472,108 +507,6 @@ export default function UserSalary() {
             </TableBody>
           </Table>
         </TableContainer>
-
-        {/* <FormControl
-            fullWidth
-            size="small"
-            sx={{
-              "&>label": {
-                fontSize: "14px",
-                top: "4px",
-              },
-              "&>div>div": { py: 1.5 },
-            }}
-          >
-            <InputLabel
-              sx={{ textTransform: "capitalize" }}
-              id="demo-simple-select-label"
-            >
-              Select Payemnt Period
-            </InputLabel>
-            <Field
-              name="file"
-              render={({ field, form }) => (
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="status"
-                  label="Status"
-                  sx={{
-                    fontSize: "14px",
-                  }}
-                  {...field}
-                  defaultValue={projectData?.status || "toDo"}
-                  onChange={(event) => {
-                    form.setFieldValue("status", event.target.value);
-                  }}
-                >
-                  <MenuItem value={"toDo"}>
-                    <Box
-                      sx={{
-                        color: "white",
-                        fontSize: "12px",
-                        p: 0.5,
-                        borderRadius: 1,
-                        maxWidth: "fit-content",
-                        lineHeight: 1,
-                        bgcolor: "grey.dark",
-                      }}
-                    >
-                      To Do
-                    </Box>
-                  </MenuItem>
-                  <MenuItem value={"inProgress"}>
-                    <Box
-                      sx={{
-                        color: "white",
-                        fontSize: "12px",
-                        p: 0.5,
-                        borderRadius: 1,
-                        maxWidth: "fit-content",
-                        lineHeight: 1,
-                        bgcolor: "grey.dark",
-                        bgcolor: "secondary.main",
-                      }}
-                    >
-                      In Progress
-                    </Box>
-                  </MenuItem>
-                  <MenuItem value={"inReview"}>
-                    <Box
-                      sx={{
-                        color: "white",
-                        fontSize: "12px",
-                        p: 0.5,
-                        borderRadius: 1,
-                        maxWidth: "fit-content",
-                        lineHeight: 1,
-                        bgcolor: "grey.dark",
-                        bgcolor: "secondary.main",
-                        bgcolor: "review.main",
-                      }}
-                    >
-                      In Review
-                    </Box>
-                  </MenuItem>
-                  <MenuItem value={"completed"}>
-                    <Box
-                      sx={{
-                        color: "white",
-                        fontSize: "12px",
-                        p: 0.5,
-                        borderRadius: 1,
-                        maxWidth: "fit-content",
-                        lineHeight: 1,
-                        bgcolor: "grey.dark",
-                        bgcolor: "secondary.main",
-                        bgcolor: "review.main",
-                        bgcolor: "success.main",
-                      }}
-                    ></Box>
-                  </MenuItem>
-                </Select>
-              )}
-            />
-          </FormControl> */}
       </Box>
 
       <ModalComponent
@@ -775,7 +708,7 @@ export default function UserSalary() {
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
-                      <AccountBalanceIcon />
+                      <Person2Icon />
                     </InputAdornment>
                   }
                 />
@@ -794,7 +727,7 @@ export default function UserSalary() {
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
-                      <PermIdentityOutlinedIcon />
+                      <NumbersIcon />
                     </InputAdornment>
                   }
                 />
@@ -807,19 +740,122 @@ export default function UserSalary() {
               lg={12}
               sx={{ "> .MuiFormControl-root": { margin: 0 } }}
             >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <OutlinedInput
-                  placeholder="Status"
-                  type="number"
-                  sx={{ fontSize: 14 }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <EmailOutlinedIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
+              <Box
+                component="form"
+                noValidate
+                autoComplete="off"
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "end",
+                  gap: 2.5,
+                  "& fieldset": { borderRadius: "6px" },
+                  minWidth: "140px",
+                }}
+              >
+                <FormControl
+                  size="small"
+                  sx={{
+                    "&>label": { fontSize: "14px" },
+                    flexGrow: 1,
+                  }}
+                >
+                  <InputLabel
+                    sx={{ textTransform: "capitalize" }}
+                    id="status-select-label"
+                  >
+                    Status
+                  </InputLabel>
+                  <Select
+                    labelId="status-select-label"
+                    id="demo-simple-select"
+                    label="Status"
+                    onChange={handleChange}
+                    sx={{
+                      fontSize: "14px",
+                      "&": {
+                        bgcolor: "white",
+                      },
+                      "& div": {
+                        py: 2,
+                        px: 1.5,
+                      },
+                    }}
+                  >
+                    <MenuItem
+                      sx={{
+                        textTransform: "capitalize",
+                        fontSize: "14px",
+                      }}
+                      value={"paid"}
+                    >
+                      Paid
+                    </MenuItem>
+                    <MenuItem
+                      sx={{
+                        textTransform: "capitalize",
+                        fontSize: "14px",
+                      }}
+                      value={"unpaid"}
+                    >
+                      Unpaid
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                {date == "CustomRange" && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: { xs: "column", sm: "row" },
+                      "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                      gap: 2.5,
+                      flexShrink: 0,
+                    }}
+                  >
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="form"
+                      label="From"
+                      autoComplete="off"
+                      type="date"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      placeholder="mm/dd/yyyy"
+                      sx={{
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                        "&": {
+                          bgcolor: "white",
+                          borderRadius: 1.5,
+                        },
+                      }}
+                    />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="to"
+                      label="To"
+                      autoComplete="off"
+                      type="date"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      placeholder="mm/dd/yyyy"
+                      sx={{
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                        "&": {
+                          bgcolor: "white",
+                          borderRadius: 1.5,
+                        },
+                      }}
+                    />
+                  </Box>
+                )}
+              </Box>
             </Grid>
+
             <Grid
               item
               xs={12}
@@ -833,7 +869,7 @@ export default function UserSalary() {
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
-                      <AccountBoxOutlinedIcon />
+                      <RedeemIcon />
                     </InputAdornment>
                   }
                 />
@@ -852,11 +888,55 @@ export default function UserSalary() {
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
-                      <PermIdentityOutlinedIcon />
+                      <HistoryToggleOffIcon />
                     </InputAdornment>
                   }
                 />
               </FormControl>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+            >
+              <Button
+                disableRipple
+                sx={{
+                  maxHeight: "42px",
+                  position: "relative",
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: "success.main",
+                  border: "1px solid",
+                  borderColor: "success.main",
+                  color: "white",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  overflow: "hidden",
+                  "&:before": {
+                    content: "''",
+                    height: 0,
+                    width: "10rem",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    zIndex: "0",
+                    bgcolor: "white",
+                    transform: "rotate(-45deg) translate(-50%, -50%)",
+                    transformOrigin: "0% 0%",
+                    transition: "all 0.4s ease-in-out",
+                  },
+                  "&:hover": {
+                    color: "success.main",
+                    bgcolor: "success.main",
+                    "&:before": { height: "10rem" },
+                  },
+                }}
+              >
+                <span style={{ position: "relative" }}>Save</span>
+              </Button>
             </Grid>
           </Grid>
         </Box>
