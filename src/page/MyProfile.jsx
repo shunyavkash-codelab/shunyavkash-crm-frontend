@@ -7,7 +7,6 @@ import {
   Grid,
   MenuItem,
   Select,
-  Stack,
   Tab,
   Tabs,
   Typography,
@@ -34,11 +33,7 @@ import Woman2OutlinedIcon from "@mui/icons-material/Woman2Outlined";
 import SportsSoccerOutlinedIcon from "@mui/icons-material/SportsSoccerOutlined";
 import SickOutlinedIcon from "@mui/icons-material/SickOutlined";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import IconButton from "@mui/material/IconButton";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import AddClientsModal from "../component/AddClientsModal";
 import ModalComponent from "../component/ModalComponent";
-import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -615,23 +610,16 @@ export default function Home() {
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
+                    Title={"father's number"}
+                    Text={"N/A"}
+                    Icon={<PhoneOutlinedIcon />}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={4}>
+                  <DetailsList
                     Title={"mother's name"}
                     Text={"Induben"}
                     Icon={<Woman2OutlinedIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                  <DetailsList
-                    Title={"sister's name"}
-                    Text={"Urvisha"}
-                    Icon={<Woman2OutlinedIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                  <DetailsList
-                    Title={"father's number"}
-                    Text={"+91 9099962993"}
-                    Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
               </Grid>
@@ -656,9 +644,6 @@ export default function Home() {
                   Edit
                 </Button>
               </Box>
-              {/* <Typography sx={{ fontSize: 14, px: 3, mb: 1.5 }}>
-                Degree Certification
-              </Typography> */}
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid
                   item
@@ -672,6 +657,27 @@ export default function Home() {
                     alignItems: "center",
                   }}
                 >
+                  <Link
+                    href="javascript:void(0)"
+                    target="_blank"
+                    sx={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-block",
+                      "& > div": {
+                        mb: 0,
+                      },
+                    }}
+                  >
+                    <DetailsList
+                      Title={"signature"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                    />
+                  </Link>
                   <Link
                     href="javascript:void(0)"
                     target="_blank"
@@ -784,12 +790,12 @@ export default function Home() {
 
           <CustomTabPanel value={value} index={1}>
             <Box>
-              <UserSalary></UserSalary>
+              <UserSalary />
             </Box>
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={2}>
-            <UserLeave></UserLeave>
+            <UserLeave />
           </CustomTabPanel>
 
           <ModalComponent
@@ -1203,6 +1209,15 @@ export default function Home() {
                 </Grid>
               </Grid>
               <Grid container rowSpacing={2.5} columnSpacing={2.5} mt={3}>
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={6}
+                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+                >
+                  <ImageUploder title="signature"></ImageUploder>
+                </Grid>
                 <Grid
                   item
                   xs={12}

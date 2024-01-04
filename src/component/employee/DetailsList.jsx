@@ -31,8 +31,10 @@ export default function DetailsList(props) {
       <Typography
         variant="subtitle2"
         className="text"
-        sx={{ lineHeight: 1.5 }}
-        sx={{ textTransform: "capitalize" }}
+        sx={{
+          lineHeight: 1.5,
+          textTransform: "capitalize",
+        }}
       >
         {props.Text}
       </Typography>

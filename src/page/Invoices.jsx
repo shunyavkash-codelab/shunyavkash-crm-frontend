@@ -374,7 +374,7 @@ export default function Invoices() {
           >
             {invoiceList.length} Invoices found
           </Typography>
-          <Box sx={{ display: showTable ? "none" : "block" }}>
+          {/* <Box sx={{ display: showTable ? "none" : "block" }}>
             <Box>
               <Grid container rowSpacing={2} columnSpacing={2}>
                 {gridItems.map((item) => (
@@ -392,9 +392,7 @@ export default function Invoices() {
                     <Card
                       variant="outlined"
                       sx={{ height: "450px", borderRadius: 2.5 }}
-                    >
-                      {/* Add your card content here */}
-                    </Card>
+                    ></Card>
                   </Grid>
                 ))}
               </Grid>
@@ -431,148 +429,140 @@ export default function Invoices() {
               </Typography>
             </Box>
           ) : (
-            <Box sx={{ display: showTable ? "block" : "none" }}>
-              <TableContainer
-                component={Paper}
-                sx={{
-                  border: "1px solid rgba(224, 224, 224, 1)",
-                  borderRadius: 5,
-                  mx: { xs: "-10px", sm: 0 },
-                  width: { xs: "auto", sm: "auto" },
-                  borderRadius: 2.5,
-                }}
-              >
-                <Table
-                  className="projectTable"
-                  sx={{
-                    minWidth: 650,
-                    textTransform: "capitalize",
-                    textWrap: "nowrap",
-                    "& th,& td": { borderBottom: 0 },
-                    "& tbody tr": {
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
-                    },
-                  }}
-                  aria-label="simple table"
-                >
-                  <TableHead>
-                    <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+            <Box sx={{ display: showTable ? "block" : "none" }}> */}
+          <TableContainer
+            component={Paper}
+            sx={{
+              border: "1px solid rgba(224, 224, 224, 1)",
+              borderRadius: 5,
+              mx: { xs: "-10px", sm: 0 },
+              width: { xs: "auto", sm: "auto" },
+              borderRadius: 2.5,
+            }}
+          >
+            <Table
+              className="projectTable"
+              sx={{
+                minWidth: 650,
+                textTransform: "capitalize",
+                textWrap: "nowrap",
+                "& th,& td": { borderBottom: 0 },
+                "& tbody tr": {
+                  borderTop: "1px solid rgba(224, 224, 224, 1)",
+                },
+              }}
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                  <TableCell>Project Name</TableCell>
+                  <TableCell>Client</TableCell>
+                  <TableCell>Manager</TableCell>
+                  <TableCell>Invoice No.</TableCell>
+                  <TableCell>Invoice Date</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Total</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {invoiceList.map((row) => (
+                  <TableRow
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                      "&:first-child td": {
+                        maxWidth: "250px",
+                        textWrap: "wrap",
+                      },
+                    }}
+                  >
+                    <TableCell value={row.projectId}>
+                      {row.projectName}
+                    </TableCell>
+                    <TableCell>{row.clientName}</TableCell>
+                    <TableCell>{row.managerName}</TableCell>
+                    <TableCell>{row.invoiceNumber}</TableCell>
+                    <TableCell>
+                      {moment(row.invoiceDate).format("DD/MM/YYYY")}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        "& .statusBtn": {
+                          color: "white",
+                          fontSize: "12px",
+                          p: 0.5,
+                          borderRadius: 1,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
+                        },
+                        "& .pending": {
+                          bgcolor: "secondary.main",
+                        },
+                        "& .success": {
+                          bgcolor: "success.main",
+                        },
+                      }}
                     >
-                      <TableCell>Project Name</TableCell>
-                      <TableCell>Client</TableCell>
-                      <TableCell>Manager</TableCell>
-                      <TableCell>Invoice No.</TableCell>
-                      <TableCell>Invoice Date</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell>Total</TableCell>
-                      <TableCell>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {invoiceList.map((row) => (
-                      <TableRow
+                      <Box
+                        className={`statusBtn ${
+                          row.status == "success" ? "success" : "pending"
+                        }`}
+                      >
+                        {row.status}
+                      </Box>
+                      <Box
                         sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                          "&:first-child td": {
-                            maxWidth: "250px",
-                            textWrap: "wrap",
-                          },
+                          fontSize: "13px",
+                          lineHeight: 1,
+                          textWrap: "nowrap",
+                          mt: 0.75,
                         }}
                       >
-                        <TableCell value={row.projectId}>
-                          {row.projectName}
-                        </TableCell>
-                        <TableCell>{row.clientName}</TableCell>
-                        <TableCell>{row.managerName}</TableCell>
-                        <TableCell>{row.invoiceNumber}</TableCell>
-                        <TableCell>
-                          {moment(row.invoiceDate).format("DD/MM/YYYY")}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            "& .statusBtn": {
-                              color: "white",
-                              fontSize: "12px",
-                              p: 0.5,
-                              borderRadius: 1,
-                              maxWidth: "fit-content",
-                              lineHeight: 1,
-                            },
-                            "& .pending": {
-                              bgcolor: "secondary.main",
-                            },
-                            "& .success": {
-                              bgcolor: "success.main",
-                            },
-                          }}
+                        {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
+                      </Box>
+                    </TableCell>
+                    <TableCell>${row.totals.total}</TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: { xs: 1.25, sm: 1.5 },
+                          opacity: 0.3,
+                          "& button": {
+                            p: 0,
+                            minWidth: "auto",
+                            color: "black",
+                            "&:hover": { color: "primary.main" },
+                          },
+                          "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                        }}
+                      >
+                        <Button
+                          disableRipple
+                          onClick={() => viewInvoice(row.invoiceNumber, row)}
                         >
-                          <Box
-                            className={`statusBtn ${
-                              row.status == "success" ? "success" : "pending"
-                            }`}
-                          >
-                            {row.status}
-                          </Box>
-                          <Box
-                            sx={{
-                              fontSize: "13px",
-                              lineHeight: 1,
-                              textWrap: "nowrap",
-                              mt: 0.75,
-                            }}
-                          >
-                            {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
-
-                            {/* Due on 13/12/23 */}
-                          </Box>
-                        </TableCell>
-                        <TableCell>${row.totals.total}</TableCell>
-                        <TableCell>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.5 },
-                              opacity: 0.3,
-                              "& button": {
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              },
-                              "& svg": { fontSize: { xs: "20px", sm: "22px" } },
-                            }}
-                          >
-                            <Button
-                              disableRipple
-                              onClick={() =>
-                                viewInvoice(row.invoiceNumber, row)
-                              }
-                            >
-                              <VisibilityIcon />
-                            </Button>
-                            <Button disableRipple>
-                              <MarkAsPaidIcon />
-                            </Button>
-                            <Button
-                              disableRipple
-                              onClick={() =>
-                                editInvoice(row.invoiceNumber, row)
-                              }
-                            >
-                              <CreateIcon />
-                            </Button>
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Box>
-          )}
+                          <VisibilityIcon />
+                        </Button>
+                        <Button disableRipple>
+                          <MarkAsPaidIcon />
+                        </Button>
+                        <Button
+                          disableRipple
+                          onClick={() => editInvoice(row.invoiceNumber, row)}
+                        >
+                          <CreateIcon />
+                        </Button>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {/* </Box>
+          )} */}
         </Box>
       </Box>
     </>

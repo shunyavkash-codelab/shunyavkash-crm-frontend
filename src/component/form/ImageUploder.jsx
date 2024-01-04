@@ -13,7 +13,13 @@ function ImageUploder(props) {
     <>
       <Typography
         variant="h5"
-        sx={{ fontSize: 14, color: "black", fontWeight: "400", mb: 1.5 }}
+        sx={{
+          fontSize: 14,
+          color: "black",
+          fontWeight: "400",
+          mb: 1.5,
+          textTransform: "capitalize",
+        }}
       >
         {props.title}
       </Typography>

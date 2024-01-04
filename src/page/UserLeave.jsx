@@ -14,11 +14,13 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import ModalComponent from "../component/ModalComponent";
+import InfoIcon from "@mui/icons-material/Info";
 
 function UserLeave() {
   const [value, setValue] = React.useState(0);
@@ -82,7 +84,7 @@ function UserLeave() {
     {
       id: 6,
       username: "Deep Bhimani",
-      type: "Sick",
+      type: "sick",
       reason: "Medical Issue",
       startDate: "12/10/2023",
       endDate: "15/10/2023",
@@ -99,7 +101,7 @@ function UserLeave() {
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
             >
-              Total Leave
+              Total Leaves
             </Typography>
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
@@ -113,7 +115,7 @@ function UserLeave() {
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
             >
-              Casual Leave
+              Casual Leaves
             </Typography>
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
@@ -127,7 +129,7 @@ function UserLeave() {
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
             >
-              Sick Leave
+              Sick Leaves
             </Typography>
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
@@ -141,7 +143,7 @@ function UserLeave() {
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
             >
-              Leave without Pay
+              Unpaid Leaves
             </Typography>
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
@@ -228,11 +230,82 @@ function UserLeave() {
                     }}
                   >
                     <TableCell>{leave.username}</TableCell>
-                    <TableCell>{leave.type}</TableCell>
+                    <TableCell
+                      sx={{
+                        "& .statusBtn": {
+                          color: "white",
+                          fontSize: "12px",
+                          p: 0.5,
+                          borderRadius: 1,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
+                        },
+                        "& .casual": {
+                          bgcolor: "rgba(94, 115, 141, 15%)",
+                          color: "grey.dark",
+                        },
+                        "& .sick": {
+                          bgcolor: "rgba(248, 174, 0, 15%)",
+                          color: "secondary.main",
+                        },
+                        "& .unpaid": {
+                          bgcolor: "rgba(225, 107, 22, 15%)",
+                          color: "review.main",
+                        },
+                        "& .paid": {
+                          bgcolor: "rgba(74, 210, 146, 15%)",
+                          color: "success.main",
+                        },
+                      }}
+                    >
+                      <Box
+                        className={`statusBtn ${
+                          leave.type === "casual"
+                            ? "casual"
+                            : leave.type === "sick"
+                            ? "sick"
+                            : leave.type === "unpaid"
+                            ? "unpaid"
+                            : "paid"
+                        }`}
+                      >
+                        {leave.type}
+                      </Box>
+                    </TableCell>
                     <TableCell>{leave.reason}</TableCell>
                     <TableCell>{leave.startDate}</TableCell>
                     <TableCell>{leave.endDate}</TableCell>
-                    <TableCell>{leave.status}</TableCell>
+                    <TableCell
+                      sx={{
+                        "& .statusBtn": {
+                          color: "white",
+                          fontSize: "12px",
+                          p: 0.5,
+                          borderRadius: 1,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
+                        },
+                        "& .unapprove": {
+                          bgcolor: "secondary.main",
+                        },
+                        "& .approve": {
+                          bgcolor: "success.main",
+                        },
+                      }}
+                    >
+                      <Box
+                        className={`statusBtn ${
+                          leave.status === "unapprove" ? "unapprove" : "approve"
+                        }`}
+                      >
+                        {leave.status}
+                        <Tooltip title="lorem ipsum sit amet.">
+                          <Box>
+                            <InfoIcon />
+                          </Box>
+                        </Tooltip>
+                      </Box>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
