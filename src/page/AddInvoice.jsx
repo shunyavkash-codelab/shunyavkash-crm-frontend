@@ -19,6 +19,7 @@ import {
   TableBody,
   Checkbox,
   FormControlLabel,
+  FormHelperText,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -164,6 +165,12 @@ export default function Invoices() {
           }
         }
       ),
+    to: Yup.string().required("Bill to is required"),
+    select_Bank: Yup.string().required("Bank detail is required"),
+    project: Yup.string().required("Project is required"),
+    task: Yup.array()
+      .min(1, "Minimum ${min} task required")
+      .required("Task is required"),
   });
   useEffect(() => {
     if (invoiceData?.invoiceDate) {
@@ -175,7 +182,6 @@ export default function Invoices() {
       );
     }
   }, [invoiceData?.invoiceDate]);
-  // console.log(invoiceDATE);
 
   const handleChange = (event) => {
     const {
@@ -207,7 +213,6 @@ export default function Invoices() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setClientList(res.data.data.data);
       }
     } catch (error) {
@@ -223,7 +228,6 @@ export default function Invoices() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setProjectList(res.data.data);
         setSelectedProjectId(res.data.data[0]._id);
         if (projectDescription) {
@@ -285,7 +289,6 @@ export default function Invoices() {
       });
       if (res.data.success === true) {
         setTaskList(res.data.data);
-        console.log(res.data.data, "-------------------284");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -306,8 +309,6 @@ export default function Invoices() {
     const projectId = event.target.value;
     setSelectedProjectId(projectId);
     const project = projectList.find((proj) => proj._id === projectId);
-
-    // formik.setFieldValue('projectDescription', project.description);
     setProjectDescription(project);
     await fetchTask(project._id);
     setPersonName([]);
@@ -507,7 +508,6 @@ export default function Invoices() {
                 amount: tas.amount || tas.pricePerHours * tas.number,
               };
             });
-            // let taskId = values.task.map((id) => if(id._id){id._id});
             let taskId = values.task.filter((id) => id._id).map((id) => id._id);
             let obj = {
               from: {
@@ -565,7 +565,7 @@ export default function Invoices() {
           }
         }}
       >
-        {({ values, ...rest }) => {
+        {({ values, ...formik }) => {
           setInvoiceNO(values.invoiceNumber);
           setInvoiceDATE(values.invoiceDate);
           setInvoiceDUEDATE(values.invoiceDueDate);
@@ -860,6 +860,11 @@ export default function Invoices() {
                                   setOpen={setOpen}
                                 />
                               </Select>
+                              {Boolean(formik.errors.to) && (
+                                <FormHelperText error={true}>
+                                  {formik.errors.to}
+                                </FormHelperText>
+                              )}
                             </FormControl>
                             {(selectedClient?.address ||
                               invoiceData?.to?.address) && (
@@ -985,11 +990,9 @@ export default function Invoices() {
                                 labelId="demo-simple-select-label"
                                 id="project"
                                 label="Project"
-                                // onChange={(e) => clientData(e.target.value)}
                                 sx={{ fontSize: "12px" }}
                                 onChange={handleProjectChange}
                                 value={selectedProjectId}
-                                // defaultValue={projectDescription._id}
                               >
                                 {projectList.map((projectName) => (
                                   <MenuItem
@@ -1001,6 +1004,11 @@ export default function Invoices() {
                                   </MenuItem>
                                 ))}
                               </Select>
+                              {Boolean(formik.errors.project) && (
+                                <FormHelperText error={true}>
+                                  {formik.errors.project}
+                                </FormHelperText>
+                              )}
                             </FormControl>
                             {projectDescription?.description && (
                               <>
@@ -1186,7 +1194,11 @@ export default function Invoices() {
                               </TableHead>
                               {/* component render   */}
                               {/* {Array.from({ length: taskCount }, (_, i) => ( */}
-                              <FieldArray name="task">
+                              <FieldArray
+                                name="task"
+                                error={Boolean(formik.errors.task)}
+                                helperText={formik.errors.task}
+                              >
                                 {({ insert, remove, push }) => (
                                   <>
                                     <TableBody
@@ -1256,6 +1268,11 @@ export default function Invoices() {
                                   </>
                                 )}
                               </FieldArray>
+                              {Boolean(formik.errors.task) && (
+                                <FormHelperText error={true}>
+                                  {formik.errors.task}
+                                </FormHelperText>
+                              )}
                             </Table>
                           </TableContainer>
                         </Box>
@@ -1480,6 +1497,11 @@ export default function Invoices() {
                                       </Link>
                                     </MenuItem>
                                   </Select>
+                                  {Boolean(formik.errors.select_Bank) && (
+                                    <FormHelperText error={true}>
+                                      {formik.errors.select_Bank}
+                                    </FormHelperText>
+                                  )}
                                 </FormControl>
                                 {bankOpen && (
                                   <>
@@ -1502,7 +1524,7 @@ export default function Invoices() {
                                   </>
                                 )}
 
-                                {!bankOpen && (
+                                {!bankOpen && bankDetails && (
                                   <>
                                     <Box
                                       sx={{
