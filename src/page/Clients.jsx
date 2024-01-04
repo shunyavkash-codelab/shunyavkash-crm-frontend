@@ -51,7 +51,8 @@ export default function Clients() {
   };
   useEffect(() => {
     fetchclientData();
-  }, []);
+    // }, []);
+  });
   useEffect(() => {
     if (searchData !== undefined) fetchclientData();
   }, [searchData]);

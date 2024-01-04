@@ -8,7 +8,6 @@ import ForgotPassword from "./page/ForgotPassword";
 import ConfirmPassword from "./page/ConfirmPassword";
 import Home from "./page/Home";
 import EmployeeDashboard from "./page/EmployeeDashboard";
-import EmployeeDashboard2 from "./page/EmployeeDashboard2";
 import Manager from "./page/Manager";
 import AddManager from "./page/AddManager";
 import ViewManager from "./page/ViewManager";
@@ -35,7 +34,6 @@ const routes = createBrowserRouter([
   { path: "/confirm-password", Component: ConfirmPassword },
   { path: "/", Component: Home },
   { path: "/employee-dashboard", Component: EmployeeDashboard },
-  { path: "/employeedashboard2", Component: EmployeeDashboard2 },
   { path: "/managers", Component: Manager },
   { path: "/managers/add", Component: AddManager },
   { path: "/managers/view/:id", Component: ViewManager },
