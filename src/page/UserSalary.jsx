@@ -112,6 +112,7 @@ export default function UserSalary() {
             Add Bank Details
           </Typography>
           <Button
+            onClick={handleOpenBank}
             startIcon={<EditIcon sx={{ width: 16 }} />}
             sx={{
               cursor: "pointer",
@@ -137,7 +138,7 @@ export default function UserSalary() {
           <Grid item xs={12} md={6} lg={4}>
             <DetailsList
               Title={"Bank Holder Name"}
-              Text={"Dipali Gediya"}
+              Text={"Deep Bhimani"}
               Icon={<PermIdentityOutlinedIcon />}
             />
           </Grid>

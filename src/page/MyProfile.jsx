@@ -163,6 +163,7 @@ export default function Home() {
                   position: "relative",
                   borderRadius: "100%",
                   overflow: "hidden",
+                  flexShrink: 0,
                 }}
               >
                 <Avatar
@@ -171,7 +172,6 @@ export default function Home() {
                     borderRadius: "100%",
                     bgcolor: "grey.light",
                     height: "100px",
-                    flexShrink: 0,
                     boxShadow: "0 0 0 4px white",
                   }}
                   alt="avatar"
