@@ -28,7 +28,7 @@ export default function Employees() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [modalOpen, setOpen] = useState(false);
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const [employeesList, setEmployeesList] = useState([]);
   const { searchData } = useSearchData();
@@ -51,7 +51,8 @@ export default function Employees() {
   };
   useEffect(() => {
     fetchEmployees();
-  }, []);
+    // }, []);
+  });
   useEffect(() => {
     if (inviteMemberStore)
       setEmployeesList([...[inviteMemberStore], ...employeesList]);
@@ -198,7 +199,6 @@ export default function Employees() {
                   component={Paper}
                   sx={{
                     border: "1px solid rgba(224, 224, 224, 1)",
-                    borderRadius: 5,
                     mx: { xs: "-10px", sm: 0 },
                     width: { xs: "auto", sm: "auto" },
                     borderRadius: 2.5,
