@@ -26,7 +26,7 @@ export default function AddClientsModal({ open, setOpen }) {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const { setSnack } = useSnack();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const navigate = useNavigate();
   const { setInviteMemberStore } = useInviteMemberStore();
 
