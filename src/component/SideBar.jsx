@@ -187,55 +187,6 @@ export default function SideBar({
             ))}
           </List>
         </Box>
-        {/* <List sx={{ px: 2, py: 1.25, bgcolor: "#f1f2f8" }}>
-          <ListItem
-            disablePadding
-            sx={{
-              transition: "all 0.4s ease-in-out",
-              "&:not(:first-child)": { mt: 0.75 },
-              borderRadius: "10px",
-              overflow: "hidden",
-              color: location.pathname == "/employees" && "primary.main",
-              bgcolor: location.pathname == "/employees" && "primary.light",
-              "&:hover": {
-                boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
-                "& svg": {
-                  animation: "swing ease-in-out 0.4s alternate",
-                },
-              },
-            }}
-          >
-            <ListItemButton
-              disableRipple
-              component={Link}
-              to="/employees"
-              sx={{
-                p: 1.5,
-                transition: "all 0.4s ease-in-out",
-                "&:hover": {
-                  color: "primary.main",
-                  bgcolor:
-                    location.pathname == "/employees"
-                      ? "transparent"
-                      : "primary.light",
-                },
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  color: "currentcolor",
-                  minWidth: "40px",
-                }}
-              >
-                <MembersIcon />
-              </ListItemIcon>
-              <ListItemText
-                sx={{ my: 0, "&>span": { fontSize: "14px" } }}
-                primary="Team Members"
-              />
-            </ListItemButton>
-          </ListItem>
-        </List> */}
       </Box>
       <Box
         onClick={() => {
