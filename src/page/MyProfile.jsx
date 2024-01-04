@@ -657,7 +657,7 @@ export default function Home() {
                   }}
                 >
                   <Link
-                    href="javascript:void(0)"
+                    href="#javascript:void(0);;"
                     target="_blank"
                     sx={{
                       textDecoration: "none",
@@ -678,7 +678,7 @@ export default function Home() {
                     />
                   </Link>
                   <Link
-                    href="javascript:void(0)"
+                    href="#javascript:void(0);"
                     target="_blank"
                     sx={{
                       textDecoration: "none",
@@ -699,7 +699,7 @@ export default function Home() {
                     />
                   </Link>
                   <Link
-                    href="javascript:void(0)"
+                    href="#javascript:void(0);"
                     target="_blank"
                     sx={{
                       textDecoration: "none",
@@ -720,7 +720,7 @@ export default function Home() {
                     />
                   </Link>
                   <Link
-                    href="javascript:void(0)"
+                    href="#javascript:void(0);"
                     target="_blank"
                     sx={{
                       textDecoration: "none",
@@ -741,7 +741,7 @@ export default function Home() {
                     />
                   </Link>
                   <Link
-                    href="javascript:void(0)"
+                    href="#javascript:void(0);"
                     target="_blank"
                     sx={{
                       textDecoration: "none",
@@ -762,7 +762,7 @@ export default function Home() {
                     />
                   </Link>
                   <Link
-                    href="javascript:void(0)"
+                    href="#javascript:void(0);"
                     target="_blank"
                     sx={{
                       textDecoration: "none",
@@ -1137,12 +1137,13 @@ export default function Home() {
                 >
                   <FormControl fullWidth sx={{ m: 1 }}>
                     <OutlinedInput
-                      multiline={2}
+                      multiline
+                      rows={4}
                       placeholder="Address"
-                      sx={{ fontSize: 14 }}
+                      sx={{ fontSize: 14, alignItems: "start" }}
                       startAdornment={
-                        <InputAdornment position="start">
-                          <HomeOutlinedIcon />
+                        <InputAdornment>
+                          <HomeOutlinedIcon sx={{ mt: 2.25, mr: 1.25 }} />
                         </InputAdornment>
                       }
                     />
