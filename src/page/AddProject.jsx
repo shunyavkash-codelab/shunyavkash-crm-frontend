@@ -14,7 +14,7 @@ import {
   Typography,
   Autocomplete,
 } from "@mui/material";
-import { useTheme } from "@emotion/react";
+// import { useTheme } from "@emotion/react";
 import { useAuth } from "../hooks/store/useAuth";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
@@ -30,7 +30,7 @@ export default function AddProject() {
   const [clientList, setClientList] = useState([]);
   const { accessToken } = useAuth();
   const { setSnack } = useSnack();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const navigate = useNavigate();
   const [currencylist, setCurrencyList] = useState([]);
   const [projectData, setProjectData] = useState(null);
@@ -116,9 +116,11 @@ export default function AddProject() {
     if (id !== undefined) fetchProject(id);
     fetchClients();
     fetchCurrency();
-  }, []);
+    // }, []);
+  });
 
-  const theme = useTheme();
+  // const theme = useTheme();
+
   // future employee add
   // const [personName, setPersonName] = React.useState([]);
   // const handleChange2 = (event) => {
@@ -682,7 +684,6 @@ export default function AddProject() {
                                 borderRadius: 1,
                                 maxWidth: "fit-content",
                                 lineHeight: 1,
-                                bgcolor: "grey.dark",
                                 bgcolor: "secondary.main",
                               }}
                             >
@@ -698,8 +699,6 @@ export default function AddProject() {
                                 borderRadius: 1,
                                 maxWidth: "fit-content",
                                 lineHeight: 1,
-                                bgcolor: "grey.dark",
-                                bgcolor: "secondary.main",
                                 bgcolor: "review.main",
                               }}
                             >
@@ -715,9 +714,6 @@ export default function AddProject() {
                                 borderRadius: 1,
                                 maxWidth: "fit-content",
                                 lineHeight: 1,
-                                bgcolor: "grey.dark",
-                                bgcolor: "secondary.main",
-                                bgcolor: "review.main",
                                 bgcolor: "success.main",
                               }}
                             >
