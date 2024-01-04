@@ -59,6 +59,11 @@ export default function SideBar({
       icon: <AccessTimeIcon />,
       link: "/applyleave",
     },
+    {
+      text: "Account Management",
+      icon: <AccessTimeIcon />,
+      link: "/account-management",
+    },
   ];
   let newArray = sidebarList.filter((ele) => {
     return (
@@ -70,12 +75,12 @@ export default function SideBar({
           "Manager",
           "Projects",
           "Dashboard",
+          "Account Management",
         ].includes(ele.text) && user.role !== 0
       ) &&
       !(
-        ["Apply Leave", "Employee Dashboard"].includes(
-          ele.text
-        ) && user.role == 0
+        ["Apply Leave", "Employee Dashboard"].includes(ele.text) &&
+        user.role == 0
       )
     );
   });
