@@ -15,8 +15,8 @@ import AddressIcon from "@mui/icons-material/LocationOnOutlined";
 export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { apiCall, isLoading } = useApi();
-  const { accessToken, user } = useAuth();
+  const { apiCall } = useApi();
+  const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const [managerList, setManagerList] = useState([]);
   const { id } = useParams();
@@ -37,7 +37,8 @@ export default function Manager() {
   };
   useEffect(() => {
     viewManagers();
-  }, []);
+    // }, []);
+  });
 
   return (
     <>
