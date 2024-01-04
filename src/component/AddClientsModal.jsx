@@ -3,15 +3,8 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
-// import CloseIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import * as Yup from "yup";
-
-// const style = {
-//   // @media only screen and(max-width: 768px){
-//   // height: "100vh",
-//   // }
-// };
 
 export default function AddClientsModal({ open, setOpen }) {
   const handleClose = () => setOpen(false);

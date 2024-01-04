@@ -25,7 +25,7 @@ export default function EmployeeListRaw({
   employeesList,
 }) {
   const [role, setRole] = useState();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
 
   // edit employee and manager
@@ -34,7 +34,7 @@ export default function EmployeeListRaw({
       const res = await apiCall({
         url: APIS.MANAGER.EDIT(id),
         method: "patch",
-        data: { role: role == "SuperAdmin" ? 0 : role == "Manager" ? 1 : 2 },
+        data: { role: role === "SuperAdmin" ? 0 : role === "Manager" ? 1 : 2 },
       });
       if (res.status === 200) {
         setSnack(res.data.message);
@@ -135,9 +135,9 @@ export default function EmployeeListRaw({
               label="Role"
               sx={{ fontSize: "14px" }}
               defaultValue={
-                row?.role == 0
+                row?.role === 0
                   ? "SuperAdmin"
-                  : row?.role == 1
+                  : row?.role === 1
                   ? "Manager"
                   : "Employee"
               }
@@ -196,7 +196,7 @@ export default function EmployeeListRaw({
               row.invitationStatus === 0 ? "notAccepted" : "accepted"
             }`}
           >
-            {row.invitationStatus == 0 ? "Not accepted" : "Accepted"}
+            {row.invitationStatus === 0 ? "Not accepted" : "Accepted"}
           </Box>
         </TableCell>
         <TableCell>
