@@ -58,7 +58,7 @@ export default function ConfirmPassword() {
   return (
     <>
       {Boolean(query.get("key")) && (
-        <Box component="main" sx={{ height: "100vh" }}>
+        <Box component="main" sx={{ height: "100vh", p: 0, maxWidth: "unset" }}>
           <Box
             sx={{
               height: "100%",
