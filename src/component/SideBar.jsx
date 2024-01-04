@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   List,
@@ -83,7 +83,7 @@ export default function SideBar({
       ) &&
       !(
         ["Apply Leave", "Employee Dashboard"].includes(ele.text) &&
-        user.role == 0
+        user.role === 0
       )
     );
   });
@@ -91,7 +91,8 @@ export default function SideBar({
     if (!accessToken) {
       navigate("/signin");
     }
-  }, []);
+    // }, []);
+  });
   return (
     <>
       <Box
@@ -153,8 +154,8 @@ export default function SideBar({
                   "&:not(:first-child)": { mt: 0.75 },
                   borderRadius: "10px",
                   overflow: "hidden",
-                  color: location.pathname == item.link && "primary.main",
-                  bgcolor: location.pathname == item.link && "primary.light",
+                  color: location.pathname === item.link && "primary.main",
+                  bgcolor: location.pathname === item.link && "primary.light",
                 }}
               >
                 <ListItemButton
@@ -167,7 +168,7 @@ export default function SideBar({
                     ":hover": {
                       color: "primary.main",
                       bgcolor:
-                        location.pathname == item.link
+                        location.pathname === item.link
                           ? "transparent"
                           : "primary.light",
                     },

@@ -2,15 +2,8 @@ import React from "react";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { Box, Button, Typography } from "@mui/material";
-import { useFormik } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import Backdrop from "@mui/material/Backdrop";
-
-// const style = {
-//   // @media only screen and(max-width: 768px){
-//   // height: "100vh",
-//   // }
-// };
 
 export default function SendSalaryModal({ open, setOpen, ...props }) {
   const handleClose = () => setOpen(false);
@@ -47,7 +40,7 @@ export default function SendSalaryModal({ open, setOpen, ...props }) {
           <Box
             sx={modalStyle}
             className="modal"
-            style={modalSize == "large" ? { maxWidth: 800 } : ""}
+            style={modalSize === "large" ? { maxWidth: 800 } : ""}
           >
             <Box
               sx={{
