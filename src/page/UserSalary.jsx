@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import ModalComponent from "../component/ModalComponent";
+import ModalComponent from "../component/ModalComponent.jsx";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -28,16 +28,18 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import EditIcon from "@mui/icons-material/Edit";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import RedeemIcon from "@mui/icons-material/Redeem";
-import PriceCheckIcon from "@mui/icons-material/PriceCheck";
-import PaidIcon from "@mui/icons-material/Paid";
-import moment from "moment";
+import PersonPinIcon from "@mui/icons-material/PersonPin";
+// import EditIcon from "@mui/icons-material/Edit";
+// import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+// import RedeemIcon from "@mui/icons-material/Redeem";
+// import PriceCheckIcon from "@mui/icons-material/PriceCheck";
+// import PaidIcon from "@mui/icons-material/Paid";
+// import moment from "moment";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import CreateIcon from "@mui/icons-material/CreateOutlined";
-import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
+// import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
+// import CreateIcon from "@mui/icons-material/CreateOutlined";
+// import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
+// import { Add } from "@mui/icons-material";
 // import { Field } from "formik";
 
 // import UserSalary from "../page/UserSalary";
@@ -77,9 +79,12 @@ import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 // });
 
 export default function UserSalary() {
-  const [open, setOpen] = React.useState(false);
+  const [openBank, setOpenBank] = React.useState(false);
+  const [openSalary, setOpenSalary] = React.useState(false);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpenBank = () => setOpenBank(true);
+  const handleOpenSalary = () => setOpenSalary(true);
+
   const [projectData] = useState(null);
   const { setInvoiceData } = useInvoiceStore();
   const navigate = useNavigate();
@@ -94,17 +99,21 @@ export default function UserSalary() {
         <Box
           sx={{
             height: "100%",
-            bgcolor: "#f5f5f5",
+            bgcolor: "rgb(22 119 255/ 6%)",
+            border: "2px dashed rgba(0,0,0,1)",
             borderRadius: 2,
             maxWidth: "275px",
             p: 3,
-            border: "2px solid rgba(0,0,0,0.2)",
-            borderStyle: "dashed",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             margin: "0 auto",
             width: "100%",
+            transition: "all .5s",
+            "&:hover": {
+              bgcolor: "#f5f5f5",
+              border: "2px dashed rgba(0,0,0,0.2)",
+            },
           }}
         >
           <Button
@@ -122,7 +131,7 @@ export default function UserSalary() {
                 bgcolor: "transparent",
               },
             }}
-            onClick={handleOpen}
+            onClick={handleOpenBank}
           >
             <AddIcon />
             Add Your Bank Details
@@ -195,7 +204,7 @@ export default function UserSalary() {
             <Box>
               {/* Todos : This button visable only admin */}
               <Button
-                onClick={handleOpen}
+                onClick={handleOpenSalary}
                 startIcon={<AddIcon sx={{ width: 16 }} />}
                 sx={{
                   cursor: "pointer",
@@ -309,15 +318,152 @@ export default function UserSalary() {
                       maxWidth: "fit-content",
                       lineHeight: 1,
                     },
-                    "& .pending": {
+                    "& .unpaid": {
                       bgcolor: "secondary.main",
                     },
-                    "& .success": {
+                    "& .paid": {
                       bgcolor: "success.main",
                     },
                   }}
                 >
-                  Unpaid
+                  <Box
+                    /* when dynamic then row.status uncomment */
+
+                    // className={`statusBtn
+                    // ${row.status === "paid" ? "paid" : "unpaid"}`}
+                    className="statusBtn unpaid"
+                  >
+                    Unpaid
+                  </Box>
+                </TableCell>
+                <TableCell>500$</TableCell>
+              </TableRow>
+              <TableRow
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                  "&:first-child td": {
+                    maxWidth: "250px",
+                    textWrap: "wrap",
+                  },
+                }}
+              >
+                <TableCell>04/01/2024</TableCell>
+                <TableCell>Joel Male</TableCell>
+                <TableCell>500000$</TableCell>
+                <TableCell
+                  sx={{
+                    "& .statusBtn": {
+                      color: "white",
+                      fontSize: "12px",
+                      p: 0.5,
+                      borderRadius: 1,
+                      maxWidth: "fit-content",
+                      lineHeight: 1,
+                    },
+                    "& .unpaid": {
+                      bgcolor: "secondary.main",
+                    },
+                    "& .paid": {
+                      bgcolor: "success.main",
+                    },
+                  }}
+                >
+                  <Box
+                    /* when dynamic then row.status uncomment */
+
+                    // className={`statusBtn
+                    // ${row.status === "paid" ? "paid" : "unpaid"}`}
+                    className="statusBtn paid"
+                  >
+                    paid
+                  </Box>
+                </TableCell>
+                <TableCell>1000$</TableCell>
+              </TableRow>
+              <TableRow
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                  "&:first-child td": {
+                    maxWidth: "250px",
+                    textWrap: "wrap",
+                  },
+                }}
+              >
+                <TableCell>04/01/2024</TableCell>
+                <TableCell>Prince Suvagiya</TableCell>
+                <TableCell>600000$</TableCell>
+                <TableCell
+                  sx={{
+                    "& .statusBtn": {
+                      color: "white",
+                      fontSize: "12px",
+                      p: 0.5,
+                      borderRadius: 1,
+                      maxWidth: "fit-content",
+                      lineHeight: 1,
+                    },
+                    "& .unpaid": {
+                      bgcolor: "secondary.main",
+                    },
+                    "& .paid": {
+                      bgcolor: "success.main",
+                    },
+                  }}
+                >
+                  <Box
+                    /* when dynamic then row.status uncomment */
+
+                    // className={`statusBtn
+                    // ${row.status === "paid" ? "paid" : "unpaid"}`}
+                    className="statusBtn unpaid"
+                  >
+                    Unpaid
+                  </Box>
+                </TableCell>
+                <TableCell>580$</TableCell>
+              </TableRow>
+              <TableRow
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                  "&:first-child td": {
+                    maxWidth: "250px",
+                    textWrap: "wrap",
+                  },
+                }}
+              >
+                <TableCell>03/01/2024</TableCell>
+                <TableCell>Deep Bhimani</TableCell>
+                <TableCell>100000$</TableCell>
+                <TableCell
+                  sx={{
+                    "& .statusBtn": {
+                      color: "white",
+                      fontSize: "12px",
+                      p: 0.5,
+                      borderRadius: 1,
+                      maxWidth: "fit-content",
+                      lineHeight: 1,
+                    },
+                    "& .unpaid": {
+                      bgcolor: "secondary.main",
+                    },
+                    "& .paid": {
+                      bgcolor: "success.main",
+                    },
+                  }}
+                >
+                  <Box
+                    /* when dynamic then row.status uncomment */
+
+                    // className={`statusBtn
+                    // ${row.status === "paid" ? "paid" : "unpaid"}`}
+                    className="statusBtn unpaid"
+                  >
+                    Unpaid
+                  </Box>
                 </TableCell>
                 <TableCell>500$</TableCell>
               </TableRow>
@@ -427,18 +573,14 @@ export default function UserSalary() {
             />
           </FormControl> */}
       </Box>
+
       <ModalComponent
-        open={open}
-        setOpen={setOpen}
+        open={openBank}
+        setOpen={setOpenBank}
         modalTitle={"Add Bank Details"}
       >
         <Box component="form">
-          <Grid
-            container
-            rowSpacing={2.5}
-            columnSpacing={2.5}
-            id="add-bank-details-description"
-          >
+          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
             <Grid
               item
               xs={12}
@@ -482,7 +624,11 @@ export default function UserSalary() {
               xs={12}
               md={12}
               lg={6}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+              sx={{
+                "> .MuiFormControl-root": {
+                  margin: 0,
+                },
+              }}
             >
               <FormControl fullWidth sx={{ m: 1 }}>
                 <OutlinedInput
@@ -491,12 +637,23 @@ export default function UserSalary() {
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
-                      <EmailOutlinedIcon />
+                      <PersonPinIcon />
                     </InputAdornment>
                   }
                 />
               </FormControl>
-
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={6}
+              sx={{
+                "> .MuiFormControl-root": {
+                  margin: 0,
+                },
+              }}
+            >
               <FormControl fullWidth sx={{ m: 1 }}>
                 <OutlinedInput
                   placeholder="Account Number"
@@ -504,7 +661,7 @@ export default function UserSalary() {
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
-                      <EmailOutlinedIcon />
+                      <PersonPinIcon />
                     </InputAdornment>
                   }
                 />
@@ -596,117 +753,112 @@ export default function UserSalary() {
         </Box>
       </ModalComponent>
 
-      {/* <ModalComponent
-          open={open}
-          setOpen={setOpen}
-          modalTitle="Add Salary"
-          aria-labelledby="add-salary-title"
-          aria-describedby="add-salary-description"
-        >
-          <Box component="form" id="add-salary-description">
-            <Typography variant="h5" id="add-salary-title">
-              Add Salary
-            </Typography>
-            <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-              <Grid
-                item
-                xs={12}
-                md={12}
-                lg={12}
-                sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-              >
-                <FormControl fullWidth sx={{ m: 1 }}>
-                  <OutlinedInput
-                    placeholder="User Name"
-                    sx={{ fontSize: 14 }}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <AccountBalanceIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={12}
-                lg={12}
-                sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-              >
-                <FormControl fullWidth sx={{ m: 1 }}>
-                  <OutlinedInput
-                    placeholder="Amount"
-                    sx={{ fontSize: 14 }}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <PermIdentityOutlinedIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={12}
-                lg={12}
-                sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-              >
-                <FormControl fullWidth sx={{ m: 1 }}>
-                  <OutlinedInput
-                    placeholder="Status"
-                    type="number"
-                    sx={{ fontSize: 14 }}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <EmailOutlinedIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={12}
-                lg={12}
-                sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-              >
-                <FormControl fullWidth sx={{ m: 1 }}>
-                  <OutlinedInput
-                    placeholder="Incentive"
-                    sx={{ fontSize: 14 }}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <AccountBoxOutlinedIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={12}
-                lg={12}
-                sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-              >
-                <FormControl fullWidth sx={{ m: 1 }}>
-                  <OutlinedInput
-                    placeholder="Date"
-                    sx={{ fontSize: 14 }}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <PermIdentityOutlinedIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
+      <ModalComponent
+        open={openSalary}
+        setOpen={setOpenSalary}
+        modalTitle="Add Salary"
+      >
+        <Box component="form">
+          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+            >
+              <FormControl fullWidth sx={{ m: 1 }}>
+                <OutlinedInput
+                  placeholder="User Name"
+                  sx={{ fontSize: 14 }}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <AccountBalanceIcon />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
             </Grid>
-          </Box>
-        </ModalComponent> */}
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+            >
+              <FormControl fullWidth sx={{ m: 1 }}>
+                <OutlinedInput
+                  placeholder="Amount"
+                  sx={{ fontSize: 14 }}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <PermIdentityOutlinedIcon />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+            >
+              <FormControl fullWidth sx={{ m: 1 }}>
+                <OutlinedInput
+                  placeholder="Status"
+                  type="number"
+                  sx={{ fontSize: 14 }}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <EmailOutlinedIcon />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+            >
+              <FormControl fullWidth sx={{ m: 1 }}>
+                <OutlinedInput
+                  placeholder="Incentive"
+                  sx={{ fontSize: 14 }}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <AccountBoxOutlinedIcon />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+            >
+              <FormControl fullWidth sx={{ m: 1 }}>
+                <OutlinedInput
+                  placeholder="Date"
+                  sx={{ fontSize: 14 }}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <PermIdentityOutlinedIcon />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Box>
+      </ModalComponent>
     </>
   );
 }

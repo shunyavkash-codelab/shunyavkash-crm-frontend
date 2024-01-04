@@ -26,38 +26,8 @@ const modalStyle = {
   p: 3,
 };
 
-export default function ModalComponent({ open, setOpen, ...props }) {
+export default function SendSalaryModal({ open, setOpen, ...props }) {
   const handleClose = () => setOpen(false);
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      clientId: "",
-      description: "",
-      startDate: "",
-      endDate: "",
-      perHourCharge: "",
-      payPeriod: "",
-      prefix: "",
-      status: "",
-    },
-    onSubmit: async (values) => {
-      // try {
-      //   values.currency = currencyValue?.symbol;
-      //   const res = await apiCall({
-      //     url: APIS.PROJECT.ADD,
-      //     method: "post",
-      //     data: JSON.stringify(values, null, 2),
-      //   });
-      //   if (res.status === 201) {
-      //     setSnack(res.data.message);
-      //     navigate("/clients");
-      //   }
-      // } catch (error) {
-      //   let errorMessage = error.response.data.message;
-      //   setSnack(errorMessage, "warning");
-      // }
-    },
-  });
   return (
     <>
       <Modal
