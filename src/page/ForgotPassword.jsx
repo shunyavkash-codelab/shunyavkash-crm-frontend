@@ -44,7 +44,7 @@ export default function ForgotPassword() {
   });
 
   return (
-    <Box component="main" sx={{ height: "100vh" }}>
+    <Box component="main" sx={{ height: "100vh", p: 0, maxWidth: "unset" }}>
       <Box
         sx={{
           height: "100%",

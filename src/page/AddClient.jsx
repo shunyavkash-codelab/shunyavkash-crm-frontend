@@ -46,7 +46,7 @@ export default function AddClient() {
   });
 
   const formik = useFormik({
-    // validationSchema: schema,
+    validationSchema: schema,
     initialValues: {
       name: clientList?.name,
       email: clientList?.email,
@@ -61,11 +61,13 @@ export default function AddClient() {
     },
     onSubmit: async (values) => {
       let formData = new FormData();
+      console.log(values.profile_img);
       Object.entries(values).forEach(([key, value]) => {
         if (value) {
           formData.append(key, value);
         }
       });
+
       try {
         const res = await apiCall({
           url: id ? APIS.CLIENT.EDIT(id) : APIS.CLIENT.ADD,
@@ -306,6 +308,7 @@ export default function AddClient() {
                             width="18"
                             height="12"
                             src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                            alt="country flag"
                           />
                           +{option.phone}
                         </Box>

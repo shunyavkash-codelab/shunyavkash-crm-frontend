@@ -22,10 +22,10 @@ export const useAuth = create(
           accessToken: "",
           userId: "",
         })),
-      setUserDatail: (name, email) => {
+      setUserDatail: (name, profile_img, companyName) => {
         set((state) => ({
           ...state,
-          user: { ...state.user, name, email },
+          user: { ...state.user, name, profile_img, companyName },
         }));
       },
       setUserProfile: (profileImage) => {

@@ -1,25 +1,31 @@
 import {
   Box,
   Button,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
   Paper,
-  Stack,
+  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import React from "react";
-import DetailsList from "../component/employee/DetailsList";
-import EditIcon from "@mui/icons-material/CreateOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
-import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import ModalComponent from "../component/ModalComponent";
 
 function UserLeave() {
+  const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const leaves = [
@@ -180,7 +186,6 @@ function UserLeave() {
             component={Paper}
             sx={{
               border: "1px solid rgba(224, 224, 224, 1)",
-              borderRadius: 5,
               mx: { xs: "-10px", sm: 0 },
               width: { xs: "auto", sm: "auto" },
               borderRadius: 2.5,
@@ -235,6 +240,93 @@ function UserLeave() {
           </TableContainer>
         </Box>
       </Box>
+
+      <ModalComponent open={open} setOpen={setOpen} modalTitle="Add Leave">
+        <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={6}
+            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+          >
+            <FormControl fullWidth sx={{ m: 1 }}>
+              <TextField
+                fullWidth
+                size="normal"
+                id="name"
+                placeholder="Leave Reason"
+                autoComplete="off"
+                sx={{
+                  "&>label,& input,&>div": { fontSize: "14px" },
+                }}
+              />
+            </FormControl>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={6}
+            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+          >
+            <FormControl
+              fullWidth
+              size="normal"
+              sx={{
+                "&>label": { fontSize: "14px" },
+              }}
+            >
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Leave Type
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Leave Type"
+                onChange={handleChange}
+                sx={{ fontSize: "14px" }}
+              >
+                <MenuItem sx={{ textTransform: "capitalize" }} value={"casual"}>
+                  Casual
+                </MenuItem>
+                <MenuItem sx={{ textTransform: "capitalize" }} value={"sick"}>
+                  Sick
+                </MenuItem>
+                <MenuItem sx={{ textTransform: "capitalize" }} value={"paid"}>
+                  Paid
+                </MenuItem>
+                <MenuItem sx={{ textTransform: "capitalize" }} value={"unpaid"}>
+                  Unpaid
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={6}
+            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+          >
+            <FormControl fullWidth sx={{ m: 1 }}>
+              <TextField
+                fullWidth
+                size="normal"
+                id="name"
+                placeholder="Leave Reason"
+                autoComplete="off"
+                sx={{
+                  "&>label,& input,&>div": { fontSize: "14px" },
+                }}
+              />
+            </FormControl>
+          </Grid>
+        </Grid>
+      </ModalComponent>
     </>
   );
 }

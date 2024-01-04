@@ -81,6 +81,8 @@ export default function SignIn() {
     <Box
       component="main"
       sx={{
+        p: 0,
+        maxWidth: "unset",
         height: "100vh",
         backgroundImage: "url('./images/wave-img2.png')",
         backgroundRepeat: "no-repeat",

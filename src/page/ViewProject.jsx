@@ -194,6 +194,7 @@ export default function ViewProject() {
                   <img
                     className="icon"
                     src="/images/projects.svg"
+                    alt=""
                     style={{ marginTop: "3px" }}
                   ></img>
                   <Box
@@ -234,7 +235,11 @@ export default function ViewProject() {
               )}
               {projectList.startDate && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/date-start.svg"></img>
+                  <img
+                    className="icon"
+                    src="/images/date-start.svg"
+                    alt=""
+                  ></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -248,7 +253,7 @@ export default function ViewProject() {
               )}
               {projectList.endDate && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/date-end.svg"></img>
+                  <img className="icon" src="/images/date-end.svg" alt=""></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -262,7 +267,11 @@ export default function ViewProject() {
               )}
               {projectList.payPeriod && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/time-period.svg"></img>
+                  <img
+                    className="icon"
+                    src="/images/time-period.svg"
+                    alt=""
+                  ></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -275,7 +284,11 @@ export default function ViewProject() {
               )}
               {projectList.perHourCharge && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/hourly-rate.svg"></img>
+                  <img
+                    className="icon"
+                    src="/images/hourly-rate.svg"
+                    alt=""
+                  ></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -289,7 +302,7 @@ export default function ViewProject() {
               )}
               {projectList.status && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/status.svg"></img>
+                  <img className="icon" src="/images/status.svg" alt=""></img>
                   <Typography
                     variant="body2"
                     sx={{
