@@ -7,14 +7,17 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import DashboardIcon from "@mui/icons-material/GridViewOutlined";
+import DashboardIcon from "@mui/icons-material/DashboardOutlined";
 import ManagerIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
 import EmployeesIcon from "@mui/icons-material/BadgeOutlined";
 import AccessTimeIcon from "@mui/icons-material/AccessTimeOutlined";
-import EmployeeDashboardIcon from "@mui/icons-material/AccountBoxOutlined";
+// import EmployeeDashboardIcon from "@mui/icons-material/AccountBoxOutlined";
+import AccountManagement from "@mui/icons-material/ManageHistoryOutlined";
+import EmployeesDashboardIcon from "@mui/icons-material/PermContactCalendarOutlined";
+import SetupProfileIcon from "@mui/icons-material/PendingActionsOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "../hooks/store/useAuth";
@@ -46,12 +49,12 @@ export default function SideBar({
     },
     {
       text: "Setup my Profile",
-      icon: <EmployeeDashboardIcon />,
+      icon: <SetupProfileIcon />,
       link: "/my-profile",
     },
     {
       text: "Employee Dashboard",
-      icon: <EmployeeDashboardIcon />,
+      icon: <EmployeesDashboardIcon />,
       link: "/employee-dashboard",
     },
     {
@@ -61,7 +64,7 @@ export default function SideBar({
     },
     {
       text: "Account Management",
-      icon: <AccessTimeIcon />,
+      icon: <AccountManagement />,
       link: "/account-management",
     },
   ];
