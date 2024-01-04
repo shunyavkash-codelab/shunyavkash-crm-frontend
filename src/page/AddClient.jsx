@@ -122,7 +122,8 @@ export default function AddClient() {
   useEffect(() => {
     if (id !== undefined) fetchClient(id);
     fetchCountry();
-  }, []);
+    // }, []);
+  });
 
   return (
     <>
