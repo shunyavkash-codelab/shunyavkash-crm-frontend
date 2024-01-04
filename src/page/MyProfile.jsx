@@ -38,7 +38,6 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
-
 import UserSalary from "../page/UserSalary";
 import ImageUploder from "../component/form/ImageUploder";
 import UserLeave from "./UserLeave";

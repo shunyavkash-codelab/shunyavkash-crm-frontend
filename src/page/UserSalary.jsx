@@ -17,7 +17,7 @@ import {
   TextField,
   Stack,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import ModalComponent from "../component/ModalComponent.jsx";
 import FormControl from "@mui/material/FormControl";
@@ -29,11 +29,12 @@ import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
-import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
+// import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import Person2Icon from "@mui/icons-material/Person2";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
 import NumbersIcon from "@mui/icons-material/Numbers";
+import EditIcon from "@mui/icons-material/CreateOutlined";
 
 export default function UserSalary() {
   const [openBank, setOpenBank] = React.useState(false);
@@ -42,79 +43,91 @@ export default function UserSalary() {
   const handleOpenBank = () => setOpenBank(true);
   const handleOpenSalary = () => setOpenSalary(true);
   const [date, setDate] = useState("");
-  const { setInvoiceData } = useInvoiceStore();
-  const navigate = useNavigate();
-  const viewInvoice = async (invoiceNumber, row) => {
-    setInvoiceData(row);
-    navigate(`/invoices/view/${invoiceNumber}`);
-  };
-  const [setOpen] = React.useState(false);
+  // const navigate = useNavigate();
+  // const { setInvoiceData } = useInvoiceStore();
+  // const viewInvoice = async (invoiceNumber, row) => {
+  //   setInvoiceData(row);
+  //   navigate(`/invoices/view/${invoiceNumber}`);
+  // };
+  // const [setOpen] = React.useState(false);
   const handleChange = (event) => {
     setDate(event.target.value);
   };
 
   return (
     <>
-      <Box sx={{ bgcolor: "white", borderRadius: 4, mt: 3, p: 4 }}>
-        <Box
+      <Box
+        sx={{
+          bgcolor: "white",
+          borderRadius: 4,
+          mt: 3,
+          p: 4,
+        }}
+      >
+        <Button
           onClick={handleOpenBank}
+          disableRipple
           sx={{
+            display: "block",
+            mx: "auto",
+            color: "text.primary",
             height: "100%",
             bgcolor: "rgb(22 119 255/ 6%)",
             border: "2px dashed rgba(0,0,0,1)",
             borderRadius: 2,
-            maxWidth: "275px",
             p: 3,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "0 auto",
-            width: "100%",
-            transition: "all .5s",
-            cursor: "pointer",
+            transition: "all 0.3s ease-in-out",
             "&:hover": {
+              bgcolor: "transparent",
               bgcolor: "#f5f5f5",
               border: "2px dashed rgba(0,0,0,0.2)",
             },
           }}
         >
-          <Button
-            disableRipple
-            type="submit"
-            sx={{
-              display: "block",
-              p: 0,
-              color: "text.primary",
-              "& svg": {
-                display: "block",
-                m: "0 auto",
-              },
-              "&:hover": {
-                bgcolor: "transparent",
-              },
-            }}
-          >
-            <AddIcon />
-            Add Your Bank Details
-          </Button>
-        </Box>
+          <AddIcon sx={{ display: "block", mx: "auto", mb: 1 }} />
+          <span style={{ display: "inline-block" }}>Add Your Bank Details</span>
+        </Button>
       </Box>
-      <Box sx={{ bgcolor: "white", borderRadius: 4, mt: 3, p: 4 }}>
+
+      <Box
+        sx={{
+          bgcolor: "white",
+          borderRadius: 4,
+          mt: 3,
+          pt: 2,
+          pb: 3,
+        }}
+      >
         <Box
           sx={{
-            borderBottom: "1px solid rgba(0 ,0 ,0 ,0.1)",
-            // px: 3,
+            px: 3,
             pb: 2,
             mb: 3,
+            borderBottom: "1px solid rgba(0,0,0,0.06)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="h6" sx={{ fontWeight: "500" }}>
-              Add Bank Details
-            </Typography>
-          </Box>
+          <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
+            Add Bank Details
+          </Typography>
+          <Button
+            startIcon={<EditIcon sx={{ width: 16 }} />}
+            sx={{
+              cursor: "pointer",
+              height: "unset",
+              py: 0.3,
+              px: 1.5,
+              border: "1px solid",
+              borderColor: "primary.main",
+              borderRadius: 4,
+            }}
+          >
+            Edit
+          </Button>
         </Box>
-        <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ py: 3 }}>
+        <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
           <Grid item xs={12} md={6} lg={4}>
             <DetailsList
               Title={"Bank Name"}
@@ -152,361 +165,367 @@ export default function UserSalary() {
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{ bgcolor: "white", borderRadius: 4, mt: 3, p: 4 }}>
-        <Box
+
+      <Box sx={{ bgcolor: "white", borderRadius: 4, mt: 3, pt: 2, pb: 3 }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
           sx={{
+            px: 2,
             mb: 3,
+            pb: 2,
+            borderBottom: "1px solid rgba(0,0,0,0.06)",
           }}
         >
-          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-            <Typography variant="h6" sx={{ fontWeight: "500" }}>
-              Salary Details
-            </Typography>
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <Box
-                component="form"
-                noValidate
-                autoComplete="off"
+          <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
+            Salary Details
+          </Typography>
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <Box
+              component="form"
+              noValidate
+              autoComplete="off"
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "end",
+                gap: 2.5,
+                "& fieldset": { borderRadius: "6px" },
+                minWidth: "140px",
+              }}
+            >
+              <FormControl
+                size="small"
                 sx={{
+                  "&>label": { fontSize: "14px" },
                   flexGrow: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "end",
-                  gap: 2.5,
-                  "& fieldset": { borderRadius: "6px" },
-                  minWidth: "140px",
                 }}
               >
-                <FormControl
-                  size="small"
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="date-wise-select-label"
+                >
+                  Date
+                </InputLabel>
+                <Select
+                  labelId="date-wise-select-label"
+                  id="demo-simple-select"
+                  value={date}
+                  label="Date"
+                  onChange={handleChange}
                   sx={{
-                    "&>label": { fontSize: "14px" },
-                    flexGrow: 1,
+                    fontSize: "14px",
+                    "&": {
+                      bgcolor: "white",
+                    },
                   }}
                 >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="date-wise-select-label"
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastWeek"}
                   >
-                    Date
-                  </InputLabel>
-                  <Select
-                    labelId="date-wise-select-label"
-                    id="demo-simple-select"
-                    value={date}
-                    label="Date"
-                    onChange={handleChange}
+                    Last Week
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastMonth"}
+                  >
+                    Last Month
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastQuarter"}
+                  >
+                    Last Quarter
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastYear"}
+                  >
+                    Last Year
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              {date == "CustomRange" && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: { xs: "column", sm: "row" },
+                    "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                    gap: 2.5,
+                    flexShrink: 0,
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="form"
+                    label="From"
+                    autoComplete="off"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="mm/dd/yyyy"
                     sx={{
-                      fontSize: "14px",
+                      "&>label,& input,&>div": { fontSize: "14px" },
                       "&": {
                         bgcolor: "white",
+                        borderRadius: 1.5,
+                      },
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="to"
+                    label="To"
+                    autoComplete="off"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="mm/dd/yyyy"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&": {
+                        bgcolor: "white",
+                        borderRadius: 1.5,
+                      },
+                    }}
+                  />
+                </Box>
+              )}
+            </Box>
+            {/* Todos : This button visable only admin */}
+            <Button
+              onClick={handleOpenSalary}
+              startIcon={<AddIcon sx={{ width: 16 }} />}
+              sx={{
+                cursor: "pointer",
+                height: "unset",
+                py: 0.3,
+                px: 1.5,
+                border: "1px solid",
+                borderColor: "primary.main",
+                borderRadius: 4,
+              }}
+            >
+              Add Salary
+            </Button>
+          </Stack>
+        </Stack>
+        <Box sx={{ px: 3 }}>
+          <TableContainer
+            component={Paper}
+            sx={{
+              border: "1px solid rgba(224, 224, 224, 1)",
+              mx: { xs: "-10px", sm: 0 },
+              width: { xs: "auto", sm: "auto" },
+              borderRadius: 2.5,
+            }}
+          >
+            <Table
+              className="projectTable"
+              sx={{
+                minWidth: 650,
+                textTransform: "capitalize",
+                textWrap: "nowrap",
+                "& th,& td": { borderBottom: 0 },
+                "& tbody tr": {
+                  borderTop: "1px solid rgba(224, 224, 224, 1)",
+                },
+              }}
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                  <TableCell>Date</TableCell>
+                  <TableCell>User Name</TableCell>
+                  <TableCell>Salary Amount</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Incentive</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                    "&:first-child td": {
+                      maxWidth: "250px",
+                      textWrap: "wrap",
+                    },
+                  }}
+                >
+                  <TableCell>03/01/2024</TableCell>
+                  <TableCell>Deep Bhimani</TableCell>
+                  <TableCell>100000$</TableCell>
+                  <TableCell
+                    sx={{
+                      "& .statusBtn": {
+                        color: "white",
+                        fontSize: "12px",
+                        p: 0.5,
+                        borderRadius: 1,
+                        maxWidth: "fit-content",
+                        lineHeight: 1,
+                      },
+                      "& .unpaid": {
+                        bgcolor: "secondary.main",
+                      },
+                      "& .paid": {
+                        bgcolor: "success.main",
                       },
                     }}
                   >
-                    <MenuItem
-                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                      value={"lastWeek"}
+                    <Box
+                      /* when dynamic then row.status uncomment */
+
+                      // className={`statusBtn
+                      // ${row.status === "paid" ? "paid" : "unpaid"}`}
+                      className="statusBtn unpaid"
                     >
-                      Last Week
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                      value={"lastMonth"}
-                    >
-                      Last Month
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                      value={"lastQuarter"}
-                    >
-                      Last Quarter
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                      value={"lastYear"}
-                    >
-                      Last Year
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                {date == "CustomRange" && (
-                  <Box
+                      Unpaid
+                    </Box>
+                  </TableCell>
+                  <TableCell>500$</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                    "&:first-child td": {
+                      maxWidth: "250px",
+                      textWrap: "wrap",
+                    },
+                  }}
+                >
+                  <TableCell>04/01/2024</TableCell>
+                  <TableCell>Deep Bhimani</TableCell>
+                  <TableCell>500000$</TableCell>
+                  <TableCell
                     sx={{
-                      display: "flex",
-                      flexDirection: { xs: "column", sm: "row" },
-                      "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
-                      gap: 2.5,
-                      flexShrink: 0,
+                      "& .statusBtn": {
+                        color: "white",
+                        fontSize: "12px",
+                        p: 0.5,
+                        borderRadius: 1,
+                        maxWidth: "fit-content",
+                        lineHeight: 1,
+                      },
+                      "& .unpaid": {
+                        bgcolor: "secondary.main",
+                      },
+                      "& .paid": {
+                        bgcolor: "success.main",
+                      },
                     }}
                   >
-                    <TextField
-                      fullWidth
-                      size="small"
-                      id="form"
-                      label="From"
-                      autoComplete="off"
-                      type="date"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      placeholder="mm/dd/yyyy"
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "&": {
-                          bgcolor: "white",
-                          borderRadius: 1.5,
-                        },
-                      }}
-                    />
-                    <TextField
-                      fullWidth
-                      size="small"
-                      id="to"
-                      label="To"
-                      autoComplete="off"
-                      type="date"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      placeholder="mm/dd/yyyy"
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "&": {
-                          bgcolor: "white",
-                          borderRadius: 1.5,
-                        },
-                      }}
-                    />
-                  </Box>
-                )}
-              </Box>
-              {/* Todos : This button visable only admin */}
-              <Button
-                onClick={handleOpenSalary}
-                startIcon={<AddIcon sx={{ width: 16 }} />}
-                sx={{
-                  cursor: "pointer",
-                  height: "unset",
-                  py: 0.3,
-                  px: 1.5,
-                  border: "1px solid",
-                  borderColor: "primary.main",
-                  borderRadius: 4,
-                }}
-              >
-                Add Salary
-              </Button>
-            </Stack>
-          </Box>
+                    <Box
+                      /* when dynamic then row.status uncomment */
+
+                      // className={`statusBtn
+                      // ${row.status === "paid" ? "paid" : "unpaid"}`}
+                      className="statusBtn paid"
+                    >
+                      paid
+                    </Box>
+                  </TableCell>
+                  <TableCell>1000$</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                    "&:first-child td": {
+                      maxWidth: "250px",
+                      textWrap: "wrap",
+                    },
+                  }}
+                >
+                  <TableCell>05/01/2024</TableCell>
+                  <TableCell>Deep Bhimani</TableCell>
+                  <TableCell>600000$</TableCell>
+                  <TableCell
+                    sx={{
+                      "& .statusBtn": {
+                        color: "white",
+                        fontSize: "12px",
+                        p: 0.5,
+                        borderRadius: 1,
+                        maxWidth: "fit-content",
+                        lineHeight: 1,
+                      },
+                      "& .unpaid": {
+                        bgcolor: "secondary.main",
+                      },
+                      "& .paid": {
+                        bgcolor: "success.main",
+                      },
+                    }}
+                  >
+                    <Box
+                      /* when dynamic then row.status uncomment */
+
+                      // className={`statusBtn
+                      // ${row.status === "paid" ? "paid" : "unpaid"}`}
+                      className="statusBtn unpaid"
+                    >
+                      Unpaid
+                    </Box>
+                  </TableCell>
+                  <TableCell>580$</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                    "&:first-child td": {
+                      maxWidth: "250px",
+                      textWrap: "wrap",
+                    },
+                  }}
+                >
+                  <TableCell>06/01/2024</TableCell>
+                  <TableCell>Deep Bhimani</TableCell>
+                  <TableCell>100000$</TableCell>
+                  <TableCell
+                    sx={{
+                      "& .statusBtn": {
+                        color: "white",
+                        fontSize: "12px",
+                        p: 0.5,
+                        borderRadius: 1,
+                        maxWidth: "fit-content",
+                        lineHeight: 1,
+                      },
+                      "& .unpaid": {
+                        bgcolor: "secondary.main",
+                      },
+                      "& .paid": {
+                        bgcolor: "success.main",
+                      },
+                    }}
+                  >
+                    <Box
+                      /* when dynamic then row.status uncomment */
+
+                      // className={`statusBtn
+                      // ${row.status === "paid" ? "paid" : "unpaid"}`}
+                      className="statusBtn unpaid"
+                    >
+                      Unpaid
+                    </Box>
+                  </TableCell>
+                  <TableCell>500$</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Box>
-
-        <TableContainer
-          component={Paper}
-          sx={{
-            border: "1px solid rgba(224, 224, 224, 1)",
-            mx: { xs: "-10px", sm: 0 },
-            width: { xs: "auto", sm: "auto" },
-            borderRadius: 2.5,
-          }}
-        >
-          <Table
-            className="projectTable"
-            sx={{
-              minWidth: 650,
-              textTransform: "capitalize",
-              textWrap: "nowrap",
-              "& th,& td": { borderBottom: 0 },
-              "& tbody tr": {
-                borderTop: "1px solid rgba(224, 224, 224, 1)",
-              },
-            }}
-            aria-label="simple table"
-          >
-            <TableHead>
-              <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                <TableCell>Date</TableCell>
-                <TableCell>User Name</TableCell>
-                <TableCell>Salary Amount</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Incentive</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow
-                sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                  "&:first-child td": {
-                    maxWidth: "250px",
-                    textWrap: "wrap",
-                  },
-                }}
-              >
-                <TableCell>03/01/2024</TableCell>
-                <TableCell>Deep Bhimani</TableCell>
-                <TableCell>100000$</TableCell>
-                <TableCell
-                  sx={{
-                    "& .statusBtn": {
-                      color: "white",
-                      fontSize: "12px",
-                      p: 0.5,
-                      borderRadius: 1,
-                      maxWidth: "fit-content",
-                      lineHeight: 1,
-                    },
-                    "& .unpaid": {
-                      bgcolor: "secondary.main",
-                    },
-                    "& .paid": {
-                      bgcolor: "success.main",
-                    },
-                  }}
-                >
-                  <Box
-                    /* when dynamic then row.status uncomment */
-
-                    // className={`statusBtn
-                    // ${row.status === "paid" ? "paid" : "unpaid"}`}
-                    className="statusBtn unpaid"
-                  >
-                    Unpaid
-                  </Box>
-                </TableCell>
-                <TableCell>500$</TableCell>
-              </TableRow>
-              <TableRow
-                sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                  "&:first-child td": {
-                    maxWidth: "250px",
-                    textWrap: "wrap",
-                  },
-                }}
-              >
-                <TableCell>04/01/2024</TableCell>
-                <TableCell>Deep Bhimani</TableCell>
-                <TableCell>500000$</TableCell>
-                <TableCell
-                  sx={{
-                    "& .statusBtn": {
-                      color: "white",
-                      fontSize: "12px",
-                      p: 0.5,
-                      borderRadius: 1,
-                      maxWidth: "fit-content",
-                      lineHeight: 1,
-                    },
-                    "& .unpaid": {
-                      bgcolor: "secondary.main",
-                    },
-                    "& .paid": {
-                      bgcolor: "success.main",
-                    },
-                  }}
-                >
-                  <Box
-                    /* when dynamic then row.status uncomment */
-
-                    // className={`statusBtn
-                    // ${row.status === "paid" ? "paid" : "unpaid"}`}
-                    className="statusBtn paid"
-                  >
-                    paid
-                  </Box>
-                </TableCell>
-                <TableCell>1000$</TableCell>
-              </TableRow>
-              <TableRow
-                sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                  "&:first-child td": {
-                    maxWidth: "250px",
-                    textWrap: "wrap",
-                  },
-                }}
-              >
-                <TableCell>05/01/2024</TableCell>
-                <TableCell>Deep Bhimani</TableCell>
-                <TableCell>600000$</TableCell>
-                <TableCell
-                  sx={{
-                    "& .statusBtn": {
-                      color: "white",
-                      fontSize: "12px",
-                      p: 0.5,
-                      borderRadius: 1,
-                      maxWidth: "fit-content",
-                      lineHeight: 1,
-                    },
-                    "& .unpaid": {
-                      bgcolor: "secondary.main",
-                    },
-                    "& .paid": {
-                      bgcolor: "success.main",
-                    },
-                  }}
-                >
-                  <Box
-                    /* when dynamic then row.status uncomment */
-
-                    // className={`statusBtn
-                    // ${row.status === "paid" ? "paid" : "unpaid"}`}
-                    className="statusBtn unpaid"
-                  >
-                    Unpaid
-                  </Box>
-                </TableCell>
-                <TableCell>580$</TableCell>
-              </TableRow>
-              <TableRow
-                sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                  "&:first-child td": {
-                    maxWidth: "250px",
-                    textWrap: "wrap",
-                  },
-                }}
-              >
-                <TableCell>06/01/2024</TableCell>
-                <TableCell>Deep Bhimani</TableCell>
-                <TableCell>100000$</TableCell>
-                <TableCell
-                  sx={{
-                    "& .statusBtn": {
-                      color: "white",
-                      fontSize: "12px",
-                      p: 0.5,
-                      borderRadius: 1,
-                      maxWidth: "fit-content",
-                      lineHeight: 1,
-                    },
-                    "& .unpaid": {
-                      bgcolor: "secondary.main",
-                    },
-                    "& .paid": {
-                      bgcolor: "success.main",
-                    },
-                  }}
-                >
-                  <Box
-                    /* when dynamic then row.status uncomment */
-
-                    // className={`statusBtn
-                    // ${row.status === "paid" ? "paid" : "unpaid"}`}
-                    className="statusBtn unpaid"
-                  >
-                    Unpaid
-                  </Box>
-                </TableCell>
-                <TableCell>500$</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
       </Box>
 
       <ModalComponent
