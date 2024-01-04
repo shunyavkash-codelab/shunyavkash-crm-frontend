@@ -27,7 +27,7 @@ export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [managerList, setManagerList] = useState([]);
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const { accessToken, user } = useAuth();
   const { searchData } = useSearchData();
@@ -49,7 +49,8 @@ export default function Manager() {
   };
   useEffect(() => {
     fetchManagers();
-  }, []);
+    // }, []);
+  });
   useEffect(() => {
     if (searchData !== undefined) fetchManagers();
   }, [searchData]);
@@ -112,7 +113,7 @@ export default function Manager() {
                 </Typography>
               </Box>
             </Box>
-            {user.role == 0 && (
+            {user.role === 0 && (
               <Box>
                 <Link to="./add">
                   <Button
@@ -192,7 +193,6 @@ export default function Manager() {
                 component={Paper}
                 sx={{
                   border: "1px solid rgba(224, 224, 224, 1)",
-                  borderRadius: 5,
                   mx: { xs: "-10px", sm: 0 },
                   width: { xs: "auto", sm: "auto" },
                   borderRadius: 2.5,
