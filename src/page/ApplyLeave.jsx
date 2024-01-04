@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, label } from "@mui/material";
+import { Box, TextField, Button, Typography } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import { FormControl } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { useFormik } from "formik";
+import moment from "moment";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -21,21 +18,14 @@ export default function Home() {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
-  // const formik = useFormik({
-  //   initialValues: {
-  //     name: "",
-  //     email: "",
-  //     mobileNumber: "",
-  //     gender: "",
-  //     companyName: "",
-  //     websiteURL: "",
-  //     reference: "",
-  //     profile_img: undefined,
-  //     companyLogo: undefined,
-  //     signature: undefined,
-  //     mobileCode: undefined,
-  //   },
-  // });
+  const [projectData] = useState(null);
+
+  const formik = useFormik({
+    initialValues: {
+      startDate: moment(projectData?.startDate).format("YYYY-MM-DD"),
+      endDate: moment(projectData?.endDate).format("YYYY-MM-DD"),
+    },
+  });
 
   return (
     <>
@@ -54,316 +44,311 @@ export default function Home() {
       />
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          height: "100vh",
           ml: { lg: sideBarWidth },
         }}
       >
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            pt: 13,
-            px: 2.5,
-            pb: 2.5,
-            height: "100%",
-            overflowY: "auto",
-            position: "relative",
-          }}
-        >
+        <Box component="main">
           <Box
             sx={{
+              mt: 11.25,
               maxWidth: "700px",
+              width: "100%",
               margin: "0 auto",
               bgcolor: "white",
               boxShadow: "0 0 10px rgba(0 ,0, 0, 0.1)",
               borderRadius: "10px",
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
+              height: "100%",
             }}
           >
             <Box
               component="form"
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: 4,
-                width: "100%",
+                p: 4,
               }}
             >
-              <FormControl
-                component="fieldset"
+              <Typography
+                variant="h4"
                 sx={{
-                  // textAlign: "center",
-                  maxWidth: "400px",
-                  width: "100%",
-                  gap: 2,
-                  "&>label,&>span": {
-                    p: 0,
-                    pl: 1,
-                  },
+                  mb: 5,
+                  lineHeight: 1.2,
                 }}
               >
-                <Box
-                  component="h2"
+                Apply For Leave
+              </Typography>
+              <Box sx={{ mb: 4 }}>
+                <FormLabel
+                  id="leave-type-group-buttons"
                   sx={{
                     mb: 2,
-                    fontSize: "30px",
+                    display: "block",
+                    fontWeight: 600,
                   }}
                 >
-                  Apply For Leave
-                </Box>
-                <Box>
-                  <FormLabel id="leave-type-group-buttons">
-                    Leave Type
-                  </FormLabel>
-                  <RadioGroup
-                    row
-                    aria-labelledby="leave-type-group-buttons"
-                    name="controlled-radio-buttons-group"
-                    value={value}
-                    onChange={handleChange}
-                  >
-                    <FormControlLabel
-                      value="paid"
-                      control={<Radio />}
-                      label="Paid"
-                      className="apply-leave"
-                      // sx={{
-                      //   "& input": {
-                      //     display: "none",
-                      //   },
-                      //   "& span & svg": {
-                      //     display: "none",
-                      //   },
-                      //   "&>*:first-child": {
-                      //     position: "relative",
-                      //     color: "#ff0000",
-                      //     cursor: "pointer",
-                      //     transition: "all 0.3s",
-                      //     backgroundColor: "#000",
-                      //     margin: "0 10px 0 0",
-                      //     borderRadius: 2,
-                      //     padding: 0,
-                      //     // display: "none",
-                      //     "& before": {
-                      //       content: '""',
-                      //       position: "absolute",
-                      //       top: "50%",
-                      //       right: 0,
-                      //       backgroundColor: "#fe22ff",
-                      //       fontSize: "50px",
-                      //       color: "#ff0000",
-                      //     },
-                      //     "& svg": {
-                      //       height: "18px",
-                      //       width: "18px",
-                      //       flexShrink: 0,
-                      //       margin: "0 auto",
-                      //       fill: "#ff0000",
-                      //       backgroundColor: "#ff0000",
-                      //       borderRadius: "100%",
-                      //       boxShadow: "0 0 5px #000025",
-                      //     },
-                      //   },
-                      // }}
-                    />
-                    <FormControlLabel
-                      value="unpaid"
-                      control={<Radio />}
-                      label="Unpaid"
-                      className="apply-leave"
-                      // sx={{
-                      //   "& input": {
-                      //     display: "none",
-                      //   },
-                      //   "& span & svg": {
-                      //     display: "none",
-                      //   },
-                      //   "&>*:first-child": {
-                      //     position: "relative",
-                      //     color: "#ff0000",
-                      //     cursor: "pointer",
-                      //     transition: "all 0.3s",
-                      //     backgroundColor: "#000",
-                      //     margin: "0 10px 0 0",
-                      //     borderRadius: 2,
-                      //     padding: 0,
-                      //     // display: "none",
-                      //     "& before": {
-                      //       content: '""',
-                      //       position: "absolute",
-                      //       top: "50%",
-                      //       right: 0,
-                      //       backgroundColor: "#fe22ff",
-                      //       fontSize: "50px",
-                      //       color: "#ff0000",
-                      //     },
-                      //     "& svg": {
-                      //       height: "18px",
-                      //       width: "18px",
-                      //       flexShrink: 0,
-                      //       margin: "0 auto",
-                      //       fill: "#ff0000",
-                      //       backgroundColor: "#ff0000",
-                      //       borderRadius: "100%",
-                      //       boxShadow: "0 0 5px #000025",
-                      //     },
-                      //   },
-                      // }}
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Other"
-                      className="apply-leave"
-                      // sx={{
-                      //   "& input": {
-                      //     display: "none",
-                      //   },
-                      //   "& span & svg": {
-                      //     display: "none",
-                      //   },
-                      //   "&>*:first-child": {
-                      //     position: "relative",
-                      //     color: "#ff0000",
-                      //     cursor: "pointer",
-                      //     transition: "all 0.3s",
-                      //     backgroundColor: "#000",
-                      //     margin: "0 10px 0 0",
-                      //     borderRadius: 2,
-                      //     padding: 0,
-                      //     // display: "none",
-                      //     "& before": {
-                      //       content: '""',
-                      //       position: "absolute",
-                      //       top: "50%",
-                      //       right: 0,
-                      //       backgroundColor: "#fe22ff",
-                      //       fontSize: "50px",
-                      //       color: "#ff0000",
-                      //     },
-                      //     "& svg": {
-                      //       height: "18px",
-                      //       width: "18px",
-                      //       flexShrink: 0,
-                      //       margin: "0 auto",
-                      //       fill: "#ff0000",
-                      //       backgroundColor: "#ff0000",
-                      //       borderRadius: "100%",
-                      //       boxShadow: "0 0 5px #000025",
-                      //     },
-                      //   },
-                      // }}
-                    />
-                  </RadioGroup>
-                </Box>
-                <Box>
-                  <FormControl>
-                    <FormLabel id="day-type-group-buttons">Day Type</FormLabel>
-                    <RadioGroup
-                      row
-                      aria-labelledby="day-type-group-buttons"
-                      name="controlled-radio-buttons-group"
-                      value={value}
-                      onChange={handleChange}
-                    >
-                      <FormControlLabel
-                        value="Full"
-                        control={<Radio />}
-                        label="Full day"
-                      />
-                      <FormControlLabel
-                        value="First half"
-                        control={<Radio />}
-                        label="First half"
-                      />
-                      <FormControlLabel
-                        value="Second half"
-                        control={<Radio />}
-                        label="Second half"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </Box>
-
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DateRangePicker"]}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <label>From</label>
-                        <label>To</label>
-                      </Box>
-                      <DateRangePicker
-                        localeText={{
-                          From: "",
-                          To: "",
-                        }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider>
-                </Box>
-                <Box>
-                  <TextField
-                    id="outlined-multiline-static"
-                    label="Reason"
-                    placeholder="Type here leave Reason"
-                    multiline
-                    rows={4}
-                    fullWidth
-                  />
-                </Box>
-
-                <Box>
-                  <Button
-                    disableRipple
-                    type="submit"
+                  Leave Type
+                </FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="leave-type-group-buttons"
+                  name="controlled-radio-buttons-group"
+                  value={value}
+                  onChange={handleChange}
+                  sx={{
+                    gap: 2,
+                  }}
+                >
+                  <FormControlLabel
+                    value="paid"
+                    control={<Radio />}
+                    label="Paid"
                     sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
-                      bgcolor: "success.main",
-                      border: "1px solid",
-                      borderColor: "success.main",
-                      color: "white",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "white",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
-                        color: "success.main",
-                        bgcolor: "success.main",
-                        "&:before": { height: "10rem" },
+                      "&>*:first-child": {
+                        margin: "0px 10px 0px 10px",
+                        padding: 0,
+                        height: "18px",
+                        width: "18px",
+                        "& svg": {
+                          color: "text.primary",
+                        },
                       },
                     }}
-                  >
-                    <span style={{ position: "relative" }}>Apply Leave</span>
-                  </Button>
-                </Box>
-              </FormControl>
+                  />
+                  <FormControlLabel
+                    value="unpaid"
+                    control={<Radio />}
+                    label="Unpaid"
+                    sx={{
+                      "&>*:first-child": {
+                        margin: "0px 10px 0px 10px",
+                        padding: 0,
+                        height: "18px",
+                        width: "18px",
+                        "& svg": {
+                          color: "text.primary",
+                        },
+                      },
+                    }}
+                  />
+                  <FormControlLabel
+                    value="sick"
+                    control={<Radio />}
+                    label="Sick"
+                    sx={{
+                      "&>*:first-child": {
+                        margin: "0px 10px 0px 10px",
+                        padding: 0,
+                        height: "14px",
+                        width: "14px",
+                        "& svg": {
+                          color: "text.primary",
+                        },
+                      },
+                    }}
+                  />
+                </RadioGroup>
+              </Box>
+              <Box sx={{ mb: 4.75 }}>
+                <FormLabel
+                  id="day-type-group-buttons"
+                  sx={{ mb: 2, display: "block", fontWeight: 600 }}
+                >
+                  Day Type
+                </FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="day-type-group-buttons"
+                  name="controlled-radio-buttons-group"
+                  value={value}
+                  onChange={handleChange}
+                  sx={{
+                    gap: 2,
+                  }}
+                >
+                  <FormControlLabel
+                    value="Full"
+                    control={<Radio />}
+                    label="Full day"
+                    className="css-hyxlzm"
+                    sx={{
+                      "&>*:first-child": {
+                        margin: "0px 10px 0px 10px",
+                        padding: 0,
+                        height: "18px",
+                        width: "18px",
+                        "& svg": {
+                          color: "text.primary",
+                        },
+                      },
+                    }}
+                  />
+                  <FormControlLabel
+                    value="First half"
+                    control={<Radio />}
+                    label="First half"
+                    className="css-hyxlzm"
+                    sx={{
+                      "&>*:first-child": {
+                        margin: "0px 10px 0px 10px",
+                        padding: 0,
+                        height: "18px",
+                        width: "18px",
+                        "& svg": {
+                          color: "text.primary",
+                        },
+                      },
+                    }}
+                  />
+                  <FormControlLabel
+                    value="Second half"
+                    control={<Radio />}
+                    label="Second half"
+                    className="css-hyxlzm"
+                    sx={{
+                      "&>*:first-child": {
+                        margin: "0px 10px 0px 10px",
+                        padding: 0,
+                        height: "18px",
+                        width: "18px",
+                        "& svg": {
+                          color: "text.primary",
+                        },
+                      },
+                    }}
+                  />
+                </RadioGroup>
+              </Box>
+              <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="selectStartDate"
+                  label="Select start date"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "& input": { py: 1.5 },
+                  }}
+                  defaultValue={projectData?.selectStartDate}
+                  onChange={formik.handleChange}
+                  value={formik.values.selectStartDate}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="selectEndDate"
+                  label="Select end date"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "& input": { py: 1.5 },
+                  }}
+                  defaultValue={projectData?.selectEndDate}
+                  onChange={formik.handleChange}
+                  value={formik.values.selectEndDate}
+                />
+              </Box>
+              <TextField
+                fullWidth
+                size="small"
+                id="leaveReason"
+                label="Reason"
+                placeholder="Type here leave Reason"
+                autoComplete="off"
+                multiline
+                rows={4}
+                sx={{
+                  "&>label,& input,&>div": { fontSize: "14px" },
+                  "&>label": { top: "4px" },
+                  "&>div": { py: 1.5 },
+                  gridColumn: { sm: "span 2" },
+                }}
+                defaultValue={projectData?.description}
+                onChange={formik.handleChange}
+                value={formik.values.description}
+              />
+              <Box sx={{ display: "flex", gap: 2.5, mt: 4 }}>
+                <Button
+                  disableRipple
+                  type="submit"
+                  sx={{
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    bgcolor: "primary.main",
+                    border: "1px solid",
+                    borderColor: "primary.main",
+                    color: "white",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "white",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      color: "primary.main",
+                      bgcolor: "#fff",
+                      "&:before": { height: "10rem" },
+                    },
+                  }}
+                >
+                  <span style={{ position: "relative" }}>Apply Leave</span>
+                </Button>
+                <Button
+                  disableRipple
+                  sx={{
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    color: "text.primary",
+                    bgcolor: "#e4e4e4",
+                    border: "1px solid",
+                    borderColor: "#e4e4e4",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "white",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      bgcolor: "#e4e4e4",
+                      "&:before": { height: "10rem" },
+                    },
+                  }}
+                >
+                  <span style={{ position: "relative" }}>cancle</span>
+                </Button>
+              </Box>
             </Box>
           </Box>
         </Box>

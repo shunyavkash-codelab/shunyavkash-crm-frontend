@@ -24,6 +24,7 @@ import Profile from "./page/Profile";
 import ViewProject from "./page/ViewProject";
 import Employees from "./page/Employees";
 import ApplyLeave from "./page/ApplyLeave";
+import MyProfile from "./page/MyProfile";
 
 const routes = createBrowserRouter([
   { path: "/signup", Component: SignUp },
@@ -53,6 +54,7 @@ const routes = createBrowserRouter([
   { path: "/employees", Component: Employees },
   { path: "/profile", Component: Profile },
   { path: "/applyleave", Component: ApplyLeave },
+  { path: "/my-profile", Component: MyProfile },
 ]);
 export default function Routes() {
   return (

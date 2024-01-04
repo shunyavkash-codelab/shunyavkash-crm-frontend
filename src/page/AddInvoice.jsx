@@ -9,7 +9,6 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableFooter,
   FormControl,
   InputLabel,
   Select,
@@ -18,6 +17,8 @@ import {
   Divider,
   Tooltip,
   TableBody,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -35,6 +36,7 @@ import CustomFormikField from "../component/form/CustomFormikField";
 import InvoiceInputForm from "../component/form/InvoiceInputForm";
 import EditIcon from "@mui/icons-material/CreateOutlined";
 import * as Yup from "yup";
+import AddClientsModal from "../component/AddClientsModal";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -83,6 +85,9 @@ export default function Invoices() {
   const [discountPer, setDiscountPer] = useState(0);
   const [discountRS, setDiscountRS] = useState(0);
   const [selectedProjectId, setSelectedProjectId] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const [showWatermark, setShowWatermark] = useState(true);
 
   // model open for admin
   const [fromOpen, setFromOpen] = useState(false);
@@ -102,8 +107,11 @@ export default function Invoices() {
   // get single project detile by projectId
   const fetchProjectDetail = useCallback(async () => {
     try {
+      if (!invoiceData?.projectId) {
+        return;
+      }
       const res = await apiCall({
-        url: APIS.PROJECT.VIEW(invoiceData.projectId),
+        url: APIS.PROJECT.VIEW(invoiceData?.projectId),
         method: "get",
       });
       if (res.data.success === true) {
@@ -173,7 +181,6 @@ export default function Invoices() {
     const {
       target: { value },
     } = event;
-    console.log(personName, "personName");
     setPersonName(value);
   };
 
@@ -278,6 +285,7 @@ export default function Invoices() {
       });
       if (res.data.success === true) {
         setTaskList(res.data.data);
+        console.log(res.data.data, "-------------------284");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -339,6 +347,82 @@ export default function Invoices() {
     fetchCountry();
     fetchAdmin();
   }, []);
+
+  // add task
+  const addTask = async (task) => {
+    const randomFiveDigitNumber = Math.floor(10000 + Math.random() * 90000);
+    let taskPriority = ["Urgent", "High", "Normal", "Low"];
+    const randomPriority =
+      taskPriority[Math.floor(Math.random() * taskPriority.length)];
+
+    let obj = {
+      projectId: task.projectId,
+      taskNo: randomFiveDigitNumber.toString(),
+      taskName: task.name,
+      hours: task.number,
+      taskPriority: randomPriority,
+      perHourCharge: task.pricePerHours,
+    };
+
+    // return task;
+    try {
+      const res = await apiCall({
+        url: APIS.TASK.ADD,
+        method: "post",
+        data: JSON.stringify(obj, null, 2),
+      });
+      if (res.data.success === true) {
+        setTaskList(res.data.data);
+        return res.data.data;
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
+  const compairTask = async (task) => {
+    const isIdMatch = taskList.some((item) => item._id === task._id);
+    if (isIdMatch) {
+      // Id match
+      let taskName = taskList.some(
+        (taskName) => taskName.taskName == task.name
+      );
+      let pricePerHours = taskList.some(
+        (pricePerHours) => pricePerHours.perHourCharge == task.pricePerHours
+      );
+      let hours = taskList.some((hours) => hours.hours == task.number);
+      if (taskName && pricePerHours && hours) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
+  // update task
+  const updateTask = async (task) => {
+    let obj = {
+      taskName: task.name,
+      hours: task.number,
+      perHourCharge: task.pricePerHours,
+    };
+    try {
+      const res = await apiCall({
+        url: APIS.TASK.EDIT(task._id),
+        method: "patch",
+        data: JSON.stringify(obj, null, 2),
+      });
+      if (res.data.success === true) {
+        setTaskList(res.data.data);
+        return res.data.data;
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
   return (
     <>
       <SideBar
@@ -354,7 +438,10 @@ export default function Invoices() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
-      {selectedProjectId || "not selected"}
+      {/* niche no code mukvathi page text sav upper chhapay jay chhe */}
+      {/* {selectedProjectId || "not selected"} */}
+      {selectedProjectId}
+
       <Box
         component={Formik}
         validationSchema={schema}
@@ -386,11 +473,31 @@ export default function Invoices() {
           customAccountNumber: "",
           // to: Formik.values,
           project: "",
-          salesTax: 0,
+          salesTax: invoiceData?.totals?.discountPer || 0,
           invoiceDate: invoiceDATE,
           invoiceDueDate: invoiceDUEDATE,
         }}
         onSubmit={async (values) => {
+          for (let i = 0; i < values.task.length; i++) {
+            let compairtask = await compairTask(values.task[i]);
+            if (!compairtask) {
+              if (!values.task[i]._id) {
+                console.log("insert call");
+                //   // API call
+                values.task[i].amount =
+                  values.task[i].number * values.task[i].pricePerHours;
+                values.task[i].projectId = projectDescription._id;
+                values.task[i].taskName = values.task[i].name;
+
+                let addtask = await addTask(values.task[i]);
+                values.task[i]._id = addtask._id;
+              } else {
+                // update
+                let updatetask = await updateTask(values.task[i]);
+              }
+            }
+          }
+
           try {
             let tasks = values.task.map((tas) => {
               return {
@@ -464,228 +571,105 @@ export default function Invoices() {
           setInvoiceDUEDATE(values.invoiceDueDate);
           return (
             <>
-              <Box
-                component="main"
-                sx={{
-                  pt: 13,
-                  px: 2.5,
-                  pb: 5,
-                  height: "100%",
-                  overflowY: "auto",
-                  ml: { lg: sideBarWidth },
-                }}
-              >
-                <Box sx={{ mb: 3.25, textAlign: "center" }}>
-                  <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
-                    Add Invoice
-                  </Typography>
-                </Box>
-                <Form>
-                  <Box
-                    sx={{
-                      bgcolor: "white",
-                      p: 6.75,
-                      borderRadius: 2.5,
-                      maxWidth: "1280px",
-                      mx: "auto",
-                      "&:not(:hover) .editIcon": {
-                        opacity: "0",
-                        pointerEvents: "none",
-                      },
-                    }}
-                  >
+              <Box sx={{ ml: { lg: sideBarWidth } }}>
+                <Box component="main">
+                  <Box sx={{ mb: 3.25, textAlign: "center" }}>
+                    <Typography
+                      variant="h5"
+                      sx={{ textTransform: "capitalize" }}
+                    >
+                      Add Invoice
+                    </Typography>
+                  </Box>
+                  <Form style={{ position: "relative" }}>
                     <Box
+                      className="watermark"
                       sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 2,
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%,-50%) rotate(-45deg)",
+                        width: "700px",
+                        opacity: 0.06,
+                        zIndex: 1,
+                        display: showWatermark ? "inline-flex" : "none",
                       }}
                     >
-                      <Box sx={{ flexGrow: 1, maxWidth: "390px" }}>
-                        <Typography
-                          variant="h5"
-                          sx={{
-                            fontSize: "24px",
-                            textTransform: "capitalize",
-                          }}
-                        >
-                          Shunyavkash PVT. LTD
-                        </Typography>
-                        <Box
-                          sx={{
-                            mt: 1,
-                            position: "relative",
-                          }}
-                        >
+                      <img
+                        src="/images/logo.svg"
+                        style={{ height: "auto", width: "100%", flexShrink: 0 }}
+                        alt=""
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        bgcolor: "white",
+                        borderRadius: 2.5,
+                        p: 6.75,
+                        "&:not(:hover) .editIcon": {
+                          opacity: "0",
+                          pointerEvents: "none",
+                        },
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 2,
+                        }}
+                      >
+                        <Box sx={{ flexGrow: 1, maxWidth: "390px" }}>
                           <Typography
-                            variant="subtitle3"
+                            variant="h4"
                             sx={{
-                              lineHeight: 1.5,
-                              display: "block",
-                              fontSize: "16px",
+                              textTransform: "capitalize",
                             }}
                           >
-                            {adminList.address} {adminList.address2}
-                            {adminList.landmark} {adminList.pincode}
+                            Shunyavkash PVT. LTD
                           </Typography>
                           <Box
                             sx={{
-                              mt: 2.5,
+                              mt: 1,
+                              position: "relative",
                             }}
                           >
                             <Typography
                               variant="subtitle3"
                               sx={{
+                                lineHeight: 1.6,
                                 display: "block",
                                 fontSize: "16px",
                               }}
                             >
-                              {adminList.mobileCode} {adminList.mobileNumber}
+                              {adminList.address} {adminList.address2}
+                              {adminList.landmark} {adminList.pincode}
                             </Typography>
-                            <Typography
-                              variant="subtitle3"
+                            <Box
                               sx={{
-                                mt: 0.75,
-                                display: "block",
-                                fontSize: "16px",
+                                mt: 3.5,
                               }}
                             >
-                              {adminList.email}
-                            </Typography>
-                          </Box>
-                          <Box
-                            className="editIcon"
-                            sx={{
-                              display: "inline-flex",
-                              position: "absolute",
-                              left: "-30px",
-                              bottom: 0,
-                              opacity: 0.4,
-                              "& > *": {
-                                color: "text.primary",
-                              },
-                            }}
-                          >
-                            <Tooltip title="Edit" arrow>
-                              <Link
-                                href="#"
-                                onClick={() => setFromOpen(true)}
-                                style={{
-                                  display: "inline-flex",
+                              <Typography
+                                variant="subtitle3"
+                                sx={{
+                                  display: "block",
+                                  fontSize: "16px",
                                 }}
                               >
-                                <EditIcon />
-                              </Link>
-                            </Tooltip>
-                          </Box>
-                        </Box>
-                      </Box>
-                      <Box
-                        sx={{
-                          maxHeight: "140px",
-                          maxWidth: "230px",
-                          minWidth: "80px",
-                          flexShrink: 0,
-                        }}
-                      >
-                        <img
-                          src="/images/logo.svg"
-                          style={{
-                            maxHeight: "inherit",
-                            width: "100%",
-                            display: "block",
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                    <Divider
-                      sx={{
-                        my: 3.5,
-                        borderWidth: "2px",
-                        borderColor: "#ededed",
-                      }}
-                    />
-                    <Typography variant="h4" sx={{ textAlign: "right" }}>
-                      Invoice
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "start",
-                        mt: 6,
-                        gap: 2,
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          flexGrow: 1,
-                          maxWidth: "390px",
-                          position: "relative",
-                        }}
-                      >
-                        <Typography
-                          className="bg-style"
-                          variant="subtitle3"
-                          sx={{
-                            fontWeight: 600,
-                            fontSize: "15px",
-                            textTransform: "capitalize",
-                          }}
-                        >
-                          Bill to
-                        </Typography>
-                        <FormControl
-                          fullWidth
-                          size="small"
-                          sx={{
-                            maxWidth: "300px",
-                            mt: 2,
-                            display: "flex",
-                            textTransform: "capitalize",
-                            "&>label": { fontSize: "12px" },
-                          }}
-                        >
-                          <InputLabel
-                            sx={{ textTransform: "capitalize" }}
-                            id="demo-simple-select-label"
-                          >
-                            To
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="to"
-                            label="To"
-                            onChange={(e) => clientData(e.target.value)}
-                            sx={{ fontSize: "12px" }}
-                            defaultValue={invoiceData?.clientId}
-                          >
-                            {clientList.map((clientName) => (
-                              <MenuItem
-                                key={clientName.name}
-                                sx={{ textTransform: "capitalize" }}
-                                value={clientName._id}
+                                {adminList.mobileCode} {adminList.mobileNumber}
+                              </Typography>
+                              <Typography
+                                variant="subtitle3"
+                                sx={{
+                                  mt: 0.75,
+                                  display: "block",
+                                  fontSize: "16px",
+                                }}
                               >
-                                {clientName.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                        {(selectedClient?.address ||
-                          invoiceData?.to?.address) && (
-                          <>
-                            <Typography
-                              variant="subtitle3"
-                              sx={{
-                                mt: 1.75,
-                                lineHeight: 1.5,
-                                display: "block",
-                                fontSize: "16px",
-                              }}
-                            >
-                              {selectedClient?.address ||
-                                invoiceData?.to?.address}
-                            </Typography>
+                                {adminList.email}
+                              </Typography>
+                            </Box>
                             <Box
                               className="editIcon"
                               sx={{
@@ -702,7 +686,7 @@ export default function Invoices() {
                               <Tooltip title="Edit" arrow>
                                 <Link
                                   href="#"
-                                  onClick={() => setClientOpen(true)}
+                                  onClick={() => setFromOpen(true)}
                                   style={{
                                     display: "inline-flex",
                                   }}
@@ -711,589 +695,607 @@ export default function Invoices() {
                                 </Link>
                               </Tooltip>
                             </Box>
-                          </>
-                        )}
-                      </Box>
-                      {/* invoice number/date/due */}
-                      {/*<Box
-                        sx={{
-                          position: "relative",
-                          alignSelf: "start",
-                        }}
-                      >
+                          </Box>
+                        </Box>
                         <Box
                           sx={{
-                            "& > *": {
+                            maxHeight: "140px",
+                            maxWidth: "300px",
+                            minWidth: "80px",
+                            flexShrink: 0,
+                          }}
+                        >
+                          <img
+                            src="/images/logo.svg"
+                            style={{
+                              maxHeight: "inherit",
+                              width: "100%",
+                              display: "block",
+                            }}
+                            alt=""
+                          />
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 2,
+                          my: 6,
+                        }}
+                      >
+                        <Divider
+                          sx={{
+                            border: "1px solid rgba(0,0,0,0.1)",
+                            flexGrow: 1,
+                          }}
+                        />
+                        <Typography
+                          variant="h3"
+                          sx={{
+                            flexShrink: 0,
+                            letterSpacing: "4px",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Invoice
+                        </Typography>
+                        <Divider
+                          sx={{
+                            border: "1px solid rgba(0,0,0,0.1)",
+                            flexGrow: 1,
+                          }}
+                        />
+                      </Box>
+                      <Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "start",
+                            gap: 2,
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              flexGrow: 1,
+                              maxWidth: "390px",
+                              position: "relative",
+                            }}
+                          >
+                            <Typography
+                              className="bg-style"
+                              variant="subtitle3"
+                              sx={{
+                                display: "block",
+                                fontWeight: 600,
+                                fontSize: "16px",
+                                textTransform: "capitalize",
+                              }}
+                            >
+                              Bill to
+                            </Typography>
+                            <FormControl
+                              fullWidth
+                              size="small"
+                              sx={{
+                                maxWidth: "300px",
+                                mt: 2,
+                                display: "flex",
+                                textTransform: "capitalize",
+                                "&>label": { fontSize: "12px" },
+                              }}
+                            >
+                              <InputLabel
+                                sx={{ textTransform: "capitalize" }}
+                                id="demo-simple-select-label"
+                              >
+                                To
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="to"
+                                label="To"
+                                onChange={(e) => clientData(e.target.value)}
+                                sx={{ fontSize: "12px" }}
+                                defaultValue={invoiceData?.clientId}
+                              >
+                                {clientList.map((clientName) => (
+                                  <MenuItem
+                                    key={clientName.name}
+                                    sx={{ textTransform: "capitalize" }}
+                                    value={clientName._id}
+                                  >
+                                    {clientName.name}
+                                  </MenuItem>
+                                ))}
+                                <MenuItem>
+                                  <Box sx={{ display: "flex" }}>
+                                    <Button
+                                      disableRipple
+                                      onClick={handleOpen}
+                                      sx={{
+                                        maxHeight: "36px",
+                                        position: "relative",
+                                        px: 2.5,
+                                        py: 1,
+                                        bgcolor: "primary.main",
+                                        border: "1px solid",
+                                        borderColor: "primary.main",
+                                        color: "white",
+                                        lineHeight: 1,
+                                        borderRadius: 2.5,
+                                        overflow: "hidden",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        "&:before": {
+                                          content: "''",
+                                          height: 0,
+                                          width: "10rem",
+                                          position: "absolute",
+                                          top: "50%",
+                                          left: "50%",
+                                          zIndex: "0",
+                                          bgcolor: "white",
+                                          transform:
+                                            "rotate(-45deg) translate(-50%, -50%)",
+                                          transformOrigin: "0% 0%",
+                                          transition: "all 0.4s ease-in-out",
+                                        },
+                                        "&:hover": {
+                                          color: "primary.main",
+                                          bgcolor: "primary.main",
+                                          "&:before": { height: "10rem" },
+                                        },
+                                      }}
+                                    >
+                                      <span style={{ position: "relative" }}>
+                                        Add Client
+                                      </span>
+                                    </Button>
+                                  </Box>
+                                </MenuItem>
+                                <AddClientsModal
+                                  open={open}
+                                  setOpen={setOpen}
+                                />
+                              </Select>
+                            </FormControl>
+                            {(selectedClient?.address ||
+                              invoiceData?.to?.address) && (
+                              <>
+                                <Typography
+                                  variant="subtitle3"
+                                  sx={{
+                                    mt: 1.75,
+                                    lineHeight: 1.6,
+                                    display: "block",
+                                    fontSize: "16px",
+                                  }}
+                                >
+                                  {selectedClient?.address ||
+                                    invoiceData?.to?.address}
+                                </Typography>
+                                <Box
+                                  className="editIcon"
+                                  sx={{
+                                    display: "inline-flex",
+                                    position: "absolute",
+                                    left: "-30px",
+                                    bottom: 0,
+                                    opacity: 0.4,
+                                    "& > *": {
+                                      color: "text.primary",
+                                    },
+                                  }}
+                                >
+                                  <Tooltip title="Edit" arrow>
+                                    <Link
+                                      href="#"
+                                      onClick={() => setClientOpen(true)}
+                                      style={{
+                                        display: "inline-flex",
+                                      }}
+                                    >
+                                      <EditIcon />
+                                    </Link>
+                                  </Tooltip>
+                                </Box>
+                              </>
+                            )}
+                          </Box>
+                          <Box
+                            sx={{
+                              flexGrow: 1,
+                              maxWidth: "300px",
+                              "&>*:not(:first-child)": {
+                                mt: 1.75,
+                              },
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                "& input": {
+                                  textTransform: "uppercase",
+                                },
+                              }}
+                            >
+                              <CustomFormikField
+                                name={"invoiceNumber"}
+                                label="invoice No."
+                                disabled={edit ? true : false}
+                              />
+                            </Box>
+                            <CustomFormikField
+                              name={"invoiceDate"}
+                              label="Invoice Date"
+                              type="date"
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              defaultValue={"10/10/2023"}
+                            />
+                            <CustomFormikField
+                              name={"invoiceDueDate"}
+                              label="Invoice Due"
+                              type="date"
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                            />
+                          </Box>
+                        </Box>
+                        {(selectedClient || invoiceData?.clientId) && (
+                          <Box
+                            sx={{
+                              mt: 6,
+                              maxWidth: "750px",
+                              position: "relative",
+                            }}
+                          >
+                            <Typography
+                              className="bg-style"
+                              variant="subtitle3"
+                              sx={{
+                                display: "block",
+                                fontWeight: 600,
+                                fontSize: "16px",
+                                textTransform: "capitalize",
+                              }}
+                            >
+                              project
+                            </Typography>
+                            <FormControl
+                              fullWidth
+                              size="small"
+                              sx={{
+                                maxWidth: "300px",
+                                mt: 2,
+                                display: "flex",
+                                "&>label": { fontSize: "12px" },
+                              }}
+                            >
+                              <InputLabel
+                                sx={{ textTransform: "capitalize" }}
+                                id="demo-simple-select-label"
+                              >
+                                Project
+                              </InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="project"
+                                label="Project"
+                                // onChange={(e) => clientData(e.target.value)}
+                                sx={{ fontSize: "12px" }}
+                                onChange={handleProjectChange}
+                                value={selectedProjectId}
+                                // defaultValue={projectDescription._id}
+                              >
+                                {projectList.map((projectName) => (
+                                  <MenuItem
+                                    key={projectName.name}
+                                    sx={{ textTransform: "capitalize" }}
+                                    value={projectName._id}
+                                  >
+                                    {projectName.name}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                            {projectDescription?.description && (
+                              <>
+                                <Typography
+                                  variant="subtitle3"
+                                  sx={{
+                                    mt: 1.75,
+                                    lineHeight: 1.6,
+                                    display: "block",
+                                    fontSize: "16px",
+                                  }}
+                                >
+                                  {projectDescription?.description}
+                                </Typography>
+                                <Box
+                                  className="editIcon"
+                                  sx={{
+                                    display: "inline-flex",
+                                    position: "absolute",
+                                    left: "-30px",
+                                    bottom: 0,
+                                    opacity: 0.4,
+                                    "& > *": {
+                                      color: "text.primary",
+                                    },
+                                  }}
+                                >
+                                  <Tooltip title="Edit" arrow>
+                                    <Link
+                                      href="#"
+                                      onClick={() => setProjectOpen(true)}
+                                      style={{
+                                        display: "inline-flex",
+                                      }}
+                                    >
+                                      <EditIcon />
+                                    </Link>
+                                  </Tooltip>
+                                </Box>
+                              </>
+                            )}
+                          </Box>
+                        )}
+                        <Box sx={{ mt: 7, mb: 3.5 }}>
+                          {selectedProjectId && (
+                            <FormControl
+                              fullWidth
+                              size="small"
+                              sx={{
+                                mb: 2,
+                                maxWidth: "480px",
+                                display: "flex",
+                                "&>label": { fontSize: "12px" },
+                              }}
+                            >
+                              <InputLabel
+                                sx={{ textTransform: "capitalize" }}
+                                id="demo-simple-select-label"
+                              >
+                                Select Tasks
+                              </InputLabel>
+                              <Select
+                                multiple
+                                labelId="demo-simple-select-label"
+                                id="select_tasks"
+                                label="Select Tasks"
+                                // defaultValue={invoiceData?.taskIds}
+                                sx={{
+                                  fontSize: "12px",
+                                  position: "relative",
+                                  "&>div": {
+                                    "&>div": {
+                                      position: "absolute",
+                                      top: "50%",
+                                      left: "14px",
+                                      right: "32px",
+                                      transform: "translateY(-50%)",
+                                      flexWrap: "nowrap",
+                                      overflowX: "auto",
+                                      "&::-webkit-scrollbar": {
+                                        display: "none",
+                                      },
+                                      "&>*": {
+                                        height: "auto",
+                                        "&>span": {
+                                          py: 0.25,
+                                          px: 1,
+                                          fontSize: "12px",
+                                        },
+                                      },
+                                    },
+                                  },
+                                }}
+                                value={personName}
+                                onChange={handleChange}
+                                renderValue={(selected) => (
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      flexWrap: "wrap",
+                                      gap: 0.5,
+                                    }}
+                                  >
+                                    {selected.map((value) => (
+                                      <Chip key={value} label={value} />
+                                    ))}
+                                  </Box>
+                                )}
+                                MenuProps={MenuProps}
+                              >
+                                {taskList.map((taskName) => (
+                                  <MenuItem
+                                    key={taskName}
+                                    value={taskName.taskName}
+                                    style={getStyles(
+                                      taskName.taskName,
+                                      personName,
+                                      theme
+                                    )}
+                                  >
+                                    {taskName.taskName}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          )}
+                          <TableContainer
+                            component={Paper}
+                            sx={{
+                              boxShadow: "none",
+                            }}
+                          >
+                            <Table
+                              className="projectTable"
+                              sx={{
+                                borderBottom:
+                                  "1px solid rgba(128, 128, 128, 0.1)",
+                                minWidth: 650,
+                                textTransform: "capitalize",
+                                textWrap: "nowrap",
+                                "& th,& td": {
+                                  fontSize: "16px",
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              <TableHead>
+                                <TableRow
+                                  sx={{
+                                    "& th": {
+                                      lineHeight: 1,
+                                      fontWeight: 600,
+                                      p: 0,
+                                      "& span": {
+                                        bgcolor: "text.primary",
+                                        fontWeight: "700",
+                                        display: "block",
+                                        color: "white",
+                                        p: 2,
+                                      },
+                                      "&:first-child span": {
+                                        borderRadius: "10px 0 0 10px",
+                                      },
+                                      "&:last-child span": {
+                                        borderRadius: "0 10px 10px 0",
+                                      },
+                                    },
+                                  }}
+                                >
+                                  <TableCell>
+                                    <span>description</span>
+                                  </TableCell>
+                                  <TableCell sx={{ width: "130px" }}>
+                                    <span>price/hours</span>
+                                  </TableCell>
+                                  <TableCell sx={{ width: "90px" }}>
+                                    <span>hours</span>
+                                  </TableCell>
+                                  <TableCell sx={{ width: "108px" }}>
+                                    <span>Amount</span>
+                                  </TableCell>
+                                </TableRow>
+                              </TableHead>
+                              {/* component render   */}
+                              {/* {Array.from({ length: taskCount }, (_, i) => ( */}
+                              <FieldArray name="task">
+                                {({ insert, remove, push }) => (
+                                  <>
+                                    <TableBody
+                                      sx={{
+                                        "&>*": {
+                                          borderBottom:
+                                            "1px solid rgba(128, 128, 128, 0.1)",
+                                          "& td": {
+                                            p: 1,
+                                          },
+                                        },
+                                      }}
+                                    >
+                                      {values.task.map((taskDetail, i) => (
+                                        <InvoiceTable
+                                          values={values.task[i]}
+                                          name={`task.${i}`}
+                                          key={i}
+                                          taskDetail={taskDetail}
+                                        />
+                                      ))}
+                                    </TableBody>
+                                    <Box sx={{ m: 1 }}>
+                                      <Button
+                                        disableRipple
+                                        sx={{
+                                          maxHeight: "36px",
+                                          position: "relative",
+                                          px: 2.5,
+                                          py: 1.5,
+                                          bgcolor: "text.primary",
+                                          border: "1px solid",
+                                          borderColor: "text.primary",
+                                          color: "white",
+                                          lineHeight: 1,
+                                          borderRadius: 2.5,
+                                          overflow: "hidden",
+                                          "&:before": {
+                                            content: "''",
+                                            height: 0,
+                                            width: "10rem",
+                                            position: "absolute",
+                                            top: "50%",
+                                            left: "50%",
+                                            zIndex: "0",
+                                            bgcolor: "white",
+                                            transform:
+                                              "rotate(-45deg) translate(-50%, -50%)",
+                                            transformOrigin: "0% 0%",
+                                            transition: "all 0.4s ease-in-out",
+                                          },
+                                          "&:hover": {
+                                            color: "text.primary",
+                                            bgcolor: "text.primary",
+                                            "&:before": { height: "10rem" },
+                                          },
+                                        }}
+                                        onClick={() => {
+                                          push(taskInitialValues);
+                                        }}
+                                      >
+                                        <span style={{ position: "relative" }}>
+                                          Add Task
+                                        </span>
+                                      </Button>
+                                    </Box>
+                                  </>
+                                )}
+                              </FieldArray>
+                            </Table>
+                          </TableContainer>
+                        </Box>
+                        <Box
+                          sx={{
+                            ml: "auto",
+                            maxWidth: "fit-content",
+                            "&>*": {
+                              "&:not(:first-child)": { mt: 1.75 },
+                              px: 1.75,
                               display: "flex",
                               justifyContent: "space-between",
-                              gap: 1.25,
+                              gap: 9.75,
                               "&>*": {
-                                lineHeight: 1,
-                                display: "block",
+                                lineHeight: "1!important",
+                                "&:first-child": {
+                                  textTransform: "capitalize",
+                                  width: "140px",
+                                },
+                                "&:last-child": {
+                                  width: "78px",
+                                },
                               },
-                              "& > *:first-child": {
-                                opacity: "0.50",
-                              },
-                            },
-                            "&>*:not(:first-child)": {
-                              mt: 1.5,
                             },
                           }}
                         >
                           <Box>
                             <Typography
-                              variant="subtitle3"
-                              sx={{
-                                fontSize: "16px",
-                                display: "flex",
-                                justifyContent: "space-between",
-                                textTransform: "capitalize",
-                                width: "107px",
-                              }}
+                              variant="subtitle2"
+                              sx={{ fontWeight: 700, fontSize: "16px" }}
                             >
-                              Invoice No <span>:</span>
+                              subtotal
                             </Typography>
                             <Typography
-                              variant="subtitle3"
-                              sx={{
-                                fontSize: "16px",
-                              }}
-                              name="invoiceNumber"
+                              variant="subtitle2"
+                              sx={{ fontWeight: 700, fontSize: "16px" }}
                             >
-                              {invoiceNumber}
+                              ${getSubTotal(values.task)}
                             </Typography>
                           </Box>
-                        <Box>
-                            <Typography
-                              variant="subtitle3"
-                              sx={{
-                                fontSize: "16px",
-                                display: "flex",
-                                justifyContent: "space-between",
-                                textTransform: "capitalize",
-                                width: "107px",
-                              }}
-                            >
-                              Invoice Date <span>:</span>
-                            </Typography>
-                            <Typography
-                              variant="subtitle3"
-                              sx={{
-                                fontSize: "16px",
-                              }}
-                              name="invoiceDate"
-                            >
-                              {new Date().toISOString().split("T")[0]}
-                            </Typography> 
-                          </Box> 
-                        <Box>
-                            <Typography
-                              variant="subtitle3"
-                              sx={{
-                                fontSize: "16px",
-                                display: "flex",
-                                justifyContent: "space-between",
-                                textTransform: "capitalize",
-                                width: "107px",
-                              }}
-                            >
-                              Due Date <span>:</span>
-                            </Typography>
-                            <Typography
-                              variant="subtitle3"
-                              sx={{
-                                fontSize: "16px",
-                              }}
-                              name="invoiceDueDate"
-                            >
-                              {fifteenDaysAgo.toISOString().split("T")[0]}
-                              {invoiceData?.invoiceDueDate}
-                            </Typography>
-                          </Box> 
-                      </Box>  */}
-                      {/* <Box
-                          className="editIcon"
-                          sx={{
-                            display: "inline-flex",
-                            position: "absolute",
-                            right: "-30px",
-                            bottom: 0,
-                            opacity: 0.4,
-                            "& > *": {
-                              color: "text.primary",
-                            },
-                          }}
-                        >
-                          <Tooltip title="Edit" arrow>
-                            <Link
-                              href="#"
-                              onClick={() => setInvoiceOpen(true)}
-                              style={{
-                                display: "inline-flex",
-                              }}
-                            >
-                              <EditIcon />
-                            </Link>
-                          </Tooltip>
-                        </Box> 
-                      </Box> */}
-                      {/* invoice number/date/due dynamic */}
-                      <Box
-                        sx={{
-                          flexGrow: 1,
-                          maxWidth: "300px",
-                          "&>*:not(:first-child)": {
-                            mt: 1.75,
-                          },
-                        }}
-                      >
-                        <CustomFormikField
-                          name={"invoiceNumber"}
-                          label="invoice No."
-                          disabled={edit ? true : false}
-                        />
-                        <CustomFormikField
-                          name={"invoiceDate"}
-                          label="Invoice Date"
-                          type="date"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          defaultValue={"10/10/2023"}
-                        />
-                        <CustomFormikField
-                          name={"invoiceDueDate"}
-                          label="Invoice Due"
-                          type="date"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                    {(selectedClient || invoiceData?.clientId) && (
-                      <Box
-                        sx={{ maxWidth: "750px", mt: 6, position: "relative" }}
-                      >
-                        <Typography
-                          className="bg-style"
-                          variant="subtitle3"
-                          sx={{
-                            fontWeight: 600,
-                            fontSize: "15px",
-                            textTransform: "capitalize",
-                          }}
-                        >
-                          project
-                        </Typography>
-                        <FormControl
-                          fullWidth
-                          size="small"
-                          sx={{
-                            maxWidth: "300px",
-                            mt: 2,
-                            display: "flex",
-                            "&>label": { fontSize: "12px" },
-                          }}
-                        >
-                          <InputLabel
-                            sx={{ textTransform: "capitalize" }}
-                            id="demo-simple-select-label"
-                          >
-                            Project
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="project"
-                            label="Project"
-                            // onChange={(e) => clientData(e.target.value)}
-                            sx={{ fontSize: "12px" }}
-                            onChange={handleProjectChange}
-                            value={selectedProjectId}
-                            // defaultValue={projectDescription._id}
-                          >
-                            {projectList.map((projectName) => (
-                              <MenuItem
-                                key={projectName.name}
-                                sx={{ textTransform: "capitalize" }}
-                                value={projectName._id}
-                              >
-                                {projectName.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                        {projectDescription?.description && (
-                          <>
-                            <Typography
-                              variant="subtitle3"
-                              sx={{
-                                mt: 1.75,
-                                lineHeight: 1.5,
-                                display: "block",
-                                fontSize: "16px",
-                              }}
-                            >
-                              {projectDescription?.description}
-                            </Typography>
-                            <Box
-                              className="editIcon"
-                              sx={{
-                                display: "inline-flex",
-                                position: "absolute",
-                                left: "-30px",
-                                bottom: 0,
-                                opacity: 0.4,
-                                "& > *": {
-                                  color: "text.primary",
-                                },
-                              }}
-                            >
-                              <Tooltip title="Edit" arrow>
-                                <Link
-                                  href="#"
-                                  onClick={() => setProjectOpen(true)}
-                                  style={{
-                                    display: "inline-flex",
-                                  }}
-                                >
-                                  <EditIcon />
-                                </Link>
-                              </Tooltip>
-                            </Box>
-                          </>
-                        )}
-                      </Box>
-                    )}
-                    <Box sx={{ my: 7 }}>
-                      <FormControl
-                        fullWidth
-                        size="small"
-                        sx={{
-                          maxWidth: "480px",
-                          display: "flex",
-                          "&>label": { fontSize: "12px" },
-                        }}
-                      >
-                        <InputLabel
-                          sx={{ textTransform: "capitalize" }}
-                          id="demo-simple-select-label"
-                        >
-                          Select Tasks
-                        </InputLabel>
-                        <Select
-                          multiple
-                          labelId="demo-simple-select-label"
-                          id="select_tasks"
-                          label="Select Tasks"
-                          // defaultValue={invoiceData?.taskIds}
-                          sx={{
-                            fontSize: "12px",
-                            position: "relative",
-                            "&>div": {
-                              "&>div": {
-                                position: "absolute",
-                                top: "50%",
-                                left: "14px",
-                                right: "32px",
-                                transform: "translateY(-50%)",
-                                flexWrap: "nowrap",
-                                overflowX: "auto",
-                                "&::-webkit-scrollbar": { display: "none" },
-                                "&>*": {
-                                  height: "auto",
-                                  "&>span": {
-                                    py: 0.25,
-                                    px: 1,
-                                    fontSize: "12px",
-                                  },
-                                },
-                              },
-                            },
-                          }}
-                          value={personName}
-                          onChange={handleChange}
-                          renderValue={(selected) => (
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                gap: 0.5,
-                              }}
-                            >
-                              {selected.map((value) => (
-                                <Chip key={value} label={value} />
-                              ))}
-                            </Box>
-                          )}
-                          MenuProps={MenuProps}
-                        >
-                          {taskList.map((taskName) => (
-                            <MenuItem
-                              key={taskName}
-                              value={taskName.taskName}
-                              style={getStyles(
-                                taskName.taskName,
-                                personName,
-                                theme
-                              )}
-                            >
-                              {taskName.taskName}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                      <TableContainer
-                        component={Paper}
-                        sx={{
-                          mt: 2,
-                          boxShadow: "none",
-                        }}
-                      >
-                        <Table
-                          className="projectTable"
-                          sx={{
-                            minWidth: 650,
-                            textTransform: "capitalize",
-                            textWrap: "nowrap",
-                            "& th,& td": {
-                              borderBottom: 0,
-                              fontSize: "16px",
-                            },
-                            "& tbody tr td:first-child": {
-                              maxWidth: "400px",
-                              textWrap: "wrap",
-                            },
-                            // "& tbody tr > *,& tfoot tr > *": {
-                            //   py: 1.5,
-                            // },
-                            // "& tbody tr,& tfoot tr": {
-                            //   borderTop: "1px solid rgba(224, 224, 224, 1)",
-                            // },
-                          }}
-                        >
-                          <TableHead>
-                            <TableRow
-                              sx={{
-                                bgcolor: "text.primary",
-                                "& th": {
-                                  lineHeight: 1,
-                                  fontWeight: 600,
-                                  color: "white",
-                                },
-                              }}
-                            >
-                              <TableCell>description</TableCell>
-
-                              <TableCell sx={{ width: "110px" }}>
-                                price/hours
-                              </TableCell>
-                              <TableCell sx={{ width: "110px" }}>
-                                hours
-                              </TableCell>
-                              <TableCell sx={{ width: "110px" }}>
-                                Amount
-                              </TableCell>
-                            </TableRow>
-                          </TableHead>
-                          {/* component render   */}
-                          {/* {Array.from({ length: taskCount }, (_, i) => ( */}
-                          <FieldArray name="task">
-                            {({ insert, remove, push }) => (
-                              <>
-                                <TableBody
-                                  sx={{
-                                    "&>*": {
-                                      borderBottom:
-                                        "2px solid rgba(128, 128, 128, 0.11)",
-                                    },
-                                  }}
-                                >
-                                  {values.task.map((taskDetail, i) => (
-                                    <InvoiceTable
-                                      values={values.task[i]}
-                                      name={`task.${i}`}
-                                      key={i}
-                                      taskDetail={taskDetail}
-                                    />
-                                  ))}
-                                </TableBody>
-                                <Button
-                                  disableRipple
-                                  sx={{
-                                    ml: 1.5,
-                                    my: 1.5,
-                                    maxHeight: "36px",
-                                    position: "relative",
-                                    px: 2.5,
-                                    py: 1.5,
-                                    bgcolor: "text.primary",
-                                    border: "1px solid",
-                                    borderColor: "text.primary",
-                                    color: "white",
-                                    lineHeight: 1,
-                                    borderRadius: 2.5,
-                                    overflow: "hidden",
-                                    "&:before": {
-                                      content: "''",
-                                      height: 0,
-                                      width: "10rem",
-                                      position: "absolute",
-                                      top: "50%",
-                                      left: "50%",
-                                      zIndex: "0",
-                                      bgcolor: "white",
-                                      transform:
-                                        "rotate(-45deg) translate(-50%, -50%)",
-                                      transformOrigin: "0% 0%",
-                                      transition: "all 0.4s ease-in-out",
-                                    },
-                                    "&:hover": {
-                                      color: "text.primary",
-                                      bgcolor: "text.primary",
-                                      "&:before": { height: "10rem" },
-                                    },
-                                  }}
-                                  onClick={() => {
-                                    push(taskInitialValues);
-                                  }}
-                                >
-                                  <span style={{ position: "relative" }}>
-                                    Add Task
-                                  </span>
-                                </Button>
-                              </>
-                            )}
-                          </FieldArray>
-                          <TableFooter>
-                            <TableRow
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                                "&>td": {
-                                  fontSize: { xs: "12px", sm: "14px" },
-                                },
-                                "&>*": {
-                                  p: 1.5,
-                                  "&:first-child": { fontWeight: "600" },
-                                },
-                                bgcolor: "rgba(243 ,243 ,243 ,1)",
-                              }}
-                            >
-                              {/* <TableCell sx={{ py: "4px!important" }}>
-                              <Button
-                                disableRipple
-                                sx={{
-                                  maxHeight: "36px",
-                                  position: "relative",
-                                  px: 2.5,
-                                  py: 1.5,
-                                  bgcolor: "primary.main",
-                                  border: "1px solid",
-                                  borderColor: "primary.main",
-                                  color: "white",
-                                  lineHeight: 1,
-                                  borderRadius: 2.5,
-                                  overflow: "hidden",
-                                  "&:before": {
-                                    content: "''",
-                                    height: 0,
-                                    width: "10rem",
-                                    position: "absolute",
-                                    top: "50%",
-                                    left: "50%",
-                                    zIndex: "0",
-                                    bgcolor: "white",
-                                    transform:
-                                      "rotate(-45deg) translate(-50%, -50%)",
-                                    transformOrigin: "0% 0%",
-                                    transition: "all 0.4s ease-in-out",
-                                  },
-                                  "&:hover": {
-                                    color: "primary.main",
-                                    bgcolor: "primary.main",
-                                    "&:before": { height: "10rem" },
-                                  },
-                                }}
-                                onClick={taskIncrement}
-                              >
-                                <span style={{ position: "relative" }}>
-                                  not Task
-                                </span>
-                              </Button>
-                            </TableCell> */}
-                              <TableCell></TableCell>
-                              <TableCell></TableCell>
-                              <TableCell
-                                sx={{ fontWeight: "600", color: "black" }}
-                              >
-                                Total:
-                              </TableCell>
-                              <TableCell
-                                sx={{ fontWeight: "600", color: "black" }}
-                              >
-                                ${getSubTotal(values.task)}
-                              </TableCell>
-                            </TableRow>
-                          </TableFooter>
-                        </Table>
-                      </TableContainer>
-                    </Box>
-                    <Box
-                      sx={{
-                        ml: "auto",
-                        maxWidth: "fit-content",
-                        "&>*": {
-                          px: 1.75,
-                          "&:not(:first-child)": { mt: 1.75 },
-                        },
-                        "& > *": {
-                          display: "flex",
-                          justifyContent: "space-between",
-                          gap: 10,
-                          "& > *": {
-                            lineHeight: "1!important",
-                            textTransform: "capitalize",
-                          },
-                        },
-                      }}
-                    >
-                      <Box>
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontWeight: 700 }}
-                        >
-                          subtotal:
-                        </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontWeight: 700 }}
-                        >
-                          ${getSubTotal(values.task)}
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          alignItems: "center",
-                          "& > *:last-child": {
-                            maxWidth: "85px",
-                            "& input": {
-                              textAlign: "right",
-                            },
-                          },
-                        }}
-                      >
-                        <Typography
-                          variant="subtitle2"
-                          sx={{
-                            textWrap: "nowrap",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                          }}
-                        >
-                          Discount (%):
                           <Box
                             sx={{
                               alignItems: "center",
@@ -1302,420 +1304,372 @@ export default function Invoices() {
                               },
                             }}
                           >
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                textWrap: "nowrap",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                                fontSize: "16px",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Discount (%)
+                              <Box
+                                sx={{
+                                  "& > *:last-child": {
+                                    width: "66px",
+                                  },
+                                }}
+                              >
+                                <CustomFormikField
+                                  name={"discountPer"}
+                                  value={
+                                    discountPer ||
+                                    invoiceData?.totals?.discountPer
+                                  }
+                                  placeholder="0%"
+                                  onChange={handleDiscountPerChange.bind(
+                                    null,
+                                    getSubTotal(values.task)
+                                  )}
+                                />
+                              </Box>
+                            </Typography>
                             <CustomFormikField
-                              name={"discountPer"}
-                              value={discountPer}
-                              placeholder="0%"
-                              onChange={handleDiscountPerChange.bind(
+                              name={"discountRS"}
+                              value={
+                                discountRS || invoiceData?.totals?.discountRS
+                              }
+                              onChange={handleDiscountRSChange.bind(
                                 null,
                                 getSubTotal(values.task)
                               )}
+                              placeholder="00.00"
                             />
                           </Box>
-                        </Typography>
-                        <CustomFormikField
-                          name={"discountRS"}
-                          value={discountRS}
-                          onChange={handleDiscountRSChange.bind(
-                            null,
-                            getSubTotal(values.task)
-                          )}
-                          placeholder="00.00"
-                        />
+                          <Box
+                            sx={{
+                              alignItems: "center",
+                              "& > *:last-child": {
+                                maxWidth: "85px",
+                              },
+                            }}
+                          >
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                textWrap: "nowrap",
+                                fontSize: "16px",
+                                fontWeight: 600,
+                              }}
+                            >
+                              tax
+                            </Typography>
+                            <CustomFormikField
+                              name={"salesTax"}
+                              placeholder="00.00"
+                            />
+                          </Box>
+                          <Box
+                            sx={{
+                              py: 1.75,
+                              bgcolor: "text.primary",
+                              borderRadius: 2.5,
+                              color: "white",
+                            }}
+                          >
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontWeight: 700, fontSize: "16px" }}
+                            >
+                              total
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontWeight: 700, fontSize: "16px" }}
+                            >
+                              $
+                              {+values.salesTax +
+                                getSubTotal(values.task) -
+                                discountRS}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "end",
+                            gap: 2,
+                          }}
+                        >
+                          <Box sx={{ minWidth: "300px", maxWidth: "450px" }}>
+                            <Box>
+                              <Typography
+                                variant="h6"
+                                className="bg-style"
+                                sx={{
+                                  fontSize: "20px",
+                                  mb: 2,
+                                  display: "inline-block",
+                                }}
+                              >
+                                Bank Details
+                              </Typography>
+                              <Box
+                                sx={{
+                                  "&>*:not(:first-child)": {
+                                    mt: 1.75,
+                                  },
+                                }}
+                              >
+                                <FormControl
+                                  fullWidth
+                                  size="small"
+                                  sx={{
+                                    maxWidth: "300px",
+                                    display: "flex",
+                                    "&>label": { fontSize: "12px" },
+                                    "&>div": { textAlign: "left" },
+                                  }}
+                                >
+                                  <InputLabel
+                                    sx={{ textTransform: "capitalize" }}
+                                    id="demo-simple-select-label"
+                                  >
+                                    Select Bank
+                                  </InputLabel>
+                                  <Select
+                                    labelId="demo-simple-select-label"
+                                    id="select_Bank"
+                                    label="Select Bank"
+                                    sx={{ fontSize: "12px" }}
+                                    defaultValue={invoiceData?.bankId}
+                                    onChange={handleBankChange}
+                                  >
+                                    {adminList.bank &&
+                                      adminList.bank.map((bank) => (
+                                        <MenuItem
+                                          sx={{ textTransform: "capitalize" }}
+                                          value={bank._id}
+                                          onClick={() =>
+                                            bankOpen && setBankOpen(false)
+                                          }
+                                        >
+                                          {bank.bankName}
+                                        </MenuItem>
+                                      ))}
+
+                                    <MenuItem
+                                      sx={{ textTransform: "capitalize" }}
+                                      value={"Custom Add"}
+                                    >
+                                      <Link
+                                        href="#"
+                                        onClick={() => setBankOpen(true)}
+                                        style={{
+                                          display: "inline-flex",
+                                          textDecoration: "none",
+                                          color: "#2A4062",
+                                          width: "100%",
+                                        }}
+                                      >
+                                        Custom Add
+                                      </Link>
+                                    </MenuItem>
+                                  </Select>
+                                </FormControl>
+                                {bankOpen && (
+                                  <>
+                                    <CustomFormikField
+                                      name="customBankName"
+                                      label="Bank Name"
+                                    />
+                                    <CustomFormikField
+                                      name="customIFSC"
+                                      label="IFSC"
+                                    />
+                                    <CustomFormikField
+                                      name="customHolderName"
+                                      label="A/c Holder Name"
+                                    />
+                                    <CustomFormikField
+                                      name="customeAccountNumber"
+                                      label="A/c Number"
+                                    />
+                                  </>
+                                )}
+
+                                {!bankOpen && (
+                                  <>
+                                    <Box
+                                      sx={{
+                                        mt: 3.5,
+                                        "&>*": {
+                                          display: "flex",
+                                          gap: 1.25,
+                                          "&:not(:first-child)": { mt: 1.75 },
+                                          "&>*": {
+                                            fontSize: "16px!important",
+                                            lineHeight: "1!important",
+                                            textTransform: "capitalize",
+                                            "&:first-child": {
+                                              width: "110px",
+                                              display: "flex",
+                                              justifyContent: "space-between",
+                                              fontWeight: 600,
+                                            },
+                                          },
+                                        },
+                                      }}
+                                    >
+                                      <Box>
+                                        <Typography variant="subtitle2">
+                                          Bank Name<span>:</span>
+                                        </Typography>
+                                        <Typography variant="subtitle2">
+                                          {bankDetails.bankName ||
+                                            invoiceData?.bank?.bankName}
+                                        </Typography>
+                                      </Box>
+                                      <Box>
+                                        <Typography variant="subtitle2">
+                                          IFSC Code<span>:</span>
+                                        </Typography>
+                                        <Typography variant="subtitle2">
+                                          {bankDetails.IFSC ||
+                                            invoiceData?.bank?.IFSC}
+                                        </Typography>
+                                      </Box>
+                                      <Box>
+                                        <Typography variant="subtitle2">
+                                          A/c Name<span>:</span>
+                                        </Typography>
+                                        <Typography variant="subtitle2">
+                                          {bankDetails.holderName ||
+                                            invoiceData?.bank?.holderName}
+                                        </Typography>
+                                      </Box>
+                                      <Box>
+                                        <Typography variant="subtitle2">
+                                          A/c No.<span>:</span>
+                                        </Typography>
+                                        <Typography variant="subtitle2">
+                                          {bankDetails.label ||
+                                            invoiceData?.bank?.accountNumber}
+                                        </Typography>
+                                      </Box>
+                                    </Box>
+                                  </>
+                                )}
+                              </Box>
+                            </Box>
+                            <Box sx={{ mt: 6 }}>
+                              <Typography
+                                variant="h6"
+                                sx={{
+                                  fontSize: "20px",
+                                  mb: 2,
+                                  display: "block",
+                                }}
+                              >
+                                Notes
+                              </Typography>
+                              <CustomFormikField
+                                name="note"
+                                label="Descrption"
+                                multiline
+                                rows={3}
+                              />
+                            </Box>
+                          </Box>
+                          <Box
+                            sx={{
+                              mt: 8.5,
+                              mr: 6,
+                              maxHeight: "80px",
+                              maxWidth: "200px",
+                              flexShrink: 0,
+                            }}
+                          >
+                            <img
+                              src="/images/sign.svg"
+                              style={{
+                                maxHeight: "inherit",
+                                width: "100%",
+                                display: "block",
+                              }}
+                              alt=""
+                            ></img>
+                          </Box>
+                        </Box>
                       </Box>
-                      <Box
-                        sx={{
-                          alignItems: "center",
-                          "& > *:last-child": {
-                            maxWidth: "85px",
-                            "& input": {
-                              textAlign: "right",
+                      <Box sx={{ mt: 3 }}>
+                        <FormControlLabel
+                          label="Add watermark"
+                          sx={{
+                            userSelect: "none",
+                            m: 0,
+                            "&>span:last-child": {
+                              ml: 1,
                             },
-                          },
-                        }}
-                      >
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ textWrap: "nowrap" }}
-                        >
-                          sales tax:
-                        </Typography>
-                        <CustomFormikField
-                          name={"salesTax"}
-                          placeholder="00.00"
+                          }}
+                          control={
+                            <Checkbox
+                              onClick={() => setShowWatermark(!showWatermark)}
+                              disableRipple
+                              sx={{
+                                p: 0,
+                                position: "relative",
+                                borderRadius: "4px",
+                                width: "20px",
+                                height: "20px",
+                                bgcolor: "text.primary",
+                                "& svg": { opacity: 0 },
+                                "&:before": {
+                                  content: "'✓'",
+                                  position: "absolute",
+                                  top: "50%",
+                                  left: "50%",
+                                  transform: "translate(-50%,-50%)",
+                                  opacity: 0,
+                                  transition: "all 0.2s ease-in-out",
+                                  color: "white",
+                                  fontSize: "14px",
+                                },
+                                "&.Mui-checked:before": {
+                                  opacity: 1,
+                                },
+                              }}
+                              defaultChecked
+                            />
+                          }
                         />
-                      </Box>
-                      <Box>
-                        <Typography variant="subtitle2">total:</Typography>
-                        <Typography variant="subtitle2">
-                          $
-                          {+values.salesTax +
-                            getSubTotal(values.task) -
-                            discountRS}
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant="subtitle2">
-                          amount paid:
-                        </Typography>
-                        <Typography variant="subtitle2">$0.00</Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          py: 1.75,
-                          bgcolor: "primary.light",
-                          borderRadius: 2.5,
-                        }}
-                      >
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontWeight: 700 }}
-                        >
-                          balance due:
-                        </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontWeight: 700 }}
-                        >
-                          $
-                          {+values.salesTax +
-                            getSubTotal(values.task) -
-                            discountRS}
-                        </Typography>
                       </Box>
                     </Box>
                     <Box
                       sx={{
                         display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "end",
+                        justifyContent: "center",
                         gap: 2,
+                        mt: 2.5,
                       }}
                     >
-                      <Box sx={{ minWidth: "300px", maxWidth: "450px" }}>
-                        <Box>
-                          <Typography
-                            variant="h6"
-                            className="bg-style"
-                            sx={{ mb: 2 }}
-                          >
-                            Bank Details
-                          </Typography>
-                          <Box
-                            sx={{
-                              "&>*:not(:first-child)": {
-                                mt: 1.75,
-                              },
-                            }}
-                          >
-                            <FormControl
-                              fullWidth
-                              size="small"
-                              sx={{
-                                maxWidth: "300px",
-                                display: "flex",
-                                "&>label": { fontSize: "12px" },
-                                "&>div": { textAlign: "left" },
-                              }}
-                            >
-                              <InputLabel
-                                sx={{ textTransform: "capitalize" }}
-                                id="demo-simple-select-label"
-                              >
-                                Select Bank
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="select_Bank"
-                                label="Select Bank"
-                                sx={{ fontSize: "13px" }}
-                                defaultValue={invoiceData?.bankId}
-                                onChange={handleBankChange}
-                              >
-                                {adminList.bank &&
-                                  adminList.bank.map((bank) => (
-                                    <MenuItem
-                                      sx={{ textTransform: "capitalize" }}
-                                      value={bank._id}
-                                      onClick={() =>
-                                        bankOpen && setBankOpen(false)
-                                      }
-                                    >
-                                      {bank.bankName}
-                                    </MenuItem>
-                                  ))}
-
-                                <MenuItem
-                                  sx={{ textTransform: "capitalize" }}
-                                  value={"Custom Add"}
-                                >
-                                  <Link
-                                    href="#"
-                                    onClick={() => setBankOpen(true)}
-                                    style={{
-                                      display: "inline-flex",
-                                      textDecoration: "none",
-                                      color: "#2A4062",
-                                      width: "100%",
-                                    }}
-                                  >
-                                    Custom Add
-                                  </Link>
-                                </MenuItem>
-                              </Select>
-                            </FormControl>
-                            {bankOpen && (
-                              <>
-                                <CustomFormikField
-                                  name="customBankName"
-                                  label="Bank Name"
-                                />
-                                <CustomFormikField
-                                  name="customIFSC"
-                                  label="IFSC"
-                                />
-                                <CustomFormikField
-                                  name="customHolderName"
-                                  label="A/c Holder Name"
-                                />
-                                <CustomFormikField
-                                  name="customeAccountNumber"
-                                  label="A/c Number"
-                                />
-                                {/* <Box>
-                                    <Typography variant="subtitle2">
-                                      Bank Name<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.bankName}
-                                    </Typography>
-                                  </Box>
-                                  <Box>
-                                    <Typography variant="subtitle2">
-                                      IFSC Code<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.IFSC}
-                                    </Typography>
-                                  </Box>
-                                  <Box>
-                                    <Typography variant="subtitle2">
-                                      A/c Holder Name<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.holderName}
-                                    </Typography>
-                                  </Box>
-                                  <Box>
-                                    <Typography variant="subtitle2">
-                                      A/c No.<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.accountNumber}
-                                    </Typography>
-                                  </Box> */}
-                              </>
-                            )}
-
-                            {!bankOpen && (
-                              <>
-                                <Box
-                                  sx={{
-                                    mt: 2.25,
-                                    "&>*": {
-                                      display: "flex",
-                                      gap: 1.25,
-                                      "&:not(:first-child)": { mt: 1.75 },
-                                      "&>*": {
-                                        lineHeight: "1!important",
-                                        textTransform: "capitalize",
-                                        fontSize: "16px!important",
-                                        "&:first-child": {
-                                          opacity: 0.5,
-                                          width: "145px",
-                                          display: "flex",
-                                          justifyContent: "space-between",
-                                        },
-                                      },
-                                    },
-                                  }}
-                                >
-                                  <Box>
-                                    <Typography variant="subtitle2">
-                                      Bank Name<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.bankName ||
-                                        invoiceData?.bank?.bankName}
-                                    </Typography>
-                                  </Box>
-                                  <Box>
-                                    <Typography variant="subtitle2">
-                                      IFSC Code<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.IFSC ||
-                                        invoiceData?.bank?.IFSC}
-                                    </Typography>
-                                  </Box>
-                                  <Box>
-                                    <Typography variant="subtitle2">
-                                      A/c Holder Name<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.holderName ||
-                                        invoiceData?.bank?.holderName}
-                                    </Typography>
-                                  </Box>
-                                  <Box>
-                                    <Typography variant="subtitle2">
-                                      A/c No.<span>:</span>
-                                    </Typography>
-                                    <Typography variant="subtitle2">
-                                      {bankDetails.label ||
-                                        invoiceData?.bank?.accountNumber}
-                                    </Typography>
-                                  </Box>
-                                </Box>
-                              </>
-                            )}
-                          </Box>
-                          {/* {!bankDetails && (
-                            <>
-                              <CustomFormikField
-                                name="customBankName"
-                                label="Bank Name"
-                              />
-                              <CustomFormikField
-                                name="customIFSC"
-                                label="IFSC"
-                              />
-                              <CustomFormikField
-                                name="customHolderName"
-                                label="A/c Holder Name"
-                              />
-                              <CustomFormikField
-                                name="customeAccountNumber"
-                                label="A/c Number"
-                              />
-                            </>
-                          )}
-                          {bankDetails && (
-                            <>
-                              <CustomFormikField
-                                name="bankName"
-                                label="Bank Name"
-                                value={bankDetails.bankName}
-                              />
-                              <CustomFormikField
-                                name="IFSC"
-                                value={bankDetails.IFSC}
-                                label="IFSC"
-                              />
-                              <CustomFormikField
-                                name="holderName"
-                                label="A/c Holder Name"
-                                value={bankDetails.holderName}
-                              />
-                              <CustomFormikField
-                                name="label"
-                                label="A/c Number"
-                                value={bankDetails.label}
-                              />
-                            </>
-                          )} */}
-                        </Box>
-                        <Box sx={{ mt: 6 }}>
-                          <Typography variant="h6" sx={{ mb: 2 }}>
-                            Notes
-                          </Typography>
-                          <CustomFormikField
-                            name="note"
-                            label="Descrption"
-                            multiline
-                            rows={3}
-                          />
-                        </Box>
-                      </Box>
-                      <Box
-                        sx={{
-                          mt: 8.5,
-                          mr: 6,
-                          maxHeight: "80px",
-                          maxWidth: "200px",
-                          flexShrink: 0,
-                        }}
-                      >
-                        <img
-                          src="/images/sign.svg"
-                          style={{
-                            maxHeight: "inherit",
-                            width: "100%",
-                            display: "block",
-                          }}
-                        ></img>
-                      </Box>
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: 2,
-                      mt: 2.5,
-                    }}
-                  >
-                    {/* <Link to="./preview"> */}
-                    <Button
-                      type="submit"
-                      disableRipple
-                      sx={{
-                        maxHeight: "42px",
-                        position: "relative",
-                        px: 2.5,
-                        py: 1.5,
-                        bgcolor: "success.main",
-                        border: "1px solid",
-                        borderColor: "success.main",
-                        color: "white",
-                        lineHeight: 1,
-                        borderRadius: 2.5,
-                        overflow: "hidden",
-                        "&:before": {
-                          content: "''",
-                          height: 0,
-                          width: "10rem",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          zIndex: "0",
-                          bgcolor: "white",
-                          transform: "rotate(-45deg) translate(-50%, -50%)",
-                          transformOrigin: "0% 0%",
-                          transition: "all 0.4s ease-in-out",
-                        },
-                        "&:hover": {
-                          color: "success.main",
-                          bgcolor: "success.main",
-                          "&:before": { height: "10rem" },
-                        },
-                      }}
-                    >
-                      <span style={{ position: "relative" }}>Submit</span>
-                    </Button>
-                    {/* </Link> */}
-                    <Link to="../invoices">
+                      {/* <Link to="./preview"> */}
                       <Button
+                        type="submit"
                         disableRipple
                         sx={{
                           maxHeight: "42px",
                           position: "relative",
                           px: 2.5,
                           py: 1.5,
-                          color: "text.primary",
-                          bgcolor: "#e4e4e4",
+                          bgcolor: "success.main",
                           border: "1px solid",
-                          borderColor: "#e4e4e4",
+                          borderColor: "success.main",
+                          color: "white",
                           lineHeight: 1,
                           borderRadius: 2.5,
                           overflow: "hidden",
@@ -1733,16 +1687,55 @@ export default function Invoices() {
                             transition: "all 0.4s ease-in-out",
                           },
                           "&:hover": {
-                            bgcolor: "#e4e4e4",
+                            color: "success.main",
+                            bgcolor: "success.main",
                             "&:before": { height: "10rem" },
                           },
                         }}
                       >
-                        <span style={{ position: "relative" }}>discard</span>
+                        <span style={{ position: "relative" }}>Submit</span>
                       </Button>
-                    </Link>
-                  </Box>
-                </Form>
+                      {/* </Link> */}
+                      <Link to="../invoices">
+                        <Button
+                          disableRipple
+                          sx={{
+                            maxHeight: "42px",
+                            position: "relative",
+                            px: 2.5,
+                            py: 1.5,
+                            color: "text.primary",
+                            bgcolor: "#e4e4e4",
+                            border: "1px solid",
+                            borderColor: "#e4e4e4",
+                            lineHeight: 1,
+                            borderRadius: 2.5,
+                            overflow: "hidden",
+                            "&:before": {
+                              content: "''",
+                              height: 0,
+                              width: "10rem",
+                              position: "absolute",
+                              top: "50%",
+                              left: "50%",
+                              zIndex: "0",
+                              bgcolor: "white",
+                              transform: "rotate(-45deg) translate(-50%, -50%)",
+                              transformOrigin: "0% 0%",
+                              transition: "all 0.4s ease-in-out",
+                            },
+                            "&:hover": {
+                              bgcolor: "#e4e4e4",
+                              "&:before": { height: "10rem" },
+                            },
+                          }}
+                        >
+                          <span style={{ position: "relative" }}>discard</span>
+                        </Button>
+                      </Link>
+                    </Box>
+                  </Form>
+                </Box>
               </Box>
               {/* admin information edit */}
               <InvoiceInputForm

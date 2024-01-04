@@ -24,18 +24,8 @@ export default function Home() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
-      <Box sx={{ display: "flex", height: "100vh", ml: { lg: sideBarWidth } }}>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            pt: 13,
-            px: 2.5,
-            pb: 2.5,
-            height: "100%",
-            overflowY: "auto",
-          }}
-        >
+      <Box sx={{ ml: { lg: sideBarWidth } }}>
+        <Box component="main">
           <Box></Box>
         </Box>
       </Box>

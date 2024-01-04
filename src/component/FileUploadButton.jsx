@@ -25,7 +25,7 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
         <>
           <Box
             sx={{
-              height: { xs: "100px", sm: "200px" },
+              height: { xs: "100px", sm: "170px" },
               border: "1px solid rgba(0,0,0,0.15)",
               display: "flex",
               justifyContent: "center",
@@ -93,7 +93,7 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
               sx={{
                 fontSize: {
                   xs: "18px!important",
-                  sm: "30px!important",
+                  sm: "28px!important",
                 },
               }}
             />
@@ -107,8 +107,8 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
             boxShadow: "none",
             color: "text.secondary",
             transition: "0s",
-            height: { xs: "100px", sm: "200px" },
-            fontSize: { xs: "18px", sm: "30px" },
+            height: { xs: "100px", sm: "170px" },
+            fontSize: { xs: "18px", sm: "24px" },
             ":hover": {
               bgcolor: "transparent",
               borderColor: "text.primary",

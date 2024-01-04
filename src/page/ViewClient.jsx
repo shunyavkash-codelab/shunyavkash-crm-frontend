@@ -1,23 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  Chip,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Avatar,
-} from "@mui/material";
+import { Box, Typography, Chip } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import PlusIcon from "@mui/icons-material/Close";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
@@ -68,18 +53,8 @@ export default function Manager() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
-      <Box sx={{ display: "flex", height: "100vh", ml: { lg: sideBarWidth } }}>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            pt: 13,
-            px: 2.5,
-            pb: 2.5,
-            height: "100%",
-            overflowY: "auto",
-          }}
-        >
+      <Box sx={{ ml: { lg: sideBarWidth } }}>
+        <Box component="main">
           <Box sx={{ mb: 3.25 }}>
             <Typography
               variant="h5"
@@ -148,6 +123,7 @@ export default function Manager() {
                     borderRadius: "100%",
                     boxShadow: "rgb(0, 0, 0,5%) 0px 0px 6px 6px",
                   }}
+                  alt=""
                 />
               </Box>
               <Box
@@ -194,6 +170,7 @@ export default function Manager() {
                       ? clientList?.companyLogo
                       : "/images/logo-2.svg"
                   }
+                  alt=""
                   style={{
                     height: "100%",
                     width: "100%",
@@ -246,7 +223,7 @@ export default function Manager() {
               )}
               {clientList.gender && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/gender.svg"></img>
+                  <img className="icon" src="/images/gender.svg" alt=""></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -281,7 +258,7 @@ export default function Manager() {
                     gridColumn: { sm: "span 2" },
                   }}
                 >
-                  <img className="icon" src="/images/website.svg"></img>
+                  <img className="icon" src="/images/website.svg" alt=""></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -305,6 +282,7 @@ export default function Manager() {
                     className="icon"
                     src="/images/projects.svg"
                     style={{ marginTop: "3px" }}
+                    alt=""
                   ></img>
                   <Box
                     sx={{

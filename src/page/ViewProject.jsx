@@ -1,40 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Avatar,
-  Chip,
-} from "@mui/material";
+import { Box, Typography, Chip } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import PlusIcon from "@mui/icons-material/Close";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
 import { useAuth } from "../hooks/store/useAuth.js";
-import PhoneIcon from "@mui/icons-material/PhoneIphone";
-import CompanyIcon from "@mui/icons-material/BusinessOutlined";
 import { useParams } from "react-router-dom";
-import AddressIcon from "@mui/icons-material/LocationOnOutlined";
 import ManagerIcon from "@mui/icons-material/PersonOutlined";
 import DescriptionIcon from "@mui/icons-material/DescriptionOutlined";
-import StatusIcon from "@mui/icons-material/TrafficOutlined";
 
 export default function ViewProject() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { apiCall, isLoading } = useApi();
-  const { accessToken, user } = useAuth();
+  const { apiCall } = useApi();
+  const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const [projectList, setProjectList] = useState([]);
   const { id } = useParams();
@@ -83,18 +64,8 @@ export default function ViewProject() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
-      <Box sx={{ display: "flex", height: "100vh", ml: { lg: sideBarWidth } }}>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            pt: 13,
-            px: 2.5,
-            pb: 2.5,
-            height: "100%",
-            overflowY: "auto",
-          }}
-        >
+      <Box sx={{ ml: { lg: sideBarWidth } }}>
+        <Box component="main">
           <Box sx={{ mb: 3.25 }}>
             <Typography
               variant="h5"
@@ -223,6 +194,7 @@ export default function ViewProject() {
                   <img
                     className="icon"
                     src="/images/projects.svg"
+                    alt=""
                     style={{ marginTop: "3px" }}
                   ></img>
                   <Box
@@ -263,7 +235,11 @@ export default function ViewProject() {
               )}
               {projectList.startDate && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/date-start.svg"></img>
+                  <img
+                    className="icon"
+                    src="/images/date-start.svg"
+                    alt=""
+                  ></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -277,7 +253,7 @@ export default function ViewProject() {
               )}
               {projectList.endDate && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/date-end.svg"></img>
+                  <img className="icon" src="/images/date-end.svg" alt=""></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -291,7 +267,11 @@ export default function ViewProject() {
               )}
               {projectList.payPeriod && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/time-period.svg"></img>
+                  <img
+                    className="icon"
+                    src="/images/time-period.svg"
+                    alt=""
+                  ></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -304,7 +284,11 @@ export default function ViewProject() {
               )}
               {projectList.perHourCharge && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/hourly-rate.svg"></img>
+                  <img
+                    className="icon"
+                    src="/images/hourly-rate.svg"
+                    alt=""
+                  ></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -318,7 +302,7 @@ export default function ViewProject() {
               )}
               {projectList.status && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/status.svg"></img>
+                  <img className="icon" src="/images/status.svg" alt=""></img>
                   <Typography
                     variant="body2"
                     sx={{

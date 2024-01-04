@@ -31,11 +31,11 @@ export default function Invoices() {
   const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
   const { invoiceData } = useInvoiceStore();
   const navigate = useNavigate();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const location = useLocation();
   let view = location.pathname.includes("/view/") ? true : false;
-
+  console.log(invoiceData, "--------------------38");
   // add invoice
   const addInvoice = async () => {
     try {
@@ -45,7 +45,7 @@ export default function Invoices() {
           method: "post",
           data: JSON.stringify(invoiceData, null, 2),
         });
-        if (res.status === 201) {
+        if (res.data.success === true) {
           setSnack(res.data.message);
           toPDF();
           navigate("/invoices");
@@ -84,20 +84,8 @@ export default function Invoices() {
         setShowSidebar={setShowSidebar}
       />
       {invoiceData && (
-        <Box
-          sx={{ display: "flex", height: "100vh", ml: { lg: sideBarWidth } }}
-        >
-          <Box
-            component="main"
-            sx={{
-              flexGrow: 1,
-              pt: 13,
-              px: 2.5,
-              pb: 5,
-              height: "100%",
-              overflowY: "auto",
-            }}
-          >
+        <Box sx={{ ml: { lg: sideBarWidth } }}>
+          <Box component="main">
             <Box sx={{ mb: 3.25 }}>
               <Typography
                 variant="h5"
@@ -134,6 +122,7 @@ export default function Invoices() {
                 <img
                   src="/images/logo.svg"
                   style={{ height: "auto", width: "100%", flexShrink: 0 }}
+                  alt=""
                 />
               </Box>
               <Box
@@ -166,6 +155,9 @@ export default function Invoices() {
                       }}
                     >
                       {invoiceData.from.address}
+                      {invoiceData.from.address2}
+                      {invoiceData.from.landmark}
+                      {invoiceData.from.pincode}
                     </Typography>
                     <Box
                       sx={{
@@ -211,6 +203,7 @@ export default function Invoices() {
                       width: "100%",
                       display: "block",
                     }}
+                    alt=""
                   />
                 </Box>
               </Box>
@@ -245,7 +238,6 @@ export default function Invoices() {
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
-                    mt: 3.5,
                     gap: 2,
                   }}
                 >
@@ -254,6 +246,7 @@ export default function Invoices() {
                       className="bg-style"
                       variant="subtitle3"
                       sx={{
+                        display: "block",
                         flexShrink: 0,
                         fontWeight: 600,
                         fontSize: "16px",
@@ -443,6 +436,9 @@ export default function Invoices() {
                           "&:nth-child(even) span": {
                             bgcolor: "#f3f3f3",
                           },
+                          "&:nth-child(odd):last-child": {
+                            borderBottom: "1px solid rgba(0,0,0,0.1)",
+                          },
                           "&>*": {
                             "&:first-child span": {
                               borderRadius: "10px 0 0 10px",
@@ -470,151 +466,96 @@ export default function Invoices() {
                         </TableRow>
                       ))}
                       {/* <TableRow
-                      sx={{
-                        "&>*": {
-                          p: "0!important",
-                          fontWeight: "500",
-                          "&:first-child": {
-                            maxWidth: "400px",
-                            textWrap: "wrap",
-                          },
-                          "&>span": {
-                            display: "block",
-                            px: "16px",
-                            py: "14px",
-                          },
-                        },
-                      }}
-                    >
-                      <TableCell>
-                        <span>Recurring Bill (Domain)</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$239.00</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>3</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$717.00</span>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        "&>*": {
-                          p: "0!important",
-                          fontWeight: "500",
-                          "&:first-child": {
-                            maxWidth: "400px",
-                            textWrap: "wrap",
-                          },
-                          "&>span": {
-                            display: "block",
-                            px: "16px",
-                            py: "14px",
-                          },
-                        },
-                      }}
-                    >
-                      <TableCell>
-                        <span>Recurring Bill (Domain)</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$239.00</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>3</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$717.00</span>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        "&>*": {
-                          p: "0!important",
-                          fontWeight: "500",
-                          "&:first-child": {
-                            maxWidth: "400px",
-                            textWrap: "wrap",
-                          },
-                          "&>span": {
-                            display: "block",
-                            px: "16px",
-                            py: "14px",
-                          },
-                        },
-                      }}
-                    >
-                      <TableCell>
-                        <span>Recurring Bill (Domain)</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$239.00</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>3</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$717.00</span>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      sx={{
-                        "&>*": {
-                          p: "0!important",
-                          fontWeight: "500",
-                          "&:first-child": {
-                            maxWidth: "400px",
-                            textWrap: "wrap",
-                          },
-                          "&>span": {
-                            display: "block",
-                            px: "16px",
-                            py: "14px",
-                          },
-                        },
-                      }}
-                    >
-                      <TableCell>
-                        <span>Recurring Bill (Domain)</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$239.00</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>3</span>
-                      </TableCell>
-                      <TableCell>
-                        <span>$717.00</span>
-                      </TableCell>
-                    </TableRow> */}
-                    </TableBody>
-                    {/* <TableFooter>
-                    <TableRow
-                      sx={{
-                        "&>*": {
-                          py: 1.75,
-                        },
-                      }}
-                    >
-                      <TableCell></TableCell>
-                      <TableCell></TableCell>
-                      <TableCell
                         sx={{
-                          fontWeight: "700",
-                          color: "text.primary",
+                          "&>*": {
+                            p: "0!important",
+                            fontWeight: "500",
+                            "&:first-child": {
+                              maxWidth: "400px",
+                              textWrap: "wrap",
+                            },
+                            "&>span": {
+                              display: "block",
+                              px: "16px",
+                              py: "14px",
+                            },
+                          },
                         }}
                       >
-                        Total:
-                      </TableCell>
-                      <TableCell
-                        sx={{ fontWeight: "700", color: "text.primary" }}
+                        <TableCell>
+                          <span>Recurring Bill (Domain)</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$239.00</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>3</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$717.00</span>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow
+                        sx={{
+                          "&>*": {
+                            p: "0!important",
+                            fontWeight: "500",
+                            "&:first-child": {
+                              maxWidth: "400px",
+                              textWrap: "wrap",
+                            },
+                            "&>span": {
+                              display: "block",
+                              px: "16px",
+                              py: "14px",
+                            },
+                          },
+                        }}
                       >
-                        ${invoiceData?.totals.subTotal}
-                      </TableCell>
-                    </TableRow>
-                  </TableFooter> */}
+                        <TableCell>
+                          <span>Recurring Bill (Domain)</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$239.00</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>3</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$717.00</span>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow
+                        sx={{
+                          "&>*": {
+                            p: "0!important",
+                            fontWeight: "500",
+                            "&:first-child": {
+                              maxWidth: "400px",
+                              textWrap: "wrap",
+                            },
+                            "&>span": {
+                              display: "block",
+                              px: "16px",
+                              py: "14px",
+                            },
+                          },
+                        }}
+                      >
+                        <TableCell>
+                          <span>Recurring Bill (Domain)</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$239.00</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>3</span>
+                        </TableCell>
+                        <TableCell>
+                          <span>$717.00</span>
+                        </TableCell>
+                      </TableRow> */}
+                    </TableBody>
                   </Table>
                 </TableContainer>
                 <Box
@@ -862,6 +803,7 @@ export default function Invoices() {
                         width: "100%",
                         display: "block",
                       }}
+                      alt=""
                     ></img>
                   </Box>
                 </Box>

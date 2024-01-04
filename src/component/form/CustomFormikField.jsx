@@ -21,14 +21,8 @@ export default function CustomFormikField({ name, ...params }) {
               sx={{
                 maxWidth: "300px",
                 "&>label,& input,&>div": {
-                  fontSize: "12px!important",
+                  fontSize: "14px!important",
                 },
-                // "& input,& fieldset": {
-                //   marginLeft: "-12px",
-                // },
-                // "& fieldset": {
-                //   borderColor: "transparent",
-                // },
               }}
               {...field}
               {...params}

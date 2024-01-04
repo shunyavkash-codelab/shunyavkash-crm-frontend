@@ -5,7 +5,6 @@ import Header from "../component/Header";
 import {
   Box,
   Typography,
-  Button,
   TableContainer,
   Paper,
   Table,
@@ -15,7 +14,7 @@ import {
   TableBody,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
-import PlusIcon from "@mui/icons-material/Close";
+// import PlusIcon from "@mui/icons-material/Close";
 import InvitationModal from "../component/InvitationModal";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList.js";
@@ -76,18 +75,9 @@ export default function Employees() {
       <Box
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        sx={{ height: "100vh", ml: { lg: sideBarWidth } }}
+        sx={{ ml: { lg: sideBarWidth } }}
       >
-        <Box
-          sx={{
-            flexGrow: 1,
-            pt: 13,
-            px: 2.5,
-            pb: 2.5,
-            height: "100%",
-            overflowY: "auto",
-          }}
-        >
+        <Box component="main">
           <Box
             sx={{
               mb: 3.25,
@@ -235,7 +225,7 @@ export default function Employees() {
                       >
                         <TableCell>employee</TableCell>
                         <TableCell sx={{ width: "250px" }}>Role</TableCell>
-                        <TableCell>invite</TableCell>
+                        <TableCell>status</TableCell>
                         <TableCell sx={{ width: "140px" }}>Actions</TableCell>
                       </TableRow>
                     </TableHead>

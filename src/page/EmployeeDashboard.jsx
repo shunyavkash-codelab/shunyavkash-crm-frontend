@@ -17,8 +17,8 @@ import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import { BarChart } from "@mui/x-charts/BarChart";
-import TaskDetail from "../component/employeeDashboard/TaskDetail";
-import TaskCard from "../component/employeeDashboard/TaskCard";
+import TaskDetail from "../component/employee/TaskDetail";
+import TaskCard from "../component/employee/TaskCard";
 
 export default function EmployeeDashboard() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -51,20 +51,8 @@ export default function EmployeeDashboard() {
         setShowSidebar={setShowSidebar}
       />
       {user.role !== 0 && (
-        <Box
-          sx={{ display: "flex", height: "100vh", ml: { lg: sideBarWidth } }}
-        >
-          <Box
-            component="main"
-            sx={{
-              flexGrow: 1,
-              pt: 13,
-              px: 2.5,
-              pb: 2.5,
-              height: "100%",
-              overflowY: "auto",
-            }}
-          >
+        <Box sx={{ ml: { lg: sideBarWidth } }}>
+          <Box component="main">
             <Box>
               <Box sx={{ mb: 3.25 }}>
                 <Typography variant="h5" sx={{ textTransform: "capitalize" }}>

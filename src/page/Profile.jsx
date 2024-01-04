@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Avatar, Grid, Card, Button } from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
+import { Box, Typography, Avatar, Grid, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
@@ -21,40 +19,39 @@ import { useFormik } from "formik";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList";
 import { useSnack } from "../hooks/store/useSnack";
-import { useNavigate } from "react-router-dom";
 import AddressForm from "../component/form/AddressForm";
 import ChangePasswordForm from "../component/form/ChangePasswordForm";
 import BankDetailForm from "../component/form/BankDetailForm";
 import * as Yup from "yup";
 
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  "& .MuiBadge-badge": {
-    backgroundColor: "#44b700",
-    color: "#44b700",
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    "&::after": {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      borderRadius: "50%",
-      animation: "ripple 1.2s infinite ease-in-out",
-      border: "1px solid currentColor",
-      content: '""',
-    },
-  },
-  "@keyframes ripple": {
-    "0%": {
-      transform: "scale(.8)",
-      opacity: 1,
-    },
-    "100%": {
-      transform: "scale(2.4)",
-      opacity: 0,
-    },
-  },
-}));
+// const StyledBadge = styled(Badge)(({ theme }) => ({
+//   "& .MuiBadge-badge": {
+//     backgroundColor: "#44b700",
+//     color: "#44b700",
+//     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+//     "&::after": {
+//       position: "absolute",
+//       top: 0,
+//       left: 0,
+//       width: "100%",
+//       height: "100%",
+//       borderRadius: "50%",
+//       animation: "ripple 1.2s infinite ease-in-out",
+//       border: "1px solid currentColor",
+//       content: '""',
+//     },
+//   },
+//   "@keyframes ripple": {
+//     "0%": {
+//       transform: "scale(.8)",
+//       opacity: 1,
+//     },
+//     "100%": {
+//       transform: "scale(2.4)",
+//       opacity: 0,
+//     },
+//   },
+// }));
 
 const SmallAvatar = styled(CameraAltOutlinedIcon)(({ theme }) => ({
   width: 26,
@@ -98,85 +95,72 @@ function a11yProps(index) {
   };
 }
 
-const TabUI = styled(Tab)(({ theme }) => ({
-  textAlign: "left",
-  justifyContent: "start",
-  minHeight: "auto",
-  textTransform: "capitalize",
-}));
+// const TabUI = styled(Tab)(({ theme }) => ({
+//   textAlign: "left",
+//   justifyContent: "start",
+//   minHeight: "auto",
+//   textTransform: "capitalize",
+// }));
 
-const IOSSwitch = styled((props) => (
-  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-))(({ theme }) => ({
-  width: 42,
-  height: 26,
-  padding: 0,
-  "& .MuiSwitch-switchBase": {
-    padding: 0,
-    margin: 2,
-    transitionDuration: "300ms",
-    "&.Mui-checked": {
-      transform: "translateX(16px)",
-      color: "#fff",
-      "& + .MuiSwitch-track": {
-        backgroundColor: theme.palette.mode === "dark" ? "#1677FF" : "#65C466",
-        opacity: 1,
-        border: 0,
-      },
-      "&.Mui-disabled + .MuiSwitch-track": {
-        opacity: 0.5,
-      },
-    },
-    "&.Mui-focusVisible .MuiSwitch-thumb": {
-      color: "#33cf4d",
-      border: "6px solid #fff",
-    },
-    "&.Mui-disabled .MuiSwitch-thumb": {
-      color:
-        theme.palette.mode === "light"
-          ? theme.palette.grey[100]
-          : theme.palette.grey[600],
-    },
-    "&.Mui-disabled + .MuiSwitch-track": {
-      opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
-    },
-  },
-  "& .MuiSwitch-thumb": {
-    boxSizing: "border-box",
-    width: 22,
-    height: 22,
-  },
-  "& .MuiSwitch-track": {
-    borderRadius: 26 / 2,
-    backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
-    opacity: 1,
-    transition: theme.transitions.create(["background-color"], {
-      duration: 500,
-    }),
-  },
-}));
+// const IOSSwitch = styled((props) => (
+//   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+// ))(({ theme }) => ({
+//   width: 42,
+//   height: 26,
+//   padding: 0,
+//   "& .MuiSwitch-switchBase": {
+//     padding: 0,
+//     margin: 2,
+//     transitionDuration: "300ms",
+//     "&.Mui-checked": {
+//       transform: "translateX(16px)",
+//       color: "#fff",
+//       "& + .MuiSwitch-track": {
+//         backgroundColor: theme.palette.mode === "dark" ? "#1677FF" : "#65C466",
+//         opacity: 1,
+//         border: 0,
+//       },
+//       "&.Mui-disabled + .MuiSwitch-track": {
+//         opacity: 0.5,
+//       },
+//     },
+//     "&.Mui-focusVisible .MuiSwitch-thumb": {
+//       color: "#33cf4d",
+//       border: "6px solid #fff",
+//     },
+//     "&.Mui-disabled .MuiSwitch-thumb": {
+//       color:
+//         theme.palette.mode === "light"
+//           ? theme.palette.grey[100]
+//           : theme.palette.grey[600],
+//     },
+//     "&.Mui-disabled + .MuiSwitch-track": {
+//       opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
+//     },
+//   },
+//   "& .MuiSwitch-thumb": {
+//     boxSizing: "border-box",
+//     width: 22,
+//     height: 22,
+//   },
+//   "& .MuiSwitch-track": {
+//     borderRadius: 26 / 2,
+//     backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
+//     opacity: 1,
+//     transition: theme.transitions.create(["background-color"], {
+//       duration: 500,
+//     }),
+//   },
+// }));
 
 export default function Profile() {
   const handleClick = console.log("Badge Clicked!");
   let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const { apiCall, isLoading } = useApi();
-  const { profile } = useAuth();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
-  const navigate = useNavigate();
   const [showSidebar, setShowSidebar] = useState(false);
   const [value, setValue] = useState(0);
   const { accessToken, userId } = useAuth();
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-  const handleMouseDownNewPassword = (event) => {
-    event.preventDefault();
-  };
   const [profileList, setProfileList] = useState(false);
 
   // yup data validator schhema
@@ -275,18 +259,8 @@ export default function Profile() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
-      <Box sx={{ display: "flex", height: "100vh", ml: { lg: sideBarWidth } }}>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            pt: 13,
-            px: 2.5,
-            pb: 2.5,
-            height: "100%",
-            overflowY: "auto",
-          }}
-        >
+      <Box sx={{ ml: { lg: sideBarWidth } }}>
+        <Box component="main">
           <Box
             sx={{
               mb: 3.25,
