@@ -116,7 +116,8 @@ export default function AddManager() {
   useEffect(() => {
     fetchManagers();
     fetchCountry();
-  }, []);
+    // }, []);
+  });
 
   return (
     <>
