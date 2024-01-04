@@ -11,16 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useApi from "../../hooks/useApi";
 import { APIS } from "../../api/apiList";
-import { useAuth } from "../../hooks/store/useAuth";
 import { useSnack } from "../../hooks/store/useSnack";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export default function ChangePasswordForm({ profileList }) {
-  const { apiCall, isLoading } = useApi();
-  const { accessToken, userId } = useAuth();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);

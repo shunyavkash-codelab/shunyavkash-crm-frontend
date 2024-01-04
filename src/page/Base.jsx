@@ -26,7 +26,7 @@ export default function Home() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box></Box>
+          <Box>Hello</Box>
         </Box>
       </Box>
     </>

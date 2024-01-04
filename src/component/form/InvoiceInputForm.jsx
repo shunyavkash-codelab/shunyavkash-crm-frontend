@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { Box, TextField, Button, Typography } from "@mui/material";
@@ -18,7 +18,7 @@ export default function InvoiceInputForm({
   onSuccess = () => {},
 }) {
   const handleClose = () => setOpen(false);
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
 
   const formik = useFormik({
@@ -45,31 +45,31 @@ export default function InvoiceInputForm({
       );
       try {
         let res;
-        if (identify == 1) {
+        if (identify === 1) {
           res = await apiCall({
             url: APIS.ADMIN.EDIT,
             method: "patch",
             data: JSON.stringify(nonBlankValues, null, 2),
           });
-        } else if (identify == 2) {
+        } else if (identify === 2) {
           res = await apiCall({
             url: APIS.CLIENT.EDIT(uniqId),
             method: "patch",
             data: JSON.stringify(nonBlankValues, null, 2),
           });
-        } else if (identify == 3) {
+        } else if (identify === 3) {
           res = await apiCall({
             url: APIS.PROJECT.EDIT(uniqId),
             method: "patch",
             data: JSON.stringify(nonBlankValues, null, 2),
           });
-        } else if (identify == 4) {
+        } else if (identify === 4) {
           res = await apiCall({
             url: APIS.ADMIN.EDIT,
             method: "patch",
             data: JSON.stringify(nonBlankValues, null, 2),
           });
-        } else if (identify == 5) {
+        } else if (identify === 5) {
           res = await apiCall({
             url: APIS.ADMIN.EDIT,
             method: "patch",
