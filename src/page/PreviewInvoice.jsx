@@ -122,6 +122,7 @@ export default function Invoices() {
                 <img
                   src="/images/logo.svg"
                   style={{ height: "auto", width: "100%", flexShrink: 0 }}
+                  alt=""
                 />
               </Box>
               <Box
@@ -202,6 +203,7 @@ export default function Invoices() {
                       width: "100%",
                       display: "block",
                     }}
+                    alt=""
                   />
                 </Box>
               </Box>
@@ -801,6 +803,7 @@ export default function Invoices() {
                         width: "100%",
                         display: "block",
                       }}
+                      alt=""
                     ></img>
                   </Box>
                 </Box>

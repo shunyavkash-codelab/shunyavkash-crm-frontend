@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
   Button,
   Grid,
   Typography,
-  InputLabel,
-  Select,
-  MenuItem,
   Table,
   TableBody,
   TableCell,
@@ -15,29 +12,16 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import ModalComponent from "../component/ModalComponent";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
-import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import DetailsList from "../component/employee/DetailsList";
-import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import EditIcon from "@mui/icons-material/Edit";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import RedeemIcon from "@mui/icons-material/Redeem";
-import PriceCheckIcon from "@mui/icons-material/PriceCheck";
-import PaidIcon from "@mui/icons-material/Paid";
-import moment from "moment";
-import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import CreateIcon from "@mui/icons-material/CreateOutlined";
-import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 // import { Field } from "formik";
 
 // import UserSalary from "../page/UserSalary";
@@ -80,14 +64,6 @@ export default function UserSalary() {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
-  const [projectData] = useState(null);
-  const { setInvoiceData } = useInvoiceStore();
-  const navigate = useNavigate();
-  const [invoiceList] = useState([]);
-  const viewInvoice = async (invoiceNumber, row) => {
-    setInvoiceData(row);
-    navigate(`/invoices/view/${invoiceNumber}`);
-  };
   return (
     <>
       <Box sx={{ bgcolor: "white", borderRadius: 4, mt: 3, p: 4 }}>
@@ -257,7 +233,6 @@ export default function UserSalary() {
           component={Paper}
           sx={{
             border: "1px solid rgba(224, 224, 224, 1)",
-            borderRadius: 5,
             mx: { xs: "-10px", sm: 0 },
             width: { xs: "auto", sm: "auto" },
             borderRadius: 2.5,

@@ -116,6 +116,7 @@ export default function Manager() {
                     managerList.profile_img ||
                     "https://uko-react.vercel.app/static/avatar/001-man.svg"
                   } //"https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"
+                  alt=""
                   style={{
                     height: "100%",
                     width: "100%",
@@ -234,7 +235,7 @@ export default function Manager() {
               )}
               {managerList.gender && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/gender.svg"></img>
+                  <img className="icon" src="/images/gender.svg" alt=""></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -263,7 +264,11 @@ export default function Manager() {
 
               {managerList?.referenceName && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/reference.svg"></img>
+                  <img
+                    className="icon"
+                    src="/images/reference.svg"
+                    alt=""
+                  ></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -277,7 +282,7 @@ export default function Manager() {
               )}
               {managerList.websiteURL && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/website.svg"></img>
+                  <img className="icon" src="/images/website.svg" alt=""></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -330,6 +335,7 @@ export default function Manager() {
                       ? managerList.signature
                       : "/images/signature.png"
                   } //"/images/sign.svg"
+                  alt=""
                   style={{
                     maxHeight: "inherit",
                     width: "100%",

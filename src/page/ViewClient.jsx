@@ -123,6 +123,7 @@ export default function Manager() {
                     borderRadius: "100%",
                     boxShadow: "rgb(0, 0, 0,5%) 0px 0px 6px 6px",
                   }}
+                  alt=""
                 />
               </Box>
               <Box
@@ -169,6 +170,7 @@ export default function Manager() {
                       ? clientList?.companyLogo
                       : "/images/logo-2.svg"
                   }
+                  alt=""
                   style={{
                     height: "100%",
                     width: "100%",
@@ -221,7 +223,7 @@ export default function Manager() {
               )}
               {clientList.gender && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <img className="icon" src="/images/gender.svg"></img>
+                  <img className="icon" src="/images/gender.svg" alt=""></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -256,7 +258,7 @@ export default function Manager() {
                     gridColumn: { sm: "span 2" },
                   }}
                 >
-                  <img className="icon" src="/images/website.svg"></img>
+                  <img className="icon" src="/images/website.svg" alt=""></img>
                   <Typography
                     variant="body2"
                     sx={{
@@ -280,6 +282,7 @@ export default function Manager() {
                     className="icon"
                     src="/images/projects.svg"
                     style={{ marginTop: "3px" }}
+                    alt=""
                   ></img>
                   <Box
                     sx={{

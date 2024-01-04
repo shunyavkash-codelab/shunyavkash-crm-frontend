@@ -5,10 +5,8 @@ import {
   Grid,
   InputLabel,
   MenuItem,
-  OutlinedInput,
   Paper,
   Select,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -19,11 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import DetailsList from "../component/employee/DetailsList";
-import EditIcon from "@mui/icons-material/CreateOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
-import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import ModalComponent from "../component/ModalComponent";
 
 function UserLeave() {
@@ -192,7 +186,6 @@ function UserLeave() {
             component={Paper}
             sx={{
               border: "1px solid rgba(224, 224, 224, 1)",
-              borderRadius: 5,
               mx: { xs: "-10px", sm: 0 },
               width: { xs: "auto", sm: "auto" },
               borderRadius: 2.5,

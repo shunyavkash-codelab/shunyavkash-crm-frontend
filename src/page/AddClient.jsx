@@ -46,7 +46,7 @@ export default function AddClient() {
   });
 
   const formik = useFormik({
-    // validationSchema: schema,
+    validationSchema: schema,
     initialValues: {
       name: clientList?.name,
       email: clientList?.email,
@@ -306,6 +306,7 @@ export default function AddClient() {
                             width="18"
                             height="12"
                             src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                            alt="country flag"
                           />
                           +{option.phone}
                         </Box>

@@ -280,6 +280,7 @@ export default function AddManager() {
                           width="18"
                           height="12"
                           src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                          alt=""
                         />
                         +{option.phone}
                       </Box>
