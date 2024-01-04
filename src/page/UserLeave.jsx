@@ -7,6 +7,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -20,7 +21,6 @@ import {
 import React from "react";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import ModalComponent from "../component/ModalComponent";
-import InfoIcon from "@mui/icons-material/Info";
 
 function UserLeave() {
   const [value, setValue] = React.useState(0);
@@ -293,18 +293,39 @@ function UserLeave() {
                         },
                       }}
                     >
-                      <Box
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        spacing={0.5}
                         className={`statusBtn ${
                           leave.status === "unapprove" ? "unapprove" : "approve"
                         }`}
                       >
-                        {leave.status}
-                        <Tooltip title="lorem ipsum sit amet.">
-                          <Box>
-                            <InfoIcon />
-                          </Box>
+                        <span style={{ display: "inline-block" }}>
+                          {leave.status}
+                        </span>
+                        <Tooltip title={leave.statusReason}>
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            justifyContent="center"
+                            sx={{
+                              height: "16px",
+                              width: "16px",
+                              cursor: "pointer",
+                              border: "1px solid white",
+                              borderRadius: "100%",
+                              padding: "3px",
+                            }}
+                          >
+                            <img
+                              src="/images/info.svg"
+                              style={{ width: "100%", height: "100%" }}
+                              alt="info"
+                            />
+                          </Stack>
                         </Tooltip>
-                      </Box>
+                      </Stack>
                     </TableCell>
                   </TableRow>
                 ))}
