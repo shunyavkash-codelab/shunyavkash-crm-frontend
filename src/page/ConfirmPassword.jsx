@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import Link from "@mui/material/Link";
+import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
@@ -11,7 +10,7 @@ import PasswordField from "../component/PasswordField";
 
 export default function ConfirmPassword() {
   const { setSnack } = useSnack();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const [query] = useSearchParams();
   const navigate = useNavigate();
 
