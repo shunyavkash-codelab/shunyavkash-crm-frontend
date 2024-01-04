@@ -3,8 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
-  Grid,
-  Card,
   Button,
   Table,
   TableBody,
@@ -32,15 +30,14 @@ import { useSnack } from "../hooks/store/useSnack";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import moment from "moment";
 
-const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
+// const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, invoiceTable, setInvoiceTable } = useAuth();
-  const [showTable, setShowTable] = useState(invoiceTable);
+  const { accessToken } = useAuth();
   const [date, setDate] = useState("");
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const navigate = useNavigate();
   const { setSnack } = useSnack();
   const [invoiceList, setInvoiceList] = useState([]);
@@ -93,7 +90,8 @@ export default function Invoices() {
   useEffect(() => {
     listInvoice();
     resetInvoiceStore();
-  }, []);
+    // }, []);
+  });
 
   return (
     <>
@@ -269,7 +267,7 @@ export default function Invoices() {
                   </MenuItem>
                 </Select>
               </FormControl>
-              {date == "CustomRange" && (
+              {date === "CustomRange" && (
                 <Box
                   sx={{
                     display: "flex",
@@ -434,7 +432,6 @@ export default function Invoices() {
             component={Paper}
             sx={{
               border: "1px solid rgba(224, 224, 224, 1)",
-              borderRadius: 5,
               mx: { xs: "-10px", sm: 0 },
               width: { xs: "auto", sm: "auto" },
               borderRadius: 2.5,
@@ -506,7 +503,7 @@ export default function Invoices() {
                     >
                       <Box
                         className={`statusBtn ${
-                          row.status == "success" ? "success" : "pending"
+                          row.status === "success" ? "success" : "pending"
                         }`}
                       >
                         {row.status}
