@@ -78,7 +78,6 @@ export default function UserSalary() {
             p: 3,
             transition: "all 0.3s ease-in-out",
             "&:hover": {
-              bgcolor: "transparent",
               bgcolor: "#f5f5f5",
               border: "2px dashed rgba(0,0,0,0.2)",
             },
@@ -248,7 +247,7 @@ export default function UserSalary() {
                   </MenuItem>
                 </Select>
               </FormControl>
-              {date == "CustomRange" && (
+              {date === "CustomRange" && (
                 <Box
                   sx={{
                     display: "flex",
@@ -822,7 +821,7 @@ export default function UserSalary() {
                     </MenuItem>
                   </Select>
                 </FormControl>
-                {date == "CustomRange" && (
+                {date === "CustomRange" && (
                   <Box
                     sx={{
                       display: "flex",
