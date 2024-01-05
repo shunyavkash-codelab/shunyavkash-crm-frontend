@@ -46,6 +46,7 @@ export default function AddClient() {
       .trim()
       .matches(/^[0-9]+$/, "Mobile number must only contain numeric digits"),
     mobileCode: Yup.string().required("Mobile code is required.").trim(),
+    websiteURL: Yup.string().url("Invalid URL"),
   });
   const formik = useFormik({
     validationSchema: schema,
@@ -422,6 +423,13 @@ export default function AddClient() {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.websiteURL}
+                    error={
+                      formik.touched.websiteURL &&
+                      Boolean(formik.errors.websiteURL)
+                    }
+                    helperText={
+                      formik.touched.websiteURL && formik.errors.websiteURL
+                    }
                   />
 
                   <TextField
