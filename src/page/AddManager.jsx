@@ -134,11 +134,7 @@ export default function AddManager() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
-      <Box
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{ ml: { lg: sideBarWidth } }}
-      >
+      <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
           <Box sx={{ mb: 3.25 }}>
             <Typography

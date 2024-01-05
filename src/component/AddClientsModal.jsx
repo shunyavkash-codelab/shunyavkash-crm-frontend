@@ -43,12 +43,7 @@ export default function AddClientsModal({ open, setOpen }) {
   });
   return (
     <>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        setOpen={setOpen}
-      >
+      <Modal open={open} onClose={handleClose} closeAfterTransition>
         <Fade in={open}>
           <Box
             sx={{
@@ -81,6 +76,7 @@ export default function AddClientsModal({ open, setOpen }) {
                 Add Client
               </Typography>
               <Button
+                onClick={handleClose}
                 disableRipple
                 disableElevation
                 id="cancle_icon"
@@ -105,7 +101,6 @@ export default function AddClientsModal({ open, setOpen }) {
                     fontSize: "25px",
                   }}
                   open={open}
-                  onClick={handleClose}
                   aria-label="close"
                 />
               </Button>
