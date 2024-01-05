@@ -815,7 +815,11 @@ export default function AddProject() {
               </Box>
             </FormikProvider>
           )}
-          <AddClientsModal open={open} setOpen={setOpen} />
+          <AddClientsModal
+            open={open}
+            setOpen={setOpen}
+            fetchClients={fetchClients}
+          />
         </Box>
       </Box>
     </>

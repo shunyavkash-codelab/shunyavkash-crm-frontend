@@ -16,7 +16,7 @@ import { APIS } from "../api/apiList";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 
-export default function AddClientsModal({ open, setOpen }) {
+export default function AddClientsModal({ open, setOpen, fetchClients }) {
   const handleClose = () => setOpen(false);
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
@@ -28,6 +28,7 @@ export default function AddClientsModal({ open, setOpen }) {
     name: Yup.string().required("Name is required.").trim(),
     email: Yup.string().required("Email is required.").trim(),
     mobileNumber: Yup.string().required("Mobile Number is required.").trim(),
+    mobileCode: Yup.string().required("Mobile code is required.").trim(),
   });
   const formik = useFormik({
     validationSchema: schema,
@@ -48,6 +49,7 @@ export default function AddClientsModal({ open, setOpen }) {
           data: JSON.stringify(values, null, 2),
         });
         if (res.status === 201) {
+          await fetchClients();
           setSnack(res.data.message);
           setOpen(false);
         }
