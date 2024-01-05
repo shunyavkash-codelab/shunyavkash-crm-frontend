@@ -7,7 +7,7 @@ import Header from "../component/Header";
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, invoiceTable } = useAuth();
+  const { accessToken } = useAuth();
 
   return (
     <>

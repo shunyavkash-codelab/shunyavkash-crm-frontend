@@ -3,6 +3,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { Box, Button, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { Form } from "react-router-dom";
 
 export default function SendSalaryModal({ open, setOpen, ...props }) {
   const handleClose = () => setOpen(false);
@@ -34,7 +35,7 @@ export default function SendSalaryModal({ open, setOpen, ...props }) {
                 display: { xs: "flex", sm: "block" },
                 alignItems: { xs: "center", sm: "start" },
                 justifyContent: { xs: "space-between", sm: "start" },
-                mb: 2.5,
+                mb: 1.75,
               }}
             >
               <Typography
@@ -80,9 +81,9 @@ export default function SendSalaryModal({ open, setOpen, ...props }) {
                 />
               </Button>
             </Box>
-            <Box sx={{ maxHeight: "80vh", overflowY: "auto", pt: 0.75 }}>
+            <Form sx={{ maxHeight: "80vh", overflowY: "auto", pt: 0.75 }}>
               {props.children}
-            </Box>
+            </Form>
           </Box>
         </Fade>
       </Modal>

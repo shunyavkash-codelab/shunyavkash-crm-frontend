@@ -43,9 +43,19 @@ export default function SideBar({
     { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
     { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
     {
+      text: "Account Management",
+      icon: <AccountManagement />,
+      link: "/account-management",
+    },
+    {
       text: "Employees",
       icon: <EmployeesIcon />,
       link: "/employees",
+    },
+    {
+      text: "Leaves",
+      icon: <AccessTimeIcon />,
+      link: "/leaves",
     },
     {
       text: "Employee Dashboard",
@@ -56,11 +66,6 @@ export default function SideBar({
       text: "Apply Leave",
       icon: <AccessTimeIcon />,
       link: "/applyleave",
-    },
-    {
-      text: "Account Management",
-      icon: <AccountManagement />,
-      link: "/account-management",
     },
   ];
   let newArray = sidebarList.filter((ele) => {
