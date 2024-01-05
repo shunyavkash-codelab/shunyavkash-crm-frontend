@@ -47,7 +47,6 @@ export default function AddClient() {
       .matches(/^[0-9]+$/, "Mobile number must only contain numeric digits"),
     mobileCode: Yup.string().required("Mobile code is required.").trim(),
   });
-
   const formik = useFormik({
     validationSchema: schema,
     initialValues: {
@@ -64,7 +63,6 @@ export default function AddClient() {
     },
     onSubmit: async (values) => {
       let formData = new FormData();
-      console.log(values.profile_img);
       Object.entries(values).forEach(([key, value]) => {
         if (value) {
           formData.append(key, value);

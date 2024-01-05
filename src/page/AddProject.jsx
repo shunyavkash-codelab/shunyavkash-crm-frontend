@@ -36,7 +36,6 @@ export default function AddProject() {
   const [projectData, setProjectData] = useState(null);
   const { id } = useParams();
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
 
   // yup data validator schhema
   const schema = Yup.object({
@@ -77,13 +76,11 @@ export default function AddProject() {
           !id && navigate("/projects");
         }
       } catch (error) {
-        console.log(error, "=================77");
         let errorMessage = error.response.data.message;
         setSnack(errorMessage, "warning");
       }
     },
   });
-  console.log(formik.errors, "=============86");
 
   const fetchClients = async () => {
     try {
@@ -303,7 +300,7 @@ export default function AddProject() {
                               <Box sx={{ display: "flex" }}>
                                 <Button
                                   disableRipple
-                                  onClick={handleOpen}
+                                  onClick={() => setOpen(true)}
                                   sx={{
                                     maxHeight: "36px",
                                     position: "relative",
