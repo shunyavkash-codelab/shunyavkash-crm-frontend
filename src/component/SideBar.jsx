@@ -48,11 +48,6 @@ export default function SideBar({
       link: "/employees",
     },
     {
-      text: "Setup my Profile",
-      icon: <SetupProfileIcon />,
-      link: "/my-profile",
-    },
-    {
       text: "Employee Dashboard",
       icon: <EmployeesDashboardIcon />,
       link: "/employee-dashboard",
@@ -138,7 +133,7 @@ export default function SideBar({
             px: 2,
           }}
         >
-          <List sx={{ pt: 0, pb: "15px" }}>
+          <List sx={{ pt: 0 }}>
             {newArray.map((item, index) => (
               <ListItem
                 key={item.text}
@@ -191,6 +186,56 @@ export default function SideBar({
             ))}
           </List>
         </Box>
+        <List sx={{ px: 2, py: 1.5, bgcolor: "#f9f9f9" }}>
+          <ListItem
+            key={"Setup my Profile"}
+            disablePadding
+            sx={{
+              transition: "all 0.4s ease-in-out",
+              "&:hover": {
+                boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
+                "& svg": {
+                  animation: "swing ease-in-out 0.4s alternate",
+                },
+              },
+              "&:not(:first-child)": { mt: 0.75 },
+              borderRadius: "10px",
+              overflow: "hidden",
+              color: location.pathname === "/my-profile" && "primary.main",
+              bgcolor: location.pathname === "/my-profile" && "primary.light",
+            }}
+          >
+            <ListItemButton
+              disableRipple
+              component={Link} // Use Link component for routing
+              to="/my-profile" // Specify the route to navigate to
+              sx={{
+                p: 1.5,
+                transition: "all 0.4s ease-in-out",
+                ":hover": {
+                  color: "primary.main",
+                  bgcolor:
+                    location.pathname === "/my-profile"
+                      ? "transparent"
+                      : "primary.light",
+                },
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  color: "currentcolor",
+                  minWidth: "40px",
+                }}
+              >
+                <SetupProfileIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ my: 0, "&>span": { fontSize: "14px" } }}
+                primary={"Setup my Profile"}
+              />
+            </ListItemButton>
+          </ListItem>
+        </List>
       </Box>
       <Box
         onClick={() => {
