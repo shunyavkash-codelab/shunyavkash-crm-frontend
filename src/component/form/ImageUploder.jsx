@@ -60,7 +60,7 @@ function ImageUploder(props) {
         </Box>
         <Box>
           <ReactFileReader
-            fileTypes={[".png", ".jpg"]}
+            fileTypes={[".png", ".jpg", "pdf"]}
             base64={true}
             handleFiles={handleFiles}
           >

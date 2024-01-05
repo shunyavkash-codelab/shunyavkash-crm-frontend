@@ -4,12 +4,12 @@ import { useAuth } from "../hooks/store/useAuth";
 import Header from "../component/Header";
 import {
   Box,
+  Button,
   Card,
   FormControl,
   FormControlLabel,
   Grid,
   InputLabel,
-  Link,
   MenuItem,
   Radio,
   RadioGroup,
@@ -26,12 +26,16 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ImageUploder from "../component/form/ImageUploder";
+import { Link } from "react-router-dom";
 
 function AccountAdd() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
-
+  const [selected, setSelected] = useState("");
+  const changeHandler = (e) => {
+    setSelected(e.target.value);
+  };
   return (
     <>
       <SideBar
@@ -57,7 +61,7 @@ function AccountAdd() {
               Add Account
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/managers"} style={{ textDecoration: "none" }}>
+              <Link to="/account-management" style={{ textDecoration: "none" }}>
                 <Typography
                   variant="subtitle2"
                   sx={{
@@ -122,13 +126,17 @@ function AccountAdd() {
                         value="income"
                         control={<Radio />}
                         label="Income"
-                        sx={{ "& > *": { fontSize: 14 } }}
+                        sx={{ "& > *.MuiTypography-root": { fontSize: 14 } }}
+                        checked={selected === "income"}
+                        onChange={changeHandler}
                       />
                       <FormControlLabel
                         value="expance"
                         control={<Radio />}
                         label="Expance"
-                        sx={{ "& > *": { fontSize: 14 } }}
+                        sx={{ "& > *.MuiTypography-root": { fontSize: 14 } }}
+                        checked={selected === "expance"}
+                        onChange={changeHandler}
                       />
                     </RadioGroup>
                   </FormControl>
@@ -153,10 +161,10 @@ function AccountAdd() {
                     <DemoContainer components={["DatePicker"]}>
                       <MobileDatePicker
                         label="Date"
+                        defaultValue={dayjs("2022-04-17")}
                         sx={{
                           minWidth: "100% !important",
-                          fontSize: "14px !important",
-                          "& > *": { fontSize: 14 },
+                          "& > *": { fontSize: "14px !important" },
                         }}
                       />
                       {/* <DatePicker label="Basic date picker" size="small" /> */}
@@ -177,7 +185,10 @@ function AccountAdd() {
                     label="Title"
                     defaultValue=""
                     size="normal"
-                    sx={{ width: "100%", "& > *": { fontSize: 14 } }}
+                    sx={{
+                      width: "100%",
+                      "& > .MuiFormLabel-root": { fontSize: 14 },
+                    }}
                   />
                 </Grid>
                 {/* Description */}
@@ -219,59 +230,63 @@ function AccountAdd() {
                   />
                 </Grid>
                 {/* Expance Type */}
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl
-                    fullWidth
-                    size="normal"
-                    sx={{
-                      "&>label": { fontSize: "14px" },
-                    }}
+                {selected == "expance" ? (
+                  <Grid
+                    item
+                    xs={12}
+                    md={12}
+                    lg={6}
+                    sx={{ "> .MuiFormControl-root": { margin: 0 } }}
                   >
-                    <InputLabel
-                      sx={{ textTransform: "capitalize" }}
-                      id="demo-simple-select-label"
+                    <FormControl
+                      fullWidth
+                      size="normal"
+                      sx={{
+                        "&>label": { fontSize: "14px" },
+                      }}
                     >
-                      Expanse Type
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Gender"
-                      sx={{ fontSize: "14px" }}
-                    >
-                      <MenuItem
+                      <InputLabel
                         sx={{ textTransform: "capitalize" }}
-                        value={"rent-and-maintenance"}
+                        id="demo-simple-select-label"
                       >
-                        Rent & Maintenance
-                      </MenuItem>
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"salary"}
+                        Expanse Type
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Expanse Type"
+                        sx={{ fontSize: "14px" }}
                       >
-                        Salary
-                      </MenuItem>
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"miscellaneous"}
-                      >
-                        Miscellaneous
-                      </MenuItem>
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"asset-purchase"}
-                      >
-                        Asset purchase
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"rent-and-maintenance"}
+                        >
+                          Rent & Maintenance
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"salary"}
+                        >
+                          Salary
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"miscellaneous"}
+                        >
+                          Miscellaneous
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"asset-purchase"}
+                        >
+                          Asset purchase
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                ) : (
+                  ""
+                )}
                 {/* Invoice Type */}
                 <Grid
                   item
@@ -296,7 +311,7 @@ function AccountAdd() {
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      label="Gender"
+                      label="Invoice Type"
                       sx={{ fontSize: "14px" }}
                     >
                       <MenuItem
@@ -354,7 +369,7 @@ function AccountAdd() {
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      label="Gender"
+                      label="Payment Method"
                       sx={{ fontSize: "14px" }}
                     >
                       <MenuItem
@@ -373,53 +388,57 @@ function AccountAdd() {
                   </FormControl>
                 </Grid>
                 {/* Collaborator */}
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl
-                    fullWidth
-                    size="normal"
-                    sx={{
-                      "&>label": { fontSize: "14px" },
-                    }}
+                {selected == "income" ? (
+                  <Grid
+                    item
+                    xs={12}
+                    md={12}
+                    lg={6}
+                    sx={{ "> .MuiFormControl-root": { margin: 0 } }}
                   >
-                    <InputLabel
-                      sx={{ textTransform: "capitalize" }}
-                      id="demo-simple-select-label"
+                    <FormControl
+                      fullWidth
+                      size="normal"
+                      sx={{
+                        "&>label": { fontSize: "14px" },
+                      }}
                     >
-                      Collaborator
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Gender"
-                      sx={{ fontSize: "14px" }}
-                    >
-                      <MenuItem
+                      <InputLabel
                         sx={{ textTransform: "capitalize" }}
-                        value={"pixel"}
+                        id="demo-simple-select-label"
                       >
-                        Pixel
-                      </MenuItem>
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"simpliigence"}
+                        Collaborator
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Collaborator"
+                        sx={{ fontSize: "14px" }}
                       >
-                        Simpliigence
-                      </MenuItem>
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"rewenewd"}
-                      >
-                        Rewenewd
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"pixel"}
+                        >
+                          Pixel
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"simpliigence"}
+                        >
+                          Simpliigence
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"rewenewd"}
+                        >
+                          Rewenewd
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                ) : (
+                  ""
+                )}
                 {/* Invoice Upload */}
                 <Grid
                   item
@@ -429,6 +448,50 @@ function AccountAdd() {
                   sx={{ "> .MuiFormControl-root": { margin: 0 } }}
                 >
                   <ImageUploder title="Invoice Upload"></ImageUploder>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={12}
+                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+                >
+                  <Button
+                    disableRipple
+                    sx={{
+                      maxHeight: "42px",
+                      position: "relative",
+                      px: 2.5,
+                      py: 1.5,
+                      bgcolor: "success.main",
+                      border: "1px solid",
+                      borderColor: "success.main",
+                      color: "white",
+                      lineHeight: 1,
+                      borderRadius: 2.5,
+                      overflow: "hidden",
+                      "&:before": {
+                        content: "''",
+                        height: 0,
+                        width: "10rem",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        zIndex: "0",
+                        bgcolor: "white",
+                        transform: "rotate(-45deg) translate(-50%, -50%)",
+                        transformOrigin: "0% 0%",
+                        transition: "all 0.4s ease-in-out",
+                      },
+                      "&:hover": {
+                        color: "success.main",
+                        bgcolor: "success.main",
+                        "&:before": { height: "10rem" },
+                      },
+                    }}
+                  >
+                    <span style={{ position: "relative" }}>Add Account</span>
+                  </Button>
                 </Grid>
               </Grid>
             </Box>
