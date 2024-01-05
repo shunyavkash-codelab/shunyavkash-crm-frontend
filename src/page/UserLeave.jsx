@@ -342,27 +342,7 @@ function UserLeave() {
             xs={12}
             md={12}
             lg={6}
-            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-          >
-            <FormControl fullWidth sx={{ m: 1 }}>
-              <TextField
-                fullWidth
-                size="normal"
-                id="name"
-                placeholder="Leave Reason"
-                autoComplete="off"
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                }}
-              />
-            </FormControl>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={12}
-            lg={6}
-            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+            sx={{ "> .MuiFormControl-root": { mt: 0.63 } }}
           >
             <FormControl
               fullWidth
@@ -404,6 +384,55 @@ function UserLeave() {
             xs={12}
             md={12}
             lg={6}
+            sx={{ "> .MuiFormControl-root": { mt: 0.63 } }}
+          >
+            <FormControl fullWidth>
+              <TextField
+                fullWidth
+                size="normal"
+                id="name"
+                placeholder="Leave Title"
+                autoComplete="off"
+                sx={{
+                  "&>label,& input,&>div": { fontSize: "14px" },
+                }}
+              />
+            </FormControl>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={6}
+            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+          >
+            <TextField
+              fullWidth
+              sx={{ m: 1 }}
+              placeholder="Start Date"
+              sx={{ fontSize: 14 }}
+            ></TextField>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={6}
+            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+          >
+            <TextField
+              fullWidth
+              sx={{ m: 1 }}
+              placeholder="End Date"
+              sx={{ fontSize: 14 }}
+            ></TextField>
+          </Grid>
+
+          {/* <Grid
+            item
+            xs={12}
+            md={12}
+            lg={6}
             sx={{ "> .MuiFormControl-root": { margin: 0 } }}
           >
             <FormControl fullWidth sx={{ m: 1 }}>
@@ -418,7 +447,7 @@ function UserLeave() {
                 }}
               />
             </FormControl>
-          </Grid>
+          </Grid> */}
         </Grid>
       </ModalComponent>
     </>
