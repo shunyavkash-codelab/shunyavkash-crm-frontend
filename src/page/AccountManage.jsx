@@ -4,10 +4,10 @@ import { useAuth } from "../hooks/store/useAuth";
 import Header from "../component/Header";
 import {
   Box,
+  Button,
   FormControl,
   FormControlLabel,
   Grid,
-  Link,
   Paper,
   Radio,
   RadioGroup,
@@ -16,84 +16,63 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
   TableRow,
   TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import ModalComponent from "../component/ModalComponent";
-import PlusIcon from "@mui/icons-material/Close";
+import { Link } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
+import CreateIcon from "@mui/icons-material/CreateOutlined";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import CashIcon from "@mui/icons-material/Payments";
+import BankIcon from "@mui/icons-material/AccountBalance";
+import UpiIcon from "@mui/icons-material/Payment";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
   const [open, setOpen] = React.useState(false);
-  //   const handleOpen = () => setOpen(true);
 
-  const leaves = [
+  const accounts = [
     {
-      id: 1,
-      username: "Deep Bhimani",
-      type: "casual",
-      reason: "Marriage Function",
-      startDate: "15/01/2023",
-      endDate: "17/01/2023",
-      status: "approve",
-      statusReason: "Lorem ipsum dolor sit amet",
+      date: "01/01/2024",
+      title: "system",
+      descrption: "sit amet lorem ipsum sit amet.",
+      paymentMethod: "UPI",
+      income: "-",
+      expance: "15000",
     },
     {
-      id: 2,
-      username: "Deep Bhimani",
-      type: "sick",
-      reason: "Medical",
-      startDate: "25/02/2023",
-      endDate: "27/02/2023",
-      status: "approve",
-      statusReason: "Lorem ipsum dolor sit amet",
+      date: "12/11/2023",
+      title: "Chair",
+      descrption: "lorem ipsum lorem ipsum sit amet.",
+      paymentMethod: "Cash",
+      income: "-",
+      expance: "1650",
     },
     {
-      id: 3,
-      username: "Deep Bhimani",
-      type: "paid",
-      reason: "Going to Village",
-      startDate: "31/04/2023",
-      endDate: "2/05/2023",
-      status: "unapprove",
-      statusReason: "ipsum dolor sit amet lorem",
+      date: "26/05/2023",
+      title: "tomb raider",
+      descrption: "dolor sit lorem ipsum sit amet.",
+      paymentMethod: "Bank",
+      income: "10000",
+      expance: "-",
+      invoice: true,
     },
     {
-      id: 4,
-      username: "Deep Bhimani",
-      type: "unpaid",
-      reason: "Going to Friend's Birthday Party",
-      startDate: "25/04/2023",
-      endDate: "25/04/2023",
-      status: "unapprove",
-      statusReason: "Lorem dolor sit ipsum amet",
-    },
-    {
-      id: 5,
-      username: "Deep Bhimani",
-      type: "paid",
-      reason: "sick",
-      startDate: "14/08/2023",
-      endDate: "14/08/2023",
-      status: "approve",
-      statusReason: "Lorem ipsum dolor sit amet",
-    },
-    {
-      id: 6,
-      username: "Deep Bhimani",
-      type: "sick",
-      reason: "Medical Issue",
-      startDate: "12/10/2023",
-      endDate: "15/10/2023",
-      status: "approve",
-      statusReason: "Lorem dolor sit amet",
+      date: "03/02/2023",
+      title: "packets of foods",
+      descrption: "lorem ipsum sit amet.",
+      paymentMethod: "Cash",
+      income: "-",
+      expance: "700",
     },
   ];
+
   return (
     <>
       <SideBar
@@ -111,55 +90,86 @@ function AccountManage() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Stack
-            direction={"row"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
+          <Box>
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
+            >
+              <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+                Account Management
+              </Typography>
+              <Link
+                to="/account-add"
+                style={{ display: "inline-flex", textDecoration: "none" }}
+              >
+                <Button
+                  disableRipple
+                  sx={{
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    border: "1px solid",
+                    borderColor: "primary.main",
+                    color: "primary.main",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "primary.main",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      color: "white",
+                      "&:before": { height: "10rem" },
+                    },
+                  }}
+                >
+                  <span style={{ position: "relative" }}>new account</span>
+                </Button>
+              </Link>
+            </Stack>
+            <Box sx={{ display: "flex", gap: 0.5 }}>
+              <Link to={"/"} style={{ textDecoration: "none" }}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    textTransform: "capitalize",
+                    color: "primary.main",
+                    transition: "all 0.4s ease-in-out",
+                    ":not(:hover)": {
+                      opacity: 0.7,
+                    },
+                  }}
+                >
+                  Dashboard /
+                </Typography>
+              </Link>
+              <Typography
+                variant="subtitle2"
+                sx={{ opacity: 0.4, textTransform: "capitalize" }}
+              >
+                Account
+              </Typography>
+            </Box>
+          </Box>
+
+          <Grid
+            container
+            rowSpacing={2.5}
+            columnSpacing={2.5}
+            sx={{ mt: 0.75 }}
           >
-            <Typography
-              variant="h5"
-              sx={{ textTransform: "capitalize", mb: 0.5 }}
-            >
-              Account Management
-            </Typography>
-            <Link
-              href="/account-add"
-              disableRipple
-              startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-              sx={{
-                maxHeight: "42px",
-                position: "relative",
-                px: 2.5,
-                py: 1.5,
-                border: "1px solid",
-                borderColor: "primary.main",
-                color: "primary.main",
-                lineHeight: 1,
-                borderRadius: 2.5,
-                overflow: "hidden",
-                "&:before": {
-                  content: "''",
-                  height: 0,
-                  width: "10rem",
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  zIndex: "0",
-                  bgcolor: "primary.main",
-                  transform: "rotate(-45deg) translate(-50%, -50%)",
-                  transformOrigin: "0% 0%",
-                  transition: "all 0.4s ease-in-out",
-                },
-                "&:hover": {
-                  color: "white",
-                  "&:before": { height: "10rem" },
-                },
-              }}
-            >
-              <span style={{ position: "relative" }}>New Account</span>
-            </Link>
-          </Stack>
-          <Grid container rowSpacing={2.5} columnSpacing={2.5} mt={0}>
             <Grid item xs={6} md={3} lg={3}>
               <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
                 <Typography
@@ -222,7 +232,7 @@ function AccountManage() {
             direction={"row"}
             alignItems={"center"}
             justifyContent={"space-between"}
-            mt={4}
+            sx={{ mt: 4 }}
           >
             <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
               Accounting items
@@ -243,142 +253,153 @@ function AccountManage() {
               <Table
                 className="projectTable"
                 sx={{
-                  minWidth: 650,
                   textTransform: "capitalize",
                   textWrap: "nowrap",
-                  "& th,& td": { borderBottom: 0 },
-                  "& tbody tr": {
+                  "& th,& td": {
+                    border: 0,
+                    "&:not(:last-child)": {
+                      borderRight: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  },
+                  "& tbody tr,& tfoot tr": {
                     borderTop: "1px solid rgba(224, 224, 224, 1)",
                   },
                 }}
-                aria-label="simple table"
               >
                 <TableHead>
                   <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                    <TableCell>User Name</TableCell>
-                    <TableCell>Leave Type</TableCell>
-                    <TableCell>Reason</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
-                    <TableCell>Status</TableCell>
+                    <TableCell sx={{ width: "110px" }}>Date</TableCell>
+                    <TableCell>Title</TableCell>
+                    <TableCell sx={{ width: "350px" }}>Description</TableCell>
+                    <TableCell sx={{ width: "154px" }}>
+                      payment method
+                    </TableCell>
+                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
+                      actions
+                    </TableCell>
+                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
+                      Income
+                    </TableCell>
+                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
+                      Expance
+                    </TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>
-                  {leaves.map((leave) => (
+                <TableBody
+                  sx={{
+                    "&>*:nth-child(odd)": {
+                      bgcolor: "#f5f5f5",
+                    },
+                  }}
+                >
+                  {accounts.map((account) => (
                     <TableRow
-                      key={leave.key}
+                      key={account.key}
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
                         "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-child td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
                       }}
                     >
-                      <TableCell>{leave.username}</TableCell>
-                      <TableCell
-                        sx={{
-                          "& .statusBtn": {
-                            color: "white",
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          },
-                          "& .casual": {
-                            bgcolor: "rgba(94, 115, 141, 15%)",
-                            color: "grey.dark",
-                          },
-                          "& .sick": {
-                            bgcolor: "rgba(248, 174, 0, 15%)",
-                            color: "secondary.main",
-                          },
-                          "& .unpaid": {
-                            bgcolor: "rgba(225, 107, 22, 15%)",
-                            color: "review.main",
-                          },
-                          "& .paid": {
-                            bgcolor: "rgba(74, 210, 146, 15%)",
-                            color: "success.main",
-                          },
-                        }}
-                      >
+                      <TableCell>{account.date}</TableCell>
+                      <TableCell>
                         <Box
-                          className={`statusBtn ${
-                            leave.type === "casual"
-                              ? "casual"
-                              : leave.type === "sick"
-                              ? "sick"
-                              : leave.type === "unpaid"
-                              ? "unpaid"
-                              : "paid"
-                          }`}
+                          className="truncate line-clamp-1"
+                          sx={{ textWrap: "wrap" }}
                         >
-                          {leave.type}
+                          {account.title}
                         </Box>
                       </TableCell>
-                      <TableCell>{leave.reason}</TableCell>
-                      <TableCell>{leave.startDate}</TableCell>
-                      <TableCell>{leave.endDate}</TableCell>
-                      <TableCell
-                        sx={{
-                          "& .statusBtn": {
-                            color: "white",
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          },
-                          "& .unapprove": {
-                            bgcolor: "secondary.main",
-                          },
-                          "& .approve": {
-                            bgcolor: "success.main",
-                          },
-                        }}
-                      >
+                      <TableCell>
+                        <Box
+                          className="truncate line-clamp-2"
+                          sx={{ textWrap: "wrap" }}
+                        >
+                          {account.descrption}
+                        </Box>
+                      </TableCell>
+                      <TableCell>
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                          <Box sx={{ display: "inline-flex" }}>
+                            {account.paymentMethod === "Cash" ? (
+                              <CashIcon />
+                            ) : account.paymentMethod === "Bank" ? (
+                              <BankIcon />
+                            ) : (
+                              <UpiIcon />
+                            )}
+                          </Box>
+                          <span style={{ display: "inline-block" }}>
+                            {account.paymentMethod}
+                          </span>
+                        </Stack>
+                      </TableCell>
+                      <TableCell>
                         <Stack
                           direction="row"
                           alignItems="center"
-                          spacing={0.5}
-                          className={`statusBtn ${
-                            leave.status === "unapprove"
-                              ? "unapprove"
-                              : "approve"
-                          }`}
+                          justifyContent="center"
+                          spacing={1.5}
+                          sx={{
+                            "& button": {
+                              opacity: 0.3,
+                              p: 0,
+                              minWidth: "auto",
+                              color: "text.primary",
+                              "&:hover": { color: "primary.main" },
+                            },
+                            "& svg": { fontSize: { xs: "20px", sm: "21px" } },
+                          }}
                         >
-                          <span style={{ display: "inline-block" }}>
-                            {leave.status}
-                          </span>
-                          <Tooltip title={leave.statusReason}>
-                            <Stack
-                              direction="row"
-                              alignItems="center"
-                              justifyContent="center"
-                              sx={{
-                                height: "16px",
-                                width: "16px",
-                                cursor: "pointer",
-                                border: "1px solid white",
-                                borderRadius: "100%",
-                                padding: "3px",
-                              }}
-                            >
-                              <img
-                                src="/images/info.svg"
-                                style={{ width: "100%", height: "100%" }}
-                                alt="info"
-                              />
-                            </Stack>
-                          </Tooltip>
+                          <Button disableRipple>
+                            <VisibilityIcon />
+                          </Button>
+                          <Button disableRipple>
+                            <CreateIcon />
+                          </Button>
+                          {account.invoice && (
+                            <Button disableRipple>
+                              <FileDownloadIcon />
+                            </Button>
+                          )}
                         </Stack>
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {account.income}
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {account.expance}
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
+                <TableFooter>
+                  <TableRow
+                    sx={{
+                      "&>td": {
+                        fontWeight: 700,
+                        fontSize: "16px",
+                        color: "text.primary",
+                        textAlign: "center",
+                      },
+                    }}
+                  >
+                    <TableCell colSpan={4}></TableCell>
+                    <TableCell>Total:</TableCell>
+                    <TableCell
+                      sx={{
+                        bgcolor: "#f3f3f3",
+                      }}
+                    >
+                      10000
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        bgcolor: "#e6e6e6",
+                      }}
+                    >
+                      17350
+                    </TableCell>
+                  </TableRow>
+                </TableFooter>
               </Table>
             </TableContainer>
           </Box>

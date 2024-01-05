@@ -121,7 +121,7 @@ export default function Leaves() {
                 variant="subtitle2"
                 sx={{ opacity: 0.4, textTransform: "capitalize" }}
               >
-                leave requests
+                leaves
               </Typography>
             </Box>
           </Box>
@@ -191,223 +191,223 @@ export default function Leaves() {
             </Grid>
           </Grid>
 
-          <Box sx={{ mt: 5 }}>
-            <Box>
-              <TableContainer
-                component={Paper}
+          <Box sx={{ mt: 4 }}>
+            <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
+              employees Leave Requests
+            </Typography>
+          </Box>
+
+          <Box sx={{ mt: 2 }}>
+            <TableContainer
+              component={Paper}
+              sx={{
+                border: "1px solid rgba(224, 224, 224, 1)",
+                mx: { xs: "-10px", sm: 0 },
+                width: { xs: "auto", sm: "auto" },
+                borderRadius: 2.5,
+              }}
+            >
+              <Table
+                className="projectTable"
                 sx={{
-                  border: "1px solid rgba(224, 224, 224, 1)",
-                  mx: { xs: "-10px", sm: 0 },
-                  width: { xs: "auto", sm: "auto" },
-                  borderRadius: 2.5,
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
                 }}
+                aria-label="simple table"
               >
-                <Table
-                  className="projectTable"
-                  sx={{
-                    minWidth: 650,
-                    textTransform: "capitalize",
-                    textWrap: "nowrap",
-                    "& th,& td": { borderBottom: 0 },
-                    "& tbody tr": {
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
-                    },
-                  }}
-                  aria-label="simple table"
-                >
-                  <TableHead>
+                <TableHead>
+                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                    <TableCell>User Name</TableCell>
+                    <TableCell>Leave Type</TableCell>
+                    <TableCell>Reason</TableCell>
+                    <TableCell>Start Date</TableCell>
+                    <TableCell>End Date</TableCell>
+                    <TableCell>Status</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {leaves.map((leave) => (
                     <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                      key={leave.key}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&:first-child td": {
+                          maxWidth: "250px",
+                          textWrap: "wrap",
+                        },
+                      }}
                     >
-                      <TableCell>User Name</TableCell>
-                      <TableCell>Leave Type</TableCell>
-                      <TableCell>Reason</TableCell>
-                      <TableCell>Start Date</TableCell>
-                      <TableCell>End Date</TableCell>
-                      <TableCell>Status</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {leaves.map((leave) => (
-                      <TableRow
-                        key={leave.key}
+                      <TableCell>{leave.username}</TableCell>
+                      <TableCell
                         sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                          "&:first-child td": {
-                            maxWidth: "250px",
-                            textWrap: "wrap",
+                          "& .statusBtn": {
+                            color: "white",
+                            fontSize: "12px",
+                            p: 0.5,
+                            borderRadius: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
+                          },
+                          "& .casual": {
+                            bgcolor: "rgba(94, 115, 141, 15%)",
+                            color: "grey.dark",
+                          },
+                          "& .sick": {
+                            bgcolor: "rgba(248, 174, 0, 15%)",
+                            color: "secondary.main",
+                          },
+                          "& .unpaid": {
+                            bgcolor: "rgba(225, 107, 22, 15%)",
+                            color: "review.main",
+                          },
+                          "& .paid": {
+                            bgcolor: "rgba(74, 210, 146, 15%)",
+                            color: "success.main",
                           },
                         }}
                       >
-                        <TableCell>{leave.username}</TableCell>
-                        <TableCell
-                          sx={{
-                            "& .statusBtn": {
-                              color: "white",
-                              fontSize: "12px",
-                              p: 0.5,
-                              borderRadius: 1,
-                              maxWidth: "fit-content",
-                              lineHeight: 1,
-                            },
-                            "& .casual": {
-                              bgcolor: "rgba(94, 115, 141, 15%)",
-                              color: "grey.dark",
-                            },
-                            "& .sick": {
-                              bgcolor: "rgba(248, 174, 0, 15%)",
-                              color: "secondary.main",
-                            },
-                            "& .unpaid": {
-                              bgcolor: "rgba(225, 107, 22, 15%)",
-                              color: "review.main",
-                            },
-                            "& .paid": {
-                              bgcolor: "rgba(74, 210, 146, 15%)",
-                              color: "success.main",
-                            },
-                          }}
+                        <Box
+                          className={`statusBtn ${
+                            leave.type === "casual"
+                              ? "casual"
+                              : leave.type === "sick"
+                              ? "sick"
+                              : leave.type === "unpaid"
+                              ? "unpaid"
+                              : "paid"
+                          }`}
                         >
-                          <Box
-                            className={`statusBtn ${
-                              leave.type === "casual"
-                                ? "casual"
-                                : leave.type === "sick"
-                                ? "sick"
-                                : leave.type === "unpaid"
-                                ? "unpaid"
-                                : "paid"
-                            }`}
-                          >
-                            {leave.type}
-                          </Box>
-                        </TableCell>
-                        <TableCell>{leave.reason}</TableCell>
-                        <TableCell>{leave.startDate}</TableCell>
-                        <TableCell>{leave.endDate}</TableCell>
-                        <TableCell
-                          sx={{
-                            "& .statusBtn": {
-                              fontSize: { xs: "12px", sm: "14px" },
-                              py: { xs: 0.75, sm: 1.25 },
-                              px: { xs: 1, sm: 2 },
-                              maxWidth: "fit-content",
-                              lineHeight: 1,
-                            },
-                            "& .unapprove": {
-                              color:
-                                leave.status === "unapprove"
-                                  ? "white"
-                                  : "#a5a5a5",
-                              bgcolor:
-                                leave.status === "unapprove"
-                                  ? "error.main"
-                                  : "#ececec",
-                              pointerEvents:
-                                leave.status === "unapprove" ? "" : "none",
-                            },
-                            "& .approve": {
-                              color:
-                                leave.status === "approve"
-                                  ? "white"
-                                  : "#a5a5a5",
-                              bgcolor:
-                                leave.status === "approve"
-                                  ? "success.main"
-                                  : "#ececec",
-                              pointerEvents:
-                                leave.status === "approve" ? "" : "none",
-                            },
-                          }}
-                        >
-                          <Stack direction="row" spacing={1}>
-                            <ButtonGroup sx={{ overflow: "hidden" }}>
-                              <Stack
-                                onClick={handleOpen}
-                                direction="row"
-                                alignItems="center"
-                                spacing={0.75}
-                                className="statusBtn approve"
-                                sx={{ cursor: "pointer" }}
-                              >
-                                <span style={{ display: "inline-block" }}>
-                                  approve
-                                </span>
-                                {leave.status === "approve" && (
-                                  <Tooltip title={leave.statusReason}>
-                                    <Stack
-                                      direction="row"
-                                      alignItems="center"
-                                      justifyContent="center"
-                                      sx={{
-                                        height: "16px",
-                                        width: "16px",
-                                        cursor: "pointer",
-                                        border: "1px solid white",
-                                        borderRadius: "100%",
-                                        padding: "3px",
+                          {leave.type}
+                        </Box>
+                      </TableCell>
+                      <TableCell>{leave.reason}</TableCell>
+                      <TableCell>{leave.startDate}</TableCell>
+                      <TableCell>{leave.endDate}</TableCell>
+                      <TableCell
+                        sx={{
+                          "& .statusBtn": {
+                            fontSize: { xs: "12px", sm: "14px" },
+                            py: { xs: 0.75, sm: 1.25 },
+                            px: { xs: 1, sm: 2 },
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
+                          },
+                          "& .unapprove": {
+                            color:
+                              leave.status === "unapprove"
+                                ? "white"
+                                : "#a5a5a5",
+                            bgcolor:
+                              leave.status === "unapprove"
+                                ? "error.main"
+                                : "#ececec",
+                            pointerEvents:
+                              leave.status === "unapprove" ? "" : "none",
+                          },
+                          "& .approve": {
+                            color:
+                              leave.status === "approve" ? "white" : "#a5a5a5",
+                            bgcolor:
+                              leave.status === "approve"
+                                ? "success.main"
+                                : "#ececec",
+                            pointerEvents:
+                              leave.status === "approve" ? "" : "none",
+                          },
+                        }}
+                      >
+                        <Stack direction="row" spacing={1}>
+                          <ButtonGroup sx={{ overflow: "hidden" }}>
+                            <Stack
+                              onClick={handleOpen}
+                              direction="row"
+                              alignItems="center"
+                              spacing={0.75}
+                              className="statusBtn approve"
+                              sx={{ cursor: "pointer" }}
+                            >
+                              <span style={{ display: "inline-block" }}>
+                                approve
+                              </span>
+                              {leave.status === "approve" && (
+                                <Tooltip title={leave.statusReason}>
+                                  <Stack
+                                    direction="row"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    sx={{
+                                      height: "16px",
+                                      width: "16px",
+                                      cursor: "pointer",
+                                      border: "1px solid white",
+                                      borderRadius: "100%",
+                                      padding: "3px",
+                                    }}
+                                  >
+                                    <img
+                                      src="/images/info.svg"
+                                      style={{
+                                        width: "100%",
+                                        height: "100%",
                                       }}
-                                    >
-                                      <img
-                                        src="/images/info.svg"
-                                        style={{
-                                          width: "100%",
-                                          height: "100%",
-                                        }}
-                                        alt="info"
-                                      />
-                                    </Stack>
-                                  </Tooltip>
-                                )}
-                              </Stack>
-                              <Stack
-                                onClick={handleOpen}
-                                direction="row"
-                                alignItems="center"
-                                spacing={0.75}
-                                className="statusBtn unapprove"
-                                sx={{ cursor: "pointer" }}
-                              >
-                                <span style={{ display: "inline-block" }}>
-                                  unapprove
-                                </span>
-                                {leave.status === "unapprove" && (
-                                  <Tooltip title={leave.statusReason}>
-                                    <Stack
-                                      direction="row"
-                                      alignItems="center"
-                                      justifyContent="center"
-                                      sx={{
-                                        height: "16px",
-                                        width: "16px",
-                                        cursor: "pointer",
-                                        border: "1px solid white",
-                                        borderRadius: "100%",
-                                        padding: "3px",
+                                      alt="info"
+                                    />
+                                  </Stack>
+                                </Tooltip>
+                              )}
+                            </Stack>
+                            <Stack
+                              onClick={handleOpen}
+                              direction="row"
+                              alignItems="center"
+                              spacing={0.75}
+                              className="statusBtn unapprove"
+                              sx={{ cursor: "pointer" }}
+                            >
+                              <span style={{ display: "inline-block" }}>
+                                unapprove
+                              </span>
+                              {leave.status === "unapprove" && (
+                                <Tooltip title={leave.statusReason}>
+                                  <Stack
+                                    direction="row"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    sx={{
+                                      height: "16px",
+                                      width: "16px",
+                                      cursor: "pointer",
+                                      border: "1px solid white",
+                                      borderRadius: "100%",
+                                      padding: "3px",
+                                    }}
+                                  >
+                                    <img
+                                      src="/images/info.svg"
+                                      style={{
+                                        width: "100%",
+                                        height: "100%",
                                       }}
-                                    >
-                                      <img
-                                        src="/images/info.svg"
-                                        style={{
-                                          width: "100%",
-                                          height: "100%",
-                                        }}
-                                        alt="info"
-                                      />
-                                    </Stack>
-                                  </Tooltip>
-                                )}
-                              </Stack>
-                            </ButtonGroup>
-                          </Stack>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Box>
+                                      alt="info"
+                                    />
+                                  </Stack>
+                                </Tooltip>
+                              )}
+                            </Stack>
+                          </ButtonGroup>
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Box>
 
           <ModalComponent
