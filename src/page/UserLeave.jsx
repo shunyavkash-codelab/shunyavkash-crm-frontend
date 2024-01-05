@@ -21,6 +21,18 @@ import {
 import React from "react";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import ModalComponent from "../component/ModalComponent";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import AccountHolderIcon from "@mui/icons-material/PermIdentityOutlined";
+import DateIcon from "@mui/icons-material/DateRangeOutlined";
+import {
+  DatePicker,
+  LocalizationProvider,
+  MobileDatePicker,
+} from "@mui/x-date-pickers";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 function UserLeave() {
   const [setValue] = React.useState(0);
@@ -347,7 +359,7 @@ function UserLeave() {
             xs={12}
             md={12}
             lg={6}
-            sx={{ "> .MuiFormControl-root": { mt: 0.62 } }}
+            sx={{ "> .MuiFormControl-root": { mt: "0px" } }}
           >
             <FormControl
               fullWidth
@@ -390,41 +402,77 @@ function UserLeave() {
             lg={6}
             sx={{ "> .MuiFormControl-root": { margin: 0 } }}
           >
-            <FormControl fullWidth sx={{ m: 1 }}>
-              <TextField
+            <FormControl fullWidth sx={{ m: 1, "&>div": { fontSize: "14px" } }}>
+              <OutlinedInput
                 placeholder="Leave Title"
-                sx={{ "&>div": { fontSize: "14px" } }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <AccountHolderIcon />
+                  </InputAdornment>
+                }
               />
             </FormControl>
           </Grid>
           <Grid
             item
             xs={12}
-            md={12}
+            md={5}
             lg={6}
-            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+            sx={{
+              "& > .MuiFormControl-root": { margin: 0 },
+            }}
           >
-            <FormControl fullWidth sx={{ m: 1 }}>
-              <TextField
-                placeholder="Start Date"
-                sx={{ "&>div": { fontSize: "14px" } }}
-              />
-            </FormControl>
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              style={{
+                width: "100%",
+                maxWidth: "100%",
+              }}
+            >
+              <DemoContainer components={["DatePicker"]}>
+                <MobileDatePicker
+                  label="Start Date"
+                  defaultValue={dayjs(new Date().toLocaleDateString())}
+                  sx={{
+                    minWidth: "100% !important",
+                    fontSize: "14px !important",
+                    "&>div": { fontSize: "14px" },
+                    "&>label": { fontSize: "14px" },
+                  }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
           </Grid>
           <Grid
             item
             xs={12}
-            md={12}
+            md={5}
             lg={6}
-            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+            sx={{
+              "& > .MuiFormControl-root": { margin: 0 },
+            }}
           >
-            <FormControl fullWidth sx={{ m: 1 }}>
-              <TextField
-                placeholder="End Date"
-                sx={{ "&>div": { fontSize: "14px" } }}
-              />
-            </FormControl>
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              style={{
+                width: "100%",
+                maxWidth: "100%",
+              }}
+            >
+              <DemoContainer components={["DatePicker"]}>
+                <MobileDatePicker
+                  label="End Date"
+                  defaultValue={dayjs(new Date().toLocaleDateString())}
+                  sx={{
+                    minWidth: "100% !important",
+                    "&>div": { fontSize: "14px" },
+                    "&>label": { fontSize: "14px" },
+                  }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
           </Grid>
+
           <Grid
             item
             xs={12}
@@ -433,7 +481,7 @@ function UserLeave() {
             sx={{ "> .MuiFormControl-root": { margin: 0 } }}
           >
             <Button
-              disableRipple
+              // disableRipple
               sx={{
                 maxHeight: "42px",
                 position: "relative",
@@ -466,7 +514,7 @@ function UserLeave() {
                 },
               }}
             >
-              <span style={{ position: "relative" }}>Save</span>
+              <span style={{ position: "relative" }}>Add Leave</span>
             </Button>
           </Grid>
         </Grid>
