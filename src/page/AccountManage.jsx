@@ -36,6 +36,7 @@ function AccountManage() {
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
   const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
 
   const accounts = [
     {
@@ -61,7 +62,7 @@ function AccountManage() {
       paymentMethod: "Bank",
       income: "10000",
       expance: "-",
-      invoice: true,
+      invoice: "google.com1",
     },
     {
       date: "03/02/2023",
@@ -318,7 +319,7 @@ function AccountManage() {
                       </TableCell>
                       <TableCell>
                         <Stack direction="row" alignItems="center" spacing={1}>
-                          <Box sx={{ display: "inline-flex" }}>
+                          <Box sx={{ display: "inline-flex", opacity: "0.5" }}>
                             {account.paymentMethod === "Cash" ? (
                               <CashIcon />
                             ) : account.paymentMethod === "Bank" ? (
@@ -340,7 +341,7 @@ function AccountManage() {
                           spacing={1.5}
                           sx={{
                             "& button": {
-                              opacity: 0.3,
+                              opacity: 0.5,
                               p: 0,
                               minWidth: "auto",
                               color: "text.primary",
@@ -349,16 +350,22 @@ function AccountManage() {
                             "& svg": { fontSize: { xs: "20px", sm: "21px" } },
                           }}
                         >
-                          <Button disableRipple>
+                          <Button disableRipple onClick={handleOpen}>
                             <VisibilityIcon />
                           </Button>
-                          <Button disableRipple>
-                            <CreateIcon />
-                          </Button>
-                          {account.invoice && (
+                          <Link to="/account-add">
                             <Button disableRipple>
-                              <FileDownloadIcon />
+                              <CreateIcon />
                             </Button>
+                          </Link>
+                          {account.invoice ? (
+                            <Link to={account.invoice}>
+                              <Button disableRipple>
+                                <FileDownloadIcon />
+                              </Button>
+                            </Link>
+                          ) : (
+                            ""
                           )}
                         </Stack>
                       </TableCell>
