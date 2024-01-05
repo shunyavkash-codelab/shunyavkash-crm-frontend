@@ -23,7 +23,7 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import ModalComponent from "../component/ModalComponent";
 
 function UserLeave() {
-  const [value, setValue] = React.useState(0);
+  const [setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

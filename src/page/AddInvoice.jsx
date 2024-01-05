@@ -72,7 +72,7 @@ export default function Invoices() {
   const navigate = useNavigate();
   const location = useLocation();
   const [clientList, setClientList] = useState([]);
-  const [countryList, setCountryList] = useState([]);
+  const [setCountryList] = useState([]);
   const [projectList, setProjectList] = useState([]);
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
