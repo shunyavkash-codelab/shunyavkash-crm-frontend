@@ -93,7 +93,7 @@ export default function SendSalaryModal({ open, setOpen, ...props }) {
                 />
               </Button>
             </Box>
-            <Box sx={{ maxHeight: "80vh", overflowY: "auto" }}>
+            <Box sx={{ maxHeight: "80vh", overflowY: "auto", pt: 0.75 }}>
               {props.children}
             </Box>
           </Box>

@@ -987,7 +987,6 @@ export default function Home() {
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       label="Gender"
-                      onChange={handleChange}
                       sx={{ fontSize: "14px" }}
                     >
                       <MenuItem
