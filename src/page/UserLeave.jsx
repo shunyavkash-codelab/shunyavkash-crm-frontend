@@ -347,7 +347,7 @@ function UserLeave() {
             xs={12}
             md={12}
             lg={6}
-            sx={{ "> .MuiFormControl-root": { mt: 0.63 } }}
+            sx={{ "> .MuiFormControl-root": { mt: 0.62 } }}
           >
             <FormControl
               fullWidth
@@ -383,22 +383,91 @@ function UserLeave() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sx={{ "> .MuiFormControl-root": { margin: 0 } }}>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={6}
+            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+          >
             <FormControl fullWidth sx={{ m: 1 }}>
               <TextField
-                required
-                fullWidth
-                multiline
-                rows={4}
-                size="normal"
-                id="name"
-                placeholder="Leave Reason"
-                autoComplete="off"
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                }}
+                placeholder="Leave Title"
+                sx={{ "&>div": { fontSize: "14px" } }}
               />
             </FormControl>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={6}
+            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+          >
+            <FormControl fullWidth sx={{ m: 1 }}>
+              <TextField
+                placeholder="Start Date"
+                sx={{ "&>div": { fontSize: "14px" } }}
+              />
+            </FormControl>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={6}
+            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+          >
+            <FormControl fullWidth sx={{ m: 1 }}>
+              <TextField
+                placeholder="End Date"
+                sx={{ "&>div": { fontSize: "14px" } }}
+              />
+            </FormControl>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={12}
+            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+          >
+            <Button
+              disableRipple
+              sx={{
+                maxHeight: "42px",
+                position: "relative",
+                px: 2.5,
+                py: 1.5,
+                bgcolor: "success.main",
+                border: "1px solid",
+                borderColor: "success.main",
+                color: "white",
+                lineHeight: 1,
+                borderRadius: 2.5,
+                overflow: "hidden",
+                "&:before": {
+                  content: "''",
+                  height: 0,
+                  width: "10rem",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  zIndex: "0",
+                  bgcolor: "white",
+                  transform: "rotate(-45deg) translate(-50%, -50%)",
+                  transformOrigin: "0% 0%",
+                  transition: "all 0.4s ease-in-out",
+                },
+                "&:hover": {
+                  color: "success.main",
+                  bgcolor: "success.main",
+                  "&:before": { height: "10rem" },
+                },
+              }}
+            >
+              <span style={{ position: "relative" }}>Save</span>
+            </Button>
           </Grid>
         </Grid>
       </ModalComponent>
