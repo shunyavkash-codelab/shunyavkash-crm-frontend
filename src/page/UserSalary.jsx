@@ -26,15 +26,15 @@ import InputAdornment from "@mui/material/InputAdornment";
 import DetailsList from "../component/employee/DetailsList";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
-import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import AccountHolderIcon from "@mui/icons-material/PermIdentityOutlined";
+import BankNameIcon from "@mui/icons-material/AccountBalance";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
-// import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import Person2Icon from "@mui/icons-material/Person2";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import EditIcon from "@mui/icons-material/CreateOutlined";
+import ConfirmNumber from "@mui/icons-material/ThumbUpAlt";
 
 export default function UserSalary() {
   const [openBank, setOpenBank] = React.useState(false);
@@ -132,14 +132,14 @@ export default function UserSalary() {
             <DetailsList
               Title={"Bank Name"}
               Text={"Bank of Baroda"}
-              Icon={<AccountBalanceIcon />}
+              Icon={<BankNameIcon />}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <DetailsList
               Title={"Bank Holder Name"}
               Text={"Deep Bhimani"}
-              Icon={<PermIdentityOutlinedIcon />}
+              Icon={<AccountHolderIcon />}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
@@ -153,14 +153,14 @@ export default function UserSalary() {
             <DetailsList
               Title={"Bank IFSC Code"}
               Text={"BOBN0005943"}
-              Icon={<PermIdentityOutlinedIcon />}
+              Icon={<AccountHolderIcon />}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <DetailsList
               Title={"Bank Branch Name"}
               Text={"Puna Kumbhariya"}
-              Icon={<PermIdentityOutlinedIcon />}
+              Icon={<AccountHolderIcon />}
             />
           </Grid>
         </Grid>
@@ -548,7 +548,7 @@ export default function UserSalary() {
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
-                      <AccountBalanceIcon />
+                      <BankNameIcon />
                     </InputAdornment>
                   }
                 />
@@ -567,7 +567,7 @@ export default function UserSalary() {
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
-                      <PermIdentityOutlinedIcon />
+                      <AccountHolderIcon />
                     </InputAdornment>
                   }
                 />
@@ -610,12 +610,12 @@ export default function UserSalary() {
             >
               <FormControl fullWidth sx={{ m: 1 }}>
                 <OutlinedInput
-                  placeholder="Account Number"
+                  placeholder="Confirm Number"
                   type="text"
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
-                      <PersonPinIcon />
+                      <ConfirmNumber />
                     </InputAdornment>
                   }
                 />
@@ -653,7 +653,7 @@ export default function UserSalary() {
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
-                      <PermIdentityOutlinedIcon />
+                      <AccountHolderIcon />
                     </InputAdornment>
                   }
                 />
@@ -759,120 +759,37 @@ export default function UserSalary() {
               lg={12}
               sx={{ "> .MuiFormControl-root": { margin: 0 } }}
             >
-              <Box
-                component="form"
-                noValidate
-                autoComplete="off"
+              <FormControl
+                fullWidth
+                size="normal"
                 sx={{
-                  flexGrow: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "end",
-                  gap: 2.5,
-                  "& fieldset": { borderRadius: "6px" },
-                  minWidth: "140px",
+                  "&>label": { fontSize: "14px" },
                 }}
               >
-                <FormControl
-                  size="small"
-                  sx={{
-                    "&>label": { fontSize: "14px" },
-                    flexGrow: 1,
-                  }}
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
                 >
-                  <InputLabel
+                  Status
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Leave Type"
+                  onChange={handleChange}
+                  sx={{ fontSize: "14px" }}
+                >
+                  <MenuItem sx={{ textTransform: "capitalize" }} value={"paid"}>
+                    Paid
+                  </MenuItem>
+                  <MenuItem
                     sx={{ textTransform: "capitalize" }}
-                    id="status-select-label"
+                    value={"unpaid"}
                   >
-                    Status
-                  </InputLabel>
-                  <Select
-                    labelId="status-select-label"
-                    id="demo-simple-select"
-                    label="Status"
-                    onChange={handleChange}
-                    sx={{
-                      fontSize: "14px",
-                      "&": {
-                        bgcolor: "white",
-                      },
-                      "& div": {
-                        py: 2,
-                        px: 1.5,
-                      },
-                    }}
-                  >
-                    <MenuItem
-                      sx={{
-                        textTransform: "capitalize",
-                        fontSize: "14px",
-                      }}
-                      value={"paid"}
-                    >
-                      Paid
-                    </MenuItem>
-                    <MenuItem
-                      sx={{
-                        textTransform: "capitalize",
-                        fontSize: "14px",
-                      }}
-                      value={"unpaid"}
-                    >
-                      Unpaid
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                {date === "CustomRange" && (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: { xs: "column", sm: "row" },
-                      "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
-                      gap: 2.5,
-                      flexShrink: 0,
-                    }}
-                  >
-                    <TextField
-                      fullWidth
-                      size="small"
-                      id="form"
-                      label="From"
-                      autoComplete="off"
-                      type="date"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      placeholder="mm/dd/yyyy"
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "&": {
-                          bgcolor: "white",
-                          borderRadius: 1.5,
-                        },
-                      }}
-                    />
-                    <TextField
-                      fullWidth
-                      size="small"
-                      id="to"
-                      label="To"
-                      autoComplete="off"
-                      type="date"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      placeholder="mm/dd/yyyy"
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "&": {
-                          bgcolor: "white",
-                          borderRadius: 1.5,
-                        },
-                      }}
-                    />
-                  </Box>
-                )}
-              </Box>
+                    Unpaid
+                  </MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
 
             <Grid

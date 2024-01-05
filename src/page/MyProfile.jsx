@@ -657,7 +657,7 @@ export default function Home() {
                   }}
                 >
                   <Link
-                    href="#javascript:void(0);;"
+                    href="#javascript:void(0);"
                     target="_blank"
                     sx={{
                       textDecoration: "none",
