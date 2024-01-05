@@ -45,6 +45,12 @@ import { useParams } from "react-router-dom";
 import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
+import ThemeInput from "../component/form/ThemeInput.jsx";
+import EmployeeDetailsForm from "../component/form/EmployeeDetailsForm.jsx";
+import EmployeeContactForm from "../component/form/EmployeeContactForm.jsx";
+import EmployeeFamilyDetailForm from "../component/form/EmployeeFamilyDetailForm.jsx";
+import EmployeeDocumentDetailForm from "../component/form/EmployeeDocumentDetailForm.jsx";
+import EmployeePersonalDetailForm from "../component/form/EmployeePersonalDetailForm.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -97,8 +103,9 @@ export default function Home() {
     setUrl(files.base64);
   };
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const [open, setOpen] = React.useState({ open: false, type: "" });
+
+  const handleOpen = (type) => setOpen({ open: true, type });
 
   const viewEmployees = async () => {
     try {
@@ -109,6 +116,7 @@ export default function Home() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setUserList(res.data.data);
+        console.log(res.data.data, "--------------112");
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -440,7 +448,7 @@ export default function Home() {
                   Employment Details
                 </Typography>
                 <Button
-                  onClick={handleOpen}
+                  onClick={handleOpen.bind(null, "employee-detail")}
                   startIcon={<EditIcon sx={{ width: 16 }} />}
                   sx={{
                     cursor: "pointer",
@@ -498,7 +506,7 @@ export default function Home() {
               <Box className="cardHeader">
                 <Typography className="cardTitle">Personal Details</Typography>
                 <Button
-                  onClick={handleOpen}
+                  onClick={handleOpen.bind(null, "personal-detail")}
                   startIcon={<EditIcon sx={{ width: 16 }} />}
                   sx={{
                     cursor: "pointer",
@@ -556,7 +564,7 @@ export default function Home() {
               <Box className="cardHeader">
                 <Typography className="cardTitle">Contact Details</Typography>
                 <Button
-                  onClick={handleOpen}
+                  onClick={handleOpen.bind(null, "contact-detail")}
                   startIcon={<EditIcon sx={{ width: 16 }} />}
                   sx={{
                     cursor: "pointer",
@@ -610,7 +618,7 @@ export default function Home() {
               <Box className="cardHeader">
                 <Typography className="cardTitle">Family Details</Typography>
                 <Button
-                  onClick={handleOpen}
+                  onClick={handleOpen.bind(null, "family-detail")}
                   startIcon={<EditIcon sx={{ width: 16 }} />}
                   sx={{
                     cursor: "pointer",
@@ -654,7 +662,7 @@ export default function Home() {
               <Box className="cardHeader">
                 <Typography className="cardTitle">Document Details</Typography>
                 <Button
-                  onClick={handleOpen}
+                  onClick={handleOpen.bind(null, "document-detail")}
                   startIcon={<EditIcon sx={{ width: 16 }} />}
                   sx={{
                     cursor: "pointer",
@@ -824,472 +832,15 @@ export default function Home() {
           </CustomTabPanel>
 
           <ModalComponent
-            open={open}
-            setOpen={setOpen}
+            open={open.open}
+            setOpen={() => setOpen({ type: "", open: false })}
             modalTitle="Employment Details"
           >
-            <Box component="form">
-              <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Date Of Joining"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <DateIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Employee Id"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <Grid3x3Icon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Work Email"
-                      type="email"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <EmailOutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Designation"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <AccountBoxOutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Role"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <PermIdentityOutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={12}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <Button
-                    disableRipple
-                    sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
-                      bgcolor: "success.main",
-                      border: "1px solid",
-                      borderColor: "success.main",
-                      color: "white",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "white",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
-                        color: "success.main",
-                        bgcolor: "success.main",
-                        "&:before": { height: "10rem" },
-                      },
-                    }}
-                  >
-                    <span style={{ position: "relative" }}>Save</span>
-                  </Button>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Full Name"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <PermIdentityOutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl
-                    fullWidth
-                    size="normal"
-                    sx={{
-                      "&>label": { fontSize: "14px" },
-                    }}
-                  >
-                    <InputLabel
-                      sx={{ textTransform: "capitalize" }}
-                      id="demo-simple-select-label"
-                    >
-                      gender
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Gender"
-                      sx={{ fontSize: "14px" }}
-                    >
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"male"}
-                      >
-                        Male
-                      </MenuItem>
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"female"}
-                      >
-                        Female
-                      </MenuItem>
-                      <MenuItem
-                        sx={{ textTransform: "capitalize" }}
-                        value={"transgender"}
-                      >
-                        Transgender
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Date of Birth"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <DateIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Hobbies"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <SportsSoccerOutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Phobia"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <SickOutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Phone Number"
-                      type="tel"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <PhoneOutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="WhatsApp Number"
-                      type="tel"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <PhoneOutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Personal Email"
-                      type="email"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <EmailOutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={12}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      multiline
-                      rows={4}
-                      placeholder="Address"
-                      sx={{ fontSize: 14, alignItems: "start" }}
-                      startAdornment={
-                        <InputAdornment>
-                          <HomeOutlinedIcon sx={{ mt: 2.25, mr: 1.25 }} />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Father's Name"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <Man2OutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Mother's Name"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <Woman2OutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <FormControl fullWidth sx={{ m: 1 }}>
-                    <OutlinedInput
-                      placeholder="Father's Number"
-                      type="tel"
-                      sx={{ fontSize: 14 }}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <PhoneOutlinedIcon />
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Grid container rowSpacing={2.5} columnSpacing={2.5} mt={3}>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <ImageUploder title="signature"></ImageUploder>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <ImageUploder title="Degree Certification"></ImageUploder>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <ImageUploder title="Adhar Card"></ImageUploder>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <ImageUploder title="Adress Proof"></ImageUploder>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <ImageUploder title="Property tax"></ImageUploder>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
-                  <ImageUploder title="Electricity bill"></ImageUploder>
-                </Grid>
-              </Grid>
-            </Box>
+            {open.type === "employee-detail" && <EmployeeDetailsForm />}
+            {open.type === "personal-detail" && <EmployeePersonalDetailForm />}
+            {open.type === "contact-detail" && <EmployeeContactForm />}
+            {open.type === "family-detail" && <EmployeeFamilyDetailForm />}
+            {open.type === "document-detail" && <EmployeeDocumentDetailForm />}
           </ModalComponent>
         </Box>
       </Box>

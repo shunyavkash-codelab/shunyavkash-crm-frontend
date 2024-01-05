@@ -3,9 +3,8 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { Box, Button, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Form } from "react-router-dom";
 
-export default function SendSalaryModal({ open, setOpen, ...props }) {
+export default function ModalComponent({ open, setOpen, ...props }) {
   const handleClose = () => setOpen(false);
   const modalSize = props.size;
   const modalStyle = {
@@ -81,9 +80,9 @@ export default function SendSalaryModal({ open, setOpen, ...props }) {
                 />
               </Button>
             </Box>
-            <Form sx={{ maxHeight: "80vh", overflowY: "auto", pt: 0.75 }}>
+            <Box sx={{ maxHeight: "80vh", overflowY: "auto", pt: 0.75 }}>
               {props.children}
-            </Form>
+            </Box>
           </Box>
         </Fade>
       </Modal>

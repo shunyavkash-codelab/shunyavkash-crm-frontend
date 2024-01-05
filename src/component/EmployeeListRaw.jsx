@@ -166,7 +166,7 @@ export default function EmployeeListRaw({
                 }}
                 value={"User"}
               >
-                user
+                manager
               </MenuItem>
               <MenuItem
                 sx={{
