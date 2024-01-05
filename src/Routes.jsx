@@ -8,9 +8,9 @@ import ForgotPassword from "./page/ForgotPassword";
 import ConfirmPassword from "./page/ConfirmPassword";
 import Home from "./page/Home";
 import EmployeeDashboard from "./page/EmployeeDashboard";
-import Manager from "./page/Manager";
-import AddManager from "./page/AddManager";
-import ViewManager from "./page/ViewManager";
+import User from "./page/User";
+import AddUser from "./page/AddUser";
+import ViewUser from "./page/ViewUser";
 import Clients from "./page/Clients";
 import AddClient from "./page/AddClient";
 import ViewClient from "./page/ViewClient";
@@ -35,9 +35,9 @@ const routes = createBrowserRouter([
   { path: "/confirm-password", Component: ConfirmPassword },
   { path: "/", Component: Home },
   { path: "/employee-dashboard", Component: EmployeeDashboard },
-  { path: "/managers", Component: Manager },
-  { path: "/managers/add", Component: AddManager },
-  { path: "/managers/view/:id", Component: ViewManager },
+  { path: "/users", Component: User },
+  { path: "/users/add", Component: AddUser },
+  { path: "/users/view/:id", Component: ViewUser },
   { path: "/clients", Component: Clients },
   { path: "/Clients/add", Component: AddClient },
   { path: "/Clients/edit/:id", Component: AddClient },
@@ -57,6 +57,8 @@ const routes = createBrowserRouter([
   { path: "/applyleave", Component: ApplyLeave },
   { path: "/leaves", Component: Leaves },
   { path: "/my-profile", Component: MyProfile },
+  // { path: "/my-profile", Component: MyProfile },
+  { path: "/my-profile/:id", Component: MyProfile },
   { path: "/account-management", Component: AccountManage },
   { path: "/account-add", Component: AccountAdd },
 ]);

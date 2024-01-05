@@ -160,7 +160,7 @@ export default function Employees() {
                   }}
                 >
                   <Table
-                    className="managerTable"
+                    className="userTable"
                     sx={{
                       minWidth: 650,
                       textTransform: "capitalize",

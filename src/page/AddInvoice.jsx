@@ -521,7 +521,7 @@ export default function Invoices() {
                 mobileCode: values.mobileCode,
                 mobileNumber: values.mobileNumber,
               },
-              managerId: adminList._id,
+              userId: adminList._id,
               clientId: selectedClient?._id || invoiceData?.clientId,
               to: {
                 name: selectedClient?.name || invoiceData?.clientName,

@@ -454,7 +454,7 @@ export default function Invoices() {
                 <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
                   <TableCell>Project Name</TableCell>
                   <TableCell>Client</TableCell>
-                  <TableCell>Manager</TableCell>
+                  <TableCell>User</TableCell>
                   <TableCell>Invoice No.</TableCell>
                   <TableCell>Invoice Date</TableCell>
                   <TableCell>Status</TableCell>
@@ -478,7 +478,7 @@ export default function Invoices() {
                       {row.projectName}
                     </TableCell>
                     <TableCell>{row.clientName}</TableCell>
-                    <TableCell>{row.managerName}</TableCell>
+                    <TableCell>{row.userName}</TableCell>
                     <TableCell>{row.invoiceNumber}</TableCell>
                     <TableCell>
                       {moment(row.invoiceDate).format("DD/MM/YYYY")}
@@ -533,7 +533,7 @@ export default function Invoices() {
                             color: "black",
                             "&:hover": { color: "primary.main" },
                           },
-                          "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                          "& svg": { fontSize: { xs: "20px", sm: "21px" } },
                         }}
                       >
                         <Button

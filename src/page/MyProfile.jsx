@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -41,6 +41,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import UserSalary from "../page/UserSalary";
 import ImageUploder from "../component/form/ImageUploder";
 import UserLeave from "./UserLeave";
+import { useParams } from "react-router-dom";
+import { APIS } from "../api/apiList.js";
+import useApi from "../hooks/useApi";
+import { useSnack } from "../hooks/store/useSnack";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -69,11 +73,15 @@ function a11yProps(index) {
 }
 
 export default function Home() {
+  const { id } = useParams();
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
+  const { apiCall } = useApi();
+  const { setSnack } = useSnack();
 
   const [changeStatus, setChangeStatus] = useState(true);
+  const [userList, setUserList] = useState();
 
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
@@ -91,6 +99,24 @@ export default function Home() {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
+
+  const viewEmployees = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.VIEW(id),
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setUserList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    viewEmployees();
+  }, []);
 
   return (
     <>

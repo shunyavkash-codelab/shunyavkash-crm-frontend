@@ -256,9 +256,9 @@ export default function InvitationModal({ open, setOpen }) {
                               textTransform: "capitalize",
                               fontSize: "14px",
                             }}
-                            value={"manager"}
+                            value={"user"}
                           >
-                            manager
+                            user
                           </MenuItem>
                           <MenuItem
                             sx={{

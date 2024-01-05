@@ -8,7 +8,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/DashboardOutlined";
-import ManagerIcon from "@mui/icons-material/PermIdentityOutlined";
+import UserIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
@@ -38,7 +38,7 @@ export default function SideBar({
       icon: <DashboardIcon />,
       link: "/",
     },
-    { text: "Manager", icon: <ManagerIcon />, link: "/managers" },
+    { text: "Manager", icon: <UserIcon />, link: "/users" },
     { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
     { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
     { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
@@ -75,7 +75,7 @@ export default function SideBar({
           "Members",
           "Invoices",
           "Clients",
-          "Manager",
+          "User",
           "Projects",
           "Dashboard",
           "Account Management",

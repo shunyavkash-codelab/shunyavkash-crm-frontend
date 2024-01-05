@@ -161,7 +161,7 @@ export default function BankDetailForm({ profileList }) {
     }
   };
 
-  // get manager detile
+  // get user detile
   const fetchBank = async () => {
     try {
       const res = await apiCall({

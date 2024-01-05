@@ -237,7 +237,7 @@ export default function Project() {
                       >
                         <TableCell>{row.name}</TableCell>
                         <TableCell>{row.clientName}</TableCell>
-                        <TableCell>{row.managerName}</TableCell>
+                        <TableCell>{row.userName}</TableCell>
                         <TableCell>
                           {moment(row.startDate).format("MMM D, YYYY")}
                         </TableCell>

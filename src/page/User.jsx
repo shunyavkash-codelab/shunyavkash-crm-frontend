@@ -13,26 +13,26 @@ import {
   Paper,
   Avatar,
 } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
+import SideBar from "../component/SideBar.jsx";
+import Header from "../component/Header.jsx";
 import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import useApi from "../hooks/useApi";
-import { useSnack } from "../hooks/store/useSnack";
+import useApi from "../hooks/useApi.js";
+import { useSnack } from "../hooks/store/useSnack.js";
 import { APIS } from "../api/apiList.js";
 import { useAuth } from "../hooks/store/useAuth.js";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 
-export default function Manager() {
+export default function User() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [managerList, setManagerList] = useState([]);
+  const [userList, setUserList] = useState([]);
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const { accessToken, user } = useAuth();
   const { searchData } = useSearchData();
 
-  const fetchManagers = async () => {
+  const fetchUsers = async () => {
     try {
       const res = await apiCall({
         url: APIS.MANAGER.LIST,
@@ -41,18 +41,18 @@ export default function Manager() {
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
-        setManagerList(res.data.data.data);
+        setUserList(res.data.data.data);
       }
     } catch (error) {
       console.log(error, setSnack);
     }
   };
   useEffect(() => {
-    fetchManagers();
+    fetchUsers();
   }, []);
   // });
   useEffect(() => {
-    if (searchData !== undefined) fetchManagers();
+    if (searchData !== undefined) fetchUsers();
   }, [searchData]);
   return (
     <>
@@ -87,7 +87,7 @@ export default function Manager() {
                 variant="h5"
                 sx={{ mb: 0.75, textTransform: "capitalize" }}
               >
-                Our Managers
+                Our Manager
               </Typography>
               <Box sx={{ display: "flex", gap: 0.5 }}>
                 <Link to={"/"} style={{ textDecoration: "none" }}>
@@ -109,7 +109,7 @@ export default function Manager() {
                   variant="subtitle2"
                   sx={{ opacity: 0.4, textTransform: "capitalize" }}
                 >
-                  Managers
+                  Manager
                 </Typography>
               </Box>
             </Box>
@@ -157,7 +157,7 @@ export default function Manager() {
               </Box>
             )}
           </Box>
-          {managerList.length === 0 ? (
+          {userList.length === 0 ? (
             <Box
               sx={{
                 width: "100%",
@@ -199,7 +199,7 @@ export default function Manager() {
                 }}
               >
                 <Table
-                  className="managerTable"
+                  className="userTable"
                   sx={{
                     minWidth: 650,
                     textTransform: "capitalize",
@@ -217,7 +217,7 @@ export default function Manager() {
                         "&>th": { lineHeight: 1, fontWeight: 700 },
                       }}
                     >
-                      <TableCell>manager</TableCell>
+                      <TableCell>user</TableCell>
                       <TableCell>Company Name</TableCell>
                       <TableCell>Mobile Number</TableCell>
                       <TableCell>Gender</TableCell>
@@ -225,7 +225,7 @@ export default function Manager() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {managerList.map((row) => (
+                    {userList.map((row) => (
                       <TableRow
                         key={row.name}
                         sx={{

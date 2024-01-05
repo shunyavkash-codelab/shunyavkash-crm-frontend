@@ -230,7 +230,7 @@ export default function Profile() {
   //   },
   // });
 
-  // get manager detile
+  // get user detile
   const fetchProfile = async (id) => {
     try {
       const res = await apiCall({

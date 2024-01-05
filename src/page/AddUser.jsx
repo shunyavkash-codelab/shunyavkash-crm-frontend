@@ -23,10 +23,10 @@ import { APIS } from "../api/apiList";
 import FileUploadButton from "../component/FileUploadButton";
 import * as Yup from "yup";
 
-export default function AddManager() {
+export default function AddUser() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [managerList, setManagerList] = useState([]);
+  const [userList, setUserList] = useState([]);
   const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
@@ -74,7 +74,7 @@ export default function AddManager() {
         });
         if (res.status === 201) {
           setSnack(res.data.message);
-          navigate("/managers");
+          navigate("/users");
         }
       } catch (error) {
         let errorMessage = error.response.data.message;
@@ -83,7 +83,7 @@ export default function AddManager() {
     },
   });
 
-  const fetchManagers = async () => {
+  const fetchUsers = async () => {
     try {
       const res = await apiCall({
         url: APIS.MANAGER.LIST,
@@ -91,7 +91,7 @@ export default function AddManager() {
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
-        setManagerList(res.data.data.data);
+        setUserList(res.data.data.data);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -114,7 +114,7 @@ export default function AddManager() {
   };
 
   useEffect(() => {
-    fetchManagers();
+    fetchUsers();
     fetchCountry();
   }, []);
   // });
@@ -141,10 +141,10 @@ export default function AddManager() {
               variant="h5"
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
-              Add Manager
+              Add manager
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/managers"} style={{ textDecoration: "none" }}>
+              <Link to={"/users"} style={{ textDecoration: "none" }}>
                 <Typography
                   variant="subtitle2"
                   sx={{
@@ -156,7 +156,7 @@ export default function AddManager() {
                     },
                   }}
                 >
-                  Managers /
+                  Manager /
                 </Typography>
               </Link>
               <Typography
@@ -455,7 +455,7 @@ export default function AddManager() {
                           formik.touched.reference && formik.errors.reference
                         }
                       >
-                        {managerList.map((item) => (
+                        {userList.map((item) => (
                           <MenuItem
                             sx={{ textTransform: "capitalize" }}
                             value={item._id}
@@ -611,7 +611,7 @@ export default function AddManager() {
                       "&:before": { height: "10rem" },
                     },
                   }}
-                  onClick={() => navigate("/managers")}
+                  onClick={() => navigate("/users")}
                 >
                   <span style={{ position: "relative" }}>Discard</span>
                 </Button>
