@@ -116,8 +116,8 @@ export default function AddProject() {
     if (id !== undefined) fetchProject(id);
     fetchClients();
     fetchCurrency();
-    // }, []);
-  });
+  }, []);
+  // });
 
   // const theme = useTheme();
 

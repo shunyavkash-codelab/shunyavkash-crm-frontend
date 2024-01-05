@@ -49,8 +49,8 @@ export default function Manager() {
   };
   useEffect(() => {
     fetchManagers();
-    // }, []);
-  });
+  }, []);
+  // });
   useEffect(() => {
     if (searchData !== undefined) fetchManagers();
   }, [searchData]);

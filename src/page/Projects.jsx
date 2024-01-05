@@ -51,8 +51,8 @@ export default function Project() {
   };
   useEffect(() => {
     fetchProjects();
-    // }, []);
-  });
+  }, []);
+  // });
   useEffect(() => {
     if (searchData !== undefined) fetchProjects();
   }, [searchData]);

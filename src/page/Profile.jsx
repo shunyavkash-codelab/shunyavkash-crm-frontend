@@ -254,8 +254,8 @@ export default function Profile() {
 
   useEffect(() => {
     fetchProfile(userId);
-    // }, []);
-  });
+  }, []);
+  // });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

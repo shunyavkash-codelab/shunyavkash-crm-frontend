@@ -91,8 +91,8 @@ export default function SideBar({
     if (!accessToken) {
       navigate("/signin");
     }
-    // }, []);
-  });
+  }, []);
+  // });
   return (
     <>
       <Box

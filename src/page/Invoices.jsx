@@ -90,8 +90,8 @@ export default function Invoices() {
   useEffect(() => {
     listInvoice();
     resetInvoiceStore();
-    // }, []);
-  });
+  }, []);
+  // });
 
   return (
     <>

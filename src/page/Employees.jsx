@@ -51,8 +51,8 @@ export default function Employees() {
   };
   useEffect(() => {
     fetchEmployees();
-    // }, []);
-  });
+  }, []);
+  // });
   useEffect(() => {
     if (inviteMemberStore)
       setEmployeesList([...[inviteMemberStore], ...employeesList]);

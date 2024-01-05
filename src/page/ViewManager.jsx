@@ -37,8 +37,8 @@ export default function Manager() {
   };
   useEffect(() => {
     viewManagers();
-    // }, []);
-  });
+  }, []);
+  // });
 
   return (
     <>

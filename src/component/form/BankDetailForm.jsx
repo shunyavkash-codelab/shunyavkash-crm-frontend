@@ -182,8 +182,8 @@ export default function BankDetailForm({ profileList }) {
 
   useEffect(() => {
     fetchBank();
-    // }, []);
-  });
+  }, []);
+  // });
 
   return (
     <>

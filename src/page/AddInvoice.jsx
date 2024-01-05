@@ -123,8 +123,8 @@ export default function Invoices() {
     } catch (error) {
       console.log(error, setSnack);
     }
-    // }, []);
-  });
+    }, []);
+  // });
 
   // set initial data for update
 
@@ -348,8 +348,8 @@ export default function Invoices() {
     fetchClient();
     fetchCountry();
     fetchAdmin();
-    // }, []);
-  });
+    }, []);
+  // });
 
   // add task
   const addTask = async (task) => {

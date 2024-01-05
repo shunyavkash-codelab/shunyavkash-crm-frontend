@@ -76,8 +76,8 @@ export default function Home() {
   useEffect(() => {
     fetchDashboardData();
     listInvoice();
-    // }, []);
-  });
+  }, []);
+  // });
 
   const invoiceNumberGenerate = async () => {
     try {

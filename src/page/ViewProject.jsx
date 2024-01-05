@@ -36,8 +36,8 @@ export default function ViewProject() {
   };
   useEffect(() => {
     viewProject();
-    // }, []);
-  });
+  }, []);
+  // });
 
   // date formatted change
   const MyDate = (date) => {
