@@ -4,25 +4,21 @@ import { useAuth } from "../hooks/store/useAuth";
 import Header from "../component/Header";
 import {
   Box,
-  Button,
   Card,
-  Form,
   FormControl,
   FormControlLabel,
   Grid,
   Link,
   Radio,
   RadioGroup,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import PlusIcon from "@mui/icons-material/Close";
 
 function AccountAdd() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, user } = useAuth();
+  const { accessToken } = useAuth();
 
   return (
     <>
