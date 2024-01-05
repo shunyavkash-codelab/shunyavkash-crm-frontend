@@ -269,7 +269,7 @@ function AccountManage() {
                 <TableHead>
                   <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
                     <TableCell sx={{ width: "110px" }}>Date</TableCell>
-                    <TableCell>Title</TableCell>
+                    <TableCell sx={{ width: "184px" }}>Title</TableCell>
                     <TableCell sx={{ width: "350px" }}>Description</TableCell>
                     <TableCell sx={{ width: "154px" }}>
                       payment method
