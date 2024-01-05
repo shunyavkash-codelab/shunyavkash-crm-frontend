@@ -3,7 +3,6 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { Box, Button, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import Backdrop from "@mui/material/Backdrop";
 
 export default function SendSalaryModal({ open, setOpen, ...props }) {
   const handleClose = () => setOpen(false);
@@ -23,19 +22,7 @@ export default function SendSalaryModal({ open, setOpen, ...props }) {
   };
   return (
     <>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500,
-          },
-        }}
-      >
+      <Modal open={open} onClose={handleClose} closeAfterTransition>
         <Fade in={open}>
           <Box
             sx={modalStyle}
@@ -64,6 +51,7 @@ export default function SendSalaryModal({ open, setOpen, ...props }) {
                 {props.modalTitle}
               </Typography>
               <Button
+                onClick={handleClose}
                 disableRipple
                 disableElevation
                 id="cancle_icon"
@@ -88,7 +76,6 @@ export default function SendSalaryModal({ open, setOpen, ...props }) {
                     fontSize: "25px",
                   }}
                   open={open}
-                  onClick={handleClose}
                   aria-label="close"
                 />
               </Button>
