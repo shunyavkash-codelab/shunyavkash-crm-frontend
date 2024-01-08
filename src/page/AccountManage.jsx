@@ -33,6 +33,8 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import CollabaratorIcon from "@mui/icons-material/PeopleAlt";
+import PaymentIcon from "@mui/icons-material/Payment";
+import InvoiceTypeIcon from "@mui/icons-material/Receipt";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -469,7 +471,7 @@ function AccountManage() {
                   <DetailsList
                     Title={"Invoice Type"}
                     Text={"Inbound"}
-                    Icon={<AccountBoxOutlinedIcon />}
+                    Icon={<InvoiceTypeIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -483,7 +485,7 @@ function AccountManage() {
                   <DetailsList
                     Title={"Payment Method"}
                     Text={"bank Transfer"}
-                    Icon={<PermIdentityOutlinedIcon />}
+                    Icon={<PaymentIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -564,7 +566,7 @@ function AccountManage() {
                   <DetailsList
                     Title={"Invoice Type"}
                     Text={"Outbound"}
-                    Icon={<PermIdentityOutlinedIcon />}
+                    Icon={<InvoiceTypeIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -578,7 +580,7 @@ function AccountManage() {
                   <DetailsList
                     Title={"Payment Method"}
                     Text={"ABC"}
-                    Icon={<PermIdentityOutlinedIcon />}
+                    Icon={<PaymentIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
