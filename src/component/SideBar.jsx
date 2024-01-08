@@ -75,10 +75,12 @@ export default function SideBar({
           "Members",
           "Invoices",
           "Clients",
-          "User",
+          "Manager",
           "Projects",
           "Dashboard",
           "Account Management",
+          "Employees",
+          "Leaves",
         ].includes(ele.text) && user.role !== 0
       ) &&
       !(
