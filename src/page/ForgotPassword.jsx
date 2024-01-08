@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "@mui/material/Link";
 import { Box, TextField, Typography, Button } from "@mui/material";
 import { APIS } from "../api/apiList";
 import { useFormik } from "formik";
@@ -44,7 +43,7 @@ export default function ForgotPassword() {
   });
 
   return (
-    <Box component="main" sx={{ height: "100vh" }}>
+    <Box component="main" sx={{ height: "100vh", p: 0, maxWidth: "unset" }}>
       <Box
         sx={{
           height: "100%",

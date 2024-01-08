@@ -11,12 +11,18 @@ function ImageUploder(props) {
   };
   return (
     <>
-      <Typography
+      {/* <Typography
         variant="h5"
-        sx={{ fontSize: 14, color: "black", fontWeight: "400", mb: 1.5 }}
+        sx={{
+          fontSize: 14,
+          color: "black",
+          fontWeight: "400",
+          mb: 1.5,
+          textTransform: "capitalize",
+        }}
       >
         {props.title}
-      </Typography>
+      </Typography> */}
       <Stack
         direction={"row"}
         sx={{
@@ -37,7 +43,7 @@ function ImageUploder(props) {
             flexShrink: 0,
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
+            // justifyContent: "center",
           }}
         >
           {url ? (
@@ -47,12 +53,14 @@ function ImageUploder(props) {
               alt=""
             />
           ) : (
-            `Upload File`
+            <Box textAlign={"left"} px={1} textTransform={"capitalize"}>
+              {props.title}
+            </Box>
           )}
         </Box>
         <Box>
           <ReactFileReader
-            fileTypes={[".png", ".jpg"]}
+            fileTypes={[".png", ".jpg", "pdf"]}
             base64={true}
             handleFiles={handleFiles}
           >

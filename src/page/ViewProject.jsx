@@ -8,7 +8,7 @@ import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
 import { useAuth } from "../hooks/store/useAuth.js";
 import { useParams } from "react-router-dom";
-import ManagerIcon from "@mui/icons-material/PersonOutlined";
+import UserIcon from "@mui/icons-material/PersonOutlined";
 import DescriptionIcon from "@mui/icons-material/DescriptionOutlined";
 
 export default function ViewProject() {
@@ -37,6 +37,7 @@ export default function ViewProject() {
   useEffect(() => {
     viewProject();
   }, []);
+  // });
 
   // date formatted change
   const MyDate = (date) => {
@@ -150,9 +151,9 @@ export default function ViewProject() {
                 },
               }}
             >
-              {projectList.managerName && (
+              {projectList.userName && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <ManagerIcon />
+                  <UserIcon />
                   <Typography
                     variant="body2"
                     sx={{
@@ -160,7 +161,7 @@ export default function ViewProject() {
                       textTransform: "capitalize",
                     }}
                   >
-                    {projectList.managerName}
+                    {projectList.userName}
                   </Typography>
                 </Box>
               )}
@@ -173,7 +174,7 @@ export default function ViewProject() {
                     gridColumn: { sm: "span 2" },
                   }}
                 >
-                  <ManagerIcon sx={{ mt: 0.25 }} />
+                  <UserIcon sx={{ mt: 0.25 }} />
                   <Typography
                     variant="body2"
                     sx={{

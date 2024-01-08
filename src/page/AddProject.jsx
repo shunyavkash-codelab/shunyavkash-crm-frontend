@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, FormHelperText } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import AddClientsModal from "../component/AddClientsModal";
@@ -14,7 +14,7 @@ import {
   Typography,
   Autocomplete,
 } from "@mui/material";
-import { useTheme } from "@emotion/react";
+// import { useTheme } from "@emotion/react";
 import { useAuth } from "../hooks/store/useAuth";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
@@ -30,13 +30,12 @@ export default function AddProject() {
   const [clientList, setClientList] = useState([]);
   const { accessToken } = useAuth();
   const { setSnack } = useSnack();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const navigate = useNavigate();
   const [currencylist, setCurrencyList] = useState([]);
   const [projectData, setProjectData] = useState(null);
   const { id } = useParams();
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
 
   // yup data validator schhema
   const schema = Yup.object({
@@ -77,7 +76,6 @@ export default function AddProject() {
           !id && navigate("/projects");
         }
       } catch (error) {
-        console.log(error, "=================77");
         let errorMessage = error.response.data.message;
         setSnack(errorMessage, "warning");
       }
@@ -116,8 +114,10 @@ export default function AddProject() {
     fetchClients();
     fetchCurrency();
   }, []);
+  // });
 
-  const theme = useTheme();
+  // const theme = useTheme();
+
   // future employee add
   // const [personName, setPersonName] = React.useState([]);
   // const handleChange2 = (event) => {
@@ -159,11 +159,7 @@ export default function AddProject() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
-      <Box
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{ ml: { lg: sideBarWidth } }}
-      >
+      <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
           <Box sx={{ mb: 3.25 }}>
             <Typography
@@ -267,82 +263,94 @@ export default function AddProject() {
                     <Field
                       name="file"
                       render={({ field, form }) => (
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="clientId"
-                          label="Client"
-                          sx={{ fontSize: "14px" }}
-                          {...field}
-                          defaultValue={projectData?.clientId}
-                          onChange={(event) => {
-                            form.setFieldValue("clientId", event.target.value);
-                          }}
-                          error={
-                            formik.touched.clientId &&
-                            Boolean(formik.errors.clientId)
-                          }
-                          helperText={
-                            formik.touched.clientId && formik.errors.clientId
-                          }
-                        >
-                          {clientList.map((item) => (
-                            <MenuItem
-                              sx={{
-                                textTransform: "capitalize",
-                                fontSize: "14px",
-                              }}
-                              value={item._id}
-                            >
-                              {item.name}
-                            </MenuItem>
-                          ))}
-                          <MenuItem>
-                            <Box sx={{ display: "flex" }}>
-                              <Button
-                                disableRipple
-                                onClick={handleOpen}
+                        <>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="clientId"
+                            label="Client"
+                            sx={{ fontSize: "14px" }}
+                            {...field}
+                            defaultValue={projectData?.clientId}
+                            onChange={(event) => {
+                              form.setFieldValue(
+                                "clientId",
+                                event.target.value
+                              );
+                            }}
+                            error={
+                              formik.touched.clientId &&
+                              Boolean(formik.errors.clientId)
+                            }
+                            helperText={
+                              formik.touched.clientId && formik.errors.clientId
+                            }
+                          >
+                            {clientList.map((item) => (
+                              <MenuItem
                                 sx={{
-                                  maxHeight: "36px",
-                                  position: "relative",
-                                  px: 2.5,
-                                  py: 1,
-                                  bgcolor: "primary.main",
-                                  border: "1px solid",
-                                  borderColor: "primary.main",
-                                  color: "white",
-                                  lineHeight: 1,
-                                  borderRadius: 2.5,
-                                  overflow: "hidden",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  "&:before": {
-                                    content: "''",
-                                    height: 0,
-                                    width: "10rem",
-                                    position: "absolute",
-                                    top: "50%",
-                                    left: "50%",
-                                    zIndex: "0",
-                                    bgcolor: "white",
-                                    transform:
-                                      "rotate(-45deg) translate(-50%, -50%)",
-                                    transformOrigin: "0% 0%",
-                                    transition: "all 0.4s ease-in-out",
-                                  },
-                                  "&:hover": {
-                                    color: "primary.main",
-                                    bgcolor: "primary.main",
-                                    "&:before": { height: "10rem" },
-                                  },
+                                  textTransform: "capitalize",
+                                  fontSize: "14px",
                                 }}
+                                value={item._id}
                               >
-                                <span style={{ position: "relative" }}>
-                                  Add Client
-                                </span>
-                              </Button>
-                            </Box>
-                          </MenuItem>
-                        </Select>
+                                {item.name}
+                              </MenuItem>
+                            ))}
+                            <MenuItem>
+                              <Box sx={{ display: "flex" }}>
+                                <Button
+                                  disableRipple
+                                  onClick={() => setOpen(true)}
+                                  sx={{
+                                    maxHeight: "36px",
+                                    position: "relative",
+                                    px: 2.5,
+                                    py: 1,
+                                    bgcolor: "primary.main",
+                                    border: "1px solid",
+                                    borderColor: "primary.main",
+                                    color: "white",
+                                    lineHeight: 1,
+                                    borderRadius: 2.5,
+                                    overflow: "hidden",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    "&:before": {
+                                      content: "''",
+                                      height: 0,
+                                      width: "10rem",
+                                      position: "absolute",
+                                      top: "50%",
+                                      left: "50%",
+                                      zIndex: "0",
+                                      bgcolor: "white",
+                                      transform:
+                                        "rotate(-45deg) translate(-50%, -50%)",
+                                      transformOrigin: "0% 0%",
+                                      transition: "all 0.4s ease-in-out",
+                                    },
+                                    "&:hover": {
+                                      color: "primary.main",
+                                      bgcolor: "primary.main",
+                                      "&:before": { height: "10rem" },
+                                    },
+                                  }}
+                                >
+                                  <span style={{ position: "relative" }}>
+                                    Add Client
+                                  </span>
+                                </Button>
+                              </Box>
+                            </MenuItem>
+                          </Select>
+                          {formik.touched.clientId &&
+                            Boolean(formik.errors.clientId) && (
+                              <FormHelperText error={true}>
+                                {formik.touched.clientId &&
+                                  formik.errors.clientId}
+                              </FormHelperText>
+                            )}
+                        </>
                       )}
                     />
                   </FormControl>
@@ -467,65 +475,75 @@ export default function AddProject() {
                     <Field
                       name="file"
                       render={({ field, form }) => (
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="payPeriod"
-                          label="Pay Period"
-                          sx={{
-                            fontSize: "14px",
-                            "&>label": { top: "4px" },
-                            "& input": { py: 1.5 },
-                          }}
-                          {...field}
-                          defaultValue={projectData?.payPeriod}
-                          onChange={(event) => {
-                            form.setFieldValue("payPeriod", event.target.value);
-                          }}
-                          error={
-                            formik.touched.payPeriod &&
-                            Boolean(formik.errors.payPeriod)
-                          }
-                          helperText={
-                            formik.touched.payPeriod && formik.errors.payPeriod
-                          }
-                        >
-                          <MenuItem
+                        <>
+                          {" "}
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="payPeriod"
+                            label="Pay Period"
                             sx={{
-                              textTransform: "capitalize",
                               fontSize: "14px",
+                              "&>label": { top: "4px" },
+                              "& input": { py: 1.5 },
                             }}
-                            value={"weekly"}
-                          >
-                            Weekly
-                          </MenuItem>
-                          <MenuItem
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "14px",
+                            {...field}
+                            defaultValue={projectData?.payPeriod}
+                            onChange={(event) => {
+                              form.setFieldValue(
+                                "payPeriod",
+                                event.target.value
+                              );
                             }}
-                            value={"fortnightly"}
+                            error={
+                              formik.touched.payPeriod &&
+                              Boolean(formik.errors.payPeriod)
+                            }
                           >
-                            fortnightly
-                          </MenuItem>
-                          <MenuItem
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "14px",
-                            }}
-                            value={"monthly"}
-                          >
-                            Monthly
-                          </MenuItem>
-                          <MenuItem
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "14px",
-                            }}
-                            value={"yearly"}
-                          >
-                            Yearly
-                          </MenuItem>
-                        </Select>
+                            <MenuItem
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: "14px",
+                              }}
+                              value={"weekly"}
+                            >
+                              Weekly
+                            </MenuItem>
+                            <MenuItem
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: "14px",
+                              }}
+                              value={"fortnightly"}
+                            >
+                              fortnightly
+                            </MenuItem>
+                            <MenuItem
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: "14px",
+                              }}
+                              value={"monthly"}
+                            >
+                              Monthly
+                            </MenuItem>
+                            <MenuItem
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: "14px",
+                              }}
+                              value={"yearly"}
+                            >
+                              Yearly
+                            </MenuItem>
+                          </Select>
+                          {formik.touched.payPeriod &&
+                            Boolean(formik.errors.payPeriod) && (
+                              <FormHelperText error={true}>
+                                {formik.touched.payPeriod &&
+                                  formik.errors.payPeriod}
+                              </FormHelperText>
+                            )}
+                        </>
                       )}
                     />
                   </FormControl>
@@ -659,7 +677,6 @@ export default function AddProject() {
                                 borderRadius: 1,
                                 maxWidth: "fit-content",
                                 lineHeight: 1,
-                                bgcolor: "grey.dark",
                                 bgcolor: "secondary.main",
                               }}
                             >
@@ -675,8 +692,6 @@ export default function AddProject() {
                                 borderRadius: 1,
                                 maxWidth: "fit-content",
                                 lineHeight: 1,
-                                bgcolor: "grey.dark",
-                                bgcolor: "secondary.main",
                                 bgcolor: "review.main",
                               }}
                             >
@@ -692,9 +707,6 @@ export default function AddProject() {
                                 borderRadius: 1,
                                 maxWidth: "fit-content",
                                 lineHeight: 1,
-                                bgcolor: "grey.dark",
-                                bgcolor: "secondary.main",
-                                bgcolor: "review.main",
                                 bgcolor: "success.main",
                               }}
                             >
@@ -803,7 +815,11 @@ export default function AddProject() {
               </Box>
             </FormikProvider>
           )}
-          <AddClientsModal open={open} setOpen={setOpen} />
+          <AddClientsModal
+            open={open}
+            setOpen={setOpen}
+            fetchClients={fetchClients}
+          />
         </Box>
       </Box>
     </>

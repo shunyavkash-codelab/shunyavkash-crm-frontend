@@ -17,6 +17,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList.js";
 import { useSnack } from "../hooks/store/useSnack";
+import { useNavigate } from "react-router-dom";
 
 export default function EmployeeListRaw({
   row,
@@ -25,16 +26,20 @@ export default function EmployeeListRaw({
   employeesList,
 }) {
   const [role, setRole] = useState();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
+  const navigate = useNavigate();
+  const handleNavigate = (id) => {
+    navigate(`/my-profile/${id}`);
+  };
 
-  // edit employee and manager
+  // edit employee and user
   const editRole = async (id) => {
     try {
       const res = await apiCall({
         url: APIS.MANAGER.EDIT(id),
         method: "patch",
-        data: { role: role == "SuperAdmin" ? 0 : role == "Manager" ? 1 : 2 },
+        data: { role: role === "SuperAdmin" ? 0 : role === "User" ? 1 : 2 },
       });
       if (res.status === 200) {
         setSnack(res.data.message);
@@ -46,7 +51,7 @@ export default function EmployeeListRaw({
     }
   };
 
-  // delete employee and manager
+  // delete employee and user
   const deleteEmpandman = async (id) => {
     try {
       const res = await apiCall({
@@ -100,7 +105,9 @@ export default function EmployeeListRaw({
                   lineHeight: 1,
                   fontWeight: 600,
                   fontSize: { xs: "14px", sm: "16px" },
+                  cursor: "pointer",
                 }}
+                onClick={() => handleNavigate(row._id)}
               >
                 {row.name}
               </Typography>
@@ -135,10 +142,10 @@ export default function EmployeeListRaw({
               label="Role"
               sx={{ fontSize: "14px" }}
               defaultValue={
-                row?.role == 0
+                row?.role === 0
                   ? "SuperAdmin"
-                  : row?.role == 1
-                  ? "Manager"
+                  : row?.role === 1
+                  ? "User"
                   : "Employee"
               }
               onChange={(event) => setRole(event.target.value)}
@@ -157,7 +164,7 @@ export default function EmployeeListRaw({
                   textTransform: "capitalize",
                   fontSize: "14px",
                 }}
-                value={"Manager"}
+                value={"User"}
               >
                 manager
               </MenuItem>
@@ -196,7 +203,7 @@ export default function EmployeeListRaw({
               row.invitationStatus === 0 ? "notAccepted" : "accepted"
             }`}
           >
-            {row.invitationStatus == 0 ? "Not accepted" : "Accepted"}
+            {row.invitationStatus === 0 ? "Not accepted" : "Accepted"}
           </Box>
         </TableCell>
         <TableCell>

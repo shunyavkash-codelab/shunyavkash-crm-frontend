@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import Link from "@mui/material/Link";
+import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
@@ -11,7 +10,7 @@ import PasswordField from "../component/PasswordField";
 
 export default function ConfirmPassword() {
   const { setSnack } = useSnack();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const [query] = useSearchParams();
   const navigate = useNavigate();
 
@@ -37,7 +36,7 @@ export default function ConfirmPassword() {
     onSubmit: async (values) => {
       try {
         if (values.password !== values.confirm_password) {
-          throw "Password and confirm password not match.";
+          throw new Error("Password and confirm password do not match.");
         }
         const res = await apiCall({
           url: APIS.MANAGER.RESETPASSWORD,
@@ -58,7 +57,7 @@ export default function ConfirmPassword() {
   return (
     <>
       {Boolean(query.get("key")) && (
-        <Box component="main" sx={{ height: "100vh" }}>
+        <Box component="main" sx={{ height: "100vh", p: 0, maxWidth: "unset" }}>
           <Box
             sx={{
               height: "100%",

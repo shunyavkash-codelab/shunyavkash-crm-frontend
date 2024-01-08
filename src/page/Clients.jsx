@@ -19,7 +19,6 @@ import Header from "../component/Header";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import PlusIcon from "@mui/icons-material/Close";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
@@ -30,7 +29,7 @@ export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [clientList, setClientList] = useState([]);
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const { accessToken } = useAuth();
   const { searchData } = useSearchData();
@@ -53,6 +52,7 @@ export default function Clients() {
   useEffect(() => {
     fetchclientData();
   }, []);
+  // });
   useEffect(() => {
     if (searchData !== undefined) fetchclientData();
   }, [searchData]);
@@ -194,7 +194,6 @@ export default function Clients() {
                 component={Paper}
                 sx={{
                   border: "1px solid rgba(224, 224, 224, 1)",
-                  borderRadius: 5,
                   mx: { xs: "-10px", sm: 0 },
                   width: { xs: "auto", sm: "auto" },
                   borderRadius: 2.5,

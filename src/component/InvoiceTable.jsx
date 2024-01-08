@@ -1,12 +1,7 @@
-import { TableBody, TableCell, TableRow, TextField } from "@mui/material";
-import { Field } from "formik";
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { TableCell, TableRow } from "@mui/material";
 import CustomFormikField from "./form/CustomFormikField";
 
 export default function InvoiceTable({ formik, values, clientList, name }) {
-  const location = useLocation();
-
   return (
     <TableRow
       sx={{

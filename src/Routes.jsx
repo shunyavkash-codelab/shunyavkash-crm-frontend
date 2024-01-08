@@ -8,10 +8,9 @@ import ForgotPassword from "./page/ForgotPassword";
 import ConfirmPassword from "./page/ConfirmPassword";
 import Home from "./page/Home";
 import EmployeeDashboard from "./page/EmployeeDashboard";
-import EmployeeDashboard2 from "./page/EmployeeDashboard2";
-import Manager from "./page/Manager";
-import AddManager from "./page/AddManager";
-import ViewManager from "./page/ViewManager";
+import User from "./page/User";
+import AddUser from "./page/AddUser";
+import ViewUser from "./page/ViewUser";
 import Clients from "./page/Clients";
 import AddClient from "./page/AddClient";
 import ViewClient from "./page/ViewClient";
@@ -24,7 +23,10 @@ import Profile from "./page/Profile";
 import ViewProject from "./page/ViewProject";
 import Employees from "./page/Employees";
 import ApplyLeave from "./page/ApplyLeave";
+import Leaves from "./page/Leaves";
 import MyProfile from "./page/MyProfile";
+import AccountManage from "./page/AccountManage";
+import AccountAdd from "./page/AccountAdd";
 
 const routes = createBrowserRouter([
   { path: "/signup", Component: SignUp },
@@ -33,10 +35,9 @@ const routes = createBrowserRouter([
   { path: "/confirm-password", Component: ConfirmPassword },
   { path: "/", Component: Home },
   { path: "/employee-dashboard", Component: EmployeeDashboard },
-  { path: "/employeedashboard2", Component: EmployeeDashboard2 },
-  { path: "/managers", Component: Manager },
-  { path: "/managers/add", Component: AddManager },
-  { path: "/managers/view/:id", Component: ViewManager },
+  { path: "/users", Component: User },
+  { path: "/users/add", Component: AddUser },
+  { path: "/users/view/:id", Component: ViewUser },
   { path: "/clients", Component: Clients },
   { path: "/Clients/add", Component: AddClient },
   { path: "/Clients/edit/:id", Component: AddClient },
@@ -54,7 +55,12 @@ const routes = createBrowserRouter([
   { path: "/employees", Component: Employees },
   { path: "/profile", Component: Profile },
   { path: "/applyleave", Component: ApplyLeave },
+  { path: "/leaves", Component: Leaves },
   { path: "/my-profile", Component: MyProfile },
+  // { path: "/my-profile", Component: MyProfile },
+  { path: "/my-profile/:id", Component: MyProfile },
+  { path: "/account-management", Component: AccountManage },
+  { path: "/account-add", Component: AccountAdd },
 ]);
 export default function Routes() {
   return (

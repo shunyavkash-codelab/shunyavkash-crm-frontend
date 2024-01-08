@@ -22,11 +22,12 @@ import { useNavigate } from "react-router-dom";
 import { useInviteMemberStore } from "../hooks/store/useInviteMemberStore.js";
 import * as Yup from "yup";
 
-export default function AddClientsModal({ open, setOpen }) {
+export default function InvitationModal({ open, setOpen }) {
+  const handleClose = () => setOpen(false);
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const { setSnack } = useSnack();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const navigate = useNavigate();
   const { setInviteMemberStore } = useInviteMemberStore();
 
@@ -49,6 +50,7 @@ export default function AddClientsModal({ open, setOpen }) {
       email: "",
       password: "",
       role: "",
+      jobRole: "",
     },
     onSubmit: async (values) => {
       try {
@@ -72,12 +74,7 @@ export default function AddClientsModal({ open, setOpen }) {
 
   return (
     <>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        setOpen={setOpen}
-      >
+      <Modal open={open} onClose={handleClose} closeAfterTransition>
         <Fade in={open}>
           <Box
             sx={{
@@ -110,6 +107,7 @@ export default function AddClientsModal({ open, setOpen }) {
                 Invitation Employee
               </Typography>
               <Button
+                onClick={() => setOpen(false)}
                 disableRipple
                 disableElevation
                 id="cancle_icon"
@@ -133,7 +131,6 @@ export default function AddClientsModal({ open, setOpen }) {
                   sx={{
                     fontSize: "25px",
                   }}
-                  onClick={() => setOpen(false)}
                   aria-label="close"
                 />
               </Button>
@@ -259,9 +256,9 @@ export default function AddClientsModal({ open, setOpen }) {
                               textTransform: "capitalize",
                               fontSize: "14px",
                             }}
-                            value={"manager"}
+                            value={"user"}
                           >
-                            manager
+                            user
                           </MenuItem>
                           <MenuItem
                             sx={{
@@ -276,6 +273,22 @@ export default function AddClientsModal({ open, setOpen }) {
                       )}
                     />
                   </FormControl>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="jobRole"
+                    label="Job Role"
+                    autoComplete="off"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.jobRole}
+                    error={
+                      formik.touched.jobRole && Boolean(formik.errors.jobRole)
+                    }
+                    helperText={formik.touched.jobRole && formik.errors.jobRole}
+                  />
                 </Box>
                 <Box
                   sx={{

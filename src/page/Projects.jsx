@@ -52,6 +52,7 @@ export default function Project() {
   useEffect(() => {
     fetchProjects();
   }, []);
+  // });
   useEffect(() => {
     if (searchData !== undefined) fetchProjects();
   }, [searchData]);
@@ -192,7 +193,6 @@ export default function Project() {
                 component={Paper}
                 sx={{
                   border: "1px solid rgba(224, 224, 224, 1)",
-                  borderRadius: 5,
                   mx: { xs: "-10px", sm: 0 },
                   width: { xs: "auto", sm: "auto" },
                   borderRadius: 2.5,
@@ -237,7 +237,7 @@ export default function Project() {
                       >
                         <TableCell>{row.name}</TableCell>
                         <TableCell>{row.clientName}</TableCell>
-                        <TableCell>{row.managerName}</TableCell>
+                        <TableCell>{row.userName}</TableCell>
                         <TableCell>
                           {moment(row.startDate).format("MMM D, YYYY")}
                         </TableCell>

@@ -7,6 +7,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -14,14 +15,27 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import ModalComponent from "../component/ModalComponent";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import AccountHolderIcon from "@mui/icons-material/PermIdentityOutlined";
+import DateIcon from "@mui/icons-material/DateRangeOutlined";
+import {
+  DatePicker,
+  LocalizationProvider,
+  MobileDatePicker,
+} from "@mui/x-date-pickers";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 function UserLeave() {
-  const [value, setValue] = React.useState(0);
+  const [setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -82,7 +96,7 @@ function UserLeave() {
     {
       id: 6,
       username: "Deep Bhimani",
-      type: "Sick",
+      type: "sick",
       reason: "Medical Issue",
       startDate: "12/10/2023",
       endDate: "15/10/2023",
@@ -99,7 +113,7 @@ function UserLeave() {
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
             >
-              Total Leave
+              Total Leaves
             </Typography>
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
@@ -113,7 +127,7 @@ function UserLeave() {
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
             >
-              Casual Leave
+              Casual Leaves
             </Typography>
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
@@ -127,7 +141,7 @@ function UserLeave() {
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
             >
-              Sick Leave
+              Sick Leaves
             </Typography>
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
@@ -141,7 +155,7 @@ function UserLeave() {
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
             >
-              Leave without Pay
+              Unpaid Leaves
             </Typography>
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
@@ -228,11 +242,103 @@ function UserLeave() {
                     }}
                   >
                     <TableCell>{leave.username}</TableCell>
-                    <TableCell>{leave.type}</TableCell>
+                    <TableCell
+                      sx={{
+                        "& .statusBtn": {
+                          color: "white",
+                          fontSize: "12px",
+                          p: 0.5,
+                          borderRadius: 1,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
+                        },
+                        "& .casual": {
+                          bgcolor: "rgba(94, 115, 141, 15%)",
+                          color: "grey.dark",
+                        },
+                        "& .sick": {
+                          bgcolor: "rgba(248, 174, 0, 15%)",
+                          color: "secondary.main",
+                        },
+                        "& .unpaid": {
+                          bgcolor: "rgba(225, 107, 22, 15%)",
+                          color: "review.main",
+                        },
+                        "& .paid": {
+                          bgcolor: "rgba(74, 210, 146, 15%)",
+                          color: "success.main",
+                        },
+                      }}
+                    >
+                      <Box
+                        className={`statusBtn ${
+                          leave.type === "casual"
+                            ? "casual"
+                            : leave.type === "sick"
+                            ? "sick"
+                            : leave.type === "unpaid"
+                            ? "unpaid"
+                            : "paid"
+                        }`}
+                      >
+                        {leave.type}
+                      </Box>
+                    </TableCell>
                     <TableCell>{leave.reason}</TableCell>
                     <TableCell>{leave.startDate}</TableCell>
                     <TableCell>{leave.endDate}</TableCell>
-                    <TableCell>{leave.status}</TableCell>
+                    <TableCell
+                      sx={{
+                        "& .statusBtn": {
+                          color: "white",
+                          fontSize: "12px",
+                          p: 0.5,
+                          borderRadius: 1,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
+                        },
+                        "& .unapprove": {
+                          bgcolor: "secondary.main",
+                        },
+                        "& .approve": {
+                          bgcolor: "success.main",
+                        },
+                      }}
+                    >
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        spacing={0.5}
+                        className={`statusBtn ${
+                          leave.status === "unapprove" ? "unapprove" : "approve"
+                        }`}
+                      >
+                        <span style={{ display: "inline-block" }}>
+                          {leave.status}
+                        </span>
+                        <Tooltip title={leave.statusReason}>
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            justifyContent="center"
+                            sx={{
+                              height: "16px",
+                              width: "16px",
+                              cursor: "pointer",
+                              border: "1px solid white",
+                              borderRadius: "100%",
+                              padding: "3px",
+                            }}
+                          >
+                            <img
+                              src="/images/info.svg"
+                              style={{ width: "100%", height: "100%" }}
+                              alt="info"
+                            />
+                          </Stack>
+                        </Tooltip>
+                      </Stack>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -241,34 +347,19 @@ function UserLeave() {
         </Box>
       </Box>
 
-      <ModalComponent open={open} setOpen={setOpen} modalTitle="Add Leave">
+      <ModalComponent
+        open={open}
+        setOpen={setOpen}
+        modalTitle="Add Leave"
+        sx={{ padding: "6px" }}
+      >
         <Grid container rowSpacing={2.5} columnSpacing={2.5}>
           <Grid
             item
             xs={12}
             md={12}
             lg={6}
-            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-          >
-            <FormControl fullWidth sx={{ m: 1 }}>
-              <TextField
-                fullWidth
-                size="normal"
-                id="name"
-                placeholder="Leave Reason"
-                autoComplete="off"
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                }}
-              />
-            </FormControl>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={12}
-            lg={6}
-            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+            sx={{ "> .MuiFormControl-root": { mt: "0px" } }}
           >
             <FormControl
               fullWidth
@@ -287,7 +378,6 @@ function UserLeave() {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Leave Type"
-                onChange={handleChange}
                 sx={{ fontSize: "14px" }}
               >
                 <MenuItem sx={{ textTransform: "capitalize" }} value={"casual"}>
@@ -312,18 +402,120 @@ function UserLeave() {
             lg={6}
             sx={{ "> .MuiFormControl-root": { margin: 0 } }}
           >
-            <FormControl fullWidth sx={{ m: 1 }}>
-              <TextField
-                fullWidth
-                size="normal"
-                id="name"
-                placeholder="Leave Reason"
-                autoComplete="off"
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                }}
+            <FormControl fullWidth sx={{ m: 1, "&>div": { fontSize: "14px" } }}>
+              <OutlinedInput
+                placeholder="Leave Title"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <AccountHolderIcon />
+                  </InputAdornment>
+                }
               />
             </FormControl>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={5}
+            lg={6}
+            sx={{
+              "& > .MuiFormControl-root": { margin: 0 },
+            }}
+          >
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              style={{
+                width: "100%",
+                maxWidth: "100%",
+              }}
+            >
+              <DemoContainer components={["DatePicker"]}>
+                <MobileDatePicker
+                  label="Start Date"
+                  defaultValue={dayjs(new Date().toLocaleDateString())}
+                  sx={{
+                    minWidth: "100% !important",
+                    fontSize: "14px !important",
+                    "&>div": { fontSize: "14px" },
+                    "&>label": { fontSize: "14px" },
+                  }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={5}
+            lg={6}
+            sx={{
+              "& > .MuiFormControl-root": { margin: 0 },
+            }}
+          >
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              style={{
+                width: "100%",
+                maxWidth: "100%",
+              }}
+            >
+              <DemoContainer components={["DatePicker"]}>
+                <MobileDatePicker
+                  label="End Date"
+                  defaultValue={dayjs(new Date().toLocaleDateString())}
+                  sx={{
+                    minWidth: "100% !important",
+                    "&>div": { fontSize: "14px" },
+                    "&>label": { fontSize: "14px" },
+                  }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={12}
+            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+          >
+            <Button
+              // disableRipple
+              sx={{
+                maxHeight: "42px",
+                position: "relative",
+                px: 2.5,
+                py: 1.5,
+                bgcolor: "success.main",
+                border: "1px solid",
+                borderColor: "success.main",
+                color: "white",
+                lineHeight: 1,
+                borderRadius: 2.5,
+                overflow: "hidden",
+                "&:before": {
+                  content: "''",
+                  height: 0,
+                  width: "10rem",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  zIndex: "0",
+                  bgcolor: "white",
+                  transform: "rotate(-45deg) translate(-50%, -50%)",
+                  transformOrigin: "0% 0%",
+                  transition: "all 0.4s ease-in-out",
+                },
+                "&:hover": {
+                  color: "success.main",
+                  bgcolor: "success.main",
+                  "&:before": { height: "10rem" },
+                },
+              }}
+            >
+              <span style={{ position: "relative" }}>Add Leave</span>
+            </Button>
           </Grid>
         </Grid>
       </ModalComponent>

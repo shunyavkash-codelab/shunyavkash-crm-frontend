@@ -31,9 +31,9 @@ export default function SignIn() {
   // yup data validator schhema
   const schema = Yup.object({
     email: Yup.string()
-      .email("Field should contain a valid e-mail")
+      .email("Enter an valid email address")
       .max(255)
-      .required("email is required.")
+      .required("Email is required.")
       .trim(),
     password: Yup.string().required("Password is required.").trim(),
   });
@@ -68,7 +68,7 @@ export default function SignIn() {
             userId: _id,
           });
           setSnack(res.data.message);
-          if (role == 0) navigate("/");
+          if (role === 0) navigate("/");
           else navigate("/employee-dashboard");
         }
       } catch (error) {
@@ -81,6 +81,8 @@ export default function SignIn() {
     <Box
       component="main"
       sx={{
+        p: 0,
+        maxWidth: "unset",
         height: "100vh",
         backgroundImage: "url('./images/wave-img2.png')",
         backgroundRepeat: "no-repeat",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   List,
@@ -7,14 +7,17 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import DashboardIcon from "@mui/icons-material/GridViewOutlined";
-import ManagerIcon from "@mui/icons-material/PermIdentityOutlined";
+import DashboardIcon from "@mui/icons-material/DashboardOutlined";
+import UserIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
 import EmployeesIcon from "@mui/icons-material/BadgeOutlined";
 import AccessTimeIcon from "@mui/icons-material/AccessTimeOutlined";
-import EmployeeDashboardIcon from "@mui/icons-material/AccountBoxOutlined";
+// import EmployeeDashboardIcon from "@mui/icons-material/AccountBoxOutlined";
+import AccountManagement from "@mui/icons-material/ManageHistoryOutlined";
+import EmployeesDashboardIcon from "@mui/icons-material/PermContactCalendarOutlined";
+import SetupProfileIcon from "@mui/icons-material/PendingActionsOutlined";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "../hooks/store/useAuth";
@@ -35,23 +38,28 @@ export default function SideBar({
       icon: <DashboardIcon />,
       link: "/",
     },
-    { text: "Manager", icon: <ManagerIcon />, link: "/managers" },
+    { text: "Manager", icon: <UserIcon />, link: "/users" },
     { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
     { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
     { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
+    {
+      text: "Account Management",
+      icon: <AccountManagement />,
+      link: "/account-management",
+    },
     {
       text: "Employees",
       icon: <EmployeesIcon />,
       link: "/employees",
     },
     {
-      text: "Setup my Profile",
-      icon: <EmployeeDashboardIcon />,
-      link: "/my-profile",
+      text: "Leaves",
+      icon: <AccessTimeIcon />,
+      link: "/leaves",
     },
     {
       text: "Employee Dashboard",
-      icon: <EmployeeDashboardIcon />,
+      icon: <EmployeesDashboardIcon />,
       link: "/employee-dashboard",
     },
     {
@@ -67,15 +75,15 @@ export default function SideBar({
           "Members",
           "Invoices",
           "Clients",
-          "Manager",
+          "User",
           "Projects",
           "Dashboard",
+          "Account Management",
         ].includes(ele.text) && user.role !== 0
       ) &&
       !(
-        ["Apply Leave", "Employee Dashboard", "Setup my Profile"].includes(
-          ele.text
-        ) && user.role == 0
+        ["Apply Leave", "Employee Dashboard"].includes(ele.text) &&
+        user.role === 0
       )
     );
   });
@@ -84,6 +92,7 @@ export default function SideBar({
       navigate("/signin");
     }
   }, []);
+  // });
   return (
     <>
       <Box
@@ -129,7 +138,7 @@ export default function SideBar({
             px: 2,
           }}
         >
-          <List sx={{ pt: 0, pb: "15px" }}>
+          <List sx={{ pt: 0 }}>
             {newArray.map((item, index) => (
               <ListItem
                 key={item.text}
@@ -145,8 +154,8 @@ export default function SideBar({
                   "&:not(:first-child)": { mt: 0.75 },
                   borderRadius: "10px",
                   overflow: "hidden",
-                  color: location.pathname == item.link && "primary.main",
-                  bgcolor: location.pathname == item.link && "primary.light",
+                  color: location.pathname === item.link && "primary.main",
+                  bgcolor: location.pathname === item.link && "primary.light",
                 }}
               >
                 <ListItemButton
@@ -159,7 +168,7 @@ export default function SideBar({
                     ":hover": {
                       color: "primary.main",
                       bgcolor:
-                        location.pathname == item.link
+                        location.pathname === item.link
                           ? "transparent"
                           : "primary.light",
                     },
@@ -182,35 +191,36 @@ export default function SideBar({
             ))}
           </List>
         </Box>
-        {/* <List sx={{ px: 2, py: 1.25, bgcolor: "#f1f2f8" }}>
+        <List sx={{ px: 2, py: 1.5, bgcolor: "#f9f9f9" }}>
           <ListItem
+            key={"Setup my Profile"}
             disablePadding
             sx={{
               transition: "all 0.4s ease-in-out",
-              "&:not(:first-child)": { mt: 0.75 },
-              borderRadius: "10px",
-              overflow: "hidden",
-              color: location.pathname == "/employees" && "primary.main",
-              bgcolor: location.pathname == "/employees" && "primary.light",
               "&:hover": {
                 boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
                 "& svg": {
                   animation: "swing ease-in-out 0.4s alternate",
                 },
               },
+              "&:not(:first-child)": { mt: 0.75 },
+              borderRadius: "10px",
+              overflow: "hidden",
+              color: location.pathname === "/my-profile" && "primary.main",
+              bgcolor: location.pathname === "/my-profile" && "primary.light",
             }}
           >
             <ListItemButton
               disableRipple
-              component={Link}
-              to="/employees"
+              component={Link} // Use Link component for routing
+              to="/my-profile" // Specify the route to navigate to
               sx={{
                 p: 1.5,
                 transition: "all 0.4s ease-in-out",
-                "&:hover": {
+                ":hover": {
                   color: "primary.main",
                   bgcolor:
-                    location.pathname == "/employees"
+                    location.pathname === "/my-profile"
                       ? "transparent"
                       : "primary.light",
                 },
@@ -222,15 +232,15 @@ export default function SideBar({
                   minWidth: "40px",
                 }}
               >
-                <MembersIcon />
+                <SetupProfileIcon />
               </ListItemIcon>
               <ListItemText
                 sx={{ my: 0, "&>span": { fontSize: "14px" } }}
-                primary="Team Members"
+                primary={"Setup my Profile"}
               />
             </ListItemButton>
           </ListItem>
-        </List> */}
+        </List>
       </Box>
       <Box
         onClick={() => {

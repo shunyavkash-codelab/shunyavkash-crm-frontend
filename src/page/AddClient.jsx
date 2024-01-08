@@ -41,10 +41,13 @@ export default function AddClient() {
       .max(255)
       .required("Email is required.")
       .trim(),
-    mobileNumber: Yup.string().required("Mobile number is required.").trim(),
+    mobileNumber: Yup.string()
+      .required("Mobile number is required.")
+      .trim()
+      .matches(/^[0-9]+$/, "Mobile number must only contain numeric digits"),
     mobileCode: Yup.string().required("Mobile code is required.").trim(),
+    websiteURL: Yup.string().url("Invalid URL"),
   });
-
   const formik = useFormik({
     validationSchema: schema,
     initialValues: {
@@ -66,6 +69,7 @@ export default function AddClient() {
           formData.append(key, value);
         }
       });
+
       try {
         const res = await apiCall({
           url: id ? APIS.CLIENT.EDIT(id) : APIS.CLIENT.ADD,
@@ -118,6 +122,7 @@ export default function AddClient() {
     if (id !== undefined) fetchClient(id);
     fetchCountry();
   }, []);
+  // });
 
   return (
     <>
@@ -134,11 +139,7 @@ export default function AddClient() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
-      <Box
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{ ml: { lg: sideBarWidth } }}
-      >
+      <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
           <Box sx={{ mb: 3.25 }}>
             <Typography
@@ -357,10 +358,12 @@ export default function AddClient() {
                       placeholder="Number"
                       defaultValue={clientList?.mobileNumber}
                       InputProps={
-                        location.pathname.includes("/view/") && {
+                        (location.pathname.includes("/view/") && {
                           readOnly: true,
-                        }
+                        },
+                        { maxLength: 10 })
                       }
+                      inputProps={{ maxLength: 10 }}
                       sx={{
                         "& input,&>div": { fontSize: "14px" },
                         "&>label": { top: "4px" },
@@ -420,6 +423,13 @@ export default function AddClient() {
                     }}
                     onChange={formik.handleChange}
                     value={formik.values.websiteURL}
+                    error={
+                      formik.touched.websiteURL &&
+                      Boolean(formik.errors.websiteURL)
+                    }
+                    helperText={
+                      formik.touched.websiteURL && formik.errors.websiteURL
+                    }
                   />
 
                   <TextField

@@ -23,6 +23,7 @@ import AddressForm from "../component/form/AddressForm";
 import ChangePasswordForm from "../component/form/ChangePasswordForm";
 import BankDetailForm from "../component/form/BankDetailForm";
 import * as Yup from "yup";
+import ReactFileReader from "react-file-reader";
 
 // const StyledBadge = styled(Badge)(({ theme }) => ({
 //   "& .MuiBadge-badge": {
@@ -152,16 +153,19 @@ function a11yProps(index) {
 //     }),
 //   },
 // }));
-
 export default function Profile() {
-  const handleClick = console.log("Badge Clicked!");
+  const handleFiles = (files) => {
+    setUrl(files);
+    formik.setFieldValue("profile_img", files?.fileList[0]);
+  };
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const [showSidebar, setShowSidebar] = useState(false);
   const [value, setValue] = useState(0);
-  const { accessToken, userId } = useAuth();
+  const { accessToken, userId, setUserDatail } = useAuth();
   const [profileList, setProfileList] = useState(false);
+  const [url, setUrl] = useState(profileList?.profile_img);
 
   // yup data validator schhema
   const schema = Yup.object({
@@ -175,13 +179,22 @@ export default function Profile() {
     initialValues: {
       name: profileList.name,
       companyName: profileList.companyName,
+      profile_img: profileList.profile_img,
     },
     onSubmit: async (values) => {
+      let formData = new FormData();
+      // values.profile_img = url?.fileList[0];
+      Object.entries(values).forEach(([key, value]) => {
+        if (value) {
+          formData.append(key, value);
+        }
+      });
       try {
         const res = await apiCall({
           url: APIS.MANAGER.EDIT(userId),
           method: "patch",
-          data: JSON.stringify(values, null, 2),
+          headers: "multipart/form-data",
+          data: formData,
         });
         if (res.status === 200) {
           setSnack(res.data.message);
@@ -217,7 +230,7 @@ export default function Profile() {
   //   },
   // });
 
-  // get manager detile
+  // get user detile
   const fetchProfile = async (id) => {
     try {
       const res = await apiCall({
@@ -230,6 +243,9 @@ export default function Profile() {
         setProfileList(res.data.data);
         formik.setFieldValue("name", res.data.data.name);
         formik.setFieldValue("companyName", res.data.data.companyName);
+        formik.setFieldValue("profile_img", res.data.data.profile_img);
+        let { name, profile_img, companyName } = res.data.data;
+        setUserDatail(name, profile_img, companyName);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -239,6 +255,7 @@ export default function Profile() {
   useEffect(() => {
     fetchProfile(userId);
   }, []);
+  // });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -363,209 +380,225 @@ export default function Profile() {
               }}
             >
               <TabPanel value={value} index={0}>
-                <Typography variant="h4" gutterBottom sx={{ fontSize: 16 }}>
-                  Personal Info
-                </Typography>
-                <Stack
-                  direction="row"
-                  sx={{ marginTop: 2, alignItems: "center", gap: 1.5 }}
-                >
-                  <Badge
-                    overlap="circular"
-                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                    badgeContent={<SmallAvatar sx={{ fontSize: 10 }} />}
-                    onClick={handleClick}
-                  >
-                    <Avatar
-                      alt="Travis Howard"
-                      src={profileList.profile_img}
-                      sx={{ width: 64, height: 64 }}
-                    />
-                  </Badge>
-                  <Stack direction="column">
-                    <Typography
-                      variant="div"
-                      gutterBottom
-                      sx={{ fontSize: 16, fontWeight: "600" }}
-                    >
-                      {profileList.name}
-                    </Typography>
-                    <Typography
-                      variant="div"
-                      sx={{
-                        fontSize: 12,
-                        color: "#848484",
-                        fontWeight: "500",
-                      }}
-                    >
-                      {profileList.email}
-                    </Typography>
-                  </Stack>
-                </Stack>
                 <Box component="form" onSubmit={formik.handleSubmit}>
                   {profileList && (
-                    <Grid
-                      container
-                      rowSpacing={2}
-                      columnSpacing={2}
-                      mt={2}
-                      sx={{
-                        "& .MuiFormLabel-root, & .MuiInputBase-input": {
-                          fontSize: "14px",
-                        },
-                      }}
-                    >
-                      <Grid item xs={12} sm={6}>
-                        <Box>
-                          <TextField
-                            id="outlined-basic"
-                            label="Full Name"
-                            variant="outlined"
-                            name="name"
-                            sx={{ width: "100%", fontSize: "14px" }}
-                            InputLabelProps={{
-                              shrink: true,
+                    <>
+                      <Typography
+                        variant="h4"
+                        gutterBottom
+                        sx={{ fontSize: 16 }}
+                      >
+                        Personal Info
+                      </Typography>
+                      <Stack
+                        direction="row"
+                        sx={{ marginTop: 2, alignItems: "center", gap: 1.5 }}
+                      >
+                        <ReactFileReader
+                          fileTypes={[".png", ".jpg"]}
+                          base64={true}
+                          name="profile_img"
+                          handleFiles={handleFiles}
+                        >
+                          <Badge
+                            overlap="circular"
+                            anchorOrigin={{
+                              vertical: "bottom",
+                              horizontal: "right",
                             }}
-                            placeholder="Name"
-                            onChange={formik.handleChange}
-                            value={formik.values.name}
-                            error={
-                              formik.touched.name && Boolean(formik.errors.name)
-                            }
-                            helperText={
-                              formik.touched.name && formik.errors.name
-                            }
-                          />
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Box>
-                          <TextField
-                            id="outlined-basic"
-                            label="Email"
-                            variant="outlined"
-                            type="email"
-                            name="email"
-                            sx={{ width: "100%", fontSize: "14px" }}
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            placeholder="Email"
-                            defaultValue={profileList.email}
-                            // onChange={formik.handleChange}
-                            // Value={formik..email}
-                            disabled
-                          />
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Box>
-                          <TextField
-                            id="outlined-basic"
-                            label="Company"
-                            variant="outlined"
-                            name="companyName"
-                            sx={{ width: "100%", fontSize: "14px" }}
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            placeholder="Company Name"
-                            onChange={formik.handleChange}
-                            value={formik.values.companyName}
-                            error={
-                              formik.touched.companyName &&
-                              Boolean(formik.errors.companyName)
-                            }
-                            helperText={
-                              formik.touched.companyName &&
-                              formik.errors.companyName
-                            }
-                          />
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Stack direction="row" spacing={2}>
-                          <Button
-                            disableRipple
-                            type="submit"
+                            badgeContent={<SmallAvatar sx={{ fontSize: 10 }} />}
+                          ></Badge>
+                        </ReactFileReader>
+                        <Avatar
+                          alt="Travis Howard"
+                          src={url?.base64 || profileList.profile_img}
+                          sx={{ width: 64, height: 64 }}
+                        />
+                        <Stack direction="column">
+                          <Typography
+                            variant="div"
+                            gutterBottom
+                            sx={{ fontSize: 16, fontWeight: "600" }}
+                          >
+                            {profileList.name}
+                          </Typography>
+                          <Typography
+                            variant="div"
                             sx={{
-                              maxHeight: "42px",
-                              position: "relative",
-                              px: 2.5,
-                              py: 1.5,
-                              bgcolor: "primary.main",
-                              border: "1px solid",
-                              borderColor: "primary.main",
-                              color: "white",
-                              lineHeight: 1,
-                              borderRadius: 2.5,
-                              overflow: "hidden",
-                              "&:before": {
-                                content: "''",
-                                height: 0,
-                                width: "10rem",
-                                position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                zIndex: "0",
-                                bgcolor: "white",
-                                transform:
-                                  "rotate(-45deg) translate(-50%, -50%)",
-                                transformOrigin: "0% 0%",
-                                transition: "all 0.4s ease-in-out",
-                              },
-                              "&:hover": {
-                                color: "primary.main",
-                                bgcolor: "primary.main",
-                                "&:before": { height: "10rem" },
-                              },
+                              fontSize: 12,
+                              color: "#848484",
+                              fontWeight: "500",
                             }}
                           >
-                            <span style={{ position: "relative" }}>
-                              Save Changes
-                            </span>
-                          </Button>
-                          <Button
-                            disableRipple
-                            sx={{
-                              maxHeight: "42px",
-                              position: "relative",
-                              px: 2.5,
-                              py: 1.5,
-                              color: "text.primary",
-                              bgcolor: "#e4e4e4",
-                              border: "1px solid",
-                              borderColor: "#e4e4e4",
-                              lineHeight: 1,
-                              borderRadius: 2.5,
-                              overflow: "hidden",
-                              "&:before": {
-                                content: "''",
-                                height: 0,
-                                width: "10rem",
-                                position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                zIndex: "0",
-                                bgcolor: "white",
-                                transform:
-                                  "rotate(-45deg) translate(-50%, -50%)",
-                                transformOrigin: "0% 0%",
-                                transition: "all 0.4s ease-in-out",
-                              },
-                              "&:hover": {
-                                bgcolor: "#e4e4e4",
-                                "&:before": { height: "10rem" },
-                              },
-                            }}
-                          >
-                            <span style={{ position: "relative" }}>
-                              discard
-                            </span>
-                          </Button>
+                            {profileList.email}
+                          </Typography>
                         </Stack>
+                      </Stack>
+
+                      <Grid
+                        container
+                        rowSpacing={2}
+                        columnSpacing={2}
+                        mt={2}
+                        sx={{
+                          "& .MuiFormLabel-root, & .MuiInputBase-input": {
+                            fontSize: "14px",
+                          },
+                        }}
+                      >
+                        <Grid item xs={12} sm={6}>
+                          <Box>
+                            <TextField
+                              id="outlined-basic"
+                              label="Full Name"
+                              variant="outlined"
+                              name="name"
+                              sx={{ width: "100%", fontSize: "14px" }}
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              placeholder="Name"
+                              onChange={formik.handleChange}
+                              value={formik.values.name}
+                              error={
+                                formik.touched.name &&
+                                Boolean(formik.errors.name)
+                              }
+                              helperText={
+                                formik.touched.name && formik.errors.name
+                              }
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box>
+                            <TextField
+                              id="outlined-basic"
+                              label="Email"
+                              variant="outlined"
+                              type="email"
+                              name="email"
+                              sx={{ width: "100%", fontSize: "14px" }}
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              placeholder="Email"
+                              defaultValue={profileList.email}
+                              // onChange={formik.handleChange}
+                              // Value={formik..email}
+                              disabled
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box>
+                            <TextField
+                              id="outlined-basic"
+                              label="Company"
+                              variant="outlined"
+                              name="companyName"
+                              sx={{ width: "100%", fontSize: "14px" }}
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              placeholder="Company Name"
+                              onChange={formik.handleChange}
+                              value={formik.values.companyName}
+                              error={
+                                formik.touched.companyName &&
+                                Boolean(formik.errors.companyName)
+                              }
+                              helperText={
+                                formik.touched.companyName &&
+                                formik.errors.companyName
+                              }
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Stack direction="row" spacing={2}>
+                            <Button
+                              disableRipple
+                              type="submit"
+                              sx={{
+                                maxHeight: "42px",
+                                position: "relative",
+                                px: 2.5,
+                                py: 1.5,
+                                bgcolor: "primary.main",
+                                border: "1px solid",
+                                borderColor: "primary.main",
+                                color: "white",
+                                lineHeight: 1,
+                                borderRadius: 2.5,
+                                overflow: "hidden",
+                                "&:before": {
+                                  content: "''",
+                                  height: 0,
+                                  width: "10rem",
+                                  position: "absolute",
+                                  top: "50%",
+                                  left: "50%",
+                                  zIndex: "0",
+                                  bgcolor: "white",
+                                  transform:
+                                    "rotate(-45deg) translate(-50%, -50%)",
+                                  transformOrigin: "0% 0%",
+                                  transition: "all 0.4s ease-in-out",
+                                },
+                                "&:hover": {
+                                  color: "primary.main",
+                                  bgcolor: "primary.main",
+                                  "&:before": { height: "10rem" },
+                                },
+                              }}
+                            >
+                              <span style={{ position: "relative" }}>
+                                Save Changes
+                              </span>
+                            </Button>
+                            <Button
+                              disableRipple
+                              sx={{
+                                maxHeight: "42px",
+                                position: "relative",
+                                px: 2.5,
+                                py: 1.5,
+                                color: "text.primary",
+                                bgcolor: "#e4e4e4",
+                                border: "1px solid",
+                                borderColor: "#e4e4e4",
+                                lineHeight: 1,
+                                borderRadius: 2.5,
+                                overflow: "hidden",
+                                "&:before": {
+                                  content: "''",
+                                  height: 0,
+                                  width: "10rem",
+                                  position: "absolute",
+                                  top: "50%",
+                                  left: "50%",
+                                  zIndex: "0",
+                                  bgcolor: "white",
+                                  transform:
+                                    "rotate(-45deg) translate(-50%, -50%)",
+                                  transformOrigin: "0% 0%",
+                                  transition: "all 0.4s ease-in-out",
+                                },
+                                "&:hover": {
+                                  bgcolor: "#e4e4e4",
+                                  "&:before": { height: "10rem" },
+                                },
+                              }}
+                            >
+                              <span style={{ position: "relative" }}>
+                                discard
+                              </span>
+                            </Button>
+                          </Stack>
+                        </Grid>
                       </Grid>
-                    </Grid>
+                    </>
                   )}
                 </Box>
               </TabPanel>

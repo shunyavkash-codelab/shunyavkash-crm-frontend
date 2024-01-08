@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
-  Grid,
   Button,
   Table,
   TableBody,
@@ -16,10 +15,6 @@ import {
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import CounterCards from "../component/CounterCards";
-import ManagerIcon from "@mui/icons-material/PermIdentityOutlined";
-import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
-import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
-import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
@@ -35,7 +30,7 @@ export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [dashboardData, setDashboardData] = useState(false);
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const { accessToken, user } = useAuth();
   const navigate = useNavigate();
@@ -82,6 +77,7 @@ export default function Home() {
     fetchDashboardData();
     listInvoice();
   }, []);
+  // });
 
   const invoiceNumberGenerate = async () => {
     try {
@@ -112,7 +108,7 @@ export default function Home() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
-      {user.role == 0 ? (
+      {user.role === 0 ? (
         <Box sx={{ ml: { lg: sideBarWidth } }}>
           <Box component="main">
             <Box>
@@ -443,7 +439,6 @@ export default function Home() {
                 component={Paper}
                 sx={{
                   border: "1px solid rgba(224, 224, 224, 1)",
-                  borderRadius: 5,
                   mx: { xs: "-10px", sm: 0 },
                   width: { xs: "auto", sm: "auto" },
                   borderRadius: 2.5,
@@ -490,7 +485,7 @@ export default function Home() {
                       >
                         <TableCell>{row.projectName}</TableCell>
                         <TableCell>{row.clientName}</TableCell>
-                        <TableCell>{row.managerName}</TableCell>
+                        <TableCell>{row.userName}</TableCell>
                         <TableCell>{row.invoiceNumber}</TableCell>
                         <TableCell>
                           {moment(row.invoiceDate).format("DD/MM/YYYY")}
@@ -515,7 +510,7 @@ export default function Home() {
                         >
                           <Box
                             className={`statusBtn ${
-                              row.status == "success" ? "success" : "pending"
+                              row.status === "success" ? "success" : "pending"
                             }`}
                           >
                             {row.status}
@@ -545,7 +540,7 @@ export default function Home() {
                                 color: "black",
                                 "&:hover": { color: "primary.main" },
                               },
-                              "& svg": { fontSize: { xs: "20px", sm: "22px" } },
+                              "& svg": { fontSize: { xs: "20px", sm: "21px" } },
                             }}
                           >
                             <Button

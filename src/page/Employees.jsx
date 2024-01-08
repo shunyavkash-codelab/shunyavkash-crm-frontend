@@ -14,8 +14,6 @@ import {
   TableBody,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
-// import PlusIcon from "@mui/icons-material/Close";
-import InvitationModal from "../component/InvitationModal";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList.js";
 import { useSearchData } from "../hooks/store/useSearchData.js";
@@ -27,8 +25,7 @@ export default function Employees() {
   const { accessToken } = useAuth();
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [modalOpen, setOpen] = useState(false);
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const [employeesList, setEmployeesList] = useState([]);
   const { searchData } = useSearchData();
@@ -52,6 +49,7 @@ export default function Employees() {
   useEffect(() => {
     fetchEmployees();
   }, []);
+  // });
   useEffect(() => {
     if (inviteMemberStore)
       setEmployeesList([...[inviteMemberStore], ...employeesList]);
@@ -72,11 +70,7 @@ export default function Employees() {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
       />
-      <Box
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{ ml: { lg: sideBarWidth } }}
-      >
+      <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
           <Box
             sx={{
@@ -120,44 +114,6 @@ export default function Employees() {
                 </Typography>
               </Box>
             </Box>
-            {/* <Button
-              disableRipple
-              onClick={() => setOpen(true)}
-              startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-              sx={{
-                maxHeight: "42px",
-                position: "relative",
-                px: 2.5,
-                py: 1.5,
-                bgcolor: "primary.main",
-                border: "1px solid",
-                borderColor: "primary.main",
-                color: "white",
-                lineHeight: 1,
-                borderRadius: 2.5,
-                overflow: "hidden",
-                "&:before": {
-                  content: "''",
-                  height: 0,
-                  width: "10rem",
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  zIndex: "0",
-                  bgcolor: "white",
-                  transform: "rotate(-45deg) translate(-50%, -50%)",
-                  transformOrigin: "0% 0%",
-                  transition: "all 0.4s ease-in-out",
-                },
-                "&:hover": {
-                  color: "primary.main",
-                  bgcolor: "primary.main",
-                  "&:before": { height: "10rem" },
-                },
-              }}
-            >
-              <span style={{ position: "relative" }}>New Employee</span>
-            </Button> */}
           </Box>
 
           {/* <FormikProvider value={formik}> */}
@@ -198,14 +154,13 @@ export default function Employees() {
                   component={Paper}
                   sx={{
                     border: "1px solid rgba(224, 224, 224, 1)",
-                    borderRadius: 5,
                     mx: { xs: "-10px", sm: 0 },
                     width: { xs: "auto", sm: "auto" },
                     borderRadius: 2.5,
                   }}
                 >
                   <Table
-                    className="managerTable"
+                    className="userTable"
                     sx={{
                       minWidth: 650,
                       textTransform: "capitalize",
@@ -245,7 +200,6 @@ export default function Employees() {
             )}
           </Box>
           {/* </FormikProvider> */}
-          <InvitationModal open={modalOpen} setOpen={setOpen} />
         </Box>
       </Box>
     </>

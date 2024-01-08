@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
-import useApi from "../hooks/useApi";
-import { useSnack } from "../hooks/store/useSnack";
+import SideBar from "../component/SideBar.jsx";
+import Header from "../component/Header.jsx";
+import useApi from "../hooks/useApi.js";
+import { useSnack } from "../hooks/store/useSnack.js";
 import { APIS } from "../api/apiList.js";
 import { useAuth } from "../hooks/store/useAuth.js";
 import PhoneIcon from "@mui/icons-material/PhoneIphone";
@@ -12,16 +12,16 @@ import CompanyIcon from "@mui/icons-material/BusinessOutlined";
 import { useParams } from "react-router-dom";
 import AddressIcon from "@mui/icons-material/LocationOnOutlined";
 
-export default function Manager() {
+export default function User() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { apiCall, isLoading } = useApi();
-  const { accessToken, user } = useAuth();
+  const { apiCall } = useApi();
+  const { accessToken } = useAuth();
   const { setSnack } = useSnack();
-  const [managerList, setManagerList] = useState([]);
+  const [userList, setUserList] = useState([]);
   const { id } = useParams();
 
-  const viewManagers = async () => {
+  const viewUsers = async () => {
     try {
       const res = await apiCall({
         url: APIS.MANAGER.VIEW(id),
@@ -29,15 +29,16 @@ export default function Manager() {
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
-        setManagerList(res.data.data);
+        setUserList(res.data.data);
       }
     } catch (error) {
       console.log(error, setSnack);
     }
   };
   useEffect(() => {
-    viewManagers();
+    viewUsers();
   }, []);
+  // });
 
   return (
     <>
@@ -61,10 +62,10 @@ export default function Manager() {
               variant="h5"
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
-              Manager
+              User
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/managers"} style={{ textDecoration: "none" }}>
+              <Link to={"/users"} style={{ textDecoration: "none" }}>
                 <Typography
                   variant="subtitle2"
                   sx={{
@@ -76,14 +77,14 @@ export default function Manager() {
                     },
                   }}
                 >
-                  Managers /
+                  Users /
                 </Typography>
               </Link>
               <Typography
                 variant="subtitle2"
                 sx={{ opacity: 0.4, textTransform: "capitalize" }}
               >
-                Manager
+                User
               </Typography>
             </Box>
           </Box>
@@ -113,7 +114,7 @@ export default function Manager() {
               >
                 <img
                   src={
-                    managerList.profile_img ||
+                    userList.profile_img ||
                     "https://uko-react.vercel.app/static/avatar/001-man.svg"
                   } //"https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"
                   alt=""
@@ -134,7 +135,7 @@ export default function Manager() {
                     textTransform: "capitalize",
                   }}
                 >
-                  {managerList.name}
+                  {userList.name}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -146,7 +147,7 @@ export default function Manager() {
                     wordBreak: "break-word",
                   }}
                 >
-                  {managerList.email}
+                  {userList.email}
                 </Typography>
               </Box>
             </Box>
@@ -185,7 +186,7 @@ export default function Manager() {
                     mb: 1.5,
                   }}
                 >
-                  manager Name
+                  user Name
                 </Typography>
                 <Typography
                   variant="body2"
@@ -219,7 +220,7 @@ export default function Manager() {
                   ravi.chodvadiya@shunyavkash.com
                 </Typography>
               </Box> */}
-              {managerList.mobileNumber && (
+              {userList.mobileNumber && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                   <PhoneIcon />
                   <Typography
@@ -229,11 +230,11 @@ export default function Manager() {
                       textTransform: "capitalize",
                     }}
                   >
-                    {managerList.mobileCode} {managerList.mobileNumber}
+                    {userList.mobileCode} {userList.mobileNumber}
                   </Typography>
                 </Box>
               )}
-              {managerList.gender && (
+              {userList.gender && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                   <img className="icon" src="/images/gender.svg" alt=""></img>
                   <Typography
@@ -243,11 +244,11 @@ export default function Manager() {
                       textTransform: "capitalize",
                     }}
                   >
-                    {managerList.gender}
+                    {userList.gender}
                   </Typography>
                 </Box>
               )}
-              {managerList.companyName && (
+              {userList.companyName && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                   <CompanyIcon />
                   <Typography
@@ -257,12 +258,12 @@ export default function Manager() {
                       textTransform: "capitalize",
                     }}
                   >
-                    {managerList.companyName}
+                    {userList.companyName}
                   </Typography>
                 </Box>
               )}
 
-              {managerList?.referenceName && (
+              {userList?.referenceName && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                   <img
                     className="icon"
@@ -276,11 +277,11 @@ export default function Manager() {
                       textTransform: "capitalize",
                     }}
                   >
-                    {managerList?.referenceName}
+                    {userList?.referenceName}
                   </Typography>
                 </Box>
               )}
-              {managerList.websiteURL && (
+              {userList.websiteURL && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                   <img className="icon" src="/images/website.svg" alt=""></img>
                   <Typography
@@ -290,14 +291,14 @@ export default function Manager() {
                       wordBreak: "break-word",
                     }}
                   >
-                    {managerList.websiteURL}
+                    {userList.websiteURL}
                   </Typography>
                 </Box>
               )}
-              {(managerList.address ||
-                managerList.address2 ||
-                managerList.landmark ||
-                managerList.pincode) && (
+              {(userList.address ||
+                userList.address2 ||
+                userList.landmark ||
+                userList.pincode) && (
                 <Box
                   sx={{
                     display: "flex",
@@ -312,15 +313,15 @@ export default function Manager() {
                       textTransform: "capitalize",
                     }}
                   >
-                    {managerList.address}
-                    {managerList.address2}
-                    {managerList.landmark}
-                    {managerList.pincode}
+                    {userList.address}
+                    {userList.address2}
+                    {userList.landmark}
+                    {userList.pincode}
                   </Typography>
                 </Box>
               )}
             </Box>
-            {managerList.signature && (
+            {userList.signature && (
               <Box
                 sx={{
                   mt: { xs: 2.75, sm: 3.5 },
@@ -331,8 +332,8 @@ export default function Manager() {
               >
                 <img
                   src={
-                    managerList.signature
-                      ? managerList.signature
+                    userList.signature
+                      ? userList.signature
                       : "/images/signature.png"
                   } //"/images/sign.svg"
                   alt=""

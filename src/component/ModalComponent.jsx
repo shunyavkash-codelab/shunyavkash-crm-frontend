@@ -2,85 +2,39 @@ import React from "react";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { Box, Button, Typography } from "@mui/material";
-import { useFormik } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
-import Backdrop from "@mui/material/Backdrop";
-
-// const style = {
-//   // @media only screen and(max-width: 768px){
-//   // height: "100vh",
-//   // }
-// };
-
-const modalStyle = {
-  position: { xs: "absolute", sm: "relative" },
-  top: { xs: 0, sm: "50%" },
-  left: { xs: 0, sm: "50%" },
-  transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
-  width: "100%",
-  maxWidth: { xs: "100%", sm: 500, md: 600 },
-  height: { xs: "100vh", sm: "unset" },
-  bgcolor: "background.paper",
-  borderRadius: { xs: 0, sm: 2 },
-  boxShadow: 24,
-  p: 3,
-};
 
 export default function ModalComponent({ open, setOpen, ...props }) {
   const handleClose = () => setOpen(false);
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      clientId: "",
-      description: "",
-      startDate: "",
-      endDate: "",
-      perHourCharge: "",
-      payPeriod: "",
-      prefix: "",
-      status: "",
-    },
-    onSubmit: async (values) => {
-      // try {
-      //   values.currency = currencyValue?.symbol;
-      //   const res = await apiCall({
-      //     url: APIS.PROJECT.ADD,
-      //     method: "post",
-      //     data: JSON.stringify(values, null, 2),
-      //   });
-      //   if (res.status === 201) {
-      //     setSnack(res.data.message);
-      //     navigate("/clients");
-      //   }
-      // } catch (error) {
-      //   let errorMessage = error.response.data.message;
-      //   setSnack(errorMessage, "warning");
-      // }
-    },
-  });
+  const modalSize = props.size;
+  const modalStyle = {
+    position: { xs: "absolute", sm: "relative" },
+    top: { xs: 0, sm: "50%" },
+    left: { xs: 0, sm: "50%" },
+    transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
+    width: "100%",
+    maxWidth: { xs: "100%", sm: 500, md: 600 },
+    height: { xs: "100vh", sm: "unset" },
+    bgcolor: "background.paper",
+    borderRadius: { xs: 0, sm: 2 },
+    boxShadow: 24,
+    p: 3,
+  };
   return (
     <>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500,
-          },
-        }}
-      >
+      <Modal open={open} onClose={handleClose} closeAfterTransition>
         <Fade in={open}>
-          <Box sx={modalStyle} className="modal">
+          <Box
+            sx={modalStyle}
+            className="modal"
+            style={modalSize === "large" ? { maxWidth: 800 } : ""}
+          >
             <Box
               sx={{
                 display: { xs: "flex", sm: "block" },
                 alignItems: { xs: "center", sm: "start" },
                 justifyContent: { xs: "space-between", sm: "start" },
-                mb: 2.5,
+                mb: 1.75,
               }}
             >
               <Typography
@@ -97,6 +51,7 @@ export default function ModalComponent({ open, setOpen, ...props }) {
                 {props.modalTitle}
               </Typography>
               <Button
+                onClick={handleClose}
                 disableRipple
                 disableElevation
                 id="cancle_icon"
@@ -121,12 +76,11 @@ export default function ModalComponent({ open, setOpen, ...props }) {
                     fontSize: "25px",
                   }}
                   open={open}
-                  onClick={handleClose}
                   aria-label="close"
                 />
               </Button>
             </Box>
-            <Box sx={{ maxHeight: "80vh", overflowY: "auto" }}>
+            <Box sx={{ maxHeight: "80vh", overflowY: "auto", pt: 0.75 }}>
               {props.children}
             </Box>
           </Box>
