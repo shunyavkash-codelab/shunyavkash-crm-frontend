@@ -65,6 +65,7 @@ export default function AddUser() {
       signature: undefined,
       mobileCode: undefined,
     },
+    enableReinitialize: true,
     onSubmit: async (values) => {
       try {
         const res = await apiCall({

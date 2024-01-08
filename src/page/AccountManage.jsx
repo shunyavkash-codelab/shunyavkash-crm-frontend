@@ -288,7 +288,7 @@ function AccountManage() {
                 </TableHead>
                 <TableBody
                   sx={{
-                    "&>*:nth-child(odd)": {
+                    "&>*:nth-of-type(odd)": {
                       bgcolor: "#f5f5f5",
                     },
                   }}

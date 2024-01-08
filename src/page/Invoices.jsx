@@ -395,7 +395,7 @@ export default function Invoices() {
                 ))}
               </Grid>
             </Box>
-          </Box>
+          </Box> */}
           {invoiceList.length === 0 ? (
             <Box
               sx={{
@@ -427,139 +427,139 @@ export default function Invoices() {
               </Typography>
             </Box>
           ) : (
-            <Box sx={{ display: showTable ? "block" : "none" }}> */}
-          <TableContainer
-            component={Paper}
-            sx={{
-              border: "1px solid rgba(224, 224, 224, 1)",
-              mx: { xs: "-10px", sm: 0 },
-              width: { xs: "auto", sm: "auto" },
-              borderRadius: 2.5,
-            }}
-          >
-            <Table
-              className="projectTable"
+            // <Box sx={{ display: showTable ? "block" : "none" }}>
+            <TableContainer
+              component={Paper}
               sx={{
-                minWidth: 650,
-                textTransform: "capitalize",
-                textWrap: "nowrap",
-                "& th,& td": { borderBottom: 0 },
-                "& tbody tr": {
-                  borderTop: "1px solid rgba(224, 224, 224, 1)",
-                },
+                border: "1px solid rgba(224, 224, 224, 1)",
+                mx: { xs: "-10px", sm: 0 },
+                width: { xs: "auto", sm: "auto" },
+                borderRadius: 2.5,
               }}
-              aria-label="simple table"
             >
-              <TableHead>
-                <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                  <TableCell>Project Name</TableCell>
-                  <TableCell>Client</TableCell>
-                  <TableCell>User</TableCell>
-                  <TableCell>Invoice No.</TableCell>
-                  <TableCell>Invoice Date</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Total</TableCell>
-                  <TableCell>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {invoiceList.map((row) => (
-                  <TableRow
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&:first-child td": {
-                        maxWidth: "250px",
-                        textWrap: "wrap",
-                      },
-                    }}
-                  >
-                    <TableCell value={row.projectId}>
-                      {row.projectName}
-                    </TableCell>
-                    <TableCell>{row.clientName}</TableCell>
-                    <TableCell>{row.userName}</TableCell>
-                    <TableCell>{row.invoiceNumber}</TableCell>
-                    <TableCell>
-                      {moment(row.invoiceDate).format("DD/MM/YYYY")}
-                    </TableCell>
-                    <TableCell
+              <Table
+                className="projectTable"
+                sx={{
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
+                }}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                    <TableCell>Project Name</TableCell>
+                    <TableCell>Client</TableCell>
+                    <TableCell>User</TableCell>
+                    <TableCell>Invoice No.</TableCell>
+                    <TableCell>Invoice Date</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Total</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {invoiceList.map((row) => (
+                    <TableRow
                       sx={{
-                        "& .statusBtn": {
-                          color: "white",
-                          fontSize: "12px",
-                          p: 0.5,
-                          borderRadius: 1,
-                          maxWidth: "fit-content",
-                          lineHeight: 1,
-                        },
-                        "& .pending": {
-                          bgcolor: "secondary.main",
-                        },
-                        "& .success": {
-                          bgcolor: "success.main",
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&:first-of-type td": {
+                          maxWidth: "250px",
+                          textWrap: "wrap",
                         },
                       }}
                     >
-                      <Box
-                        className={`statusBtn ${
-                          row.status === "success" ? "success" : "pending"
-                        }`}
-                      >
-                        {row.status}
-                      </Box>
-                      <Box
+                      <TableCell value={row.projectId}>
+                        {row.projectName}
+                      </TableCell>
+                      <TableCell>{row.clientName}</TableCell>
+                      <TableCell>{row.userName}</TableCell>
+                      <TableCell>{row.invoiceNumber}</TableCell>
+                      <TableCell>
+                        {moment(row.invoiceDate).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell
                         sx={{
-                          fontSize: "13px",
-                          lineHeight: 1,
-                          textWrap: "nowrap",
-                          mt: 0.75,
-                        }}
-                      >
-                        {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
-                      </Box>
-                    </TableCell>
-                    <TableCell>${row.totals.total}</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: { xs: 1.25, sm: 1.5 },
-                          opacity: 0.3,
-                          "& button": {
-                            p: 0,
-                            minWidth: "auto",
-                            color: "black",
-                            "&:hover": { color: "primary.main" },
+                          "& .statusBtn": {
+                            color: "white",
+                            fontSize: "12px",
+                            p: 0.5,
+                            borderRadius: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
                           },
-                          "& svg": { fontSize: { xs: "20px", sm: "21px" } },
+                          "& .pending": {
+                            bgcolor: "secondary.main",
+                          },
+                          "& .success": {
+                            bgcolor: "success.main",
+                          },
                         }}
                       >
-                        <Button
-                          disableRipple
-                          onClick={() => viewInvoice(row.invoiceNumber, row)}
+                        <Box
+                          className={`statusBtn ${
+                            row.status === "success" ? "success" : "pending"
+                          }`}
                         >
-                          <VisibilityIcon />
-                        </Button>
-                        <Button disableRipple>
-                          <MarkAsPaidIcon />
-                        </Button>
-                        <Button
-                          disableRipple
-                          onClick={() => editInvoice(row.invoiceNumber, row)}
+                          {row.status}
+                        </Box>
+                        <Box
+                          sx={{
+                            fontSize: "13px",
+                            lineHeight: 1,
+                            textWrap: "nowrap",
+                            mt: 0.75,
+                          }}
                         >
-                          <CreateIcon />
-                        </Button>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          {/* </Box>
-          )} */}
+                          {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
+                        </Box>
+                      </TableCell>
+                      <TableCell>${row.totals.total}</TableCell>
+                      <TableCell>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: { xs: 1.25, sm: 1.5 },
+                            opacity: 0.3,
+                            "& button": {
+                              p: 0,
+                              minWidth: "auto",
+                              color: "black",
+                              "&:hover": { color: "primary.main" },
+                            },
+                            "& svg": { fontSize: { xs: "20px", sm: "21px" } },
+                          }}
+                        >
+                          <Button
+                            disableRipple
+                            onClick={() => viewInvoice(row.invoiceNumber, row)}
+                          >
+                            <VisibilityIcon />
+                          </Button>
+                          <Button disableRipple>
+                            <MarkAsPaidIcon />
+                          </Button>
+                          <Button
+                            disableRipple
+                            onClick={() => editInvoice(row.invoiceNumber, row)}
+                          >
+                            <CreateIcon />
+                          </Button>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            // </Box>
+          )}
         </Box>
       </Box>
     </>

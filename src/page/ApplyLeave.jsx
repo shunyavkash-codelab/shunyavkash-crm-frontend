@@ -101,7 +101,7 @@ export default function Home() {
                     control={<Radio />}
                     label="Paid"
                     sx={{
-                      "&>*:first-child": {
+                      "&>*:first-of-type": {
                         margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "18px",
@@ -117,7 +117,7 @@ export default function Home() {
                     control={<Radio />}
                     label="Unpaid"
                     sx={{
-                      "&>*:first-child": {
+                      "&>*:first-of-type": {
                         margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "18px",
@@ -133,7 +133,7 @@ export default function Home() {
                     control={<Radio />}
                     label="Sick"
                     sx={{
-                      "&>*:first-child": {
+                      "&>*:first-of-type": {
                         margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "14px",
@@ -169,7 +169,7 @@ export default function Home() {
                     label="Full day"
                     className="css-hyxlzm"
                     sx={{
-                      "&>*:first-child": {
+                      "&>*:first-of-type": {
                         margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "18px",
@@ -186,7 +186,7 @@ export default function Home() {
                     label="First half"
                     className="css-hyxlzm"
                     sx={{
-                      "&>*:first-child": {
+                      "&>*:first-of-type": {
                         margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "18px",
@@ -203,7 +203,7 @@ export default function Home() {
                     label="Second half"
                     className="css-hyxlzm"
                     sx={{
-                      "&>*:first-child": {
+                      "&>*:first-of-type": {
                         margin: "0px 10px 0px 10px",
                         padding: 0,
                         height: "18px",

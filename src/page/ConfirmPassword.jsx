@@ -97,7 +97,7 @@ export default function ConfirmPassword() {
                 </Typography>
                 <Box
                   sx={{
-                    "&>*:not(:first-child)": { mt: 2 },
+                    "&>*:not(:first-of-type)": { mt: 2 },
                     "& fieldset": {
                       borderRadius: 1.5,
                       "& legend": { fontSize: "0.65em" },

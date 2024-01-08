@@ -130,7 +130,7 @@ function TaskCard({ heading, showExtraDetail = false }) {
               </TableHead>
               <TableBody
                 sx={{
-                  "&>*:nth-child(even) span": {
+                  "&>*:nth-of-type(even) span": {
                     bgcolor: "red",
                   },
                 }}

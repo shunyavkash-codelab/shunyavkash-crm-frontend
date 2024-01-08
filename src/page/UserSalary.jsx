@@ -354,7 +354,7 @@ export default function UserSalary() {
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                     "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                    "&:first-child td": {
+                    "&:first-of-type td": {
                       maxWidth: "250px",
                       textWrap: "wrap",
                     },
@@ -397,7 +397,7 @@ export default function UserSalary() {
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                     "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                    "&:first-child td": {
+                    "&:first-of-type td": {
                       maxWidth: "250px",
                       textWrap: "wrap",
                     },
@@ -440,7 +440,7 @@ export default function UserSalary() {
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                     "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                    "&:first-child td": {
+                    "&:first-of-type td": {
                       maxWidth: "250px",
                       textWrap: "wrap",
                     },
@@ -483,7 +483,7 @@ export default function UserSalary() {
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                     "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                    "&:first-child td": {
+                    "&:first-of-type td": {
                       maxWidth: "250px",
                       textWrap: "wrap",
                     },

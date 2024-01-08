@@ -62,7 +62,9 @@ export default function AddClient() {
       companyLogo: clientList?.companyLogo,
       mobileCode: clientList?.mobileCode || undefined,
     },
+    enableReinitialize: true,
     onSubmit: async (values) => {
+      console.log(values, "==============90");
       let formData = new FormData();
       Object.entries(values).forEach(([key, value]) => {
         if (value) {
@@ -179,6 +181,7 @@ export default function AddClient() {
                 noValidate
                 autoComplete="off"
                 onSubmit={(e) => {
+                  console.log(formik.values, "==============183");
                   e.preventDefault();
                   formik.handleSubmit();
                 }}
