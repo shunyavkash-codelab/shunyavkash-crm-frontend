@@ -43,6 +43,7 @@ import EmployeeContactForm from "../component/form/EmployeeContactForm.jsx";
 import EmployeeFamilyDetailForm from "../component/form/EmployeeFamilyDetailForm.jsx";
 import EmployeeDocumentDetailForm from "../component/form/EmployeeDocumentDetailForm.jsx";
 import EmployeePersonalDetailForm from "../component/form/EmployeePersonalDetailForm.jsx";
+import moment from "moment";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -133,6 +134,24 @@ export default function Home() {
   useEffect(() => {
     viewEmployees();
   }, []);
+
+  // const originalDateString = "2024-1-1T03:56:27.414+00:00";
+  let joiningFormattedDate;
+  if (userList?.dateOfJoining) {
+    let originalDate = moment(userList?.dateOfJoining);
+    joiningFormattedDate = originalDate.format("DD/MM/YYYY");
+    console.log(
+      joiningFormattedDate,
+      "------------------------joiningFormattedDate"
+    );
+  }
+
+  let dobFormattedDate;
+  if (userList?.dob) {
+    let originalDate = moment(userList?.dob);
+    dobFormattedDate = originalDate.format("DD/MM/YYYY");
+    console.log(dobFormattedDate, "------------------------dobFormattedDate");
+  }
 
   return (
     <>
@@ -486,7 +505,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"date of joining"}
-                    Text={userList?.dateOfJoining || "NA"}
+                    Text={joiningFormattedDate || "NA"}
                     Icon={<DateIcon />}
                   />
                 </Grid>
@@ -564,7 +583,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"DOB"}
-                    Text={userList?.dob || "NA"}
+                    Text={dobFormattedDate || "NA"}
                     Icon={<DateIcon />}
                   />
                 </Grid>
@@ -634,6 +653,7 @@ export default function Home() {
                       userList?.address +
                         userList?.address2 +
                         userList?.landmark +
+                        "-" +
                         userList?.pincode || "NA"
                     }
                     Icon={<HomeOutlinedIcon />}
@@ -882,10 +902,38 @@ export default function Home() {
                 onSuccess={viewEmployees}
               />
             )}
-            {open.type === "personal-detail" && <EmployeePersonalDetailForm />}
-            {open.type === "contact-detail" && <EmployeeContactForm />}
-            {open.type === "family-detail" && <EmployeeFamilyDetailForm />}
-            {open.type === "document-detail" && <EmployeeDocumentDetailForm />}
+            {open.type === "personal-detail" && (
+              <EmployeePersonalDetailForm
+                data={userList}
+                uniqId={id}
+                setOpen={setOpen}
+                onSuccess={viewEmployees}
+              />
+            )}
+            {open.type === "contact-detail" && (
+              <EmployeeContactForm
+                data={userList}
+                uniqId={id}
+                setOpen={setOpen}
+                onSuccess={viewEmployees}
+              />
+            )}
+            {open.type === "family-detail" && (
+              <EmployeeFamilyDetailForm
+                data={userList}
+                uniqId={id}
+                setOpen={setOpen}
+                onSuccess={viewEmployees}
+              />
+            )}
+            {open.type === "document-detail" && (
+              <EmployeeDocumentDetailForm
+                data={userList}
+                uniqId={id}
+                setOpen={setOpen}
+                onSuccess={viewEmployees}
+              />
+            )}
           </ModalComponent>
         </Box>
       </Box>
