@@ -47,7 +47,6 @@ export default function AddUser() {
       "Mobile number must only contain numeric digits"
     ),
     companyName: Yup.string().required("Company name is required.").trim(),
-    reference: Yup.string().required("Reference name is required.").trim(),
   });
 
   const formik = useFormik({
@@ -64,14 +63,23 @@ export default function AddUser() {
       companyLogo: undefined,
       signature: undefined,
       mobileCode: undefined,
+      password: "12345678",
+      role: 1,
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
+      let formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        if (value) {
+          formData.append(key, value);
+        }
+      });
       try {
         const res = await apiCall({
           url: APIS.MANAGER.ADD,
           method: "post",
-          data: JSON.stringify(values, null, 2),
+          headers: "multipart/form-data",
+          data: formData,
         });
         if (res.status === 201) {
           setSnack(res.data.message);
@@ -87,12 +95,13 @@ export default function AddUser() {
   const fetchUsers = async () => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.LIST,
+        url: APIS.MANAGER.ALLUSER,
         method: "get",
       });
       if (res.data.success === true) {
+        console.log(res.data, "res.data");
         setSnack(res.data.message);
-        setUserList(res.data.data.data);
+        setUserList(res.data.data);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -459,7 +468,7 @@ export default function AddUser() {
                         {userList.map((item) => (
                           <MenuItem
                             sx={{ textTransform: "capitalize" }}
-                            value={item._id}
+                            value={item.name}
                           >
                             {item.name}
                           </MenuItem>
@@ -511,6 +520,7 @@ export default function AddUser() {
                     formik={formik}
                     id={"profile_img"}
                     label={"Profile Image"}
+                    value={""}
                   />
                 </Box>
 

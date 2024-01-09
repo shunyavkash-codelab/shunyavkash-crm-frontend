@@ -19,6 +19,7 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function FileUploadButton({ formik, id, label, value, view }) {
   const [file, setFile] = useState(value);
+  console.log(file, "=file");
   return (
     <>
       {file ? (
@@ -117,27 +118,29 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
           }}
         >
           {label}
-          {view === false && (
-            <Field
-              name="file"
-              render={({ field, form }) => (
-                <VisuallyHiddenInput
-                  {...field}
-                  id="test"
-                  type="file"
-                  onChange={(event) => {
-                    //   console.log(
-                    //     event.target.files,
-                    //     form.setFieldValue(id, event.target.files[0]),
-                    //     "================"
-                    //   );
-                    form.setFieldValue(id, event.target.files[0]);
-                    setFile(URL.createObjectURL(event.target.files[0]));
-                  }}
-                />
-              )}
-            />
-          )}
+          {/* {view === false && ( */}
+          <Field
+            name="file"
+            fileTypes={[".png", ".jpg"]}
+            render={({ field, form }) => (
+              <VisuallyHiddenInput
+                {...field}
+                id="test"
+                type="file"
+                accept="image/*"
+                onChange={(event) => {
+                  //   console.log(
+                  //     event.target.files,
+                  //     form.setFieldValue(id, event.target.files[0]),
+                  //     "================"
+                  //   );
+                  form.setFieldValue(id, event.target.files[0]);
+                  setFile(URL.createObjectURL(event.target.files[0]));
+                }}
+              />
+            )}
+          />
+          {/* )} */}
         </Button>
       )}
     </>
