@@ -5,8 +5,6 @@ import {
   Button,
   Chip,
   Grid,
-  MenuItem,
-  Select,
   Tab,
   Tabs,
   Typography,
@@ -34,18 +32,12 @@ import SportsSoccerOutlinedIcon from "@mui/icons-material/SportsSoccerOutlined";
 import SickOutlinedIcon from "@mui/icons-material/SickOutlined";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import ModalComponent from "../component/ModalComponent";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
 import UserSalary from "../page/UserSalary";
-import ImageUploder from "../component/form/ImageUploder";
 import UserLeave from "./UserLeave";
 import { useParams } from "react-router-dom";
 import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
-import ThemeInput from "../component/form/ThemeInput.jsx";
 import EmployeeDetailsForm from "../component/form/EmployeeDetailsForm.jsx";
 import EmployeeContactForm from "../component/form/EmployeeContactForm.jsx";
 import EmployeeFamilyDetailForm from "../component/form/EmployeeFamilyDetailForm.jsx";
@@ -103,6 +95,23 @@ export default function Home() {
   };
 
   const [open, setOpen] = React.useState({ open: false, type: "" });
+
+  const handleChangeActiveDeactive = async () => {
+    setChangeStatus(!changeStatus);
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.EDIT(id),
+        method: "patch",
+        data: { isActive: !changeStatus },
+      });
+      if (res.status === 200) {
+        setSnack(res.data.message);
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
+    }
+  };
 
   const handleOpen = (type) => setOpen({ open: true, type });
 
@@ -305,7 +314,7 @@ export default function Home() {
                   <Button
                     disableRipple
                     type="submit"
-                    onClick={() => setChangeStatus(!changeStatus)}
+                    onClick={() => handleChangeActiveDeactive()}
                     sx={{
                       maxHeight: "42px",
                       position: "relative",
