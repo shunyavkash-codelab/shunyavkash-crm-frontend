@@ -5,8 +5,6 @@ import {
   Button,
   Chip,
   Grid,
-  MenuItem,
-  Select,
   Tab,
   Tabs,
   Typography,
@@ -34,18 +32,12 @@ import SportsSoccerOutlinedIcon from "@mui/icons-material/SportsSoccerOutlined";
 import SickOutlinedIcon from "@mui/icons-material/SickOutlined";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import ModalComponent from "../component/ModalComponent";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
 import UserSalary from "../page/UserSalary";
-import ImageUploder from "../component/form/ImageUploder";
 import UserLeave from "./UserLeave";
 import { useParams } from "react-router-dom";
 import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
-import ThemeInput from "../component/form/ThemeInput.jsx";
 import EmployeeDetailsForm from "../component/form/EmployeeDetailsForm.jsx";
 import EmployeeContactForm from "../component/form/EmployeeContactForm.jsx";
 import EmployeeFamilyDetailForm from "../component/form/EmployeeFamilyDetailForm.jsx";
@@ -86,9 +78,8 @@ export default function Home() {
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
 
-  const [changeStatus, setChangeStatus] = useState(true);
   const [userList, setUserList] = useState();
-
+  const [changeStatus, setChangeStatus] = useState(true);
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -105,6 +96,23 @@ export default function Home() {
 
   const [open, setOpen] = React.useState({ open: false, type: "" });
 
+  const handleChangeActiveDeactive = async () => {
+    setChangeStatus(!changeStatus);
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.EDIT(id),
+        method: "patch",
+        data: { isActive: !changeStatus },
+      });
+      if (res.status === 200) {
+        setSnack(res.data.message);
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
+    }
+  };
+
   const handleOpen = (type) => setOpen({ open: true, type });
 
   const viewEmployees = async () => {
@@ -116,7 +124,7 @@ export default function Home() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setUserList(res.data.data);
-        console.log(res.data.data, "--------------112");
+        setChangeStatus(res.data.data.isActive);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -170,7 +178,7 @@ export default function Home() {
                 variant="subtitle2"
                 sx={{ opacity: 0.4, textTransform: "capitalize" }}
               >
-                Deep Bhimani
+                {userList?.name}
               </Typography>
             </Box>
           </Box>
@@ -257,14 +265,20 @@ export default function Home() {
                   }}
                 >
                   <Chip
-                    label="Employee"
+                    label={
+                      userList?.role === 0
+                        ? "Admin"
+                        : userList?.role === 1
+                        ? "Manager"
+                        : "Employee"
+                    }
                     sx={{ height: "auto", py: "2px" }}
                   ></Chip>
                   <Typography
                     variant="h5"
                     sx={{ color: "black", fontWeight: 500 }}
                   >
-                    Deep Bhimani
+                    {userList?.name}
                   </Typography>
                   <Box
                     sx={{
@@ -279,7 +293,7 @@ export default function Home() {
                         opacity: 0.5,
                       }}
                     >
-                      Frontend development
+                      {userList?.jobRole}
                     </Typography>
                     {/* Todo : This Button is visible for admin only */}
                     <Chip
@@ -300,7 +314,7 @@ export default function Home() {
                   <Button
                     disableRipple
                     type="submit"
-                    onClick={() => setChangeStatus(!changeStatus)}
+                    onClick={() => handleChangeActiveDeactive()}
                     sx={{
                       maxHeight: "42px",
                       position: "relative",
@@ -445,7 +459,12 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">
-                  Employment Details
+                  {userList?.role === 0
+                    ? "Admin"
+                    : userList?.role === 1
+                    ? "Manager"
+                    : "Employee"}{" "}
+                  Details
                 </Typography>
                 <Button
                   onClick={handleOpen.bind(null, "employee-detail")}
@@ -467,35 +486,41 @@ export default function Home() {
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"date of joining"}
-                    Text={"01/12/2022"}
+                    Text={userList?.dateOfJoining || "NA"}
                     Icon={<DateIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"employee id"}
-                    Text={"1234"}
+                    Text={userList?.employeeId || "NA"}
                     Icon={<Grid3x3Icon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"work email"}
-                    Text={"deep.bhimani@shunyavkash.com"}
+                    Text={userList?.email || "NA"}
                     Icon={<EmailOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"designation"}
-                    Text={"Frontend Devlopment"}
+                    Text={userList?.designation || "NA"}
                     Icon={<AccountBoxOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"role"}
-                    Text={"Employee"}
+                    Text={
+                      userList?.role === 0
+                        ? "Admin"
+                        : userList?.role === 1
+                        ? "Manager"
+                        : "Employee" || "NA"
+                    }
                     Icon={<PermIdentityOutlinedIcon />}
                   />
                 </Grid>
@@ -525,35 +550,35 @@ export default function Home() {
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"full name"}
-                    Text={"deep bhimani"}
+                    Text={userList?.name || "NA"}
                     Icon={<PermIdentityOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"gender"}
-                    Text={"male"}
+                    Text={userList?.gender || "NA"}
                     Icon={<WcOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"DOB"}
-                    Text={"08/01/2003"}
+                    Text={userList?.dob || "NA"}
                     Icon={<DateIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"hobbies"}
-                    Text={"Bording Games, Gym, Traveling"}
+                    Text={userList?.hobbies || "NA"}
                     Icon={<SportsSoccerOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"phobia"}
-                    Text={"Nothing"}
+                    Text={userList?.phobia || "NA"}
                     Icon={<SickOutlinedIcon />}
                   />
                 </Grid>
@@ -583,14 +608,14 @@ export default function Home() {
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"Phone number"}
-                    Text={"+91 6359276907"}
+                    Text={userList?.mobileCode + userList?.mobileNumber || "NA"}
                     Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"whatsApp number"}
-                    Text={"+91 6359276907"}
+                    Text={userList?.whatsappNumber || "NA"}
                     // Todo : Add whatsapp icon here
                     Icon={<PhoneOutlinedIcon />}
                   />
@@ -606,7 +631,10 @@ export default function Home() {
                   <DetailsList
                     Title={"Address"}
                     Text={
-                      "403, saffron luxuria, near shyamdham mandir, jakatnaka, surat 395006."
+                      userList?.address +
+                        userList?.address2 +
+                        userList?.landmark +
+                        userList?.pincode || "NA"
                     }
                     Icon={<HomeOutlinedIcon />}
                   />
@@ -637,21 +665,21 @@ export default function Home() {
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"father's name"}
-                    Text={"Navnitbhai"}
+                    Text={userList?.fatherName || "NA"}
                     Icon={<Man2OutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"father's number"}
-                    Text={"N/A"}
+                    Text={userList?.fatherNumber || "NA"}
                     Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"mother's name"}
-                    Text={"Induben"}
+                    Text={userList?.motherName || "NA"}
                     Icon={<Woman2OutlinedIcon />}
                   />
                 </Grid>
@@ -691,7 +719,7 @@ export default function Home() {
                   }}
                 >
                   <Link
-                    href="#javascript:void(0);"
+                    href={userList?.empaloyeeSignature}
                     target="_blank"
                     sx={{
                       textDecoration: "none",
@@ -834,9 +862,26 @@ export default function Home() {
           <ModalComponent
             open={open.open}
             setOpen={() => setOpen({ type: "", open: false })}
-            modalTitle="Employment Details"
+            modalTitle={
+              open.type === "employee-detail"
+                ? "Employment Details"
+                : open.type === "personal-detail"
+                ? "Personal Details"
+                : open.type === "contact-detail"
+                ? "Contact Details"
+                : open.type === "family-detail"
+                ? "Family Details"
+                : open.type === "document-detail" && "Document Details"
+            }
           >
-            {open.type === "employee-detail" && <EmployeeDetailsForm />}
+            {open.type === "employee-detail" && (
+              <EmployeeDetailsForm
+                data={userList}
+                uniqId={id}
+                setOpen={setOpen}
+                onSuccess={viewEmployees}
+              />
+            )}
             {open.type === "personal-detail" && <EmployeePersonalDetailForm />}
             {open.type === "contact-detail" && <EmployeeContactForm />}
             {open.type === "family-detail" && <EmployeeFamilyDetailForm />}

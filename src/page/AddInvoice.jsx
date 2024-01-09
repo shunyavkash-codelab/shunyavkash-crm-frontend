@@ -123,7 +123,7 @@ export default function Invoices() {
     } catch (error) {
       console.log(error, setSnack);
     }
-    }, []);
+  }, []);
   // });
 
   // set initial data for update
@@ -348,7 +348,7 @@ export default function Invoices() {
     fetchClient();
     fetchCountry();
     fetchAdmin();
-    }, []);
+  }, []);
   // });
 
   // add task
@@ -915,7 +915,7 @@ export default function Invoices() {
                             sx={{
                               flexGrow: 1,
                               maxWidth: "300px",
-                              "&>*:not(:first-child)": {
+                              "&>*:not(:first-of-type)": {
                                 mt: 1.75,
                               },
                             }}
@@ -1171,7 +1171,7 @@ export default function Invoices() {
                                         color: "white",
                                         p: 2,
                                       },
-                                      "&:first-child span": {
+                                      "&:first-of-type span": {
                                         borderRadius: "10px 0 0 10px",
                                       },
                                       "&:last-child span": {
@@ -1283,14 +1283,14 @@ export default function Invoices() {
                             ml: "auto",
                             maxWidth: "fit-content",
                             "&>*": {
-                              "&:not(:first-child)": { mt: 1.75 },
+                              "&:not(:first-of-type)": { mt: 1.75 },
                               px: 1.75,
                               display: "flex",
                               justifyContent: "space-between",
                               gap: 9.75,
                               "&>*": {
                                 lineHeight: "1!important",
-                                "&:first-child": {
+                                "&:first-of-type": {
                                   textTransform: "capitalize",
                                   width: "140px",
                                 },
@@ -1439,7 +1439,7 @@ export default function Invoices() {
                               </Typography>
                               <Box
                                 sx={{
-                                  "&>*:not(:first-child)": {
+                                  "&>*:not(:first-of-type)": {
                                     mt: 1.75,
                                   },
                                 }}
@@ -1534,12 +1534,12 @@ export default function Invoices() {
                                         "&>*": {
                                           display: "flex",
                                           gap: 1.25,
-                                          "&:not(:first-child)": { mt: 1.75 },
+                                          "&:not(:first-of-type)": { mt: 1.75 },
                                           "&>*": {
                                             fontSize: "16px!important",
                                             lineHeight: "1!important",
                                             textTransform: "capitalize",
-                                            "&:first-child": {
+                                            "&:first-of-type": {
                                               width: "110px",
                                               display: "flex",
                                               justifyContent: "space-between",

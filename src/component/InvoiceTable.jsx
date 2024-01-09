@@ -6,7 +6,7 @@ export default function InvoiceTable({ formik, values, clientList, name }) {
     <TableRow
       sx={{
         "&>*": {
-          "&:first-child": { fontWeight: "600" },
+          "&:first-of-type": { fontWeight: "600" },
           "&:last-child": {
             px: 2,
           },

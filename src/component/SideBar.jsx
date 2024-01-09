@@ -75,10 +75,12 @@ export default function SideBar({
           "Members",
           "Invoices",
           "Clients",
-          "User",
+          "Manager",
           "Projects",
           "Dashboard",
           "Account Management",
+          "Employees",
+          "Leaves",
         ].includes(ele.text) && user.role !== 0
       ) &&
       !(
@@ -151,7 +153,7 @@ export default function SideBar({
                       animation: "swing ease-in-out 0.4s alternate",
                     },
                   },
-                  "&:not(:first-child)": { mt: 0.75 },
+                  "&:not(:first-of-type)": { mt: 0.75 },
                   borderRadius: "10px",
                   overflow: "hidden",
                   color: location.pathname === item.link && "primary.main",
@@ -203,7 +205,7 @@ export default function SideBar({
                   animation: "swing ease-in-out 0.4s alternate",
                 },
               },
-              "&:not(:first-child)": { mt: 0.75 },
+              "&:not(:first-of-type)": { mt: 0.75 },
               borderRadius: "10px",
               overflow: "hidden",
               color: location.pathname === "/my-profile" && "primary.main",

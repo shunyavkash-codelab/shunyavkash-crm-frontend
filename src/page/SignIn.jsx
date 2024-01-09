@@ -169,7 +169,7 @@ export default function SignIn() {
             </Box>
             <Box
               sx={{
-                "&>*:not(:first-child)": { mt: 2 },
+                "&>*:not(:first-of-type)": { mt: 2 },
                 "& fieldset": {
                   borderRadius: 1.5,
                   "& legend": { fontSize: "0.65em" },
@@ -265,7 +265,7 @@ export default function SignIn() {
                       label="Remember Me"
                       // color="success.main"
                       sx={{
-                        "&>span:not(:first-child)": {
+                        "&>span:not(:first-of-type)": {
                           fontSize: "14px",
                           fontWeight: 500,
                           lineHeight: 1,

@@ -105,7 +105,7 @@ function TaskCard({ heading, showExtraDetail = false }) {
                     },
                   }}
                 >
-                  <TableCell colspan={2} sx={{ minWidth: "200px", pl: 1 }}>
+                  <TableCell colSpan={2} sx={{ minWidth: "200px", pl: 1 }}>
                     Task Name
                   </TableCell>
                   <TableCell sx={{ width: "64px" }}>Priority</TableCell>
@@ -130,7 +130,7 @@ function TaskCard({ heading, showExtraDetail = false }) {
               </TableHead>
               <TableBody
                 sx={{
-                  "&>*:nth-child(even) span": {
+                  "&>*:nth-of-type(even) span": {
                     bgcolor: "red",
                   },
                 }}

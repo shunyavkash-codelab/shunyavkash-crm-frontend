@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
-import React from "react";
 import ThemeInput from "./ThemeInput";
 
 // Icons
@@ -8,10 +8,60 @@ import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
+import ThemeSelect from "./ThemeSelect";
+import { useFormik } from "formik";
+import { APIS } from "../../api/apiList";
+import useApi from "../../hooks/useApi.js";
+import { useSnack } from "../../hooks/store/useSnack.js";
+import { useParams } from "react-router-dom";
 
-export default function EmployeeDetailsForm() {
+export default function EmployeeDetailsForm({
+  data,
+  uniqId,
+  open,
+  setOpen,
+  onSuccess = () => {},
+}) {
+  const { apiCall } = useApi();
+  const { setSnack } = useSnack();
+
+  const formik = useFormik({
+    initialValues: {
+      joinDate: data.dateOfJoining,
+      employeeId: data.employeeId,
+      email: data.email,
+      designation: data.designation,
+      role: data.role,
+    },
+    onSubmit: async (values) => {
+      // let formData = new FormData();
+      // values.profile_img = url?.fileList[0];
+      try {
+        const res = await apiCall({
+          url: APIS.MANAGER.EDIT(uniqId),
+          method: "patch",
+          data: values,
+        });
+        if (res.status === 200) {
+          setSnack(res.data.message);
+          setOpen(false);
+          onSuccess();
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
+  console.log(formik.values);
   return (
-    <Grid component={"form"} container rowSpacing={2.5} columnSpacing={2.5}>
+    <Grid
+      component={"form"}
+      container
+      rowSpacing={2.5}
+      columnSpacing={2.5}
+      onSubmit={formik.handleSubmit}
+    >
       <Grid
         item
         xs={12}
@@ -23,6 +73,9 @@ export default function EmployeeDetailsForm() {
           placeholder="Date Of Joining"
           Icon={DateIcon}
           name="joinDate"
+          onChange={formik.handleChange}
+          formik={formik}
+          // defultValue={data?.dateOfJoining}
         />
         {/* <FormControl fullWidth sx={{ m: 1 }}>
           <OutlinedInput
@@ -46,6 +99,8 @@ export default function EmployeeDetailsForm() {
           placeholder="Employee Id"
           Icon={Grid3x3Icon}
           name={"employeeId"}
+          onChange={formik.handleChange}
+          formik={formik}
         />
         {/* <FormControl fullWidth sx={{ m: 1 }}>
           <OutlinedInput
@@ -71,6 +126,8 @@ export default function EmployeeDetailsForm() {
           Icon={EmailOutlinedIcon}
           name="email"
           type="email"
+          onChange={formik.handleChange}
+          formik={formik}
         />
         {/* <OutlinedInput
                           placeholder="Work Email"
@@ -95,17 +152,9 @@ export default function EmployeeDetailsForm() {
           placeholder={"Designation"}
           Icon={AccountBoxOutlinedIcon}
           name="designation"
+          onChange={formik.handleChange}
+          formik={formik}
         />
-        {/* <OutlinedInput
-                          placeholder="Designation"
-                          sx={{ fontSize: 14 }}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <AccountBoxOutlinedIcon />
-                            </InputAdornment>
-                          }
-                        /> */}
-        {/* </FormControl> */}
       </Grid>
       <Grid
         item
@@ -114,22 +163,16 @@ export default function EmployeeDetailsForm() {
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        {/* <FormControl fullWidth sx={{ m: 1 }}> */}
-        <ThemeInput
-          placeholder={"Role"}
-          Icon={PermIdentityOutlinedIcon}
-          name="role"
+        <ThemeSelect
+          id={"role"}
+          options={[
+            { name: "Admin", value: 0 },
+            { name: "Manager", value: 1 },
+            { name: "Employee", value: 2 },
+          ]}
+          onChange={formik.handleChange}
+          formik={formik}
         />
-        {/* <OutlinedInput
-                          placeholder="Role"
-                          sx={{ fontSize: 14 }}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <PermIdentityOutlinedIcon />
-                            </InputAdornment>
-                          }
-                        /> */}
-        {/* </FormControl> */}
       </Grid>
       <Grid
         item
@@ -140,6 +183,7 @@ export default function EmployeeDetailsForm() {
       >
         <Button
           disableRipple
+          type="submit"
           sx={{
             maxHeight: "42px",
             position: "relative",

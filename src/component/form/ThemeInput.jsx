@@ -1,4 +1,5 @@
 import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
+import { Formik } from "formik";
 import React from "react";
 
 export default function ThemeInput({
@@ -9,6 +10,7 @@ export default function ThemeInput({
   multiline = false,
   rows,
   sx = {},
+  formik,
 }) {
   return (
     <FormControl fullWidth sx={{ m: 1 }}>
@@ -18,6 +20,8 @@ export default function ThemeInput({
         rows={rows}
         name={name}
         type={type}
+        value={formik?.values[name]}
+        onChange={formik?.handleChange}
         startAdornment={
           <InputAdornment position="start">
             <Icon />
