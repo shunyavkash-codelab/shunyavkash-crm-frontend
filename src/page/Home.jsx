@@ -25,6 +25,7 @@ import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 import PlusIcon from "@mui/icons-material/Close";
 import moment from "moment";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
+import NoData from "../component/NoData";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -436,35 +437,7 @@ export default function Home() {
               </Grid>
             </Box> */}
               {invoiceList.length === 0 ? (
-                <Box
-                  sx={{
-                    width: "100%",
-                    display: "block",
-                    padding: "25px 16px",
-                    backgroundColor: "primary.light",
-                    textAlign: "center",
-                    borderRadius: 2.5,
-                  }}
-                >
-                  <Typography
-                    mb={1.5}
-                    variant="h4"
-                    sx={{
-                      fontSize: "20px",
-                      color: "#1677FF",
-                      fontWeight: "500",
-                      letterSpacing: "0.5px",
-                    }}
-                  >
-                    No data available in table
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    sx={{ fontSize: 14, color: "#848484", fontWeight: "400" }}
-                  >
-                    Currently there no data available!
-                  </Typography>
-                </Box>
+                <NoData />
               ) : (
                 <TableContainer
                   component={Paper}

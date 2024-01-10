@@ -24,6 +24,7 @@ import handleApiError from "../utils/handleApiError";
 import { APIS } from "../api/apiList";
 import { useAuth } from "../hooks/store/useAuth";
 import { useSearchData } from "../hooks/store/useSearchData";
+import NoData from "../component/NoData";
 
 export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -158,35 +159,7 @@ export default function Project() {
             </Box>
           </Box>
           {projectList.length === 0 ? (
-            <Box
-              sx={{
-                width: "100%",
-                display: "block",
-                padding: "25px 16px",
-                backgroundColor: "primary.light",
-                textAlign: "center",
-                borderRadius: 2.5,
-              }}
-            >
-              <Typography
-                mb={1.5}
-                variant="h4"
-                sx={{
-                  fontSize: "20px",
-                  color: "#1677FF",
-                  fontWeight: "500",
-                  letterSpacing: "0.5px",
-                }}
-              >
-                No data available in table
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{ fontSize: 14, color: "#848484", fontWeight: "400" }}
-              >
-                Currently there no data available!
-              </Typography>
-            </Box>
+            <NoData />
           ) : (
             <>
               <TableContainer
