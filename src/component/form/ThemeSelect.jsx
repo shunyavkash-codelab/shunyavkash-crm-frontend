@@ -1,5 +1,6 @@
 import {
   FormControl,
+  FormHelperText,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -56,9 +57,13 @@ export default function ThemeSelect({ id, options, formik }) {
         sx={{ fontSize: "14px" }}
         onChange={formik?.handleChange}
         value={formik?.values[id]}
+        error={formik.touched[id] && Boolean(formik.errors[id])}
       >
         {menuItems}
       </Select>
+      {formik.touched[id] && Boolean(formik.errors[id]) && (
+        <FormHelperText error={true}>{formik.errors[id]}</FormHelperText>
+      )}
     </FormControl>
   );
 }

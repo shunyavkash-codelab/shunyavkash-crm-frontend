@@ -15,6 +15,30 @@ import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo/DemoContainer.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import * as Yup from "yup";
+
+// yup data validator schhema
+const schema = Yup.object({
+  employeeId: Yup.string()
+    .required("EmployeeId is required.")
+    .matches(
+      /^[0-9]+$/,
+      "Employee ID should consist only of numerical digits."
+    ),
+  email: Yup.string()
+    .email("Field should contain a valid e-mail")
+    .max(255)
+    .required("Email is required.")
+    .trim(),
+
+  designation: Yup.string()
+    .required("Designation is required")
+    .matches(
+      /^[a-zA-Z]+$/,
+      "Designation should only contain alphabetical characters"
+    ),
+  role: Yup.string().required("Role is required."),
+});
 
 export default function EmployeeDetailsForm({
   data,
@@ -26,6 +50,7 @@ export default function EmployeeDetailsForm({
   const { setSnack } = useSnack();
 
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       dateOfJoining: dayjs(data.dateOfJoining),
       employeeId: data.employeeId,
@@ -51,7 +76,7 @@ export default function EmployeeDetailsForm({
       }
     },
   });
-  console.log(formik.values.dateOfJoining);
+  console.log(formik.errors);
   return (
     <Grid
       component={"form"}
@@ -117,16 +142,6 @@ export default function EmployeeDetailsForm({
           onChange={formik.handleChange}
           formik={formik}
         />
-        {/* <FormControl fullWidth sx={{ m: 1 }}>
-          <OutlinedInput
-            sx={{ fontSize: 14 }}
-            startAdornment={
-              <InputAdornment position="start">
-                <Grid3x3Icon />
-              </InputAdornment>
-            }
-          />
-        </FormControl> */}
       </Grid>
       <Grid
         item
@@ -144,16 +159,6 @@ export default function EmployeeDetailsForm({
           onChange={formik.handleChange}
           formik={formik}
         />
-        {/* <OutlinedInput
-                          placeholder="Work Email"
-                          sx={{ fontSize: 14 }}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <EmailOutlinedIcon />
-                            </InputAdornment>
-                          }
-                        /> */}
-        {/* </FormControl> */}
       </Grid>
       <Grid
         item

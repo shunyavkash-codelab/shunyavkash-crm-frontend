@@ -538,7 +538,9 @@ export default function Home() {
                         ? "Admin"
                         : userList?.role === 1
                         ? "Manager"
-                        : "Employee" || "NA"
+                        : userList?.role === 2
+                        ? "Employee"
+                        : "NA"
                     }
                     Icon={<PermIdentityOutlinedIcon />}
                   />

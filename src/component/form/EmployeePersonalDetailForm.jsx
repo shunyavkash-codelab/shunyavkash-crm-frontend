@@ -23,6 +23,29 @@ import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo/DemoContainer.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import * as Yup from "yup";
+
+// yup data validator schhema
+const schema = Yup.object({
+  name: Yup.string()
+    .required("Name is required.")
+    .matches(
+      /^[a-zA-Z\s'-]+$/,
+      "Name should only contain alphabetical characters, spaces, hyphens, and apostrophes"
+    ),
+  hobbies: Yup.string()
+    .required("Name is required.")
+    .matches(
+      /^[a-zA-Z\s,]+$/,
+      "Hobbies should only contain alphabetical characters and commas"
+    ),
+  phobia: Yup.string()
+    .required("Name is required.")
+    .matches(
+      /^[a-zA-Z\s,]+$/,
+      "Hobbies should only contain alphabetical characters and commas"
+    ),
+});
 
 export default function EmployeePersonalDetailForm({
   data,
@@ -34,6 +57,7 @@ export default function EmployeePersonalDetailForm({
   const { setSnack } = useSnack();
 
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       name: data.name,
       gender: data.gender,
@@ -143,21 +167,6 @@ export default function EmployeePersonalDetailForm({
             />
           </DemoContainer>
         </LocalizationProvider>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
-        <ThemeInput
-          name={"dob"}
-          Icon={DateIcon}
-          placeholder="Date of Birth"
-          onChange={formik.handleChange}
-          formik={formik}
-        />
       </Grid>
       <Grid
         item
