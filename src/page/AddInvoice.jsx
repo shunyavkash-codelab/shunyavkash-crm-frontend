@@ -1141,7 +1141,6 @@ export default function Invoices() {
                             )}
                           </Box>
                         )} */}
-                        )} */}
                         <Box sx={{ mt: 7, mb: 3.5 }}>
                           {/* {selectedProjectId && (
                           {/* {selectedProjectId && (
@@ -1225,7 +1224,6 @@ export default function Invoices() {
                                 ))}
                               </Select>
                             </FormControl>
-                          )} */}
                           )} */}
                           <TableContainer
                             component={Paper}
@@ -1575,8 +1573,50 @@ export default function Invoices() {
                                           {bank.bankName}
                                         </MenuItem>
                                       ))}
-
-                                    <MenuItem
+                                    <Box sx={{ display: "flex" }}>
+                                      <Button
+                                        disableRipple
+                                        sx={{
+                                          maxHeight: "36px",
+                                          position: "relative",
+                                          px: 2.5,
+                                          py: 1,
+                                          bgcolor: "text.primary",
+                                          border: "1px solid",
+                                          borderColor: "text.primary",
+                                          color: "white",
+                                          lineHeight: 1,
+                                          borderRadius: 2.5,
+                                          overflow: "hidden",
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          "&:before": {
+                                            content: "''",
+                                            height: 0,
+                                            width: "10rem",
+                                            position: "absolute",
+                                            top: "50%",
+                                            left: "50%",
+                                            zIndex: "0",
+                                            bgcolor: "white",
+                                            transform:
+                                              "rotate(-45deg) translate(-50%, -50%)",
+                                            transformOrigin: "0% 0%",
+                                            transition: "all 0.4s ease-in-out",
+                                          },
+                                          "&:hover": {
+                                            color: "text.primary",
+                                            bgcolor: "text.primary",
+                                            "&:before": { height: "10rem" },
+                                          },
+                                        }}
+                                      >
+                                        <span style={{ position: "relative" }}>
+                                          Add Bank
+                                        </span>
+                                      </Button>
+                                    </Box>
+                                    {/* <MenuItem
                                       sx={{
                                         textTransform: "capitalize",
                                         display: "inline-flex",
@@ -1596,20 +1636,7 @@ export default function Invoices() {
                                         );
                                         setBankOpen(true);
                                       }}
-                                    >
-                                      {/* <Link
-                                        href="#"
-                                        onClick={() => setBankOpen(true)}
-                                        style={{
-                                          display: "inline-flex",
-                                          textDecoration: "none",
-                                          color: "#2A4062",
-                                          width: "100%",
-                                        }}
-                                      > */}
-                                      Custom Add
-                                      {/* </Link> */}
-                                    </MenuItem>
+                                    ></MenuItem> */}
                                   </Select>
                                   {Boolean(formik.errors.selectBank) && (
                                     <FormHelperText error={true}>
