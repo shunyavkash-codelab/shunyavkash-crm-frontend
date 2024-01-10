@@ -360,10 +360,12 @@ export default function Invoices() {
   };
 
   const getSubTotal = (task) => {
-    return task.reduce((accum, taskDetail) => {
+    let amount = task.reduce((accum, taskDetail) => {
       accum += taskDetail.pricePerHours * taskDetail.number;
       return accum;
     }, 0);
+    setDiscountRS((amount * discountPer) / 100);
+    return amount;
   };
 
   useEffect(() => {
@@ -991,6 +993,7 @@ export default function Invoices() {
                                 name="invoiceNumber"
                                 label="invoice No."
                                 disabled={edit ? true : false}
+                                inputProps={{ maxLength: 11 }}
                                 onChange={(event) =>
                                   formik.setFieldValue(
                                     "invoiceNumber",
@@ -1006,7 +1009,6 @@ export default function Invoices() {
                               InputLabelProps={{
                                 shrink: true,
                               }}
-                              defaultValue={"10/10/2023"}
                               onChange={(event) =>
                                 formik.setFieldValue(
                                   "invoiceDate",
