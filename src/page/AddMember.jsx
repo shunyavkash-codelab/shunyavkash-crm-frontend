@@ -1,4 +1,5 @@
 import React, {
+  useEffect,
   // useEffect,
   useState,
 } from "react";
@@ -27,6 +28,7 @@ import FileUploadButton from "../component/FileUploadButton";
 import * as Yup from "yup";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import PasswordField from "../component/PasswordField";
 
 export default function AddMember() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -35,10 +37,7 @@ export default function AddMember() {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const [
-    // userList,
-    setUserList,
-  ] = useState([]);
+  const [userList, setUserList] = useState([]);
   const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
@@ -58,7 +57,16 @@ export default function AddMember() {
       /^[0-9]+$/,
       "Mobile number must only contain numeric digits"
     ),
-    companyName: Yup.string().required("Company name is required.").trim(),
+    password: Yup.string()
+      .required("Password is required.")
+      .trim()
+      .min(8)
+      .max(20, "Password must be at most 20 letter."),
+    confirm_password: Yup.string().oneOf(
+      [Yup.ref("password"), null],
+      "Passwords must match"
+    ),
+    // companyName: Yup.string().required("Company name is required.").trim(),
   });
 
   const formik = useFormik({
@@ -68,15 +76,15 @@ export default function AddMember() {
       email: "",
       mobileNumber: "",
       gender: "",
-      companyName: "",
-      websiteURL: "",
+      // companyName: "",
+      // websiteURL: "",
       reference: "",
       profile_img: undefined,
-      companyLogo: undefined,
-      signature: undefined,
-      mobileCode: undefined,
-      password: "12345678",
-      role: 1,
+      // companyLogo: undefined,
+      // signature: undefined,
+      mobileCode: "+91",
+      password: "",
+      role: 2,
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
@@ -104,21 +112,19 @@ export default function AddMember() {
     },
   });
 
-  // const fetchUsers = async () => {
-  //   try {
-  //     const res = await apiCall({
-  //       url: APIS.MANAGER.ALLUSER,
-  //       method: "get",
-  //     });
-  //     if (res.data.success === true) {
-  //       console.log(res.data, "res.data");
-  //       setSnack(res.data.message);
-  //       setUserList(res.data.data);
-  //     }
-  //   } catch (error) {
-  //     console.log(error, setSnack);
-  //   }
-  // };
+  const fetchUsers = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.ALLUSER,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setUserList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
 
   // get country list
   // const fetchCountry = async () => {
@@ -135,10 +141,10 @@ export default function AddMember() {
   //   }
   // };
 
-  // useEffect(() => {
-  //   fetchUsers();
-  //   fetchCountry();
-  // }, []);
+  useEffect(() => {
+    fetchUsers();
+    // fetchCountry();
+  }, []);
   // });
 
   const [reference, setRefrence] = useState([
@@ -364,6 +370,7 @@ export default function AddMember() {
                         borderRadius: "6px 0 0 6px",
                       },
                     }}
+                    onChange={formik.handleChange}
                   />
 
                   <TextField
@@ -380,6 +387,7 @@ export default function AddMember() {
                         borderRadius: "0 6px 6px 0",
                       },
                     }}
+                    onChange={formik.handleChange}
                   />
                 </Stack>
 
@@ -447,25 +455,43 @@ export default function AddMember() {
                   >
                     Member Type
                   </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="member-type"
-                    label="Member Type"
-                    sx={{ fontSize: "14px" }}
-                  >
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value="manager"
-                    >
-                      Manager
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value="employee"
-                    >
-                      Employee
-                    </MenuItem>
-                  </Select>
+                  <Field
+                    name="file"
+                    render={({ field, form }) => (
+                      <Select
+                        id="role"
+                        label="Role"
+                        sx={{ fontSize: "14px" }}
+                        {...field}
+                        onChange={(event) => {
+                          form.setFieldValue("role", event.target.value);
+                        }}
+                        error={
+                          formik.touched.role && Boolean(formik.errors.role)
+                        }
+                        helperText={formik.touched.role && formik.errors.role}
+                      >
+                        <MenuItem
+                          sx={{
+                            textTransform: "capitalize",
+                            fontSize: "14px",
+                          }}
+                          value={"manager"}
+                        >
+                          manager
+                        </MenuItem>
+                        <MenuItem
+                          sx={{
+                            textTransform: "capitalize",
+                            fontSize: "14px",
+                          }}
+                          value={"employee"}
+                        >
+                          employee
+                        </MenuItem>
+                      </Select>
+                    )}
+                  />
                 </FormControl>
 
                 {/* <FormControl
@@ -531,7 +557,7 @@ export default function AddMember() {
                 <Autocomplete
                   disablePortal
                   id="combo-box-demo"
-                  options={reference}
+                  options={userList}
                   sx={{
                     fontSize: "14px!important",
                     "& .MuiAutocomplete-clearIndicator": {
@@ -546,29 +572,28 @@ export default function AddMember() {
                       }}
                       {...props}
                     >
-                      {option}
+                      {option.name}
                     </Box>
                   )}
+                  onChange={(event, newValue) => {
+                    formik.setFieldValue("reference", newValue.name); // Update Formik field value
+                  }}
+                  value={formik.values.reference}
                   renderInput={(params) => (
                     <TextField
                       // focused
                       fullWidth
                       autoComplete="off"
                       label="Reference"
+                      name="reference"
                       className="reference-field"
                       {...params}
-                      // onKeyUp={(e) => {
-                      //   if (e.key === "Enter") {
-                      //     console.log(e);
-                      //   }
-                      // }}
                       onKeyDown={(e) => {
                         let value = e.target.value;
                         if (!value || reference.includes(value)) {
                           return;
                         }
                         if (e.key === "Enter") {
-                          console.log(e);
                           e.preventDefault();
                           setRefrence((prevRef) => [...prevRef, value]);
                         }
@@ -587,15 +612,12 @@ export default function AddMember() {
                 />
 
                 <Box sx={{ position: "relative" }}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="password"
-                    label="Password"
-                    autoComplete="off"
-                    type={showPassword ? "text" : "password"}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
+                  <PasswordField
+                    formik={formik}
+                    id={"password"}
+                    label={"Password"}
+                    Inputstyle={{
+                      "&>div": { fontSize: "14px" },
                       "&>label": { top: "4px" },
                       "& input": {
                         textTransform: "capitalize",
@@ -603,33 +625,17 @@ export default function AddMember() {
                         pr: 5,
                       },
                     }}
+                    Iconstyle={{ top: "13px" }}
                   />
-                  <Box
-                    onClick={handleClickShowPassword}
-                    sx={{
-                      position: "absolute",
-                      top: "13px",
-                      right: "16px",
-                      opacity: "50%",
-                      cursor: "pointer",
-                      display: "inline-flex",
-                      "& svg": { fontSize: "20px" },
-                    }}
-                  >
-                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </Box>
                 </Box>
 
                 <Box sx={{ position: "relative" }}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="confirmPassword"
-                    label="Confirm Password"
-                    autoComplete="off"
-                    type={showPassword ? "text" : "password"}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
+                  <PasswordField
+                    formik={formik}
+                    id={"confirm_password"}
+                    label={"Confirm Password"}
+                    Inputstyle={{
+                      "&>div": { fontSize: "14px" },
                       "&>label": { top: "4px" },
                       "& input": {
                         textTransform: "capitalize",
@@ -637,21 +643,8 @@ export default function AddMember() {
                         pr: 5,
                       },
                     }}
+                    Iconstyle={{ top: "13px" }}
                   />
-                  <Box
-                    onClick={handleClickShowPassword}
-                    sx={{
-                      position: "absolute",
-                      top: "13px",
-                      right: "16px",
-                      opacity: "50%",
-                      cursor: "pointer",
-                      display: "inline-flex",
-                      "& svg": { fontSize: "20px" },
-                    }}
-                  >
-                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </Box>
                 </Box>
 
                 {/* <TextField

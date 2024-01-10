@@ -19,7 +19,6 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function FileUploadButton({ formik, id, label, value, view }) {
   const [file, setFile] = useState(value);
-  console.log(file, "=file");
   return (
     <>
       {file ? (
