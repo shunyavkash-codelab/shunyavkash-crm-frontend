@@ -27,7 +27,7 @@ import Header from "../component/Header";
 import { useAuth } from "../hooks/store/useAuth";
 import { useTheme } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
-import { FieldArray, Form, Formik } from "formik";
+import { FieldArray, Form, Formik, useFormik } from "formik";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
@@ -75,7 +75,6 @@ export default function Invoices() {
   const navigate = useNavigate();
   const location = useLocation();
   const [clientList, setClientList] = useState([]);
-  const [setCountryList] = useState([]);
   const [projectList, setProjectList] = useState([]);
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
@@ -99,7 +98,9 @@ export default function Invoices() {
   const [clientOpen, setClientOpen] = useState(false);
   const [projectOpen, setProjectOpen] = useState(false);
   const [invoiceOpen, setInvoiceOpen] = useState(false);
-  const [bankOpen, setBankOpen] = useState(false);
+  const [bankOpen, setBankOpen] = useState(
+    invoiceData?.selectBank == "customBank" ? true : false
+  );
   const [invoiceNO, setInvoiceNO] = useState(invoiceNumber);
 
   const [invoiceDATE, setInvoiceDATE] = useState(
@@ -110,44 +111,44 @@ export default function Invoices() {
   );
   let edit = location.pathname.includes("/edit/");
   // get single project detile by projectId
-  const fetchProjectDetail = useCallback(async () => {
-    try {
-      if (!invoiceData?.projectId) {
-        return;
-      }
-      const res = await apiCall({
-        url: APIS.PROJECT.VIEW(invoiceData?.projectId),
-        method: "get",
-      });
-      if (res.data.success === true) {
-        setSnack(res.data.message);
-        setSelectedProjectId(res.data.data._id);
-        setProjectDescription(res.data.data);
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  }, []);
+  // const fetchProjectDetail = useCallback(async () => {
+  //   try {
+  //     if (!invoiceData?.projectId) {
+  //       return;
+  //     }
+  //     const res = await apiCall({
+  //       url: APIS.PROJECT.VIEW(invoiceData?.projectId),
+  //       method: "get",
+  //     });
+  //     if (res.data.success === true) {
+  //       setSnack(res.data.message);
+  //       setSelectedProjectId(res.data.data._id);
+  //       setProjectDescription(res.data.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //   }
+  // }, []);
   // });
 
   // set initial data for update
 
-  useEffect(() => {
-    if (invoiceData?.projectId) {
-      fetchProjectDetail(invoiceData?.projectId);
-    }
-  }, [invoiceData?.projectId]);
+  // useEffect(() => {
+  //   if (invoiceData?.projectId) {
+  //     fetchProjectDetail(invoiceData?.projectId);
+  //   }
+  // }, [invoiceData?.projectId]);
 
-  useEffect(() => {
-    if (invoiceData?.tasks) {
-      setPersonName(invoiceData.tasks.map((task) => task.taskName));
-    }
-  }, [invoiceData?.projectId]);
-  useEffect(() => {
-    if (invoiceData?.projectId) {
-      fetchTask(invoiceData?.projectId);
-    }
-  }, [invoiceData?.projectId]);
+  // useEffect(() => {
+  //   if (invoiceData?.tasks) {
+  //     setPersonName(invoiceData.tasks.map((task) => task.taskName));
+  //   }
+  // }, [invoiceData?.projectId]);
+  // useEffect(() => {
+  //   if (invoiceData?.projectId) {
+  //     fetchTask(invoiceData?.projectId);
+  //   }
+  // }, [invoiceData?.projectId]);
   // end initail data for update invoice
   // validation
   const schema = Yup.object({
@@ -171,29 +172,55 @@ export default function Invoices() {
         }
       ),
     to: Yup.string().required("Bill to is required"),
-    select_Bank: Yup.string().required("Bank detail is required"),
-    project: Yup.string().required("Project is required"),
+    selectBank: Yup.string().required("Bank detail is required"),
+    // project: Yup.string().required("Project is required"),
     task: Yup.array()
       .min(1, "Minimum ${min} task required")
       .required("Task is required"),
+    customAccountNumber: Yup.number().test(
+      "Account Number",
+      "Account Number is a required.",
+      (bankDetails) => bankDetails !== undefined
+    ),
+    customIFSC: Yup.string()
+      .length(11)
+      .test(
+        "IFSC Code",
+        "IFSC Code is a required.",
+        (bankDetails) => bankDetails !== undefined
+      )
+      .matches(
+        /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
+        "First 4 characters must be alphabets and last 7 characters must be numbers"
+      ),
+    customBankName: Yup.string().test(
+      "Bank Name",
+      "Bank Name is a required.",
+      (bankDetails) => bankDetails !== undefined
+    ),
+    customHolderName: Yup.string().test(
+      "A/c holder name",
+      "A/c holder name is a required.",
+      (bankDetails) => bankDetails !== undefined
+    ),
   });
-  useEffect(() => {
-    if (invoiceData?.invoiceDate) {
-      setInvoiceDATE(
-        new Date(invoiceData?.invoiceDate)?.toISOString().split("T")[0]
-      );
-      setInvoiceDUEDATE(
-        new Date(invoiceData?.invoiceDueDate)?.toISOString().split("T")[0]
-      );
-    }
-  }, [invoiceData?.invoiceDate]);
+  // useEffect(() => {
+  //   if (invoiceData?.invoiceDate) {
+  //     setInvoiceDATE(
+  //       new Date(invoiceData?.invoiceDate)?.toISOString().split("T")[0]
+  //     );
+  //     setInvoiceDUEDATE(
+  //       new Date(invoiceData?.invoiceDueDate)?.toISOString().split("T")[0]
+  //     );
+  //   }
+  // }, [invoiceData?.invoiceDate]);
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(value);
-  };
+  // const handleChange = (event) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
+  //   setPersonName(value);
+  // };
 
   // discount
   const handleDiscountPerChange = (subTotal, event) => {
@@ -226,49 +253,34 @@ export default function Invoices() {
   };
 
   // get project list by clientId
-  const fetchProject = async (clientId) => {
-    try {
-      const res = await apiCall({
-        url: APIS.PROJECT.CLIENTWISEPROJECT(clientId),
-        method: "get",
-      });
-      if (res.data.success === true) {
-        setProjectList(res.data.data);
-        setSelectedProjectId(res.data.data[0]._id);
-        if (projectDescription) {
-          setProjectDescription((prevProject) => {
-            const project = res.data.data.find(
-              (proj) => proj._id === prevProject._id
-            );
-            return project || {};
-          });
-        }
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+  // const fetchProject = async (clientId) => {
+  //   try {
+  //     const res = await apiCall({
+  //       url: APIS.PROJECT.CLIENTWISEPROJECT(clientId),
+  //       method: "get",
+  //     });
+  //     if (res.data.success === true) {
+  //       setProjectList(res.data.data);
+  //       setSelectedProjectId(res.data.data[0]._id);
+  //       if (projectDescription) {
+  //         setProjectDescription((prevProject) => {
+  //           const project = res.data.data.find(
+  //             (proj) => proj._id === prevProject._id
+  //           );
+  //           return project || {};
+  //         });
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (invoiceData?.clientId) {
-      fetchProject(invoiceData?.clientId);
-    }
-  }, [invoiceData?.clientId]);
-
-  // get country list
-  const fetchCountry = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.COUNTRY.GET,
-        method: "get",
-      });
-      if (res.data.success === true) {
-        setCountryList(res.data.data);
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+  // useEffect(() => {
+  //   if (invoiceData?.clientId) {
+  //     fetchProject(invoiceData?.clientId);
+  //   }
+  // }, [invoiceData?.clientId]);
 
   // get admin details
   const fetchAdmin = async () => {
@@ -286,53 +298,59 @@ export default function Invoices() {
   };
 
   // get task details
-  const fetchTask = async (id) => {
-    try {
-      const res = await apiCall({
-        url: APIS.TASK.GET(id),
-        method: "get",
-      });
-      if (res.data.success === true) {
-        setTaskList(res.data.data);
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+  // const fetchTask = async (id) => {
+  //   try {
+  //     const res = await apiCall({
+  //       url: APIS.TASK.GET(id),
+  //       method: "get",
+  //     });
+  //     if (res.data.success === true) {
+  //       setTaskList(res.data.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //   }
+  // };
 
   // client Data
-  const clientData = async (id) => {
+  const clientData = async (formik, id) => {
     const clientAddress = clientList.find((client) => {
       return client._id === id;
     });
+    formik.setFieldValue("clientAddress", clientAddress.address);
     setSelectedClient(clientAddress);
-    await fetchProject(id);
+    // await fetchProject(id);
   };
 
   // project Data
-  const handleProjectChange = async (event) => {
-    const projectId = event.target.value;
-    setSelectedProjectId(projectId);
-    const project = projectList.find((proj) => proj._id === projectId);
-    setProjectDescription(project);
-    await fetchTask(project._id);
-    setPersonName([]);
-  };
+  // const handleProjectChange = async (formik, event) => {
+  //   const projectId = event.target.value;
+  //   setSelectedProjectId(projectId);
+  //   const project = projectList.find((proj) => proj._id === projectId);
+  //   // setProjectDescription(project);
+  //   formik.setFieldValue("projectDescription", project.description);
+  //   await fetchTask(project._id);
+  //   setPersonName([]);
+  // };
 
   // Bank Details
-  const handleBankChange = async (event) => {
+  const handleBankChange = async (formik, event) => {
     const bankId = event.target.value;
     if (Array.isArray(adminList.bank)) {
       const bankD = adminList.bank.find((bank) => bank._id === bankId);
       if (bankD) {
-        setBankDetails({
-          bankId: bankId,
-          bankName: bankD.bankName,
-          IFSC: bankD.IFSC,
-          holderName: bankD.holderName,
-          accountNumber: bankD.accountNumber,
-          label: bankD.label,
-        });
+        formik.setFieldValue("customAccountNumber", bankD.accountNumber);
+        formik.setFieldValue("customHolderName", bankD.holderName);
+        formik.setFieldValue("customIFSC", bankD.IFSC);
+        formik.setFieldValue("customBankName", bankD.bankName);
+        // setBankDetails({
+        //   bankId: bankId,
+        //   bankName: bankD.bankName,
+        //   IFSC: bankD.IFSC,
+        //   holderName: bankD.holderName,
+        //   accountNumber: bankD.accountNumber,
+        //   label: bankD.label,
+        // });
       } else {
         setBankDetails(false);
       }
@@ -350,85 +368,84 @@ export default function Invoices() {
 
   useEffect(() => {
     fetchClient();
-    fetchCountry();
     fetchAdmin();
   }, []);
   // });
 
   // add task
-  const addTask = async (task) => {
-    const randomFiveDigitNumber = Math.floor(10000 + Math.random() * 90000);
-    let taskPriority = ["Urgent", "High", "Normal", "Low"];
-    const randomPriority =
-      taskPriority[Math.floor(Math.random() * taskPriority.length)];
+  // const addTask = async (task) => {
+  //   const randomFiveDigitNumber = Math.floor(10000 + Math.random() * 90000);
+  //   let taskPriority = ["Urgent", "High", "Normal", "Low"];
+  //   const randomPriority =
+  //     taskPriority[Math.floor(Math.random() * taskPriority.length)];
 
-    let obj = {
-      projectId: task.projectId,
-      taskNo: randomFiveDigitNumber.toString(),
-      taskName: task.name,
-      hours: task.number,
-      taskPriority: randomPriority,
-      perHourCharge: task.pricePerHours,
-    };
+  //   let obj = {
+  //     projectId: task.projectId,
+  //     taskNo: randomFiveDigitNumber.toString(),
+  //     taskName: task.name,
+  //     hours: task.number,
+  //     taskPriority: randomPriority,
+  //     perHourCharge: task.pricePerHours,
+  //   };
 
-    // return task;
-    try {
-      const res = await apiCall({
-        url: APIS.TASK.ADD,
-        method: "post",
-        data: JSON.stringify(obj, null, 2),
-      });
-      if (res.data.success === true) {
-        setTaskList(res.data.data);
-        return res.data.data;
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+  //   // return task;
+  //   try {
+  //     const res = await apiCall({
+  //       url: APIS.TASK.ADD,
+  //       method: "post",
+  //       data: JSON.stringify(obj, null, 2),
+  //     });
+  //     if (res.data.success === true) {
+  //       setTaskList(res.data.data);
+  //       return res.data.data;
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //   }
+  // };
 
-  const compairTask = async (task) => {
-    const isIdMatch = taskList.some((item) => item._id === task._id);
-    if (isIdMatch) {
-      // Id match
-      let taskName = taskList.some(
-        (taskName) => taskName.taskName === task.name
-      );
-      let pricePerHours = taskList.some(
-        (pricePerHours) => pricePerHours.perHourCharge === task.pricePerHours
-      );
-      let hours = taskList.some((hours) => hours.hours === task.number);
-      if (taskName && pricePerHours && hours) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  };
+  // const compairTask = async (task) => {
+  //   const isIdMatch = taskList.some((item) => item._id === task._id);
+  //   if (isIdMatch) {
+  //     // Id match
+  //     let taskName = taskList.some(
+  //       (taskName) => taskName.taskName === task.name
+  //     );
+  //     let pricePerHours = taskList.some(
+  //       (pricePerHours) => pricePerHours.perHourCharge === task.pricePerHours
+  //     );
+  //     let hours = taskList.some((hours) => hours.hours === task.number);
+  //     if (taskName && pricePerHours && hours) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } else {
+  //     return false;
+  //   }
+  // };
 
   // update task
-  const updateTask = async (task) => {
-    let obj = {
-      taskName: task.name,
-      hours: task.number,
-      perHourCharge: task.pricePerHours,
-    };
-    try {
-      const res = await apiCall({
-        url: APIS.TASK.EDIT(task._id),
-        method: "patch",
-        data: JSON.stringify(obj, null, 2),
-      });
-      if (res.data.success === true) {
-        setTaskList(res.data.data);
-        return res.data.data;
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+  // const updateTask = async (task) => {
+  //   let obj = {
+  //     taskName: task.name,
+  //     hours: task.number,
+  //     perHourCharge: task.pricePerHours,
+  //   };
+  //   try {
+  //     const res = await apiCall({
+  //       url: APIS.TASK.EDIT(task._id),
+  //       method: "patch",
+  //       data: JSON.stringify(obj, null, 2),
+  //     });
+  //     if (res.data.success === true) {
+  //       setTaskList(res.data.data);
+  //       return res.data.data;
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //   }
+  // };
 
   const { id } = useParams();
   const [url, setUrl] = useState();
@@ -474,7 +491,7 @@ export default function Invoices() {
       />
       {/* niche no code mukvathi page text sav upper chhapay jay chhe */}
       {/* {selectedProjectId || "not selected"} */}
-      {selectedProjectId}
+      {/* {selectedProjectId} */}
 
       <Box
         component={Formik}
@@ -488,49 +505,53 @@ export default function Invoices() {
           pincode: adminList.pincode,
           mobileCode: adminList.mobileCode,
           mobileNumber: adminList.mobileNumber,
-          invoiceNumber: invoiceNO,
-          task: taskList
-            .filter((task) => personName.includes(task.taskName))
+          invoiceNumber: invoiceData?.invoiceNumber || invoiceNumber,
+          task: (invoiceData?.tasks || taskList)
+            // .filter((task) => personName.includes(task.taskName))
             .map((task) => ({
-              _id: task._id,
+              // _id: task._id,
               name: task.taskName,
               number: task.hours || "00.00",
-              pricePerHours: task.perHourCharge || "00.00",
-              amount: task.hours * task.perHourCharge,
+              pricePerHours: task.price_hours || "00.00",
+              amount: task.hours * task.price_hours,
             })),
-          clientAddress: selectedClient?.address || "",
-          total: "10",
-          projectDescription: projectDescription?.description || "",
-          customBankName: "",
-          customIFSC: "",
-          customHolderName: "",
-          customAccountNumber: "",
-          // to: Formik.values,
-          project: "",
+          clientAddress: invoiceData?.clientAddress,
+          total: invoiceData?.total || "10",
+          // projectDescription: projectDescription?.description || "",
+          selectBank: invoiceData?.selectBank || "",
+          customBankName: invoiceData?.bank.bankName || "",
+          customIFSC: invoiceData?.bank.IFSC || "",
+          customHolderName: invoiceData?.bank.holderName || "",
+          customAccountNumber: invoiceData?.bank.accountNumber || "",
+          to: invoiceData?.clientId || "",
+          // project: "",
           salesTax: invoiceData?.totals?.discountPer || 0,
-          invoiceDate: invoiceDATE,
-          invoiceDueDate: invoiceDUEDATE,
+          invoiceDate:
+            invoiceData?.invoiceDate || currentDate.toISOString().split("T")[0],
+          invoiceDueDate:
+            invoiceData?.invoiceDueDate ||
+            fifteenDaysAgo.toISOString().split("T")[0],
         }}
         onSubmit={async (values) => {
-          for (let i = 0; i < values.task.length; i++) {
-            let compairtask = await compairTask(values.task[i]);
-            if (!compairtask) {
-              if (!values.task[i]._id) {
-                console.log("insert call");
-                //   // API call
-                values.task[i].amount =
-                  values.task[i].number * values.task[i].pricePerHours;
-                values.task[i].projectId = projectDescription._id;
-                values.task[i].taskName = values.task[i].name;
+          // for (let i = 0; i < values.task.length; i++) {
+          //   let compairtask = await compairTask(values.task[i]);
+          //   if (!compairtask) {
+          //     if (!values.task[i]._id) {
+          //       console.log("insert call");
+          //       //   // API call
+          //       values.task[i].amount =
+          //         values.task[i].number * values.task[i].pricePerHours;
+          //       values.task[i].projectId = projectDescription._id;
+          //       values.task[i].taskName = values.task[i].name;
 
-                let addtask = await addTask(values.task[i]);
-                values.task[i]._id = addtask._id;
-              } else {
-                // update
-                let updatetask = await updateTask(values.task[i]);
-              }
-            }
-          }
+          //       let addtask = await addTask(values.task[i]);
+          //       values.task[i]._id = addtask._id;
+          //     } else {
+          //       // update
+          //       let updatetask = await updateTask(values.task[i]);
+          //     }
+          //   }
+          // }
 
           try {
             let tasks = values.task.map((tas) => {
@@ -541,7 +562,7 @@ export default function Invoices() {
                 amount: tas.amount || tas.pricePerHours * tas.number,
               };
             });
-            let taskId = values.task.filter((id) => id._id).map((id) => id._id);
+            // let taskId = values.task.filter((id) => id._id).map((id) => id._id);
             let obj = {
               from: {
                 address: values.address,
@@ -555,18 +576,18 @@ export default function Invoices() {
               userId: adminList._id,
               clientId: selectedClient?._id || invoiceData?.clientId,
               to: {
-                name: selectedClient?.name || invoiceData?.clientName,
+                name: selectedClient?.name || invoiceData?.to.name,
                 address: values.clientAddress || invoiceData?.to?.address,
               },
               invoiceNumber: values.invoiceNumber,
               invoiceDate: values.invoiceDate,
               invoiceDueDate: values.invoiceDueDate,
-              projectId: projectDescription._id,
-              project: {
-                name: projectDescription?.name,
-                description: values.projectDescription,
-              },
-              taskIds: taskId,
+              // projectId: projectDescription._id,
+              // project: {
+              //   name: projectDescription?.name,
+              //   description: values.projectDescription,
+              // },
+              // taskIds: taskId,
               tasks: tasks,
               totals: {
                 subTotal: `${getSubTotal(values.task)}`,
@@ -581,27 +602,27 @@ export default function Invoices() {
                 amountPaid: "",
                 balanceDue: "",
               },
+              selectBank: values.selectBank,
               bankId: bankDetails.bankId,
               bank: {
                 bankName: bankDetails.bankName || values.customBankName,
                 IFSC: bankDetails.IFSC || values.customIFSC,
                 holderName: bankDetails.holderName || values.customHolderName,
-                accountNumber: bankDetails.label || values.customeAccountNumber,
+                accountNumber: bankDetails.label || values.customAccountNumber,
               },
               note: values.note,
             };
             setInvoiceData(obj);
-            navigate(`/invoices/edit/${invoiceNO}/preview`);
+            navigate(`/invoices/edit/${values.invoiceNumber}/preview`);
           } catch (error) {
             let errorMessage = error.response.data.message;
             setSnack(errorMessage, "warning");
           }
         }}
+        validateOnChange
+        validateOnBlur
       >
         {({ values, ...formik }) => {
-          setInvoiceNO(values.invoiceNumber);
-          setInvoiceDATE(values.invoiceDate);
-          setInvoiceDUEDATE(values.invoiceDueDate);
           return (
             <>
               <Box sx={{ ml: { lg: sideBarWidth } }}>
@@ -831,7 +852,10 @@ export default function Invoices() {
                                 labelId="demo-simple-select-label"
                                 id="to"
                                 label="To"
-                                onChange={(e) => clientData(e.target.value)}
+                                onChange={(e) => {
+                                  formik.setFieldValue("to", e.target.value);
+                                  clientData(formik, e.target.value);
+                                }}
                                 sx={{ fontSize: "14px" }}
                                 defaultValue={invoiceData?.clientId}
                               >
@@ -897,11 +921,12 @@ export default function Invoices() {
                                   setOpen={setOpen}
                                 />
                               </Select>
-                              {Boolean(formik.errors.to) && (
-                                <FormHelperText error={true}>
-                                  {formik.errors.to}
-                                </FormHelperText>
-                              )}
+                              {Boolean(formik.errors.to) &&
+                                formik.touched.to && (
+                                  <FormHelperText error={true}>
+                                    {formik.errors.to || formik.touched.to}
+                                  </FormHelperText>
+                                )}
                             </FormControl>
                             {(selectedClient?.address ||
                               invoiceData?.to?.address) && (
@@ -963,30 +988,49 @@ export default function Invoices() {
                               }}
                             >
                               <CustomFormikField
-                                name={"invoiceNumber"}
+                                name="invoiceNumber"
                                 label="invoice No."
                                 disabled={edit ? true : false}
+                                onChange={(event) =>
+                                  formik.setFieldValue(
+                                    "invoiceNumber",
+                                    event.target.value
+                                  )
+                                }
                               />
                             </Box>
                             <CustomFormikField
-                              name={"invoiceDate"}
+                              name="invoiceDate"
                               label="Invoice Date"
                               type="date"
                               InputLabelProps={{
                                 shrink: true,
                               }}
                               defaultValue={"10/10/2023"}
+                              onChange={(event) =>
+                                formik.setFieldValue(
+                                  "invoiceDate",
+                                  event.target.value
+                                )
+                              }
                             />
                             <CustomFormikField
-                              name={"invoiceDueDate"}
+                              name="invoiceDueDate"
                               label="Invoice Due"
                               type="date"
                               InputLabelProps={{
                                 shrink: true,
                               }}
+                              onChange={(event) =>
+                                formik.setFieldValue(
+                                  "invoiceDueDate",
+                                  event.target.value
+                                )
+                              }
                             />
                           </Box>
                         </Box>
+                        {/* {(selectedClient || invoiceData?.clientId) && (
                         {/* {(selectedClient || invoiceData?.clientId) && (
                           <Box
                             sx={{
@@ -1029,9 +1073,15 @@ export default function Invoices() {
                                 labelId="demo-simple-select-label"
                                 id="project"
                                 label="Project"
-                                sx={{ fontSize: "14px" }}
-                                onChange={handleProjectChange}
-                                value={selectedProjectId}
+                                sx={{ fontSize: "12px" }}
+                                onChange={(e) => {
+                                  formik.setFieldValue(
+                                    "project",
+                                    e.target.value
+                                  );
+                                  handleProjectChange(formik, e);
+                                }}
+                                // value={selectedProjectId}
                               >
                                 {projectList.map((projectName) => (
                                   <MenuItem
@@ -1091,7 +1141,9 @@ export default function Invoices() {
                             )}
                           </Box>
                         )} */}
+                        )} */}
                         <Box sx={{ mt: 7, mb: 3.5 }}>
+                          {/* {selectedProjectId && (
                           {/* {selectedProjectId && (
                             <FormControl
                               fullWidth
@@ -1173,6 +1225,7 @@ export default function Invoices() {
                                 ))}
                               </Select>
                             </FormControl>
+                          )} */}
                           )} */}
                           <TableContainer
                             component={Paper}
@@ -1499,11 +1552,16 @@ export default function Invoices() {
                                   </InputLabel>
                                   <Select
                                     labelId="demo-simple-select-label"
-                                    id="select_Bank"
+                                    id="selectBank"
                                     label="Select Bank"
                                     sx={{ fontSize: "14px" }}
-                                    defaultValue={invoiceData?.bankId}
-                                    onChange={handleBankChange}
+                                    defaultValue={
+                                      invoiceData?.bankId ||
+                                      invoiceData?.selectBank
+                                    }
+                                    onChange={(e) =>
+                                      handleBankChange(formik, e)
+                                    }
                                   >
                                     {adminList.bank &&
                                       adminList.bank.map((bank) => (
@@ -1519,60 +1577,43 @@ export default function Invoices() {
                                       ))}
 
                                     <MenuItem
-                                      value={"Custom Add"}
-                                      onClick={() => setBankOpen(true)}
+                                      sx={{
+                                        textTransform: "capitalize",
+                                        display: "inline-flex",
+                                        textDecoration: "none",
+                                        color: "#2A4062",
+                                        width: "100%",
+                                      }}
+                                      value="customBank"
+                                      onClick={(e) => {
+                                        formik.setFieldValue(
+                                          "selectBank",
+                                          "customBank"
+                                        );
+                                        console.log(
+                                          e.target.value,
+                                          "selectBank"
+                                        );
+                                        setBankOpen(true);
+                                      }}
                                     >
-                                      <Box sx={{ display: "flex" }}>
-                                        <Button
-                                          disableRipple
-                                          sx={{
-                                            maxHeight: "36px",
-                                            position: "relative",
-                                            px: 2.5,
-                                            py: 1,
-                                            bgcolor: "text.primary",
-                                            border: "1px solid",
-                                            borderColor: "text.primary",
-                                            color: "white",
-                                            lineHeight: 1,
-                                            borderRadius: 2.5,
-                                            overflow: "hidden",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            "&:before": {
-                                              content: "''",
-                                              height: 0,
-                                              width: "10rem",
-                                              position: "absolute",
-                                              top: "50%",
-                                              left: "50%",
-                                              zIndex: "0",
-                                              bgcolor: "white",
-                                              transform:
-                                                "rotate(-45deg) translate(-50%, -50%)",
-                                              transformOrigin: "0% 0%",
-                                              transition:
-                                                "all 0.4s ease-in-out",
-                                            },
-                                            "&:hover": {
-                                              color: "text.primary",
-                                              bgcolor: "text.primary",
-                                              "&:before": { height: "10rem" },
-                                            },
-                                          }}
-                                        >
-                                          <span
-                                            style={{ position: "relative" }}
-                                          >
-                                            Add Client
-                                          </span>
-                                        </Button>
-                                      </Box>
+                                      {/* <Link
+                                        href="#"
+                                        onClick={() => setBankOpen(true)}
+                                        style={{
+                                          display: "inline-flex",
+                                          textDecoration: "none",
+                                          color: "#2A4062",
+                                          width: "100%",
+                                        }}
+                                      > */}
+                                      Custom Add
+                                      {/* </Link> */}
                                     </MenuItem>
                                   </Select>
-                                  {Boolean(formik.errors.select_Bank) && (
+                                  {Boolean(formik.errors.selectBank) && (
                                     <FormHelperText error={true}>
-                                      {formik.errors.select_Bank}
+                                      {formik.errors.selectBank}
                                     </FormHelperText>
                                   )}
                                 </FormControl>
@@ -1587,15 +1628,19 @@ export default function Invoices() {
                                         },
                                       }}
                                     />
-                                    <CustomFormikField
-                                      name="customIFSC"
-                                      label="IFSC"
-                                      style={{
+                                    <Box
+                                      sx={{
                                         "& input": {
                                           textTransform: "uppercase",
                                         },
                                       }}
-                                    />
+                                    >
+                                      <CustomFormikField
+                                        name="customIFSC"
+                                        label="IFSC"
+                                        inputProps={{ maxLength: 11 }}
+                                      />
+                                    </Box>
                                     <CustomFormikField
                                       name="customHolderName"
                                       label="A/c Holder Name"
@@ -1606,8 +1651,9 @@ export default function Invoices() {
                                       }}
                                     />
                                     <CustomFormikField
-                                      name="customeAccountNumber"
+                                      name="customAccountNumber"
                                       label="A/c Number"
+                                      inputProps={{ maxLength: 14 }}
                                     />
                                   </>
                                 )}
@@ -1960,7 +2006,7 @@ export default function Invoices() {
                 identify={2}
               />
               {/* project information edit */}
-              <InvoiceInputForm
+              {/* <InvoiceInputForm
                 open={projectOpen}
                 setOpen={setProjectOpen}
                 val={[
@@ -1976,7 +2022,7 @@ export default function Invoices() {
                 label={"Edit Project Information"}
                 uniqId={projectDescription?._id}
                 identify={3}
-              />
+              /> */}
               {/* invoice information edit */}
               <InvoiceInputForm
                 open={invoiceOpen}
