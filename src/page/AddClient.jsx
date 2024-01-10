@@ -43,11 +43,19 @@ export default function AddClient() {
       .trim(),
     mobileNumber: Yup.string()
       .required("Mobile number is required.")
-      .trim()
-      .matches(/^[0-9]+$/, "Mobile number must only contain numeric digits"),
-    mobileCode: Yup.string().required("Mobile code is required.").trim(),
+      .matches(/^\+?[0-9]{10}$/, {
+        message: "Mobile number should consist of exactly 10 numerical digits.",
+      })
+      .max(12, "Mobile number should not exceed 12 characters.")
+      .min(10, "Mobile number should be at least 10 characters."),
+    mobileCode: Yup.string()
+      .required("Mobile Code is required.")
+      .matches(/^\+?[0-9]{1,4}$/, {
+        message: "Mobile code should consist of 2 to 4 numerical digits.",
+      }),
     websiteURL: Yup.string().url("Invalid URL"),
   });
+
   const formik = useFormik({
     validationSchema: schema,
     initialValues: {
@@ -250,7 +258,7 @@ export default function AddClient() {
                     helperText={formik.touched.email && formik.errors.email}
                   />
 
-                  <Box
+                  {/* <Box
                     sx={{
                       display: "flex",
                       "&:hover fieldset": {
@@ -387,7 +395,55 @@ export default function AddClient() {
                         formik.errors.mobileNumber
                       }
                     />
-                  </Box>
+                  </Box> */}
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileCode"
+                    label="Mobile Code"
+                    autoComplete="off"
+                    defaultValue={clientList?.mobileCode}
+                    InputProps={
+                      location.pathname.includes("/view/") && { readOnly: true }
+                    }
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": { py: 1.5 },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.mobileCode}
+                    error={
+                      formik.touched.mobileCode &&
+                      Boolean(formik.errors.mobileCode)
+                    }
+                    helperText={
+                      formik.touched.mobileCode && formik.errors.mobileCode
+                    }
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileNumber"
+                    label="Mobile Number"
+                    autoComplete="off"
+                    defaultValue={clientList?.mobileNumber}
+                    InputProps={
+                      location.pathname.includes("/view/") && { readOnly: true }
+                    }
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": { py: 1.5 },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.mobileNumber}
+                    error={
+                      formik.touched.mobileNumber &&
+                      Boolean(formik.errors.mobileNumber)
+                    }
+                    helperText={
+                      formik.touched.mobileNumber && formik.errors.mobileNumber
+                    }
+                  />
 
                   <TextField
                     fullWidth
