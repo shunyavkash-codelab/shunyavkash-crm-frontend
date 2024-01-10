@@ -220,7 +220,7 @@ function UserLeave() {
             >
               <TableHead>
                 <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                  <TableCell>User Name</TableCell>
+                  <TableCell>Member Name</TableCell>
                   <TableCell>Leave Type</TableCell>
                   <TableCell>Reason</TableCell>
                   <TableCell>Start Date</TableCell>

@@ -228,11 +228,10 @@ export default function SignIn() {
                   onMouseDown={handleMouseDownPassword}
                   sx={{
                     position: "absolute",
-                    top: "50%",
+                    top: "9px",
                     right: "16px",
                     opacity: "50%",
                     cursor: "pointer",
-                    transform: "translateY(-50%)",
                     display: "inline-flex",
                     "& svg": { fontSize: "20px" },
                   }}
