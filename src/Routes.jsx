@@ -28,6 +28,7 @@ import Leaves from "./page/Leaves";
 import MyProfile from "./page/MyProfile";
 import AccountManage from "./page/AccountManage";
 import AccountAdd from "./page/AccountAdd";
+import AddMember from "./page/AddMember";
 
 const routes = createBrowserRouter([
   { path: "/signup", Component: SignUp },
@@ -63,6 +64,7 @@ const routes = createBrowserRouter([
   { path: "/my-profile/:id", Component: MyProfile },
   { path: "/account-management", Component: AccountManage },
   { path: "/account-add", Component: AccountAdd },
+  { path: "/members/add", Component: AddMember },
 ]);
 export default function Routes() {
   return (
