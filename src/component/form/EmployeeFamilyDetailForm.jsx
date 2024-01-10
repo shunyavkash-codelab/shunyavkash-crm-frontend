@@ -10,6 +10,32 @@ import { useFormik } from "formik";
 import { APIS } from "../../api/apiList";
 import useApi from "../../hooks/useApi.js";
 import { useSnack } from "../../hooks/store/useSnack.js";
+import * as Yup from "yup";
+
+// yup data validator schhema
+const schema = Yup.object({
+  fatherNumber: Yup.string()
+    .required("Father number is required.")
+    .matches(/^\+?[0-9]{10}$/, {
+      message: "Father number should consist of exactly 10 numerical digits.",
+    })
+    .max(12, "Father number should not exceed 12 characters.")
+    .min(10, "Father number should be at least 10 characters."),
+  fatherName: Yup.string()
+    .matches(
+      /^[a-zA-Z\s']+$/,
+      "Father name should only contain letters, spaces, and apostrophes."
+    )
+    .max(24, "Father name should not exceed 24 characters.")
+    .required("Father name is required."),
+  motherName: Yup.string()
+    .matches(
+      /^[a-zA-Z\s']+$/,
+      "Mother name should only contain letters, spaces, and apostrophes."
+    )
+    .max(24, "Mother name should not exceed 24 characters.")
+    .required("Mother name is required."),
+});
 
 export default function EmployeeFamilyDetailForm({
   data,
@@ -21,6 +47,7 @@ export default function EmployeeFamilyDetailForm({
   const { setSnack } = useSnack();
 
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       fatherName: data.fatherName,
       motherName: data.motherName,
@@ -102,16 +129,6 @@ export default function EmployeeFamilyDetailForm({
             onChange={formik.handleChange}
             formik={formik}
           />
-          {/* <OutlinedInput
-          placeholder="Father's Number"
-          type="tel"
-          sx={{ fontSize: 14 }}
-          startAdornment={
-            <InputAdornment position="start">
-              <PhoneOutlinedIcon />
-            </InputAdornment>
-          }
-        /> */}
         </FormControl>
       </Grid>
       <Grid

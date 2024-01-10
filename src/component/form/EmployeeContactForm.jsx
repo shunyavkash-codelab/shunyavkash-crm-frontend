@@ -10,6 +10,36 @@ import { useFormik } from "formik";
 import { APIS } from "../../api/apiList";
 import useApi from "../../hooks/useApi.js";
 import { useSnack } from "../../hooks/store/useSnack.js";
+import * as Yup from "yup";
+
+// yup data validator schhema
+const schema = Yup.object({
+  mobileNumber: Yup.string()
+    .required("Mobile number is required.")
+    .matches(/^\+?[0-9]{10}$/, {
+      message: "Mobile number should consist of exactly 10 numerical digits.",
+    })
+    .max(12, "Mobile number should not exceed 12 characters.")
+    .min(10, "Mobile number should be at least 10 characters."),
+  whatsappNumber: Yup.string()
+    .required("Whatsapp number is required.")
+    .matches(/^\+?[0-9]{10}$/, {
+      message: "Whatsapp number should consist of exactly 10 numerical digits.",
+    })
+    .max(12, "Whatsapp number should not exceed 12 characters.")
+    .min(10, "Whatsapp number should be at least 10 characters."),
+  personalEmail: Yup.string()
+    .email("Field should contain a valid e-mail")
+    .max(255)
+    .required("Email is required.")
+    .trim(),
+  pincode: Yup.string()
+    .matches(/^[0-9]{6}$/, {
+      message: "Pincode should consist of exactly 6 numerical digits.",
+    })
+    .max(6, "Pincode should not exceed 12 characters.")
+    .min(6, "Pincode should be at least 10 characters."),
+});
 
 export default function EmployeeContactForm({
   data,
@@ -21,6 +51,7 @@ export default function EmployeeContactForm({
   const { setSnack } = useSnack();
 
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
       mobileNumber: data.mobileNumber,
       whatsappNumber: data.whatsappNumber,

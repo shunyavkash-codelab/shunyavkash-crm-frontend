@@ -34,16 +34,16 @@ const schema = Yup.object({
       "Name should only contain alphabetical characters, spaces, hyphens, and apostrophes"
     ),
   hobbies: Yup.string()
-    .required("Name is required.")
+    .required("Hobbies is required.")
     .matches(
       /^[a-zA-Z\s,]+$/,
       "Hobbies should only contain alphabetical characters and commas"
     ),
   phobia: Yup.string()
-    .required("Name is required.")
+    .required("Phobia is required.")
     .matches(
       /^[a-zA-Z\s,]+$/,
-      "Hobbies should only contain alphabetical characters and commas"
+      "Phobia should only contain alphabetical characters and commas"
     ),
 });
 

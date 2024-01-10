@@ -104,11 +104,11 @@ export default function EmployeeDetailsForm({
           <DemoContainer components={["DatePicker"]}>
             <MobileDatePicker
               label="Start Date"
-              slotProps={{
-                textField: {
-                  helperText: "DD/MM/YYYY",
-                },
-              }}
+              // slotProps={{
+              //   textField: {
+              //     helperText: "DD/MM/YYYY",
+              //   },
+              // }}
               format="DD/MM/YYYY"
               value={dayjs(formik.values.dateOfJoining)}
               // value={dayjs(date, { format: "DD/MM/YYYY" }).toDate()}

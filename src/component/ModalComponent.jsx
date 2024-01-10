@@ -7,6 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 export default function ModalComponent({ open, setOpen, ...props }) {
   const handleClose = () => setOpen(false);
   const modalSize = props.size;
+  const maxWidth = { xs: "100%", sm: 500, md: 600 };
   return (
     <>
       <Modal
@@ -24,13 +25,12 @@ export default function ModalComponent({ open, setOpen, ...props }) {
               left: { xs: 0, sm: "50%" },
               transform: { xs: "translate(0)", sm: "translate(-50%, -50%)" },
               width: "100%",
-              maxWidth: { xs: "100%", sm: 500, md: 600 },
               height: { xs: "100vh", sm: "unset" },
               bgcolor: "background.paper",
               borderRadius: { xs: 0, sm: 2 },
               boxShadow: 24,
               p: 3,
-              maxWidth: modalSize === "large" ? "800px" : "",
+              maxWidth: modalSize === "large" ? "800px" : maxWidth,
             }}
           >
             <Box
