@@ -1573,50 +1573,7 @@ export default function Invoices() {
                                           {bank.bankName}
                                         </MenuItem>
                                       ))}
-                                    <Box sx={{ display: "flex" }}>
-                                      <Button
-                                        disableRipple
-                                        sx={{
-                                          maxHeight: "36px",
-                                          position: "relative",
-                                          px: 2.5,
-                                          py: 1,
-                                          bgcolor: "text.primary",
-                                          border: "1px solid",
-                                          borderColor: "text.primary",
-                                          color: "white",
-                                          lineHeight: 1,
-                                          borderRadius: 2.5,
-                                          overflow: "hidden",
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          "&:before": {
-                                            content: "''",
-                                            height: 0,
-                                            width: "10rem",
-                                            position: "absolute",
-                                            top: "50%",
-                                            left: "50%",
-                                            zIndex: "0",
-                                            bgcolor: "white",
-                                            transform:
-                                              "rotate(-45deg) translate(-50%, -50%)",
-                                            transformOrigin: "0% 0%",
-                                            transition: "all 0.4s ease-in-out",
-                                          },
-                                          "&:hover": {
-                                            color: "text.primary",
-                                            bgcolor: "text.primary",
-                                            "&:before": { height: "10rem" },
-                                          },
-                                        }}
-                                      >
-                                        <span style={{ position: "relative" }}>
-                                          Add Bank
-                                        </span>
-                                      </Button>
-                                    </Box>
-                                    {/* <MenuItem
+                                    <MenuItem
                                       sx={{
                                         textTransform: "capitalize",
                                         display: "inline-flex",
@@ -1636,7 +1593,54 @@ export default function Invoices() {
                                         );
                                         setBankOpen(true);
                                       }}
-                                    ></MenuItem> */}
+                                    >
+                                      <Box sx={{ display: "flex" }}>
+                                        <Button
+                                          disableRipple
+                                          sx={{
+                                            maxHeight: "36px",
+                                            position: "relative",
+                                            px: 2.5,
+                                            py: 1,
+                                            bgcolor: "text.primary",
+                                            border: "1px solid",
+                                            borderColor: "text.primary",
+                                            color: "white",
+                                            lineHeight: 1,
+                                            borderRadius: 2.5,
+                                            overflow: "hidden",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            "&:before": {
+                                              content: "''",
+                                              height: 0,
+                                              width: "10rem",
+                                              position: "absolute",
+                                              top: "50%",
+                                              left: "50%",
+                                              zIndex: "0",
+                                              bgcolor: "white",
+                                              transform:
+                                                "rotate(-45deg) translate(-50%, -50%)",
+                                              transformOrigin: "0% 0%",
+                                              transition:
+                                                "all 0.4s ease-in-out",
+                                            },
+                                            "&:hover": {
+                                              color: "text.primary",
+                                              bgcolor: "text.primary",
+                                              "&:before": { height: "10rem" },
+                                            },
+                                          }}
+                                        >
+                                          <span
+                                            style={{ position: "relative" }}
+                                          >
+                                            Add Bank
+                                          </span>
+                                        </Button>
+                                      </Box>
+                                    </MenuItem>
                                   </Select>
                                   {Boolean(formik.errors.selectBank) && (
                                     <FormHelperText error={true}>
