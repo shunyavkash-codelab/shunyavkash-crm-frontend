@@ -193,7 +193,7 @@ export default function Leaves() {
 
           <Box sx={{ mt: 4 }}>
             <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
-              employees Leave Requests
+              Members Leave Requests
             </Typography>
           </Box>
 
@@ -222,7 +222,7 @@ export default function Leaves() {
               >
                 <TableHead>
                   <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                    <TableCell>User Name</TableCell>
+                    <TableCell>Member Name</TableCell>
                     <TableCell>Leave Type</TableCell>
                     <TableCell>Reason</TableCell>
                     <TableCell>Start Date</TableCell>

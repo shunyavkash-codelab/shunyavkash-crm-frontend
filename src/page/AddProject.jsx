@@ -483,8 +483,8 @@ export default function AddProject() {
                             label="Pay Period"
                             sx={{
                               fontSize: "14px",
-                              "&>label": { top: "4px" },
                               "& input": { py: 1.5 },
+                              "&>label": { top: "4px" },
                             }}
                             {...field}
                             defaultValue={projectData?.payPeriod}
@@ -773,7 +773,7 @@ export default function AddProject() {
                       },
                     }}
                   >
-                    <span style={{ position: "relative" }}>Submit</span>
+                    <span style={{ position: "relative" }}>Create</span>
                   </Button>
                   <Button
                     disableRipple

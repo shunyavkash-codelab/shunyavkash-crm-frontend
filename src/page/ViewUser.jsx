@@ -263,7 +263,7 @@ export default function User() {
                 </Box>
               )}
 
-              {userList?.referenceName && (
+              {userList?.reference && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                   <img
                     className="icon"
@@ -277,7 +277,7 @@ export default function User() {
                       textTransform: "capitalize",
                     }}
                   >
-                    {userList?.referenceName}
+                    {userList?.reference}
                   </Typography>
                 </Box>
               )}

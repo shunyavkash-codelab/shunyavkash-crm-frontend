@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  // useEffect,
+  useState,
+} from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import {
@@ -12,7 +15,7 @@ import {
   TextField,
   Typography,
   Autocomplete,
-  InputAdornment,
+  // InputAdornment,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import { useSnack } from "../hooks/store/useSnack";
@@ -22,17 +25,26 @@ import { Field, FormikProvider, useFormik } from "formik";
 import { APIS } from "../api/apiList";
 import FileUploadButton from "../component/FileUploadButton";
 import * as Yup from "yup";
+import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-export default function AddUser() {
+export default function AddMember() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [userList, setUserList] = useState([]);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const [
+    // userList,
+    setUserList,
+  ] = useState([]);
   const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
   const navigate = useNavigate();
-  const [countryList, setCountryList] = useState([]);
-  const [country, setCountry] = useState(null);
+  // const [countryList, setCountryList] = useState([]);
+  // const [country, setCountry] = useState(null);
 
   // yup data validator schhema
   const schema = Yup.object({
@@ -92,42 +104,50 @@ export default function AddUser() {
     },
   });
 
-  const fetchUsers = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.MANAGER.ALLUSER,
-        method: "get",
-      });
-      if (res.data.success === true) {
-        console.log(res.data, "res.data");
-        setSnack(res.data.message);
-        setUserList(res.data.data);
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+  // const fetchUsers = async () => {
+  //   try {
+  //     const res = await apiCall({
+  //       url: APIS.MANAGER.ALLUSER,
+  //       method: "get",
+  //     });
+  //     if (res.data.success === true) {
+  //       console.log(res.data, "res.data");
+  //       setSnack(res.data.message);
+  //       setUserList(res.data.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //   }
+  // };
 
   // get country list
-  const fetchCountry = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.COUNTRY.GET,
-        method: "get",
-      });
-      if (res.data.success === true) {
-        setCountryList(res.data.data);
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+  // const fetchCountry = async () => {
+  //   try {
+  //     const res = await apiCall({
+  //       url: APIS.COUNTRY.GET,
+  //       method: "get",
+  //     });
+  //     if (res.data.success === true) {
+  //       setCountryList(res.data.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchUsers();
-    fetchCountry();
-  }, []);
+  // useEffect(() => {
+  //   fetchUsers();
+  //   fetchCountry();
+  // }, []);
   // });
+
+  const [reference, setRefrence] = useState([
+    "The Shawshank Redemption",
+    "The Godfather",
+    "The Godfather: Part II",
+    "The Dark Knight",
+    "Inception",
+  ]);
 
   return (
     <>
@@ -151,10 +171,10 @@ export default function AddUser() {
               variant="h5"
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
-              Add manager
+              Add Member
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/users"} style={{ textDecoration: "none" }}>
+              <Link to={"./add"} style={{ textDecoration: "none" }}>
                 <Typography
                   variant="subtitle2"
                   sx={{
@@ -166,14 +186,14 @@ export default function AddUser() {
                     },
                   }}
                 >
-                  Manager /
+                  Member /
                 </Typography>
               </Link>
               <Typography
                 variant="subtitle2"
                 sx={{ opacity: 0.4, textTransform: "capitalize" }}
               >
-                Add Manager
+                Add Member
               </Typography>
             </Box>
           </Box>
@@ -238,7 +258,7 @@ export default function AddUser() {
                   helperText={formik.touched.email && formik.errors.email}
                 />
 
-                <Box
+                {/* <Box
                   sx={{
                     display: "flex",
                     "&:hover fieldset": {
@@ -260,7 +280,7 @@ export default function AddUser() {
                         borderRight: 0,
                       },
                       "&>div>div": {
-                        p: "9px 24px 10px 6px!important",
+                        p: "0px 24px 0px 6px!important",
                         bgcolor: "#f4f4f4",
                       },
                       "& input+div": {
@@ -270,54 +290,20 @@ export default function AddUser() {
                     value={formik.values.mobileCode}
                     onChange={(event, newValue) => {
                       formik.setFieldValue("mobileCode", newValue.phone); // Update Formik field value
-                      setCountry(newValue);
+                      // setCountry(newValue);
                     }}
                     name="mobileCode"
-                    options={countryList}
+                    // options={countryList}
                     autoHighlight
                     getOptionLabel={(option) => option.label}
-                    renderOption={(props, option) => (
-                      <Box
-                        component="li"
-                        sx={{
-                          "& > img": { mr: 0.5, flexShrink: 0 },
-                          fontSize: { xs: "12px", sm: "14px" },
-                        }}
-                        {...props}
-                      >
-                        <img
-                          loading="lazy"
-                          width="18"
-                          height="12"
-                          src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                          alt=""
-                        />
-                        +{option.phone}
-                      </Box>
-                    )}
                     renderInput={(params) => {
                       return (
                         <TextField
-                          {...params}
-                          InputProps={{
-                            ...params.InputProps,
-                            startAdornment: country ? (
-                              <InputAdornment
-                                position="start"
-                                sx={{
-                                  marginLeft: "10px",
-                                  marginRight: 0,
-                                }}
-                              >
-                                <img
-                                  loading="lazy"
-                                  width="20"
-                                  src={`https://flagcdn.com/w20/${country.code.toLowerCase()}.png`}
-                                  srcSet={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png 2x`}
-                                  alt=""
-                                />
-                              </InputAdornment>
-                            ) : null,
+                          placeholder="+91"
+                          sx={{
+                            "& input,&>div": { fontSize: "14px" },
+                            "&>label": { top: "4px" },
+                            "& input": { textTransform: "capitalize", py: 1.5 },
                           }}
                         />
                       );
@@ -329,7 +315,7 @@ export default function AddUser() {
                     id="mobileNumber"
                     type="tel"
                     autoComplete="off"
-                    placeholder="Number"
+                    placeholder="Mobile Number"
                     inputProps={{ maxLength: 10 }}
                     sx={{
                       "& input,&>div": { fontSize: "14px" },
@@ -350,14 +336,58 @@ export default function AddUser() {
                       formik.touched.mobileNumber && formik.errors.mobileNumber
                     }
                   />
-                </Box>
+                </Box> */}
+
+                <Stack
+                  direction="row"
+                  sx={{
+                    "&:hover fieldset": {
+                      borderColor: "text.primary",
+                    },
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileCode"
+                    autoComplete="off"
+                    defaultValue="+91"
+                    sx={{
+                      maxWidth: "75px",
+                      mr: "-1px",
+                      bgcolor: "#f4f4f4",
+                      borderRadius: "6px 0 0 6px",
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": { py: 1.5, textAlign: "center" },
+                      "& fieldset": {
+                        borderRight: 0,
+                        borderRadius: "6px 0 0 6px",
+                      },
+                    }}
+                  />
+
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileNumber"
+                    placeholder="Mobile Number"
+                    autoComplete="off"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": { py: 1.5 },
+                      "& fieldset": {
+                        borderLeft: 0,
+                        borderRadius: "0 6px 6px 0",
+                      },
+                    }}
+                  />
+                </Stack>
 
                 <FormControl
                   fullWidth
                   size="small"
                   sx={{
-                    "&>label": { fontSize: "14px" },
-                    "&>label": { top: "4px" },
+                    "&>label": { fontSize: "14px", top: "4px" },
                     "&>div>div": { py: 1.5 },
                   }}
                   error={formik.touched.gender && Boolean(formik.errors.gender)}
@@ -403,84 +433,228 @@ export default function AddUser() {
                   />
                 </FormControl>
 
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="companyName"
-                  label="Company Name"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                    "&>label": { top: "4px" },
-                    "& input": { py: 1.5 },
-                  }}
-                  onChange={formik.handleChange}
-                  value={formik.values.companyName}
-                  error={
-                    formik.touched.companyName &&
-                    Boolean(formik.errors.companyName)
-                  }
-                  helperText={
-                    formik.touched.companyName && formik.errors.companyName
-                  }
-                />
-
                 <FormControl
                   fullWidth
                   size="small"
                   sx={{
-                    "&>label": { fontSize: "14px" },
-                    "&>label": { top: "4px" },
+                    "&>label": { fontSize: "14px", top: "4px" },
                     "&>div>div": { py: 1.5 },
                   }}
                 >
                   <InputLabel
                     sx={{ textTransform: "capitalize" }}
                     id="demo-simple-select-label"
-                    error={
-                      formik.touched.reference &&
-                      Boolean(formik.errors.reference)
-                    }
-                    helperText={
-                      formik.touched.reference && formik.errors.reference
-                    }
                   >
-                    Reference
+                    Member Type
                   </InputLabel>
-                  <Field
-                    name="file"
-                    render={({ field, form }) => (
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="reference"
-                        label="Reference"
-                        sx={{ fontSize: "14px" }}
-                        {...field}
-                        onChange={(event) => {
-                          form.setFieldValue("reference", event.target.value);
-                        }}
-                        error={
-                          formik.touched.reference &&
-                          Boolean(formik.errors.reference)
-                        }
-                        helperText={
-                          formik.touched.reference && formik.errors.reference
-                        }
-                      >
-                        {userList.map((item) => (
-                          <MenuItem
-                            sx={{ textTransform: "capitalize" }}
-                            value={item.name}
-                          >
-                            {item.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    )}
-                  />
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="member-type"
+                    label="Member Type"
+                    sx={{ fontSize: "14px" }}
+                  >
+                    <MenuItem
+                      sx={{ textTransform: "capitalize" }}
+                      value="manager"
+                    >
+                      Manager
+                    </MenuItem>
+                    <MenuItem
+                      sx={{ textTransform: "capitalize" }}
+                      value="employee"
+                    >
+                      Employee
+                    </MenuItem>
+                  </Select>
                 </FormControl>
 
-                <TextField
+                {/* <FormControl
+                    fullWidth
+                    size="small"
+                    sx={{
+                      textTransform: "capitalize",
+                      "&>label": { fontSize: "14px", top: "4px" },
+                      "&>div>div": { py: 1.5 },
+                    }}
+                  >
+                    <InputLabel id="demo-simple-select-label">
+                      Reference
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="reference"
+                      label="Reference"
+                      sx={{
+                        fontSize: "14px",
+                      }}
+                    >
+                      <MenuItem sx={{ textTransform: "capitalize" }} value="deep">
+                        deep
+                      </MenuItem>
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value="dipali"
+                      >
+                        dipali
+                      </MenuItem>
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value="sujit"
+                      >
+                        Sujit
+                      </MenuItem>
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value="sujit"
+                      >
+                        <Box component="form" sx={{ width: "100%" }}>
+                          <TextField
+                            fullWidth
+                            size="small"
+                            id="addReference"
+                            placeholder="Add Reference"
+                            autoComplete="off"
+                            sx={{
+                              "&>label,& input,&>div": { fontSize: "14px" },
+                              "&>label": { top: "4px" },
+                              "& fieldset": {
+                                border: "0!important",
+                              },
+                              "& input": { p: 0 },
+                            }}
+                          />
+                        </Box>
+                      </MenuItem>
+                    </Select>
+                  </FormControl> */}
+
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={reference}
+                  sx={{
+                    fontSize: "14px!important",
+                    "& .MuiAutocomplete-clearIndicator": {
+                      display: "none",
+                    },
+                  }}
+                  renderOption={(props, option) => (
+                    <Box
+                      component="li"
+                      sx={{
+                        "&": { fontSize: "14px", textTransform: "capitalize" },
+                      }}
+                      {...props}
+                    >
+                      {option}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      // focused
+                      fullWidth
+                      autoComplete="off"
+                      label="Reference"
+                      className="reference-field"
+                      {...params}
+                      // onKeyUp={(e) => {
+                      //   if (e.key === "Enter") {
+                      //     console.log(e);
+                      //   }
+                      // }}
+                      onKeyDown={(e) => {
+                        let value = e.target.value;
+                        if (!value || reference.includes(value)) {
+                          return;
+                        }
+                        if (e.key === "Enter") {
+                          console.log(e);
+                          e.preventDefault();
+                          setRefrence((prevRef) => [...prevRef, value]);
+                        }
+                      }}
+                      sx={{
+                        "& input,&>div,&>label": { fontSize: "14px" },
+                        "&>label": { lineHeight: 1 },
+                        "&>div": { height: "44px", pl: "12px!important" },
+                        "& input": {
+                          textTransform: "capitalize",
+                          p: "0!important",
+                        },
+                      }}
+                    />
+                  )}
+                />
+
+                <Box sx={{ position: "relative" }}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="password"
+                    label="Password"
+                    autoComplete="off"
+                    type={showPassword ? "text" : "password"}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": {
+                        textTransform: "capitalize",
+                        py: 1.5,
+                        pr: 5,
+                      },
+                    }}
+                  />
+                  <Box
+                    onClick={handleClickShowPassword}
+                    sx={{
+                      position: "absolute",
+                      top: "13px",
+                      right: "16px",
+                      opacity: "50%",
+                      cursor: "pointer",
+                      display: "inline-flex",
+                      "& svg": { fontSize: "20px" },
+                    }}
+                  >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </Box>
+                </Box>
+
+                <Box sx={{ position: "relative" }}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="confirmPassword"
+                    label="Confirm Password"
+                    autoComplete="off"
+                    type={showPassword ? "text" : "password"}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": {
+                        textTransform: "capitalize",
+                        py: 1.5,
+                        pr: 5,
+                      },
+                    }}
+                  />
+                  <Box
+                    onClick={handleClickShowPassword}
+                    sx={{
+                      position: "absolute",
+                      top: "13px",
+                      right: "16px",
+                      opacity: "50%",
+                      cursor: "pointer",
+                      display: "inline-flex",
+                      "& svg": { fontSize: "20px" },
+                    }}
+                  >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </Box>
+                </Box>
+
+                {/* <TextField
                   fullWidth
                   size="small"
                   id="websiteURL"
@@ -494,9 +668,24 @@ export default function AddUser() {
                   }}
                   onChange={formik.handleChange}
                   value={formik.values.websiteURL}
-                />
+                /> */}
+
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ lineHeight: 1, mb: 1.25 }}
+                  >
+                    Profile Image
+                  </Typography>
+                  <FileUploadButton
+                    formik={formik}
+                    id={"profile_img"}
+                    label={"Profile Image"}
+                    value={""}
+                  />
+                </Box>
               </Box>
-              <Box
+              {/* <Box
                 sx={{
                   mt: 2.5,
                   "& fieldset": {
@@ -525,7 +714,6 @@ export default function AddUser() {
                     value={""}
                   />
                 </Box>
-
                 <Box sx={{ gridColumn: { md: "span 1" } }}>
                   <Typography
                     variant="subtitle1"
@@ -538,8 +726,7 @@ export default function AddUser() {
                     id={"companyLogo"}
                     label={"Company Logo"}
                   />
-                </Box>
-
+                </Box>{" "}
                 <Box sx={{ gridColumn: { md: "span 2", xxl: "span 1" } }}>
                   <Typography
                     variant="subtitle1"
@@ -553,7 +740,7 @@ export default function AddUser() {
                     label={"Signature"}
                   />
                 </Box>
-              </Box>
+              </Box> */}
               <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
                 <Button
                   disableRipple
@@ -624,7 +811,7 @@ export default function AddUser() {
                       "&:before": { height: "10rem" },
                     },
                   }}
-                  onClick={() => navigate("/users")}
+                  onClick={() => navigate("/add")}
                 >
                   <span style={{ position: "relative" }}>Discard</span>
                 </Button>

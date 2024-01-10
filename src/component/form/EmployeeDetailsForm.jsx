@@ -3,22 +3,46 @@ import { Button, Grid } from "@mui/material";
 import ThemeInput from "./ThemeInput";
 
 // Icons
-import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
-import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import ThemeSelect from "./ThemeSelect";
 import { useFormik } from "formik";
 import { APIS } from "../../api/apiList";
 import useApi from "../../hooks/useApi.js";
 import { useSnack } from "../../hooks/store/useSnack.js";
-import { useParams } from "react-router-dom";
+import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo/DemoContainer.js";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import * as Yup from "yup";
+
+// yup data validator schhema
+const schema = Yup.object({
+  employeeId: Yup.string()
+    .required("EmployeeId is required.")
+    .matches(
+      /^[0-9]+$/,
+      "Employee ID should consist only of numerical digits."
+    ),
+  email: Yup.string()
+    .email("Field should contain a valid e-mail")
+    .max(255)
+    .required("Email is required.")
+    .trim(),
+
+  designation: Yup.string()
+    .required("Designation is required")
+    .matches(
+      /^[a-zA-Z]+$/,
+      "Designation should only contain alphabetical characters"
+    ),
+  role: Yup.string().required("Role is required."),
+});
 
 export default function EmployeeDetailsForm({
   data,
   uniqId,
-  open,
   setOpen,
   onSuccess = () => {},
 }) {
@@ -26,16 +50,15 @@ export default function EmployeeDetailsForm({
   const { setSnack } = useSnack();
 
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
-      joinDate: data.dateOfJoining,
+      dateOfJoining: dayjs(data.dateOfJoining),
       employeeId: data.employeeId,
       email: data.email,
       designation: data.designation,
       role: data.role,
     },
     onSubmit: async (values) => {
-      // let formData = new FormData();
-      // values.profile_img = url?.fileList[0];
       try {
         const res = await apiCall({
           url: APIS.MANAGER.EDIT(uniqId),
@@ -53,7 +76,7 @@ export default function EmployeeDetailsForm({
       }
     },
   });
-  console.log(formik.values);
+  console.log(formik.errors);
   return (
     <Grid
       component={"form"}
@@ -65,28 +88,45 @@ export default function EmployeeDetailsForm({
       <Grid
         item
         xs={12}
-        md={12}
+        md={5}
         lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+        sx={{
+          "& > .MuiFormControl-root": { margin: 0 },
+        }}
       >
-        <ThemeInput
-          placeholder="Date Of Joining"
-          Icon={DateIcon}
-          name="joinDate"
-          onChange={formik.handleChange}
-          formik={formik}
-          // defultValue={data?.dateOfJoining}
-        />
-        {/* <FormControl fullWidth sx={{ m: 1 }}>
-          <OutlinedInput
-            sx={{ fontSize: 14 }}
-            startAdornment={
-              <InputAdornment position="start">
-                <DateIcon />
-              </InputAdornment>
-            }
-          />
-        </FormControl> */}
+        <LocalizationProvider
+          dateAdapter={AdapterDayjs}
+          style={{
+            width: "100%",
+            maxWidth: "100%",
+          }}
+        >
+          <DemoContainer components={["DatePicker"]}>
+            <MobileDatePicker
+              label="Start Date"
+              // slotProps={{
+              //   textField: {
+              //     helperText: "DD/MM/YYYY",
+              //   },
+              // }}
+              format="DD/MM/YYYY"
+              value={dayjs(formik.values.dateOfJoining)}
+              // value={dayjs(date, { format: "DD/MM/YYYY" }).toDate()}
+              sx={{
+                minWidth: "100% !important",
+                fontSize: "14px !important",
+                "&>div": { fontSize: "14px" },
+                "&>label": { fontSize: "14px" },
+              }}
+              name="dateOfJoining"
+              type="date"
+              onChange={(e) => {
+                formik.setFieldValue("dateOfJoining", e);
+              }}
+              formik={formik}
+            />
+          </DemoContainer>
+        </LocalizationProvider>
       </Grid>
       <Grid
         item
@@ -102,16 +142,6 @@ export default function EmployeeDetailsForm({
           onChange={formik.handleChange}
           formik={formik}
         />
-        {/* <FormControl fullWidth sx={{ m: 1 }}>
-          <OutlinedInput
-            sx={{ fontSize: 14 }}
-            startAdornment={
-              <InputAdornment position="start">
-                <Grid3x3Icon />
-              </InputAdornment>
-            }
-          />
-        </FormControl> */}
       </Grid>
       <Grid
         item
@@ -129,16 +159,6 @@ export default function EmployeeDetailsForm({
           onChange={formik.handleChange}
           formik={formik}
         />
-        {/* <OutlinedInput
-                          placeholder="Work Email"
-                          sx={{ fontSize: 14 }}
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <EmailOutlinedIcon />
-                            </InputAdornment>
-                          }
-                        /> */}
-        {/* </FormControl> */}
       </Grid>
       <Grid
         item

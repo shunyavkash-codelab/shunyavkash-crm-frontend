@@ -14,6 +14,7 @@ export const APIS = {
     VIEW: (userId) => `/user/${userId}`,
     VIEWLIST: "/user/get-users",
     LIST: "/user/get-users",
+    ALLUSER: "/user/get-all-user",
   },
   EMPLOYEE: {
     ADD: "/user/add",

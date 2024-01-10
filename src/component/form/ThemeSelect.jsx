@@ -1,5 +1,6 @@
 import {
   FormControl,
+  FormHelperText,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -9,8 +10,6 @@ import {
 import React from "react";
 
 export default function ThemeSelect({ id, options, formik }) {
-  console.log(formik?.values, "--------------------12");
-
   const menuItems = options.map((option, index) => (
     <MenuItem
       key={index}
@@ -57,10 +56,14 @@ export default function ThemeSelect({ id, options, formik }) {
         label="Role"
         sx={{ fontSize: "14px" }}
         onChange={formik?.handleChange}
-        value={formik?.values.role}
+        value={formik?.values[id]}
+        error={formik.touched[id] && Boolean(formik.errors[id])}
       >
         {menuItems}
       </Select>
+      {formik.touched[id] && Boolean(formik.errors[id]) && (
+        <FormHelperText error={true}>{formik.errors[id]}</FormHelperText>
+      )}
     </FormControl>
   );
 }

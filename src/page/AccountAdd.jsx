@@ -80,7 +80,7 @@ function AccountAdd() {
                 variant="subtitle2"
                 sx={{ opacity: 0.4, textTransform: "capitalize" }}
               >
-                Add Account
+                Add Entry
               </Typography>
             </Box>
           </Box>

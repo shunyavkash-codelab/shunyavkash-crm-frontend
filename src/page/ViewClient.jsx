@@ -323,9 +323,10 @@ export default function Manager() {
                     sx={{
                       textTransform: "capitalize",
                     }}
-                  >
-                    {clientList.address}
-                  </Typography>
+                    dangerouslySetInnerHTML={{
+                      __html: clientList.address.replace(/\r\n/g, "<br />"),
+                    }}
+                  ></Typography>
                 </Box>
               )}
             </Box>

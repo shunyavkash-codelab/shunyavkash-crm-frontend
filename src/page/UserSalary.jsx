@@ -343,7 +343,7 @@ export default function UserSalary() {
               <TableHead>
                 <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
                   <TableCell>Date</TableCell>
-                  <TableCell>User Name</TableCell>
+                  <TableCell>Member Name</TableCell>
                   <TableCell>Salary Amount</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell>Incentive</TableCell>

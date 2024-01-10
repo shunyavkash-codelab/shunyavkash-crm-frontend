@@ -11,6 +11,7 @@ import EmployeeDashboard from "./page/EmployeeDashboard";
 import User from "./page/User";
 import AddUser from "./page/AddUser";
 import ViewUser from "./page/ViewUser";
+import Members from "./page/Members";
 import Clients from "./page/Clients";
 import AddClient from "./page/AddClient";
 import ViewClient from "./page/ViewClient";
@@ -27,6 +28,7 @@ import Leaves from "./page/Leaves";
 import MyProfile from "./page/MyProfile";
 import AccountManage from "./page/AccountManage";
 import AccountAdd from "./page/AccountAdd";
+import AddMember from "./page/AddMember";
 
 const routes = createBrowserRouter([
   { path: "/signup", Component: SignUp },
@@ -37,7 +39,9 @@ const routes = createBrowserRouter([
   { path: "/employee-dashboard", Component: EmployeeDashboard },
   { path: "/users", Component: User },
   { path: "/users/add", Component: AddUser },
-  { path: "/users/view/:id", Component: ViewUser },
+  // { path: "/users/view/:id", Component: ViewUser },
+  { path: "/members/view/:id", Component: ViewUser },
+  { path: "/members", Component: Members },
   { path: "/clients", Component: Clients },
   { path: "/Clients/add", Component: AddClient },
   { path: "/Clients/edit/:id", Component: AddClient },
@@ -60,7 +64,8 @@ const routes = createBrowserRouter([
   // { path: "/my-profile", Component: MyProfile },
   { path: "/my-profile/:id", Component: MyProfile },
   { path: "/account-management", Component: AccountManage },
-  { path: "/account-add", Component: AccountAdd },
+  { path: "/account-management/add", Component: AccountAdd },
+  { path: "/members/add", Component: AddMember },
 ]);
 export default function Routes() {
   return (

@@ -9,6 +9,7 @@ import {
   Button,
   Autocomplete,
   InputAdornment,
+  Stack,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import FileUploadButton from "../component/FileUploadButton";
@@ -30,6 +31,7 @@ export default function AddClient() {
   const { apiCall } = useApi();
   const navigate = useNavigate();
   const [clientList, setClientList] = useState(false);
+  const [bankList, setBankList] = useState(false);
   const [countryList, setCountryList] = useState([]);
   const [country, setCountry] = useState(null);
 
@@ -43,11 +45,42 @@ export default function AddClient() {
       .trim(),
     mobileNumber: Yup.string()
       .required("Mobile number is required.")
-      .trim()
-      .matches(/^[0-9]+$/, "Mobile number must only contain numeric digits"),
-    mobileCode: Yup.string().required("Mobile code is required.").trim(),
+      .matches(/^\+?[0-9]{10}$/, {
+        message: "Mobile number should consist of exactly 10 numerical digits.",
+      })
+      .max(12, "Mobile number should not exceed 12 characters.")
+      .min(10, "Mobile number should be at least 10 characters."),
+    // mobileCode: Yup.string()
+    //   .required("Mobile Code is required.")
+    //   .matches(/^\+?[0-9]{1,4}$/, {
+    //     message: "Mobile code should consist of 2 to 4 numerical digits.",
+    //   }),
     websiteURL: Yup.string().url("Invalid URL"),
+    accountNumber: Yup.number(),
+    IFSC: Yup.string()
+      .length(11)
+      .matches(
+        /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
+        "First 4 characters must be alphabets and last 7 characters must be numbers"
+      ),
+    bankName: Yup.string(),
+    holderName: Yup.string(),
   });
+
+  // bank data validator schhema
+  // const bankSchema = Yup.object({
+  //   accountNumber: Yup.number().required("Account number is a required"),
+  //   IFSC: Yup.string()
+  //     .length(11)
+  //     .matches(
+  //       /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
+  //       "First 4 characters must be alphabets and last 7 characters must be numbers"
+  //     )
+  //     .required("IFSC is a required"),
+  //   bankName: Yup.string().required("Bank name is a required"),
+  //   holderName: Yup.string().required("Holder name is a required"),
+  // });
+
   const formik = useFormik({
     validationSchema: schema,
     initialValues: {
@@ -61,6 +94,10 @@ export default function AddClient() {
       profile_img: clientList?.profile_img,
       companyLogo: clientList?.companyLogo,
       mobileCode: clientList?.mobileCode || undefined,
+      bankName: clientList?.bankName,
+      IFSC: clientList?.IFSC,
+      holderName: clientList?.holderName,
+      accountNumber: clientList?.accountNumber,
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
@@ -89,6 +126,35 @@ export default function AddClient() {
       }
     },
   });
+
+  // add bank detiles
+  // const bankformik = useFormik({
+  //   validationSchema: bankSchema,
+  //   initialValues: {
+  //     bankName: "",
+  //     IFSC: "",
+  //     holderName: "",
+  //     accountNumber: "",
+  //   },
+  //   enableReinitialize: true,
+  //   onSubmit: async (values) => {
+  //     values.defaultBank = false;
+  //     try {
+  //       const res = await apiCall({
+  //         url: APIS.BANK.ADD,
+  //         method: "post",
+  //         data: JSON.stringify(values, null, 2),
+  //       });
+  //       if (res.data.success === true) {
+  //         setSnack(res.data.message);
+  //         navigate("/clients");
+  //       }
+  //     } catch (error) {
+  //       let errorMessage = error.response.data.message;
+  //       setSnack(errorMessage, "warning");
+  //     }
+  //   },
+  // });
 
   // get client list
   const fetchClient = async (id) => {
@@ -250,7 +316,7 @@ export default function AddClient() {
                     helperText={formik.touched.email && formik.errors.email}
                   />
 
-                  <Box
+                  {/* <Box
                     sx={{
                       display: "flex",
                       "&:hover fieldset": {
@@ -387,7 +453,82 @@ export default function AddClient() {
                         formik.errors.mobileNumber
                       }
                     />
-                  </Box>
+                  </Box> */}
+
+                  <Stack
+                    direction="row"
+                    sx={{
+                      "&:hover fieldset": {
+                        borderColor: "text.primary",
+                      },
+                    }}
+                  >
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="mobileCode"
+                      autoComplete="off"
+                      defaultValue={clientList ? clientList.mobileCode : "+91"}
+                      InputProps={
+                        location.pathname.includes("/view/") && {
+                          readOnly: true,
+                        }
+                      }
+                      sx={{
+                        maxWidth: "75px",
+                        mr: "-1px",
+                        bgcolor: "#f4f4f4",
+                        borderRadius: "6px 0 0 6px",
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                        "& input": { py: 1.5, textAlign: "center" },
+                        "& fieldset": {
+                          borderRight: 0,
+                          borderRadius: "6px 0 0 6px",
+                        },
+                      }}
+                      onChange={formik.handleChange}
+                      value={formik.values.mobileCode}
+                      error={
+                        formik.touched.mobileCode &&
+                        Boolean(formik.errors.mobileCode)
+                      }
+                      helperText={
+                        formik.touched.mobileCode && formik.errors.mobileCode
+                      }
+                    />
+
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="mobileNumber"
+                      placeholder="Mobile Number"
+                      autoComplete="off"
+                      defaultValue={clientList?.mobileNumber}
+                      InputProps={
+                        location.pathname.includes("/view/") && {
+                          readOnly: true,
+                        }
+                      }
+                      sx={{
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                        "& input": { py: 1.5 },
+                        "& fieldset": {
+                          borderLeft: 0,
+                          borderRadius: "0 6px 6px 0",
+                        },
+                      }}
+                      onChange={formik.handleChange}
+                      value={formik.values.mobileNumber}
+                      error={
+                        formik.touched.mobileNumber &&
+                        Boolean(formik.errors.mobileNumber)
+                      }
+                      helperText={
+                        formik.touched.mobileNumber &&
+                        formik.errors.mobileNumber
+                      }
+                    />
+                  </Stack>
 
                   <TextField
                     fullWidth
@@ -489,6 +630,211 @@ export default function AddClient() {
                     />
                   </Box>
                 </Box>
+                <Box
+                  sx={{
+                    mt: 3,
+                    py: 2.5,
+                    backgroundColor: "white",
+                    borderRadius: 2.5,
+                    "&>*": {
+                      px: 2.5,
+                    },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      textTransform: "capitalize",
+                      fontWeight: 600,
+                      pb: 2,
+                      mb: 3,
+                      borderBottom: "1px solid rgba(0,0,0,0.06)",
+                    }}
+                  >
+                    Add Bank Details
+                  </Typography>
+                  <Box>
+                    <Box
+                      sx={{
+                        pt: 0.75,
+                        flexGrow: { md: 0 },
+                        overflowY: { md: "auto" },
+                        "& fieldset": {
+                          borderRadius: 1.5,
+                        },
+                        display: "grid",
+                        gridTemplateColumns: {
+                          xs: "repeat(1, 1fr)",
+                          sm: "repeat(2, 1fr)",
+                        },
+                        gap: 2.5,
+                      }}
+                    >
+                      <TextField
+                        fullWidth
+                        size="small"
+                        id="bankName"
+                        label="Bank Name"
+                        autoComplete="off"
+                        sx={{
+                          "&>label,& input,&>div": { fontSize: "14px" },
+                          "&>label": { top: "4px" },
+                          "& input": { py: 1.5, textTransform: "capitalize" },
+                        }}
+                        onChange={formik.handleChange}
+                        value={formik.values.bankName}
+                        error={
+                          formik.touched.bankName &&
+                          Boolean(formik.errors.bankName)
+                        }
+                        helperText={
+                          formik.touched.bankName && formik.errors.bankName
+                        }
+                      />
+
+                      <TextField
+                        fullWidth
+                        size="small"
+                        id="IFSC"
+                        label="IFSC"
+                        autoComplete="off"
+                        inputProps={{ maxLength: 11 }}
+                        sx={{
+                          "&>label,& input,&>div": { fontSize: "14px" },
+                          "&>label": { top: "4px" },
+                          "& input": { py: 1.5, textTransform: "uppercase" },
+                        }}
+                        onChange={formik.handleChange}
+                        value={formik.values.IFSC}
+                        error={
+                          formik.touched.IFSC && Boolean(formik.errors.IFSC)
+                        }
+                        helperText={formik.touched.IFSC && formik.errors.IFSC}
+                      />
+
+                      <TextField
+                        fullWidth
+                        size="small"
+                        id="holderName"
+                        label="A/c Holder Name"
+                        autoComplete="off"
+                        sx={{
+                          "&>label,& input,&>div": { fontSize: "14px" },
+                          "&>label": { top: "4px" },
+                          "& input": { py: 1.5, textTransform: "capitalize" },
+                        }}
+                        onChange={formik.handleChange}
+                        value={formik.values.holderName}
+                        error={
+                          formik.touched.holderName &&
+                          Boolean(formik.errors.holderName)
+                        }
+                        helperText={
+                          formik.touched.holderName && formik.errors.holderName
+                        }
+                      />
+
+                      <TextField
+                        fullWidth
+                        size="small"
+                        id="accountNumber"
+                        inputProps={{ maxLength: 14 }}
+                        label="A/c Number"
+                        autoComplete="off"
+                        sx={{
+                          "&>label,& input,&>div": { fontSize: "14px" },
+                          "&>label": { top: "4px" },
+                          "& input": { py: 1.5 },
+                        }}
+                        onChange={formik.handleChange}
+                        value={clientList.label}
+                        error={
+                          formik.touched.accountNumber &&
+                          Boolean(formik.errors.accountNumber)
+                        }
+                        helperText={
+                          formik.touched.accountNumber &&
+                          formik.errors.accountNumber
+                        }
+                      />
+                    </Box>
+                    {/* <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                <Button
+                  disableRipple
+                  type="submit"
+                  sx={{
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    bgcolor: "success.main",
+                    border: "1px solid",
+                    borderColor: "success.main",
+                    color: "white",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "white",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      color: "success.main",
+                      bgcolor: "success.main",
+                      "&:before": { height: "10rem" },
+                    },
+                  }}
+                >
+                  <span style={{ position: "relative" }}>Add Bank</span>
+                </Button>
+                <Button
+                  disableRipple
+                  sx={{
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    color: "text.primary",
+                    bgcolor: "#e4e4e4",
+                    border: "1px solid",
+                    borderColor: "#e4e4e4",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "white",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      bgcolor: "#e4e4e4",
+                      "&:before": { height: "10rem" },
+                    },
+                  }}
+                  onClick={() => navigate("/clients")}
+                >
+                  <span style={{ position: "relative" }}>discard</span>
+                </Button>
+              </Box> */}
+                  </Box>
+                </Box>
+
                 {!location.pathname.includes("/view/") && (
                   <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
                     <Button
@@ -526,7 +872,11 @@ export default function AddClient() {
                         },
                       }}
                     >
-                      <span style={{ position: "relative" }}>Submit</span>
+                      <span style={{ position: "relative" }}>
+                        {location.pathname.includes("/edit/")
+                          ? "Update"
+                          : "Create"}
+                      </span>
                     </Button>
                     <Button
                       disableRipple

@@ -22,6 +22,7 @@ import { useSnack } from "../hooks/store/useSnack.js";
 import { APIS } from "../api/apiList.js";
 import { useAuth } from "../hooks/store/useAuth.js";
 import { useSearchData } from "../hooks/store/useSearchData.js";
+import NoData from "../component/NoData.jsx";
 
 export default function User() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -151,42 +152,14 @@ export default function User() {
                       },
                     }}
                   >
-                    <span style={{ position: "relative" }}>New Manager</span>
+                    <span style={{ position: "relative" }}>Add Manager</span>
                   </Button>
                 </Link>
               </Box>
             )}
           </Box>
           {userList.length === 0 ? (
-            <Box
-              sx={{
-                width: "100%",
-                display: "block",
-                padding: "25px 16px",
-                backgroundColor: "primary.light",
-                textAlign: "center",
-                borderRadius: 2.5,
-              }}
-            >
-              <Typography
-                mb={1.5}
-                variant="h4"
-                sx={{
-                  fontSize: "20px",
-                  color: "#1677FF",
-                  fontWeight: "500",
-                  letterSpacing: "0.5px",
-                }}
-              >
-                No data available in table
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{ fontSize: 14, color: "#848484", fontWeight: "400" }}
-              >
-                Currently there no data available!
-              </Typography>
-            </Box>
+            <NoData />
           ) : (
             <>
               <TableContainer

@@ -1,4 +1,9 @@
-import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  InputAdornment,
+  OutlinedInput,
+} from "@mui/material";
 import { Formik } from "formik";
 import React from "react";
 
@@ -12,6 +17,7 @@ export default function ThemeInput({
   sx = {},
   formik,
 }) {
+  console.log(formik.errors[name]);
   return (
     <FormControl fullWidth sx={{ m: 1 }}>
       <OutlinedInput
@@ -28,7 +34,11 @@ export default function ThemeInput({
           </InputAdornment>
         }
         multiline={multiline}
+        error={formik.touched[name] && Boolean(formik.errors[name])}
       />
+      {formik.touched[name] && Boolean(formik.errors[name]) && (
+        <FormHelperText error={true}>{formik.errors[name]}</FormHelperText>
+      )}
     </FormControl>
   );
 }
