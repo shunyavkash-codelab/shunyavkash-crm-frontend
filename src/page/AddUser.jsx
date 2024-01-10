@@ -212,7 +212,6 @@ export default function AddUser() {
                   autoComplete="off"
                   sx={{
                     "&>label,& input,&>div": { fontSize: "14px" },
-                    "&>label": { top: "4px" },
                     "& input": { textTransform: "capitalize", py: 1.5 },
                   }}
                   onChange={formik.handleChange}
@@ -229,7 +228,6 @@ export default function AddUser() {
                   autoComplete="off"
                   sx={{
                     "&>label,& input,&>div": { fontSize: "14px" },
-                    "&>label": { top: "4px" },
                     "& input": { py: 1.5 },
                   }}
                   onChange={formik.handleChange}
@@ -333,7 +331,6 @@ export default function AddUser() {
                     inputProps={{ maxLength: 10 }}
                     sx={{
                       "& input,&>div": { fontSize: "14px" },
-                      "&>label": { top: "4px" },
                       "& input": { textTransform: "capitalize", py: 1.5 },
                       "& fieldset": {
                         borderRadius: "0 6px 6px 0!important",
@@ -356,7 +353,7 @@ export default function AddUser() {
                   fullWidth
                   size="small"
                   sx={{
-                    "&>label": { fontSize: "14px", top: "4px" },
+                    "&>label": { fontSize: "14px" },
                     "&>div>div": { py: 1.5 },
                   }}
                   error={formik.touched.gender && Boolean(formik.errors.gender)}
@@ -410,7 +407,6 @@ export default function AddUser() {
                   autoComplete="off"
                   sx={{
                     "&>label,& input,&>div": { fontSize: "14px" },
-                    "&>label": { top: "4px" },
                     "& input": { py: 1.5 },
                   }}
                   onChange={formik.handleChange}
@@ -428,7 +424,7 @@ export default function AddUser() {
                   fullWidth
                   size="small"
                   sx={{
-                    "&>label": { fontSize: "14px", top: "4px" },
+                    "&>label": { fontSize: "14px" },
                     "&>div>div": { py: 1.5 },
                   }}
                 >
@@ -486,7 +482,6 @@ export default function AddUser() {
                   autoComplete="off"
                   sx={{
                     "&>label,& input,&>div": { fontSize: "14px" },
-                    "&>label": { top: "4px" },
                     "& input": { py: 1.5 },
                     gridColumn: { sm: "span 2" },
                   }}

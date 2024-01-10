@@ -286,7 +286,6 @@ export default function AddClientsModal({ open, setOpen, fetchClients }) {
                     inputProps={{ maxLength: 10 }}
                     sx={{
                       "& input,&>div": { fontSize: "14px" },
-                      "&>label": { top: "4px" },
                       "& input": { py: 1.5 },
                       "& fieldset": {
                         borderRadius: "0 6px 6px 0 !important",
@@ -402,7 +401,6 @@ export default function AddClientsModal({ open, setOpen, fetchClients }) {
                     placeholder="Number"
                     sx={{
                       "& input,&>div": { fontSize: "14px" },
-                      "&>label": { top: "4px" },
                       "& input": { py: 1.5 },
                       "& fieldset": {
                         borderRadius: "0 6px 6px 0 !important",

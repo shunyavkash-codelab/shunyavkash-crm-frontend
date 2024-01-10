@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import SideBar from "../component/SideBar";
 import { useAuth } from "../hooks/store/useAuth";
 import Header from "../component/Header";
@@ -6,7 +7,6 @@ import {
   Box,
   Button,
   Grid,
-  Link,
   Paper,
   Stack,
   Table,
@@ -35,6 +35,7 @@ import FileDownloadIcon2 from "@mui/icons-material/FileDownloadOutlined";
 import CollabaratorIcon from "@mui/icons-material/PeopleAlt";
 import PaymentIcon from "@mui/icons-material/Payment";
 import InvoiceTypeIcon from "@mui/icons-material/Receipt";
+import PlusIcon from "@mui/icons-material/Close";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -111,6 +112,7 @@ function AccountManage() {
               >
                 <Button
                   disableRipple
+                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
                   sx={{
                     maxHeight: "42px",
                     position: "relative",
@@ -141,7 +143,7 @@ function AccountManage() {
                     },
                   }}
                 >
-                  <span style={{ position: "relative" }}>new account</span>
+                  <span style={{ position: "relative" }}>Add Entry</span>
                 </Button>
               </Link>
             </Stack>
