@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  // useEffect,
+  useState,
+} from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import SideBar from "../component/SideBar";
@@ -12,7 +15,7 @@ import {
   TextField,
   Typography,
   Autocomplete,
-  InputAdornment,
+  // InputAdornment,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import { useSnack } from "../hooks/store/useSnack";
@@ -26,13 +29,16 @@ import * as Yup from "yup";
 export default function AddMember() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [userList, setUserList] = useState([]);
+  const [
+    // userList,
+    setUserList,
+  ] = useState([]);
   const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
   const navigate = useNavigate();
-  const [countryList, setCountryList] = useState([]);
-  const [country, setCountry] = useState(null);
+  // const [countryList, setCountryList] = useState([]);
+  // const [country, setCountry] = useState(null);
 
   // yup data validator schhema
   const schema = Yup.object({
@@ -92,41 +98,41 @@ export default function AddMember() {
     },
   });
 
-  const fetchUsers = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.MANAGER.ALLUSER,
-        method: "get",
-      });
-      if (res.data.success === true) {
-        console.log(res.data, "res.data");
-        setSnack(res.data.message);
-        setUserList(res.data.data);
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+  // const fetchUsers = async () => {
+  //   try {
+  //     const res = await apiCall({
+  //       url: APIS.MANAGER.ALLUSER,
+  //       method: "get",
+  //     });
+  //     if (res.data.success === true) {
+  //       console.log(res.data, "res.data");
+  //       setSnack(res.data.message);
+  //       setUserList(res.data.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //   }
+  // };
 
   // get country list
-  const fetchCountry = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.COUNTRY.GET,
-        method: "get",
-      });
-      if (res.data.success === true) {
-        setCountryList(res.data.data);
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+  // const fetchCountry = async () => {
+  //   try {
+  //     const res = await apiCall({
+  //       url: APIS.COUNTRY.GET,
+  //       method: "get",
+  //     });
+  //     if (res.data.success === true) {
+  //       setCountryList(res.data.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchUsers();
-    fetchCountry();
-  }, []);
+  // useEffect(() => {
+  //   fetchUsers();
+  //   fetchCountry();
+  // }, []);
   // });
 
   return (
@@ -270,10 +276,10 @@ export default function AddMember() {
                     value={formik.values.mobileCode}
                     onChange={(event, newValue) => {
                       formik.setFieldValue("mobileCode", newValue.phone); // Update Formik field value
-                      setCountry(newValue);
+                      // setCountry(newValue);
                     }}
                     name="mobileCode"
-                    options={countryList}
+                    // options={countryList}
                     autoHighlight
                     getOptionLabel={(option) => option.label}
                     renderInput={(params) => {
