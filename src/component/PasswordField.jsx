@@ -3,7 +3,13 @@ import { Box, TextField } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
-export default function PasswordField({ id, label, formik }) {
+export default function PasswordField({
+  id,
+  label,
+  formik,
+  Inputstyle = {},
+  Iconstyle = {},
+}) {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
@@ -22,6 +28,7 @@ export default function PasswordField({ id, label, formik }) {
         sx={{
           "&>label,& input": { fontSize: "14px" },
           "& input": { pr: 5 },
+          ...Inputstyle,
         }}
         onChange={formik.handleChange}
         value={formik.values[id]}
@@ -40,6 +47,7 @@ export default function PasswordField({ id, label, formik }) {
           cursor: "pointer",
           display: "inline-flex",
           "& svg": { fontSize: "20px" },
+          ...Iconstyle,
         }}
       >
         {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
