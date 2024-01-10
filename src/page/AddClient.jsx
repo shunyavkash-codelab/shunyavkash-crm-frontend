@@ -31,6 +31,7 @@ export default function AddClient() {
   const { apiCall } = useApi();
   const navigate = useNavigate();
   const [clientList, setClientList] = useState(false);
+  const [bankList, setBankList] = useState(false);
   const [countryList, setCountryList] = useState([]);
   const [country, setCountry] = useState(null);
 
@@ -55,6 +56,20 @@ export default function AddClient() {
         message: "Mobile code should consist of 2 to 4 numerical digits.",
       }),
     websiteURL: Yup.string().url("Invalid URL"),
+  });
+
+  // bank data validator schhema
+  const bankSchema = Yup.object({
+    accountNumber: Yup.number().required("Account number is a required"),
+    IFSC: Yup.string()
+      .length(11)
+      .matches(
+        /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
+        "First 4 characters must be alphabets and last 7 characters must be numbers"
+      )
+      .required("IFSC is a required"),
+    bankName: Yup.string().required("Bank name is a required"),
+    holderName: Yup.string().required("Holder name is a required"),
   });
 
   const formik = useFormik({
@@ -91,6 +106,35 @@ export default function AddClient() {
         if (res.data.success === true) {
           setSnack(res.data.message);
           !id && navigate("/clients");
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
+
+  // add bank detiles
+  const bankformik = useFormik({
+    validationSchema: bankSchema,
+    initialValues: {
+      bankName: "",
+      IFSC: "",
+      holderName: "",
+      accountNumber: "",
+    },
+    enableReinitialize: true,
+    onSubmit: async (values) => {
+      values.defaultBank = false;
+      try {
+        const res = await apiCall({
+          url: APIS.BANK.ADD,
+          method: "post",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.data.success === true) {
+          setSnack(res.data.message);
+          navigate("/clients");
         }
       } catch (error) {
         let errorMessage = error.response.data.message;
@@ -677,7 +721,12 @@ export default function AddClient() {
             >
               Add Bank Details
             </Typography>
-            <Box component="form" noValidate autoComplete="off">
+            <Box
+              component="form"
+              noValidate
+              autoComplete="off"
+              onSubmit={bankformik.handleSubmit}
+            >
               <Box
                 sx={{
                   pt: 0.75,
@@ -697,7 +746,7 @@ export default function AddClient() {
                 <TextField
                   fullWidth
                   size="small"
-                  id="name"
+                  id="bankName"
                   label="Bank Name"
                   autoComplete="off"
                   sx={{
@@ -705,12 +754,21 @@ export default function AddClient() {
                     "&>label": { top: "4px" },
                     "& input": { py: 1.5, textTransform: "capitalize" },
                   }}
+                  onChange={bankformik.handleChange}
+                  value={bankformik.values.bankName}
+                  error={
+                    bankformik.touched.bankName &&
+                    Boolean(bankformik.errors.bankName)
+                  }
+                  helperText={
+                    bankformik.touched.bankName && bankformik.errors.bankName
+                  }
                 />
 
                 <TextField
                   fullWidth
                   size="small"
-                  id="name"
+                  id="IFSC"
                   label="IFSC"
                   autoComplete="off"
                   sx={{
@@ -718,12 +776,18 @@ export default function AddClient() {
                     "&>label": { top: "4px" },
                     "& input": { py: 1.5, textTransform: "uppercase" },
                   }}
+                  onChange={bankformik.handleChange}
+                  value={bankformik.values.IFSC}
+                  error={
+                    bankformik.touched.IFSC && Boolean(bankformik.errors.IFSC)
+                  }
+                  helperText={bankformik.touched.IFSC && bankformik.errors.IFSC}
                 />
 
                 <TextField
                   fullWidth
                   size="small"
-                  id="name"
+                  id="holderName"
                   label="A/c Holder Name"
                   autoComplete="off"
                   sx={{
@@ -731,12 +795,22 @@ export default function AddClient() {
                     "&>label": { top: "4px" },
                     "& input": { py: 1.5, textTransform: "capitalize" },
                   }}
+                  onChange={bankformik.handleChange}
+                  value={bankformik.values.holderName}
+                  error={
+                    bankformik.touched.holderName &&
+                    Boolean(bankformik.errors.holderName)
+                  }
+                  helperText={
+                    bankformik.touched.holderName &&
+                    bankformik.errors.holderName
+                  }
                 />
 
                 <TextField
                   fullWidth
                   size="small"
-                  id="name"
+                  id="accountNumber"
                   inputProps={{ maxLength: 16 }}
                   label="A/c Number"
                   autoComplete="off"
@@ -745,6 +819,16 @@ export default function AddClient() {
                     "&>label": { top: "4px" },
                     "& input": { py: 1.5 },
                   }}
+                  onChange={bankformik.handleChange}
+                  value={bankformik.values.accountNumber}
+                  error={
+                    bankformik.touched.accountNumber &&
+                    Boolean(bankformik.errors.accountNumber)
+                  }
+                  helperText={
+                    bankformik.touched.accountNumber &&
+                    bankformik.errors.accountNumber
+                  }
                 />
               </Box>
               <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
