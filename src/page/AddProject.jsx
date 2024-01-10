@@ -233,6 +233,7 @@ export default function AddProject() {
                     autoComplete="off"
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
                       "& input": { py: 1.5 },
                     }}
                     defaultValue={projectData?.name}
@@ -248,6 +249,7 @@ export default function AddProject() {
                     sx={{
                       "&>label": {
                         fontSize: "14px",
+                        top: "4px",
                       },
                       "&>div>div": { py: 1.5 },
                     }}
@@ -432,6 +434,7 @@ export default function AddProject() {
                       placeholder="Per Hours Charge"
                       sx={{
                         "& input,&>div": { fontSize: "14px" },
+                        "&>label": { top: "4px" },
                         "& input": { py: 1.5 },
                         "& fieldset": {
                           borderRadius: "0 6px 6px 0 !important",
@@ -458,6 +461,7 @@ export default function AddProject() {
                     sx={{
                       "&>label": {
                         fontSize: "14px",
+                        top: "4px",
                       },
                       "&>div>div": { py: 1.5 },
                     }}
@@ -480,6 +484,7 @@ export default function AddProject() {
                             sx={{
                               fontSize: "14px",
                               "& input": { py: 1.5 },
+                              "&>label": { top: "4px" },
                             }}
                             {...field}
                             defaultValue={projectData?.payPeriod}
@@ -604,6 +609,7 @@ export default function AddProject() {
                       "&>label,& input,&>div": {
                         fontSize: "14px",
                       },
+                      "&>label": { top: "4px" },
                       "& input": {
                         textTransform: "uppercase",
                         py: 1.5,
@@ -620,6 +626,7 @@ export default function AddProject() {
                     sx={{
                       "&>label": {
                         fontSize: "14px",
+                        top: "4px",
                       },
                       "&>div>div": { py: 1.5 },
                     }}
@@ -721,6 +728,7 @@ export default function AddProject() {
                     rows={4}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
                       "&>div": { py: 1.5 },
                       gridColumn: { sm: "span 2" },
                     }}

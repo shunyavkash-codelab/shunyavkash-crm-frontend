@@ -217,6 +217,7 @@ export default function AddClient() {
                     defaultValue={clientList?.name}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
                       "& input": { py: 1.5 },
                     }}
                     onChange={formik.handleChange}
@@ -237,6 +238,7 @@ export default function AddClient() {
                     defaultValue={clientList?.email}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
                       "& input": { py: 1.5 },
                     }}
                     onChange={formik.handleChange}
@@ -367,6 +369,7 @@ export default function AddClient() {
                       inputProps={{ maxLength: 10 }}
                       sx={{
                         "& input,&>div": { fontSize: "14px" },
+                        "&>label": { top: "4px" },
                         "& input": { py: 1.5 },
                         "& fieldset": {
                           borderRadius: "0 6px 6px 0 !important",
@@ -398,6 +401,7 @@ export default function AddClient() {
                     }
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
                       "& input": { py: 1.5 },
                     }}
                     onChange={formik.handleChange}
@@ -416,6 +420,7 @@ export default function AddClient() {
                     }
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
                       "& input": { py: 1.5 },
                       gridColumn: { sm: "span 2" },
                     }}
@@ -444,6 +449,7 @@ export default function AddClient() {
                     }
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
                       "&>div": { py: 1.5 },
                       gridColumn: { sm: "span 2" },
                     }}

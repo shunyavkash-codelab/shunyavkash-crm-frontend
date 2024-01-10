@@ -267,6 +267,7 @@ export default function Home() {
                 rows={4}
                 sx={{
                   "&>label,& input,&>div": { fontSize: "14px" },
+                  "&>label": { top: "4px" },
                   "&>div": { py: 1.5 },
                   gridColumn: { sm: "span 2" },
                 }}

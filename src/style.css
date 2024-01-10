@@ -27,10 +27,6 @@ label.Mui-focused {
   border-width: 1px !important;
 }
 
-label.MuiInputLabel-formControl {
-  top: 4px;
-}
-
 .css-6hp17o-MuiList-root-MuiMenu-list li {
   font-size: 14px;
   min-height: unset;
