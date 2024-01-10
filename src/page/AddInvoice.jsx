@@ -20,6 +20,7 @@ import {
   Checkbox,
   FormControlLabel,
   FormHelperText,
+  Stack,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -38,6 +39,8 @@ import InvoiceInputForm from "../component/form/InvoiceInputForm";
 import EditIcon from "@mui/icons-material/CreateOutlined";
 import * as Yup from "yup";
 import AddClientsModal from "../component/AddClientsModal";
+import SignChangeIcon from "@mui/icons-material/CameraAlt";
+import ReactFileReader from "react-file-reader";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -89,6 +92,7 @@ export default function Invoices() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const [showWatermark, setShowWatermark] = useState(true);
+  const [showSign, setShowSign] = useState(true);
 
   // model open for admin
   const [fromOpen, setFromOpen] = useState(false);
@@ -423,6 +427,33 @@ export default function Invoices() {
       }
     } catch (error) {
       console.log(error, setSnack);
+    }
+  };
+
+  const { id } = useParams();
+  const [url, setUrl] = useState();
+  const handleFiles = async (files) => {
+    console.log(files, "---------------95");
+    setUrl(files.base64);
+    let formData = new FormData();
+    // values.profile_img = url?.fileList[0];
+
+    formData.append("profile_img", files.fileList[0]);
+
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.EDIT(id),
+        method: "patch",
+        headers: "multipart/form-data",
+        data: formData,
+      });
+      if (res.status === 200) {
+        setSnack(res.data.message);
+        // setUrl(files.base64);
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
     }
   };
 
@@ -785,11 +816,13 @@ export default function Invoices() {
                                 mt: 2,
                                 display: "flex",
                                 textTransform: "capitalize",
-                                "&>label": { fontSize: "12px" },
+                                "&>label": { fontSize: "14px" },
                               }}
                             >
                               <InputLabel
-                                sx={{ textTransform: "capitalize" }}
+                                sx={{
+                                  textTransform: "capitalize",
+                                }}
                                 id="demo-simple-select-label"
                               >
                                 To
@@ -799,7 +832,7 @@ export default function Invoices() {
                                 id="to"
                                 label="To"
                                 onChange={(e) => clientData(e.target.value)}
-                                sx={{ fontSize: "12px" }}
+                                sx={{ fontSize: "14px" }}
                                 defaultValue={invoiceData?.clientId}
                               >
                                 {clientList.map((clientName) => (
@@ -811,19 +844,21 @@ export default function Invoices() {
                                     {clientName.name}
                                   </MenuItem>
                                 ))}
-                                <MenuItem>
+                                <MenuItem
+                                  value={"Add Client"}
+                                  onClick={handleOpen}
+                                >
                                   <Box sx={{ display: "flex" }}>
                                     <Button
                                       disableRipple
-                                      onClick={handleOpen}
                                       sx={{
                                         maxHeight: "36px",
                                         position: "relative",
                                         px: 2.5,
-                                        py: 1,
-                                        bgcolor: "primary.main",
+                                        py: 1.5,
+                                        bgcolor: "text.primary",
                                         border: "1px solid",
-                                        borderColor: "primary.main",
+                                        borderColor: "text.primary",
                                         color: "white",
                                         lineHeight: 1,
                                         borderRadius: 2.5,
@@ -845,8 +880,8 @@ export default function Invoices() {
                                           transition: "all 0.4s ease-in-out",
                                         },
                                         "&:hover": {
-                                          color: "primary.main",
-                                          bgcolor: "primary.main",
+                                          color: "text.primary",
+                                          bgcolor: "text.primary",
                                           "&:before": { height: "10rem" },
                                         },
                                       }}
@@ -952,11 +987,11 @@ export default function Invoices() {
                             />
                           </Box>
                         </Box>
-                        {(selectedClient || invoiceData?.clientId) && (
+                        {/* {(selectedClient || invoiceData?.clientId) && (
                           <Box
                             sx={{
                               mt: 6,
-                              maxWidth: "750px",
+                              maxWidth: "390px",
                               position: "relative",
                             }}
                           >
@@ -979,11 +1014,13 @@ export default function Invoices() {
                                 maxWidth: "300px",
                                 mt: 2,
                                 display: "flex",
-                                "&>label": { fontSize: "12px" },
+                                "&>label": { fontSize: "14px" },
                               }}
                             >
                               <InputLabel
-                                sx={{ textTransform: "capitalize" }}
+                                sx={{
+                                  textTransform: "capitalize",
+                                }}
                                 id="demo-simple-select-label"
                               >
                                 Project
@@ -992,7 +1029,7 @@ export default function Invoices() {
                                 labelId="demo-simple-select-label"
                                 id="project"
                                 label="Project"
-                                sx={{ fontSize: "12px" }}
+                                sx={{ fontSize: "14px" }}
                                 onChange={handleProjectChange}
                                 value={selectedProjectId}
                               >
@@ -1053,9 +1090,9 @@ export default function Invoices() {
                               </>
                             )}
                           </Box>
-                        )}
+                        )} */}
                         <Box sx={{ mt: 7, mb: 3.5 }}>
-                          {selectedProjectId && (
+                          {/* {selectedProjectId && (
                             <FormControl
                               fullWidth
                               size="small"
@@ -1136,7 +1173,7 @@ export default function Invoices() {
                                 ))}
                               </Select>
                             </FormControl>
-                          )}
+                          )} */}
                           <TableContainer
                             component={Paper}
                             sx={{
@@ -1450,7 +1487,7 @@ export default function Invoices() {
                                   sx={{
                                     maxWidth: "300px",
                                     display: "flex",
-                                    "&>label": { fontSize: "12px" },
+                                    "&>label": { fontSize: "14px" },
                                     "&>div": { textAlign: "left" },
                                   }}
                                 >
@@ -1464,7 +1501,7 @@ export default function Invoices() {
                                     labelId="demo-simple-select-label"
                                     id="select_Bank"
                                     label="Select Bank"
-                                    sx={{ fontSize: "12px" }}
+                                    sx={{ fontSize: "14px" }}
                                     defaultValue={invoiceData?.bankId}
                                     onChange={handleBankChange}
                                   >
@@ -1482,21 +1519,55 @@ export default function Invoices() {
                                       ))}
 
                                     <MenuItem
-                                      sx={{ textTransform: "capitalize" }}
                                       value={"Custom Add"}
+                                      onClick={() => setBankOpen(true)}
                                     >
-                                      <Link
-                                        href="#"
-                                        onClick={() => setBankOpen(true)}
-                                        style={{
-                                          display: "inline-flex",
-                                          textDecoration: "none",
-                                          color: "#2A4062",
-                                          width: "100%",
-                                        }}
-                                      >
-                                        Custom Add
-                                      </Link>
+                                      <Box sx={{ display: "flex" }}>
+                                        <Button
+                                          disableRipple
+                                          sx={{
+                                            maxHeight: "36px",
+                                            position: "relative",
+                                            px: 2.5,
+                                            py: 1,
+                                            bgcolor: "text.primary",
+                                            border: "1px solid",
+                                            borderColor: "text.primary",
+                                            color: "white",
+                                            lineHeight: 1,
+                                            borderRadius: 2.5,
+                                            overflow: "hidden",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            "&:before": {
+                                              content: "''",
+                                              height: 0,
+                                              width: "10rem",
+                                              position: "absolute",
+                                              top: "50%",
+                                              left: "50%",
+                                              zIndex: "0",
+                                              bgcolor: "white",
+                                              transform:
+                                                "rotate(-45deg) translate(-50%, -50%)",
+                                              transformOrigin: "0% 0%",
+                                              transition:
+                                                "all 0.4s ease-in-out",
+                                            },
+                                            "&:hover": {
+                                              color: "text.primary",
+                                              bgcolor: "text.primary",
+                                              "&:before": { height: "10rem" },
+                                            },
+                                          }}
+                                        >
+                                          <span
+                                            style={{ position: "relative" }}
+                                          >
+                                            Add Client
+                                          </span>
+                                        </Button>
+                                      </Box>
                                     </MenuItem>
                                   </Select>
                                   {Boolean(formik.errors.select_Bank) && (
@@ -1510,6 +1581,11 @@ export default function Invoices() {
                                     <CustomFormikField
                                       name="customBankName"
                                       label="Bank Name"
+                                      style={{
+                                        "& input": {
+                                          textTransform: "capitalize",
+                                        },
+                                      }}
                                     />
                                     <CustomFormikField
                                       name="customIFSC"
@@ -1523,6 +1599,11 @@ export default function Invoices() {
                                     <CustomFormikField
                                       name="customHolderName"
                                       label="A/c Holder Name"
+                                      style={{
+                                        "& input": {
+                                          textTransform: "capitalize",
+                                        },
+                                      }}
                                     />
                                     <CustomFormikField
                                       name="customeAccountNumber"
@@ -1530,7 +1611,6 @@ export default function Invoices() {
                                     />
                                   </>
                                 )}
-
                                 {!bankOpen && bankDetails && (
                                   <>
                                     <Box
@@ -1614,28 +1694,64 @@ export default function Invoices() {
                               />
                             </Box>
                           </Box>
+                          {/* ToDo = Error is coming when change sign image */}
                           <Box
                             sx={{
+                              display: showSign ? "inline-flex" : "none",
                               mt: 8.5,
                               mr: 6,
                               maxHeight: "80px",
                               maxWidth: "200px",
                               flexShrink: 0,
+                              position: "relative",
                             }}
                           >
                             <img
-                              src="/images/sign.svg"
+                              src={url ? url : "/images/sign.svg"}
                               style={{
                                 maxHeight: "inherit",
                                 width: "100%",
                                 display: "block",
                               }}
-                              alt=""
-                            ></img>
+                              alt="Sign"
+                            />
+                            <Tooltip title="Please add 136x78 size image" arrow>
+                              <Button
+                                disableRipple
+                                sx={{
+                                  position: "absolute",
+                                  bottom: "-35px",
+                                  right: 0,
+                                  minWidth: "unset",
+                                  borderRadius: "100%",
+                                  width: "32px",
+                                  height: "32px",
+                                  backgroundColor: "rgba(0,0,0,0.4)",
+                                  "&:hover": {
+                                    backgroundColor: "rgba(0,0,0,0.5)",
+                                  },
+                                }}
+                              >
+                                <ReactFileReader
+                                  fileTypes={[".png", ".jpg"]}
+                                  base64={true}
+                                  handleFiles={handleFiles}
+                                  as={Button}
+                                >
+                                  <SignChangeIcon
+                                    sx={{
+                                      fontSize: 20,
+                                      color: "white",
+                                      display: "block",
+                                    }}
+                                  />
+                                </ReactFileReader>
+                              </Button>
+                            </Tooltip>
                           </Box>
                         </Box>
                       </Box>
-                      <Box sx={{ mt: 3 }}>
+                      <Stack spacing={1} sx={{ mt: 3 }}>
                         <FormControlLabel
                           label="Add watermark"
                           sx={{
@@ -1676,7 +1792,47 @@ export default function Invoices() {
                             />
                           }
                         />
-                      </Box>
+                        <FormControlLabel
+                          label="Add Signature"
+                          sx={{
+                            userSelect: "none",
+                            m: 0,
+                            "&>span:last-child": {
+                              ml: 1,
+                            },
+                          }}
+                          control={
+                            <Checkbox
+                              onClick={() => setShowSign(!showSign)}
+                              disableRipple
+                              sx={{
+                                p: 0,
+                                position: "relative",
+                                borderRadius: "4px",
+                                width: "20px",
+                                height: "20px",
+                                bgcolor: "text.primary",
+                                "& svg": { opacity: 0 },
+                                "&:before": {
+                                  content: "'✓'",
+                                  position: "absolute",
+                                  top: "50%",
+                                  left: "50%",
+                                  transform: "translate(-50%,-50%)",
+                                  opacity: 0,
+                                  transition: "all 0.2s ease-in-out",
+                                  color: "white",
+                                  fontSize: "14px",
+                                },
+                                "&.Mui-checked:before": {
+                                  opacity: 1,
+                                },
+                              }}
+                              defaultChecked
+                            />
+                          }
+                        />
+                      </Stack>
                     </Box>
                     <Box
                       sx={{

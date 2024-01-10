@@ -88,7 +88,6 @@ export default function Home() {
   };
 
   const [url, setUrl] = useState();
-
   const handleFiles = async (files) => {
     console.log(files, "---------------95");
     setUrl(files.base64);
