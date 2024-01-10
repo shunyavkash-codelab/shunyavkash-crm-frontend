@@ -11,6 +11,7 @@ import EmployeeDashboard from "./page/EmployeeDashboard";
 import User from "./page/User";
 import AddUser from "./page/AddUser";
 import ViewUser from "./page/ViewUser";
+import Members from "./page/Members";
 import Clients from "./page/Clients";
 import AddClient from "./page/AddClient";
 import ViewClient from "./page/ViewClient";
@@ -38,6 +39,7 @@ const routes = createBrowserRouter([
   { path: "/users", Component: User },
   { path: "/users/add", Component: AddUser },
   { path: "/users/view/:id", Component: ViewUser },
+  { path: "/members", Component: Members },
   { path: "/clients", Component: Clients },
   { path: "/Clients/add", Component: AddClient },
   { path: "/Clients/edit/:id", Component: AddClient },

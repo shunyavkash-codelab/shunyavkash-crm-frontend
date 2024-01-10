@@ -38,6 +38,7 @@ export default function SideBar({
       icon: <DashboardIcon />,
       link: "/",
     },
+    { text: "Members", icon: <UserIcon />, link: "/members" },
     { text: "Manager", icon: <UserIcon />, link: "/users" },
     { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
     { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
