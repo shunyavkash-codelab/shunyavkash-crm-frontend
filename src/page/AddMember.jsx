@@ -3,7 +3,7 @@ import React, {
   useState,
 } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import {
@@ -25,10 +25,16 @@ import { Field, FormikProvider, useFormik } from "formik";
 import { APIS } from "../api/apiList";
 import FileUploadButton from "../component/FileUploadButton";
 import * as Yup from "yup";
+import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 export default function AddMember() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const [
     // userList,
     setUserList,
@@ -134,6 +140,14 @@ export default function AddMember() {
   //   fetchCountry();
   // }, []);
   // });
+
+  const [reference, setRefrence] = useState([
+    "The Shawshank Redemption",
+    "The Godfather",
+    "The Godfather: Part II",
+    "The Dark Knight",
+    "Inception",
+  ]);
 
   return (
     <>
@@ -244,7 +258,7 @@ export default function AddMember() {
                   helperText={formik.touched.email && formik.errors.email}
                 />
 
-                <Box
+                {/* <Box
                   sx={{
                     display: "flex",
                     "&:hover fieldset": {
@@ -322,7 +336,52 @@ export default function AddMember() {
                       formik.touched.mobileNumber && formik.errors.mobileNumber
                     }
                   />
-                </Box>
+                </Box> */}
+
+                <Stack
+                  direction="row"
+                  sx={{
+                    "&:hover fieldset": {
+                      borderColor: "text.primary",
+                    },
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileCode"
+                    autoComplete="off"
+                    defaultValue="+91"
+                    sx={{
+                      maxWidth: "75px",
+                      mr: "-1px",
+                      bgcolor: "#f4f4f4",
+                      borderRadius: "6px 0 0 6px",
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": { py: 1.5, textAlign: "center" },
+                      "& fieldset": {
+                        borderRight: 0,
+                        borderRadius: "6px 0 0 6px",
+                      },
+                    }}
+                  />
+
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileNumber"
+                    placeholder="Mobile Number"
+                    autoComplete="off"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": { py: 1.5 },
+                      "& fieldset": {
+                        borderLeft: 0,
+                        borderRadius: "0 6px 6px 0",
+                      },
+                    }}
+                  />
+                </Stack>
 
                 <FormControl
                   fullWidth
@@ -409,60 +468,193 @@ export default function AddMember() {
                   </Select>
                 </FormControl>
 
-                <FormControl
-                  fullWidth
-                  size="small"
+                {/* <FormControl
+                    fullWidth
+                    size="small"
+                    sx={{
+                      textTransform: "capitalize",
+                      "&>label": { fontSize: "14px", top: "4px" },
+                      "&>div>div": { py: 1.5 },
+                    }}
+                  >
+                    <InputLabel id="demo-simple-select-label">
+                      Reference
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="reference"
+                      label="Reference"
+                      sx={{
+                        fontSize: "14px",
+                      }}
+                    >
+                      <MenuItem sx={{ textTransform: "capitalize" }} value="deep">
+                        deep
+                      </MenuItem>
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value="dipali"
+                      >
+                        dipali
+                      </MenuItem>
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value="sujit"
+                      >
+                        Sujit
+                      </MenuItem>
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value="sujit"
+                      >
+                        <Box component="form" sx={{ width: "100%" }}>
+                          <TextField
+                            fullWidth
+                            size="small"
+                            id="addReference"
+                            placeholder="Add Reference"
+                            autoComplete="off"
+                            sx={{
+                              "&>label,& input,&>div": { fontSize: "14px" },
+                              "&>label": { top: "4px" },
+                              "& fieldset": {
+                                border: "0!important",
+                              },
+                              "& input": { p: 0 },
+                            }}
+                          />
+                        </Box>
+                      </MenuItem>
+                    </Select>
+                  </FormControl> */}
+
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={reference}
                   sx={{
-                    "&>label": { fontSize: "14px", top: "4px" },
-                    "&>div>div": { py: 1.5 },
+                    fontSize: "14px!important",
+                    "& .MuiAutocomplete-clearIndicator": {
+                      display: "none",
+                    },
                   }}
-                >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
+                  renderOption={(props, option) => (
+                    <Box
+                      component="li"
+                      sx={{
+                        "&": { fontSize: "14px", textTransform: "capitalize" },
+                      }}
+                      {...props}
+                    >
+                      {option}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      // focused
+                      fullWidth
+                      autoComplete="off"
+                      label="Reference"
+                      className="reference-field"
+                      {...params}
+                      // onKeyUp={(e) => {
+                      //   if (e.key === "Enter") {
+                      //     console.log(e);
+                      //   }
+                      // }}
+                      onKeyDown={(e) => {
+                        let value = e.target.value;
+                        if (!value || reference.includes(value)) {
+                          return;
+                        }
+                        if (e.key === "Enter") {
+                          console.log(e);
+                          e.preventDefault();
+                          setRefrence((prevRef) => [...prevRef, value]);
+                        }
+                      }}
+                      sx={{
+                        "& input,&>div,&>label": { fontSize: "14px" },
+                        "&>label": { lineHeight: 1 },
+                        "&>div": { height: "44px", pl: "12px!important" },
+                        "& input": {
+                          textTransform: "capitalize",
+                          p: "0!important",
+                        },
+                      }}
+                    />
+                  )}
+                />
+
+                <Box sx={{ position: "relative" }}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="password"
+                    label="Password"
+                    autoComplete="off"
+                    type={showPassword ? "text" : "password"}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": {
+                        textTransform: "capitalize",
+                        py: 1.5,
+                        pr: 5,
+                      },
+                    }}
+                  />
+                  <Box
+                    onClick={handleClickShowPassword}
+                    sx={{
+                      position: "absolute",
+                      top: "13px",
+                      right: "16px",
+                      opacity: "50%",
+                      cursor: "pointer",
+                      display: "inline-flex",
+                      "& svg": { fontSize: "20px" },
+                    }}
                   >
-                    Reference
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="member-type"
-                    label="Reference"
-                    sx={{ fontSize: "14px" }}
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </Box>
+                </Box>
+
+                <Box sx={{ position: "relative" }}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="confirmPassword"
+                    label="Confirm Password"
+                    autoComplete="off"
+                    type={showPassword ? "text" : "password"}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": {
+                        textTransform: "capitalize",
+                        py: 1.5,
+                        pr: 5,
+                      },
+                    }}
+                  />
+                  <Box
+                    onClick={handleClickShowPassword}
+                    sx={{
+                      position: "absolute",
+                      top: "13px",
+                      right: "16px",
+                      opacity: "50%",
+                      cursor: "pointer",
+                      display: "inline-flex",
+                      "& svg": { fontSize: "20px" },
+                    }}
                   >
-                    <MenuItem sx={{ textTransform: "capitalize" }} value="deep">
-                      Deep
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value="dipali"
-                    >
-                      dipali
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value="sujit"
-                    >
-                      Sujit
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value="akash"
-                    >
-                      Akash
-                    </MenuItem>
-                    <MenuItem sx={{ textTransform: "capitalize" }} value="ravi">
-                      Ravi
-                    </MenuItem>
-                    <MenuItem
-                      sx={{ textTransform: "capitalize" }}
-                      value="prince"
-                    >
-                      Prince
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                {/* 
-                <TextField
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </Box>
+                </Box>
+
+                {/* <TextField
                   fullWidth
                   size="small"
                   id="websiteURL"
@@ -477,8 +669,23 @@ export default function AddMember() {
                   onChange={formik.handleChange}
                   value={formik.values.websiteURL}
                 /> */}
+
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ lineHeight: 1, mb: 1.25 }}
+                  >
+                    Profile Image
+                  </Typography>
+                  <FileUploadButton
+                    formik={formik}
+                    id={"profile_img"}
+                    label={"Profile Image"}
+                    value={""}
+                  />
+                </Box>
               </Box>
-              <Box
+              {/* <Box
                 sx={{
                   mt: 2.5,
                   "& fieldset": {
@@ -507,8 +714,7 @@ export default function AddMember() {
                     value={""}
                   />
                 </Box>
-
-                {/* <Box sx={{ gridColumn: { md: "span 1" } }}>
+                <Box sx={{ gridColumn: { md: "span 1" } }}>
                   <Typography
                     variant="subtitle1"
                     sx={{ lineHeight: 1, mb: 1.25 }}
@@ -520,9 +726,8 @@ export default function AddMember() {
                     id={"companyLogo"}
                     label={"Company Logo"}
                   />
-                </Box> */}
-
-                {/* <Box sx={{ gridColumn: { md: "span 2", xxl: "span 1" } }}>
+                </Box>{" "}
+                <Box sx={{ gridColumn: { md: "span 2", xxl: "span 1" } }}>
                   <Typography
                     variant="subtitle1"
                     sx={{ lineHeight: 1, mb: 1.25 }}
@@ -534,8 +739,8 @@ export default function AddMember() {
                     id={"signature"}
                     label={"Signature"}
                   />
-                </Box> */}
-              </Box>
+                </Box>
+              </Box> */}
               <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
                 <Button
                   disableRipple
