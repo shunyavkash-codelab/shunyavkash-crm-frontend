@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -22,13 +22,12 @@ import Header from "../component/Header";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import PlusIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
-// import CashIcon from "@mui/icons-material/Payments";
-// import BankIcon from "@mui/icons-material/AccountBalance";
-// import UpiIcon from "@mui/icons-material/Payment";
-// import CreateIcon from "@mui/icons-material/CreateOutlined";
-// import FileDownloadIcon from "@mui/icons-material/FileDownload";
-
-// import NoData from "../component/NoData";
+import EmployeeListRaw from "../component/EmployeeListRaw";
+import useApi from "../hooks/useApi.js";
+import { APIS } from "../api/apiList.js";
+import { useSearchData } from "../hooks/store/useSearchData.js";
+import { useSnack } from "../hooks/store/useSnack.js";
+import { useInviteMemberStore } from "../hooks/store/useInviteMemberStore.js";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -67,7 +66,8 @@ export default function Members() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, user } = useAuth();
-  const [userList] = useState([]);
+  const [managerList, setManagerList] = useState([]);
+  const { inviteMemberStore } = useInviteMemberStore();
 
   const [value, setValue] = React.useState(0);
 
@@ -75,24 +75,59 @@ export default function Members() {
     setValue(newValue);
   };
 
-  // const row = [
-  //   {
-  //     fullname: "Deep Bhimani",
-  //     email: "deep123@gmail.com",
-  //     phonenumber: "877369021",
-  //     gender: "Male",
-  //     companyname: "Shunyavkash",
-  //     reference: "Prince",
-  //   },
-  //   {
-  //     fullname: "Dipali Gediya",
-  //     email: "dipaligediya2001@gmail.com",
-  //     phonenumber: "9476399211",
-  //     gender: "Female",
-  //     companyname: "Shunyavkash",
-  //     reference: "Hiren",
-  //   },
-  // ];
+  const [employeesList, setEmployeesList] = useState([]);
+  const { apiCall } = useApi();
+  const { searchData } = useSearchData();
+  const { setSnack } = useSnack();
+
+  const fetchManager = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.LIST,
+        method: "get",
+        params: { search: searchData },
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setManagerList(res.data.data.data);
+        console.log(res.data.data.data, "--------------------91");
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
+  const fetchEmployees = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.EMPLOYEE.ALLLIST,
+        method: "get",
+        params: { search: searchData },
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setEmployeesList(res.data.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
+  useEffect(() => {
+    fetchManager();
+    fetchEmployees();
+  }, []);
+
+  // serech data
+  useEffect(() => {
+    if (searchData !== undefined) fetchManager();
+  }, [searchData]);
+
+  // employee
+  useEffect(() => {
+    if (inviteMemberStore)
+      setEmployeesList([...[inviteMemberStore], ...employeesList]);
+  }, [inviteMemberStore]);
 
   return (
     <>
@@ -220,7 +255,7 @@ export default function Members() {
                     mt: 2,
                   }}
                 >
-                  15
+                  {`${(managerList.length || 0) + (employeesList.length || 0)}`}
                 </Typography>
               </Box>
             </Grid>
@@ -239,7 +274,7 @@ export default function Members() {
                     mt: 2,
                   }}
                 >
-                  8
+                  {managerList.length || 0}
                 </Typography>
               </Box>
             </Grid>
@@ -258,7 +293,7 @@ export default function Members() {
                     mt: 2,
                   }}
                 >
-                  5
+                  {employeesList.length || 0}
                 </Typography>
               </Box>
             </Grid>
@@ -303,8 +338,127 @@ export default function Members() {
                 {...a11yProps(1)}
               />
             </Tabs>
-
+            {/* Manager */}
             <CustomTabPanel value={value} index={0}>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  border: "1px solid rgba(224, 224, 224, 1)",
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
+                }}
+              >
+                <Table
+                  className="userTable"
+                  sx={{
+                    minWidth: 650,
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": { borderBottom: 0 },
+                    "& tbody tr": {
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
+                    <TableRow
+                      sx={{
+                        "&>th": { lineHeight: 1, fontWeight: 700 },
+                      }}
+                    >
+                      <TableCell>Manager</TableCell>
+                      <TableCell>Company Name</TableCell>
+                      <TableCell>Mobile Number</TableCell>
+                      <TableCell>Gender</TableCell>
+                      <TableCell>Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {managerList.map((row) => (
+                      <TableRow
+                        key="" //{row.name}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1.75,
+                            }}
+                          >
+                            <Avatar
+                              sx={{
+                                width: "36px",
+                                height: "36px",
+                              }}
+                              alt={row.name}
+                              src={row.profile_img}
+                            />
+                            <Box>
+                              <Typography
+                                sx={{
+                                  mb: 0.75,
+                                  lineHeight: 1,
+                                  fontWeight: 600,
+                                  fontSize: { xs: "14px", sm: "16px" },
+                                }}
+                              >
+                                {row.name}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  lineHeight: 1,
+                                  textTransform: "lowercase",
+                                  fontSize: { xs: "12px", sm: "14px" },
+                                }}
+                              >
+                                {row.email}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </TableCell>
+                        <TableCell>{row.companyName}</TableCell>
+                        <TableCell>{row.mobileNumber}</TableCell>
+                        <TableCell>{row.gender}</TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: { xs: 1.25, sm: 1.5 },
+                              opacity: 0.3,
+                              "& button": {
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              },
+                              "& svg": {
+                                fontSize: { xs: "20px", sm: "22px" },
+                              },
+                            }}
+                          >
+                            <Link to={`./view/${row._id}`}>
+                              <Button disableRipple>
+                                <VisibilityIcon />
+                              </Button>
+                            </Link>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CustomTabPanel>
+
+            {/* <CustomTabPanel value={value} index={0}>
               <TableContainer
                 component={Paper}
                 sx={{
@@ -421,9 +575,9 @@ export default function Members() {
                   </TableBody>
                 </Table>
               </TableContainer>
-            </CustomTabPanel>
+            </CustomTabPanel> */}
 
-            <CustomTabPanel value={value} index={1}>
+            {/* <CustomTabPanel value={value} index={1}>
               <TableContainer
                 component={Paper}
                 sx={{
@@ -536,6 +690,56 @@ export default function Members() {
                           </Box>
                         </TableCell>
                       </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CustomTabPanel> */}
+
+            {/* Employee */}
+            <CustomTabPanel value={value} index={1}>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  border: "1px solid rgba(224, 224, 224, 1)",
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
+                }}
+              >
+                <Table
+                  className="userTable"
+                  sx={{
+                    minWidth: 650,
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": { borderBottom: 0 },
+                    "& tbody tr": {
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
+                    <TableRow
+                      sx={{
+                        "&>th": { lineHeight: 1, fontWeight: 700 },
+                      }}
+                    >
+                      <TableCell>employee</TableCell>
+                      <TableCell sx={{ width: "250px" }}>Role</TableCell>
+                      <TableCell>status</TableCell>
+                      <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {employeesList.map((row) => (
+                      <EmployeeListRaw
+                        row={row}
+                        uniqId={row._id}
+                        setEmployeesList={setEmployeesList}
+                        employeesList={employeesList}
+                      />
                     ))}
                   </TableBody>
                 </Table>
