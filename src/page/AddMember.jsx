@@ -260,7 +260,7 @@ export default function AddMember() {
                         borderRight: 0,
                       },
                       "&>div>div": {
-                        p: "9px 24px 10px 6px!important",
+                        p: "0px 24px 0px 6px!important",
                         bgcolor: "#f4f4f4",
                       },
                       "& input+div": {
@@ -276,48 +276,14 @@ export default function AddMember() {
                     options={countryList}
                     autoHighlight
                     getOptionLabel={(option) => option.label}
-                    renderOption={(props, option) => (
-                      <Box
-                        component="li"
-                        sx={{
-                          "& > img": { mr: 0.5, flexShrink: 0 },
-                          fontSize: { xs: "12px", sm: "14px" },
-                        }}
-                        {...props}
-                      >
-                        <img
-                          loading="lazy"
-                          width="18"
-                          height="12"
-                          src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                          alt=""
-                        />
-                        +{option.phone}
-                      </Box>
-                    )}
                     renderInput={(params) => {
                       return (
                         <TextField
-                          {...params}
-                          InputProps={{
-                            ...params.InputProps,
-                            startAdornment: country ? (
-                              <InputAdornment
-                                position="start"
-                                sx={{
-                                  marginLeft: "10px",
-                                  marginRight: 0,
-                                }}
-                              >
-                                <img
-                                  loading="lazy"
-                                  width="20"
-                                  src={`https://flagcdn.com/w20/${country.code.toLowerCase()}.png`}
-                                  srcSet={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png 2x`}
-                                  alt=""
-                                />
-                              </InputAdornment>
-                            ) : null,
+                          placeholder="+91"
+                          sx={{
+                            "& input,&>div": { fontSize: "14px" },
+                            "&>label": { top: "4px" },
+                            "& input": { textTransform: "capitalize", py: 1.5 },
                           }}
                         />
                       );
@@ -424,9 +390,15 @@ export default function AddMember() {
                   >
                     <MenuItem
                       sx={{ textTransform: "capitalize" }}
-                      value="dipali"
+                      value="manager"
                     >
                       Manager
+                    </MenuItem>
+                    <MenuItem
+                      sx={{ textTransform: "capitalize" }}
+                      value="employee"
+                    >
+                      Employee
                     </MenuItem>
                   </Select>
                 </FormControl>
@@ -451,11 +423,35 @@ export default function AddMember() {
                     label="Reference"
                     sx={{ fontSize: "14px" }}
                   >
+                    <MenuItem sx={{ textTransform: "capitalize" }} value="deep">
+                      Deep
+                    </MenuItem>
                     <MenuItem
                       sx={{ textTransform: "capitalize" }}
                       value="dipali"
                     >
                       dipali
+                    </MenuItem>
+                    <MenuItem
+                      sx={{ textTransform: "capitalize" }}
+                      value="sujit"
+                    >
+                      Sujit
+                    </MenuItem>
+                    <MenuItem
+                      sx={{ textTransform: "capitalize" }}
+                      value="akash"
+                    >
+                      Akash
+                    </MenuItem>
+                    <MenuItem sx={{ textTransform: "capitalize" }} value="ravi">
+                      Ravi
+                    </MenuItem>
+                    <MenuItem
+                      sx={{ textTransform: "capitalize" }}
+                      value="prince"
+                    >
+                      Prince
                     </MenuItem>
                   </Select>
                 </FormControl>
