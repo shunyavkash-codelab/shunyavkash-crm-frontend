@@ -34,7 +34,7 @@ import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import ModalComponent from "../component/ModalComponent";
 import UserSalary from "../page/UserSalary";
 import UserLeave from "./UserLeave";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
@@ -75,9 +75,10 @@ export default function Home() {
   const { id } = useParams();
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken } = useAuth();
-  const { apiCall } = useApi();
+  const { accessToken, userId } = useAuth();
+  const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
+  const navigate = useNavigate();
 
   const [userList, setUserList] = useState();
   const [changeStatus, setChangeStatus] = useState(true);
@@ -86,13 +87,31 @@ export default function Home() {
     setValue(newValue);
   };
 
-  const [url, setUrl] = useState(
-    "https://gull-html-laravel.ui-lib.com/assets/images/faces/1.jpg"
-  );
+  const [url, setUrl] = useState();
 
-  const handleFiles = (files) => {
-    console.log(files);
+  const handleFiles = async (files) => {
+    console.log(files, "---------------95");
     setUrl(files.base64);
+    let formData = new FormData();
+    // values.profile_img = url?.fileList[0];
+
+    formData.append("profile_img", files.fileList[0]);
+
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.EDIT(id),
+        method: "patch",
+        headers: "multipart/form-data",
+        data: formData,
+      });
+      if (res.status === 200) {
+        setSnack(res.data.message);
+        // setUrl(files.base64);
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
+    }
   };
 
   const [open, setOpen] = React.useState({ open: false, type: "" });
@@ -114,18 +133,36 @@ export default function Home() {
     }
   };
 
+  const handleChangeUserDelete = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.EDIT(id),
+        method: "patch",
+        data: { isDeleted: true },
+      });
+      if (res.status === 200) {
+        setSnack(res.data.message);
+        navigate("/employees");
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
+    }
+  };
+
   const handleOpen = (type) => setOpen({ open: true, type });
 
   const viewEmployees = async () => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.VIEW(id),
+        url: APIS.MANAGER.VIEW(id || userId),
         method: "get",
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
         setUserList(res.data.data);
         setChangeStatus(res.data.data.isActive);
+        setUrl(res.data.data.profile_img);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -140,17 +177,12 @@ export default function Home() {
   if (userList?.dateOfJoining) {
     let originalDate = moment(userList?.dateOfJoining);
     joiningFormattedDate = originalDate.format("DD/MM/YYYY");
-    console.log(
-      joiningFormattedDate,
-      "------------------------joiningFormattedDate"
-    );
   }
 
   let dobFormattedDate;
   if (userList?.dob) {
     let originalDate = moment(userList?.dob);
     dobFormattedDate = originalDate.format("DD/MM/YYYY");
-    console.log(dobFormattedDate, "------------------------dobFormattedDate");
   }
 
   return (
@@ -236,7 +268,7 @@ export default function Home() {
                     boxShadow: "0 0 0 4px white",
                   }}
                   alt="avatar"
-                  src={url}
+                  src={url ? url : isLoading}
                 />
                 <Button
                   sx={{
@@ -295,7 +327,11 @@ export default function Home() {
                   ></Chip>
                   <Typography
                     variant="h5"
-                    sx={{ color: "black", fontWeight: 500 }}
+                    sx={{
+                      color: "black",
+                      fontWeight: 500,
+                      textTransform: "capitalize",
+                    }}
                   >
                     {userList?.name}
                   </Typography>
@@ -329,85 +365,90 @@ export default function Home() {
                     />
                   </Box>
                 </Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <Button
-                    disableRipple
-                    type="submit"
-                    onClick={() => handleChangeActiveDeactive()}
-                    sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
-                      bgcolor: changeStatus ? "error.main" : "success.main",
-                      border: "1px solid",
-                      borderColor: changeStatus ? "error.main" : "success.main",
-                      color: "white",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "white",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
-                        color: changeStatus ? "error.main" : "success.main",
+                {id && (
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Button
+                      disableRipple
+                      type="submit"
+                      onClick={() => handleChangeActiveDeactive()}
+                      sx={{
+                        maxHeight: "42px",
+                        position: "relative",
+                        px: 2.5,
+                        py: 1.5,
                         bgcolor: changeStatus ? "error.main" : "success.main",
-                        "&:before": { height: "10rem" },
-                      },
-                    }}
-                  >
-                    <span style={{ position: "relative" }}>
-                      {changeStatus ? "deactive" : "active"}
-                    </span>
-                  </Button>
-                  <Button
-                    disableRipple
-                    type="submit"
-                    sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
-                      bgcolor: "error.main",
-                      border: "1px solid",
-                      borderColor: "error.main",
-                      color: "white",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "white",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
-                        color: "error.main",
+                        border: "1px solid",
+                        borderColor: changeStatus
+                          ? "error.main"
+                          : "success.main",
+                        color: "white",
+                        lineHeight: 1,
+                        borderRadius: 2.5,
+                        overflow: "hidden",
+                        "&:before": {
+                          content: "''",
+                          height: 0,
+                          width: "10rem",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          zIndex: "0",
+                          bgcolor: "white",
+                          transform: "rotate(-45deg) translate(-50%, -50%)",
+                          transformOrigin: "0% 0%",
+                          transition: "all 0.4s ease-in-out",
+                        },
+                        "&:hover": {
+                          color: changeStatus ? "error.main" : "success.main",
+                          bgcolor: changeStatus ? "error.main" : "success.main",
+                          "&:before": { height: "10rem" },
+                        },
+                      }}
+                    >
+                      <span style={{ position: "relative" }}>
+                        {changeStatus ? "deactive" : "active"}
+                      </span>
+                    </Button>
+                    <Button
+                      disableRipple
+                      type="submit"
+                      onClick={() => handleChangeUserDelete()}
+                      sx={{
+                        maxHeight: "42px",
+                        position: "relative",
+                        px: 2.5,
+                        py: 1.5,
                         bgcolor: "error.main",
-                        "&:before": { height: "10rem" },
-                      },
-                    }}
-                  >
-                    <span style={{ position: "relative" }}>delete</span>
-                  </Button>
-                </Box>
+                        border: "1px solid",
+                        borderColor: "error.main",
+                        color: "white",
+                        lineHeight: 1,
+                        borderRadius: 2.5,
+                        overflow: "hidden",
+                        "&:before": {
+                          content: "''",
+                          height: 0,
+                          width: "10rem",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          zIndex: "0",
+                          bgcolor: "white",
+                          transform: "rotate(-45deg) translate(-50%, -50%)",
+                          transformOrigin: "0% 0%",
+                          transition: "all 0.4s ease-in-out",
+                        },
+                        "&:hover": {
+                          color: "error.main",
+                          bgcolor: "error.main",
+                          "&:before": { height: "10rem" },
+                        },
+                      }}
+                    >
+                      <span style={{ position: "relative" }}>delete</span>
+                    </Button>
+                  </Box>
+                )}
               </Box>
             </Box>
             <Tabs
@@ -476,57 +517,59 @@ export default function Home() {
             index={0}
           >
             <Box>
-              <Box className="cardHeader">
-                <Typography className="cardTitle">
-                  {userList?.role === 0
-                    ? "Admin"
-                    : userList?.role === 1
-                    ? "Manager"
-                    : "Employee"}{" "}
-                  Details
-                </Typography>
-                <Button
-                  onClick={handleOpen.bind(null, "employee-detail")}
-                  startIcon={<EditIcon sx={{ width: 16 }} />}
-                  sx={{
-                    cursor: "pointer",
-                    height: "unset",
-                    py: 0.3,
-                    px: 1.5,
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    borderRadius: 4,
-                  }}
-                >
-                  Edit
-                </Button>
-              </Box>
+              {id && (
+                <Box className="cardHeader">
+                  <Typography className="cardTitle">
+                    {userList?.role === 0
+                      ? "Admin"
+                      : userList?.role === 1
+                      ? "Manager"
+                      : "Employee"}{" "}
+                    Details
+                  </Typography>
+                  <Button
+                    onClick={handleOpen.bind(null, "employee-detail")}
+                    startIcon={<EditIcon sx={{ width: 16 }} />}
+                    sx={{
+                      cursor: "pointer",
+                      height: "unset",
+                      py: 0.3,
+                      px: 1.5,
+                      border: "1px solid",
+                      borderColor: "primary.main",
+                      borderRadius: 4,
+                    }}
+                  >
+                    Edit
+                  </Button>
+                </Box>
+              )}
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"date of joining"}
-                    Text={joiningFormattedDate || "NA"}
+                    Text={joiningFormattedDate || "N/A"}
                     Icon={<DateIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"employee id"}
-                    Text={userList?.employeeId || "NA"}
+                    Text={userList?.employeeId || "N/A"}
                     Icon={<Grid3x3Icon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"work email"}
-                    Text={userList?.email || "NA"}
+                    Text={userList?.email || "N/A"}
                     Icon={<EmailOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"designation"}
-                    Text={userList?.designation || "NA"}
+                    Text={userList?.designation || "N/A"}
                     Icon={<AccountBoxOutlinedIcon />}
                   />
                 </Grid>
@@ -540,7 +583,7 @@ export default function Home() {
                         ? "Manager"
                         : userList?.role === 2
                         ? "Employee"
-                        : "NA"
+                        : "N/A"
                     }
                     Icon={<PermIdentityOutlinedIcon />}
                   />
@@ -571,35 +614,35 @@ export default function Home() {
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"full name"}
-                    Text={userList?.name || "NA"}
+                    Text={userList?.name || "N/A"}
                     Icon={<PermIdentityOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"gender"}
-                    Text={userList?.gender || "NA"}
+                    Text={userList?.gender || "N/A"}
                     Icon={<WcOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"DOB"}
-                    Text={dobFormattedDate || "NA"}
+                    Text={dobFormattedDate || "N/A"}
                     Icon={<DateIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"hobbies"}
-                    Text={userList?.hobbies || "NA"}
+                    Text={userList?.hobbies || "N/A"}
                     Icon={<SportsSoccerOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"phobia"}
-                    Text={userList?.phobia || "NA"}
+                    Text={userList?.phobia || "N/A"}
                     Icon={<SickOutlinedIcon />}
                   />
                 </Grid>
@@ -629,14 +672,16 @@ export default function Home() {
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"Phone number"}
-                    Text={userList?.mobileCode + userList?.mobileNumber || "NA"}
+                    Text={
+                      userList?.mobileCode + userList?.mobileNumber || "N/A"
+                    }
                     Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"whatsApp number"}
-                    Text={userList?.whatsappNumber || "NA"}
+                    Text={userList?.whatsappNumber || "N/A"}
                     // Todo : Add whatsapp icon here
                     Icon={<PhoneOutlinedIcon />}
                   />
@@ -656,7 +701,7 @@ export default function Home() {
                         userList?.address2 +
                         userList?.landmark +
                         "-" +
-                        userList?.pincode || "NA"
+                        userList?.pincode || "N/A"
                     }
                     Icon={<HomeOutlinedIcon />}
                   />
@@ -687,21 +732,21 @@ export default function Home() {
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"father's name"}
-                    Text={userList?.fatherName || "NA"}
+                    Text={userList?.fatherName || "N/A"}
                     Icon={<Man2OutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"father's number"}
-                    Text={userList?.fatherNumber || "NA"}
+                    Text={userList?.fatherNumber || "N/A"}
                     Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"mother's name"}
-                    Text={userList?.motherName || "NA"}
+                    Text={userList?.motherName || "N/A"}
                     Icon={<Woman2OutlinedIcon />}
                   />
                 </Grid>
