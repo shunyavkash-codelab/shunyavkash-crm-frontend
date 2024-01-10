@@ -9,6 +9,7 @@ import {
   Button,
   Autocomplete,
   InputAdornment,
+  Stack,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import FileUploadButton from "../component/FileUploadButton";
@@ -397,55 +398,80 @@ export default function AddClient() {
                     />
                   </Box> */}
 
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="mobileCode"
-                    label="Mobile Code"
-                    autoComplete="off"
-                    defaultValue={clientList?.mobileCode}
-                    InputProps={
-                      location.pathname.includes("/view/") && { readOnly: true }
-                    }
+                  <Stack
+                    direction="row"
                     sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "& input": { py: 1.5 },
+                      "&:hover fieldset": {
+                        borderColor: "text.primary",
+                      },
                     }}
-                    onChange={formik.handleChange}
-                    value={formik.values.mobileCode}
-                    error={
-                      formik.touched.mobileCode &&
-                      Boolean(formik.errors.mobileCode)
-                    }
-                    helperText={
-                      formik.touched.mobileCode && formik.errors.mobileCode
-                    }
-                  />
+                  >
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="mobileCode"
+                      autoComplete="off"
+                      defaultValue={clientList ? clientList.mobileCode : "+91"}
+                      InputProps={
+                        location.pathname.includes("/view/") && {
+                          readOnly: true,
+                        }
+                      }
+                      sx={{
+                        maxWidth: "75px",
+                        mr: "-1px",
+                        bgcolor: "#f4f4f4",
+                        borderRadius: "6px 0 0 6px",
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                        "& input": { py: 1.5, textAlign: "center" },
+                        "& fieldset": {
+                          borderRight: 0,
+                          borderRadius: "6px 0 0 6px",
+                        },
+                      }}
+                      onChange={formik.handleChange}
+                      value={formik.values.mobileCode}
+                      error={
+                        formik.touched.mobileCode &&
+                        Boolean(formik.errors.mobileCode)
+                      }
+                      helperText={
+                        formik.touched.mobileCode && formik.errors.mobileCode
+                      }
+                    />
 
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="mobileNumber"
-                    label="Mobile Number"
-                    autoComplete="off"
-                    defaultValue={clientList?.mobileNumber}
-                    InputProps={
-                      location.pathname.includes("/view/") && { readOnly: true }
-                    }
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "& input": { py: 1.5 },
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.mobileNumber}
-                    error={
-                      formik.touched.mobileNumber &&
-                      Boolean(formik.errors.mobileNumber)
-                    }
-                    helperText={
-                      formik.touched.mobileNumber && formik.errors.mobileNumber
-                    }
-                  />
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="mobileNumber"
+                      placeholder="Mobile Number"
+                      autoComplete="off"
+                      defaultValue={clientList?.mobileNumber}
+                      InputProps={
+                        location.pathname.includes("/view/") && {
+                          readOnly: true,
+                        }
+                      }
+                      sx={{
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                        "& input": { py: 1.5 },
+                        "& fieldset": {
+                          borderLeft: 0,
+                          borderRadius: "0 6px 6px 0",
+                        },
+                      }}
+                      onChange={formik.handleChange}
+                      value={formik.values.mobileNumber}
+                      error={
+                        formik.touched.mobileNumber &&
+                        Boolean(formik.errors.mobileNumber)
+                      }
+                      helperText={
+                        formik.touched.mobileNumber &&
+                        formik.errors.mobileNumber
+                      }
+                    />
+                  </Stack>
 
                   <TextField
                     fullWidth

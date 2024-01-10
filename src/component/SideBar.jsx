@@ -159,6 +159,14 @@ export default function SideBar({
                   overflow: "hidden",
                   color: location.pathname === item.link && "primary.main",
                   bgcolor: location.pathname === item.link && "primary.light",
+                  //   color:
+                  //     (location.pathname === item.link && "primary.main") ||
+                  //     (location.pathname === item.link + "/add" &&
+                  //       "primary.main"),
+                  //   bgcolor:
+                  //     (location.pathname === item.link && "primary.light") ||
+                  //     (location.pathname === item.link + "/add" &&
+                  //       "primary.light"),
                 }}
               >
                 <ListItemButton
@@ -174,6 +182,13 @@ export default function SideBar({
                         location.pathname === item.link
                           ? "transparent"
                           : "primary.light",
+                      // bgcolor:
+                      //   (location.pathname === item.link
+                      //     ? "transparent"
+                      //     : "primary.light") ||
+                      //   (location.pathname === item.link + "/add"
+                      //     ? "transparent"
+                      //     : "primary.light"),
                     },
                   }}
                 >

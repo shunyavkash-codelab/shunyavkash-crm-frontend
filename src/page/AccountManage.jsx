@@ -107,7 +107,7 @@ function AccountManage() {
                 Account Management
               </Typography>
               <Link
-                to="/account-add"
+                to="./add"
                 style={{ display: "inline-flex", textDecoration: "none" }}
               >
                 <Button
@@ -360,7 +360,7 @@ function AccountManage() {
                           <Button disableRipple onClick={handleOpen}>
                             <VisibilityIcon />
                           </Button>
-                          <Link to="/account-add">
+                          <Link to="./add">
                             <Button disableRipple>
                               <CreateIcon />
                             </Button>
