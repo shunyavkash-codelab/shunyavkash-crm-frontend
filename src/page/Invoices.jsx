@@ -190,7 +190,7 @@ export default function Invoices() {
                 }}
                 onClick={invoiceNumberGenerate}
               >
-                <span style={{ position: "relative" }}>New Invoice</span>
+                <span style={{ position: "relative" }}>Create Invoice</span>
               </Button>
             </Box>
           </Box>

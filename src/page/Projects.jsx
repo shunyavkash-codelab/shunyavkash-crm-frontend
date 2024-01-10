@@ -153,7 +153,7 @@ export default function Project() {
                     },
                   }}
                 >
-                  <span style={{ position: "relative" }}>New Project</span>
+                  <span style={{ position: "relative" }}>Add Project</span>
                 </Button>
               </Link>
             </Box>

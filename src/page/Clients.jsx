@@ -155,7 +155,7 @@ export default function Clients() {
                     },
                   }}
                 >
-                  <span style={{ position: "relative" }}>New client</span>
+                  <span style={{ position: "relative" }}>Add client</span>
                 </Button>
               </Link>
             </Box>

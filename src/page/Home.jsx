@@ -222,7 +222,7 @@ export default function Home() {
                     }}
                     onClick={invoiceNumberGenerate}
                   >
-                    <span style={{ position: "relative" }}>New Invoice</span>
+                    <span style={{ position: "relative" }}>Create Invoice</span>
                   </Button>
                   <Link
                     to="./invoices"

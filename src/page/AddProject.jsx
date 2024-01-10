@@ -773,7 +773,7 @@ export default function AddProject() {
                       },
                     }}
                   >
-                    <span style={{ position: "relative" }}>Submit</span>
+                    <span style={{ position: "relative" }}>Create</span>
                   </Button>
                   <Button
                     disableRipple

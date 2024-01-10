@@ -2,7 +2,7 @@ import { TextField } from "@mui/material";
 import { Field } from "formik";
 import React from "react";
 
-export default function CustomFormikField({ name, ...params }) {
+export default function CustomFormikField({ name, style = {}, ...params }) {
   return (
     <Field
       validateOnBlur
@@ -23,6 +23,7 @@ export default function CustomFormikField({ name, ...params }) {
                 "&>label,& input,&>div": {
                   fontSize: "14px!important",
                 },
+                ...style,
               }}
               {...field}
               {...params}

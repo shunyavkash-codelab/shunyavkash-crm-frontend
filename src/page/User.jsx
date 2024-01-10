@@ -152,7 +152,7 @@ export default function User() {
                       },
                     }}
                   >
-                    <span style={{ position: "relative" }}>New Manager</span>
+                    <span style={{ position: "relative" }}>Add Manager</span>
                   </Button>
                 </Link>
               </Box>

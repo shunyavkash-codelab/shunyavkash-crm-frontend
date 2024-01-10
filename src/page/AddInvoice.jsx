@@ -1514,6 +1514,11 @@ export default function Invoices() {
                                     <CustomFormikField
                                       name="customIFSC"
                                       label="IFSC"
+                                      style={{
+                                        "& input": {
+                                          textTransform: "uppercase",
+                                        },
+                                      }}
                                     />
                                     <CustomFormikField
                                       name="customHolderName"
@@ -1717,7 +1722,7 @@ export default function Invoices() {
                           },
                         }}
                       >
-                        <span style={{ position: "relative" }}>Submit</span>
+                        <span style={{ position: "relative" }}>Preview</span>
                       </Button>
                       {/* </Link> */}
                       <Link to="../invoices">
