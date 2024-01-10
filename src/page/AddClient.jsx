@@ -396,6 +396,7 @@ export default function AddClient() {
                       }
                     />
                   </Box> */}
+
                   <TextField
                     fullWidth
                     size="small"
@@ -420,6 +421,7 @@ export default function AddClient() {
                       formik.touched.mobileCode && formik.errors.mobileCode
                     }
                   />
+
                   <TextField
                     fullWidth
                     size="small"
@@ -545,6 +547,7 @@ export default function AddClient() {
                     />
                   </Box>
                 </Box>
+
                 {!location.pathname.includes("/view/") && (
                   <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
                     <Button
@@ -625,6 +628,176 @@ export default function AddClient() {
               </Box>
             </FormikProvider>
           )}
+
+          <Box
+            sx={{
+              mt: 3,
+              py: 2.5,
+              backgroundColor: "white",
+              borderRadius: 2.5,
+              "&>*": {
+                px: 2.5,
+              },
+            }}
+          >
+            <Typography
+              sx={{
+                textTransform: "capitalize",
+                fontWeight: 600,
+                pb: 2,
+                mb: 3,
+                borderBottom: "1px solid rgba(0,0,0,0.06)",
+              }}
+            >
+              Add Bank Details
+            </Typography>
+            <Box component="form" noValidate autoComplete="off">
+              <Box
+                sx={{
+                  pt: 0.75,
+                  flexGrow: { md: 0 },
+                  overflowY: { md: "auto" },
+                  "& fieldset": {
+                    borderRadius: 1.5,
+                  },
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "repeat(1, 1fr)",
+                    sm: "repeat(2, 1fr)",
+                  },
+                  gap: 2.5,
+                }}
+              >
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="name"
+                  label="Bank Name"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { py: 1.5, textTransform: "capitalize" },
+                  }}
+                />
+
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="name"
+                  label="IFSC"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { py: 1.5, textTransform: "uppercase" },
+                  }}
+                />
+
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="name"
+                  label="A/c Holder Name"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { py: 1.5, textTransform: "capitalize" },
+                  }}
+                />
+
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="name"
+                  inputProps={{ maxLength: 16 }}
+                  label="A/c Number"
+                  autoComplete="off"
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { py: 1.5 },
+                  }}
+                />
+              </Box>
+              <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                <Button
+                  disableRipple
+                  type="submit"
+                  sx={{
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    bgcolor: "success.main",
+                    border: "1px solid",
+                    borderColor: "success.main",
+                    color: "white",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "white",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      color: "success.main",
+                      bgcolor: "success.main",
+                      "&:before": { height: "10rem" },
+                    },
+                  }}
+                >
+                  <span style={{ position: "relative" }}>Add Bank</span>
+                </Button>
+                <Button
+                  disableRipple
+                  sx={{
+                    maxHeight: "42px",
+                    position: "relative",
+                    px: 2.5,
+                    py: 1.5,
+                    color: "text.primary",
+                    bgcolor: "#e4e4e4",
+                    border: "1px solid",
+                    borderColor: "#e4e4e4",
+                    lineHeight: 1,
+                    borderRadius: 2.5,
+                    overflow: "hidden",
+                    "&:before": {
+                      content: "''",
+                      height: 0,
+                      width: "10rem",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "0",
+                      bgcolor: "white",
+                      transform: "rotate(-45deg) translate(-50%, -50%)",
+                      transformOrigin: "0% 0%",
+                      transition: "all 0.4s ease-in-out",
+                    },
+                    "&:hover": {
+                      bgcolor: "#e4e4e4",
+                      "&:before": { height: "10rem" },
+                    },
+                  }}
+                  onClick={() => navigate("/clients")}
+                >
+                  <span style={{ position: "relative" }}>discard</span>
+                </Button>
+              </Box>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </>
