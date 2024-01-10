@@ -229,7 +229,7 @@ export default function Members() {
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
                 >
-                  Total Clients
+                  Total Managers
                 </Typography>
                 <Typography
                   sx={{
@@ -264,19 +264,29 @@ export default function Members() {
             </Grid>
           </Grid>
 
-          <Box sx={{ backgroundColor: "white", borderRadius: 3, p: 3, mt: 3 }}>
+          <Box
+            sx={{
+              backgroundColor: "white",
+              borderRadius: 3,
+              p: 3,
+              mt: 3,
+            }}
+          >
             <Tabs
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example"
               sx={{
                 // mt: 2,
+                minHeight: "38px",
+
                 "& .MuiTabs-flexContainer": {
                   justifyContent: "flex-start",
                 },
                 "& button": {
                   textTransform: "capitalize",
                   py: 0,
+                  minHeight: "unset",
                 },
               }}
             >
