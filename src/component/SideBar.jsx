@@ -12,7 +12,7 @@ import UserIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
-import EmployeesIcon from "@mui/icons-material/BadgeOutlined";
+// import EmployeesIcon from "@mui/icons-material/BadgeOutlined";
 import AccessTimeIcon from "@mui/icons-material/AccessTimeOutlined";
 // import EmployeeDashboardIcon from "@mui/icons-material/AccountBoxOutlined";
 import AccountManagement from "@mui/icons-material/ManageHistoryOutlined";
@@ -126,12 +126,15 @@ export default function SideBar({
             maxWidth: "100%",
           }}
         >
-          <img
-            src="/images/shunyavkash-logo.svg"
-            style={{ height: "auto", width: "100%" }}
-            alt="shunyavkash-logo"
-          />
+          <Link to={"/"} style={{ display: "inline-flex" }}>
+            <img
+              src="/images/shunyavkash-logo.svg"
+              style={{ height: "auto", width: "100%" }}
+              alt="shunyavkash-logo"
+            />
+          </Link>
         </Box>
+
         <Box
           sx={{
             flexGrow: 1,
@@ -209,6 +212,7 @@ export default function SideBar({
             ))}
           </List>
         </Box>
+
         <List sx={{ px: 2, py: 1.5, bgcolor: "#f9f9f9" }}>
           <ListItem
             key={"Setup my Profile"}
@@ -260,6 +264,7 @@ export default function SideBar({
           </ListItem>
         </List>
       </Box>
+
       <Box
         onClick={() => {
           setShowSidebar(!showSidebar);
@@ -277,7 +282,7 @@ export default function SideBar({
             lg: "none",
           },
         }}
-      ></Box>
+      />
     </>
   );
 }

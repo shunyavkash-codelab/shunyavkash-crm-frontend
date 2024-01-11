@@ -433,6 +433,9 @@ export default function AddUser() {
                     "&>label": { top: "4px" },
                     "&>div>div": { py: 1.5 },
                   }}
+                  error={
+                    formik.touched.reference && Boolean(formik.errors.reference)
+                  }
                 >
                   <InputLabel
                     sx={{ textTransform: "capitalize" }}
@@ -459,10 +462,6 @@ export default function AddUser() {
                         onChange={(event) => {
                           form.setFieldValue("reference", event.target.value);
                         }}
-                        error={
-                          formik.touched.reference &&
-                          Boolean(formik.errors.reference)
-                        }
                         helperText={
                           formik.touched.reference && formik.errors.reference
                         }

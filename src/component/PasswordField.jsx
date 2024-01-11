@@ -17,40 +17,42 @@ export default function PasswordField({
   };
   return (
     <>
-      <TextField
-        required
-        fullWidth
-        size="small"
-        id={id}
-        label={label}
-        autoComplete="off"
-        type={showPassword ? "text" : "password"}
-        sx={{
-          "&>label,& input": { fontSize: "14px" },
-          "& input": { pr: 5 },
-          ...Inputstyle,
-        }}
-        onChange={formik.handleChange}
-        value={formik.values[id]}
-        error={formik.touched[id] && Boolean(formik.errors[id])}
-        helperText={formik.touched[id] && formik.errors[id]}
-      />
-      <Box
-        onClick={handleClickShowPassword}
-        onMouseDown={handleMouseDownPassword}
-        id
-        sx={{
-          position: "absolute",
-          top: "9px",
-          right: "16px",
-          opacity: "50%",
-          cursor: "pointer",
-          display: "inline-flex",
-          "& svg": { fontSize: "20px" },
-          ...Iconstyle,
-        }}
-      >
-        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+      <Box sx={{ position: "relative" }}>
+        <TextField
+          required
+          fullWidth
+          size="small"
+          id={id}
+          label={label}
+          autoComplete="off"
+          type={showPassword ? "text" : "password"}
+          sx={{
+            "&>label,& input": { fontSize: "14px" },
+            "& input": { pr: 5 },
+            ...Inputstyle,
+          }}
+          onChange={formik.handleChange}
+          value={formik.values[id]}
+          error={formik.touched[id] && Boolean(formik.errors[id])}
+          helperText={formik.touched[id] && formik.errors[id]}
+        />
+        <Box
+          onClick={handleClickShowPassword}
+          onMouseDown={handleMouseDownPassword}
+          id
+          sx={{
+            position: "absolute",
+            top: "9px",
+            right: "16px",
+            opacity: "50%",
+            cursor: "pointer",
+            display: "inline-flex",
+            "& svg": { fontSize: "20px" },
+            ...Iconstyle,
+          }}
+        >
+          {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+        </Box>
       </Box>
     </>
   );

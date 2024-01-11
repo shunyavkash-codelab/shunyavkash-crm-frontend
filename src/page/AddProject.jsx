@@ -253,6 +253,9 @@ export default function AddProject() {
                       },
                       "&>div>div": { py: 1.5 },
                     }}
+                    error={
+                      formik.touched.clientId && Boolean(formik.errors.clientId)
+                    }
                   >
                     <InputLabel
                       sx={{ textTransform: "capitalize" }}
@@ -277,10 +280,6 @@ export default function AddProject() {
                                 event.target.value
                               );
                             }}
-                            error={
-                              formik.touched.clientId &&
-                              Boolean(formik.errors.clientId)
-                            }
                           >
                             {clientList.map((item) => (
                               <MenuItem
@@ -462,6 +461,10 @@ export default function AddProject() {
                       },
                       "&>div>div": { py: 1.5 },
                     }}
+                    error={
+                      formik.touched.payPeriod &&
+                      Boolean(formik.errors.payPeriod)
+                    }
                   >
                     <InputLabel
                       sx={{ textTransform: "capitalize" }}
@@ -491,10 +494,6 @@ export default function AddProject() {
                                 event.target.value
                               );
                             }}
-                            error={
-                              formik.touched.payPeriod &&
-                              Boolean(formik.errors.payPeriod)
-                            }
                           >
                             <MenuItem
                               sx={{

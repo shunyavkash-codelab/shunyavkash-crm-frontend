@@ -221,6 +221,7 @@ export default function InvitationModal({ open, setOpen }) {
                     sx={{
                       "&>label": { fontSize: "14px" },
                     }}
+                    error={formik.touched.role && Boolean(formik.errors.role)}
                   >
                     <InputLabel
                       sx={{ textTransform: "capitalize" }}
@@ -239,9 +240,6 @@ export default function InvitationModal({ open, setOpen }) {
                           onChange={(event) => {
                             form.setFieldValue("role", event.target.value);
                           }}
-                          error={
-                            formik.touched.role && Boolean(formik.errors.role)
-                          }
                           helperText={formik.touched.role && formik.errors.role}
                         >
                           <MenuItem

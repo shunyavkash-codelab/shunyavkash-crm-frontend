@@ -42,6 +42,7 @@ export default function ThemeSelect({ id, options, formik }) {
       sx={{
         "&>label": { fontSize: "14px" },
       }}
+      error={formik.touched[id] && Boolean(formik.errors[id])}
     >
       <InputLabel
         sx={{ textTransform: "capitalize" }}
@@ -57,7 +58,6 @@ export default function ThemeSelect({ id, options, formik }) {
         sx={{ fontSize: "14px" }}
         onChange={formik?.handleChange}
         value={formik?.values[id]}
-        error={formik.touched[id] && Boolean(formik.errors[id])}
       >
         {menuItems}
       </Select>

@@ -104,20 +104,18 @@ export default function ConfirmPassword() {
                     },
                   }}
                 >
-                  <Box sx={{ position: "relative" }}>
-                    <PasswordField
-                      formik={formik}
-                      id={"password"}
-                      label={"Password"}
-                    />
-                  </Box>
-                  <Box sx={{ position: "relative" }}>
-                    <PasswordField
-                      formik={formik}
-                      id={"confirm_password"}
-                      label={"Confirm Password"}
-                    />
-                  </Box>
+                  <PasswordField
+                    formik={formik}
+                    id={"password"}
+                    label={"Password"}
+                  />
+
+                  <PasswordField
+                    formik={formik}
+                    id={"confirm_password"}
+                    label={"Confirm Password"}
+                  />
+
                   <Button
                     disableRipple
                     fullWidth

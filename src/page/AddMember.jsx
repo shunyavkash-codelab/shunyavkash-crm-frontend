@@ -181,7 +181,7 @@ export default function AddMember() {
               Add Member
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"./add"} style={{ textDecoration: "none" }}>
+              <Link to={"/members"} style={{ textDecoration: "none" }}>
                 <Typography
                   variant="subtitle2"
                   sx={{
@@ -193,7 +193,7 @@ export default function AddMember() {
                     },
                   }}
                 >
-                  Member /
+                  Members /
                 </Typography>
               </Link>
               <Typography
@@ -204,6 +204,7 @@ export default function AddMember() {
               </Typography>
             </Box>
           </Box>
+
           <FormikProvider value={formik}>
             <Box
               component="form"
@@ -464,6 +465,7 @@ export default function AddMember() {
                     "&>label": { fontSize: "14px", top: "4px" },
                     "&>div>div": { py: 1.5 },
                   }}
+                  error={formik.touched.role && Boolean(formik.errors.role)}
                 >
                   <InputLabel
                     sx={{ textTransform: "capitalize" }}
@@ -477,15 +479,12 @@ export default function AddMember() {
                       <>
                         <Select
                           id="role"
-                          label="Role"
+                          label="Member Type"
                           sx={{ fontSize: "14px" }}
                           {...field}
                           onChange={(event) => {
                             form.setFieldValue("role", event.target.value);
                           }}
-                          error={
-                            formik.touched.role && Boolean(formik.errors.role)
-                          }
                         >
                           <MenuItem
                             sx={{
@@ -578,6 +577,7 @@ export default function AddMember() {
 
                 <Autocomplete
                   disablePortal
+                  autoComplete="off"
                   id="combo-box-demo"
                   options={userList}
                   sx={{
@@ -603,7 +603,6 @@ export default function AddMember() {
                   value={formik.values.reference}
                   renderInput={(params) => (
                     <TextField
-                      // focused
                       fullWidth
                       autoComplete="off"
                       label="Reference"
@@ -633,41 +632,36 @@ export default function AddMember() {
                   )}
                 />
 
-                <Box sx={{ position: "relative" }}>
-                  <PasswordField
-                    formik={formik}
-                    id={"password"}
-                    label={"Password"}
-                    Inputstyle={{
-                      "&>div": { fontSize: "14px" },
-                      "&>label": { top: "4px" },
-                      "& input": {
-                        textTransform: "capitalize",
-                        py: 1.5,
-                        pr: 5,
-                      },
-                    }}
-                    Iconstyle={{ top: "13px" }}
-                  />
-                </Box>
+                <PasswordField
+                  formik={formik}
+                  id={"password"}
+                  label={"Password"}
+                  Inputstyle={{
+                    "&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": {
+                      py: 1.5,
+                      pr: 5,
+                    },
+                  }}
+                  Iconstyle={{ top: "13px" }}
+                />
 
-                <Box sx={{ position: "relative" }}>
-                  <PasswordField
-                    formik={formik}
-                    id={"confirm_password"}
-                    label={"Confirm Password"}
-                    Inputstyle={{
-                      "&>div": { fontSize: "14px" },
-                      "&>label": { top: "4px" },
-                      "& input": {
-                        textTransform: "capitalize",
-                        py: 1.5,
-                        pr: 5,
-                      },
-                    }}
-                    Iconstyle={{ top: "13px" }}
-                  />
-                </Box>
+                <PasswordField
+                  autoComplete="off"
+                  formik={formik}
+                  id={"confirm_password"}
+                  label={"Confirm Password"}
+                  Inputstyle={{
+                    "&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": {
+                      py: 1.5,
+                      pr: 5,
+                    },
+                  }}
+                  Iconstyle={{ top: "13px" }}
+                />
 
                 {/* <TextField
                   fullWidth
@@ -700,6 +694,7 @@ export default function AddMember() {
                   />
                 </Box>
               </Box>
+
               {/* <Box
                 sx={{
                   mt: 2.5,
@@ -756,6 +751,7 @@ export default function AddMember() {
                   />
                 </Box>
               </Box> */}
+
               <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
                 <Button
                   disableRipple
