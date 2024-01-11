@@ -1,14 +1,19 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/store/useAuth";
+import SideBar from "../component/SideBar";
+import Header from "../component/Header";
+import ModalComponent from "../component/ModalComponent";
 import {
   Box,
   Button,
   ButtonGroup,
   FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
+  // InputLabel,
+  // MenuItem,
   Paper,
-  Select,
+  // Select,
   Stack,
   Table,
   TableBody,
@@ -20,12 +25,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useAuth } from "../hooks/store/useAuth";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
-import ModalComponent from "../component/ModalComponent";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { Link } from "react-router-dom";
+// import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import InfoIcon from "@mui/icons-material/InfoOutlined";
 
 export default function LeavesRequests() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -73,6 +74,16 @@ export default function LeavesRequests() {
       startDate: "25/04/2023",
       endDate: "25/04/2023",
       status: "unapprove",
+      statusReason: "Lorem dolor sit ipsum amet 4",
+    },
+    {
+      id: 5,
+      username: "Dipali Gediya",
+      type: "unpaid",
+      reason: "Going to Friend's Birthday Party",
+      startDate: "25/04/2023",
+      endDate: "25/04/2023",
+      status: "unanswered",
       statusReason: "Lorem dolor sit ipsum amet 4",
     },
   ];
@@ -301,26 +312,48 @@ export default function LeavesRequests() {
                           "& .unapprove": {
                             color:
                               leaveRequest.status === "unapprove"
-                                ? "white"
+                                ? "secondary.main"
                                 : "#a5a5a5",
                             bgcolor:
                               leaveRequest.status === "unapprove"
-                                ? "error.main"
+                                ? "rgba(248, 174, 0, 15%)"
                                 : "#ececec",
                             pointerEvents:
+                              leaveRequest.status === "unapprove" ? "" : "none",
+                            display:
                               leaveRequest.status === "unapprove" ? "" : "none",
                           },
                           "& .approve": {
                             color:
                               leaveRequest.status === "approve"
-                                ? "white"
+                                ? "success.main"
                                 : "#a5a5a5",
                             bgcolor:
                               leaveRequest.status === "approve"
-                                ? "success.main"
+                                ? "rgba(74, 210, 146, 15%)"
                                 : "#ececec",
                             pointerEvents:
                               leaveRequest.status === "approve" ? "" : "none",
+                            display:
+                              leaveRequest.status === "approve" ? "" : "none",
+                          },
+                          "& .unanswered": {
+                            color:
+                              leaveRequest.status === "unanswered"
+                                ? "#a5a5a5"
+                                : "#a5a5a5",
+                            bgcolor:
+                              leaveRequest.status === "unanswered"
+                                ? "#ececec"
+                                : "#ececec",
+                            // pointerEvents:
+                            //   leaveRequest.status === "unanswered"
+                            //     ? ""
+                            //     : "block",
+                            // display:
+                            //   leaveRequest.status === "unanswered"
+                            //     ? ""
+                            //     : "show",
                           },
                         }}
                       >
@@ -339,28 +372,7 @@ export default function LeavesRequests() {
                               </span>
                               {leaveRequest.status === "approve" && (
                                 <Tooltip title={leaveRequest.statusReason}>
-                                  <Stack
-                                    direction="row"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    sx={{
-                                      height: "16px",
-                                      width: "16px",
-                                      cursor: "pointer",
-                                      border: "1px solid white",
-                                      borderRadius: "100%",
-                                      padding: "3px",
-                                    }}
-                                  >
-                                    <img
-                                      src="/images/info.svg"
-                                      style={{
-                                        width: "100%",
-                                        height: "100%",
-                                      }}
-                                      alt="info"
-                                    />
-                                  </Stack>
+                                  <InfoIcon />
                                 </Tooltip>
                               )}
                             </Stack>
@@ -377,28 +389,24 @@ export default function LeavesRequests() {
                               </span>
                               {leaveRequest.status === "unapprove" && (
                                 <Tooltip title={leaveRequest.statusReason}>
-                                  <Stack
-                                    direction="row"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    sx={{
-                                      height: "16px",
-                                      width: "16px",
-                                      cursor: "pointer",
-                                      border: "1px solid white",
-                                      borderRadius: "100%",
-                                      padding: "3px",
-                                    }}
-                                  >
-                                    <img
-                                      src="/images/info.svg"
-                                      style={{
-                                        width: "100%",
-                                        height: "100%",
-                                      }}
-                                      alt="info"
-                                    />
-                                  </Stack>
+                                  <InfoIcon />
+                                </Tooltip>
+                              )}
+                            </Stack>
+                            <Stack
+                              onClick={handleOpen}
+                              direction="row"
+                              alignItems="center"
+                              spacing={0.75}
+                              className="statusBtn unanswered"
+                              sx={{ cursor: "pointer" }}
+                            >
+                              <span style={{ display: "inline-block" }}>
+                                unanswer
+                              </span>
+                              {leaveRequest.status === "unanswered" && (
+                                <Tooltip title={leaveRequest.statusReason}>
+                                  <InfoIcon />
                                 </Tooltip>
                               )}
                             </Stack>
