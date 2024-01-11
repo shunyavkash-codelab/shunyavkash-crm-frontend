@@ -41,6 +41,7 @@ export default function InvitationModal({ open, setOpen }) {
       .trim(),
     password: Yup.string().required("Password is required.").trim(),
     role: Yup.string().required("Role is required.").trim(),
+    jobRole: Yup.string().required("Job role is required.").trim(),
   });
 
   const formik = useFormik({

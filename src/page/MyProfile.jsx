@@ -571,8 +571,8 @@ export default function Home() {
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
-                    Title={"designation"}
-                    Text={userList?.designation || "N/A"}
+                    Title={"Jobrole"}
+                    Text={userList?.jobRole || "N/A"}
                     Icon={<AccountBoxOutlinedIcon />}
                   />
                 </Grid>
