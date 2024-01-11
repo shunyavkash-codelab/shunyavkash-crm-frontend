@@ -692,7 +692,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
                     Title={"personal email"}
-                    Text={"deepbhimani6@gmail.com"}
+                    Text={userList?.personalEmail}
                     Icon={<EmailOutlinedIcon />}
                   />
                 </Grid>
@@ -947,7 +947,7 @@ export default function Home() {
             {open.type === "employee-detail" && (
               <EmployeeDetailsForm
                 data={userList}
-                uniqId={id}
+                uniqId={id || userId}
                 setOpen={setOpen}
                 onSuccess={viewEmployees}
               />
@@ -955,7 +955,7 @@ export default function Home() {
             {open.type === "personal-detail" && (
               <EmployeePersonalDetailForm
                 data={userList}
-                uniqId={id}
+                uniqId={id || userId}
                 setOpen={setOpen}
                 onSuccess={viewEmployees}
               />
@@ -963,7 +963,7 @@ export default function Home() {
             {open.type === "contact-detail" && (
               <EmployeeContactForm
                 data={userList}
-                uniqId={id}
+                uniqId={id || userId}
                 setOpen={setOpen}
                 onSuccess={viewEmployees}
               />
@@ -971,7 +971,7 @@ export default function Home() {
             {open.type === "family-detail" && (
               <EmployeeFamilyDetailForm
                 data={userList}
-                uniqId={id}
+                uniqId={id || userId}
                 setOpen={setOpen}
                 onSuccess={viewEmployees}
               />
@@ -979,7 +979,7 @@ export default function Home() {
             {open.type === "document-detail" && (
               <EmployeeDocumentDetailForm
                 data={userList}
-                uniqId={id}
+                uniqId={id || userId}
                 setOpen={setOpen}
                 onSuccess={viewEmployees}
               />
