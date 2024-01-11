@@ -304,170 +304,74 @@ export default function LeavesRequests() {
                         sx={{
                           "& .statusBtn": {
                             fontSize: { xs: "12px", sm: "14px" },
-                            py: { xs: 0.75, sm: 1.25 },
-                            px: { xs: 1, sm: 2 },
+                            // px: { xs: 1, sm: 2 },
+                            // py: 0.75,
+                            padding: "10px 16px 10px 16px !important",
+                            // py: { xs: 0.75, sm: 1.25 },
                             maxWidth: "fit-content",
                             lineHeight: 1,
                           },
-                          // "& .unapprove": {
-                          //   color:
-                          //     leaveRequest.status === "unapprove"
-                          //       ? "secondary.main"
-                          //       : "#a5a5a5",
-                          //   bgcolor:
-                          //     leaveRequest.status === "unapprove"
-                          //       ? "rgba(248, 174, 0, 15%)"
-                          //       : "#ececec",
-                          //   pointerEvents:
-                          //     leaveRequest.status === "unapprove" ? "" : "none",
-                          // },
-                          // "& .approve": {
-                          //   color:
-                          //     leaveRequest.status === "approve"
-                          //       ? "success.main"
-                          //       : "#a5a5a5",
-                          //   bgcolor:
-                          //     leaveRequest.status === "approve"
-                          //       ? "rgba(74, 210, 146, 15%)"
-                          //       : "#ececec",
-                          //   pointerEvents:
-                          //     leaveRequest.status === "approve" ? "" : "none",
-                          // },
-                          // "& .unanswered": {
-                          //   color:
-                          //     leaveRequest.status === "unanswered"
-                          //       ? "#a5a5a5"
-                          //       : "#a5a5a5",
-                          //   bgcolor:
-                          //     leaveRequest.status === "unanswered"
-                          //       ? "#ececec"
-                          //       : "#ececec",
-                          // },
                         }}
                       >
-                        <Stack direction="row" spacing={1}>
-                          <ButtonGroup sx={{ overflow: "hidden" }}>
-                            {/* {leaveRequest.status &&
-                            leaveRequest.status === "approve" ? (
-                            ) : (
-                              ""
-                            )}
-                            {leaveRequest.status &&
-                            leaveRequest.status === "unapprove" ? (
-                            ) : (
-                              ""
-                            )} */}
-                            {leaveRequest.status == "" ? (
-                              <>
-                                <Stack
-                                  onClick={handleOpen}
-                                  direction="row"
-                                  alignItems="center"
-                                  spacing={0.75}
-                                  className="statusBtn approve"
-                                  sx={{
-                                    cursor: "pointer",
-                                    bgcolor: "rgba(74, 210, 146, 15%)",
-                                    color: "success.main",
-                                  }}
-                                >
-                                  <span style={{ display: "inline-block" }}>
-                                    approve
-                                  </span>
-                                  {leaveRequest.status === "approve" && (
-                                    <Tooltip title={leaveRequest.statusReason}>
-                                      <InfoIcon />
-                                    </Tooltip>
-                                  )}
-                                </Stack>
-                                <Stack
-                                  onClick={handleOpen}
-                                  direction="row"
-                                  alignItems="center"
-                                  spacing={0.75}
-                                  className="statusBtn unapprove"
-                                  sx={{
-                                    cursor: "pointer",
-                                    bgcolor: "rgba(248, 174, 0, 15%)",
-                                    color: "success.main",
-                                  }}
-                                >
-                                  <span style={{ display: "inline-block" }}>
-                                    unapprove
-                                  </span>
-                                  {leaveRequest.status === "unapprove" && (
-                                    <Tooltip title={leaveRequest.statusReason}>
-                                      <InfoIcon />
-                                    </Tooltip>
-                                  )}
-                                </Stack>
-                              </>
-                            ) : leaveRequest.status == "approve" ? (
-                              <Stack
-                                onClick={handleOpen}
-                                direction="row"
-                                alignItems="center"
-                                spacing={0.75}
-                                className="statusBtn approve"
-                                sx={{
-                                  cursor: "pointer",
-                                  bgcolor: "rgba(74, 210, 146, 15%)",
-                                  color: "success.main",
-                                }}
-                              >
-                                <span style={{ display: "inline-block" }}>
-                                  approve
-                                </span>
-                                {leaveRequest.status === "approve" && (
-                                  <Tooltip title={leaveRequest.statusReason}>
-                                    <InfoIcon />
-                                  </Tooltip>
-                                )}
-                              </Stack>
-                            ) : leaveRequest.status == "unapprove" ? (
-                              <Stack
-                                onClick={handleOpen}
-                                direction="row"
-                                alignItems="center"
-                                spacing={0.75}
-                                className="statusBtn unapprove"
-                                sx={{
-                                  cursor: "pointer",
-                                  bgcolor: "rgba(248, 174, 0, 15%)",
-                                  color: "success.main",
-                                }}
-                              >
-                                <span style={{ display: "inline-block" }}>
-                                  unapprove
-                                </span>
-                                {leaveRequest.status === "unapprove" && (
-                                  <Tooltip title={leaveRequest.statusReason}>
-                                    <InfoIcon />
-                                  </Tooltip>
-                                )}
-                              </Stack>
-                            ) : (
-                              ""
-                            )}
-                            {/* <Stack
+                        <ButtonGroup sx={{ overflow: "hidden" }}>
+                          {!leaveRequest.status ||
+                          leaveRequest.status === "" ||
+                          leaveRequest.status === "approve" ? (
+                            <Stack
                               onClick={handleOpen}
                               direction="row"
                               alignItems="center"
                               spacing={0.75}
-                              className="statusBtn unanswered"
-                              sx={{ cursor: "pointer" }}
+                              className="statusBtn"
+                              sx={{
+                                cursor: "pointer",
+                                bgcolor: "rgba(74, 210, 146, 15%)",
+                                color: "success.main",
+                                padding: "6px 16px 6px 16px",
+                              }}
                             >
                               <span style={{ display: "inline-block" }}>
-                                unanswer
+                                approve
                               </span>
-                              {leaveRequest.status === "unanswered" && (
+                              {leaveRequest.status === "approve" && (
                                 <Tooltip title={leaveRequest.statusReason}>
                                   <InfoIcon />
                                 </Tooltip>
                               )}
-                            </Stack> */}
-                          </ButtonGroup>
-                        </Stack>
+                            </Stack>
+                          ) : (
+                            ""
+                          )}
+                          {!leaveRequest.status ||
+                          leaveRequest.status === "" ||
+                          leaveRequest.status === "unapprove" ? (
+                            <Stack
+                              onClick={handleOpen}
+                              direction="row"
+                              alignItems="center"
+                              spacing={0.75}
+                              className="statusBtn"
+                              sx={{
+                                cursor: "pointer",
+                                bgcolor: "rgba(248, 174, 0, 15%)",
+                                color: "secondary.main",
+                                // py: 0.75,
+                                padding: "6px 16px 6px 16px",
+                              }}
+                            >
+                              <span style={{ display: "inline-block" }}>
+                                unapprove
+                              </span>
+                              {leaveRequest.status === "unapprove" && (
+                                <Tooltip title={leaveRequest.statusReason}>
+                                  <InfoIcon />
+                                </Tooltip>
+                              )}
+                            </Stack>
+                          ) : (
+                            ""
+                          )}
+                        </ButtonGroup>
                       </TableCell>
                     </TableRow>
                   ))}
