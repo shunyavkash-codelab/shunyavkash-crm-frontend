@@ -83,7 +83,7 @@ export default function LeavesRequests() {
       reason: "Going to Friend's Birthday Party",
       startDate: "25/04/2023",
       endDate: "25/04/2023",
-      status: "unanswered",
+      status: "",
       statusReason: "Lorem dolor sit ipsum amet 4",
     },
   ];
@@ -309,91 +309,147 @@ export default function LeavesRequests() {
                             maxWidth: "fit-content",
                             lineHeight: 1,
                           },
-                          "& .unapprove": {
-                            color:
-                              leaveRequest.status === "unapprove"
-                                ? "secondary.main"
-                                : "#a5a5a5",
-                            bgcolor:
-                              leaveRequest.status === "unapprove"
-                                ? "rgba(248, 174, 0, 15%)"
-                                : "#ececec",
-                            pointerEvents:
-                              leaveRequest.status === "unapprove" ? "" : "none",
-                            display:
-                              leaveRequest.status === "unapprove" ? "" : "none",
-                          },
-                          "& .approve": {
-                            color:
-                              leaveRequest.status === "approve"
-                                ? "success.main"
-                                : "#a5a5a5",
-                            bgcolor:
-                              leaveRequest.status === "approve"
-                                ? "rgba(74, 210, 146, 15%)"
-                                : "#ececec",
-                            pointerEvents:
-                              leaveRequest.status === "approve" ? "" : "none",
-                            display:
-                              leaveRequest.status === "approve" ? "" : "none",
-                          },
-                          "& .unanswered": {
-                            color:
-                              leaveRequest.status === "unanswered"
-                                ? "#a5a5a5"
-                                : "#a5a5a5",
-                            bgcolor:
-                              leaveRequest.status === "unanswered"
-                                ? "#ececec"
-                                : "#ececec",
-                            // pointerEvents:
-                            //   leaveRequest.status === "unanswered"
-                            //     ? ""
-                            //     : "block",
-                            // display:
-                            //   leaveRequest.status === "unanswered"
-                            //     ? ""
-                            //     : "show",
-                          },
+                          // "& .unapprove": {
+                          //   color:
+                          //     leaveRequest.status === "unapprove"
+                          //       ? "secondary.main"
+                          //       : "#a5a5a5",
+                          //   bgcolor:
+                          //     leaveRequest.status === "unapprove"
+                          //       ? "rgba(248, 174, 0, 15%)"
+                          //       : "#ececec",
+                          //   pointerEvents:
+                          //     leaveRequest.status === "unapprove" ? "" : "none",
+                          // },
+                          // "& .approve": {
+                          //   color:
+                          //     leaveRequest.status === "approve"
+                          //       ? "success.main"
+                          //       : "#a5a5a5",
+                          //   bgcolor:
+                          //     leaveRequest.status === "approve"
+                          //       ? "rgba(74, 210, 146, 15%)"
+                          //       : "#ececec",
+                          //   pointerEvents:
+                          //     leaveRequest.status === "approve" ? "" : "none",
+                          // },
+                          // "& .unanswered": {
+                          //   color:
+                          //     leaveRequest.status === "unanswered"
+                          //       ? "#a5a5a5"
+                          //       : "#a5a5a5",
+                          //   bgcolor:
+                          //     leaveRequest.status === "unanswered"
+                          //       ? "#ececec"
+                          //       : "#ececec",
+                          // },
                         }}
                       >
                         <Stack direction="row" spacing={1}>
                           <ButtonGroup sx={{ overflow: "hidden" }}>
-                            <Stack
-                              onClick={handleOpen}
-                              direction="row"
-                              alignItems="center"
-                              spacing={0.75}
-                              className="statusBtn approve"
-                              sx={{ cursor: "pointer" }}
-                            >
-                              <span style={{ display: "inline-block" }}>
-                                approve
-                              </span>
-                              {leaveRequest.status === "approve" && (
-                                <Tooltip title={leaveRequest.statusReason}>
-                                  <InfoIcon />
-                                </Tooltip>
-                              )}
-                            </Stack>
-                            <Stack
-                              onClick={handleOpen}
-                              direction="row"
-                              alignItems="center"
-                              spacing={0.75}
-                              className="statusBtn unapprove"
-                              sx={{ cursor: "pointer" }}
-                            >
-                              <span style={{ display: "inline-block" }}>
-                                unapprove
-                              </span>
-                              {leaveRequest.status === "unapprove" && (
-                                <Tooltip title={leaveRequest.statusReason}>
-                                  <InfoIcon />
-                                </Tooltip>
-                              )}
-                            </Stack>
-                            <Stack
+                            {/* {leaveRequest.status &&
+                            leaveRequest.status === "approve" ? (
+                            ) : (
+                              ""
+                            )}
+                            {leaveRequest.status &&
+                            leaveRequest.status === "unapprove" ? (
+                            ) : (
+                              ""
+                            )} */}
+                            {leaveRequest.status == "" ? (
+                              <>
+                                <Stack
+                                  onClick={handleOpen}
+                                  direction="row"
+                                  alignItems="center"
+                                  spacing={0.75}
+                                  className="statusBtn approve"
+                                  sx={{
+                                    cursor: "pointer",
+                                    bgcolor: "rgba(74, 210, 146, 15%)",
+                                    color: "success.main",
+                                  }}
+                                >
+                                  <span style={{ display: "inline-block" }}>
+                                    approve
+                                  </span>
+                                  {leaveRequest.status === "approve" && (
+                                    <Tooltip title={leaveRequest.statusReason}>
+                                      <InfoIcon />
+                                    </Tooltip>
+                                  )}
+                                </Stack>
+                                <Stack
+                                  onClick={handleOpen}
+                                  direction="row"
+                                  alignItems="center"
+                                  spacing={0.75}
+                                  className="statusBtn unapprove"
+                                  sx={{
+                                    cursor: "pointer",
+                                    bgcolor: "rgba(248, 174, 0, 15%)",
+                                    color: "success.main",
+                                  }}
+                                >
+                                  <span style={{ display: "inline-block" }}>
+                                    unapprove
+                                  </span>
+                                  {leaveRequest.status === "unapprove" && (
+                                    <Tooltip title={leaveRequest.statusReason}>
+                                      <InfoIcon />
+                                    </Tooltip>
+                                  )}
+                                </Stack>
+                              </>
+                            ) : leaveRequest.status == "approve" ? (
+                              <Stack
+                                onClick={handleOpen}
+                                direction="row"
+                                alignItems="center"
+                                spacing={0.75}
+                                className="statusBtn approve"
+                                sx={{
+                                  cursor: "pointer",
+                                  bgcolor: "rgba(74, 210, 146, 15%)",
+                                  color: "success.main",
+                                }}
+                              >
+                                <span style={{ display: "inline-block" }}>
+                                  approve
+                                </span>
+                                {leaveRequest.status === "approve" && (
+                                  <Tooltip title={leaveRequest.statusReason}>
+                                    <InfoIcon />
+                                  </Tooltip>
+                                )}
+                              </Stack>
+                            ) : leaveRequest.status == "unapprove" ? (
+                              <Stack
+                                onClick={handleOpen}
+                                direction="row"
+                                alignItems="center"
+                                spacing={0.75}
+                                className="statusBtn unapprove"
+                                sx={{
+                                  cursor: "pointer",
+                                  bgcolor: "rgba(248, 174, 0, 15%)",
+                                  color: "success.main",
+                                }}
+                              >
+                                <span style={{ display: "inline-block" }}>
+                                  unapprove
+                                </span>
+                                {leaveRequest.status === "unapprove" && (
+                                  <Tooltip title={leaveRequest.statusReason}>
+                                    <InfoIcon />
+                                  </Tooltip>
+                                )}
+                              </Stack>
+                            ) : (
+                              ""
+                            )}
+                            {/* <Stack
                               onClick={handleOpen}
                               direction="row"
                               alignItems="center"
@@ -409,7 +465,7 @@ export default function LeavesRequests() {
                                   <InfoIcon />
                                 </Tooltip>
                               )}
-                            </Stack>
+                            </Stack> */}
                           </ButtonGroup>
                         </Stack>
                       </TableCell>
