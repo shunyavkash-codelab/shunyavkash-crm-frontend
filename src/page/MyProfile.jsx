@@ -236,6 +236,7 @@ export default function Home() {
               </Typography>
             </Box>
           </Box>
+
           <Box
             sx={{
               bgcolor: "white",
@@ -250,8 +251,6 @@ export default function Home() {
                 display: "flex",
                 alignItems: "center",
                 gap: 2,
-                mt: 0,
-                // mx: 3.75,
               }}
             >
               <Box
@@ -265,9 +264,9 @@ export default function Home() {
                 <Avatar
                   sx={{
                     width: "100px",
+                    height: "100px",
                     borderRadius: "100%",
                     bgcolor: "grey.light",
-                    height: "100px",
                     boxShadow: "0 0 0 4px white",
                   }}
                   alt="avatar"
@@ -314,8 +313,7 @@ export default function Home() {
                     display: "flex",
                     alignItems: "flex-start",
                     flexDirection: "column",
-                    gap: 1.3,
-                    py: 1.25,
+                    gap: 1.25,
                   }}
                 >
                   <Chip
@@ -520,16 +518,16 @@ export default function Home() {
             index={0}
           >
             <Box>
-              {id && (
-                <Box className="cardHeader">
-                  <Typography className="cardTitle">
-                    {userList?.role === 0
-                      ? "Admin"
-                      : userList?.role === 1
-                      ? "Manager"
-                      : "Employee"}{" "}
-                    Details
-                  </Typography>
+              <Box className="cardHeader">
+                <Typography className="cardTitle">
+                  {userList?.role === 0
+                    ? "Admin"
+                    : userList?.role === 1
+                    ? "Manager"
+                    : "Employee"}{" "}
+                  Details
+                </Typography>
+                {userList?.role === 0 && (
                   <Button
                     onClick={handleOpen.bind(null, "employee-detail")}
                     startIcon={<EditIcon sx={{ width: 16 }} />}
@@ -545,8 +543,9 @@ export default function Home() {
                   >
                     Edit
                   </Button>
-                </Box>
-              )}
+                )}
+              </Box>
+
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} lg={4}>
                   <DetailsList
@@ -567,6 +566,7 @@ export default function Home() {
                     Title={"work email"}
                     Text={userList?.email || "N/A"}
                     Icon={<EmailOutlinedIcon />}
+                    TextStyle={{ wordBreak: "break-all" }}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
@@ -694,6 +694,7 @@ export default function Home() {
                     Title={"personal email"}
                     Text={userList?.personalEmail}
                     Icon={<EmailOutlinedIcon />}
+                    TextStyle={{ wordBreak: "break-all" }}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} lg={4}>
@@ -798,7 +799,7 @@ export default function Home() {
                       backgroundColor: "rgba(0,0,0,0.1)",
                       borderRadius: 1,
                       padding: "5px 10px",
-                      display: "inline-block",
+                      display: "inline-flex",
                       "& > div": {
                         mb: 0,
                       },
@@ -819,7 +820,7 @@ export default function Home() {
                       backgroundColor: "rgba(0,0,0,0.1)",
                       borderRadius: 1,
                       padding: "5px 10px",
-                      display: "inline-block",
+                      display: "inline-flex",
                       "& > div": {
                         mb: 0,
                       },
@@ -840,7 +841,7 @@ export default function Home() {
                       backgroundColor: "rgba(0,0,0,0.1)",
                       borderRadius: 1,
                       padding: "5px 10px",
-                      display: "inline-block",
+                      display: "inline-flex",
                       "& > div": {
                         mb: 0,
                       },
@@ -861,7 +862,7 @@ export default function Home() {
                       backgroundColor: "rgba(0,0,0,0.1)",
                       borderRadius: 1,
                       padding: "5px 10px",
-                      display: "inline-block",
+                      display: "inline-flex",
                       "& > div": {
                         mb: 0,
                       },
@@ -882,7 +883,7 @@ export default function Home() {
                       backgroundColor: "rgba(0,0,0,0.1)",
                       borderRadius: 1,
                       padding: "5px 10px",
-                      display: "inline-block",
+                      display: "inline-flex",
                       "& > div": {
                         mb: 0,
                       },
@@ -903,7 +904,7 @@ export default function Home() {
                       backgroundColor: "rgba(0,0,0,0.1)",
                       borderRadius: 1,
                       padding: "5px 10px",
-                      display: "inline-block",
+                      display: "inline-flex",
                       "& > div": {
                         mb: 0,
                       },
@@ -920,9 +921,7 @@ export default function Home() {
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={1}>
-            <Box>
-              <UserSalary />
-            </Box>
+            <UserSalary />
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={2}>

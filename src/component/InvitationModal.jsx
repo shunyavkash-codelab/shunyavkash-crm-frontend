@@ -337,7 +337,7 @@ export default function InvitationModal({ open, setOpen }) {
                       },
                     }}
                   >
-                    <span style={{ position: "relative" }}>Submit</span>
+                    <span style={{ position: "relative" }}>invite</span>
                   </Button>
                   {/* <Button
                     disableRipple

@@ -606,7 +606,7 @@ export default function AddClientsModal({ open, setOpen, fetchClients }) {
                     },
                   }}
                 >
-                  <span style={{ position: "relative" }}>Submit</span>
+                  <span style={{ position: "relative" }}>Create</span>
                 </Button>
               </Box>
             </Box>
