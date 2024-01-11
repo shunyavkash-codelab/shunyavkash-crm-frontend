@@ -4,7 +4,7 @@ import React, {
   useState,
 } from "react";
 import { Link } from "react-router-dom";
-import { Button, Stack } from "@mui/material";
+import { Button, FormHelperText, Stack } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import {
@@ -51,7 +51,7 @@ export default function AddMember() {
     email: Yup.string()
       .email("Field should contain a valid e-mail")
       .max(255)
-      .required("email is required.")
+      .required("Email is required.")
       .trim(),
     mobileNumber: Yup.string().matches(
       /^[0-9]+$/,
@@ -62,10 +62,10 @@ export default function AddMember() {
       .trim()
       .min(8)
       .max(20, "Password must be at most 20 letter."),
-    confirm_password: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "Passwords must match"
-    ),
+    confirm_password: Yup.string()
+      .required("Confirm password is required.")
+      .oneOf([Yup.ref("password"), null], "Passwords must match"),
+    role: Yup.string().required("Role is required."),
     // companyName: Yup.string().required("Company name is required.").trim(),
   });
 
@@ -84,7 +84,8 @@ export default function AddMember() {
       // signature: undefined,
       mobileCode: "+91",
       password: "",
-      role: 2,
+      confirm_password: "",
+      role: "",
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
@@ -103,7 +104,7 @@ export default function AddMember() {
         });
         if (res.status === 201) {
           setSnack(res.data.message);
-          navigate("/users");
+          navigate("/members");
         }
       } catch (error) {
         let errorMessage = error.response.data.message;
@@ -361,13 +362,24 @@ export default function AddMember() {
                     sx={{
                       maxWidth: "75px",
                       mr: "-1px",
-                      bgcolor: "#f4f4f4",
-                      borderRadius: "6px 0 0 6px",
+                      "& > div.Mui-error": {
+                        "& fieldset": {
+                          borderRightWidth: "1px",
+                        },
+                        "& input": {
+                          color: "error.main",
+                        },
+                      },
                       "&>label,& input,&>div": { fontSize: "14px" },
-                      "& input": { py: 1.5, textAlign: "center" },
+                      "& input": {
+                        py: 1.5,
+                        textAlign: "center",
+                        bgcolor: "#f4f4f4",
+                        borderRadius: "6px 0 0 6px!important",
+                      },
                       "& fieldset": {
                         borderRight: 0,
-                        borderRadius: "6px 0 0 6px",
+                        borderRadius: "6px 0 0 6px!important",
                       },
                     }}
                     onChange={formik.handleChange}
@@ -379,12 +391,22 @@ export default function AddMember() {
                     id="mobileNumber"
                     placeholder="Mobile Number"
                     autoComplete="off"
+                    inputProps={{ maxLength: 10 }}
                     sx={{
+                      "& > div.Mui-error": {
+                        "& fieldset": {
+                          borderLeftWidth: "1px",
+                        },
+                        "& input::placeholder": {
+                          color: "error.main",
+                          opacity: 1,
+                        },
+                      },
                       "&>label,& input,&>div": { fontSize: "14px" },
                       "& input": { py: 1.5 },
                       "& fieldset": {
                         borderLeft: 0,
-                        borderRadius: "0 6px 6px 0",
+                        borderRadius: "0 6px 6px 0!important",
                       },
                     }}
                     onChange={formik.handleChange}
@@ -398,16 +420,10 @@ export default function AddMember() {
                     "&>label": { fontSize: "14px", top: "4px" },
                     "&>div>div": { py: 1.5 },
                   }}
-                  error={formik.touched.gender && Boolean(formik.errors.gender)}
-                  helperText={formik.touched.gender && formik.errors.gender}
                 >
                   <InputLabel
                     sx={{ textTransform: "capitalize" }}
                     id="demo-simple-select-label"
-                    error={
-                      formik.touched.gender && Boolean(formik.errors.gender)
-                    }
-                    helperText={formik.touched.gender && formik.errors.gender}
                   >
                     gender
                   </InputLabel>
@@ -458,38 +474,44 @@ export default function AddMember() {
                   <Field
                     name="file"
                     render={({ field, form }) => (
-                      <Select
-                        id="role"
-                        label="Role"
-                        sx={{ fontSize: "14px" }}
-                        {...field}
-                        onChange={(event) => {
-                          form.setFieldValue("role", event.target.value);
-                        }}
-                        error={
-                          formik.touched.role && Boolean(formik.errors.role)
-                        }
-                        helperText={formik.touched.role && formik.errors.role}
-                      >
-                        <MenuItem
-                          sx={{
-                            textTransform: "capitalize",
-                            fontSize: "14px",
+                      <>
+                        <Select
+                          id="role"
+                          label="Role"
+                          sx={{ fontSize: "14px" }}
+                          {...field}
+                          onChange={(event) => {
+                            form.setFieldValue("role", event.target.value);
                           }}
-                          value={"manager"}
+                          error={
+                            formik.touched.role && Boolean(formik.errors.role)
+                          }
                         >
-                          manager
-                        </MenuItem>
-                        <MenuItem
-                          sx={{
-                            textTransform: "capitalize",
-                            fontSize: "14px",
-                          }}
-                          value={"employee"}
-                        >
-                          employee
-                        </MenuItem>
-                      </Select>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"manager"}
+                          >
+                            manager
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              textTransform: "capitalize",
+                              fontSize: "14px",
+                            }}
+                            value={"employee"}
+                          >
+                            employee
+                          </MenuItem>
+                        </Select>
+                        {formik.touched.role && Boolean(formik.errors.role) && (
+                          <FormHelperText error={true}>
+                            {formik.touched.role && formik.errors.role}
+                          </FormHelperText>
+                        )}
+                      </>
                     )}
                   />
                 </FormControl>
@@ -804,7 +826,7 @@ export default function AddMember() {
                       "&:before": { height: "10rem" },
                     },
                   }}
-                  onClick={() => navigate("/add")}
+                  onClick={() => navigate("/members")}
                 >
                   <span style={{ position: "relative" }}>Discard</span>
                 </Button>

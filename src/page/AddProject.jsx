@@ -281,9 +281,6 @@ export default function AddProject() {
                               formik.touched.clientId &&
                               Boolean(formik.errors.clientId)
                             }
-                            helperText={
-                              formik.touched.clientId && formik.errors.clientId
-                            }
                           >
                             {clientList.map((item) => (
                               <MenuItem

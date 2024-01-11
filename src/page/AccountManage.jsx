@@ -236,19 +236,7 @@ function AccountManage() {
             </Grid>
           </Grid>
 
-          <Stack
-            direction={"row"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-            sx={{ mt: 4 }}
-          >
-            <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
-              Accounting items
-            </Typography>
-            <Box maxWidth={150} width={"100%"}></Box>
-          </Stack>
-
-          <Box mt={2}>
+          <Box sx={{ mt: 4 }}>
             <TableContainer
               component={Paper}
               sx={{
@@ -279,17 +267,15 @@ function AccountManage() {
                     <TableCell sx={{ width: "110px" }}>Date</TableCell>
                     <TableCell sx={{ width: "184px" }}>Title</TableCell>
                     <TableCell sx={{ width: "350px" }}>Description</TableCell>
-                    <TableCell sx={{ width: "154px" }}>
-                      payment method
-                    </TableCell>
-                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
-                      actions
-                    </TableCell>
+                    <TableCell sx={{ width: "154px" }}>method</TableCell>
                     <TableCell sx={{ width: "120px", textAlign: "center" }}>
                       Income
                     </TableCell>
                     <TableCell sx={{ width: "120px", textAlign: "center" }}>
                       Expance
+                    </TableCell>
+                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
+                      actions
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -340,6 +326,12 @@ function AccountManage() {
                           </span>
                         </Stack>
                       </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {account.income}
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {account.expance}
+                      </TableCell>
                       <TableCell>
                         <Stack
                           direction="row"
@@ -365,7 +357,7 @@ function AccountManage() {
                               <CreateIcon />
                             </Button>
                           </Link>
-                          {account.invoice ? (
+                          {/* {account.invoice ? (
                             <Link to={account.invoice}>
                               <Button disableRipple>
                                 <FileDownloadIcon />
@@ -373,14 +365,8 @@ function AccountManage() {
                             </Link>
                           ) : (
                             ""
-                          )}
+                          )} */}
                         </Stack>
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {account.income}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {account.expance}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -392,15 +378,15 @@ function AccountManage() {
                         fontWeight: 700,
                         fontSize: "16px",
                         color: "text.primary",
-                        textAlign: "center",
                       },
                     }}
                   >
-                    <TableCell colSpan={4}></TableCell>
+                    <TableCell colSpan={3}></TableCell>
                     <TableCell>Total:</TableCell>
                     <TableCell
                       sx={{
                         bgcolor: "#f3f3f3",
+                        textAlign: "center",
                       }}
                     >
                       10000
@@ -408,10 +394,12 @@ function AccountManage() {
                     <TableCell
                       sx={{
                         bgcolor: "#e6e6e6",
+                        textAlign: "center",
                       }}
                     >
                       17350
                     </TableCell>
+                    <TableCell></TableCell>
                   </TableRow>
                 </TableFooter>
               </Table>

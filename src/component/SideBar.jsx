@@ -39,7 +39,7 @@ export default function SideBar({
       link: "/",
     },
     { text: "Members", icon: <UserIcon />, link: "/members" },
-    { text: "Manager", icon: <UserIcon />, link: "/users" },
+    // { text: "Manager", icon: <UserIcon />, link: "/users" },
     { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
     { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
     { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
@@ -48,11 +48,11 @@ export default function SideBar({
       icon: <AccountManagement />,
       link: "/account-management",
     },
-    {
-      text: "Employees",
-      icon: <EmployeesIcon />,
-      link: "/employees",
-    },
+    // {
+    //   text: "Employees",
+    //   icon: <EmployeesIcon />,
+    //   link: "/employees",
+    // },
     {
       text: "Leaves",
       icon: <AccessTimeIcon />,
