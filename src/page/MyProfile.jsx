@@ -75,7 +75,7 @@ export default function Home() {
   const { id } = useParams();
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, userId } = useAuth();
+  const { accessToken, userId, user } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
@@ -87,9 +87,10 @@ export default function Home() {
     setValue(newValue);
   };
 
+  console.log(user, "---------------------90");
+
   const [url, setUrl] = useState();
   const handleFiles = async (files) => {
-    console.log(files, "---------------95");
     setUrl(files.base64);
     let formData = new FormData();
     // values.profile_img = url?.fileList[0];
@@ -527,7 +528,7 @@ export default function Home() {
                     : "Employee"}{" "}
                   Details
                 </Typography>
-                {userList?.role === 0 && (
+                {user.role === 0 && (
                   <Button
                     onClick={handleOpen.bind(null, "employee-detail")}
                     startIcon={<EditIcon sx={{ width: 16 }} />}
@@ -760,21 +761,23 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Document Details</Typography>
-                <Button
-                  onClick={handleOpen.bind(null, "document-detail")}
-                  startIcon={<EditIcon sx={{ width: 16 }} />}
-                  sx={{
-                    cursor: "pointer",
-                    height: "unset",
-                    py: 0.3,
-                    px: 1.5,
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    borderRadius: 4,
-                  }}
-                >
-                  Edit
-                </Button>
+                {user.role === 1 && user.role === 2 && (
+                  <Button
+                    onClick={handleOpen.bind(null, "document-detail")}
+                    startIcon={<EditIcon sx={{ width: 16 }} />}
+                    sx={{
+                      cursor: "pointer",
+                      height: "unset",
+                      py: 0.3,
+                      px: 1.5,
+                      border: "1px solid",
+                      borderColor: "primary.main",
+                      borderRadius: 4,
+                    }}
+                  >
+                    Edit
+                  </Button>
+                )}
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid
