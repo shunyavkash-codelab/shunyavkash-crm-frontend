@@ -8,6 +8,7 @@ import {
   Typography,
   Autocomplete,
   InputAdornment,
+  Stack,
 } from "@mui/material";
 import { useFormik } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
@@ -25,9 +26,25 @@ export default function AddClientsModal({ open, setOpen, fetchClients }) {
 
   // yup data validator schhema
   const schema = Yup.object({
-    name: Yup.string().required("Name is required.").trim(),
-    email: Yup.string().required("Email is required.").trim(),
-    mobileNumber: Yup.string().required("Mobile Number is required.").trim(),
+    name: Yup.string()
+      .required("Name is required.")
+      .trim()
+      .matches(
+        /^[a-zA-Z\s]*$/,
+        "Only alphabets and spaces are allowed in the name."
+      ),
+    email: Yup.string()
+      .email("Field should contain a valid e-mail")
+      .max(255)
+      .required("Email is required.")
+      .trim(),
+    mobileNumber: Yup.string()
+      .required("Mobile number is required.")
+      .matches(/^\+?[0-9]{10}$/, {
+        message: "Mobile number should consist of exactly 10 numerical digits.",
+      })
+      .max(12, "Mobile number should not exceed 12 characters.")
+      .min(10, "Mobile number should be at least 10 characters."),
     mobileCode: Yup.string().required("Mobile code is required.").trim(),
   });
   const formik = useFormik({
@@ -35,12 +52,13 @@ export default function AddClientsModal({ open, setOpen, fetchClients }) {
     initialValues: {
       name: "",
       email: "",
-      mobileCode: "",
+      mobileCode: "+91",
       mobileNumber: "",
       companyName: "",
       address: "",
     },
     onSubmit: async (values) => {
+      console.log(values, "--------------------51");
       try {
         // values.currency = currencyValue?.symbol;
         const res = await apiCall({
@@ -180,7 +198,100 @@ export default function AddClientsModal({ open, setOpen, fetchClients }) {
                   error={formik.touched.email && Boolean(formik.errors.email)}
                   helperText={formik.touched.email && formik.errors.email}
                 />
-                <Box
+                <Stack
+                  direction="row"
+                  sx={{
+                    "&:hover fieldset": {
+                      borderColor: "text.primary",
+                    },
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileCode"
+                    autoComplete="off"
+                    defaultValue="+91"
+                    // InputProps={
+                    //   location.pathname.includes("/view/") && {
+                    //     readOnly: true,
+                    //   }
+                    // }
+                    sx={{
+                      maxWidth: "75px",
+                      mr: "-1px",
+                      "& > div.Mui-error": {
+                        "& fieldset": {
+                          borderRightWidth: "1px",
+                        },
+                        "& input": {
+                          color: "error.main",
+                        },
+                      },
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": {
+                        py: 1.5,
+                        textAlign: "center",
+                        bgcolor: "#f4f4f4",
+                        borderRadius: "6px 0 0 6px!important",
+                      },
+                      "& fieldset": {
+                        borderRight: 0,
+                        borderRadius: "6px 0 0 6px!important",
+                      },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.mobileCode}
+                    error={
+                      formik.touched.mobileCode &&
+                      Boolean(formik.errors.mobileCode)
+                    }
+                    helperText={
+                      formik.touched.mobileCode && formik.errors.mobileCode
+                    }
+                  />
+
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileNumber"
+                    placeholder="Mobile Number"
+                    autoComplete="off"
+                    // defaultValue={clientList?.mobileNumber}
+                    // InputProps={
+                    //   location.pathname.includes("/view/") && {
+                    //     readOnly: true,
+                    //   }
+                    // }
+                    sx={{
+                      "& > div.Mui-error": {
+                        "& fieldset": {
+                          borderLeftWidth: "1px",
+                        },
+                        "& input::placeholder": {
+                          color: "error.main",
+                          opacity: 1,
+                        },
+                      },
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": { py: 1.5 },
+                      "& fieldset": {
+                        borderLeft: 0,
+                        borderRadius: "0 6px 6px 0!important",
+                      },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.mobileNumber}
+                    error={
+                      formik.touched.mobileNumber &&
+                      Boolean(formik.errors.mobileNumber)
+                    }
+                    helperText={
+                      formik.touched.mobileNumber && formik.errors.mobileNumber
+                    }
+                  />
+                </Stack>
+                {/* <Box
                   sx={{
                     display: "flex",
                     "&:hover fieldset": {
@@ -303,7 +414,7 @@ export default function AddClientsModal({ open, setOpen, fetchClients }) {
                       formik.touched.mobileNumber && formik.errors.mobileNumber
                     }
                   />
-                </Box>
+                </Box> */}
                 {/* <Box
                   sx={{
                     display: "flex",

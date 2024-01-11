@@ -37,7 +37,13 @@ export default function AddClient() {
 
   // yup data validator schhema
   const schema = Yup.object({
-    name: Yup.string().required("Name is required.").trim(),
+    name: Yup.string()
+      .required("Name is required.")
+      .trim()
+      .matches(
+        /^[a-zA-Z\s]*$/,
+        "Only alphabets and spaces are allowed in the name."
+      ),
     email: Yup.string()
       .email("Field should contain a valid e-mail")
       .max(255)
