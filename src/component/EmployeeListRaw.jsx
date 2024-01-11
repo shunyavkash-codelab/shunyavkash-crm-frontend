@@ -23,8 +23,11 @@ export default function EmployeeListRaw({
   row,
   uniqId,
   setEmployeesList,
-  employeesList,
+  dataList,
+  type,
 }) {
+  console.log(row, "--------------------28");
+  console.log(type, "--------------------30");
   const [role, setRole] = useState();
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
@@ -39,7 +42,7 @@ export default function EmployeeListRaw({
       const res = await apiCall({
         url: APIS.MANAGER.EDIT(id),
         method: "patch",
-        data: { role: role === "SuperAdmin" ? 0 : role === "User" ? 1 : 2 },
+        data: { role: role === "SuperAdmin" ? 0 : role === "Manager" ? 1 : 2 },
       });
       if (res.status === 200) {
         setSnack(res.data.message);
@@ -69,7 +72,7 @@ export default function EmployeeListRaw({
   };
 
   const updateEmployeeList = (id) => {
-    setEmployeesList(employeesList.filter((employee) => employee._id !== id));
+    setEmployeesList(dataList.filter((employee) => employee._id !== id));
   };
 
   return (
@@ -123,6 +126,7 @@ export default function EmployeeListRaw({
             </Box>
           </Box>
         </TableCell>
+        <TableCell>{row.mobileNumber || "N/A"}</TableCell>
         <TableCell>
           <FormControl
             fullWidth
@@ -145,7 +149,7 @@ export default function EmployeeListRaw({
                 row?.role === 0
                   ? "SuperAdmin"
                   : row?.role === 1
-                  ? "User"
+                  ? "Manager"
                   : "Employee"
               }
               onChange={(event) => setRole(event.target.value)}
@@ -164,7 +168,7 @@ export default function EmployeeListRaw({
                   textTransform: "capitalize",
                   fontSize: "14px",
                 }}
-                value={"User"}
+                value={"Manager"}
               >
                 manager
               </MenuItem>

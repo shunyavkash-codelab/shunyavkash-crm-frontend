@@ -369,89 +369,20 @@ export default function Members() {
                       }}
                     >
                       <TableCell>Manager</TableCell>
-                      <TableCell>Company Name</TableCell>
                       <TableCell>Mobile Number</TableCell>
-                      <TableCell>Gender</TableCell>
+                      <TableCell>Role</TableCell>
+                      <TableCell>Status</TableCell>
                       <TableCell>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {managerList.map((row) => (
-                      <TableRow
-                        key="" //{row.name}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1.75,
-                            }}
-                          >
-                            <Avatar
-                              sx={{
-                                width: "36px",
-                                height: "36px",
-                              }}
-                              alt={row.name}
-                              src={row.profile_img}
-                            />
-                            <Box>
-                              <Typography
-                                sx={{
-                                  mb: 0.75,
-                                  lineHeight: 1,
-                                  fontWeight: 600,
-                                  fontSize: { xs: "14px", sm: "16px" },
-                                }}
-                              >
-                                {row.name}
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  lineHeight: 1,
-                                  textTransform: "lowercase",
-                                  fontSize: { xs: "12px", sm: "14px" },
-                                }}
-                              >
-                                {row.email}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </TableCell>
-                        <TableCell>{row.companyName}</TableCell>
-                        <TableCell>{row.mobileNumber}</TableCell>
-                        <TableCell>{row.gender}</TableCell>
-                        <TableCell>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.5 },
-                              opacity: 0.3,
-                              "& button": {
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              },
-                              "& svg": {
-                                fontSize: { xs: "20px", sm: "22px" },
-                              },
-                            }}
-                          >
-                            <Link to={`./view/${row._id}`}>
-                              <Button disableRipple>
-                                <VisibilityIcon />
-                              </Button>
-                            </Link>
-                          </Box>
-                        </TableCell>
-                      </TableRow>
+                      <EmployeeListRaw
+                        row={row}
+                        uniqId={row._id}
+                        setEmployeesList={setManagerList}
+                        dataList={managerList}
+                      />
                     ))}
                   </TableBody>
                 </Table>
@@ -727,6 +658,7 @@ export default function Members() {
                       }}
                     >
                       <TableCell>employee</TableCell>
+                      <TableCell>mobile number</TableCell>
                       <TableCell sx={{ width: "250px" }}>Role</TableCell>
                       <TableCell>status</TableCell>
                       <TableCell sx={{ width: "140px" }}>Actions</TableCell>

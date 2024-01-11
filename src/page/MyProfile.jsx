@@ -12,7 +12,7 @@ import {
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import PropTypes from "prop-types";
 import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import DetailsList from "../component/employee/DetailsList";
@@ -34,7 +34,7 @@ import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import ModalComponent from "../component/ModalComponent";
 import UserSalary from "../page/UserSalary";
 import UserLeave from "./UserLeave";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
@@ -206,7 +206,11 @@ export default function Home() {
               variant="h5"
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
-              my Profile
+              {userList?.role === 0
+                ? "Admin Profile"
+                : userList?.role === 1
+                ? "Manager Profile"
+                : "Employee Profile"}
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
               <Link to={"/"} style={{ textDecoration: "none" }}>
