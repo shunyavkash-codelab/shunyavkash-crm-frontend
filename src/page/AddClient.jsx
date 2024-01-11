@@ -93,7 +93,7 @@ export default function AddClient() {
       address: clientList.address,
       profile_img: clientList?.profile_img,
       companyLogo: clientList?.companyLogo,
-      mobileCode: clientList?.mobileCode || undefined,
+      mobileCode: clientList?.mobileCode || "+91",
       bankName: clientList?.bankName,
       IFSC: clientList?.IFSC,
       holderName: clientList?.holderName,
