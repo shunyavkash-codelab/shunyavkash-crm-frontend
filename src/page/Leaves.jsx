@@ -32,9 +32,7 @@ export default function Leaves() {
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const leaves = [
+  const leavesRequests = [
     {
       id: 1,
       username: "Deep Bhimani",
@@ -94,12 +92,12 @@ export default function Leaves() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box>
+          <Box sx={{ mb: 3.25 }}>
             <Typography
               variant="h5"
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
-              leave requests
+              Members Leaves
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
               <Link to={"/"} style={{ textDecoration: "none" }}>
@@ -126,78 +124,7 @@ export default function Leaves() {
             </Box>
           </Box>
 
-          <Grid
-            container
-            rowSpacing={2.5}
-            columnSpacing={2.5}
-            mt={0}
-            sx={{ mt: 0.75 }}
-          >
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Leaves
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  15
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Casual Leaves
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  5
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Sick Leaves
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  5
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Unpaid Leaves
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  N/A
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-
-          <Box sx={{ mt: 4 }}>
-            <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
-              Members Leave Requests
-            </Typography>
-          </Box>
-
-          <Box sx={{ mt: 2 }}>
+          <Box>
             <TableContainer
               component={Paper}
               sx={{
@@ -222,18 +149,18 @@ export default function Leaves() {
               >
                 <TableHead>
                   <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                    <TableCell>Member Name</TableCell>
-                    <TableCell>Leave Type</TableCell>
+                    <TableCell>Member</TableCell>
+                    <TableCell>Type</TableCell>
                     <TableCell>Reason</TableCell>
                     <TableCell>Start Date</TableCell>
                     <TableCell>End Date</TableCell>
-                    <TableCell>Status</TableCell>
                   </TableRow>
                 </TableHead>
+
                 <TableBody>
-                  {leaves.map((leave) => (
+                  {leavesRequests.map((leaveRequest) => (
                     <TableRow
-                      key={leave.key}
+                      key={leaveRequest.key}
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
                         "&>td": { fontSize: { xs: "12px", sm: "14px" } },
@@ -243,7 +170,7 @@ export default function Leaves() {
                         },
                       }}
                     >
-                      <TableCell>{leave.username}</TableCell>
+                      <TableCell>{leaveRequest.username}</TableCell>
                       <TableCell
                         sx={{
                           "& .statusBtn": {
@@ -274,253 +201,27 @@ export default function Leaves() {
                       >
                         <Box
                           className={`statusBtn ${
-                            leave.type === "casual"
+                            leaveRequest.type === "casual"
                               ? "casual"
-                              : leave.type === "sick"
+                              : leaveRequest.type === "sick"
                               ? "sick"
-                              : leave.type === "unpaid"
+                              : leaveRequest.type === "unpaid"
                               ? "unpaid"
                               : "paid"
                           }`}
                         >
-                          {leave.type}
+                          {leaveRequest.type}
                         </Box>
                       </TableCell>
-                      <TableCell>{leave.reason}</TableCell>
-                      <TableCell>{leave.startDate}</TableCell>
-                      <TableCell>{leave.endDate}</TableCell>
-                      <TableCell
-                        sx={{
-                          "& .statusBtn": {
-                            fontSize: { xs: "12px", sm: "14px" },
-                            py: { xs: 0.75, sm: 1.25 },
-                            px: { xs: 1, sm: 2 },
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          },
-                          "& .unapprove": {
-                            color:
-                              leave.status === "unapprove"
-                                ? "white"
-                                : "#a5a5a5",
-                            bgcolor:
-                              leave.status === "unapprove"
-                                ? "error.main"
-                                : "#ececec",
-                            pointerEvents:
-                              leave.status === "unapprove" ? "" : "none",
-                          },
-                          "& .approve": {
-                            color:
-                              leave.status === "approve" ? "white" : "#a5a5a5",
-                            bgcolor:
-                              leave.status === "approve"
-                                ? "success.main"
-                                : "#ececec",
-                            pointerEvents:
-                              leave.status === "approve" ? "" : "none",
-                          },
-                        }}
-                      >
-                        <Stack direction="row" spacing={1}>
-                          <ButtonGroup sx={{ overflow: "hidden" }}>
-                            <Stack
-                              onClick={handleOpen}
-                              direction="row"
-                              alignItems="center"
-                              spacing={0.75}
-                              className="statusBtn approve"
-                              sx={{ cursor: "pointer" }}
-                            >
-                              <span style={{ display: "inline-block" }}>
-                                approve
-                              </span>
-                              {leave.status === "approve" && (
-                                <Tooltip title={leave.statusReason}>
-                                  <Stack
-                                    direction="row"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    sx={{
-                                      height: "16px",
-                                      width: "16px",
-                                      cursor: "pointer",
-                                      border: "1px solid white",
-                                      borderRadius: "100%",
-                                      padding: "3px",
-                                    }}
-                                  >
-                                    <img
-                                      src="/images/info.svg"
-                                      style={{
-                                        width: "100%",
-                                        height: "100%",
-                                      }}
-                                      alt="info"
-                                    />
-                                  </Stack>
-                                </Tooltip>
-                              )}
-                            </Stack>
-                            <Stack
-                              onClick={handleOpen}
-                              direction="row"
-                              alignItems="center"
-                              spacing={0.75}
-                              className="statusBtn unapprove"
-                              sx={{ cursor: "pointer" }}
-                            >
-                              <span style={{ display: "inline-block" }}>
-                                unapprove
-                              </span>
-                              {leave.status === "unapprove" && (
-                                <Tooltip title={leave.statusReason}>
-                                  <Stack
-                                    direction="row"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    sx={{
-                                      height: "16px",
-                                      width: "16px",
-                                      cursor: "pointer",
-                                      border: "1px solid white",
-                                      borderRadius: "100%",
-                                      padding: "3px",
-                                    }}
-                                  >
-                                    <img
-                                      src="/images/info.svg"
-                                      style={{
-                                        width: "100%",
-                                        height: "100%",
-                                      }}
-                                      alt="info"
-                                    />
-                                  </Stack>
-                                </Tooltip>
-                              )}
-                            </Stack>
-                          </ButtonGroup>
-                        </Stack>
-                      </TableCell>
+                      <TableCell>{leaveRequest.reason}</TableCell>
+                      <TableCell>{leaveRequest.startDate}</TableCell>
+                      <TableCell>{leaveRequest.endDate}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
           </Box>
-
-          <ModalComponent
-            open={open}
-            setOpen={setOpen}
-            modalTitle="Give Reason"
-            sx={{ padding: "6px" }}
-          >
-            <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-              <Grid
-                item
-                xs={12}
-                sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-              >
-                <FormControl fullWidth sx={{ m: 1 }}>
-                  <TextField
-                    required
-                    fullWidth
-                    multiline
-                    rows={4}
-                    size="normal"
-                    id="name"
-                    placeholder="Description"
-                    autoComplete="off"
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                    }}
-                  />
-                </FormControl>
-              </Grid>
-            </Grid>
-            <Stack
-              direction="row"
-              justifyContent="center"
-              spacing={2}
-              sx={{ mt: 2 }}
-            >
-              <Button
-                disableRipple
-                type="submit"
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "success.main",
-                  border: "1px solid",
-                  borderColor: "success.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "success.main",
-                    bgcolor: "success.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>approve</span>
-              </Button>
-              <Button
-                disableRipple
-                type="submit"
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "error.main",
-                  border: "1px solid",
-                  borderColor: "error.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "error.main",
-                    bgcolor: "error.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>unapprove</span>
-              </Button>
-            </Stack>
-          </ModalComponent>
         </Box>
       </Box>
     </>

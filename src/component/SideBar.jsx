@@ -1,4 +1,7 @@
 import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useAuth } from "../hooks/store/useAuth";
 import {
   Box,
   List,
@@ -13,14 +16,12 @@ import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
 // import EmployeesIcon from "@mui/icons-material/BadgeOutlined";
-import AccessTimeIcon from "@mui/icons-material/AccessTimeOutlined";
+import LeavesRequests from "@mui/icons-material/AccessTimeOutlined";
 // import EmployeeDashboardIcon from "@mui/icons-material/AccountBoxOutlined";
 import AccountManagement from "@mui/icons-material/ManageHistoryOutlined";
 import EmployeesDashboardIcon from "@mui/icons-material/PermContactCalendarOutlined";
 import SetupProfileIcon from "@mui/icons-material/PendingActionsOutlined";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useAuth } from "../hooks/store/useAuth";
+import LeavesIcon from "@mui/icons-material/ExitToApp";
 
 export default function SideBar({
   sideBarWidth,
@@ -54,8 +55,13 @@ export default function SideBar({
     //   link: "/employees",
     // },
     {
+      text: "Leaves Requests",
+      icon: <LeavesRequests />,
+      link: "/leaves-requests",
+    },
+    {
       text: "Leaves",
-      icon: <AccessTimeIcon />,
+      icon: <LeavesIcon />,
       link: "/leaves",
     },
     {
@@ -65,7 +71,7 @@ export default function SideBar({
     },
     {
       text: "Apply Leave",
-      icon: <AccessTimeIcon />,
+      icon: <LeavesRequests />,
       link: "/applyleave",
     },
   ];
@@ -81,7 +87,7 @@ export default function SideBar({
           "Dashboard",
           "Account Management",
           "Employees",
-          "Leaves",
+          "Leaves Requests",
         ].includes(ele.text) && user.role !== 0
       ) &&
       !(
