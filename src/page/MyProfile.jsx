@@ -206,7 +206,7 @@ export default function Home() {
               variant="h5"
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
-              User Profile
+              my Profile
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
               <Link to={"/"} style={{ textDecoration: "none" }}>

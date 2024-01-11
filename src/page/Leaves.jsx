@@ -1,30 +1,18 @@
 import React, { useState } from "react";
 import {
   Box,
-  Button,
-  ButtonGroup,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
   Paper,
-  Select,
-  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import ModalComponent from "../component/ModalComponent";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { Link } from "react-router-dom";
 
 export default function Leaves() {
@@ -40,8 +28,6 @@ export default function Leaves() {
       reason: "Marriage Function",
       startDate: "15/01/2023",
       endDate: "17/01/2023",
-      status: "approve",
-      statusReason: "Lorem ipsum dolor sit amet 1",
     },
     {
       id: 2,
@@ -50,8 +36,6 @@ export default function Leaves() {
       reason: "Medical",
       startDate: "25/02/2023",
       endDate: "27/02/2023",
-      status: "approve",
-      statusReason: "Lorem ipsum dolor sit amet 2",
     },
     {
       id: 3,
@@ -60,8 +44,6 @@ export default function Leaves() {
       reason: "Going to Village",
       startDate: "31/04/2023",
       endDate: "2/05/2023",
-      status: "unapprove",
-      statusReason: "ipsum dolor sit amet lorem 3",
     },
     {
       id: 4,
@@ -70,8 +52,6 @@ export default function Leaves() {
       reason: "Going to Friend's Birthday Party",
       startDate: "25/04/2023",
       endDate: "25/04/2023",
-      status: "unapprove",
-      statusReason: "Lorem dolor sit ipsum amet 4",
     },
   ];
 

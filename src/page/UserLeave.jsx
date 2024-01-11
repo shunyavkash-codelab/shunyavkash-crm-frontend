@@ -14,7 +14,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
+  // TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -24,9 +24,9 @@ import ModalComponent from "../component/ModalComponent";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import AccountHolderIcon from "@mui/icons-material/PermIdentityOutlined";
-import DateIcon from "@mui/icons-material/DateRangeOutlined";
+// import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import {
-  DatePicker,
+  // DatePicker,
   LocalizationProvider,
   MobileDatePicker,
 } from "@mui/x-date-pickers";
@@ -35,10 +35,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
 function UserLeave() {
-  const [setValue] = React.useState(0);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  // const [setValue] = React.useState(0);
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -220,7 +220,6 @@ function UserLeave() {
             >
               <TableHead>
                 <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                  <TableCell>Member Name</TableCell>
                   <TableCell>Leave Type</TableCell>
                   <TableCell>Reason</TableCell>
                   <TableCell>Start Date</TableCell>
@@ -241,7 +240,6 @@ function UserLeave() {
                       },
                     }}
                   >
-                    <TableCell>{leave.username}</TableCell>
                     <TableCell
                       sx={{
                         "& .statusBtn": {
