@@ -274,8 +274,8 @@ export default function LeavesRequests() {
                             color: "secondary.main",
                           },
                           "& .unpaid": {
-                            bgcolor: "rgba(225, 107, 22, 15%)",
-                            color: "review.main",
+                            bgcolor: "rgb(255 0 0 / 15%)",
+                            color: "error.main",
                           },
                           "& .paid": {
                             bgcolor: "rgba(74, 210, 146, 15%)",
@@ -304,10 +304,11 @@ export default function LeavesRequests() {
                         sx={{
                           "& .statusBtn": {
                             fontSize: { xs: "12px", sm: "14px" },
-                            // px: { xs: 1, sm: 2 },
-                            // py: 0.75,
-                            padding: "10px 16px 10px 16px",
-                            // py: { xs: 0.75, sm: 1.25 },
+                            px: "16px",
+                            py:
+                              !leaveRequest.status || leaveRequest.status === ""
+                                ? "12px"
+                                : "7px",
                             maxWidth: "fit-content",
                             lineHeight: 1,
                           },
@@ -327,7 +328,7 @@ export default function LeavesRequests() {
                                 cursor: "pointer",
                                 bgcolor: "rgba(74, 210, 146, 15%)",
                                 color: "success.main",
-                                padding: "6px 16px 6px 16px !important",
+                                // padding: "6px 16px 6px 16px !important",
                               }}
                             >
                               <span style={{ display: "inline-block" }}>
@@ -353,10 +354,10 @@ export default function LeavesRequests() {
                               className="statusBtn"
                               sx={{
                                 cursor: "pointer",
-                                bgcolor: "rgba(248, 174, 0, 15%)",
-                                color: "secondary.main",
+                                bgcolor: "rgba(225, 107, 22, 15%)",
+                                color: "review.main",
                                 // py: 0.75,
-                                padding: "6px 16px 6px 16px !important",
+                                // padding: "6px 16px 6px 16px !important",
                               }}
                             >
                               <span style={{ display: "inline-block" }}>
