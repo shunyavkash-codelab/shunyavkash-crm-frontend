@@ -62,10 +62,10 @@ export default function User() {
               variant="h5"
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
-              User
+              Manager
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/users"} style={{ textDecoration: "none" }}>
+              <Link to={"/members"} style={{ textDecoration: "none" }}>
                 <Typography
                   variant="subtitle2"
                   sx={{
@@ -77,7 +77,7 @@ export default function User() {
                     },
                   }}
                 >
-                  Users /
+                  Members /
                 </Typography>
               </Link>
               <Typography

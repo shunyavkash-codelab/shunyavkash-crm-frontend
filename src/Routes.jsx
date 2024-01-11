@@ -24,6 +24,7 @@ import Profile from "./page/Profile";
 import ViewProject from "./page/ViewProject";
 import Employees from "./page/Employees";
 import ApplyLeave from "./page/ApplyLeave";
+import LeavesRequests from "./page/LeavesRequests";
 import Leaves from "./page/Leaves";
 import MyProfile from "./page/MyProfile";
 import AccountManage from "./page/AccountManage";
@@ -59,6 +60,7 @@ const routes = createBrowserRouter([
   { path: "/employees", Component: Employees },
   { path: "/profile", Component: Profile },
   { path: "/applyleave", Component: ApplyLeave },
+  { path: "/leaves-requests", Component: LeavesRequests },
   { path: "/leaves", Component: Leaves },
   { path: "/my-profile", Component: MyProfile },
   // { path: "/my-profile", Component: MyProfile },

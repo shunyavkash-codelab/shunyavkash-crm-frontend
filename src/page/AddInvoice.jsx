@@ -362,10 +362,14 @@ export default function Invoices() {
   const getSubTotal = (task) => {
     let amount = task.reduce((accum, taskDetail) => {
       accum += taskDetail.pricePerHours * taskDetail.number;
-      return accum;
+      return accum.toFixed(2);
     }, 0);
-    setDiscountRS((amount * discountPer) / 100);
-    return amount;
+    if (invoiceData?.totals?.discountPer)
+      setDiscountPer(invoiceData.totals.discountPer);
+    setDiscountRS(
+      (amount * (discountPer || invoiceData?.totals?.discountPer)) / 100
+    );
+    return Number(amount);
   };
 
   useEffect(() => {
@@ -476,6 +480,8 @@ export default function Invoices() {
     }
   };
 
+  // console.log(invoiceData, "===========482");
+
   return (
     <>
       <SideBar
@@ -527,7 +533,11 @@ export default function Invoices() {
           customAccountNumber: invoiceData?.bank.accountNumber || "",
           to: invoiceData?.clientId || "",
           // project: "",
-          salesTax: invoiceData?.totals?.discountPer || 0,
+          salesTax: invoiceData?.totals?.salesTax || 0,
+          discountRS: invoiceData?.totals?.salesTax || 0,
+          salesTax: invoiceData?.totals?.salesTax || 0,
+          salesTax: invoiceData?.totals?.salesTax || 0,
+          note: invoiceData?.note || "",
           invoiceDate:
             invoiceData?.invoiceDate || currentDate.toISOString().split("T")[0],
           invoiceDueDate:
@@ -1500,9 +1510,11 @@ export default function Invoices() {
                               sx={{ fontWeight: 700, fontSize: "16px" }}
                             >
                               $
-                              {+values.salesTax +
+                              {(
+                                Number(values.salesTax) +
                                 getSubTotal(values.task) -
-                                discountRS}
+                                (discountRS || invoiceData?.totals?.discountRS)
+                              ).toFixed(2)}
                             </Typography>
                           </Box>
                         </Box>
@@ -1588,10 +1600,6 @@ export default function Invoices() {
                                         formik.setFieldValue(
                                           "selectBank",
                                           "customBank"
-                                        );
-                                        console.log(
-                                          e.target.value,
-                                          "selectBank"
                                         );
                                         setBankOpen(true);
                                       }}

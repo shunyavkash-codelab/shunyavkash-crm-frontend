@@ -63,7 +63,7 @@ export default function InvitationModal({ open, setOpen }) {
           setSnack(res.data.message);
           setOpen(false);
           setInviteMemberStore(res.data.data);
-          navigate("/employees");
+          navigate("/members");
         }
       } catch (error) {
         let errorMessage = error.response.data.message;
@@ -104,7 +104,7 @@ export default function InvitationModal({ open, setOpen }) {
                   textTransform: "capitalize",
                 }}
               >
-                Invitation Employee
+                Invitation Member
               </Typography>
               <Button
                 onClick={() => setOpen(false)}
@@ -221,6 +221,7 @@ export default function InvitationModal({ open, setOpen }) {
                     sx={{
                       "&>label": { fontSize: "14px" },
                     }}
+                    error={formik.touched.role && Boolean(formik.errors.role)}
                   >
                     <InputLabel
                       sx={{ textTransform: "capitalize" }}
@@ -239,12 +240,9 @@ export default function InvitationModal({ open, setOpen }) {
                           onChange={(event) => {
                             form.setFieldValue("role", event.target.value);
                           }}
-                          error={
-                            formik.touched.role && Boolean(formik.errors.role)
-                          }
                           helperText={formik.touched.role && formik.errors.role}
                         >
-                          <MenuItem
+                          {/* <MenuItem
                             sx={{
                               textTransform: "capitalize",
                               fontSize: "14px",
@@ -252,15 +250,15 @@ export default function InvitationModal({ open, setOpen }) {
                             value={"superAdmin"}
                           >
                             super admin
-                          </MenuItem>
+                          </MenuItem> */}
                           <MenuItem
                             sx={{
                               textTransform: "capitalize",
                               fontSize: "14px",
                             }}
-                            value={"user"}
+                            value={"manager"}
                           >
-                            user
+                            manager
                           </MenuItem>
                           <MenuItem
                             sx={{

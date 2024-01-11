@@ -1,4 +1,7 @@
 import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useAuth } from "../hooks/store/useAuth";
 import {
   Box,
   List,
@@ -12,15 +15,13 @@ import UserIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
-import EmployeesIcon from "@mui/icons-material/BadgeOutlined";
-import AccessTimeIcon from "@mui/icons-material/AccessTimeOutlined";
+// import EmployeesIcon from "@mui/icons-material/BadgeOutlined";
+import LeavesRequests from "@mui/icons-material/AccessTimeOutlined";
 // import EmployeeDashboardIcon from "@mui/icons-material/AccountBoxOutlined";
 import AccountManagement from "@mui/icons-material/ManageHistoryOutlined";
 import EmployeesDashboardIcon from "@mui/icons-material/PermContactCalendarOutlined";
 import SetupProfileIcon from "@mui/icons-material/PendingActionsOutlined";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useAuth } from "../hooks/store/useAuth";
+import LeavesIcon from "@mui/icons-material/ExitToApp";
 
 export default function SideBar({
   sideBarWidth,
@@ -54,8 +55,13 @@ export default function SideBar({
     //   link: "/employees",
     // },
     {
+      text: "Leaves Requests",
+      icon: <LeavesRequests />,
+      link: "/leaves-requests",
+    },
+    {
       text: "Leaves",
-      icon: <AccessTimeIcon />,
+      icon: <LeavesIcon />,
       link: "/leaves",
     },
     {
@@ -65,7 +71,7 @@ export default function SideBar({
     },
     {
       text: "Apply Leave",
-      icon: <AccessTimeIcon />,
+      icon: <LeavesRequests />,
       link: "/applyleave",
     },
   ];
@@ -81,7 +87,7 @@ export default function SideBar({
           "Dashboard",
           "Account Management",
           "Employees",
-          "Leaves",
+          "Leaves Requests",
         ].includes(ele.text) && user.role !== 0
       ) &&
       !(
@@ -126,12 +132,15 @@ export default function SideBar({
             maxWidth: "100%",
           }}
         >
-          <img
-            src="/images/shunyavkash-logo.svg"
-            style={{ height: "auto", width: "100%" }}
-            alt="shunyavkash-logo"
-          />
+          <Link to={"/"} style={{ display: "inline-flex" }}>
+            <img
+              src="/images/shunyavkash-logo.svg"
+              style={{ height: "auto", width: "100%" }}
+              alt="shunyavkash-logo"
+            />
+          </Link>
         </Box>
+
         <Box
           sx={{
             flexGrow: 1,
@@ -209,6 +218,7 @@ export default function SideBar({
             ))}
           </List>
         </Box>
+
         <List sx={{ px: 2, py: 1.5, bgcolor: "#f9f9f9" }}>
           <ListItem
             key={"Setup my Profile"}
@@ -260,6 +270,7 @@ export default function SideBar({
           </ListItem>
         </List>
       </Box>
+
       <Box
         onClick={() => {
           setShowSidebar(!showSidebar);
@@ -277,7 +288,7 @@ export default function SideBar({
             lg: "none",
           },
         }}
-      ></Box>
+      />
     </>
   );
 }

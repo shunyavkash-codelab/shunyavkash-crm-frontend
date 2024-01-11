@@ -598,44 +598,49 @@ export default function Invoices() {
                         : "00.00"}
                     </Typography>
                   </Box>
-                  <Box>
-                    <Typography
-                      variant="subtitle2"
-                      sx={{ fontSize: "16px", fontWeight: 600 }}
-                    >
-                      Discount (
-                      {invoiceData?.totals.discountPer
-                        ? invoiceData.totals.discountPer
-                        : "0"}
-                      %)
-                    </Typography>
-                    <Typography
-                      variant="subtitle2"
-                      sx={{ fontSize: "16px", fontWeight: 500 }}
-                    >
-                      $
-                      {invoiceData?.totals.discountRS
-                        ? invoiceData.totals.discountRS
-                        : "00.00"}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      variant="subtitle2"
-                      sx={{ fontSize: "16px", fontWeight: 600 }}
-                    >
-                      tax
-                    </Typography>
-                    <Typography
-                      variant="subtitle2"
-                      sx={{ fontSize: "16px", fontWeight: 500 }}
-                    >
-                      $
-                      {invoiceData?.totals.salesTax
-                        ? invoiceData.totals.salesTax
-                        : "00.00"}
-                    </Typography>
-                  </Box>
+                  {invoiceData?.totals?.discountRS && (
+                    <Box>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ fontSize: "16px", fontWeight: 600 }}
+                      >
+                        Discount (
+                        {invoiceData?.totals.discountPer
+                          ? invoiceData.totals.discountPer
+                          : "0"}
+                        %)
+                      </Typography>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ fontSize: "16px", fontWeight: 500 }}
+                      >
+                        $
+                        {invoiceData?.totals?.discountRS
+                          ? invoiceData.totals.discountRS
+                          : "00.00"}
+                      </Typography>
+                    </Box>
+                  )}
+                  {invoiceData?.totals?.salesTax && (
+                    <Box>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ fontSize: "16px", fontWeight: 600 }}
+                      >
+                        tax
+                      </Typography>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ fontSize: "16px", fontWeight: 500 }}
+                      >
+                        $
+                        {invoiceData?.totals?.salesTax
+                          ? invoiceData.totals.salesTax
+                          : "00.00"}
+                      </Typography>
+                    </Box>
+                  )}
+
                   <Box
                     sx={{
                       py: 1.75,
@@ -760,32 +765,30 @@ export default function Invoices() {
                         </Box>
                       </Box>
                     </Box>
-                    {/* <Box sx={{ mt: 7.25 }}>
-                    <Typography
-                      variant="h6"
-                      sx={{ fontSize: "20px", textTransform: "capitalize" }}
-                    >
-                      notes
-                    </Typography>
-                    <Box
-                      sx={{
-                        mt: 1.75,
-                      }}
-                    >
+                    <Box sx={{ mt: 7.25 }}>
                       <Typography
-                        variant="subtitle3"
+                        variant="h6"
+                        sx={{ fontSize: "20px", textTransform: "capitalize" }}
+                      >
+                        notes
+                      </Typography>
+                      <Box
                         sx={{
-                          lineHeight: 1.6,
-                          display: "block",
-                          fontSize: "16px",
+                          mt: 1.75,
                         }}
                       >
-                        ptototype-based programming is a style of
-                        object-oriented
-                        <br /> programming in which behaviour.
-                      </Typography>
+                        <Typography
+                          variant="subtitle3"
+                          sx={{
+                            lineHeight: 1.6,
+                            display: "block",
+                            fontSize: "16px",
+                          }}
+                        >
+                          {invoiceData.note}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box> */}
                   </Box>
                   <Box
                     sx={{
