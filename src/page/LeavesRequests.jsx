@@ -306,7 +306,7 @@ export default function LeavesRequests() {
                             fontSize: { xs: "12px", sm: "14px" },
                             // px: { xs: 1, sm: 2 },
                             // py: 0.75,
-                            padding: "10px 16px 10px 16px !important",
+                            padding: "10px 16px 10px 16px",
                             // py: { xs: 0.75, sm: 1.25 },
                             maxWidth: "fit-content",
                             lineHeight: 1,
@@ -327,7 +327,7 @@ export default function LeavesRequests() {
                                 cursor: "pointer",
                                 bgcolor: "rgba(74, 210, 146, 15%)",
                                 color: "success.main",
-                                padding: "6px 16px 6px 16px",
+                                padding: "6px 16px 6px 16px !important",
                               }}
                             >
                               <span style={{ display: "inline-block" }}>
@@ -356,7 +356,7 @@ export default function LeavesRequests() {
                                 bgcolor: "rgba(248, 174, 0, 15%)",
                                 color: "secondary.main",
                                 // py: 0.75,
-                                padding: "6px 16px 6px 16px",
+                                padding: "6px 16px 6px 16px !important",
                               }}
                             >
                               <span style={{ display: "inline-block" }}>
