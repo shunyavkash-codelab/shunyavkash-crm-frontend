@@ -162,7 +162,7 @@ export default function Home() {
                 <CounterCards
                   CardBgcolor={"rgba(244, 67, 54, 10%)"}
                   Title={"employees"}
-                  Counter={dashboardData.totalManager || 0}
+                  Counter={dashboardData.totalEmployee || 0}
                   Text={"lorem ipsum sit amet."}
                   Link={"/employees"}
                   ArrowBgColor={"rgba(244, 67, 54, 60%)"}
