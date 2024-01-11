@@ -13,6 +13,7 @@ export default function DetailsList(props) {
           opacity: 0.5,
           "& > svg": {
             fontSize: "20px",
+            ...props.IconStyle,
           },
         }}
       >
@@ -23,6 +24,7 @@ export default function DetailsList(props) {
             textTransform: "capitalize",
             lineHeight: 1,
             fontWeight: 600,
+            ...props.TitleStyle,
           }}
         >
           {props.Title}
@@ -30,10 +32,9 @@ export default function DetailsList(props) {
       </Box>
       <Typography
         variant="subtitle2"
-        className="text"
         sx={{
-          lineHeight: 1.5,
-          textTransform: "capitalize",
+          display: "inline-flex",
+          ...props.TextStyle,
         }}
       >
         {props.Text}

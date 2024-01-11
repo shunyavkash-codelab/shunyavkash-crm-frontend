@@ -31,11 +31,11 @@ const schema = Yup.object({
     .required("Email is required.")
     .trim(),
 
-  designation: Yup.string()
-    .required("Designation is required")
+  jobRole: Yup.string()
+    .required("JobRole is required")
     .matches(
       /^[a-zA-Z]+$/,
-      "Designation should only contain alphabetical characters"
+      "JobRole should only contain alphabetical characters"
     ),
   role: Yup.string().required("Role is required."),
 });
@@ -55,7 +55,7 @@ export default function EmployeeDetailsForm({
       dateOfJoining: dayjs(data.dateOfJoining),
       employeeId: data.employeeId,
       email: data.email,
-      designation: data.designation,
+      jobRole: data.jobRole,
       role: data.role,
     },
     onSubmit: async (values) => {
@@ -104,11 +104,6 @@ export default function EmployeeDetailsForm({
           <DemoContainer components={["DatePicker"]}>
             <MobileDatePicker
               label="Start Date"
-              // slotProps={{
-              //   textField: {
-              //     helperText: "DD/MM/YYYY",
-              //   },
-              // }}
               format="DD/MM/YYYY"
               value={dayjs(formik.values.dateOfJoining)}
               // value={dayjs(date, { format: "DD/MM/YYYY" }).toDate()}
@@ -169,9 +164,9 @@ export default function EmployeeDetailsForm({
       >
         {/* <FormControl fullWidth sx={{ m: 1 }}> */}
         <ThemeInput
-          placeholder={"Designation"}
+          placeholder={"Job role"}
           Icon={AccountBoxOutlinedIcon}
-          name="designation"
+          name="jobRole"
           onChange={formik.handleChange}
           formik={formik}
         />

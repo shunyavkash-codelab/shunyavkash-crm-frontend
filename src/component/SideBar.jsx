@@ -60,11 +60,6 @@ export default function SideBar({
       link: "/leaves-requests",
     },
     {
-      text: "Leaves",
-      icon: <LeavesIcon />,
-      link: "/leaves",
-    },
-    {
       text: "Employee Dashboard",
       icon: <EmployeesDashboardIcon />,
       link: "/employee-dashboard",
@@ -73,6 +68,11 @@ export default function SideBar({
       text: "Apply Leave",
       icon: <LeavesRequests />,
       link: "/applyleave",
+    },
+    {
+      text: "Leaves",
+      icon: <LeavesIcon />,
+      link: "/leaves",
     },
   ];
   let newArray = sidebarList.filter((ele) => {

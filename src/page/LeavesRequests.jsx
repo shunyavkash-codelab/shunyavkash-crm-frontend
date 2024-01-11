@@ -1,14 +1,19 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/store/useAuth";
+import SideBar from "../component/SideBar";
+import Header from "../component/Header";
+import ModalComponent from "../component/ModalComponent";
 import {
   Box,
   Button,
   ButtonGroup,
   FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
+  // InputLabel,
+  // MenuItem,
   Paper,
-  Select,
+  // Select,
   Stack,
   Table,
   TableBody,
@@ -20,12 +25,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useAuth } from "../hooks/store/useAuth";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
-import ModalComponent from "../component/ModalComponent";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { Link } from "react-router-dom";
+// import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import InfoIcon from "@mui/icons-material/InfoOutlined";
 
 export default function LeavesRequests() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -73,6 +74,16 @@ export default function LeavesRequests() {
       startDate: "25/04/2023",
       endDate: "25/04/2023",
       status: "unapprove",
+      statusReason: "Lorem dolor sit ipsum amet 4",
+    },
+    {
+      id: 5,
+      username: "Dipali Gediya",
+      type: "unpaid",
+      reason: "Going to Friend's Birthday Party",
+      startDate: "25/04/2023",
+      endDate: "25/04/2023",
+      status: "",
       statusReason: "Lorem dolor sit ipsum amet 4",
     },
   ];
@@ -298,110 +309,163 @@ export default function LeavesRequests() {
                             maxWidth: "fit-content",
                             lineHeight: 1,
                           },
-                          "& .unapprove": {
-                            color:
-                              leaveRequest.status === "unapprove"
-                                ? "white"
-                                : "#a5a5a5",
-                            bgcolor:
-                              leaveRequest.status === "unapprove"
-                                ? "error.main"
-                                : "#ececec",
-                            pointerEvents:
-                              leaveRequest.status === "unapprove" ? "" : "none",
-                          },
-                          "& .approve": {
-                            color:
-                              leaveRequest.status === "approve"
-                                ? "white"
-                                : "#a5a5a5",
-                            bgcolor:
-                              leaveRequest.status === "approve"
-                                ? "success.main"
-                                : "#ececec",
-                            pointerEvents:
-                              leaveRequest.status === "approve" ? "" : "none",
-                          },
+                          // "& .unapprove": {
+                          //   color:
+                          //     leaveRequest.status === "unapprove"
+                          //       ? "secondary.main"
+                          //       : "#a5a5a5",
+                          //   bgcolor:
+                          //     leaveRequest.status === "unapprove"
+                          //       ? "rgba(248, 174, 0, 15%)"
+                          //       : "#ececec",
+                          //   pointerEvents:
+                          //     leaveRequest.status === "unapprove" ? "" : "none",
+                          // },
+                          // "& .approve": {
+                          //   color:
+                          //     leaveRequest.status === "approve"
+                          //       ? "success.main"
+                          //       : "#a5a5a5",
+                          //   bgcolor:
+                          //     leaveRequest.status === "approve"
+                          //       ? "rgba(74, 210, 146, 15%)"
+                          //       : "#ececec",
+                          //   pointerEvents:
+                          //     leaveRequest.status === "approve" ? "" : "none",
+                          // },
+                          // "& .unanswered": {
+                          //   color:
+                          //     leaveRequest.status === "unanswered"
+                          //       ? "#a5a5a5"
+                          //       : "#a5a5a5",
+                          //   bgcolor:
+                          //     leaveRequest.status === "unanswered"
+                          //       ? "#ececec"
+                          //       : "#ececec",
+                          // },
                         }}
                       >
                         <Stack direction="row" spacing={1}>
                           <ButtonGroup sx={{ overflow: "hidden" }}>
-                            <Stack
+                            {/* {leaveRequest.status &&
+                            leaveRequest.status === "approve" ? (
+                            ) : (
+                              ""
+                            )}
+                            {leaveRequest.status &&
+                            leaveRequest.status === "unapprove" ? (
+                            ) : (
+                              ""
+                            )} */}
+                            {leaveRequest.status == "" ? (
+                              <>
+                                <Stack
+                                  onClick={handleOpen}
+                                  direction="row"
+                                  alignItems="center"
+                                  spacing={0.75}
+                                  className="statusBtn approve"
+                                  sx={{
+                                    cursor: "pointer",
+                                    bgcolor: "rgba(74, 210, 146, 15%)",
+                                    color: "success.main",
+                                  }}
+                                >
+                                  <span style={{ display: "inline-block" }}>
+                                    approve
+                                  </span>
+                                  {leaveRequest.status === "approve" && (
+                                    <Tooltip title={leaveRequest.statusReason}>
+                                      <InfoIcon />
+                                    </Tooltip>
+                                  )}
+                                </Stack>
+                                <Stack
+                                  onClick={handleOpen}
+                                  direction="row"
+                                  alignItems="center"
+                                  spacing={0.75}
+                                  className="statusBtn unapprove"
+                                  sx={{
+                                    cursor: "pointer",
+                                    bgcolor: "rgba(248, 174, 0, 15%)",
+                                    color: "success.main",
+                                  }}
+                                >
+                                  <span style={{ display: "inline-block" }}>
+                                    unapprove
+                                  </span>
+                                  {leaveRequest.status === "unapprove" && (
+                                    <Tooltip title={leaveRequest.statusReason}>
+                                      <InfoIcon />
+                                    </Tooltip>
+                                  )}
+                                </Stack>
+                              </>
+                            ) : leaveRequest.status == "approve" ? (
+                              <Stack
+                                onClick={handleOpen}
+                                direction="row"
+                                alignItems="center"
+                                spacing={0.75}
+                                className="statusBtn approve"
+                                sx={{
+                                  cursor: "pointer",
+                                  bgcolor: "rgba(74, 210, 146, 15%)",
+                                  color: "success.main",
+                                }}
+                              >
+                                <span style={{ display: "inline-block" }}>
+                                  approve
+                                </span>
+                                {leaveRequest.status === "approve" && (
+                                  <Tooltip title={leaveRequest.statusReason}>
+                                    <InfoIcon />
+                                  </Tooltip>
+                                )}
+                              </Stack>
+                            ) : leaveRequest.status == "unapprove" ? (
+                              <Stack
+                                onClick={handleOpen}
+                                direction="row"
+                                alignItems="center"
+                                spacing={0.75}
+                                className="statusBtn unapprove"
+                                sx={{
+                                  cursor: "pointer",
+                                  bgcolor: "rgba(248, 174, 0, 15%)",
+                                  color: "success.main",
+                                }}
+                              >
+                                <span style={{ display: "inline-block" }}>
+                                  unapprove
+                                </span>
+                                {leaveRequest.status === "unapprove" && (
+                                  <Tooltip title={leaveRequest.statusReason}>
+                                    <InfoIcon />
+                                  </Tooltip>
+                                )}
+                              </Stack>
+                            ) : (
+                              ""
+                            )}
+                            {/* <Stack
                               onClick={handleOpen}
                               direction="row"
                               alignItems="center"
                               spacing={0.75}
-                              className="statusBtn approve"
+                              className="statusBtn unanswered"
                               sx={{ cursor: "pointer" }}
                             >
                               <span style={{ display: "inline-block" }}>
-                                approve
+                                unanswer
                               </span>
-                              {leaveRequest.status === "approve" && (
+                              {leaveRequest.status === "unanswered" && (
                                 <Tooltip title={leaveRequest.statusReason}>
-                                  <Stack
-                                    direction="row"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    sx={{
-                                      height: "16px",
-                                      width: "16px",
-                                      cursor: "pointer",
-                                      border: "1px solid white",
-                                      borderRadius: "100%",
-                                      padding: "3px",
-                                    }}
-                                  >
-                                    <img
-                                      src="/images/info.svg"
-                                      style={{
-                                        width: "100%",
-                                        height: "100%",
-                                      }}
-                                      alt="info"
-                                    />
-                                  </Stack>
+                                  <InfoIcon />
                                 </Tooltip>
                               )}
-                            </Stack>
-                            <Stack
-                              onClick={handleOpen}
-                              direction="row"
-                              alignItems="center"
-                              spacing={0.75}
-                              className="statusBtn unapprove"
-                              sx={{ cursor: "pointer" }}
-                            >
-                              <span style={{ display: "inline-block" }}>
-                                unapprove
-                              </span>
-                              {leaveRequest.status === "unapprove" && (
-                                <Tooltip title={leaveRequest.statusReason}>
-                                  <Stack
-                                    direction="row"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    sx={{
-                                      height: "16px",
-                                      width: "16px",
-                                      cursor: "pointer",
-                                      border: "1px solid white",
-                                      borderRadius: "100%",
-                                      padding: "3px",
-                                    }}
-                                  >
-                                    <img
-                                      src="/images/info.svg"
-                                      style={{
-                                        width: "100%",
-                                        height: "100%",
-                                      }}
-                                      alt="info"
-                                    />
-                                  </Stack>
-                                </Tooltip>
-                              )}
-                            </Stack>
+                            </Stack> */}
                           </ButtonGroup>
                         </Stack>
                       </TableCell>
