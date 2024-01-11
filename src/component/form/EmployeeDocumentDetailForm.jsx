@@ -4,7 +4,13 @@ import ImageUploder from "./ImageUploder";
 
 export default function EmployeeDocumentDetailForm() {
   return (
-    <Grid container rowSpacing={2.5} columnSpacing={2.5} mt={3}>
+    <Grid
+      container
+      rowSpacing={2.5}
+      columnSpacing={2.5}
+      mt={3}
+      component={"form"}
+    >
       <Grid
         item
         xs={12}
@@ -12,7 +18,11 @@ export default function EmployeeDocumentDetailForm() {
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <ImageUploder title="signature"></ImageUploder>
+        <ImageUploder
+          name="signature"
+          title="signature"
+          fileTypes={[".png"]}
+        ></ImageUploder>
       </Grid>
       <Grid
         item
@@ -21,7 +31,11 @@ export default function EmployeeDocumentDetailForm() {
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <ImageUploder title="Degree Certification"></ImageUploder>
+        <ImageUploder
+          name="degreeCertification"
+          title="Degree Certification"
+          fileTypes={[".jpeg", ".jpg", "pdf"]}
+        ></ImageUploder>
       </Grid>
       <Grid
         item
@@ -30,7 +44,11 @@ export default function EmployeeDocumentDetailForm() {
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <ImageUploder title="Adhar Card"></ImageUploder>
+        <ImageUploder
+          name="adharCard"
+          title="Adhar Card"
+          fileTypes={[".jpeg", ".jpg", "pdf"]}
+        ></ImageUploder>
       </Grid>
       <Grid
         item
@@ -39,7 +57,11 @@ export default function EmployeeDocumentDetailForm() {
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <ImageUploder title="Adress Proof"></ImageUploder>
+        <ImageUploder
+          name="addressProof"
+          title="Adress Proof"
+          fileTypes={[".jpeg", ".jpg", "pdf"]}
+        ></ImageUploder>
       </Grid>
       <Grid
         item
@@ -48,7 +70,11 @@ export default function EmployeeDocumentDetailForm() {
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <ImageUploder title="Property tax"></ImageUploder>
+        <ImageUploder
+          name="propertyTax"
+          title="Property tax"
+          fileTypes={[".jpeg", ".jpg", "pdf"]}
+        ></ImageUploder>
       </Grid>
       <Grid
         item
@@ -57,7 +83,11 @@ export default function EmployeeDocumentDetailForm() {
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <ImageUploder title="Electricity bill"></ImageUploder>
+        <ImageUploder
+          name="electricityBill"
+          title="Electricity bill"
+          fileTypes={[".jpeg", ".jpg", "pdf"]}
+        ></ImageUploder>
       </Grid>
     </Grid>
   );

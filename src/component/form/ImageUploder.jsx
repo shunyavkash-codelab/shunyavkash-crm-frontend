@@ -2,12 +2,48 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
 import ReactFileReader from "react-file-reader";
 import UploadOutlinedIcon from "@mui/icons-material/UploadOutlined";
+import useApi from "../../hooks/useApi";
+import { APIS } from "../../api/apiList";
+import { useAuth } from "../../hooks/store/useAuth";
+import { useSnack } from "../../hooks/store/useSnack";
 
-function ImageUploder(props) {
+function ImageUploder({ title, fileTypes, name }) {
   const [url, setUrl] = useState();
-  const handleFiles = (files) => {
-    console.log(files);
+  const { userId } = useAuth();
+  const { setSnack } = useSnack();
+  const { apiCall, isLoading } = useApi();
+  var _URL = window.URL || window.webkitURL;
+  const handleFiles = async (files) => {
+    console.log(files, "ImageUploder");
     setUrl(files.base64);
+    var file, img;
+    if ((file = files.fileList[0] && title === "signature")) {
+      img = new Image();
+      var objectUrl = _URL.createObjectURL(file);
+      img.onload = function () {
+        console.log(this.width, this.height, "=========");
+        if (this.width > 300) console.log("width");
+      };
+      img.src = objectUrl;
+    }
+    let formData = new FormData();
+
+    formData.append(name, files.fileList[0]);
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.EDIT(userId),
+        method: "patch",
+        headers: "multipart/form-data",
+        data: formData,
+      });
+      if (res.status === 200) {
+        setSnack(`${title} upload successfully.`);
+        // setUrl(files.base64);
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
+    }
   };
   return (
     <>
@@ -54,13 +90,14 @@ function ImageUploder(props) {
             />
           ) : (
             <Box textAlign={"left"} px={1} textTransform={"capitalize"}>
-              {props.title}
+              {title}
             </Box>
           )}
         </Box>
         <Box>
           <ReactFileReader
-            fileTypes={[".png", ".jpg", "pdf"]}
+            name={name}
+            fileTypes={fileTypes}
             base64={true}
             handleFiles={handleFiles}
           >
