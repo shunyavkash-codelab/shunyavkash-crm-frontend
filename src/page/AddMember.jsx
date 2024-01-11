@@ -362,13 +362,24 @@ export default function AddMember() {
                     sx={{
                       maxWidth: "75px",
                       mr: "-1px",
-                      bgcolor: "#f4f4f4",
-                      borderRadius: "6px 0 0 6px",
+                      "& > div.Mui-error": {
+                        "& fieldset": {
+                          borderRightWidth: "1px",
+                        },
+                        "& input": {
+                          color: "error.main",
+                        },
+                      },
                       "&>label,& input,&>div": { fontSize: "14px" },
-                      "& input": { py: 1.5, textAlign: "center" },
+                      "& input": {
+                        py: 1.5,
+                        textAlign: "center",
+                        bgcolor: "#f4f4f4",
+                        borderRadius: "6px 0 0 6px!important",
+                      },
                       "& fieldset": {
                         borderRight: 0,
-                        borderRadius: "6px 0 0 6px",
+                        borderRadius: "6px 0 0 6px!important",
                       },
                     }}
                     onChange={formik.handleChange}
@@ -382,11 +393,20 @@ export default function AddMember() {
                     autoComplete="off"
                     inputProps={{ maxLength: 10 }}
                     sx={{
+                      "& > div.Mui-error": {
+                        "& fieldset": {
+                          borderLeftWidth: "1px",
+                        },
+                        "& input::placeholder": {
+                          color: "error.main",
+                          opacity: 1,
+                        },
+                      },
                       "&>label,& input,&>div": { fontSize: "14px" },
                       "& input": { py: 1.5 },
                       "& fieldset": {
                         borderLeft: 0,
-                        borderRadius: "0 6px 6px 0",
+                        borderRadius: "0 6px 6px 0!important",
                       },
                     }}
                     onChange={formik.handleChange}
