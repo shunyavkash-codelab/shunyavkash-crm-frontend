@@ -362,8 +362,9 @@ export default function Invoices() {
   const getSubTotal = (task) => {
     let amount = task.reduce((accum, taskDetail) => {
       accum += taskDetail.pricePerHours * taskDetail.number;
-      return accum.toFixed(2);
+      return accum;
     }, 0);
+    // ?.toFixed(2);
     if (invoiceData?.totals?.discountPer)
       setDiscountPer(invoiceData.totals.discountPer);
     setDiscountRS(
