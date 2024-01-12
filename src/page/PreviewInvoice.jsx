@@ -35,13 +35,14 @@ export default function Invoices() {
   const { setSnack } = useSnack();
   const location = useLocation();
   let view = location.pathname.includes("/view/") ? true : false;
-  console.log(invoiceData, "--------------------38");
   // add invoice
   const addInvoice = async () => {
     try {
       if (!view) {
         const res = await apiCall({
-          url: APIS.INVOICE.ADD,
+          url: location.pathname.includes("/edit/")
+            ? APIS.INVOICE.EDIT
+            : APIS.INVOICE.ADD,
           method: "post",
           data: JSON.stringify(invoiceData, null, 2),
         });
@@ -116,7 +117,8 @@ export default function Invoices() {
                   width: "700px",
                   opacity: 0.06,
                   zIndex: 1,
-                  display: "inline-flex",
+                  display:
+                    invoiceData.watermark === "true" ? "inline-flex" : "none",
                 }}
               >
                 <img
@@ -800,7 +802,7 @@ export default function Invoices() {
                     }}
                   >
                     <img
-                      src="/images/sign.svg"
+                      src={invoiceData.signature}
                       style={{
                         maxHeight: "inherit",
                         width: "100%",
@@ -897,9 +899,7 @@ export default function Invoices() {
                     : navigate(`/invoices/add/${invoiceNumber}`);
                 }}
               >
-                <span style={{ position: "relative" }}>
-                  {view ? "back" : "discard"}
-                </span>
+                <span style={{ position: "relative" }}>back</span>
               </Button>
             </Box>
           </Box>

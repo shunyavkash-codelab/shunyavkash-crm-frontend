@@ -324,7 +324,7 @@ export default function BankDetailForm({ profileList }) {
                   label="Account number"
                   variant="outlined"
                   sx={{ width: "100%", fontSize: "14px" }}
-                  defaultValue={row.label}
+                  defaultValue={row.accountNumber}
                   placeholder="Account number"
                   InputProps={
                     row.unSaved === true
@@ -342,7 +342,7 @@ export default function BankDetailForm({ profileList }) {
                   variant="outlined"
                   sx={{ width: "100%", fontSize: "14px" }}
                   name="accountNumber"
-                  defaultValue={row.label}
+                  defaultValue={row.accountNumber}
                   placeholder="Confirm account number"
                   onChange={formik.handleChange}
                   InputProps={

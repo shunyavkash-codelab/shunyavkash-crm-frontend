@@ -768,7 +768,7 @@ export default function AddClient() {
                         "& input": { py: 1.5 },
                       }}
                       onChange={formik.handleChange}
-                      value={clientList.label}
+                      value={clientList.accountNumber}
                       error={
                         formik.touched.accountNumber &&
                         Boolean(formik.errors.accountNumber)
