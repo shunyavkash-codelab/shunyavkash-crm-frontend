@@ -27,7 +27,7 @@ export default function EmployeeListRaw({
   type,
 }) {
   console.log(row, "--------------------28");
-  console.log(type, "--------------------30");
+  console.log(row.isActive, "--------------------------30");
   const [role, setRole] = useState();
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
@@ -95,7 +95,7 @@ export default function EmployeeListRaw({
           >
             <BadgeAvatar
               // Member nu status check karavu & Status ma active or inactive nakhavu
-              Status="active"
+              Status={row.isActive == true ? "active" : "inactive"}
               AvatarSrc={row.profile_img || ""}
               AvatarStyle={{ width: "36px", height: "36px" }}
             />
