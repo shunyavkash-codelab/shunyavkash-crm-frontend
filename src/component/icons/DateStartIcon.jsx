@@ -1,0 +1,26 @@
+import React from "react";
+
+function DateStartIcon() {
+  return (
+    <svg
+      version="1.2"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 26 25"
+      width="1em"
+      height="1em"
+    >
+      <style
+        dangerouslySetInnerHTML={{
+          __html: "\n\t\t.s0 { fill: currentColor } \n\t",
+        }}
+      />
+      <path
+        id="Layer"
+        className="s0"
+        d="m7 0c-0.6 0-1 0.4-1 1v3c0 0.6 0.4 1 1 1 0.6 0 1-0.4 1-1v-3c0-0.6-0.4-1-1-1zm10 0c-0.6 0-1 0.4-1 1v3c0 0.6 0.4 1 1 1 0.6 0 1-0.4 1-1v-3c0-0.6-0.4-1-1-1zm-14 2c-1.7 0-3 1.3-3 3v17c0 1.7 1.3 3 3 3h18c1.7 0 3-1.3 3-3v-2.1l-2 1.9v0.2c0 0.6-0.4 1-1 1h-18c-0.6 0-1-0.4-1-1v-14h20v1.2l2 1.8v-6c0-1.7-1.3-3-3-3h-2v2c0 1.1-0.9 2-2 2-1.1 0-2-0.9-2-2v-2h-6v2c0 1.1-0.9 2-2 2-1.1 0-2-0.9-2-2v-2zm16.8 8.1c-0.2-0.1-0.8 0-0.8 1v1.9h-5c-0.6 0-1 0.4-1 1v3c0 0.6 0.4 1 1 1h5v1.9c0 1.3 1 1 1 1l5.9-5.4-5.9-5.4q0 0-0.2 0z"
+      />
+    </svg>
+  );
+}
+
+export default DateStartIcon;

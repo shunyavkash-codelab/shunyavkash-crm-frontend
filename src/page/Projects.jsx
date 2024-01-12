@@ -221,42 +221,24 @@ export default function Project() {
                           {row.currency}
                           {row.perHourCharge}/hour
                         </TableCell>
-                        <TableCell
-                          sx={{
-                            "& .statusBtn": {
-                              color: "white",
+                        <TableCell>
+                          <Box
+                            sx={{
                               fontSize: "12px",
                               p: 0.5,
                               borderRadius: 1,
                               maxWidth: "fit-content",
                               lineHeight: 1,
-                            },
-                            "& .toDo": {
-                              bgcolor: "grey.dark",
-                            },
-                            "& .inProgress": {
-                              bgcolor: "secondary.main",
-                            },
-                            "& .inReview": {
-                              bgcolor: "review.main",
-                            },
-                            "& .completed": {
-                              bgcolor: "success.main",
-                            },
-                          }}
-                        >
-                          <Box
-                            className={`statusBtn ${
-                              row.status === "initial"
-                                ? "initial toDo"
-                                : row.status === "completed"
-                                ? "completed"
-                                : row.status === "inReview"
-                                ? "inReview"
-                                : row.status === "inProgress"
-                                ? "inProgress"
-                                : "toDo"
-                            }`}
+                              color: "white",
+                              bgcolor:
+                                row.status === "completed"
+                                  ? "success.main"
+                                  : row.status === "inReview"
+                                  ? "review.main"
+                                  : row.status === "inProgress"
+                                  ? "secondary.main"
+                                  : "grey.dark",
+                            }}
                           >
                             {row.status}
                           </Box>

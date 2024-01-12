@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Box, Typography, Chip, Avatar, Stack, Grid } from "@mui/material";
+import { Box, Typography, Chip, Avatar, Grid } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import useApi from "../hooks/useApi";
@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import DetailsList from "../component/employee/DetailsList.jsx";
 import GenderIcon from "@mui/icons-material/WcOutlined";
 import WebsiteIcon from "@mui/icons-material/LanguageOutlined";
+import ProjectsIcon from "../component/icons/ProjectsIcon.jsx";
 
 export default function Manager() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -87,7 +88,7 @@ export default function Manager() {
                 variant="subtitle2"
                 sx={{ opacity: 0.4, textTransform: "capitalize" }}
               >
-                Raghav Juyal
+                {clientList.name}
               </Typography>
             </Box>
           </Box>
@@ -97,83 +98,78 @@ export default function Manager() {
               bgcolor: "white",
               borderRadius: 4,
               overflow: "hidden",
-              p: 2,
+              p: 3,
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: 2,
+              "& .avatar, & .logo": {
+                flexShrink: 0,
+                width: { xs: "80px", sm: "100px" },
+                height: { xs: "80px", sm: "100px" },
+                borderRadius: "100%",
+                bgcolor: "grey.light",
+                boxShadow: "0 0 0 4px white",
+              },
             }}
           >
+            <Avatar
+              className="avatar"
+              sx={{
+                order: 1,
+              }}
+              src={
+                clientList.profile_img
+                  ? clientList.profile_img
+                  : "https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"
+              }
+              alt="avatar"
+            />
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                gap: 2,
-                "& .avatar, & .logo": {
-                  flexShrink: 0,
-                  width: { xs: "80px", sm: "100px" },
-                  height: { xs: "80px", sm: "100px" },
-                  borderRadius: "100%",
-                  bgcolor: "grey.light",
-                  boxShadow: "0 0 0 4px white",
-                },
+                order: { xs: 3, sm: 2 },
+                width: { xs: "100%", sm: "auto" },
+                textAlign: { xs: "center", sm: "left" },
               }}
             >
-              <Avatar
-                className="avatar"
+              <Typography
+                variant="h5"
                 sx={{
-                  order: 1,
-                }}
-                src={
-                  clientList.profile_img
-                    ? clientList.profile_img
-                    : "https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"
-                }
-                alt="avatar"
-              />
-              <Box
-                sx={{
-                  order: { xs: 3, sm: 2 },
-                  width: { xs: "100%", sm: "auto" },
-                  textAlign: { xs: "center", sm: "left" },
+                  fontSize: { xs: "22px", sm: "26px" },
+                  color: "black",
+                  fontWeight: 500,
+                  textTransform: "capitalize",
                 }}
               >
-                <Typography
-                  variant="h5"
-                  sx={{
-                    fontSize: { xs: "22px", sm: "26px" },
-                    color: "black",
-                    fontWeight: 500,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {clientList.name}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontSize: { sm: "16px" },
-                    lineHeight: 1,
-                    mt: { xs: 0.75, sm: 1.25 },
-                    opacity: 0.5,
-                    wordBreak: "break-all",
-                  }}
-                >
-                  {clientList.email}
-                </Typography>
-              </Box>
-              <Avatar
-                className="logo"
+                {clientList.name}
+              </Typography>
+              <Typography
+                variant="body2"
                 sx={{
-                  order: { xs: 2, sm: 3 },
-                  ml: { sm: "auto" },
+                  fontSize: { sm: "16px" },
+                  lineHeight: 1,
+                  mt: { xs: 0.75, sm: 1.25 },
+                  opacity: 0.5,
+                  wordBreak: "break-all",
                 }}
-                src={
-                  clientList?.companyLogo
-                    ? clientList?.companyLogo
-                    : "/images/logo-2.svg"
-                }
-                alt="Company Logo"
-              />
+              >
+                {clientList.email}
+              </Typography>
             </Box>
+            <Avatar
+              className="logo"
+              sx={{
+                order: { xs: 2, sm: 3 },
+                ml: { sm: "auto" },
+              }}
+              src={
+                clientList?.companyLogo
+                  ? clientList?.companyLogo
+                  : "/images/logo-2.svg"
+              }
+              alt="Company Logo"
+            />
           </Box>
 
           <Box
@@ -197,7 +193,6 @@ export default function Manager() {
             >
               Details
             </Typography>
-
             <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
               <Grid item xs={12} md={6} xl={4}>
                 <DetailsList
@@ -211,16 +206,10 @@ export default function Manager() {
               </Grid>
               <Grid item xs={12} md={6} xl={4}>
                 <DetailsList
-                  Icon={<GenderIcon />}
-                  Title={"gender"}
-                  Text={clientList.gender || "N/A"}
-                />
-              </Grid>
-              <Grid item xs={12} md={6} xl={4}>
-                <DetailsList
                   Icon={<CompanyIcon />}
                   Title={"company name"}
                   Text={clientList.companyName || "N/A"}
+                  TextStyle={{ textTransform: "capitalize" }}
                 />
               </Grid>
               <Grid item xs={12} md={6} xl={4}>
@@ -247,163 +236,36 @@ export default function Manager() {
                   }
                 />
               </Grid>
-              <Grid
-                item
-                xs={12}
-                md={clientList.projectName?.length > 0 ? 12 : 6}
-                xl={clientList.projectName?.length > 0 ? 12 : 4}
-              >
+              <Grid item xs={12} xl={8}>
                 <DetailsList
-                  Icon={<AddressIcon />}
+                  Icon={<ProjectsIcon />}
                   Title={"project Name"}
                   Text={
                     clientList?.projectName?.length
                       ? clientList.projectName.map((project) => (
-                          <Chip
-                            key={project}
-                            sx={{ height: "26px" }}
-                            label={project}
-                          />
+                          <Box
+                            sx={{
+                              display: "flex",
+                              gap: 0.75,
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <Chip
+                              key={project}
+                              sx={{
+                                height: "unset",
+                                minHeight: "26px",
+                                "& span": { py: "5px", whiteSpace: "pre-wrap" },
+                              }}
+                              label={project}
+                            />
+                          </Box>
                         ))
                       : "N/A"
                   }
                 />
               </Grid>
             </Grid>
-          </Box>
-
-          <Box
-            sx={{
-              maxWidth: "750px",
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "repeat(1, 1fr)",
-                sm: "repeat(2, 1fr)",
-              },
-              gap: { xs: 2.75, sm: 3.5 },
-              "& img.icon,& svg": {
-                height: "18px",
-                width: "18px",
-              },
-            }}
-          >
-            {/* {clientList.mobileNumber && (
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                <PhoneIcon />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {clientList.mobileCode}
-                  {clientList.mobileNumber}
-                </Typography>
-              </Box>
-            )} */}
-            {/* {clientList.gender && (
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                <img className="icon" src="/images/gender.svg" alt=""></img>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {clientList.gender}
-                </Typography>
-              </Box>
-            )} */}
-            {/* {clientList.companyName && (
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                <CompanyIcon />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {clientList.companyName}
-                </Typography>
-              </Box>
-            )} */}
-            {/* {clientList.websiteURL && (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1.5,
-                  gridColumn: { sm: "span 2" },
-                }}
-              >
-                <img className="icon" src="/images/website.svg" alt=""></img>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    lineHeight: 1,
-                    wordBreak: "break-word",
-                  }}
-                >
-                  {clientList.websiteURL}
-                </Typography>
-              </Box>
-            )} */}
-            {/* {clientList.projectName?.length > 0 && (
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 1.5,
-                  gridColumn: { sm: "span 2" },
-                }}
-              >
-                <img className="icon" src="/images/projects.svg" />
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 0.75,
-                    "& span": {
-                      fontSize: "13px",
-                      py: 0.75,
-                      px: 1,
-                      lineHeight: 1,
-                    },
-                  }}
-                >
-                  {clientList.projectName &&
-                    clientList.projectName.map((project) => (
-                      <Chip
-                        key={project}
-                        sx={{ height: "auto" }}
-                        label={project}
-                      />
-                    ))}
-                </Box>
-              </Box>
-            )} */}
-            {/* {clientList.address && (
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 1.5,
-                  gridColumn: { sm: "span 2" },
-                }}
-              >
-                <AddressIcon sx={{ mt: 0.25 }} />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    textTransform: "capitalize",
-                  }}
-                  dangerouslySetInnerHTML={{
-                    __html: clientList.address.replace(/\r\n/g, "<br />"),
-                  }}
-                ></Typography>
-              </Box>
-            )} */}
           </Box>
         </Box>
       </Box>

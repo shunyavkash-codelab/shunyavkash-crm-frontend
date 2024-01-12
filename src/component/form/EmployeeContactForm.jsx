@@ -90,11 +90,10 @@ export default function EmployeeContactForm({
       <Grid
         item
         xs={12}
-        md={12}
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <FormControl fullWidth sx={{ m: 1 }}>
+        <FormControl fullWidth>
           <ThemeInput
             placeholder={"Phone Number"}
             Icon={PhoneOutlinedIcon}
@@ -108,11 +107,10 @@ export default function EmployeeContactForm({
       <Grid
         item
         xs={12}
-        md={12}
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <FormControl fullWidth sx={{ m: 1 }}>
+        <FormControl fullWidth>
           <ThemeInput
             placeholder={"WhatsApp Number"}
             Icon={PhoneOutlinedIcon}
@@ -126,11 +124,10 @@ export default function EmployeeContactForm({
       <Grid
         item
         xs={12}
-        md={12}
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <FormControl fullWidth sx={{ m: 1 }}>
+        <FormControl fullWidth>
           <ThemeInput
             placeholder={"Personal Email"}
             Icon={EmailOutlinedIcon}
@@ -143,11 +140,10 @@ export default function EmployeeContactForm({
       <Grid
         item
         xs={12}
-        md={12}
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <FormControl fullWidth sx={{ m: 1 }}>
+        <FormControl fullWidth>
           <ThemeInput
             placeholder={"Line 1"}
             Icon={HomeOutlinedIcon}
@@ -160,11 +156,10 @@ export default function EmployeeContactForm({
       <Grid
         item
         xs={12}
-        md={12}
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <FormControl fullWidth sx={{ m: 1 }}>
+        <FormControl fullWidth>
           <ThemeInput
             placeholder={"Line 2"}
             Icon={HomeOutlinedIcon}
@@ -177,11 +172,10 @@ export default function EmployeeContactForm({
       <Grid
         item
         xs={12}
-        md={12}
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <FormControl fullWidth sx={{ m: 1 }}>
+        <FormControl fullWidth>
           <ThemeInput
             placeholder={"Landmark"}
             Icon={HomeOutlinedIcon}
@@ -194,11 +188,10 @@ export default function EmployeeContactForm({
       <Grid
         item
         xs={12}
-        md={12}
         lg={6}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <FormControl fullWidth sx={{ m: 1 }}>
+        <FormControl fullWidth>
           <ThemeInput
             placeholder={"Pincode"}
             Icon={HomeOutlinedIcon}
@@ -215,7 +208,7 @@ export default function EmployeeContactForm({
         lg={12}
         sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
-        <FormControl fullWidth sx={{ m: 1 }}>
+        <FormControl fullWidth>
           <ThemeInput
             placeholder={"Address"}
             Icon={() => <HomeOutlinedIcon sx={{ mt: 2.25, mr: 1.25 }} />}
