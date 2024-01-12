@@ -39,7 +39,7 @@ function CustomTabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ px: 0, py: 3 }}>
+        <Box sx={{ pt: 3 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -366,11 +366,11 @@ export default function Members() {
                         "&>th": { lineHeight: 1, fontWeight: 700 },
                       }}
                     >
-                      <TableCell>Manager</TableCell>
-                      <TableCell>Mobile Number</TableCell>
-                      <TableCell>Role</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell>Actions</TableCell>
+                      <TableCell sx={{ width: "400px" }}>Manager</TableCell>
+                      <TableCell>mobile number</TableCell>
+                      <TableCell sx={{ width: "250px" }}>Role</TableCell>
+                      <TableCell sx={{ width: "140px" }}>status</TableCell>
+                      <TableCell sx={{ width: "140px" }}>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -380,6 +380,57 @@ export default function Members() {
                         uniqId={row._id}
                         setEmployeesList={setManagerList}
                         dataList={managerList}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CustomTabPanel>
+
+            {/* Employee */}
+            <CustomTabPanel value={value} index={1}>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  border: "1px solid rgba(224, 224, 224, 1)",
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
+                }}
+              >
+                <Table
+                  className="userTable"
+                  sx={{
+                    minWidth: 650,
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": { borderBottom: 0 },
+                    "& tbody tr": {
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
+                    <TableRow
+                      sx={{
+                        "&>th": { lineHeight: 1, fontWeight: 700 },
+                      }}
+                    >
+                      <TableCell sx={{ width: "400px" }}>employee</TableCell>
+                      <TableCell>mobile number</TableCell>
+                      <TableCell sx={{ width: "250px" }}>Role</TableCell>
+                      <TableCell sx={{ width: "140px" }}>status</TableCell>
+                      <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {employeesList.map((row) => (
+                      <EmployeeListRaw
+                        row={row}
+                        uniqId={row._id}
+                        setEmployeesList={setEmployeesList}
+                        employeesList={employeesList}
                       />
                     ))}
                   </TableBody>
@@ -624,57 +675,6 @@ export default function Members() {
                 </Table>
               </TableContainer>
             </CustomTabPanel> */}
-
-            {/* Employee */}
-            <CustomTabPanel value={value} index={1}>
-              <TableContainer
-                component={Paper}
-                sx={{
-                  border: "1px solid rgba(224, 224, 224, 1)",
-                  mx: { xs: "-10px", sm: 0 },
-                  width: { xs: "auto", sm: "auto" },
-                  borderRadius: 2.5,
-                }}
-              >
-                <Table
-                  className="userTable"
-                  sx={{
-                    minWidth: 650,
-                    textTransform: "capitalize",
-                    textWrap: "nowrap",
-                    "& th,& td": { borderBottom: 0 },
-                    "& tbody tr": {
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
-                    },
-                  }}
-                  aria-label="simple table"
-                >
-                  <TableHead>
-                    <TableRow
-                      sx={{
-                        "&>th": { lineHeight: 1, fontWeight: 700 },
-                      }}
-                    >
-                      <TableCell>employee</TableCell>
-                      <TableCell>mobile number</TableCell>
-                      <TableCell sx={{ width: "250px" }}>Role</TableCell>
-                      <TableCell>status</TableCell>
-                      <TableCell sx={{ width: "140px" }}>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {employeesList.map((row) => (
-                      <EmployeeListRaw
-                        row={row}
-                        uniqId={row._id}
-                        setEmployeesList={setEmployeesList}
-                        employeesList={employeesList}
-                      />
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </CustomTabPanel>
           </Box>
         </Box>
       </Box>

@@ -142,7 +142,7 @@ export default function EmployeeListRaw({
             <Select
               id="role"
               label="Role"
-              sx={{ fontSize: "14px" }}
+              sx={{ fontSize: "14px", "& > div": { py: "7px" } }}
               defaultValue={
                 row?.role === 0
                   ? "SuperAdmin"
