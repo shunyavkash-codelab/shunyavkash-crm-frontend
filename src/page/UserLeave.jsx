@@ -25,12 +25,13 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import AccountHolderIcon from "@mui/icons-material/PermIdentityOutlined";
 // import DateIcon from "@mui/icons-material/DateRangeOutlined";
+import InfoIcon from "@mui/icons-material/InfoOutlined";
 import {
   // DatePicker,
   LocalizationProvider,
   MobileDatePicker,
 } from "@mui/x-date-pickers";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
@@ -49,7 +50,9 @@ function UserLeave() {
       type: "casual",
       reason: "Marriage Function",
       startDate: "15/01/2023",
+      startDayType: "first half",
       endDate: "17/01/2023",
+      endDayType: "second half",
       status: "approve",
       statusReason: "Lorem ipsum dolor sit amet",
     },
@@ -59,7 +62,9 @@ function UserLeave() {
       type: "sick",
       reason: "Medical",
       startDate: "25/02/2023",
+      startDayType: "second half",
       endDate: "27/02/2023",
+      endDayType: "full day",
       status: "approve",
       statusReason: "Lorem ipsum dolor sit amet",
     },
@@ -69,7 +74,9 @@ function UserLeave() {
       type: "paid",
       reason: "Going to Village",
       startDate: "31/04/2023",
+      startDayType: "full day",
       endDate: "2/05/2023",
+      endDayType: "full day",
       status: "unapprove",
       statusReason: "ipsum dolor sit amet lorem",
     },
@@ -79,29 +86,11 @@ function UserLeave() {
       type: "unpaid",
       reason: "Going to Friend's Birthday Party",
       startDate: "25/04/2023",
+      startDayType: "second half",
       endDate: "25/04/2023",
+      endDayType: "first half",
       status: "unapprove",
       statusReason: "Lorem dolor sit ipsum amet",
-    },
-    {
-      id: 5,
-      username: "Deep Bhimani",
-      type: "paid",
-      reason: "sick",
-      startDate: "14/08/2023",
-      endDate: "14/08/2023",
-      status: "approve",
-      statusReason: "Lorem ipsum dolor sit amet",
-    },
-    {
-      id: 6,
-      username: "Deep Bhimani",
-      type: "sick",
-      reason: "Medical Issue",
-      startDate: "12/10/2023",
-      endDate: "15/10/2023",
-      status: "approve",
-      statusReason: "Lorem dolor sit amet",
     },
   ];
 
@@ -223,7 +212,10 @@ function UserLeave() {
                   <TableCell>Leave Type</TableCell>
                   <TableCell>Reason</TableCell>
                   <TableCell>Start Date</TableCell>
+                  <TableCell>day type</TableCell>
                   <TableCell>End Date</TableCell>
+                  <TableCell>day type</TableCell>
+                  {/* Admin ni status ni row na aave */}
                   <TableCell>Status</TableCell>
                 </TableRow>
               </TableHead>
@@ -240,102 +232,77 @@ function UserLeave() {
                       },
                     }}
                   >
-                    <TableCell
-                      sx={{
-                        "& .statusBtn": {
+                    <TableCell>
+                      <Box
+                        sx={{
                           color: "white",
                           fontSize: "12px",
                           p: 0.5,
                           borderRadius: 1,
                           maxWidth: "fit-content",
                           lineHeight: 1,
-                        },
-                        "& .casual": {
-                          bgcolor: "rgba(94, 115, 141, 15%)",
-                          color: "grey.dark",
-                        },
-                        "& .sick": {
-                          bgcolor: "rgba(248, 174, 0, 15%)",
-                          color: "secondary.main",
-                        },
-                        "& .unpaid": {
-                          bgcolor: "rgba(225, 107, 22, 15%)",
-                          color: "review.main",
-                        },
-                        "& .paid": {
-                          bgcolor: "rgba(74, 210, 146, 15%)",
-                          color: "success.main",
-                        },
-                      }}
-                    >
-                      <Box
-                        className={`statusBtn ${
-                          leave.type === "casual"
-                            ? "casual"
-                            : leave.type === "sick"
-                            ? "sick"
-                            : leave.type === "unpaid"
-                            ? "unpaid"
-                            : "paid"
-                        }`}
+                          bgcolor:
+                            leave.type === "casual"
+                              ? "rgba(94, 115, 141, 15%)"
+                              : leave.type === "sick"
+                              ? "rgba(248, 174, 0, 15%)"
+                              : leave.type === "unpaid"
+                              ? "rgba(225, 107, 22, 15%)"
+                              : "rgba(74, 210, 146, 15%)",
+                          color:
+                            leave.type === "casual"
+                              ? "grey.dark"
+                              : leave.type === "sick"
+                              ? "secondary.main"
+                              : leave.type === "unpaid"
+                              ? "review.main"
+                              : "success.main",
+                        }}
                       >
                         {leave.type}
                       </Box>
                     </TableCell>
                     <TableCell>{leave.reason}</TableCell>
                     <TableCell>{leave.startDate}</TableCell>
+                    <TableCell>{leave.startDayType}</TableCell>
                     <TableCell>{leave.endDate}</TableCell>
-                    <TableCell
-                      sx={{
-                        "& .statusBtn": {
-                          color: "white",
-                          fontSize: "12px",
-                          p: 0.5,
-                          borderRadius: 1,
-                          maxWidth: "fit-content",
-                          lineHeight: 1,
-                        },
-                        "& .unapprove": {
-                          bgcolor: "secondary.main",
-                        },
-                        "& .approve": {
-                          bgcolor: "success.main",
-                        },
-                      }}
-                    >
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        spacing={0.5}
-                        className={`statusBtn ${
-                          leave.status === "unapprove" ? "unapprove" : "approve"
-                        }`}
-                      >
-                        <span style={{ display: "inline-block" }}>
-                          {leave.status}
-                        </span>
-                        <Tooltip title={leave.statusReason}>
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            justifyContent="center"
-                            sx={{
-                              height: "16px",
-                              width: "16px",
-                              cursor: "pointer",
-                              border: "1px solid white",
-                              borderRadius: "100%",
-                              padding: "3px",
-                            }}
-                          >
-                            <img
-                              src="/images/info.svg"
-                              style={{ width: "100%", height: "100%" }}
-                              alt="info"
-                            />
-                          </Stack>
-                        </Tooltip>
-                      </Stack>
+                    <TableCell>{leave.endDayType}</TableCell>
+                    {/* Admin ni status ni row na aave */}
+                    <TableCell>
+                      <Tooltip title={leave.statusReason} arrow>
+                        <Button
+                          sx={{
+                            textTransform: "capitalize",
+                            color: "white",
+                            fontSize: "12px",
+                            p: 0.5,
+                            borderRadius: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
+                            bgcolor:
+                              leave.status === "unapprove"
+                                ? "review.main"
+                                : "success.main",
+                            "&:hover": {
+                              bgcolor:
+                                leave.status === "unapprove"
+                                  ? "review.main"
+                                  : "success.main",
+                            },
+                            "& .MuiButton-endIcon": {
+                              ml: "3px",
+                              mr: 0,
+                            },
+                          }}
+                          endIcon={
+                            <InfoIcon sx={{ fontSize: "18px!important" }} />
+                          }
+                        >
+                          <span style={{ display: "inline-block" }}>
+                            {leave.status}
+                          </span>
+                        </Button>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -352,17 +319,12 @@ function UserLeave() {
         sx={{ padding: "6px" }}
       >
         <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-          <Grid
-            item
-            xs={12}
-            md={12}
-            lg={6}
-            sx={{ "> .MuiFormControl-root": { mt: "0px" } }}
-          >
+          <Grid item xs={12} sx={{ "> .MuiFormControl-root": { mt: "0px" } }}>
             <FormControl
               fullWidth
               size="normal"
               sx={{
+                textTransform: "capitalize",
                 "&>label": { fontSize: "14px" },
               }}
             >
@@ -396,10 +358,156 @@ function UserLeave() {
           <Grid
             item
             xs={12}
-            md={12}
-            lg={6}
-            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+            sm={6}
+            sx={{
+              "& > .MuiFormControl-root": { margin: 0 },
+            }}
           >
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              style={{
+                width: "100%",
+                maxWidth: "100%",
+              }}
+            >
+              {/* <DemoContainer components={["DatePicker"]}> */}
+              <MobileDatePicker
+                fullWidth
+                label="Start Date"
+                defaultValue={dayjs(new Date().toLocaleDateString())}
+                sx={{
+                  minWidth: "100% !important",
+                  fontSize: "14px !important",
+                  "&>div": { fontSize: "14px" },
+                  "&>label": { fontSize: "14px" },
+                }}
+              />
+              {/* </DemoContainer> */}
+            </LocalizationProvider>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            sx={{ "> .MuiFormControl-root": { mt: "0px" } }}
+          >
+            <FormControl
+              fullWidth
+              size="normal"
+              sx={{
+                textTransform: "capitalize",
+                "&>label": { fontSize: "14px" },
+              }}
+            >
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Day type
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Day type"
+                sx={{ fontSize: "14px" }}
+              >
+                <MenuItem
+                  sx={{ textTransform: "capitalize" }}
+                  value={"frist half"}
+                >
+                  frist half
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize" }}
+                  value={"seconad half"}
+                >
+                  seconad half
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize" }}
+                  value={"full day"}
+                >
+                  full day
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            sx={{
+              "& > .MuiFormControl-root": { margin: 0 },
+            }}
+          >
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              style={{
+                width: "100%",
+                maxWidth: "100%",
+              }}
+            >
+              {/* <DemoContainer components={["DatePicker"]}> */}
+              <MobileDatePicker
+                label="End Date"
+                defaultValue={dayjs(new Date().toLocaleDateString())}
+                sx={{
+                  minWidth: "100% !important",
+                  "&>div": { fontSize: "14px" },
+                  "&>label": { fontSize: "14px" },
+                }}
+              />
+              {/* </DemoContainer> */}
+            </LocalizationProvider>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            sx={{ "> .MuiFormControl-root": { mt: "0px" } }}
+          >
+            <FormControl
+              fullWidth
+              size="normal"
+              sx={{
+                textTransform: "capitalize",
+                "&>label": { fontSize: "14px" },
+              }}
+            >
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Day type
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Day type"
+                sx={{ fontSize: "14px" }}
+              >
+                <MenuItem
+                  sx={{ textTransform: "capitalize" }}
+                  value={"frist half"}
+                >
+                  frist half
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize" }}
+                  value={"seconad half"}
+                >
+                  seconad half
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize" }}
+                  value={"full day"}
+                >
+                  full day
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sx={{ "> .MuiFormControl-root": { margin: 0 } }}>
             <FormControl fullWidth sx={{ m: 1, "&>div": { fontSize: "14px" } }}>
               <OutlinedInput
                 placeholder="Leave Title"
@@ -411,66 +519,6 @@ function UserLeave() {
               />
             </FormControl>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            md={5}
-            lg={6}
-            sx={{
-              "& > .MuiFormControl-root": { margin: 0 },
-            }}
-          >
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-              style={{
-                width: "100%",
-                maxWidth: "100%",
-              }}
-            >
-              <DemoContainer components={["DatePicker"]}>
-                <MobileDatePicker
-                  label="Start Date"
-                  defaultValue={dayjs(new Date().toLocaleDateString())}
-                  sx={{
-                    minWidth: "100% !important",
-                    fontSize: "14px !important",
-                    "&>div": { fontSize: "14px" },
-                    "&>label": { fontSize: "14px" },
-                  }}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={5}
-            lg={6}
-            sx={{
-              "& > .MuiFormControl-root": { margin: 0 },
-            }}
-          >
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-              style={{
-                width: "100%",
-                maxWidth: "100%",
-              }}
-            >
-              <DemoContainer components={["DatePicker"]}>
-                <MobileDatePicker
-                  label="End Date"
-                  defaultValue={dayjs(new Date().toLocaleDateString())}
-                  sx={{
-                    minWidth: "100% !important",
-                    "&>div": { fontSize: "14px" },
-                    "&>label": { fontSize: "14px" },
-                  }}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
-          </Grid>
-
           <Grid
             item
             xs={12}
