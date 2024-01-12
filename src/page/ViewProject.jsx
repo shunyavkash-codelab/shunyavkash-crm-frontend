@@ -277,7 +277,7 @@ export default function ViewProject() {
                           sx={{
                             height: "unset",
                             minHeight: "26px",
-                            "& span": { py: "5px", whiteSpace: "pre-wrap" },
+                            "& span": { py: "3px", whiteSpace: "pre-wrap" },
                           }}
                           label="multiple"
                         />

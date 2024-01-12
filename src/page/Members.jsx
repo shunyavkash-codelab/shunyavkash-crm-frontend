@@ -11,7 +11,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Avatar,
   Grid,
   Tab,
   Tabs,
@@ -19,7 +18,6 @@ import {
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import PlusIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import EmployeeListRaw from "../component/EmployeeListRaw";
@@ -188,6 +186,7 @@ export default function Members() {
                 </Typography>
               </Box>
             </Box>
+
             {user.role === 0 && (
               <Box>
                 <Link to="./add">
@@ -233,7 +232,6 @@ export default function Members() {
             )}
           </Box>
 
-          {/* Todos : add icon this grid items */}
           <Grid
             container
             rowSpacing={2.5}
@@ -312,7 +310,6 @@ export default function Members() {
               onChange={handleChange}
               aria-label="basic tabs example"
               sx={{
-                // mt: 2,
                 minHeight: "38px",
 
                 "& .MuiTabs-flexContainer": {
@@ -338,6 +335,7 @@ export default function Members() {
                 {...a11yProps(1)}
               />
             </Tabs>
+
             {/* Manager */}
             <CustomTabPanel value={value} index={0}>
               <TableContainer

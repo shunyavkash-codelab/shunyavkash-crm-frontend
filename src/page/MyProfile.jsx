@@ -208,7 +208,7 @@ export default function Home() {
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
               {userList?.role === 0
-                ? "Admin Profile"
+                ? "my Profile"
                 : userList?.role === 1
                 ? "Manager Profile"
                 : "Employee Profile"}

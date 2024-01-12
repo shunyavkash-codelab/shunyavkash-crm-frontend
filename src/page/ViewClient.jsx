@@ -255,7 +255,7 @@ export default function Manager() {
                               sx={{
                                 height: "unset",
                                 minHeight: "26px",
-                                "& span": { py: "5px", whiteSpace: "pre-wrap" },
+                                "& span": { py: "3px", whiteSpace: "pre-wrap" },
                               }}
                               label={project}
                             />

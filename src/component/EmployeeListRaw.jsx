@@ -1,5 +1,9 @@
+import React, { useState } from "react";
+import useApi from "../hooks/useApi";
+import { APIS } from "../api/apiList.js";
+import { useSnack } from "../hooks/store/useSnack";
+import { useNavigate } from "react-router-dom";
 import {
-  Avatar,
   Box,
   Button,
   FormControl,
@@ -11,13 +15,9 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
 import SaveIcon from "@mui/icons-material/CheckOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import useApi from "../hooks/useApi";
-import { APIS } from "../api/apiList.js";
-import { useSnack } from "../hooks/store/useSnack";
-import { useNavigate } from "react-router-dom";
+import BadgeAvatar from "../component/BadgeAvatar";
 
 export default function EmployeeListRaw({
   row,
@@ -93,13 +93,11 @@ export default function EmployeeListRaw({
               gap: 1.75,
             }}
           >
-            <Avatar
-              sx={{
-                width: "36px",
-                height: "36px",
-              }}
-              alt="avatar"
-              src={row.profile_img || ""}
+            <BadgeAvatar
+              // Member nu status check karavu & Status ma active or inactive nakhavu
+              Status="active"
+              AvatarSrc={row.profile_img || ""}
+              AvatarStyle={{ width: "36px", height: "36px" }}
             />
             <Box>
               <Typography
