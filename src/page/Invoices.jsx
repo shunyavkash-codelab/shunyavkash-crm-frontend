@@ -515,9 +515,9 @@ export default function Invoices() {
                           >
                             <VisibilityIcon />
                           </Button>
-                          <Button disableRipple>
+                          {/* <Button disableRipple>
                             <MarkAsPaidIcon />
-                          </Button>
+                          </Button> */}
                           <Button
                             disableRipple
                             onClick={() => editInvoice(row.invoiceNumber, row)}

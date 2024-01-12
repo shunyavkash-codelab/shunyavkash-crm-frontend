@@ -698,7 +698,9 @@ export default function Invoices() {
                       variant="h5"
                       sx={{ textTransform: "capitalize" }}
                     >
-                      Add Invoice
+                      {location.pathname.includes("/edit/")
+                        ? "edit invoice"
+                        : "Add Invoice"}
                     </Typography>
                   </Box>
                   <Form style={{ position: "relative" }}>
@@ -1507,6 +1509,9 @@ export default function Invoices() {
                                     getSubTotal(values.task)
                                   )}
                                   value={discountPer}
+                                  disabled={
+                                    getSubTotal(values.task) > 0 ? false : true
+                                  }
                                 />
                               </Box>
                             </Typography>
@@ -1518,6 +1523,9 @@ export default function Invoices() {
                                 getSubTotal(values.task)
                               )}
                               placeholder="00.00"
+                              disabled={
+                                getSubTotal(values.task) > 0 ? false : true
+                              }
                             />
                           </Box>
                           <Box
@@ -1541,6 +1549,9 @@ export default function Invoices() {
                             <CustomFormikField
                               name={"salesTax"}
                               placeholder="00.00"
+                              disabled={
+                                getSubTotal(values.task) > 0 ? false : true
+                              }
                             />
                           </Box>
                           <Box
@@ -1564,9 +1575,7 @@ export default function Invoices() {
                               $
                               {(
                                 getSubTotal(values.task) -
-                                Number(
-                                  discountRS || invoiceData?.totals?.discountRS
-                                ) +
+                                Number(discountRS) +
                                 Number(values.salesTax)
                               ).toFixed(2)}
                             </Typography>
