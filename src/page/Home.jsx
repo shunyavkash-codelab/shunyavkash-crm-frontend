@@ -78,7 +78,12 @@ export default function Home() {
     fetchDashboardData();
     listInvoice();
   }, []);
-  // });
+
+  //edit invoice
+  const editInvoice = async (invoiceNumber, row) => {
+    setInvoiceData(row);
+    navigate(`/invoices/edit/${invoiceNumber}`);
+  };
 
   const invoiceNumberGenerate = async () => {
     try {
@@ -557,10 +562,15 @@ export default function Home() {
                               >
                                 <VisibilityIcon />
                               </Button>
-                              <Button disableRipple>
+                              {/* <Button disableRipple>
                                 <MarkAsPaidIcon />
-                              </Button>
-                              <Button disableRipple>
+                              </Button> */}
+                              <Button
+                                disableRipple
+                                onClick={() =>
+                                  editInvoice(row.invoiceNumber, row)
+                                }
+                              >
                                 <CreateIcon />
                               </Button>
                             </Box>
