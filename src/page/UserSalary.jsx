@@ -128,39 +128,35 @@ export default function UserSalary() {
           </Button>
         </Box>
         <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} xl={4}>
             <DetailsList
               Title={"Bank Name"}
               Text={"Bank of Baroda"}
               Icon={<BankNameIcon />}
+              TextStyle={{ textTransform: "capitalize" }}
             />
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} xl={4}>
             <DetailsList
-              Title={"Bank Holder Name"}
+              Title={"A/c Holder Name"}
               Text={"Deep Bhimani"}
               Icon={<AccountHolderIcon />}
+              TextStyle={{ textTransform: "capitalize" }}
             />
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} xl={4}>
             <DetailsList
-              Title={"Bank Account Number"}
+              Title={"A/c Number"}
               Text={"0112345678"}
               Icon={<EmailOutlinedIcon />}
             />
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} xl={4}>
             <DetailsList
-              Title={"Bank IFSC Code"}
+              Title={"IFSC"}
               Text={"BOBN0005943"}
               Icon={<AccountHolderIcon />}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <DetailsList
-              Title={"Bank Branch Name"}
-              Text={"Puna Kumbhariya"}
-              Icon={<AccountHolderIcon />}
+              TextStyle={{ textTransform: "uppercase" }}
             />
           </Grid>
         </Grid>
@@ -563,7 +559,7 @@ export default function UserSalary() {
             >
               <FormControl fullWidth sx={{ m: 1 }}>
                 <OutlinedInput
-                  placeholder="Account Holder Name"
+                  placeholder="A/c Holder Name"
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
@@ -586,7 +582,7 @@ export default function UserSalary() {
             >
               <FormControl fullWidth sx={{ m: 1 }}>
                 <OutlinedInput
-                  placeholder="Account Number"
+                  placeholder="A/c Number"
                   type="text"
                   sx={{ fontSize: 14 }}
                   startAdornment={
@@ -610,7 +606,7 @@ export default function UserSalary() {
             >
               <FormControl fullWidth sx={{ m: 1 }}>
                 <OutlinedInput
-                  placeholder="Confirm Number"
+                  placeholder="Confirm A/c Number"
                   type="text"
                   sx={{ fontSize: 14 }}
                   startAdornment={
@@ -630,30 +626,11 @@ export default function UserSalary() {
             >
               <FormControl fullWidth sx={{ m: 1 }}>
                 <OutlinedInput
-                  placeholder="Account IFSC Number"
+                  placeholder="IFSC"
                   sx={{ fontSize: 14 }}
                   startAdornment={
                     <InputAdornment position="start">
                       <AccountBoxOutlinedIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <OutlinedInput
-                  placeholder="Bank Branch Name"
-                  sx={{ fontSize: 14 }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <AccountHolderIcon />
                     </InputAdornment>
                   }
                 />

@@ -2,7 +2,13 @@ import { TextField } from "@mui/material";
 import { Field } from "formik";
 import React from "react";
 
-export default function CustomFormikField({ name, style = {}, ...params }) {
+export default function CustomFormikField({
+  name,
+  style = {},
+  serverError = false,
+  serverErrorMessage = false,
+  ...params
+}) {
   return (
     <Field
       validateOnBlur
@@ -13,8 +19,13 @@ export default function CustomFormikField({ name, style = {}, ...params }) {
         return (
           <>
             <TextField
-              error={form.touched[name] && Boolean(form.errors[name])}
-              helperText={form.touched[name] && form.errors[name]}
+              error={
+                (form.touched[name] && Boolean(form.errors[name])) ||
+                serverError
+              }
+              helperText={
+                serverErrorMessage || (form.touched[name] && form.errors[name])
+              }
               // onBlur={formikBag.handleBlur}
               fullWidth
               size="small"

@@ -75,7 +75,7 @@ export default function Home() {
   const { id } = useParams();
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, userId } = useAuth();
+  const { accessToken, userId, user } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
@@ -87,9 +87,10 @@ export default function Home() {
     setValue(newValue);
   };
 
+  console.log(user, "---------------------90");
+
   const [url, setUrl] = useState();
   const handleFiles = async (files) => {
-    console.log(files, "---------------95");
     setUrl(files.base64);
     let formData = new FormData();
     // values.profile_img = url?.fileList[0];
@@ -207,7 +208,7 @@ export default function Home() {
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
               {userList?.role === 0
-                ? "Admin Profile"
+                ? "my Profile"
                 : userList?.role === 1
                 ? "Manager Profile"
                 : "Employee Profile"}
@@ -242,7 +243,7 @@ export default function Home() {
               bgcolor: "white",
               borderRadius: 4,
               overflow: "hidden",
-              p: 2,
+              p: 3,
               pb: 0,
             }}
           >
@@ -527,7 +528,7 @@ export default function Home() {
                     : "Employee"}{" "}
                   Details
                 </Typography>
-                {userList?.role === 0 && (
+                {user.role === 0 && (
                   <Button
                     onClick={handleOpen.bind(null, "employee-detail")}
                     startIcon={<EditIcon sx={{ width: 16 }} />}
@@ -547,21 +548,21 @@ export default function Home() {
               </Box>
 
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"date of joining"}
                     Text={joiningFormattedDate || "N/A"}
                     Icon={<DateIcon />}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"employee id"}
                     Text={userList?.employeeId || "N/A"}
                     Icon={<Grid3x3Icon />}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"work email"}
                     Text={userList?.email || "N/A"}
@@ -569,19 +570,20 @@ export default function Home() {
                     TextStyle={{ wordBreak: "break-all" }}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
-                    Title={"Jobrole"}
+                    Title={"Job Title"}
                     Text={userList?.jobRole || "N/A"}
                     Icon={<AccountBoxOutlinedIcon />}
+                    TextStyle={{ textTransform: "capitalize" }}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"role"}
                     Text={
                       userList?.role === 0
-                        ? "Admin"
+                        ? "admin"
                         : userList?.role === 1
                         ? "Manager"
                         : userList?.role === 2
@@ -589,6 +591,7 @@ export default function Home() {
                         : "N/A"
                     }
                     Icon={<PermIdentityOutlinedIcon />}
+                    TextStyle={{ textTransform: "capitalize" }}
                   />
                 </Grid>
               </Grid>
@@ -614,35 +617,37 @@ export default function Home() {
                 </Button>
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"full name"}
                     Text={userList?.name || "N/A"}
                     Icon={<PermIdentityOutlinedIcon />}
+                    TextStyle={{ textTransform: "capitalize" }}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"gender"}
                     Text={userList?.gender || "N/A"}
                     Icon={<WcOutlinedIcon />}
+                    TextStyle={{ textTransform: "capitalize" }}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"DOB"}
                     Text={dobFormattedDate || "N/A"}
                     Icon={<DateIcon />}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"hobbies"}
                     Text={userList?.hobbies || "N/A"}
                     Icon={<SportsSoccerOutlinedIcon />}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"phobia"}
                     Text={userList?.phobia || "N/A"}
@@ -672,7 +677,7 @@ export default function Home() {
                 </Button>
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"Phone number"}
                     Text={
@@ -681,7 +686,7 @@ export default function Home() {
                     Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"whatsApp number"}
                     Text={userList?.whatsappNumber || "N/A"}
@@ -689,7 +694,7 @@ export default function Home() {
                     Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"personal email"}
                     Text={userList?.personalEmail}
@@ -697,7 +702,7 @@ export default function Home() {
                     TextStyle={{ wordBreak: "break-all" }}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"Address"}
                     Text={
@@ -707,6 +712,16 @@ export default function Home() {
                         "-" +
                         userList?.pincode || "N/A"
                     }
+                    // Text={
+                    //   userList?.address?.split("\n").map((line, index) => (
+                    //     <React.Fragment key={index}>
+                    //       {line}
+                    //       {index < userList.address.split("\n").length - 1 && (
+                    //         <br />
+                    //       )}
+                    //     </React.Fragment>
+                    //   )) || "N/A"
+                    // }
                     Icon={<HomeOutlinedIcon />}
                   />
                 </Grid>
@@ -733,25 +748,27 @@ export default function Home() {
                 </Button>
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"father's name"}
                     Text={userList?.fatherName || "N/A"}
                     Icon={<Man2OutlinedIcon />}
+                    TextStyle={{ textTransform: "capitalize" }}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"father's number"}
                     Text={userList?.fatherNumber || "N/A"}
                     Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"mother's name"}
                     Text={userList?.motherName || "N/A"}
                     Icon={<Woman2OutlinedIcon />}
+                    TextStyle={{ textTransform: "capitalize" }}
                   />
                 </Grid>
               </Grid>
@@ -760,39 +777,70 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Document Details</Typography>
-                <Button
-                  onClick={handleOpen.bind(null, "document-detail")}
-                  startIcon={<EditIcon sx={{ width: 16 }} />}
-                  sx={{
-                    cursor: "pointer",
-                    height: "unset",
-                    py: 0.3,
-                    px: 1.5,
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    borderRadius: 4,
-                  }}
-                >
-                  Edit
-                </Button>
+                {user.role === 1 && user.role === 2 && (
+                  <Button
+                    onClick={handleOpen.bind(null, "document-detail")}
+                    startIcon={<EditIcon sx={{ width: 16 }} />}
+                    sx={{
+                      cursor: "pointer",
+                      height: "unset",
+                      py: 0.3,
+                      px: 1.5,
+                      border: "1px solid",
+                      borderColor: "primary.main",
+                      borderRadius: 4,
+                    }}
+                  >
+                    Edit
+                  </Button>
+                )}
               </Box>
-              <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={12}
-                  sx={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 1,
-                    alignItems: "center",
+              <Box
+                sx={{
+                  px: 3,
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: 1,
+                }}
+              >
+                <Link
+                  href={userList?.empaloyeeSignature}
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
                   }}
                 >
-                  <Link
-                    href={userList?.empaloyeeSignature}
-                    target="_blank"
-                    sx={{
+                  <DetailsList
+                    Title={"signature"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+                <Link
+                  href="#javascript:void(0);"
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
+                  }}
+                  MainStyle={{ mb: 0 }}
+                >
+                  <DetailsList
+                    Title={"HSC-SSC certification"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    style={{
                       textDecoration: "none",
                       color: "#2a4062",
                       opacity: "0.8",
@@ -800,20 +848,28 @@ export default function Home() {
                       borderRadius: 1,
                       padding: "5px 10px",
                       display: "inline-flex",
-                      "& > div": {
-                        mb: 0,
-                      },
                     }}
-                  >
-                    <DetailsList
-                      Title={"signature"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                    />
-                  </Link>
-                  <Link
-                    href="#javascript:void(0);"
-                    target="_blank"
-                    sx={{
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+                <Link
+                  href="#javascript:void(0);"
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
+                  }}
+                  MainStyle={{ mb: 0 }}
+                >
+                  <DetailsList
+                    Title={"Adhar Card"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    style={{
                       textDecoration: "none",
                       color: "#2a4062",
                       opacity: "0.8",
@@ -821,20 +877,28 @@ export default function Home() {
                       borderRadius: 1,
                       padding: "5px 10px",
                       display: "inline-flex",
-                      "& > div": {
-                        mb: 0,
-                      },
                     }}
-                  >
-                    <DetailsList
-                      Title={"HSC-SSC certification"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                    />
-                  </Link>
-                  <Link
-                    href="#javascript:void(0);"
-                    target="_blank"
-                    sx={{
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+                <Link
+                  href="#javascript:void(0);"
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
+                  }}
+                  MainStyle={{ mb: 0 }}
+                >
+                  <DetailsList
+                    Title={"Adress Proof"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    style={{
                       textDecoration: "none",
                       color: "#2a4062",
                       opacity: "0.8",
@@ -842,20 +906,28 @@ export default function Home() {
                       borderRadius: 1,
                       padding: "5px 10px",
                       display: "inline-flex",
-                      "& > div": {
-                        mb: 0,
-                      },
                     }}
-                  >
-                    <DetailsList
-                      Title={"Adhar Card"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                    />
-                  </Link>
-                  <Link
-                    href="#javascript:void(0);"
-                    target="_blank"
-                    sx={{
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+                <Link
+                  href="#javascript:void(0);"
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
+                  }}
+                  MainStyle={{ mb: 0 }}
+                >
+                  <DetailsList
+                    Title={"Property tax bill"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    style={{
                       textDecoration: "none",
                       color: "#2a4062",
                       opacity: "0.8",
@@ -863,20 +935,28 @@ export default function Home() {
                       borderRadius: 1,
                       padding: "5px 10px",
                       display: "inline-flex",
-                      "& > div": {
-                        mb: 0,
-                      },
                     }}
-                  >
-                    <DetailsList
-                      Title={"Adress Proof"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                    />
-                  </Link>
-                  <Link
-                    href="#javascript:void(0);"
-                    target="_blank"
-                    sx={{
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+                <Link
+                  href="#javascript:void(0);"
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
+                  }}
+                  MainStyle={{ mb: 0 }}
+                >
+                  <DetailsList
+                    Title={"Electricity bill"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    style={{
                       textDecoration: "none",
                       color: "#2a4062",
                       opacity: "0.8",
@@ -884,39 +964,11 @@ export default function Home() {
                       borderRadius: 1,
                       padding: "5px 10px",
                       display: "inline-flex",
-                      "& > div": {
-                        mb: 0,
-                      },
                     }}
-                  >
-                    <DetailsList
-                      Title={"Property tax bill"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                    />
-                  </Link>
-                  <Link
-                    href="#javascript:void(0);"
-                    target="_blank"
-                    sx={{
-                      textDecoration: "none",
-                      color: "#2a4062",
-                      opacity: "0.8",
-                      backgroundColor: "rgba(0,0,0,0.1)",
-                      borderRadius: 1,
-                      padding: "5px 10px",
-                      display: "inline-flex",
-                      "& > div": {
-                        mb: 0,
-                      },
-                    }}
-                  >
-                    <DetailsList
-                      Title={"Electricity bill"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                    />
-                  </Link>
-                </Grid>
-              </Grid>
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+              </Box>
             </Box>
           </CustomTabPanel>
 

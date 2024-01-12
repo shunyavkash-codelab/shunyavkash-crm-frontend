@@ -21,6 +21,7 @@ import {
   FormControlLabel,
   FormHelperText,
   Stack,
+  IconButton,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -41,6 +42,7 @@ import * as Yup from "yup";
 import AddClientsModal from "../component/AddClientsModal";
 import SignChangeIcon from "@mui/icons-material/CameraAlt";
 import ReactFileReader from "react-file-reader";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -69,7 +71,7 @@ function getStyles(name, personName, theme) {
 export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken } = useAuth();
+  const { accessToken, userId } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
   const navigate = useNavigate();
@@ -85,8 +87,13 @@ export default function Invoices() {
   const { invoiceNumber } = useParams();
   const [projectDescription, setProjectDescription] = useState(false);
   const [bankDetails, setBankDetails] = useState(false);
-  const [discountPer, setDiscountPer] = useState(0);
-  const [discountRS, setDiscountRS] = useState(0);
+  const [discountPer, setDiscountPer] = useState(
+    invoiceData?.totals?.discountPer || 0
+  );
+  const [discountRS, setDiscountRS] = useState(
+    invoiceData?.totals?.discountRS || 0
+  );
+  const [amount, setAmount] = useState(0);
   const [selectedProjectId, setSelectedProjectId] = useState("");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -99,9 +106,11 @@ export default function Invoices() {
   const [projectOpen, setProjectOpen] = useState(false);
   const [invoiceOpen, setInvoiceOpen] = useState(false);
   const [bankOpen, setBankOpen] = useState(
-    invoiceData?.selectBank == "customBank" ? true : false
+    invoiceData?.selectBank ? true : false
   );
-  const [invoiceNO, setInvoiceNO] = useState(invoiceNumber);
+  const [invoiceNO, setInvoiceNO] = useState("");
+  const [serverError, setServerError] = useState(false);
+  const [serverErrorMessage, setserverErrorMessage] = useState(false);
 
   const [invoiceDATE, setInvoiceDATE] = useState(
     currentDate.toISOString().split("T")[0]
@@ -151,38 +160,46 @@ export default function Invoices() {
   // }, [invoiceData?.projectId]);
   // end initail data for update invoice
   // validation
-  const schema = Yup.object({
-    invoiceNumber: Yup.string()
-      .required("Invoice number is required")
-      .test(
-        "is-unique-invoiceNumber",
-        "This invoice number is already taken",
-        async function (value) {
-          try {
-            let result = await apiCall({
-              url: APIS.INVOICE.CHECKINVOICENUMBER(value),
-              method: "get",
-            });
 
-            if (result.data.success || edit) return true;
-            else return false;
-          } catch (error) {
-            return false;
-          }
+  // invoice number change per debounce call
+  useEffect(() => {
+    if (!invoiceNO) {
+      return;
+    }
+    const getData = setTimeout(async () => {
+      try {
+        let result = await apiCall({
+          url: APIS.INVOICE.CHECKINVOICENUMBER(invoiceNO),
+          method: "get",
+        });
+
+        if (result.data.success || edit) return setServerError(false);
+        else {
+          setServerError(true);
+          return setserverErrorMessage("This invoice number is already taken");
         }
-      ),
+      } catch (error) {
+        setServerError(false);
+        return setserverErrorMessage(false);
+      }
+    }, 2000);
+
+    return () => clearTimeout(getData);
+  }, [invoiceNO]);
+  const schema = Yup.object({
+    invoiceNumber: Yup.string().required("Invoice number is required"),
     to: Yup.string().required("Bill to is required"),
     selectBank: Yup.string().required("Bank detail is required"),
     // project: Yup.string().required("Project is required"),
     task: Yup.array()
       .min(1, "Minimum ${min} task required")
       .required("Task is required"),
-    customAccountNumber: Yup.number().test(
+    accountNumber: Yup.number().test(
       "Account Number",
       "Account Number is a required.",
       (bankDetails) => bankDetails !== undefined
     ),
-    customIFSC: Yup.string()
+    IFSC: Yup.string()
       .length(11)
       .test(
         "IFSC Code",
@@ -193,12 +210,12 @@ export default function Invoices() {
         /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
         "First 4 characters must be alphabets and last 7 characters must be numbers"
       ),
-    customBankName: Yup.string().test(
+    bankName: Yup.string().test(
       "Bank Name",
       "Bank Name is a required.",
       (bankDetails) => bankDetails !== undefined
     ),
-    customHolderName: Yup.string().test(
+    holderName: Yup.string().test(
       "A/c holder name",
       "A/c holder name is a required.",
       (bankDetails) => bankDetails !== undefined
@@ -225,14 +242,15 @@ export default function Invoices() {
   // discount
   const handleDiscountPerChange = (subTotal, event) => {
     const percentage = parseFloat(event.target.value) || 0;
+
     setDiscountPer(percentage);
-    setDiscountRS((percentage / 100) * subTotal);
+    setDiscountRS(((percentage / 100) * subTotal).toFixed(2));
   };
 
   const handleDiscountRSChange = (subTotal, event) => {
     const amount = parseFloat(event.target.value) || 0;
     setDiscountRS(amount);
-    setDiscountPer((amount / subTotal) * 100); // Assuming you have 'subtotal' defined
+    setDiscountPer(((amount / subTotal) * 100).toFixed(2)); // Assuming you have 'subtotal' defined
   };
 
   const taskInitialValues = { name: "", pricePerHours: "", number: "1" };
@@ -339,10 +357,11 @@ export default function Invoices() {
     if (Array.isArray(adminList.bank)) {
       const bankD = adminList.bank.find((bank) => bank._id === bankId);
       if (bankD) {
-        formik.setFieldValue("customAccountNumber", bankD.accountNumber);
-        formik.setFieldValue("customHolderName", bankD.holderName);
-        formik.setFieldValue("customIFSC", bankD.IFSC);
-        formik.setFieldValue("customBankName", bankD.bankName);
+        formik.setFieldValue("accountNumber", bankD.accountNumber);
+        formik.setFieldValue("holderName", bankD.holderName);
+        formik.setFieldValue("IFSC", bankD.IFSC);
+        formik.setFieldValue("bankName", bankD.bankName);
+        formik.setFieldValue("selectBank", bankD._id);
         // setBankDetails({
         //   bankId: bankId,
         //   bankName: bankD.bankName,
@@ -362,21 +381,22 @@ export default function Invoices() {
   const getSubTotal = (task) => {
     let amount = task.reduce((accum, taskDetail) => {
       accum += taskDetail.pricePerHours * taskDetail.number;
-      return accum.toFixed(2);
+      return accum;
     }, 0);
-    if (invoiceData?.totals?.discountPer)
-      setDiscountPer(invoiceData.totals.discountPer);
-    setDiscountRS(
-      (amount * (discountPer || invoiceData?.totals?.discountPer)) / 100
-    );
-    return Number(amount);
+    setAmount(amount);
+    return Number(amount).toFixed(2);
   };
+
+  useEffect(() => {
+    if (amount) {
+      setDiscountRS((amount * discountPer) / 100);
+    }
+  }, [amount]);
 
   useEffect(() => {
     fetchClient();
     fetchAdmin();
   }, []);
-  // });
 
   // add task
   // const addTask = async (task) => {
@@ -454,33 +474,14 @@ export default function Invoices() {
   // };
 
   const { id } = useParams();
-  const [url, setUrl] = useState();
+  const [url, setUrl] = useState(adminList.signature);
   const handleFiles = async (files) => {
-    console.log(files, "---------------95");
-    setUrl(files.base64);
-    let formData = new FormData();
-    // values.profile_img = url?.fileList[0];
-
-    formData.append("profile_img", files.fileList[0]);
-
-    try {
-      const res = await apiCall({
-        url: APIS.MANAGER.EDIT(id),
-        method: "patch",
-        headers: "multipart/form-data",
-        data: formData,
-      });
-      if (res.status === 200) {
-        setSnack(res.data.message);
-        // setUrl(files.base64);
-      }
-    } catch (error) {
-      let errorMessage = error.response.data.message;
-      setSnack(errorMessage, "warning");
-    }
+    setUrl(files);
   };
-
-  // console.log(invoiceData, "===========482");
+  const removeSignature = async (formik) => {
+    setUrl(false);
+    formik.setFieldValue("signature", undefined);
+  };
 
   return (
     <>
@@ -527,24 +528,27 @@ export default function Invoices() {
           total: invoiceData?.total || "10",
           // projectDescription: projectDescription?.description || "",
           selectBank: invoiceData?.selectBank || "",
-          customBankName: invoiceData?.bank.bankName || "",
-          customIFSC: invoiceData?.bank.IFSC || "",
-          customHolderName: invoiceData?.bank.holderName || "",
-          customAccountNumber: invoiceData?.bank.accountNumber || "",
+          bankName: invoiceData?.bank.bankName || "",
+          IFSC: invoiceData?.bank.IFSC || "",
+          holderName: invoiceData?.bank.holderName || "",
+          accountNumber: invoiceData?.bank.accountNumber || "",
           to: invoiceData?.clientId || "",
           // project: "",
           salesTax: invoiceData?.totals?.salesTax || 0,
-          discountRS: invoiceData?.totals?.salesTax || 0,
-          salesTax: invoiceData?.totals?.salesTax || 0,
-          salesTax: invoiceData?.totals?.salesTax || 0,
+          discountRS: invoiceData?.totals?.discountRS || 0,
+          discountPer: invoiceData?.totals?.discountPer || 0,
           note: invoiceData?.note || "",
-          invoiceDate:
-            invoiceData?.invoiceDate || currentDate.toISOString().split("T")[0],
-          invoiceDueDate:
-            invoiceData?.invoiceDueDate ||
-            fifteenDaysAgo.toISOString().split("T")[0],
+          invoiceDate: invoiceData?.invoiceDate
+            ? new Date(invoiceData?.invoiceDate)?.toISOString().split("T")[0]
+            : currentDate.toISOString().split("T")[0],
+          invoiceDueDate: invoiceData?.invoiceDueDate
+            ? new Date(invoiceData?.invoiceDueDate)?.toISOString().split("T")[0]
+            : fifteenDaysAgo.toISOString().split("T")[0],
+          watermark: invoiceData?.watermark === "false" ? false : true || true,
+          signature: adminList?.signature || "/images/sign.svg",
         }}
         onSubmit={async (values) => {
+          if (serverError) return;
           // for (let i = 0; i < values.task.length; i++) {
           //   let compairtask = await compairTask(values.task[i]);
           //   if (!compairtask) {
@@ -564,6 +568,47 @@ export default function Invoices() {
           //     }
           //   }
           // }
+          let formData = new FormData();
+          if (values.selectBank === "customBank") {
+            let bankObj = {
+              bankName: values.bankName,
+              IFSC: values.IFSC,
+              holderName: values.holderName,
+              accountNumber: values.accountNumber,
+            };
+            try {
+              const res = await apiCall({
+                url: APIS.BANK.ADD,
+                method: "post",
+                data: bankObj,
+              });
+              if (res.status === 200) {
+                console.log(res.data.message);
+                values.selectBank = res.data.data._id;
+              }
+            } catch (error) {
+              let errorMessage = error.response.data.message;
+              setSnack(errorMessage, "warning");
+            }
+          }
+          if (url) {
+            formData.append("signature", url.fileList[0]);
+            try {
+              const res = await apiCall({
+                url: APIS.MANAGER.EDIT(userId),
+                method: "patch",
+                headers: "multipart/form-data",
+                data: formData,
+              });
+              if (res.status === 200) {
+                console.log(res.data.message);
+                // setUrl(files.base64);
+              }
+            } catch (error) {
+              let errorMessage = error.response.data.message;
+              setSnack(errorMessage, "warning");
+            }
+          }
 
           try {
             let tasks = values.task.map((tas) => {
@@ -573,6 +618,9 @@ export default function Invoices() {
                 hours: tas.number,
                 amount: tas.amount || tas.pricePerHours * tas.number,
               };
+            });
+            tasks = tasks.filter((tas) => {
+              return tas.taskName !== "";
             });
             // let taskId = values.task.filter((id) => id._id).map((id) => id._id);
             let obj = {
@@ -615,17 +663,23 @@ export default function Invoices() {
                 balanceDue: "",
               },
               selectBank: values.selectBank,
-              bankId: bankDetails.bankId,
               bank: {
-                bankName: bankDetails.bankName || values.customBankName,
-                IFSC: bankDetails.IFSC || values.customIFSC,
-                holderName: bankDetails.holderName || values.customHolderName,
-                accountNumber: bankDetails.label || values.customAccountNumber,
+                bankName: bankDetails.bankName || values.bankName,
+                IFSC: bankDetails.IFSC || values.IFSC,
+                holderName: bankDetails.holderName || values.holderName,
+                accountNumber: bankDetails.label || values.accountNumber,
               },
               note: values.note,
+              watermark: values.watermark ? "true" : "false",
+              signature: values.signature,
             };
             setInvoiceData(obj);
-            navigate(`/invoices/edit/${values.invoiceNumber}/preview`);
+            let edit = location.pathname.includes("/edit/");
+            navigate(
+              `/invoices/${edit ? "edit" : "add"}/${
+                values.invoiceNumber
+              }/preview`
+            );
           } catch (error) {
             let errorMessage = error.response.data.message;
             setSnack(errorMessage, "warning");
@@ -658,7 +712,7 @@ export default function Invoices() {
                         width: "700px",
                         opacity: 0.06,
                         zIndex: 1,
-                        display: showWatermark ? "inline-flex" : "none",
+                        display: values.watermark ? "inline-flex" : "none",
                       }}
                     >
                       <img
@@ -1004,12 +1058,15 @@ export default function Invoices() {
                                 label="invoice No."
                                 disabled={edit ? true : false}
                                 inputProps={{ maxLength: 11 }}
-                                onChange={(event) =>
+                                onChange={(event) => {
+                                  setInvoiceNO(event.target.value);
                                   formik.setFieldValue(
                                     "invoiceNumber",
                                     event.target.value
-                                  )
-                                }
+                                  );
+                                }}
+                                serverError={serverError}
+                                serverErrorMessage={serverErrorMessage}
                               />
                             </Box>
                             <CustomFormikField
@@ -1443,24 +1500,19 @@ export default function Invoices() {
                                 }}
                               >
                                 <CustomFormikField
-                                  name={"discountPer"}
-                                  value={
-                                    discountPer ||
-                                    invoiceData?.totals?.discountPer
-                                  }
+                                  name={"discount Per"}
                                   placeholder="0%"
                                   onChange={handleDiscountPerChange.bind(
                                     null,
                                     getSubTotal(values.task)
                                   )}
+                                  value={discountPer}
                                 />
                               </Box>
                             </Typography>
                             <CustomFormikField
                               name={"discountRS"}
-                              value={
-                                discountRS || invoiceData?.totals?.discountRS
-                              }
+                              value={discountRS}
                               onChange={handleDiscountRSChange.bind(
                                 null,
                                 getSubTotal(values.task)
@@ -1511,9 +1563,11 @@ export default function Invoices() {
                             >
                               $
                               {(
-                                Number(values.salesTax) +
                                 getSubTotal(values.task) -
-                                (discountRS || invoiceData?.totals?.discountRS)
+                                Number(
+                                  discountRS || invoiceData?.totals?.discountRS
+                                ) +
+                                Number(values.salesTax)
                               ).toFixed(2)}
                             </Typography>
                           </Box>
@@ -1567,13 +1621,11 @@ export default function Invoices() {
                                     id="selectBank"
                                     label="Select Bank"
                                     sx={{ fontSize: "14px" }}
-                                    defaultValue={
-                                      invoiceData?.bankId ||
-                                      invoiceData?.selectBank
-                                    }
-                                    onChange={(e) =>
-                                      handleBankChange(formik, e)
-                                    }
+                                    defaultValue={invoiceData?.selectBank}
+                                    onChange={(e) => {
+                                      setBankOpen(true);
+                                      handleBankChange(formik, e);
+                                    }}
                                   >
                                     {adminList.bank &&
                                       adminList.bank.map((bank) => (
@@ -1661,7 +1713,7 @@ export default function Invoices() {
                                 {bankOpen && (
                                   <>
                                     <CustomFormikField
-                                      name="customBankName"
+                                      name="bankName"
                                       label="Bank Name"
                                       style={{
                                         "& input": {
@@ -1677,13 +1729,13 @@ export default function Invoices() {
                                       }}
                                     >
                                       <CustomFormikField
-                                        name="customIFSC"
+                                        name="IFSC"
                                         label="IFSC"
                                         inputProps={{ maxLength: 11 }}
                                       />
                                     </Box>
                                     <CustomFormikField
-                                      name="customHolderName"
+                                      name="holderName"
                                       label="A/c Holder Name"
                                       style={{
                                         "& input": {
@@ -1692,7 +1744,7 @@ export default function Invoices() {
                                       }}
                                     />
                                     <CustomFormikField
-                                      name="customAccountNumber"
+                                      name="accountNumber"
                                       label="A/c Number"
                                       inputProps={{ maxLength: 14 }}
                                     />
@@ -1787,22 +1839,46 @@ export default function Invoices() {
                               display: showSign ? "inline-flex" : "none",
                               mt: 8.5,
                               mr: 6,
-                              maxHeight: "80px",
-                              maxWidth: "200px",
+                              maxHeight: "100px",
+                              maxWidth: "300px",
                               flexShrink: 0,
                               position: "relative",
                             }}
                           >
                             <img
-                              src={url ? url : "/images/sign.svg"}
+                              src={url ? url.base64 : values.signature}
                               style={{
                                 maxHeight: "inherit",
                                 width: "100%",
                                 display: "block",
                               }}
-                              alt="Sign"
+                              alt="Signature"
                             />
-                            <Tooltip title="Please add 136x78 size image" arrow>
+                            <IconButton
+                              aria-label="close"
+                              onClick={() => removeSignature(formik)}
+                              sx={{
+                                position: "absolute",
+                                top: "6px",
+                                right: "6px",
+                                borderRadius: "100%",
+                                bgcolor: "white",
+                                padding: "4px",
+                                boxShadow: "0 0 10px rgba(0,0,0,0.15)",
+                                "& svg": {
+                                  fontSize: { xs: "10px", sm: "16px" },
+                                },
+                                "&:hover": {
+                                  bgcolor: "white",
+                                },
+                              }}
+                            >
+                              <CloseIcon />
+                            </IconButton>
+                            <Tooltip
+                              title="Please add 300x100 size image"
+                              arrow
+                            >
                               <Button
                                 disableRipple
                                 sx={{
@@ -1850,7 +1926,12 @@ export default function Invoices() {
                           }}
                           control={
                             <Checkbox
-                              onClick={() => setShowWatermark(!showWatermark)}
+                              onClick={(e) =>
+                                formik.setFieldValue(
+                                  "watermark",
+                                  e.target.checked
+                                )
+                              }
                               disableRipple
                               sx={{
                                 p: 0,
@@ -1875,11 +1956,15 @@ export default function Invoices() {
                                   opacity: 1,
                                 },
                               }}
-                              defaultChecked
+                              defaultChecked={
+                                invoiceData?.watermark === "false"
+                                  ? false
+                                  : true
+                              }
                             />
                           }
                         />
-                        <FormControlLabel
+                        {/* <FormControlLabel
                           label="Add Signature"
                           sx={{
                             userSelect: "none",
@@ -1918,7 +2003,7 @@ export default function Invoices() {
                               defaultChecked
                             />
                           }
-                        />
+                        /> */}
                       </Stack>
                     </Box>
                     <Box
@@ -2002,7 +2087,11 @@ export default function Invoices() {
                             },
                           }}
                         >
-                          <span style={{ position: "relative" }}>discard</span>
+                          <span style={{ position: "relative" }}>
+                            {location.pathname.includes("/edit/")
+                              ? "Back"
+                              : "discard"}
+                          </span>
                         </Button>
                       </Link>
                     </Box>

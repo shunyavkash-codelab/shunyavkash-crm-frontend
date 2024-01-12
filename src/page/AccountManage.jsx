@@ -21,10 +21,9 @@ import {
 import ModalComponent from "../component/ModalComponent";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
+// import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import CashIcon from "@mui/icons-material/Payments";
 import BankIcon from "@mui/icons-material/AccountBalance";
-import UpiIcon from "@mui/icons-material/Payment";
 import DetailsList from "../component/employee/DetailsList";
 import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import InvoiceOwnerIcon from "@mui/icons-material/PermIdentityOutlined";
@@ -32,7 +31,7 @@ import TitleIcon from "@mui/icons-material/Grid3x3";
 import EmailIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxIcon from "@mui/icons-material/AccountBoxOutlined";
 import FileDownloadIcon2 from "@mui/icons-material/FileDownloadOutlined";
-import CollabaratorIcon from "@mui/icons-material/PeopleAlt";
+import CollaboratorIcon from "@mui/icons-material/PeopleAlt";
 import PaymentIcon from "@mui/icons-material/Payment";
 import InvoiceTypeIcon from "@mui/icons-material/Receipt";
 import PlusIcon from "@mui/icons-material/Close";
@@ -50,33 +49,45 @@ function AccountManage() {
       title: "system",
       descrption: "sit amet lorem ipsum sit amet.",
       paymentMethod: "UPI",
-      income: "-",
-      expance: "15000",
+      amount: "+1000.00 $",
+      invoiceType: "Inbound",
+      invoiceOwner: "Shunyavkash",
+      collaborator: "Pixel",
+      expanceType: "-",
     },
     {
       date: "12/11/2023",
       title: "Chair",
       descrption: "lorem ipsum lorem ipsum sit amet.",
       paymentMethod: "Cash",
-      income: "-",
-      expance: "1650",
+      amount: "-2000.00 $",
+      invoiceType: "Outbound",
+      invoiceOwner: "Shunyavkash",
+      collaborator: "-",
+      expanceType: "Miscellaneous",
     },
     {
       date: "26/05/2023",
       title: "tomb raider",
       descrption: "dolor sit lorem ipsum sit amet.",
       paymentMethod: "Bank",
-      income: "10000",
-      expance: "-",
-      invoice: "google.com1",
+      amount: "+1000.00 $",
+      invoiceType: "Outbound",
+      invoiceOwner: "Shunyavkash",
+      collaborator: "Simpliigence",
+      expanceType: "-",
+      // invoice: "google.com1",
     },
     {
       date: "03/02/2023",
       title: "packets of foods",
       descrption: "lorem ipsum sit amet.",
       paymentMethod: "Cash",
-      income: "-",
-      expance: "700",
+      amount: "-2000.00 $",
+      invoiceType: "Inbound",
+      invoiceOwner: "Shunyavkash",
+      collaborator: "-",
+      expanceType: "Asset Purchase",
     },
   ];
 
@@ -240,7 +251,6 @@ function AccountManage() {
             <TableContainer
               component={Paper}
               sx={{
-                border: "1px solid rgba(224, 224, 224, 1)",
                 mx: { xs: "-10px", sm: 0 },
                 width: { xs: "auto", sm: "auto" },
                 borderRadius: 2.5,
@@ -253,38 +263,51 @@ function AccountManage() {
                   textWrap: "nowrap",
                   "& th,& td": {
                     border: 0,
+                    padding: "14px",
+                    borderBottom: "1px solid rgba(224, 224, 224, 1)",
                     "&:not(:last-child)": {
-                      borderRight: "1px solid rgba(224, 224, 224, 1)",
+                      // borderBottom: "1px solid rgba(224, 224, 224, 1)",
                     },
                   },
                   "& tbody tr,& tfoot tr": {
-                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    borderRight: "1px solid rgba(224, 224, 224, 1)",
                   },
                 }}
               >
                 <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                  <TableRow
+                    sx={{
+                      "& th": {
+                        lineHeight: 1,
+                        fontWeight: 700,
+                        padding: "14px",
+                      },
+                    }}
+                  >
                     <TableCell sx={{ width: "110px" }}>Date</TableCell>
                     <TableCell sx={{ width: "184px" }}>Title</TableCell>
-                    <TableCell sx={{ width: "350px" }}>Description</TableCell>
+                    <TableCell sx={{ width: "370px" }}>Description</TableCell>
                     <TableCell sx={{ width: "154px" }}>method</TableCell>
-                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
-                      Income
+                    <TableCell sx={{ width: "120px" }}>Invoice Type</TableCell>
+                    <TableCell sx={{ width: "120px" }}>Invoice Owner</TableCell>
+                    <TableCell sx={{ width: "120px" }}>Collaborator</TableCell>
+                    <TableCell sx={{ width: "120px" }}>Expance Type</TableCell>
+                    <TableCell sx={{ width: "140px", textAlign: "center" }}>
+                      Amount
                     </TableCell>
-                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
-                      Expance
-                    </TableCell>
-                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
+                    <TableCell sx={{ width: "100px", textAlign: "center" }}>
                       actions
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody
-                  sx={{
-                    "&>*:nth-of-type(odd)": {
-                      bgcolor: "#f5f5f5",
-                    },
-                  }}
+                  sx={
+                    {
+                      // "&>*:nth-of-type(even)": {
+                      //   bgcolor: "rgb(22 119 255/ 6%)",
+                      // },
+                    }
+                  }
                 >
                   {accounts.map((account) => (
                     <TableRow
@@ -318,7 +341,21 @@ function AccountManage() {
                             ) : account.paymentMethod === "Bank" ? (
                               <BankIcon />
                             ) : (
-                              <UpiIcon />
+                              <Stack
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="center"
+                                sx={{
+                                  height: "24px",
+                                  width: "24px",
+                                }}
+                              >
+                                <img
+                                  src="/images/upi.svg"
+                                  style={{ width: "100%", height: "100%" }}
+                                  alt="upi"
+                                />
+                              </Stack>
                             )}
                           </Box>
                           <span style={{ display: "inline-block" }}>
@@ -326,11 +363,37 @@ function AccountManage() {
                           </span>
                         </Stack>
                       </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {account.income}
+                      <TableCell>
+                        <Box
+                          className="truncate line-clamp-2"
+                          sx={{ textWrap: "wrap" }}
+                        >
+                          {account.invoiceType}
+                        </Box>
                       </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {account.expance}
+                      <TableCell>{account.invoiceOwner}</TableCell>
+                      <TableCell>{account.collaborator}</TableCell>
+                      <TableCell>{account.expanceType}</TableCell>
+                      <TableCell>
+                        <Stack
+                          sx={{
+                            textAlign: "center",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          {account.collaborator === " - " ? (
+                            <span style={{ color: "#4AD292" }}>
+                              {account.amount}
+                            </span>
+                          ) : account.expanceType === " - " ? (
+                            <span style={{ color: "#ff0000" }}>
+                              {account.amount}
+                            </span>
+                          ) : (
+                            <span>{account.amount}</span>
+                          )}
+                        </Stack>
                       </TableCell>
                       <TableCell>
                         <Stack
@@ -377,27 +440,19 @@ function AccountManage() {
                       "&>td": {
                         fontWeight: 700,
                         fontSize: "16px",
-                        color: "text.primary",
                       },
                     }}
                   >
-                    <TableCell colSpan={3}></TableCell>
-                    <TableCell>Total:</TableCell>
+                    <TableCell colSpan={7}></TableCell>
+                    <TableCell sx={{ color: "text.primary" }}>Total:</TableCell>
                     <TableCell
                       sx={{
-                        bgcolor: "#f3f3f3",
+                        bgcolor: "rgba(74, 210, 146, 15%)",
+                        color: "success.main",
                         textAlign: "center",
                       }}
                     >
-                      10000
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        bgcolor: "#e6e6e6",
-                        textAlign: "center",
-                      }}
-                    >
-                      17350
+                      10000 $
                     </TableCell>
                     <TableCell></TableCell>
                   </TableRow>
@@ -472,7 +527,7 @@ function AccountManage() {
               <DetailsList
                 Title={"Collaborator"}
                 Text={"Pixel"}
-                Icon={<CollabaratorIcon />}
+                Icon={<CollaboratorIcon />}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>

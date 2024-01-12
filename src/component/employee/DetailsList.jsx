@@ -11,6 +11,7 @@ export default function DetailsList(props) {
           gap: 1,
           mb: 1,
           opacity: 0.5,
+          ...props.MainStyle,
           "& > svg": {
             fontSize: "20px",
             ...props.IconStyle,
