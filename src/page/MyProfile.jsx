@@ -79,14 +79,13 @@ export default function Home() {
   const { setSnack } = useSnack();
   const navigate = useNavigate();
 
-  const [userList, setUserList] = useState();
+  const [profileUser, setProfileUser] = useState();
   const [changeStatus, setChangeStatus] = useState(true);
   const [value, setValue] = React.useState(0);
+  const [userBank, setUserBank] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  console.log(user, "---------------------90");
 
   const [url, setUrl] = useState();
   const handleFiles = async (files) => {
@@ -159,7 +158,7 @@ export default function Home() {
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
-        setUserList(res.data.data);
+        setProfileUser(res.data.data);
         setChangeStatus(res.data.data.isActive);
         setUrl(res.data.data.profile_img);
       }
@@ -167,20 +166,34 @@ export default function Home() {
       console.log(error, setSnack);
     }
   };
+  const viewUserBank = async (userId) => {
+    try {
+      const res = await apiCall({
+        url: APIS.BANK.USERBANK(userId),
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setUserBank(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
   useEffect(() => {
     viewEmployees();
+    viewUserBank(id || userId);
   }, []);
 
   // const originalDateString = "2024-1-1T03:56:27.414+00:00";
   let joiningFormattedDate;
-  if (userList?.dateOfJoining) {
-    let originalDate = moment(userList?.dateOfJoining);
+  if (profileUser?.dateOfJoining) {
+    let originalDate = moment(profileUser?.dateOfJoining);
     joiningFormattedDate = originalDate.format("DD/MM/YYYY");
   }
 
   let dobFormattedDate;
-  if (userList?.dob) {
-    let originalDate = moment(userList?.dob);
+  if (profileUser?.dob) {
+    let originalDate = moment(profileUser?.dob);
     dobFormattedDate = originalDate.format("DD/MM/YYYY");
   }
 
@@ -206,9 +219,9 @@ export default function Home() {
               variant="h5"
               sx={{ mb: 0.75, textTransform: "capitalize" }}
             >
-              {userList?.role === 0
+              {profileUser?.role === 0
                 ? "my Profile"
-                : userList?.role === 1
+                : profileUser?.role === 1
                 ? "Manager Profile"
                 : "Employee Profile"}
             </Typography>
@@ -232,7 +245,7 @@ export default function Home() {
                 variant="subtitle2"
                 sx={{ opacity: 0.4, textTransform: "capitalize" }}
               >
-                {userList?.name}
+                {profileUser?.name}
               </Typography>
             </Box>
           </Box>
@@ -318,9 +331,9 @@ export default function Home() {
                 >
                   <Chip
                     label={
-                      userList?.role === 0
+                      profileUser?.role === 0
                         ? "Admin"
-                        : userList?.role === 1
+                        : profileUser?.role === 1
                         ? "Manager"
                         : "Employee"
                     }
@@ -334,7 +347,7 @@ export default function Home() {
                       textTransform: "capitalize",
                     }}
                   >
-                    {userList?.name}
+                    {profileUser?.name}
                   </Typography>
                   <Box
                     sx={{
@@ -349,7 +362,7 @@ export default function Home() {
                         opacity: 0.5,
                       }}
                     >
-                      {userList?.jobRole}
+                      {profileUser?.jobRole}
                     </Typography>
                     {/* Todo : This Button is visible for admin only */}
                     <Chip
@@ -520,9 +533,9 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">
-                  {userList?.role === 0
+                  {profileUser?.role === 0
                     ? "Admin"
-                    : userList?.role === 1
+                    : profileUser?.role === 1
                     ? "Manager"
                     : "Employee"}{" "}
                   Details
@@ -556,14 +569,14 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"employee id"}
-                    Text={userList?.employeeId || "N/A"}
+                    Text={profileUser?.employeeId || "N/A"}
                     Icon={<Grid3x3Icon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"work email"}
-                    Text={userList?.email || "N/A"}
+                    Text={profileUser?.email || "N/A"}
                     Icon={<EmailOutlinedIcon />}
                     TextStyle={{ wordBreak: "break-all" }}
                   />
@@ -571,7 +584,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"Job Title"}
-                    Text={userList?.jobRole || "N/A"}
+                    Text={profileUser?.jobRole || "N/A"}
                     Icon={<AccountBoxOutlinedIcon />}
                     TextStyle={{ textTransform: "capitalize" }}
                   />
@@ -580,11 +593,11 @@ export default function Home() {
                   <DetailsList
                     Title={"role"}
                     Text={
-                      userList?.role === 0
+                      profileUser?.role === 0
                         ? "admin"
-                        : userList?.role === 1
+                        : profileUser?.role === 1
                         ? "Manager"
-                        : userList?.role === 2
+                        : profileUser?.role === 2
                         ? "Employee"
                         : "N/A"
                     }
@@ -618,7 +631,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"full name"}
-                    Text={userList?.name || "N/A"}
+                    Text={profileUser?.name || "N/A"}
                     Icon={<PermIdentityOutlinedIcon />}
                     TextStyle={{ textTransform: "capitalize" }}
                   />
@@ -626,7 +639,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"gender"}
-                    Text={userList?.gender || "N/A"}
+                    Text={profileUser?.gender || "N/A"}
                     Icon={<WcOutlinedIcon />}
                     TextStyle={{ textTransform: "capitalize" }}
                   />
@@ -641,14 +654,14 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"hobbies"}
-                    Text={userList?.hobbies || "N/A"}
+                    Text={profileUser?.hobbies || "N/A"}
                     Icon={<SportsSoccerOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"phobia"}
-                    Text={userList?.phobia || "N/A"}
+                    Text={profileUser?.phobia || "N/A"}
                     Icon={<SickOutlinedIcon />}
                   />
                 </Grid>
@@ -679,7 +692,8 @@ export default function Home() {
                   <DetailsList
                     Title={"Phone number"}
                     Text={
-                      userList?.mobileCode + userList?.mobileNumber || "N/A"
+                      profileUser?.mobileCode + profileUser?.mobileNumber ||
+                      "N/A"
                     }
                     Icon={<PhoneOutlinedIcon />}
                   />
@@ -687,7 +701,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"whatsApp number"}
-                    Text={userList?.whatsappNumber || "N/A"}
+                    Text={profileUser?.whatsappNumber || "N/A"}
                     // Todo : Add whatsapp icon here
                     Icon={<PhoneOutlinedIcon />}
                   />
@@ -695,7 +709,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"personal email"}
-                    Text={userList?.personalEmail}
+                    Text={profileUser?.personalEmail}
                     Icon={<EmailOutlinedIcon />}
                     TextStyle={{ wordBreak: "break-all" }}
                   />
@@ -704,17 +718,17 @@ export default function Home() {
                   <DetailsList
                     Title={"Address"}
                     Text={
-                      userList?.address +
-                        userList?.address2 +
-                        userList?.landmark +
+                      profileUser?.address +
+                        profileUser?.address2 +
+                        profileUser?.landmark +
                         "-" +
-                        userList?.pincode || "N/A"
+                        profileUser?.pincode || "N/A"
                     }
                     // Text={
-                    //   userList?.address?.split("\n").map((line, index) => (
+                    //   profileUser?.address?.split("\n").map((line, index) => (
                     //     <React.Fragment key={index}>
                     //       {line}
-                    //       {index < userList.address.split("\n").length - 1 && (
+                    //       {index < profileUser.address.split("\n").length - 1 && (
                     //         <br />
                     //       )}
                     //     </React.Fragment>
@@ -749,7 +763,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"father's name"}
-                    Text={userList?.fatherName || "N/A"}
+                    Text={profileUser?.fatherName || "N/A"}
                     Icon={<Man2OutlinedIcon />}
                     TextStyle={{ textTransform: "capitalize" }}
                   />
@@ -757,14 +771,14 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"father's number"}
-                    Text={userList?.fatherNumber || "N/A"}
+                    Text={profileUser?.fatherNumber || "N/A"}
                     Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"mother's name"}
-                    Text={userList?.motherName || "N/A"}
+                    Text={profileUser?.motherName || "N/A"}
                     Icon={<Woman2OutlinedIcon />}
                     TextStyle={{ textTransform: "capitalize" }}
                   />
@@ -803,7 +817,7 @@ export default function Home() {
                 }}
               >
                 <Link
-                  href={userList?.empaloyeeSignature}
+                  href={profileUser?.empaloyeeSignature}
                   target="_blank"
                   style={{
                     textDecoration: "none",
@@ -971,7 +985,11 @@ export default function Home() {
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={1}>
-            <UserSalary />
+            <UserSalary
+              userId={id || userId}
+              userBank={userBank}
+              setUserBank={setUserBank}
+            />
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={2}>
@@ -995,7 +1013,7 @@ export default function Home() {
           >
             {open.type === "employee-detail" && (
               <EmployeeDetailsForm
-                data={userList}
+                data={profileUser}
                 uniqId={id || userId}
                 setOpen={setOpen}
                 onSuccess={viewEmployees}
@@ -1003,7 +1021,7 @@ export default function Home() {
             )}
             {open.type === "personal-detail" && (
               <EmployeePersonalDetailForm
-                data={userList}
+                data={profileUser}
                 uniqId={id || userId}
                 setOpen={setOpen}
                 onSuccess={viewEmployees}
@@ -1011,7 +1029,7 @@ export default function Home() {
             )}
             {open.type === "contact-detail" && (
               <EmployeeContactForm
-                data={userList}
+                data={profileUser}
                 uniqId={id || userId}
                 setOpen={setOpen}
                 onSuccess={viewEmployees}
@@ -1019,7 +1037,7 @@ export default function Home() {
             )}
             {open.type === "family-detail" && (
               <EmployeeFamilyDetailForm
-                data={userList}
+                data={profileUser}
                 uniqId={id || userId}
                 setOpen={setOpen}
                 onSuccess={viewEmployees}
@@ -1027,7 +1045,7 @@ export default function Home() {
             )}
             {open.type === "document-detail" && (
               <EmployeeDocumentDetailForm
-                data={userList}
+                data={profileUser}
                 uniqId={id || userId}
                 setOpen={setOpen}
                 onSuccess={viewEmployees}
