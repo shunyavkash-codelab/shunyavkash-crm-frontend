@@ -79,14 +79,8 @@ export default function EmployeeFamilyDetailForm({
       component={"form"}
       onSubmit={formik.handleSubmit}
     >
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
-        <FormControl fullWidth sx={{ m: 1 }}>
+      <Grid item xs={12} lg={6}>
+        <FormControl fullWidth>
           <ThemeInput
             placeholder={"Father's Name"}
             Icon={Man2OutlinedIcon}
@@ -96,14 +90,8 @@ export default function EmployeeFamilyDetailForm({
           />
         </FormControl>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
-        <FormControl fullWidth sx={{ m: 1 }}>
+      <Grid item xs={12} lg={6}>
+        <FormControl fullWidth>
           <ThemeInput
             placeholder={"Mother's Name"}
             Icon={Woman2OutlinedIcon}
@@ -113,14 +101,8 @@ export default function EmployeeFamilyDetailForm({
           />
         </FormControl>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
-        <FormControl fullWidth sx={{ m: 1 }}>
+      <Grid item xs={12} lg={6}>
+        <FormControl fullWidth>
           <ThemeInput
             placeholder={"Father's Number"}
             Icon={PhoneOutlinedIcon}
@@ -131,13 +113,7 @@ export default function EmployeeFamilyDetailForm({
           />
         </FormControl>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={12}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12}>
         <Button
           disableRipple
           type="submit"

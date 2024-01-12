@@ -7,14 +7,12 @@ import {
   MenuItem,
   Paper,
   Select,
-  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  // TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -24,29 +22,18 @@ import ModalComponent from "../component/ModalComponent";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import AccountHolderIcon from "@mui/icons-material/PermIdentityOutlined";
-// import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
-import {
-  // DatePicker,
-  LocalizationProvider,
-  MobileDatePicker,
-} from "@mui/x-date-pickers";
-// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
 function UserLeave() {
-  // const [setValue] = React.useState(0);
-  // const handleChange = (event, newValue) => {
-  //   setValue(newValue);
-  // };
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
+
   const leaves = [
     {
       id: 1,
-      username: "Deep Bhimani",
       type: "casual",
       reason: "Marriage Function",
       startDate: "15/01/2023",
@@ -58,7 +45,6 @@ function UserLeave() {
     },
     {
       id: 2,
-      username: "Deep Bhimani",
       type: "sick",
       reason: "Medical",
       startDate: "25/02/2023",
@@ -70,7 +56,6 @@ function UserLeave() {
     },
     {
       id: 3,
-      username: "Deep Bhimani",
       type: "paid",
       reason: "Going to Village",
       startDate: "31/04/2023",
@@ -82,7 +67,6 @@ function UserLeave() {
     },
     {
       id: 4,
-      username: "Deep Bhimani",
       type: "unpaid",
       reason: "Going to Friend's Birthday Party",
       startDate: "25/04/2023",
@@ -235,7 +219,6 @@ function UserLeave() {
                     <TableCell>
                       <Box
                         sx={{
-                          color: "white",
                           fontSize: "12px",
                           p: 0.5,
                           borderRadius: 1,
@@ -271,6 +254,7 @@ function UserLeave() {
                     <TableCell>
                       <Tooltip title={leave.statusReason} arrow>
                         <Button
+                          disableRipple
                           sx={{
                             textTransform: "capitalize",
                             color: "white",
@@ -319,7 +303,7 @@ function UserLeave() {
         sx={{ padding: "6px" }}
       >
         <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-          <Grid item xs={12} sx={{ "> .MuiFormControl-root": { mt: "0px" } }}>
+          <Grid item xs={12}>
             <FormControl
               fullWidth
               size="normal"
@@ -340,29 +324,74 @@ function UserLeave() {
                 label="Leave Type"
                 sx={{ fontSize: "14px" }}
               >
-                <MenuItem sx={{ textTransform: "capitalize" }} value={"casual"}>
-                  Casual
+                <MenuItem value={"casual"}>
+                  <Box
+                    sx={{
+                      textTransform: "capitalize",
+                      fontSize: "12px",
+                      p: 0.5,
+                      borderRadius: 1,
+                      maxWidth: "fit-content",
+                      lineHeight: 1,
+                      bgcolor: "rgba(94, 115, 141, 15%)",
+                      color: "grey.dark",
+                    }}
+                  >
+                    Casual
+                  </Box>
                 </MenuItem>
-                <MenuItem sx={{ textTransform: "capitalize" }} value={"sick"}>
-                  Sick
+                <MenuItem value={"sick"}>
+                  <Box
+                    sx={{
+                      textTransform: "capitalize",
+                      fontSize: "12px",
+                      p: 0.5,
+                      borderRadius: 1,
+                      maxWidth: "fit-content",
+                      lineHeight: 1,
+                      bgcolor: "rgba(248, 174, 0, 15%)",
+                      color: "secondary.main",
+                    }}
+                  >
+                    Sick
+                  </Box>
                 </MenuItem>
-                <MenuItem sx={{ textTransform: "capitalize" }} value={"paid"}>
-                  Paid
+                <MenuItem value={"paid"}>
+                  <Box
+                    sx={{
+                      textTransform: "capitalize",
+                      fontSize: "12px",
+                      p: 0.5,
+                      borderRadius: 1,
+                      maxWidth: "fit-content",
+                      lineHeight: 1,
+                      bgcolor: "rgba(74, 210, 146, 15%)",
+                      color: "success.main",
+                    }}
+                  >
+                    Paid
+                  </Box>
                 </MenuItem>
-                <MenuItem sx={{ textTransform: "capitalize" }} value={"unpaid"}>
-                  Unpaid
+                <MenuItem value={"unpaid"}>
+                  <Box
+                    sx={{
+                      textTransform: "capitalize",
+                      fontSize: "12px",
+                      p: 0.5,
+                      borderRadius: 1,
+                      maxWidth: "fit-content",
+                      lineHeight: 1,
+                      bgcolor: "rgba(225, 107, 22, 15%)",
+                      color: "review.main",
+                    }}
+                  >
+                    Unpaid
+                  </Box>
                 </MenuItem>
               </Select>
             </FormControl>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            sx={{
-              "& > .MuiFormControl-root": { margin: 0 },
-            }}
-          >
+          <Grid item xs={12} sm={6}>
             <LocalizationProvider
               dateAdapter={AdapterDayjs}
               style={{
@@ -370,7 +399,6 @@ function UserLeave() {
                 maxWidth: "100%",
               }}
             >
-              {/* <DemoContainer components={["DatePicker"]}> */}
               <MobileDatePicker
                 fullWidth
                 label="Start Date"
@@ -382,15 +410,9 @@ function UserLeave() {
                   "&>label": { fontSize: "14px" },
                 }}
               />
-              {/* </DemoContainer> */}
             </LocalizationProvider>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            sx={{ "> .MuiFormControl-root": { mt: "0px" } }}
-          >
+          <Grid item xs={12} sm={6}>
             <FormControl
               fullWidth
               size="normal"
@@ -432,14 +454,7 @@ function UserLeave() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            sx={{
-              "& > .MuiFormControl-root": { margin: 0 },
-            }}
-          >
+          <Grid item xs={12} sm={6}>
             <LocalizationProvider
               dateAdapter={AdapterDayjs}
               style={{
@@ -447,7 +462,6 @@ function UserLeave() {
                 maxWidth: "100%",
               }}
             >
-              {/* <DemoContainer components={["DatePicker"]}> */}
               <MobileDatePicker
                 label="End Date"
                 defaultValue={dayjs(new Date().toLocaleDateString())}
@@ -457,15 +471,9 @@ function UserLeave() {
                   "&>label": { fontSize: "14px" },
                 }}
               />
-              {/* </DemoContainer> */}
             </LocalizationProvider>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            sx={{ "> .MuiFormControl-root": { mt: "0px" } }}
-          >
+          <Grid item xs={12} sm={6}>
             <FormControl
               fullWidth
               size="normal"
@@ -507,8 +515,8 @@ function UserLeave() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sx={{ "> .MuiFormControl-root": { margin: 0 } }}>
-            <FormControl fullWidth sx={{ m: 1, "&>div": { fontSize: "14px" } }}>
+          <Grid item xs={12}>
+            <FormControl fullWidth sx={{ "&>div": { fontSize: "14px" } }}>
               <OutlinedInput
                 placeholder="Leave Title"
                 startAdornment={
@@ -519,15 +527,9 @@ function UserLeave() {
               />
             </FormControl>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            md={12}
-            lg={12}
-            sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-          >
+          <Grid item xs={12}>
             <Button
-              // disableRipple
+              disableRipple
               sx={{
                 maxHeight: "42px",
                 position: "relative",

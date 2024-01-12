@@ -87,12 +87,7 @@ export default function EmployeeContactForm({
       columnSpacing={2.5}
       onSubmit={formik.handleSubmit}
     >
-      <Grid
-        item
-        xs={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <FormControl fullWidth>
           <ThemeInput
             placeholder={"Phone Number"}
@@ -104,12 +99,7 @@ export default function EmployeeContactForm({
           />
         </FormControl>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <FormControl fullWidth>
           <ThemeInput
             placeholder={"WhatsApp Number"}
@@ -121,12 +111,7 @@ export default function EmployeeContactForm({
           />
         </FormControl>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <FormControl fullWidth>
           <ThemeInput
             placeholder={"Personal Email"}
@@ -137,12 +122,7 @@ export default function EmployeeContactForm({
           />
         </FormControl>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <FormControl fullWidth>
           <ThemeInput
             placeholder={"Line 1"}
@@ -153,12 +133,7 @@ export default function EmployeeContactForm({
           />
         </FormControl>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <FormControl fullWidth>
           <ThemeInput
             placeholder={"Line 2"}
@@ -169,12 +144,7 @@ export default function EmployeeContactForm({
           />
         </FormControl>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <FormControl fullWidth>
           <ThemeInput
             placeholder={"Landmark"}
@@ -185,12 +155,7 @@ export default function EmployeeContactForm({
           />
         </FormControl>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <FormControl fullWidth>
           <ThemeInput
             placeholder={"Pincode"}
@@ -204,9 +169,6 @@ export default function EmployeeContactForm({
       {/* <Grid
         item
         xs={12}
-        md={12}
-        lg={12}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
       >
         <FormControl fullWidth>
           <ThemeInput
@@ -219,13 +181,7 @@ export default function EmployeeContactForm({
           />
         </FormControl>
       </Grid> */}
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={12}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12}>
         <Button
           disableRipple
           type="submit"

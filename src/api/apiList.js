@@ -37,6 +37,7 @@ export const APIS = {
   BANK: {
     ADD: "/bank/add",
     VIEW: (bankId) => `/bank/${bankId}`,
+    USERBANK: (userId) => `/bank/user/${userId}`,
     LIST: "/bank/get-banks",
     DELETE: (bankId) => `/bank/${bankId}`,
     EDIT: (bankId) => `/bank/${bankId}`,

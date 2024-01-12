@@ -705,8 +705,8 @@ export default function Invoices() {
                   </Box>
                   <Form style={{ position: "relative" }}>
                     <Box
-                      className="watermark"
                       sx={{
+                        pointerEvents: "none",
                         position: "absolute",
                         top: "50%",
                         left: "50%",
@@ -1836,7 +1836,7 @@ export default function Invoices() {
                               </Typography>
                               <CustomFormikField
                                 name="note"
-                                label="Descrption"
+                                label="Description"
                                 multiline
                                 rows={3}
                               />
@@ -1845,6 +1845,7 @@ export default function Invoices() {
                           {/* ToDo = Error is coming when change sign image */}
                           <Box
                             sx={{
+                              userSelect: "none",
                               display: showSign ? "inline-flex" : "none",
                               mt: 8.5,
                               mr: 6,
@@ -1923,15 +1924,13 @@ export default function Invoices() {
                           </Box>
                         </Box>
                       </Box>
-                      <Stack spacing={1} sx={{ mt: 3 }}>
+
+                      <Stack direction="row" spacing={1} sx={{ mt: 3 }}>
                         <FormControlLabel
-                          label="Add watermark"
+                          label="Add Watermark"
                           sx={{
                             userSelect: "none",
-                            m: 0,
-                            "&>span:last-child": {
-                              ml: 1,
-                            },
+                            gap: 1,
                           }}
                           control={
                             <Checkbox

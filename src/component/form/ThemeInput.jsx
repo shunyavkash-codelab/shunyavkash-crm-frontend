@@ -19,7 +19,7 @@ export default function ThemeInput({
 }) {
   console.log(formik.errors[name]);
   return (
-    <FormControl fullWidth sx={{ m: 1 }}>
+    <FormControl fullWidth>
       <OutlinedInput
         placeholder={placeholder}
         sx={{ fontSize: 14, ...sx }}

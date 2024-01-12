@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Grid } from "@mui/material";
 import ThemeInput from "./ThemeInput";
 
@@ -12,7 +12,6 @@ import { APIS } from "../../api/apiList";
 import useApi from "../../hooks/useApi.js";
 import { useSnack } from "../../hooks/store/useSnack.js";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo/DemoContainer.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import * as Yup from "yup";
@@ -85,15 +84,7 @@ export default function EmployeeDetailsForm({
       columnSpacing={2.5}
       onSubmit={formik.handleSubmit}
     >
-      <Grid
-        item
-        xs={12}
-        md={5}
-        lg={6}
-        sx={{
-          "& > .MuiFormControl-root": { margin: 0 },
-        }}
-      >
+      <Grid item xs={12} md={5} lg={6}>
         <LocalizationProvider
           dateAdapter={AdapterDayjs}
           style={{
@@ -101,35 +92,27 @@ export default function EmployeeDetailsForm({
             maxWidth: "100%",
           }}
         >
-          <DemoContainer components={["DatePicker"]}>
-            <MobileDatePicker
-              label="Start Date"
-              format="DD/MM/YYYY"
-              value={dayjs(formik.values.dateOfJoining)}
-              // value={dayjs(date, { format: "DD/MM/YYYY" }).toDate()}
-              sx={{
-                minWidth: "100% !important",
-                fontSize: "14px !important",
-                "&>div": { fontSize: "14px" },
-                "&>label": { fontSize: "14px" },
-              }}
-              name="dateOfJoining"
-              type="date"
-              onChange={(e) => {
-                formik.setFieldValue("dateOfJoining", e);
-              }}
-              formik={formik}
-            />
-          </DemoContainer>
+          <MobileDatePicker
+            label="Start Date"
+            format="DD/MM/YYYY"
+            value={dayjs(formik.values.dateOfJoining)}
+            // value={dayjs(date, { format: "DD/MM/YYYY" }).toDate()}
+            sx={{
+              minWidth: "100% !important",
+              fontSize: "14px !important",
+              "&>div": { fontSize: "14px" },
+              "&>label": { fontSize: "14px" },
+            }}
+            name="dateOfJoining"
+            type="date"
+            onChange={(e) => {
+              formik.setFieldValue("dateOfJoining", e);
+            }}
+            formik={formik}
+          />
         </LocalizationProvider>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <ThemeInput
           placeholder="Employee Id"
           Icon={Grid3x3Icon}
@@ -138,14 +121,7 @@ export default function EmployeeDetailsForm({
           formik={formik}
         />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
-        {/* <FormControl fullWidth sx={{ m: 1 }}> */}
+      <Grid item xs={12} lg={6}>
         <ThemeInput
           placeholder={"Email"}
           Icon={EmailOutlinedIcon}
@@ -155,14 +131,7 @@ export default function EmployeeDetailsForm({
           formik={formik}
         />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
-        {/* <FormControl fullWidth sx={{ m: 1 }}> */}
+      <Grid item xs={12} lg={6}>
         <ThemeInput
           placeholder={"Job role"}
           Icon={AccountBoxOutlinedIcon}
@@ -171,13 +140,7 @@ export default function EmployeeDetailsForm({
           formik={formik}
         />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <ThemeSelect
           id={"role"}
           options={[
@@ -189,13 +152,7 @@ export default function EmployeeDetailsForm({
           formik={formik}
         />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={12}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12}>
         <Button
           disableRipple
           type="submit"

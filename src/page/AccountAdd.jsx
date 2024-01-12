@@ -22,7 +22,6 @@ import {
   LocalizationProvider,
   MobileDatePicker,
 } from "@mui/x-date-pickers";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ImageUploder from "../component/form/ImageUploder";
@@ -100,10 +99,7 @@ function AccountAdd() {
                 <Grid
                   item
                   xs={12}
-                  md={12}
-                  lg={12}
                   sx={{
-                    "> .MuiFormControl-root": { margin: 0 },
                     display: "flex",
                     alignItems: "center",
                   }}
@@ -142,15 +138,7 @@ function AccountAdd() {
                   </FormControl>
                 </Grid>
                 {/* Date */}
-                <Grid
-                  item
-                  xs={12}
-                  md={5}
-                  lg={6}
-                  sx={{
-                    "& > .MuiFormControl-root": { margin: 0 },
-                  }}
-                >
+                <Grid item xs={12} lg={6}>
                   <LocalizationProvider
                     dateAdapter={AdapterDayjs}
                     style={{
@@ -158,27 +146,18 @@ function AccountAdd() {
                       maxWidth: "100%",
                     }}
                   >
-                    <DemoContainer components={["DatePicker"]}>
-                      <MobileDatePicker
-                        label="Date"
-                        defaultValue={dayjs("2022-04-17")}
-                        sx={{
-                          minWidth: "100% !important",
-                          "& > *": { fontSize: "14px !important" },
-                        }}
-                      />
-                      {/* <DatePicker label="Basic date picker" size="small" /> */}
-                    </DemoContainer>
+                    <MobileDatePicker
+                      label="Date"
+                      defaultValue={dayjs("2022-04-17")}
+                      sx={{
+                        minWidth: "100% !important",
+                        "& > *": { fontSize: "14px !important" },
+                      }}
+                    />
                   </LocalizationProvider>
                 </Grid>
                 {/* Title */}
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={12}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
+                <Grid item xs={12}>
                   <TextField
                     required
                     id="title"
@@ -192,13 +171,7 @@ function AccountAdd() {
                   />
                 </Grid>
                 {/* Description */}
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={12}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
+                <Grid item xs={12}>
                   <TextField
                     required
                     multiline
@@ -214,13 +187,7 @@ function AccountAdd() {
                   />
                 </Grid>
                 {/* Amount */}
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
+                <Grid item xs={12} md={6}>
                   <TextField
                     required
                     id="amount"
@@ -230,14 +197,8 @@ function AccountAdd() {
                   />
                 </Grid>
                 {/* Expance Type */}
-                {selected == "expance" ? (
-                  <Grid
-                    item
-                    xs={12}
-                    md={12}
-                    lg={6}
-                    sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                  >
+                {selected === "expance" ? (
+                  <Grid item xs={12} lg={6}>
                     <FormControl
                       fullWidth
                       size="normal"
@@ -288,13 +249,7 @@ function AccountAdd() {
                   ""
                 )}
                 {/* Invoice Type */}
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
+                <Grid item xs={12} lg={6}>
                   <FormControl
                     fullWidth
                     size="normal"
@@ -330,13 +285,7 @@ function AccountAdd() {
                   </FormControl>
                 </Grid>
                 {/* Invoice Owner */}
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
+                <Grid item xs={12} md={6}>
                   <TextField
                     required
                     id="invoice-owner"
@@ -346,13 +295,7 @@ function AccountAdd() {
                   />
                 </Grid>
                 {/* Payment Method */}
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
+                <Grid item xs={12} lg={6}>
                   <FormControl
                     fullWidth
                     size="normal"
@@ -388,14 +331,8 @@ function AccountAdd() {
                   </FormControl>
                 </Grid>
                 {/* Collaborator */}
-                {selected == "income" ? (
-                  <Grid
-                    item
-                    xs={12}
-                    md={12}
-                    lg={6}
-                    sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                  >
+                {selected === "income" ? (
+                  <Grid item xs={12} lg={6}>
                     <FormControl
                       fullWidth
                       size="normal"
@@ -440,22 +377,10 @@ function AccountAdd() {
                   ""
                 )}
                 {/* Invoice Upload */}
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={6}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
+                <Grid item xs={12} lg={6}>
                   <ImageUploder title="Invoice Upload"></ImageUploder>
                 </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  md={12}
-                  lg={12}
-                  sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-                >
+                <Grid item xs={12}>
                   <Button
                     disableRipple
                     sx={{
