@@ -249,7 +249,7 @@ function AccountAdd() {
                         sx={{ textTransform: "capitalize" }}
                         id="demo-simple-select-label"
                       >
-                        Expanse Type
+                        Expance Type
                       </InputLabel>
                       <Select
                         labelId="demo-simple-select-label"

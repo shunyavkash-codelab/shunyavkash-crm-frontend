@@ -21,10 +21,9 @@ import {
 import ModalComponent from "../component/ModalComponent";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
+// import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import CashIcon from "@mui/icons-material/Payments";
 import BankIcon from "@mui/icons-material/AccountBalance";
-import UpiIcon from "@mui/icons-material/Payment";
 import DetailsList from "../component/employee/DetailsList";
 import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import InvoiceOwnerIcon from "@mui/icons-material/PermIdentityOutlined";
@@ -32,7 +31,7 @@ import TitleIcon from "@mui/icons-material/Grid3x3";
 import EmailIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxIcon from "@mui/icons-material/AccountBoxOutlined";
 import FileDownloadIcon2 from "@mui/icons-material/FileDownloadOutlined";
-import CollabaratorIcon from "@mui/icons-material/PeopleAlt";
+import CollaboratorIcon from "@mui/icons-material/PeopleAlt";
 import PaymentIcon from "@mui/icons-material/Payment";
 import InvoiceTypeIcon from "@mui/icons-material/Receipt";
 import PlusIcon from "@mui/icons-material/Close";
@@ -50,33 +49,45 @@ function AccountManage() {
       title: "system",
       descrption: "sit amet lorem ipsum sit amet.",
       paymentMethod: "UPI",
-      income: "-",
-      expance: "15000",
+      amount: "+1000.00 Eur",
+      invoiceType: "Inbound",
+      invoiceOwner: "Shunyavkash",
+      collaborator: "Pixel",
+      expanceType: "-",
     },
     {
       date: "12/11/2023",
       title: "Chair",
       descrption: "lorem ipsum lorem ipsum sit amet.",
       paymentMethod: "Cash",
-      income: "-",
-      expance: "1650",
+      amount: "-2000.00 Eur",
+      invoiceType: "Outbound",
+      invoiceOwner: "Shunyavkash",
+      collaborator: "-",
+      expanceType: "Miscellaneous",
     },
     {
       date: "26/05/2023",
       title: "tomb raider",
       descrption: "dolor sit lorem ipsum sit amet.",
       paymentMethod: "Bank",
-      income: "10000",
-      expance: "-",
-      invoice: "google.com1",
+      amount: "+1000.00 Eur",
+      invoiceType: "Outbound",
+      invoiceOwner: "Shunyavkash",
+      collaborator: "Simpliigence",
+      expanceType: "-",
+      // invoice: "google.com1",
     },
     {
       date: "03/02/2023",
       title: "packets of foods",
       descrption: "lorem ipsum sit amet.",
       paymentMethod: "Cash",
-      income: "-",
-      expance: "700",
+      amount: "-2000.00 Eur",
+      invoiceType: "Inbound",
+      invoiceOwner: "Shunyavkash",
+      collaborator: "-",
+      expanceType: "Asset Purchase",
     },
   ];
 
@@ -269,10 +280,19 @@ function AccountManage() {
                     <TableCell sx={{ width: "350px" }}>Description</TableCell>
                     <TableCell sx={{ width: "154px" }}>method</TableCell>
                     <TableCell sx={{ width: "120px", textAlign: "center" }}>
-                      Income
+                      Invoice Type
                     </TableCell>
                     <TableCell sx={{ width: "120px", textAlign: "center" }}>
-                      Expance
+                      Invoice Owner
+                    </TableCell>
+                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
+                      Collaborator
+                    </TableCell>
+                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
+                      Expance Type
+                    </TableCell>
+                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
+                      Amount
                     </TableCell>
                     <TableCell sx={{ width: "120px", textAlign: "center" }}>
                       actions
@@ -318,7 +338,22 @@ function AccountManage() {
                             ) : account.paymentMethod === "Bank" ? (
                               <BankIcon />
                             ) : (
-                              <UpiIcon />
+                              // <UpiIcon />
+                              <Stack
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="center"
+                                sx={{
+                                  height: "24px",
+                                  width: "24px",
+                                }}
+                              >
+                                <img
+                                  src="/images/upi.svg"
+                                  style={{ width: "100%", height: "100%" }}
+                                  alt="upi"
+                                />
+                              </Stack>
                             )}
                           </Box>
                           <span style={{ display: "inline-block" }}>
@@ -326,11 +361,33 @@ function AccountManage() {
                           </span>
                         </Stack>
                       </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {account.income}
+                      <TableCell>
+                        <Box
+                          className="truncate line-clamp-2"
+                          sx={{ textWrap: "wrap" }}
+                        >
+                          {account.invoiceType}
+                        </Box>
                       </TableCell>
                       <TableCell sx={{ textAlign: "center" }}>
-                        {account.expance}
+                        {account.invoiceOwner}
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {account.collaborator}
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {account.expanceType}
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {account.amount === "+1000.00 Eur" ? (
+                          <span style={{ color: "#4AD292" }}>
+                            {account.amount}
+                          </span>
+                        ) : account.amount === "-2000.00 Eur" ? (
+                          <span>{account.amount}</span>
+                        ) : (
+                          ""
+                        )}
                       </TableCell>
                       <TableCell>
                         <Stack
@@ -381,7 +438,7 @@ function AccountManage() {
                       },
                     }}
                   >
-                    <TableCell colSpan={3}></TableCell>
+                    <TableCell colSpan={7}></TableCell>
                     <TableCell>Total:</TableCell>
                     <TableCell
                       sx={{
@@ -389,15 +446,7 @@ function AccountManage() {
                         textAlign: "center",
                       }}
                     >
-                      10000
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        bgcolor: "#e6e6e6",
-                        textAlign: "center",
-                      }}
-                    >
-                      17350
+                      -10000 Eur
                     </TableCell>
                     <TableCell></TableCell>
                   </TableRow>
@@ -472,7 +521,7 @@ function AccountManage() {
               <DetailsList
                 Title={"Collaborator"}
                 Text={"Pixel"}
-                Icon={<CollabaratorIcon />}
+                Icon={<CollaboratorIcon />}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
