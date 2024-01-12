@@ -1836,7 +1836,7 @@ export default function Invoices() {
                               </Typography>
                               <CustomFormikField
                                 name="note"
-                                label="Descrption"
+                                label="Description"
                                 multiline
                                 rows={3}
                               />
