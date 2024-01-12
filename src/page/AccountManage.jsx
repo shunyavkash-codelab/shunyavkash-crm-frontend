@@ -49,7 +49,7 @@ function AccountManage() {
       title: "system",
       descrption: "sit amet lorem ipsum sit amet.",
       paymentMethod: "UPI",
-      amount: "+1000.00 Eur",
+      amount: "+1000.00 $",
       invoiceType: "Inbound",
       invoiceOwner: "Shunyavkash",
       collaborator: "Pixel",
@@ -60,7 +60,7 @@ function AccountManage() {
       title: "Chair",
       descrption: "lorem ipsum lorem ipsum sit amet.",
       paymentMethod: "Cash",
-      amount: "-2000.00 Eur",
+      amount: "-2000.00 $",
       invoiceType: "Outbound",
       invoiceOwner: "Shunyavkash",
       collaborator: "-",
@@ -71,7 +71,7 @@ function AccountManage() {
       title: "tomb raider",
       descrption: "dolor sit lorem ipsum sit amet.",
       paymentMethod: "Bank",
-      amount: "+1000.00 Eur",
+      amount: "+1000.00 $",
       invoiceType: "Outbound",
       invoiceOwner: "Shunyavkash",
       collaborator: "Simpliigence",
@@ -83,7 +83,7 @@ function AccountManage() {
       title: "packets of foods",
       descrption: "lorem ipsum sit amet.",
       paymentMethod: "Cash",
-      amount: "-2000.00 Eur",
+      amount: "-2000.00 $",
       invoiceType: "Inbound",
       invoiceOwner: "Shunyavkash",
       collaborator: "-",
@@ -251,7 +251,6 @@ function AccountManage() {
             <TableContainer
               component={Paper}
               sx={{
-                border: "1px solid rgba(224, 224, 224, 1)",
                 mx: { xs: "-10px", sm: 0 },
                 width: { xs: "auto", sm: "auto" },
                 borderRadius: 2.5,
@@ -264,47 +263,51 @@ function AccountManage() {
                   textWrap: "nowrap",
                   "& th,& td": {
                     border: 0,
+                    padding: "14px",
+                    borderBottom: "1px solid rgba(224, 224, 224, 1)",
                     "&:not(:last-child)": {
-                      borderRight: "1px solid rgba(224, 224, 224, 1)",
+                      // borderBottom: "1px solid rgba(224, 224, 224, 1)",
                     },
                   },
                   "& tbody tr,& tfoot tr": {
-                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    borderRight: "1px solid rgba(224, 224, 224, 1)",
                   },
                 }}
               >
                 <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                  <TableRow
+                    sx={{
+                      "& th": {
+                        lineHeight: 1,
+                        fontWeight: 700,
+                        padding: "14px",
+                      },
+                    }}
+                  >
                     <TableCell sx={{ width: "110px" }}>Date</TableCell>
                     <TableCell sx={{ width: "184px" }}>Title</TableCell>
-                    <TableCell sx={{ width: "350px" }}>Description</TableCell>
+                    <TableCell sx={{ width: "370px" }}>Description</TableCell>
                     <TableCell sx={{ width: "154px" }}>method</TableCell>
-                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
-                      Invoice Type
-                    </TableCell>
-                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
-                      Invoice Owner
-                    </TableCell>
-                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
-                      Collaborator
-                    </TableCell>
-                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
-                      Expance Type
-                    </TableCell>
-                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
+                    <TableCell sx={{ width: "120px" }}>Invoice Type</TableCell>
+                    <TableCell sx={{ width: "120px" }}>Invoice Owner</TableCell>
+                    <TableCell sx={{ width: "120px" }}>Collaborator</TableCell>
+                    <TableCell sx={{ width: "120px" }}>Expance Type</TableCell>
+                    <TableCell sx={{ width: "140px", textAlign: "center" }}>
                       Amount
                     </TableCell>
-                    <TableCell sx={{ width: "120px", textAlign: "center" }}>
+                    <TableCell sx={{ width: "100px", textAlign: "center" }}>
                       actions
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody
-                  sx={{
-                    "&>*:nth-of-type(odd)": {
-                      bgcolor: "#f5f5f5",
-                    },
-                  }}
+                  sx={
+                    {
+                      // "&>*:nth-of-type(even)": {
+                      //   bgcolor: "rgb(22 119 255/ 6%)",
+                      // },
+                    }
+                  }
                 >
                   {accounts.map((account) => (
                     <TableRow
@@ -338,7 +341,6 @@ function AccountManage() {
                             ) : account.paymentMethod === "Bank" ? (
                               <BankIcon />
                             ) : (
-                              // <UpiIcon />
                               <Stack
                                 direction="row"
                                 alignItems="center"
@@ -369,25 +371,29 @@ function AccountManage() {
                           {account.invoiceType}
                         </Box>
                       </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {account.invoiceOwner}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {account.collaborator}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {account.expanceType}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>
-                        {account.amount === "+1000.00 Eur" ? (
-                          <span style={{ color: "#4AD292" }}>
-                            {account.amount}
-                          </span>
-                        ) : account.amount === "-2000.00 Eur" ? (
-                          <span>{account.amount}</span>
-                        ) : (
-                          ""
-                        )}
+                      <TableCell>{account.invoiceOwner}</TableCell>
+                      <TableCell>{account.collaborator}</TableCell>
+                      <TableCell>{account.expanceType}</TableCell>
+                      <TableCell>
+                        <Stack
+                          sx={{
+                            textAlign: "center",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          {account.collaborator === " - " ? (
+                            <span style={{ color: "#4AD292" }}>
+                              {account.amount}
+                            </span>
+                          ) : account.expanceType === " - " ? (
+                            <span style={{ color: "#ff0000" }}>
+                              {account.amount}
+                            </span>
+                          ) : (
+                            <span>{account.amount}</span>
+                          )}
+                        </Stack>
                       </TableCell>
                       <TableCell>
                         <Stack
@@ -434,19 +440,19 @@ function AccountManage() {
                       "&>td": {
                         fontWeight: 700,
                         fontSize: "16px",
-                        color: "text.primary",
                       },
                     }}
                   >
                     <TableCell colSpan={7}></TableCell>
-                    <TableCell>Total:</TableCell>
+                    <TableCell sx={{ color: "text.primary" }}>Total:</TableCell>
                     <TableCell
                       sx={{
-                        bgcolor: "#f3f3f3",
+                        bgcolor: "rgba(74, 210, 146, 15%)",
+                        color: "success.main",
                         textAlign: "center",
                       }}
                     >
-                      -10000 Eur
+                      10000 $
                     </TableCell>
                     <TableCell></TableCell>
                   </TableRow>
