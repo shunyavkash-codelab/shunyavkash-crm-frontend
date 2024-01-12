@@ -24,7 +24,6 @@ import { APIS } from "../api/apiList";
 import * as Yup from "yup";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 
 export default function AddProject() {
@@ -197,6 +196,7 @@ export default function AddProject() {
               </Typography>
             </Box>
           </Box>
+
           {(projectData || id === undefined) && (
             <FormikProvider value={formik}>
               <Box
@@ -559,34 +559,31 @@ export default function AddProject() {
                       maxWidth: "100%",
                     }}
                   >
-                    <DemoContainer components={["DatePicker"]}>
-                      <MobileDatePicker
-                        label="Project Start Date"
-                        format="MM/DD/YYYY"
-                        value={dayjs(formik.values.startDate)}
-                        sx={{
-                          minWidth: "100% !important",
-                          fontSize: "14px !important",
-                          "&>div": { fontSize: "14px" },
-                          "&>label": { fontSize: "14px" },
-                        }}
-                        id="startDate"
-                        name="startDate"
-                        type="date"
-                        // defaultValue={projectData?.startDate}
-                        onChange={(e) => {
-                          formik.setFieldValue("startDate", e);
-                        }}
-                        formik={formik}
-                        error={
-                          formik.touched.startDate &&
-                          Boolean(formik.errors.startDate)
-                        }
-                        helperText={
-                          formik.touched.startDate && formik.errors.startDate
-                        }
-                      />
-                    </DemoContainer>
+                    <MobileDatePicker
+                      label="Project Start Date"
+                      format="MM/DD/YYYY"
+                      value={dayjs(formik.values.startDate)}
+                      sx={{
+                        "&,&>div,&>label": { fontSize: "14px!important" },
+                        "& input": {
+                          py: 1.5,
+                        },
+                      }}
+                      id="startDate"
+                      name="startDate"
+                      type="date"
+                      onChange={(e) => {
+                        formik.setFieldValue("startDate", e);
+                      }}
+                      formik={formik}
+                      error={
+                        formik.touched.startDate &&
+                        Boolean(formik.errors.startDate)
+                      }
+                      helperText={
+                        formik.touched.startDate && formik.errors.startDate
+                      }
+                    />
                   </LocalizationProvider>
 
                   <LocalizationProvider
@@ -596,57 +593,32 @@ export default function AddProject() {
                       maxWidth: "100%",
                     }}
                   >
-                    <DemoContainer components={["DatePicker"]}>
-                      <MobileDatePicker
-                        label="Project End Date"
-                        format="MM/DD/YYYY"
-                        minDate={dayjs(formik.values.startDate).add(1, "day")}
-                        value={dayjs(formik.values.endDate).add(1, "day")}
-                        sx={{
-                          minWidth: "100% !important",
-                          fontSize: "14px !important",
-                          "&>div": { fontSize: "14px" },
-                          "&>label": { fontSize: "14px" },
-                        }}
-                        id="endDate"
-                        name="endDate"
-                        type="date"
-                        onChange={(e) => {
-                          formik.setFieldValue("endDate", e);
-                        }}
-                        formik={formik}
-                        error={
-                          formik.touched.endDate &&
-                          Boolean(formik.errors.endDate)
-                        }
-                        helperText={
-                          formik.touched.endDate && formik.errors.endDate
-                        }
-                      />
-                    </DemoContainer>
+                    <MobileDatePicker
+                      label="Project End Date"
+                      format="MM/DD/YYYY"
+                      minDate={dayjs(formik.values.startDate).add(1, "day")}
+                      value={dayjs(formik.values.endDate).add(1, "day")}
+                      sx={{
+                        "&,&>div,&>label": { fontSize: "14px!important" },
+                        "& input": {
+                          py: 1.5,
+                        },
+                      }}
+                      id="endDate"
+                      name="endDate"
+                      type="date"
+                      onChange={(e) => {
+                        formik.setFieldValue("endDate", e);
+                      }}
+                      formik={formik}
+                      error={
+                        formik.touched.endDate && Boolean(formik.errors.endDate)
+                      }
+                      helperText={
+                        formik.touched.endDate && formik.errors.endDate
+                      }
+                    />
                   </LocalizationProvider>
-
-                  {/* <TextField
-                    fullWidth
-                    size="small"
-                    id="prefix"
-                    label="Prefix"
-                    autoComplete="off"
-                    inputProps={{ maxLength: 3 }}
-                    sx={{
-                      "&>label,& input,&>div": {
-                        fontSize: "14px",
-                      },
-                      "&>label": { top: "4px" },
-                      "& input": {
-                        textTransform: "uppercase",
-                        py: 1.5,
-                      },
-                    }}
-                    defaultValue={projectData?.prefix}
-                    onChange={formik.handleChange}
-                    value={formik.values.prefix}
-                  /> */}
 
                   <FormControl
                     fullWidth
@@ -765,6 +737,7 @@ export default function AddProject() {
                     value={formik.values.description}
                   />
                 </Box>
+
                 <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
                   <Button
                     disableRipple
@@ -847,6 +820,7 @@ export default function AddProject() {
               </Box>
             </FormikProvider>
           )}
+
           <AddClientsModal
             open={open}
             setOpen={setOpen}

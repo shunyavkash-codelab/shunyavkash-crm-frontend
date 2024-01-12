@@ -544,7 +544,6 @@ export default function UserSalary() {
                 maxWidth: "100%",
               }}
             >
-              {/* <DemoContainer components={["DatePicker"]}> */}
               <MobileDatePicker
                 label="Date"
                 defaultValue={dayjs(new Date().toLocaleDateString())}
@@ -554,7 +553,6 @@ export default function UserSalary() {
                   "&>label": { fontSize: "14px" },
                 }}
               />
-              {/* </DemoContainer> */}
             </LocalizationProvider>
           </Grid>
           <Grid item xs={12} sm={6}>

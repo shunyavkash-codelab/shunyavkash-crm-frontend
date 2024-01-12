@@ -399,7 +399,6 @@ function UserLeave() {
                 maxWidth: "100%",
               }}
             >
-              {/* <DemoContainer components={["DatePicker"]}> */}
               <MobileDatePicker
                 fullWidth
                 label="Start Date"
@@ -411,7 +410,6 @@ function UserLeave() {
                   "&>label": { fontSize: "14px" },
                 }}
               />
-              {/* </DemoContainer> */}
             </LocalizationProvider>
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -464,7 +462,6 @@ function UserLeave() {
                 maxWidth: "100%",
               }}
             >
-              {/* <DemoContainer components={["DatePicker"]}> */}
               <MobileDatePicker
                 label="End Date"
                 defaultValue={dayjs(new Date().toLocaleDateString())}
@@ -474,7 +471,6 @@ function UserLeave() {
                   "&>label": { fontSize: "14px" },
                 }}
               />
-              {/* </DemoContainer> */}
             </LocalizationProvider>
           </Grid>
           <Grid item xs={12} sm={6}>

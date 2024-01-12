@@ -84,13 +84,7 @@ export default function EmployeePersonalDetailForm({
       columnSpacing={2.5}
       onSubmit={formik.handleSubmit}
     >
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <ThemeInput
           placeholder={"Full Name"}
           Icon={PermIdentityOutlinedIcon}
@@ -99,13 +93,7 @@ export default function EmployeePersonalDetailForm({
           formik={formik}
         />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <ThemeSelect
           id={"gender"}
           options={[
@@ -116,15 +104,7 @@ export default function EmployeePersonalDetailForm({
           formik={formik}
         />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={5}
-        lg={6}
-        sx={{
-          "& > .MuiFormControl-root": { margin: 0 },
-        }}
-      >
+      <Grid item xs={12} lg={6}>
         <LocalizationProvider
           dateAdapter={AdapterDayjs}
           style={{
@@ -151,13 +131,7 @@ export default function EmployeePersonalDetailForm({
           />
         </LocalizationProvider>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <ThemeInput
           name="hobbies"
           placeholder="Hobbies"
@@ -166,13 +140,7 @@ export default function EmployeePersonalDetailForm({
           formik={formik}
         />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={6}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12} lg={6}>
         <ThemeInput
           name="phobia"
           placeholder="Phobia"
@@ -181,13 +149,7 @@ export default function EmployeePersonalDetailForm({
           formik={formik}
         />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={12}
-        sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-      >
+      <Grid item xs={12}>
         <Button
           disableRipple
           type="submit"

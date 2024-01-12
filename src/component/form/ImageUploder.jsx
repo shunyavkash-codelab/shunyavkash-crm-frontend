@@ -59,54 +59,61 @@ function ImageUploder({ title, fileTypes, name }) {
       >
         {props.title}
       </Typography> */}
-      <Stack
-        direction={"row"}
-        sx={{
-          backgroundColor: "rgba(0,0,0,0.1)",
-          justifyContent: "space-between",
-          alignItems: "center",
-          borderRadius: 1,
-          overflow: "hidden",
-          pr: 1,
-        }}
+      <ReactFileReader
+        name={name}
+        fileTypes={fileTypes}
+        base64={true}
+        handleFiles={handleFiles}
       >
-        <Box
+        <Button
+          disableRipple
           sx={{
-            width: 150,
-            height: 50,
-            fontSize: 14,
-            color: "black",
-            flexShrink: 0,
+            width: "100%",
+            backgroundColor: "rgba(0,0,0,0.1)!important",
             display: "flex",
+            justifyContent: "space-between",
             alignItems: "center",
-            // justifyContent: "center",
+            borderRadius: 1,
+            overflow: "hidden",
+            p: "8px 8px 8px 14px",
           }}
         >
-          {url ? (
-            <img
-              src={url}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              alt=""
-            />
-          ) : (
-            <Box textAlign={"left"} px={1} textTransform={"capitalize"}>
-              {title}
-            </Box>
-          )}
-        </Box>
-        <Box>
-          <ReactFileReader
-            name={name}
-            fileTypes={fileTypes}
-            base64={true}
-            handleFiles={handleFiles}
+          <Box
+            sx={{
+              fontSize: 14,
+              color: "text.primary",
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+            }}
           >
-            <Button sx={{ backgroundColor: "rgba(0,0,0,0.2)" }}>
-              <UploadOutlinedIcon sx={{ color: "black" }} />
-            </Button>
-          </ReactFileReader>
-        </Box>
-      </Stack>
+            {url ? (
+              <img
+                src={url}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                alt=""
+              />
+            ) : (
+              <>{title}</>
+            )}
+          </Box>
+          <Box
+            sx={{
+              display: "inline-flex",
+              backgroundColor: "rgba(0,0,0,0.2)!important",
+              py: 0.75,
+              px: 2.5,
+            }}
+          >
+            <UploadOutlinedIcon
+              sx={{
+                color: "text.primary",
+              }}
+            />
+          </Box>
+        </Button>
+      </ReactFileReader>
     </>
   );
 }

@@ -388,11 +388,7 @@ export default function LeavesRequests() {
             sx={{ padding: "6px" }}
           >
             <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-              <Grid
-                item
-                xs={12}
-                sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-              >
+              <Grid item xs={12}>
                 <FormControl fullWidth sx={{ m: 1 }}>
                   <TextField
                     required
