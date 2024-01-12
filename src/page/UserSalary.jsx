@@ -17,7 +17,6 @@ import {
   TextField,
   Stack,
 } from "@mui/material";
-// import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import ModalComponent from "../component/ModalComponent.jsx";
 import FormControl from "@mui/material/FormControl";
@@ -31,10 +30,12 @@ import BankNameIcon from "@mui/icons-material/AccountBalance";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import Person2Icon from "@mui/icons-material/Person2";
 import RedeemIcon from "@mui/icons-material/Redeem";
-import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import EditIcon from "@mui/icons-material/CreateOutlined";
 import ConfirmNumber from "@mui/icons-material/ThumbUpAlt";
+import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 export default function UserSalary() {
   const [openBank, setOpenBank] = React.useState(false);
@@ -43,16 +44,44 @@ export default function UserSalary() {
   const handleOpenBank = () => setOpenBank(true);
   const handleOpenSalary = () => setOpenSalary(true);
   const [date, setDate] = useState("");
-  // const navigate = useNavigate();
-  // const { setInvoiceData } = useInvoiceStore();
-  // const viewInvoice = async (invoiceNumber, row) => {
-  //   setInvoiceData(row);
-  //   navigate(`/invoices/view/${invoiceNumber}`);
-  // };
-  // const [setOpen] = React.useState(false);
   const handleChange = (event) => {
     setDate(event.target.value);
   };
+
+  const salaries = [
+    {
+      id: 1,
+      date: "01/01/2023",
+      memberName: "Deep Bhimani",
+      status: "paid",
+      amount: "₹10000",
+      incentive: "₹6000",
+    },
+    {
+      id: 2,
+      date: "03/01/2023",
+      memberName: "sujit hirapara",
+      status: "unpaid",
+      amount: "₹20000",
+      incentive: "₹7000",
+    },
+    {
+      id: 3,
+      date: "15/01/2023",
+      memberName: "prince suhagiya",
+      status: "paid",
+      amount: "₹30000",
+      incentive: "₹8000",
+    },
+    {
+      id: 4,
+      date: "28/01/2023",
+      memberName: "ravi chodvadiya",
+      status: "unpaid",
+      amount: "₹40000",
+      incentive: "₹9000",
+    },
+  ];
 
   return (
     <>
@@ -346,178 +375,41 @@ export default function UserSalary() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                    "&:first-of-type td": {
-                      maxWidth: "250px",
-                      textWrap: "wrap",
-                    },
-                  }}
-                >
-                  <TableCell>03/01/2024</TableCell>
-                  <TableCell>Deep Bhimani</TableCell>
-                  <TableCell>100000$</TableCell>
-                  <TableCell
+                {salaries.map((salary) => (
+                  <TableRow
                     sx={{
-                      "& .statusBtn": {
-                        color: "white",
-                        fontSize: "12px",
-                        p: 0.5,
-                        borderRadius: 1,
-                        maxWidth: "fit-content",
-                        lineHeight: 1,
-                      },
-                      "& .unpaid": {
-                        bgcolor: "secondary.main",
-                      },
-                      "& .paid": {
-                        bgcolor: "success.main",
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                      "&:first-of-type td": {
+                        maxWidth: "250px",
+                        textWrap: "wrap",
                       },
                     }}
                   >
-                    <Box
-                      /* when dynamic then row.status uncomment */
-
-                      // className={`statusBtn
-                      // ${row.status === "paid" ? "paid" : "unpaid"}`}
-                      className="statusBtn unpaid"
-                    >
-                      Unpaid
-                    </Box>
-                  </TableCell>
-                  <TableCell>500$</TableCell>
-                </TableRow>
-                <TableRow
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                    "&:first-of-type td": {
-                      maxWidth: "250px",
-                      textWrap: "wrap",
-                    },
-                  }}
-                >
-                  <TableCell>04/01/2024</TableCell>
-                  <TableCell>Deep Bhimani</TableCell>
-                  <TableCell>500000$</TableCell>
-                  <TableCell
-                    sx={{
-                      "& .statusBtn": {
-                        color: "white",
-                        fontSize: "12px",
-                        p: 0.5,
-                        borderRadius: 1,
-                        maxWidth: "fit-content",
-                        lineHeight: 1,
-                      },
-                      "& .unpaid": {
-                        bgcolor: "secondary.main",
-                      },
-                      "& .paid": {
-                        bgcolor: "success.main",
-                      },
-                    }}
-                  >
-                    <Box
-                      /* when dynamic then row.status uncomment */
-
-                      // className={`statusBtn
-                      // ${row.status === "paid" ? "paid" : "unpaid"}`}
-                      className="statusBtn paid"
-                    >
-                      paid
-                    </Box>
-                  </TableCell>
-                  <TableCell>1000$</TableCell>
-                </TableRow>
-                <TableRow
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                    "&:first-of-type td": {
-                      maxWidth: "250px",
-                      textWrap: "wrap",
-                    },
-                  }}
-                >
-                  <TableCell>05/01/2024</TableCell>
-                  <TableCell>Deep Bhimani</TableCell>
-                  <TableCell>600000$</TableCell>
-                  <TableCell
-                    sx={{
-                      "& .statusBtn": {
-                        color: "white",
-                        fontSize: "12px",
-                        p: 0.5,
-                        borderRadius: 1,
-                        maxWidth: "fit-content",
-                        lineHeight: 1,
-                      },
-                      "& .unpaid": {
-                        bgcolor: "secondary.main",
-                      },
-                      "& .paid": {
-                        bgcolor: "success.main",
-                      },
-                    }}
-                  >
-                    <Box
-                      /* when dynamic then row.status uncomment */
-
-                      // className={`statusBtn
-                      // ${row.status === "paid" ? "paid" : "unpaid"}`}
-                      className="statusBtn unpaid"
-                    >
-                      Unpaid
-                    </Box>
-                  </TableCell>
-                  <TableCell>580$</TableCell>
-                </TableRow>
-                <TableRow
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                    "&:first-of-type td": {
-                      maxWidth: "250px",
-                      textWrap: "wrap",
-                    },
-                  }}
-                >
-                  <TableCell>06/01/2024</TableCell>
-                  <TableCell>Deep Bhimani</TableCell>
-                  <TableCell>100000$</TableCell>
-                  <TableCell
-                    sx={{
-                      "& .statusBtn": {
-                        color: "white",
-                        fontSize: "12px",
-                        p: 0.5,
-                        borderRadius: 1,
-                        maxWidth: "fit-content",
-                        lineHeight: 1,
-                      },
-                      "& .unpaid": {
-                        bgcolor: "secondary.main",
-                      },
-                      "& .paid": {
-                        bgcolor: "success.main",
-                      },
-                    }}
-                  >
-                    <Box
-                      /* when dynamic then row.status uncomment */
-
-                      // className={`statusBtn
-                      // ${row.status === "paid" ? "paid" : "unpaid"}`}
-                      className="statusBtn unpaid"
-                    >
-                      Unpaid
-                    </Box>
-                  </TableCell>
-                  <TableCell>500$</TableCell>
-                </TableRow>
+                    <TableCell>{salary.date}</TableCell>
+                    <TableCell>{salary.memberName}</TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          color: "white",
+                          fontSize: "12px",
+                          p: 0.5,
+                          borderRadius: 1,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
+                          bgcolor:
+                            salary.status === "paid"
+                              ? "success.main"
+                              : "review.main",
+                        }}
+                      >
+                        {salary.status}
+                      </Box>
+                    </TableCell>
+                    <TableCell>{salary.amount}</TableCell>
+                    <TableCell>{salary.incentive}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -529,159 +421,113 @@ export default function UserSalary() {
         setOpen={setOpenBank}
         modalTitle={"Add Bank Details"}
       >
-        <Box component="form">
-          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <OutlinedInput
-                  placeholder="Bank Name"
-                  sx={{ fontSize: 14 }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <BankNameIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <OutlinedInput
-                  placeholder="A/c Holder Name"
-                  sx={{ fontSize: 14 }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <AccountHolderIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={6}
-              sx={{
-                "> .MuiFormControl-root": {
-                  margin: 0,
-                },
-              }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <OutlinedInput
-                  placeholder="A/c Number"
-                  type="text"
-                  sx={{ fontSize: 14 }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <PersonPinIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={6}
-              sx={{
-                "> .MuiFormControl-root": {
-                  margin: 0,
-                },
-              }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <OutlinedInput
-                  placeholder="Confirm A/c Number"
-                  type="text"
-                  sx={{ fontSize: 14 }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <ConfirmNumber />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <OutlinedInput
-                  placeholder="IFSC"
-                  sx={{ fontSize: 14 }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <AccountBoxOutlinedIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <Button
-                disableRipple
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "success.main",
-                  border: "1px solid",
-                  borderColor: "success.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "success.main",
-                    bgcolor: "success.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>Save</span>
-              </Button>
-            </Grid>
+        <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <OutlinedInput
+                placeholder="Bank Name"
+                sx={{ fontSize: 14 }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <BankNameIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
           </Grid>
-        </Box>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <OutlinedInput
+                placeholder="A/c Holder Name"
+                sx={{ fontSize: 14 }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <AccountHolderIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <FormControl fullWidth>
+              <OutlinedInput
+                placeholder="A/c Number"
+                type="text"
+                sx={{ fontSize: 14 }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <PersonPinIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <FormControl fullWidth>
+              <OutlinedInput
+                placeholder="Confirm A/c Number"
+                type="text"
+                sx={{ fontSize: 14 }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <ConfirmNumber />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <OutlinedInput
+                placeholder="IFSC"
+                sx={{ fontSize: 14 }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <AccountBoxOutlinedIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              disableRipple
+              sx={{
+                maxHeight: "42px",
+                position: "relative",
+                px: 2.5,
+                py: 1.5,
+                bgcolor: "success.main",
+                border: "1px solid",
+                borderColor: "success.main",
+                color: "white",
+                lineHeight: 1,
+                borderRadius: 2.5,
+                overflow: "hidden",
+                "&:before": {
+                  content: "''",
+                  height: 0,
+                  width: "10rem",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  zIndex: "0",
+                  bgcolor: "white",
+                  transform: "rotate(-45deg) translate(-50%, -50%)",
+                  transformOrigin: "0% 0%",
+                  transition: "all 0.4s ease-in-out",
+                },
+                "&:hover": {
+                  color: "success.main",
+                  bgcolor: "success.main",
+                  "&:before": { height: "10rem" },
+                },
+              }}
+            >
+              <span style={{ position: "relative" }}>add bank</span>
+            </Button>
+          </Grid>
+        </Grid>
       </ModalComponent>
 
       <ModalComponent
@@ -689,170 +535,161 @@ export default function UserSalary() {
         setOpen={setOpenSalary}
         modalTitle="Add Salary"
       >
-        <Box component="form">
-          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
+        <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+          <Grid item xs={12} sm={6}>
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              style={{
+                width: "100%",
+                maxWidth: "100%",
+              }}
             >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <OutlinedInput
-                  placeholder="User Name"
-                  sx={{ fontSize: 14 }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <Person2Icon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <OutlinedInput
-                  placeholder="Amount"
-                  sx={{ fontSize: 14 }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <NumbersIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <FormControl
-                fullWidth
-                size="normal"
+              {/* <DemoContainer components={["DatePicker"]}> */}
+              <MobileDatePicker
+                label="Date"
+                defaultValue={dayjs(new Date().toLocaleDateString())}
                 sx={{
+                  minWidth: "100% !important",
+                  "&>div": { fontSize: "14px" },
                   "&>label": { fontSize: "14px" },
                 }}
-              >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
-                >
-                  Status
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Leave Type"
-                  onChange={handleChange}
-                  sx={{ fontSize: "14px" }}
-                >
-                  <MenuItem sx={{ textTransform: "capitalize" }} value={"paid"}>
-                    Paid
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize" }}
-                    value={"unpaid"}
-                  >
-                    Unpaid
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <OutlinedInput
-                  placeholder="Incentive"
-                  sx={{ fontSize: 14 }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <RedeemIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <OutlinedInput
-                  placeholder="Date"
-                  sx={{ fontSize: 14 }}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <HistoryToggleOffIcon />
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <Button
-                disableRipple
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "success.main",
-                  border: "1px solid",
-                  borderColor: "success.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "success.main",
-                    bgcolor: "success.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>Save</span>
-              </Button>
-            </Grid>
+              />
+              {/* </DemoContainer> */}
+            </LocalizationProvider>
           </Grid>
-        </Box>
+          <Grid item xs={12} sm={6}>
+            <FormControl
+              fullWidth
+              sx={{
+                "&>label": { fontSize: "14px" },
+              }}
+            >
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Status
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Status"
+                onChange={handleChange}
+                sx={{ fontSize: "14px" }}
+              >
+                <MenuItem value={"paid"}>
+                  <Box
+                    sx={{
+                      textTransform: "capitalize",
+                      color: "white",
+                      fontSize: "12px",
+                      p: 0.5,
+                      borderRadius: 1,
+                      maxWidth: "fit-content",
+                      lineHeight: 1,
+                      bgcolor: "success.main",
+                    }}
+                  >
+                    Paid
+                  </Box>
+                </MenuItem>
+                <MenuItem value={"unpaid"}>
+                  <Box
+                    sx={{
+                      textTransform: "capitalize",
+                      color: "white",
+                      fontSize: "12px",
+                      p: 0.5,
+                      borderRadius: 1,
+                      maxWidth: "fit-content",
+                      lineHeight: 1,
+                      bgcolor: "review.main",
+                    }}
+                  >
+                    unpaid
+                  </Box>
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <OutlinedInput
+                placeholder="Member Name"
+                sx={{ fontSize: 14 }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <Person2Icon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <OutlinedInput
+                placeholder="Amount"
+                sx={{ fontSize: 14 }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <NumbersIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <OutlinedInput
+                placeholder="Incentive"
+                sx={{ fontSize: 14 }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <RedeemIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              disableRipple
+              sx={{
+                maxHeight: "42px",
+                position: "relative",
+                px: 2.5,
+                py: 1.5,
+                bgcolor: "success.main",
+                border: "1px solid",
+                borderColor: "success.main",
+                color: "white",
+                lineHeight: 1,
+                borderRadius: 2.5,
+                overflow: "hidden",
+                "&:before": {
+                  content: "''",
+                  height: 0,
+                  width: "10rem",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  zIndex: "0",
+                  bgcolor: "white",
+                  transform: "rotate(-45deg) translate(-50%, -50%)",
+                  transformOrigin: "0% 0%",
+                  transition: "all 0.4s ease-in-out",
+                },
+                "&:hover": {
+                  color: "success.main",
+                  bgcolor: "success.main",
+                  "&:before": { height: "10rem" },
+                },
+              }}
+            >
+              <span style={{ position: "relative" }}>Add salary</span>
+            </Button>
+          </Grid>
+        </Grid>
       </ModalComponent>
     </>
   );

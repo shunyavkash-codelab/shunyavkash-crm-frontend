@@ -1,10 +1,8 @@
 import {
   FormControl,
   FormHelperText,
-  InputAdornment,
   InputLabel,
   MenuItem,
-  OutlinedInput,
   Select,
 } from "@mui/material";
 import React from "react";
@@ -54,7 +52,7 @@ export default function ThemeSelect({ id, options, formik }) {
         labelId="demo-simple-select-label"
         id={id}
         name={id}
-        label="Role"
+        label={id}
         sx={{ fontSize: "14px" }}
         onChange={formik?.handleChange}
         value={formik?.values[id]}

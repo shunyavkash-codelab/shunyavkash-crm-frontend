@@ -12,7 +12,6 @@ import {
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-// import Link from "@mui/material/Link";
 import PropTypes from "prop-types";
 import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import DetailsList from "../component/employee/DetailsList";
@@ -546,7 +545,6 @@ export default function Home() {
                   </Button>
                 )}
               </Box>
-
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList

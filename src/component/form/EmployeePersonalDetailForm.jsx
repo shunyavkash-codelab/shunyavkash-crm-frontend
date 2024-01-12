@@ -1,17 +1,9 @@
 import React from "react";
-import {
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Button, Grid } from "@mui/material";
 
 // Icons
 import ThemeInput from "./ThemeInput";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import SickOutlinedIcon from "@mui/icons-material/SickOutlined";
 import SportsSoccerOutlinedIcon from "@mui/icons-material/SportsSoccerOutlined";
 import { useFormik } from "formik";
@@ -21,7 +13,6 @@ import { useSnack } from "../../hooks/store/useSnack.js";
 import ThemeSelect from "./ThemeSelect.jsx";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo/DemoContainer.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import * as Yup from "yup";
 
@@ -141,31 +132,23 @@ export default function EmployeePersonalDetailForm({
             maxWidth: "100%",
           }}
         >
-          <DemoContainer components={["DatePicker"]}>
-            <MobileDatePicker
-              label="DOB"
-              slotProps={{
-                textField: {
-                  helperText: "DD/MM/YYYY",
-                },
-              }}
-              format="DD/MM/YYYY"
-              value={dayjs(formik.values.dob)}
-              // value={dayjs(date, { format: "DD/MM/YYYY" }).toDate()}
-              sx={{
-                minWidth: "100% !important",
-                fontSize: "14px !important",
-                "&>div": { fontSize: "14px" },
-                "&>label": { fontSize: "14px" },
-              }}
-              name="dob"
-              type="date"
-              onChange={(e) => {
-                formik.setFieldValue("dob", e);
-              }}
-              formik={formik}
-            />
-          </DemoContainer>
+          <MobileDatePicker
+            label="DOB"
+            format="DD/MM/YYYY"
+            value={dayjs(formik.values.dob)}
+            sx={{
+              minWidth: "100% !important",
+              fontSize: "14px !important",
+              "&>div": { fontSize: "14px" },
+              "&>label": { fontSize: "14px" },
+            }}
+            name="dob"
+            type="date"
+            onChange={(e) => {
+              formik.setFieldValue("dob", e);
+            }}
+            formik={formik}
+          />
         </LocalizationProvider>
       </Grid>
       <Grid
