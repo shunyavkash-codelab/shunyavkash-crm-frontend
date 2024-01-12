@@ -49,7 +49,7 @@ function AccountManage() {
       title: "system",
       descrption: "sit amet lorem ipsum sit amet.",
       paymentMethod: "UPI",
-      amount: "+1000.00 $",
+      amount: "+$1000",
       invoiceType: "Inbound",
       invoiceOwner: "Shunyavkash",
       collaborator: "Pixel",
@@ -60,10 +60,8 @@ function AccountManage() {
       title: "Chair",
       descrption: "lorem ipsum lorem ipsum sit amet.",
       paymentMethod: "Cash",
-      amount: "-2000.00 $",
       invoiceType: "Outbound",
       invoiceOwner: "Shunyavkash",
-      collaborator: "-",
       expanceType: "Miscellaneous",
     },
     {
@@ -71,22 +69,19 @@ function AccountManage() {
       title: "tomb raider",
       descrption: "dolor sit lorem ipsum sit amet.",
       paymentMethod: "Bank",
-      amount: "+1000.00 $",
+      amount: "+$1000",
       invoiceType: "Outbound",
       invoiceOwner: "Shunyavkash",
       collaborator: "Simpliigence",
-      expanceType: "-",
-      // invoice: "google.com1",
     },
     {
       date: "03/02/2023",
       title: "packets of foods",
       descrption: "lorem ipsum sit amet.",
       paymentMethod: "Cash",
-      amount: "-2000.00 $",
+      amount: "-$2000",
       invoiceType: "Inbound",
       invoiceOwner: "Shunyavkash",
-      collaborator: "-",
       expanceType: "Asset Purchase",
     },
   ];
@@ -372,28 +367,25 @@ function AccountManage() {
                         </Box>
                       </TableCell>
                       <TableCell>{account.invoiceOwner}</TableCell>
-                      <TableCell>{account.collaborator}</TableCell>
-                      <TableCell>{account.expanceType}</TableCell>
                       <TableCell>
-                        <Stack
-                          sx={{
-                            textAlign: "center",
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          {account.collaborator === " - " ? (
-                            <span style={{ color: "#4AD292" }}>
-                              {account.amount}
-                            </span>
-                          ) : account.expanceType === " - " ? (
-                            <span style={{ color: "#ff0000" }}>
-                              {account.amount}
-                            </span>
-                          ) : (
-                            <span>{account.amount}</span>
-                          )}
-                        </Stack>
+                        {account.collaborator ? account.collaborator : "-"}
+                      </TableCell>
+                      <TableCell>
+                        {account.expanceType ? account.expanceType : "-"}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center",
+                          color: !account.amount
+                            ? "text.primary"
+                            : account.collaborator
+                            ? "success.main"
+                            : account.expanceType
+                            ? "review.main"
+                            : "",
+                        }}
+                      >
+                        {account.amount ? account.amount : "-"}
                       </TableCell>
                       <TableCell>
                         <Stack
@@ -447,12 +439,12 @@ function AccountManage() {
                     <TableCell sx={{ color: "text.primary" }}>Total:</TableCell>
                     <TableCell
                       sx={{
-                        bgcolor: "rgba(74, 210, 146, 15%)",
+                        // bgcolor: "rgba(74, 210, 146, 15%)",
                         color: "success.main",
                         textAlign: "center",
                       }}
                     >
-                      10000 $
+                      $10000
                     </TableCell>
                     <TableCell></TableCell>
                   </TableRow>
