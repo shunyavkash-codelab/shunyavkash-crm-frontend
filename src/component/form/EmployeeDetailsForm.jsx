@@ -33,7 +33,7 @@ const schema = Yup.object({
   jobRole: Yup.string()
     .required("JobRole is required")
     .matches(
-      /^[a-zA-Z]+$/,
+      /^[a-zA-Z ]+$/,
       "JobRole should only contain alphabetical characters"
     ),
   role: Yup.string().required("Role is required."),

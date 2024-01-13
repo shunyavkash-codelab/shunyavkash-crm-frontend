@@ -37,19 +37,24 @@ import ConfirmNumber from "@mui/icons-material/ThumbUpAlt";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { useFormik } from "formik";
+import { Field, FormikProvider, useFormik } from "formik";
 import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi.js";
 import { useSnack } from "../hooks/store/useSnack.js";
 import * as Yup from "yup";
+import { useParams } from "react-router-dom";
+import moment from "moment";
 
 export default function UserSalary({ userId, userBank, setUserBank }) {
   const [openBank, setOpenBank] = useState(false);
   const [openSalary, setOpenSalary] = useState(false);
+  const [salaryList, setSalaryList] = useState([]);
+  const [userList, setUserList] = useState([]);
 
   const handleOpenBank = () => setOpenBank(true);
   const handleOpenSalary = () => setOpenSalary(true);
   const [date, setDate] = useState("");
+  const { id } = useParams();
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
   // add and edit bank
@@ -71,23 +76,65 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
     }),
     enableReinitialize: true,
     initialValues: {
-      holderName: "",
-      bankName: "",
-      accountNumber: "",
-      confirmAccountNumber: "",
-      IFSC: "",
+      holderName: userBank?.holderName || "",
+      bankName: userBank?.bankName || "",
+      accountNumber: userBank?.accountNumber || "",
+      confirmAccountNumber: userBank?.confirmAccountNumber || "",
+      IFSC: userBank?.IFSC || "",
     },
 
     onSubmit: async (values) => {
       try {
         const res = await apiCall({
-          url: APIS.BANK.ADD,
+          url: userBank ? APIS.BANK.EDIT(userBank._id) : APIS.BANK.ADD,
+          method: userBank ? "patch" : "post",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.data.success === true) {
+          setSnack(res.data.message);
+          setUserBank(res.data.data);
+          setOpenBank(false);
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
+
+  const formikSalary = useFormik({
+    validationSchema: Yup.object({
+      date: Yup.date().required("Date is required."),
+      status: Yup.string().required("Status is required."),
+      employee: Yup.string().required("Member name is required."),
+      amount: Yup.number().required("Amount is required."),
+      incentive: Yup.number(),
+    }),
+    enableReinitialize: true,
+    initialValues: {
+      date: "",
+      status: "",
+      employee: "",
+      amount: "",
+      incentive: "",
+    },
+
+    onSubmit: async (values) => {
+      console.log(values);
+      try {
+        const res = await apiCall({
+          url: APIS.SALARY.ADD,
           method: "post",
           data: JSON.stringify(values, null, 2),
         });
         if (res.data.success === true) {
           setSnack(res.data.message);
-          setOpenBank(false);
+          let newSalaryUser = userList.filter(
+            (user) => user._id == res.data.data.employee
+          );
+          res.data.data.employee = newSalaryUser[0].name;
+          setSalaryList([res.data.data, ...salaryList]);
+          setOpenSalary(false);
         }
       } catch (error) {
         let errorMessage = error.response.data.message;
@@ -134,6 +181,39 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
       incentive: "₹9000",
     },
   ];
+
+  const viewUserSalary = async (userId) => {
+    try {
+      const res = await apiCall({
+        url: APIS.SALARY.GET(userId),
+        method: "get",
+        params: { sortField: "date" },
+      });
+      if (res.data.success === true) {
+        setSalaryList(res.data.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.ALLUSER,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setUserList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    viewUserSalary(id || userId);
+    fetchUsers();
+  }, []);
 
   return (
     <>
@@ -344,7 +424,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   <TextField
                     fullWidth
                     size="small"
-                    id="form"
+                    id="from"
                     label="From"
                     autoComplete="off"
                     type="date"
@@ -433,41 +513,44 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {salaries.map((salary) => (
-                  <TableRow
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&:first-of-type td": {
-                        maxWidth: "250px",
-                        textWrap: "wrap",
-                      },
-                    }}
-                  >
-                    <TableCell>{salary.date}</TableCell>
-                    <TableCell>{salary.memberName}</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          color: "white",
-                          fontSize: "12px",
-                          p: 0.5,
-                          borderRadius: 1,
-                          maxWidth: "fit-content",
-                          lineHeight: 1,
-                          bgcolor:
-                            salary.status === "paid"
-                              ? "success.main"
-                              : "review.main",
-                        }}
-                      >
-                        {salary.status}
-                      </Box>
-                    </TableCell>
-                    <TableCell>{salary.amount}</TableCell>
-                    <TableCell>{salary.incentive}</TableCell>
-                  </TableRow>
-                ))}
+                {salaryList &&
+                  salaryList.map((salary) => (
+                    <TableRow
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&:first-of-type td": {
+                          maxWidth: "250px",
+                          textWrap: "wrap",
+                        },
+                      }}
+                    >
+                      <TableCell>
+                        {moment(salary.date).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell>{salary.employee}</TableCell>
+                      <TableCell>
+                        <Box
+                          sx={{
+                            color: "white",
+                            fontSize: "12px",
+                            p: 0.5,
+                            borderRadius: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
+                            bgcolor:
+                              salary.status === "paid"
+                                ? "success.main"
+                                : "review.main",
+                          }}
+                        >
+                          {salary.status}
+                        </Box>
+                      </TableCell>
+                      <TableCell>₹{salary.amount}</TableCell>
+                      <TableCell>₹{salary.incentive || 0}</TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -477,7 +560,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
       <ModalComponent
         open={openBank}
         setOpen={setOpenBank}
-        modalTitle={"Add Bank Details"}
+        modalTitle={userBank ? "Edit Bank Details" : "Add Bank Details"}
       >
         <Box component="form" onSubmit={formikBank.handleSubmit}>
           <Grid container rowSpacing={2.5} columnSpacing={2.5}>
@@ -494,6 +577,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   placeholder="Bank Name"
                   sx={{ fontSize: 14 }}
                   onChange={formikBank.handleChange}
+                  value={formikBank.values.bankName}
                   startAdornment={
                     <InputAdornment position="start">
                       <BankNameIcon />
@@ -526,6 +610,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   placeholder="A/c Holder Name"
                   sx={{ fontSize: 14 }}
                   onChange={formikBank.handleChange}
+                  value={formikBank.values.holderName}
                   startAdornment={
                     <InputAdornment position="start">
                       <AccountHolderIcon />
@@ -564,6 +649,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   type="text"
                   sx={{ fontSize: 14 }}
                   onChange={formikBank.handleChange}
+                  value={formikBank.values.accountNumber}
                   startAdornment={
                     <InputAdornment position="start">
                       <PersonPinIcon />
@@ -602,6 +688,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   type="text"
                   sx={{ fontSize: 14 }}
                   onChange={formikBank.handleChange}
+                  value={formikBank.values.confirmAccountNumber}
                   startAdornment={
                     <InputAdornment position="start">
                       <ConfirmNumber />
@@ -635,6 +722,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   placeholder="IFSC"
                   sx={{ fontSize: 14 }}
                   onChange={formikBank.handleChange}
+                  value={formikBank.values.IFSC}
                   startAdornment={
                     <InputAdornment position="start">
                       <AccountBoxOutlinedIcon />
@@ -705,159 +793,257 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
         setOpen={setOpenSalary}
         modalTitle="Add Salary"
       >
-        <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-          <Grid item xs={12} sm={6}>
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-              style={{
-                width: "100%",
-                maxWidth: "100%",
-              }}
-            >
-              <MobileDatePicker
-                label="Date"
-                defaultValue={dayjs(new Date().toLocaleDateString())}
+        <Box component="form" onSubmit={formikSalary.handleSubmit}>
+          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+            <Grid item xs={12} sm={6}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                style={{
+                  width: "100%",
+                  maxWidth: "100%",
+                }}
+              >
+                <MobileDatePicker
+                  label="Date"
+                  defaultValue={dayjs(new Date().toLocaleDateString())}
+                  name="date"
+                  value={dayjs(formikSalary.values.date)}
+                  onChange={(e) => formikSalary.setFieldValue("date", e)}
+                  sx={{
+                    minWidth: "100% !important",
+                    "&>div": { fontSize: "14px" },
+                    "&>label": { fontSize: "14px" },
+                  }}
+                  error={
+                    formikSalary.touched.date &&
+                    Boolean(formikSalary.errors.date)
+                  }
+                />
+                {formikSalary.touched.date &&
+                  Boolean(formikSalary.errors.date) && (
+                    <FormHelperText error={true}>
+                      {formikSalary.touched.date && formikSalary.errors.date}
+                    </FormHelperText>
+                  )}
+              </LocalizationProvider>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl
+                fullWidth
                 sx={{
-                  minWidth: "100% !important",
-                  "&>div": { fontSize: "14px" },
                   "&>label": { fontSize: "14px" },
                 }}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl
-              fullWidth
-              sx={{
-                "&>label": { fontSize: "14px" },
-              }}
-            >
-              <InputLabel
-                sx={{ textTransform: "capitalize" }}
-                id="demo-simple-select-label"
               >
-                Status
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Status"
-                onChange={handleChange}
-                sx={{ fontSize: "14px" }}
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
+                >
+                  Status
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Status"
+                  name="status"
+                  value={formikSalary.values.status}
+                  onChange={(e) =>
+                    formikSalary.setFieldValue("status", e.target.value)
+                  }
+                  sx={{ fontSize: "14px" }}
+                  error={
+                    formikSalary.touched.status &&
+                    Boolean(formikSalary.errors.status)
+                  }
+                >
+                  <MenuItem value={"paid"}>
+                    <Box
+                      sx={{
+                        textTransform: "capitalize",
+                        color: "white",
+                        fontSize: "12px",
+                        p: 0.5,
+                        borderRadius: 1,
+                        maxWidth: "fit-content",
+                        lineHeight: 1,
+                        bgcolor: "success.main",
+                      }}
+                    >
+                      Paid
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value={"unpaid"}>
+                    <Box
+                      sx={{
+                        textTransform: "capitalize",
+                        color: "white",
+                        fontSize: "12px",
+                        p: 0.5,
+                        borderRadius: 1,
+                        maxWidth: "fit-content",
+                        lineHeight: 1,
+                        bgcolor: "review.main",
+                      }}
+                    >
+                      unpaid
+                    </Box>
+                  </MenuItem>
+                </Select>
+                {formikSalary.touched.status &&
+                  Boolean(formikSalary.errors.status) && (
+                    <FormHelperText error={true}>
+                      {formikSalary.touched.status &&
+                        formikSalary.errors.status}
+                    </FormHelperText>
+                  )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                fullWidth
+                sx={{
+                  "&>label": { fontSize: "14px" },
+                }}
               >
-                <MenuItem value={"paid"}>
-                  <Box
-                    sx={{
-                      textTransform: "capitalize",
-                      color: "white",
-                      fontSize: "12px",
-                      p: 0.5,
-                      borderRadius: 1,
-                      maxWidth: "fit-content",
-                      lineHeight: 1,
-                      bgcolor: "success.main",
-                    }}
-                  >
-                    Paid
-                  </Box>
-                </MenuItem>
-                <MenuItem value={"unpaid"}>
-                  <Box
-                    sx={{
-                      textTransform: "capitalize",
-                      color: "white",
-                      fontSize: "12px",
-                      p: 0.5,
-                      borderRadius: 1,
-                      maxWidth: "fit-content",
-                      lineHeight: 1,
-                      bgcolor: "review.main",
-                    }}
-                  >
-                    unpaid
-                  </Box>
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <OutlinedInput
-                placeholder="Member Name"
-                sx={{ fontSize: 14 }}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <Person2Icon />
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <OutlinedInput
-                placeholder="Amount"
-                sx={{ fontSize: 14 }}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <NumbersIcon />
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <OutlinedInput
-                placeholder="Incentive"
-                sx={{ fontSize: 14 }}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <RedeemIcon />
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              disableRipple
-              sx={{
-                maxHeight: "42px",
-                position: "relative",
-                px: 2.5,
-                py: 1.5,
-                bgcolor: "success.main",
-                border: "1px solid",
-                borderColor: "success.main",
-                color: "white",
-                lineHeight: 1,
-                borderRadius: 2.5,
-                overflow: "hidden",
-                "&:before": {
-                  content: "''",
-                  height: 0,
-                  width: "10rem",
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  zIndex: "0",
-                  bgcolor: "white",
-                  transform: "rotate(-45deg) translate(-50%, -50%)",
-                  transformOrigin: "0% 0%",
-                  transition: "all 0.4s ease-in-out",
-                },
-                "&:hover": {
-                  color: "success.main",
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
+                >
+                  Member Name
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Member Name"
+                  name="employee"
+                  value={formikSalary.values.employee}
+                  onChange={(e) =>
+                    formikSalary.setFieldValue("employee", e.target.value)
+                  }
+                  sx={{ fontSize: "14px" }}
+                  error={
+                    formikSalary.touched.employee &&
+                    Boolean(formikSalary.errors.employee)
+                  }
+                >
+                  {userList.map((member) => (
+                    <MenuItem value={member._id}>
+                      <Box
+                        sx={{
+                          textTransform: "capitalize",
+                          fontSize: "14px",
+                          p: 0.5,
+                          borderRadius: 1,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {member.name}
+                      </Box>
+                    </MenuItem>
+                  ))}
+                </Select>
+                {formikSalary.touched.employee &&
+                  Boolean(formikSalary.errors.employee) && (
+                    <FormHelperText error={true}>
+                      {formikSalary.touched.employee &&
+                        formikSalary.errors.employee}
+                    </FormHelperText>
+                  )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <OutlinedInput
+                  placeholder="Amount"
+                  name="amount"
+                  onChange={formikSalary.handleChange}
+                  sx={{ fontSize: 14 }}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <NumbersIcon />
+                    </InputAdornment>
+                  }
+                  error={
+                    formikSalary.touched.amount &&
+                    Boolean(formikSalary.errors.amount)
+                  }
+                />
+                {formikSalary.touched.amount &&
+                  Boolean(formikSalary.errors.amount) && (
+                    <FormHelperText error={true}>
+                      {formikSalary.touched.amount &&
+                        formikSalary.errors.amount}
+                    </FormHelperText>
+                  )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <OutlinedInput
+                  placeholder="Incentive"
+                  name="incentive"
+                  onChange={formikSalary.handleChange}
+                  sx={{ fontSize: 14 }}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <RedeemIcon />
+                    </InputAdornment>
+                  }
+                  error={
+                    formikSalary.touched.incentive &&
+                    Boolean(formikSalary.errors.incentive)
+                  }
+                />
+                {formikSalary.touched.incentive &&
+                  Boolean(formikSalary.errors.incentive) && (
+                    <FormHelperText error={true}>
+                      {formikSalary.touched.incentive &&
+                        formikSalary.errors.incentive}
+                    </FormHelperText>
+                  )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                disableRipple
+                type="submit"
+                sx={{
+                  maxHeight: "42px",
+                  position: "relative",
+                  px: 2.5,
+                  py: 1.5,
                   bgcolor: "success.main",
-                  "&:before": { height: "10rem" },
-                },
-              }}
-            >
-              <span style={{ position: "relative" }}>Add salary</span>
-            </Button>
+                  border: "1px solid",
+                  borderColor: "success.main",
+                  color: "white",
+                  lineHeight: 1,
+                  borderRadius: 2.5,
+                  overflow: "hidden",
+                  "&:before": {
+                    content: "''",
+                    height: 0,
+                    width: "10rem",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    zIndex: "0",
+                    bgcolor: "white",
+                    transform: "rotate(-45deg) translate(-50%, -50%)",
+                    transformOrigin: "0% 0%",
+                    transition: "all 0.4s ease-in-out",
+                  },
+                  "&:hover": {
+                    color: "success.main",
+                    bgcolor: "success.main",
+                    "&:before": { height: "10rem" },
+                  },
+                }}
+              >
+                <span style={{ position: "relative" }}>Add salary</span>
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
+        </Box>
       </ModalComponent>
     </>
   );

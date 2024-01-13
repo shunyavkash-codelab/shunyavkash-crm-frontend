@@ -81,7 +81,7 @@ export default function Home() {
 
   const [profileUser, setProfileUser] = useState();
   const [changeStatus, setChangeStatus] = useState(true);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const [userBank, setUserBank] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -91,8 +91,6 @@ export default function Home() {
   const handleFiles = async (files) => {
     setUrl(files.base64);
     let formData = new FormData();
-    // values.profile_img = url?.fileList[0];
-
     formData.append("profile_img", files.fileList[0]);
 
     try {
@@ -104,7 +102,6 @@ export default function Home() {
       });
       if (res.status === 200) {
         setSnack(res.data.message);
-        // setUrl(files.base64);
       }
     } catch (error) {
       let errorMessage = error.response.data.message;
@@ -112,7 +109,7 @@ export default function Home() {
     }
   };
 
-  const [open, setOpen] = React.useState({ open: false, type: "" });
+  const [open, setOpen] = useState({ open: false, type: "" });
 
   const handleChangeActiveDeactive = async () => {
     setChangeStatus(!changeStatus);

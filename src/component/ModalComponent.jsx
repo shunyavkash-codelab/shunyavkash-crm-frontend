@@ -85,7 +85,6 @@ export default function ModalComponent({ open, setOpen, ...props }) {
               </Button>
             </Box>
             <Box
-              component="form"
               sx={{
                 maxHeight: { xs: "calc(100vh - 120px)", sm: "80vh" },
                 overflowY: "auto",
