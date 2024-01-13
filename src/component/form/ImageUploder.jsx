@@ -7,24 +7,23 @@ import { APIS } from "../../api/apiList";
 import { useAuth } from "../../hooks/store/useAuth";
 import { useSnack } from "../../hooks/store/useSnack";
 
-function ImageUploder({ title, fileTypes, name }) {
-  const [url, setUrl] = useState();
+function ImageUploder({ title, fileTypes, name, doc }) {
+  const [url, setUrl] = useState(doc);
   const { userId } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall, isLoading } = useApi();
-  var _URL = window.URL || window.webkitURL;
+  // var _URL = window.URL || window.webkitURL;
   const handleFiles = async (files) => {
-    console.log(files, "ImageUploder");
     setUrl(files.base64);
     var file, img;
     if ((file = files.fileList[0] && title === "signature")) {
       img = new Image();
-      var objectUrl = _URL.createObjectURL(file);
+      // var objectUrl = _URL.createObjectURL(file);
       img.onload = function () {
         console.log(this.width, this.height, "=========");
         if (this.width > 300) console.log("width");
       };
-      img.src = objectUrl;
+      // img.src = objectUrl;
     }
     let formData = new FormData();
 

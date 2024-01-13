@@ -43,6 +43,7 @@ import EmployeeFamilyDetailForm from "../component/form/EmployeeFamilyDetailForm
 import EmployeeDocumentDetailForm from "../component/form/EmployeeDocumentDetailForm.jsx";
 import EmployeePersonalDetailForm from "../component/form/EmployeePersonalDetailForm.jsx";
 import moment from "moment";
+import ThemeButton from "../component/ThemeButton.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -81,7 +82,7 @@ export default function Home() {
 
   const [profileUser, setProfileUser] = useState();
   const [changeStatus, setChangeStatus] = useState(true);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const [userBank, setUserBank] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -91,8 +92,6 @@ export default function Home() {
   const handleFiles = async (files) => {
     setUrl(files.base64);
     let formData = new FormData();
-    // values.profile_img = url?.fileList[0];
-
     formData.append("profile_img", files.fileList[0]);
 
     try {
@@ -104,7 +103,6 @@ export default function Home() {
       });
       if (res.status === 200) {
         setSnack(res.data.message);
-        // setUrl(files.base64);
       }
     } catch (error) {
       let errorMessage = error.response.data.message;
@@ -112,7 +110,7 @@ export default function Home() {
     }
   };
 
-  const [open, setOpen] = React.useState({ open: false, type: "" });
+  const [open, setOpen] = useState({ open: false, type: "" });
 
   const handleChangeActiveDeactive = async () => {
     setChangeStatus(!changeStatus);
@@ -381,86 +379,18 @@ export default function Home() {
                 </Box>
                 {id && (
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <Button
-                      disableRipple
+                    <ThemeButton
+                      Text={changeStatus ? "deactive" : "active"}
                       type="submit"
+                      btnColor={changeStatus ? "error.main" : "success.main"}
                       onClick={() => handleChangeActiveDeactive()}
-                      sx={{
-                        maxHeight: "42px",
-                        position: "relative",
-                        px: 2.5,
-                        py: 1.5,
-                        bgcolor: changeStatus ? "error.main" : "success.main",
-                        border: "1px solid",
-                        borderColor: changeStatus
-                          ? "error.main"
-                          : "success.main",
-                        color: "white",
-                        lineHeight: 1,
-                        borderRadius: 2.5,
-                        overflow: "hidden",
-                        "&:before": {
-                          content: "''",
-                          height: 0,
-                          width: "10rem",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          zIndex: "0",
-                          bgcolor: "white",
-                          transform: "rotate(-45deg) translate(-50%, -50%)",
-                          transformOrigin: "0% 0%",
-                          transition: "all 0.4s ease-in-out",
-                        },
-                        "&:hover": {
-                          color: changeStatus ? "error.main" : "success.main",
-                          bgcolor: changeStatus ? "error.main" : "success.main",
-                          "&:before": { height: "10rem" },
-                        },
-                      }}
-                    >
-                      <span style={{ position: "relative" }}>
-                        {changeStatus ? "deactive" : "active"}
-                      </span>
-                    </Button>
-                    <Button
-                      disableRipple
+                    />
+                    <ThemeButton
+                      error
+                      Text="delete"
                       type="submit"
                       onClick={() => handleChangeUserDelete()}
-                      sx={{
-                        maxHeight: "42px",
-                        position: "relative",
-                        px: 2.5,
-                        py: 1.5,
-                        bgcolor: "error.main",
-                        border: "1px solid",
-                        borderColor: "error.main",
-                        color: "white",
-                        lineHeight: 1,
-                        borderRadius: 2.5,
-                        overflow: "hidden",
-                        "&:before": {
-                          content: "''",
-                          height: 0,
-                          width: "10rem",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          zIndex: "0",
-                          bgcolor: "white",
-                          transform: "rotate(-45deg) translate(-50%, -50%)",
-                          transformOrigin: "0% 0%",
-                          transition: "all 0.4s ease-in-out",
-                        },
-                        "&:hover": {
-                          color: "error.main",
-                          bgcolor: "error.main",
-                          "&:before": { height: "10rem" },
-                        },
-                      }}
-                    >
-                      <span style={{ position: "relative" }}>delete</span>
-                    </Button>
+                    />
                   </Box>
                 )}
               </Box>
@@ -541,21 +471,13 @@ export default function Home() {
                   Details
                 </Typography>
                 {user.role === 0 && (
-                  <Button
+                  <ThemeButton
+                    transparent
+                    smallRounded
+                    Text="edit"
+                    startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
                     onClick={handleOpen.bind(null, "employee-detail")}
-                    startIcon={<EditIcon sx={{ width: 16 }} />}
-                    sx={{
-                      cursor: "pointer",
-                      height: "unset",
-                      py: 0.3,
-                      px: 1.5,
-                      border: "1px solid",
-                      borderColor: "primary.main",
-                      borderRadius: 4,
-                    }}
-                  >
-                    Edit
-                  </Button>
+                  />
                 )}
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
@@ -611,21 +533,13 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Personal Details</Typography>
-                <Button
+                <ThemeButton
+                  transparent
+                  smallRounded
+                  Text="edit"
+                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
                   onClick={handleOpen.bind(null, "personal-detail")}
-                  startIcon={<EditIcon sx={{ width: 16 }} />}
-                  sx={{
-                    cursor: "pointer",
-                    height: "unset",
-                    py: 0.3,
-                    px: 1.5,
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    borderRadius: 4,
-                  }}
-                >
-                  Edit
-                </Button>
+                />
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} xl={4}>
@@ -671,21 +585,13 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Contact Details</Typography>
-                <Button
+                <ThemeButton
+                  transparent
+                  smallRounded
+                  Text="edit"
+                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
                   onClick={handleOpen.bind(null, "contact-detail")}
-                  startIcon={<EditIcon sx={{ width: 16 }} />}
-                  sx={{
-                    cursor: "pointer",
-                    height: "unset",
-                    py: 0.3,
-                    px: 1.5,
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    borderRadius: 4,
-                  }}
-                >
-                  Edit
-                </Button>
+                />
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} xl={4}>
@@ -743,21 +649,13 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Family Details</Typography>
-                <Button
+                <ThemeButton
+                  transparent
+                  smallRounded
+                  Text="edit"
+                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
                   onClick={handleOpen.bind(null, "family-detail")}
-                  startIcon={<EditIcon sx={{ width: 16 }} />}
-                  sx={{
-                    cursor: "pointer",
-                    height: "unset",
-                    py: 0.3,
-                    px: 1.5,
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    borderRadius: 4,
-                  }}
-                >
-                  Edit
-                </Button>
+                />
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} xl={4}>
@@ -789,22 +687,14 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Document Details</Typography>
-                {user.role === 1 && user.role === 2 && (
-                  <Button
+                {(user.role === 1 || user.role === 2) && (
+                  <ThemeButton
+                    transparent
+                    smallRounded
+                    Text="edit"
+                    startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
                     onClick={handleOpen.bind(null, "document-detail")}
-                    startIcon={<EditIcon sx={{ width: 16 }} />}
-                    sx={{
-                      cursor: "pointer",
-                      height: "unset",
-                      py: 0.3,
-                      px: 1.5,
-                      border: "1px solid",
-                      borderColor: "primary.main",
-                      borderRadius: 4,
-                    }}
-                  >
-                    Edit
-                  </Button>
+                  />
                 )}
               </Box>
               <Box
@@ -817,7 +707,7 @@ export default function Home() {
                 }}
               >
                 <Link
-                  href={profileUser?.empaloyeeSignature}
+                  to={profileUser?.signature}
                   target="_blank"
                   style={{
                     textDecoration: "none",
@@ -835,23 +725,10 @@ export default function Home() {
                     MainStyle={{ mb: 0 }}
                   />
                 </Link>
-                <Link
-                  href="#javascript:void(0);"
-                  target="_blank"
-                  style={{
-                    textDecoration: "none",
-                    color: "#2a4062",
-                    opacity: "0.8",
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 1,
-                    padding: "5px 10px",
-                    display: "inline-flex",
-                  }}
-                  MainStyle={{ mb: 0 }}
-                >
-                  <DetailsList
-                    Title={"HSC-SSC certification"}
-                    Icon={<FileDownloadOutlinedIcon />}
+                {profileUser?.degreeCertification && (
+                  <Link
+                    to={profileUser.degreeCertification}
+                    target="_blank"
                     style={{
                       textDecoration: "none",
                       color: "#2a4062",
@@ -862,25 +739,27 @@ export default function Home() {
                       display: "inline-flex",
                     }}
                     MainStyle={{ mb: 0 }}
-                  />
-                </Link>
-                <Link
-                  href="#javascript:void(0);"
-                  target="_blank"
-                  style={{
-                    textDecoration: "none",
-                    color: "#2a4062",
-                    opacity: "0.8",
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 1,
-                    padding: "5px 10px",
-                    display: "inline-flex",
-                  }}
-                  MainStyle={{ mb: 0 }}
-                >
-                  <DetailsList
-                    Title={"Adhar Card"}
-                    Icon={<FileDownloadOutlinedIcon />}
+                  >
+                    <DetailsList
+                      Title={"HSC-SSC certification"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                      style={{
+                        textDecoration: "none",
+                        color: "#2a4062",
+                        opacity: "0.8",
+                        backgroundColor: "rgba(0,0,0,0.1)",
+                        borderRadius: 1,
+                        padding: "5px 10px",
+                        display: "inline-flex",
+                      }}
+                      MainStyle={{ mb: 0 }}
+                    />
+                  </Link>
+                )}
+                {profileUser?.adharCard && (
+                  <Link
+                    to={profileUser.adharCard}
+                    target="_blank"
                     style={{
                       textDecoration: "none",
                       color: "#2a4062",
@@ -891,25 +770,27 @@ export default function Home() {
                       display: "inline-flex",
                     }}
                     MainStyle={{ mb: 0 }}
-                  />
-                </Link>
-                <Link
-                  href="#javascript:void(0);"
-                  target="_blank"
-                  style={{
-                    textDecoration: "none",
-                    color: "#2a4062",
-                    opacity: "0.8",
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 1,
-                    padding: "5px 10px",
-                    display: "inline-flex",
-                  }}
-                  MainStyle={{ mb: 0 }}
-                >
-                  <DetailsList
-                    Title={"Adress Proof"}
-                    Icon={<FileDownloadOutlinedIcon />}
+                  >
+                    <DetailsList
+                      Title={"Adhar Card"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                      style={{
+                        textDecoration: "none",
+                        color: "#2a4062",
+                        opacity: "0.8",
+                        backgroundColor: "rgba(0,0,0,0.1)",
+                        borderRadius: 1,
+                        padding: "5px 10px",
+                        display: "inline-flex",
+                      }}
+                      MainStyle={{ mb: 0 }}
+                    />
+                  </Link>
+                )}
+                {profileUser?.addressProof && (
+                  <Link
+                    to={profileUser.addressProof}
+                    target="_blank"
                     style={{
                       textDecoration: "none",
                       color: "#2a4062",
@@ -920,25 +801,27 @@ export default function Home() {
                       display: "inline-flex",
                     }}
                     MainStyle={{ mb: 0 }}
-                  />
-                </Link>
-                <Link
-                  href="#javascript:void(0);"
-                  target="_blank"
-                  style={{
-                    textDecoration: "none",
-                    color: "#2a4062",
-                    opacity: "0.8",
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 1,
-                    padding: "5px 10px",
-                    display: "inline-flex",
-                  }}
-                  MainStyle={{ mb: 0 }}
-                >
-                  <DetailsList
-                    Title={"Property tax bill"}
-                    Icon={<FileDownloadOutlinedIcon />}
+                  >
+                    <DetailsList
+                      Title={"Adress Proof"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                      style={{
+                        textDecoration: "none",
+                        color: "#2a4062",
+                        opacity: "0.8",
+                        backgroundColor: "rgba(0,0,0,0.1)",
+                        borderRadius: 1,
+                        padding: "5px 10px",
+                        display: "inline-flex",
+                      }}
+                      MainStyle={{ mb: 0 }}
+                    />
+                  </Link>
+                )}
+                {profileUser?.propertyTax && (
+                  <Link
+                    to={profileUser.propertyTax}
+                    target="_blank"
                     style={{
                       textDecoration: "none",
                       color: "#2a4062",
@@ -949,25 +832,27 @@ export default function Home() {
                       display: "inline-flex",
                     }}
                     MainStyle={{ mb: 0 }}
-                  />
-                </Link>
-                <Link
-                  href="#javascript:void(0);"
-                  target="_blank"
-                  style={{
-                    textDecoration: "none",
-                    color: "#2a4062",
-                    opacity: "0.8",
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 1,
-                    padding: "5px 10px",
-                    display: "inline-flex",
-                  }}
-                  MainStyle={{ mb: 0 }}
-                >
-                  <DetailsList
-                    Title={"Electricity bill"}
-                    Icon={<FileDownloadOutlinedIcon />}
+                  >
+                    <DetailsList
+                      Title={"Property tax bill"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                      style={{
+                        textDecoration: "none",
+                        color: "#2a4062",
+                        opacity: "0.8",
+                        backgroundColor: "rgba(0,0,0,0.1)",
+                        borderRadius: 1,
+                        padding: "5px 10px",
+                        display: "inline-flex",
+                      }}
+                      MainStyle={{ mb: 0 }}
+                    />
+                  </Link>
+                )}
+                {profileUser?.electricityBill && (
+                  <Link
+                    to={profileUser.electricityBill}
+                    target="_blank"
                     style={{
                       textDecoration: "none",
                       color: "#2a4062",
@@ -978,8 +863,23 @@ export default function Home() {
                       display: "inline-flex",
                     }}
                     MainStyle={{ mb: 0 }}
-                  />
-                </Link>
+                  >
+                    <DetailsList
+                      Title={"Electricity bill"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                      style={{
+                        textDecoration: "none",
+                        color: "#2a4062",
+                        opacity: "0.8",
+                        backgroundColor: "rgba(0,0,0,0.1)",
+                        borderRadius: 1,
+                        padding: "5px 10px",
+                        display: "inline-flex",
+                      }}
+                      MainStyle={{ mb: 0 }}
+                    />
+                  </Link>
+                )}
               </Box>
             </Box>
           </CustomTabPanel>
@@ -993,7 +893,7 @@ export default function Home() {
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={2}>
-            <UserLeave />
+            <UserLeave userId={id || userId}/>
           </CustomTabPanel>
 
           <ModalComponent

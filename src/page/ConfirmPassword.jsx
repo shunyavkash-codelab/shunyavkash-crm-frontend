@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as Yup from "yup";
 import PasswordField from "../component/PasswordField";
+import ThemeButton from "../component/ThemeButton";
 
 export default function ConfirmPassword() {
   const { setSnack } = useSnack();
@@ -115,22 +116,14 @@ export default function ConfirmPassword() {
                     id={"confirm_password"}
                     label={"Confirm Password"}
                   />
-
-                  <Button
-                    disableRipple
-                    fullWidth
-                    sx={{
-                      p: 1.75,
-                      bgcolor: "success.main",
-                      color: "white",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
-                    }}
+                  <ThemeButton
+                    success
+                    Text="Submit"
                     type="submit"
-                  >
-                    Submit
-                  </Button>
+                    buttonStyle={{
+                      width: "100%",
+                    }}
+                  />
                 </Box>
               </Box>
               {/* <Box sx={{ mt: 2.5 }}>

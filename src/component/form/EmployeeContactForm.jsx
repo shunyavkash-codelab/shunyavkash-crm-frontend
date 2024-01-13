@@ -11,6 +11,7 @@ import { APIS } from "../../api/apiList";
 import useApi from "../../hooks/useApi.js";
 import { useSnack } from "../../hooks/store/useSnack.js";
 import * as Yup from "yup";
+import ThemeButton from "../ThemeButton.jsx";
 
 // yup data validator schhema
 const schema = Yup.object({
@@ -182,43 +183,7 @@ export default function EmployeeContactForm({
         </FormControl>
       </Grid> */}
       <Grid item xs={12}>
-        <Button
-          disableRipple
-          type="submit"
-          sx={{
-            maxHeight: "42px",
-            position: "relative",
-            px: 2.5,
-            py: 1.5,
-            bgcolor: "success.main",
-            border: "1px solid",
-            borderColor: "success.main",
-            color: "white",
-            lineHeight: 1,
-            borderRadius: 2.5,
-            overflow: "hidden",
-            "&:before": {
-              content: "''",
-              height: 0,
-              width: "10rem",
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              zIndex: "0",
-              bgcolor: "white",
-              transform: "rotate(-45deg) translate(-50%, -50%)",
-              transformOrigin: "0% 0%",
-              transition: "all 0.4s ease-in-out",
-            },
-            "&:hover": {
-              color: "success.main",
-              bgcolor: "success.main",
-              "&:before": { height: "10rem" },
-            },
-          }}
-        >
-          <span style={{ position: "relative" }}>Save</span>
-        </Button>
+        <ThemeButton success Text="Save" type="submit" />
       </Grid>
     </Grid>
   );

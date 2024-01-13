@@ -19,6 +19,7 @@ import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import * as Yup from "yup";
+import ThemeButton from "../component/ThemeButton";
 
 export default function AddClient() {
   const { id } = useParams();
@@ -66,26 +67,12 @@ export default function AddClient() {
     IFSC: Yup.string()
       .length(11)
       .matches(
-        /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
-        "First 4 characters must be alphabets and last 7 characters must be numbers"
+        /^[A-Z]{4}[0][A-Z0-9]{6}$/,
+        "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
       ),
     bankName: Yup.string(),
     holderName: Yup.string(),
   });
-
-  // bank data validator schhema
-  // const bankSchema = Yup.object({
-  //   accountNumber: Yup.number().required("Account number is a required"),
-  //   IFSC: Yup.string()
-  //     .length(11)
-  //     .matches(
-  //       /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
-  //       "First 4 characters must be alphabets and last 7 characters must be numbers"
-  //     )
-  //     .required("IFSC is a required"),
-  //   bankName: Yup.string().required("Bank name is a required"),
-  //   holderName: Yup.string().required("Holder name is a required"),
-  // });
 
   const formik = useFormik({
     validationSchema: schema,
@@ -107,7 +94,6 @@ export default function AddClient() {
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log(values, "==============90");
       let formData = new FormData();
       Object.entries(values).forEach(([key, value]) => {
         if (value) {
@@ -676,7 +662,6 @@ export default function AddClient() {
                   >
                     Add Bank Details
                   </Typography>
-                  {/* <Box> */}
                   <Box
                     sx={{
                       pt: 0.75,
@@ -779,163 +764,24 @@ export default function AddClient() {
                       }
                     />
                   </Box>
-                  {/* <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-                      <Button
-                        disableRipple
-                        type="submit"
-                        sx={{
-                          maxHeight: "42px",
-                          position: "relative",
-                          px: 2.5,
-                          py: 1.5,
-                          bgcolor: "success.main",
-                          border: "1px solid",
-                          borderColor: "success.main",
-                          color: "white",
-                          lineHeight: 1,
-                          borderRadius: 2.5,
-                          overflow: "hidden",
-                          "&:before": {
-                            content: "''",
-                            height: 0,
-                            width: "10rem",
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            zIndex: "0",
-                            bgcolor: "white",
-                            transform: "rotate(-45deg) translate(-50%, -50%)",
-                            transformOrigin: "0% 0%",
-                            transition: "all 0.4s ease-in-out",
-                          },
-                          "&:hover": {
-                            color: "success.main",
-                            bgcolor: "success.main",
-                            "&:before": { height: "10rem" },
-                          },
-                        }}
-                      >
-                        <span style={{ position: "relative" }}>Add Bank</span>
-                      </Button>
-                      <Button
-                        disableRipple
-                        sx={{
-                          maxHeight: "42px",
-                          position: "relative",
-                          px: 2.5,
-                          py: 1.5,
-                          color: "text.primary",
-                          bgcolor: "#e4e4e4",
-                          border: "1px solid",
-                          borderColor: "#e4e4e4",
-                          lineHeight: 1,
-                          borderRadius: 2.5,
-                          overflow: "hidden",
-                          "&:before": {
-                            content: "''",
-                            height: 0,
-                            width: "10rem",
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            zIndex: "0",
-                            bgcolor: "white",
-                            transform: "rotate(-45deg) translate(-50%, -50%)",
-                            transformOrigin: "0% 0%",
-                            transition: "all 0.4s ease-in-out",
-                          },
-                          "&:hover": {
-                            bgcolor: "#e4e4e4",
-                            "&:before": { height: "10rem" },
-                          },
-                        }}
-                        onClick={() => navigate("/clients")}
-                      >
-                        <span style={{ position: "relative" }}>discard</span>
-                      </Button>
-                    </Box> */}
                 </Box>
-                {/* </Box> */}
 
                 {!location.pathname.includes("/view/") && (
                   <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-                    <Button
-                      disableRipple
-                      type="submit"
-                      sx={{
-                        maxHeight: "42px",
-                        position: "relative",
-                        px: 2.5,
-                        py: 1.5,
-                        bgcolor: "success.main",
-                        border: "1px solid",
-                        borderColor: "success.main",
-                        color: "white",
-                        lineHeight: 1,
-                        borderRadius: 2.5,
-                        overflow: "hidden",
-                        "&:before": {
-                          content: "''",
-                          height: 0,
-                          width: "10rem",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          zIndex: "0",
-                          bgcolor: "white",
-                          transform: "rotate(-45deg) translate(-50%, -50%)",
-                          transformOrigin: "0% 0%",
-                          transition: "all 0.4s ease-in-out",
-                        },
-                        "&:hover": {
-                          color: "success.main",
-                          bgcolor: "success.main",
-                          "&:before": { height: "10rem" },
-                        },
-                      }}
-                    >
-                      <span style={{ position: "relative" }}>
-                        {location.pathname.includes("/edit/")
+                    <ThemeButton
+                      success
+                      Text={
+                        location.pathname.includes("/edit/")
                           ? "Update"
-                          : "Create"}
-                      </span>
-                    </Button>
-                    <Button
-                      disableRipple
-                      sx={{
-                        maxHeight: "42px",
-                        position: "relative",
-                        px: 2.5,
-                        py: 1.5,
-                        color: "text.primary",
-                        bgcolor: "#e4e4e4",
-                        border: "1px solid",
-                        borderColor: "#e4e4e4",
-                        lineHeight: 1,
-                        borderRadius: 2.5,
-                        overflow: "hidden",
-                        "&:before": {
-                          content: "''",
-                          height: 0,
-                          width: "10rem",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          zIndex: "0",
-                          bgcolor: "white",
-                          transform: "rotate(-45deg) translate(-50%, -50%)",
-                          transformOrigin: "0% 0%",
-                          transition: "all 0.4s ease-in-out",
-                        },
-                        "&:hover": {
-                          bgcolor: "#e4e4e4",
-                          "&:before": { height: "10rem" },
-                        },
-                      }}
+                          : "Create"
+                      }
+                      type="submit"
+                    />
+                    <ThemeButton
+                      discard
+                      Text="Save"
                       onClick={() => navigate("/clients")}
-                    >
-                      <span style={{ position: "relative" }}>discard</span>
-                    </Button>
+                    />
                   </Box>
                 )}
               </Box>

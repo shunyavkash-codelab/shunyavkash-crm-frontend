@@ -43,6 +43,7 @@ import AddClientsModal from "../component/AddClientsModal";
 import SignChangeIcon from "@mui/icons-material/CameraAlt";
 import ReactFileReader from "react-file-reader";
 import CloseIcon from "@mui/icons-material/Close";
+import ThemeButton from "../component/ThemeButton";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -207,8 +208,8 @@ export default function Invoices() {
         (bankDetails) => bankDetails !== undefined
       )
       .matches(
-        /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
-        "First 4 characters must be alphabets and last 7 characters must be numbers"
+        /^[A-Z]{4}[0][A-Z0-9]{6}$/,
+        "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
       ),
     bankName: Yup.string().test(
       "Bank Name",
@@ -506,47 +507,87 @@ export default function Invoices() {
         component={Formik}
         validationSchema={schema}
         enableReinitialize={true}
-        initialValues={{
-          email: adminList.email,
-          address: adminList.address,
-          address2: adminList.address2,
-          landmark: adminList.landmark,
-          pincode: adminList.pincode,
-          mobileCode: adminList.mobileCode,
-          mobileNumber: adminList.mobileNumber,
-          invoiceNumber: invoiceData?.invoiceNumber || invoiceNumber,
-          task: (invoiceData?.tasks || taskList)
-            // .filter((task) => personName.includes(task.taskName))
-            .map((task) => ({
-              // _id: task._id,
-              name: task.taskName,
-              number: task.hours || "00.00",
-              pricePerHours: task.price_hours || "00.00",
-              amount: task.hours * task.price_hours,
-            })),
-          clientAddress: invoiceData?.clientAddress,
-          total: invoiceData?.total || "10",
-          // projectDescription: projectDescription?.description || "",
-          selectBank: invoiceData?.selectBank || "",
-          bankName: invoiceData?.bank.bankName || "",
-          IFSC: invoiceData?.bank.IFSC || "",
-          holderName: invoiceData?.bank.holderName || "",
-          accountNumber: invoiceData?.bank.accountNumber || "",
-          to: invoiceData?.clientId || "",
-          // project: "",
-          salesTax: invoiceData?.totals?.salesTax || 0,
-          discountRS: invoiceData?.totals?.discountRS || 0,
-          discountPer: invoiceData?.totals?.discountPer || 0,
-          note: invoiceData?.note || "",
-          invoiceDate: invoiceData?.invoiceDate
-            ? new Date(invoiceData?.invoiceDate)?.toISOString().split("T")[0]
-            : currentDate.toISOString().split("T")[0],
-          invoiceDueDate: invoiceData?.invoiceDueDate
-            ? new Date(invoiceData?.invoiceDueDate)?.toISOString().split("T")[0]
-            : fifteenDaysAgo.toISOString().split("T")[0],
-          watermark: invoiceData?.watermark === "false" ? false : true || true,
-          signature: adminList?.signature || "/images/sign.svg",
-        }}
+        initialValues={
+          invoiceData
+            ? {
+                email: invoiceData.email,
+                address: invoiceData.address,
+                address2: invoiceData.address2,
+                landmark: invoiceData.landmark,
+                pincode: invoiceData.pincode,
+                mobileCode: invoiceData.mobileCode,
+                mobileNumber: invoiceData.mobileNumber,
+                invoiceNumber: invoiceData.invoiceNumber,
+                task: invoiceData.tasks
+                  // .filter((task) => personName.includes(task.taskName))
+                  .map((task) => ({
+                    // _id: task._id,
+                    name: task.taskName,
+                    number: task.hours || "00.00",
+                    pricePerHours: task.price_hours || "00.00",
+                    amount: task.hours * task.price_hours,
+                  })),
+                clientAddress: invoiceData.clientAddress,
+                total: invoiceData.total,
+                // projectDescription: projectDescription.description || "",
+                selectBank: invoiceData.selectBank,
+                bankName: invoiceData.bank.bankName,
+                IFSC: invoiceData.bank.IFSC,
+                holderName: invoiceData.bank.holderName,
+                accountNumber: invoiceData.bank.accountNumber,
+                to: invoiceData.clientId,
+                // project: "",
+                salesTax: invoiceData.totals.salesTax,
+                discountRS: invoiceData.totals.discountRS,
+                discountPer: invoiceData.totals.discountPer,
+                note: invoiceData.note,
+                invoiceDate: new Date(invoiceData.invoiceDate)
+                  .toISOString()
+                  .split("T")[0],
+                invoiceDueDate: new Date(invoiceData.invoiceDueDate)
+                  .toISOString()
+                  .split("T")[0],
+                watermark: invoiceData.watermark === "false" ? false : true,
+                signature: invoiceData.signature,
+              }
+            : {
+                email: adminList.email,
+                address: adminList.address,
+                address2: adminList.address2,
+                landmark: adminList.landmark,
+                pincode: adminList.pincode,
+                mobileCode: adminList.mobileCode,
+                mobileNumber: adminList.mobileNumber,
+                invoiceNumber: invoiceNumber,
+                task: taskList
+                  // .filter((task) => personName.includes(task.taskName))
+                  .map((task) => ({
+                    // _id: task._id,
+                    name: task.taskName,
+                    number: task.hours || "00.00",
+                    pricePerHours: task.price_hours || "00.00",
+                    amount: task.hours * task.price_hours,
+                  })),
+                clientAddress: "",
+                total: "10",
+                // projectDescription: projectDescription?.description || "",
+                selectBank: "",
+                bankName: "",
+                IFSC: "",
+                holderName: "",
+                accountNumber: "",
+                to: "",
+                // project: "",
+                salesTax: 0,
+                discountRS: 0,
+                discountPer: 0,
+                note: "",
+                invoiceDate: currentDate.toISOString().split("T")[0],
+                invoiceDueDate: fifteenDaysAgo.toISOString().split("T")[0],
+                watermark: true,
+                signature: adminList?.signature || "/images/sign.svg",
+              }
+        }
         onSubmit={async (values) => {
           if (serverError) return;
           // for (let i = 0; i < values.task.length; i++) {
@@ -941,47 +982,12 @@ export default function Invoices() {
                                   onClick={handleOpen}
                                 >
                                   <Box sx={{ display: "flex" }}>
-                                    <Button
-                                      disableRipple
-                                      sx={{
+                                    <ThemeButton
+                                      Text="Add Client"
+                                      buttonStyle={{
                                         maxHeight: "36px",
-                                        position: "relative",
-                                        px: 2.5,
-                                        py: 1.5,
-                                        bgcolor: "text.primary",
-                                        border: "1px solid",
-                                        borderColor: "text.primary",
-                                        color: "white",
-                                        lineHeight: 1,
-                                        borderRadius: 2.5,
-                                        overflow: "hidden",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        "&:before": {
-                                          content: "''",
-                                          height: 0,
-                                          width: "10rem",
-                                          position: "absolute",
-                                          top: "50%",
-                                          left: "50%",
-                                          zIndex: "0",
-                                          bgcolor: "white",
-                                          transform:
-                                            "rotate(-45deg) translate(-50%, -50%)",
-                                          transformOrigin: "0% 0%",
-                                          transition: "all 0.4s ease-in-out",
-                                        },
-                                        "&:hover": {
-                                          color: "text.primary",
-                                          bgcolor: "text.primary",
-                                          "&:before": { height: "10rem" },
-                                        },
                                       }}
-                                    >
-                                      <span style={{ position: "relative" }}>
-                                        Add Client
-                                      </span>
-                                    </Button>
+                                    />
                                   </Box>
                                 </MenuItem>
                                 <AddClientsModal
@@ -1383,48 +1389,16 @@ export default function Invoices() {
                                       ))}
                                     </TableBody>
                                     <Box sx={{ m: 1 }}>
-                                      <Button
-                                        disableRipple
-                                        sx={{
+                                      <ThemeButton
+                                        Text="Add task"
+                                        btnColor="text.primary"
+                                        buttonStyle={{
                                           maxHeight: "36px",
-                                          position: "relative",
-                                          px: 2.5,
-                                          py: 1.5,
-                                          bgcolor: "text.primary",
-                                          border: "1px solid",
-                                          borderColor: "text.primary",
-                                          color: "white",
-                                          lineHeight: 1,
-                                          borderRadius: 2.5,
-                                          overflow: "hidden",
-                                          "&:before": {
-                                            content: "''",
-                                            height: 0,
-                                            width: "10rem",
-                                            position: "absolute",
-                                            top: "50%",
-                                            left: "50%",
-                                            zIndex: "0",
-                                            bgcolor: "white",
-                                            transform:
-                                              "rotate(-45deg) translate(-50%, -50%)",
-                                            transformOrigin: "0% 0%",
-                                            transition: "all 0.4s ease-in-out",
-                                          },
-                                          "&:hover": {
-                                            color: "text.primary",
-                                            bgcolor: "text.primary",
-                                            "&:before": { height: "10rem" },
-                                          },
                                         }}
                                         onClick={() => {
                                           push(taskInitialValues);
                                         }}
-                                      >
-                                        <span style={{ position: "relative" }}>
-                                          Add Task
-                                        </span>
-                                      </Button>
+                                      />
                                     </Box>
                                   </>
                                 )}
@@ -1666,50 +1640,13 @@ export default function Invoices() {
                                       }}
                                     >
                                       <Box sx={{ display: "flex" }}>
-                                        <Button
-                                          disableRipple
-                                          sx={{
+                                        <ThemeButton
+                                          Text="Add Bank"
+                                          btnColor="text.primary"
+                                          buttonStyle={{
                                             maxHeight: "36px",
-                                            position: "relative",
-                                            px: 2.5,
-                                            py: 1,
-                                            bgcolor: "text.primary",
-                                            border: "1px solid",
-                                            borderColor: "text.primary",
-                                            color: "white",
-                                            lineHeight: 1,
-                                            borderRadius: 2.5,
-                                            overflow: "hidden",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            "&:before": {
-                                              content: "''",
-                                              height: 0,
-                                              width: "10rem",
-                                              position: "absolute",
-                                              top: "50%",
-                                              left: "50%",
-                                              zIndex: "0",
-                                              bgcolor: "white",
-                                              transform:
-                                                "rotate(-45deg) translate(-50%, -50%)",
-                                              transformOrigin: "0% 0%",
-                                              transition:
-                                                "all 0.4s ease-in-out",
-                                            },
-                                            "&:hover": {
-                                              color: "text.primary",
-                                              bgcolor: "text.primary",
-                                              "&:before": { height: "10rem" },
-                                            },
                                           }}
-                                        >
-                                          <span
-                                            style={{ position: "relative" }}
-                                          >
-                                            Add Bank
-                                          </span>
-                                        </Button>
+                                        />
                                       </Box>
                                     </MenuItem>
                                   </Select>
@@ -2022,85 +1959,16 @@ export default function Invoices() {
                         mt: 2.5,
                       }}
                     >
-                      {/* <Link to="./preview"> */}
-                      <Button
-                        type="submit"
-                        disableRipple
-                        sx={{
-                          maxHeight: "42px",
-                          position: "relative",
-                          px: 2.5,
-                          py: 1.5,
-                          bgcolor: "success.main",
-                          border: "1px solid",
-                          borderColor: "success.main",
-                          color: "white",
-                          lineHeight: 1,
-                          borderRadius: 2.5,
-                          overflow: "hidden",
-                          "&:before": {
-                            content: "''",
-                            height: 0,
-                            width: "10rem",
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            zIndex: "0",
-                            bgcolor: "white",
-                            transform: "rotate(-45deg) translate(-50%, -50%)",
-                            transformOrigin: "0% 0%",
-                            transition: "all 0.4s ease-in-out",
-                          },
-                          "&:hover": {
-                            color: "success.main",
-                            bgcolor: "success.main",
-                            "&:before": { height: "10rem" },
-                          },
-                        }}
-                      >
-                        <span style={{ position: "relative" }}>Preview</span>
-                      </Button>
-                      {/* </Link> */}
+                      <ThemeButton success Text="Preview" type="submit" />
                       <Link to="../invoices">
-                        <Button
-                          disableRipple
-                          sx={{
-                            maxHeight: "42px",
-                            position: "relative",
-                            px: 2.5,
-                            py: 1.5,
-                            color: "text.primary",
-                            bgcolor: "#e4e4e4",
-                            border: "1px solid",
-                            borderColor: "#e4e4e4",
-                            lineHeight: 1,
-                            borderRadius: 2.5,
-                            overflow: "hidden",
-                            "&:before": {
-                              content: "''",
-                              height: 0,
-                              width: "10rem",
-                              position: "absolute",
-                              top: "50%",
-                              left: "50%",
-                              zIndex: "0",
-                              bgcolor: "white",
-                              transform: "rotate(-45deg) translate(-50%, -50%)",
-                              transformOrigin: "0% 0%",
-                              transition: "all 0.4s ease-in-out",
-                            },
-                            "&:hover": {
-                              bgcolor: "#e4e4e4",
-                              "&:before": { height: "10rem" },
-                            },
-                          }}
-                        >
-                          <span style={{ position: "relative" }}>
-                            {location.pathname.includes("/edit/")
+                        <ThemeButton
+                          discard
+                          Text={
+                            location.pathname.includes("/edit/")
                               ? "Back"
-                              : "discard"}
-                          </span>
-                        </Button>
+                              : "discard"
+                          }
+                        />
                       </Link>
                     </Box>
                   </Form>

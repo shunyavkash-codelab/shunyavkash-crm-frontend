@@ -9,6 +9,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import { useFormik } from "formik";
 import moment from "moment";
+import ThemeButton from "../component/ThemeButton";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -276,78 +277,8 @@ export default function Home() {
                 value={formik.values.description}
               />
               <Box sx={{ display: "flex", gap: 2.5, mt: 4 }}>
-                <Button
-                  disableRipple
-                  type="submit"
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    bgcolor: "primary.main",
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    color: "white",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      color: "primary.main",
-                      bgcolor: "#fff",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                >
-                  <span style={{ position: "relative" }}>Apply Leave</span>
-                </Button>
-                <Button
-                  disableRipple
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    color: "text.primary",
-                    bgcolor: "#e4e4e4",
-                    border: "1px solid",
-                    borderColor: "#e4e4e4",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      bgcolor: "#e4e4e4",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                >
-                  <span style={{ position: "relative" }}>cancle</span>
-                </Button>
+                <ThemeButton Text="Apply Leave" type="submit" />
+                <ThemeButton discard Text="cancle" />
               </Box>
             </Box>
           </Box>

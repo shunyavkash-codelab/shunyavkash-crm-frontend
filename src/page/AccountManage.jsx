@@ -35,6 +35,7 @@ import CollaboratorIcon from "@mui/icons-material/PeopleAlt";
 import PaymentIcon from "@mui/icons-material/Payment";
 import InvoiceTypeIcon from "@mui/icons-material/Receipt";
 import PlusIcon from "@mui/icons-material/Close";
+import ThemeButton from "../component/ThemeButton";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -103,79 +104,56 @@ function AccountManage() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box>
-            <Stack
-              direction={"row"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
-            >
-              <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: { sm: "center" },
+              justifyContent: { sm: "space-between" },
+              flexDirection: { xs: "column", sm: "row" },
+              columnGap: 2,
+              rowGap: 2.5,
+            }}
+          >
+            <Box>
+              <Typography
+                variant="h5"
+                sx={{ mb: 0.75, textTransform: "capitalize" }}
+              >
                 Account Management
               </Typography>
-              <Link
-                to="./add"
-                style={{ display: "inline-flex", textDecoration: "none" }}
-              >
-                <Button
-                  disableRipple
-                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    color: "primary.main",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "primary.main",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
+              <Stack direction="row" spacing={0.5}>
+                <Link to={"/"} style={{ textDecoration: "none" }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      textTransform: "capitalize",
+                      color: "primary.main",
                       transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      color: "white",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                >
-                  <span style={{ position: "relative" }}>Add Entry</span>
-                </Button>
-              </Link>
-            </Stack>
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/"} style={{ textDecoration: "none" }}>
+                      ":not(:hover)": {
+                        opacity: 0.7,
+                      },
+                    }}
+                  >
+                    Dashboard /
+                  </Typography>
+                </Link>
                 <Typography
                   variant="subtitle2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "primary.main",
-                    transition: "all 0.4s ease-in-out",
-                    ":not(:hover)": {
-                      opacity: 0.7,
-                    },
-                  }}
+                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
                 >
-                  Dashboard /
+                  Account
                 </Typography>
-              </Link>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                Account
-              </Typography>
+              </Stack>
             </Box>
+            <Link
+              to="./add"
+              style={{ display: "inline-flex", textDecoration: "none" }}
+            >
+              <ThemeButton
+                Text="Add Entry"
+                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+              />
+            </Link>
           </Box>
 
           <Grid

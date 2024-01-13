@@ -2,7 +2,8 @@ import { Grid } from "@mui/material";
 import React from "react";
 import ImageUploder from "./ImageUploder";
 
-export default function EmployeeDocumentDetailForm() {
+export default function EmployeeDocumentDetailForm({ data }) {
+  console.log(data, "data");
   return (
     <Grid
       container
@@ -12,13 +13,19 @@ export default function EmployeeDocumentDetailForm() {
       component={"form"}
     >
       <Grid item xs={12} lg={6}>
-        <ImageUploder name="signature" title="signature" fileTypes={[".png"]} />
+        <ImageUploder
+          name="signature"
+          title="signature"
+          fileTypes={[".png"]}
+          doc={data.signature}
+        />
       </Grid>
       <Grid item xs={12} lg={6}>
         <ImageUploder
           name="degreeCertification"
           title="Degree Certification"
           fileTypes={[".jpeg", ".jpg", "pdf"]}
+          doc={data.degreeCertification}
         />
       </Grid>
       <Grid item xs={12} lg={6}>
@@ -26,6 +33,7 @@ export default function EmployeeDocumentDetailForm() {
           name="adharCard"
           title="Adhar Card"
           fileTypes={[".jpeg", ".jpg", "pdf"]}
+          doc={data.adharCard}
         />
       </Grid>
       <Grid item xs={12} lg={6}>
@@ -33,6 +41,7 @@ export default function EmployeeDocumentDetailForm() {
           name="addressProof"
           title="Adress Proof"
           fileTypes={[".jpeg", ".jpg", "pdf"]}
+          doc={data.addressProof}
         />
       </Grid>
       <Grid item xs={12} lg={6}>
@@ -40,6 +49,7 @@ export default function EmployeeDocumentDetailForm() {
           name="propertyTax"
           title="Property tax"
           fileTypes={[".jpeg", ".jpg", "pdf"]}
+          doc={data.propertyTax}
         />
       </Grid>
       <Grid item xs={12} lg={6}>
@@ -47,6 +57,7 @@ export default function EmployeeDocumentDetailForm() {
           name="electricityBill"
           title="Electricity bill"
           fileTypes={[".jpeg", ".jpg", "pdf"]}
+          doc={data.electricityBill}
         />
       </Grid>
     </Grid>

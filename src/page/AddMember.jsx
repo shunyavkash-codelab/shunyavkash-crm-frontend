@@ -29,6 +29,7 @@ import * as Yup from "yup";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import PasswordField from "../component/PasswordField";
+import ThemeButton from "../component/ThemeButton";
 
 export default function AddMember() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -680,79 +681,12 @@ export default function AddMember() {
               </Box> */}
 
               <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-                <Button
-                  disableRipple
-                  type="submit"
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    color: "white",
-                    bgcolor: "success.main",
-                    border: "1px solid",
-                    borderColor: "success.main",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      color: "success.main",
-                      bgcolor: "success.main",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                >
-                  <span style={{ position: "relative" }}>Create</span>
-                </Button>
-                <Button
-                  disableRipple
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    color: "text.primary",
-                    bgcolor: "#e4e4e4",
-                    border: "1px solid",
-                    borderColor: "#e4e4e4",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      bgcolor: "#e4e4e4",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
+                <ThemeButton success Text="Create" type="submit" />
+                <ThemeButton
+                  discard
+                  Text="Discard"
                   onClick={() => navigate("/members")}
-                >
-                  <span style={{ position: "relative" }}>Discard</span>
-                </Button>
+                />
               </Box>
             </Box>
           </FormikProvider>

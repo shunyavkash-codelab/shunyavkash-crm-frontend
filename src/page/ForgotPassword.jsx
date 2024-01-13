@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import * as Yup from "yup";
+import ThemeButton from "../component/ThemeButton";
 
 export default function ForgotPassword() {
   const { setSnack } = useSnack();
@@ -106,21 +107,14 @@ export default function ForgotPassword() {
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
               />
-              <Button
-                disableRipple
-                fullWidth
-                sx={{
-                  p: 1.75,
-                  bgcolor: "success.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  "&:hover": { bgcolor: "rgb(74, 210, 146, 80%)" },
-                }}
+              <ThemeButton
+                success
+                Text="get otp"
                 type="submit"
-              >
-                Submit
-              </Button>
+                buttonStyle={{
+                  width: "100%",
+                }}
+              />
             </Box>
           </Box>
           {/* <Box sx={{ mt: 2.5 }}>

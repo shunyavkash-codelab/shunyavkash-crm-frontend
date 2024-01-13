@@ -25,6 +25,7 @@ import * as Yup from "yup";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import ThemeButton from "../component/ThemeButton";
 
 export default function AddProject() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -297,50 +298,12 @@ export default function AddProject() {
                                 {item.name}
                               </MenuItem>
                             ))}
-                            <MenuItem>
+                            <MenuItem onClick={() => setOpen(true)}>
                               <Box sx={{ display: "flex" }}>
-                                <Button
-                                  disableRipple
-                                  onClick={() => setOpen(true)}
-                                  sx={{
-                                    maxHeight: "36px",
-                                    position: "relative",
-                                    px: 2.5,
-                                    py: 1,
-                                    bgcolor: "primary.main",
-                                    border: "1px solid",
-                                    borderColor: "primary.main",
-                                    color: "white",
-                                    lineHeight: 1,
-                                    borderRadius: 2.5,
-                                    overflow: "hidden",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    "&:before": {
-                                      content: "''",
-                                      height: 0,
-                                      width: "10rem",
-                                      position: "absolute",
-                                      top: "50%",
-                                      left: "50%",
-                                      zIndex: "0",
-                                      bgcolor: "white",
-                                      transform:
-                                        "rotate(-45deg) translate(-50%, -50%)",
-                                      transformOrigin: "0% 0%",
-                                      transition: "all 0.4s ease-in-out",
-                                    },
-                                    "&:hover": {
-                                      color: "primary.main",
-                                      bgcolor: "primary.main",
-                                      "&:before": { height: "10rem" },
-                                    },
-                                  }}
-                                >
-                                  <span style={{ position: "relative" }}>
-                                    Add Client
-                                  </span>
-                                </Button>
+                                <ThemeButton
+                                  Text="Add Client"
+                                  buttonStyle={{ maxHeight: "36px" }}
+                                />
                               </Box>
                             </MenuItem>
                           </Select>
@@ -739,83 +702,20 @@ export default function AddProject() {
                 </Box>
 
                 <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-                  <Button
-                    disableRipple
-                    type="submit"
-                    sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
-                      bgcolor: "success.main",
-                      border: "1px solid",
-                      borderColor: "success.main",
-                      color: "white",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "white",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
-                        color: "success.main",
-                        bgcolor: "success.main",
-                        "&:before": { height: "10rem" },
-                      },
-                    }}
-                  >
-                    <span style={{ position: "relative" }}>
-                      {location.pathname.includes("/projects/edit")
+                  <ThemeButton
+                    success
+                    Text={
+                      location.pathname.includes("/projects/edit")
                         ? "Update"
-                        : "Create"}
-                    </span>
-                  </Button>
-                  <Button
-                    disableRipple
-                    sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
-                      color: "text.primary",
-                      bgcolor: "#e4e4e4",
-                      border: "1px solid",
-                      borderColor: "#e4e4e4",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "white",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
-                        bgcolor: "#e4e4e4",
-                        "&:before": { height: "10rem" },
-                      },
-                    }}
+                        : "Create"
+                    }
+                    type="submit"
+                  />
+                  <ThemeButton
+                    discard
+                    Text="discard"
                     onClick={() => navigate("/projects")}
-                  >
-                    <span style={{ position: "relative" }}>discard</span>
-                  </Button>
+                  />
                 </Box>
               </Box>
             </FormikProvider>

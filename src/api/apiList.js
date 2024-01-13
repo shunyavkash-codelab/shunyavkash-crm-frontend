@@ -1,5 +1,3 @@
-import Employees from "../page/Employees";
-
 export const APIS = {
   DASHBOARD: {
     DATA: "/dashboard/dashboard",
@@ -56,12 +54,20 @@ export const APIS = {
     GET: "/currency",
   },
   ADMIN: {
-    GET: "admin/getAdmin",
+    GET: "/admin/getAdmin",
     EDIT: "/admin/edit",
   },
   TASK: {
-    GET: (projectId) => `task/tasks/${projectId}`,
+    GET: (projectId) => `/task/tasks/${projectId}`,
     ADD: "/task/add",
-    EDIT: (taskId) => `task/${taskId}`,
+    EDIT: (taskId) => `/task/${taskId}`,
+  },
+  SALARY: {
+    ADD: "/salary/add",
+    GET: (userId) => `/salary/user/${userId}`,
+  },
+  LEAVE: {
+    ADD: "/leave/apply",
+    LIST: (userId) => `leave/user/${userId}`,
   },
 };

@@ -157,15 +157,6 @@ export default function EmployeeListRaw({
                   textTransform: "capitalize",
                   fontSize: "14px",
                 }}
-                value={"SuperAdmin"}
-              >
-                super admin
-              </MenuItem>
-              <MenuItem
-                sx={{
-                  textTransform: "capitalize",
-                  fontSize: "14px",
-                }}
                 value={"Manager"}
               >
                 manager
@@ -225,24 +216,27 @@ export default function EmployeeListRaw({
               },
             }}
           >
-            <Tooltip title="Save" arrow>
-              <Button
-                type="submit"
-                disableRipple
-                disableElevation
-                disabled={!role}
-                sx={{
-                  transition: "all 0.4s ease-in-out",
-                  "&:hover": {
-                    bgcolor: "transparent",
-                  },
-                  "&:not(:hover)": { opacity: 0.2 },
-                }}
-                onClick={() => editRole(uniqId)}
-              >
-                <SaveIcon disableRipple />
-              </Button>
-            </Tooltip>
+            {role && (
+              <Tooltip title="Save" arrow>
+                <Button
+                  type="submit"
+                  disableRipple
+                  disableElevation
+                  disabled={!role}
+                  sx={{
+                    transition: "all 0.4s ease-in-out",
+                    "&:hover": {
+                      bgcolor: "transparent",
+                    },
+                    "&:not(:hover)": { opacity: 0.2 },
+                  }}
+                  onClick={() => editRole(uniqId)}
+                >
+                  <SaveIcon disableRipple />
+                </Button>
+              </Tooltip>
+            )}
+
             <Tooltip title="Delete" arrow>
               <Button
                 disableRipple
