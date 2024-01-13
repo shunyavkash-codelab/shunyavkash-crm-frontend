@@ -43,6 +43,7 @@ import AddClientsModal from "../component/AddClientsModal";
 import SignChangeIcon from "@mui/icons-material/CameraAlt";
 import ReactFileReader from "react-file-reader";
 import CloseIcon from "@mui/icons-material/Close";
+import ThemeButton from "../component/ThemeButton";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -981,47 +982,12 @@ export default function Invoices() {
                                   onClick={handleOpen}
                                 >
                                   <Box sx={{ display: "flex" }}>
-                                    <Button
-                                      disableRipple
-                                      sx={{
+                                    <ThemeButton
+                                      Text="Add Client"
+                                      buttonStyle={{
                                         maxHeight: "36px",
-                                        position: "relative",
-                                        px: 2.5,
-                                        py: 1.5,
-                                        bgcolor: "text.primary",
-                                        border: "1px solid",
-                                        borderColor: "text.primary",
-                                        color: "white",
-                                        lineHeight: 1,
-                                        borderRadius: 2.5,
-                                        overflow: "hidden",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        "&:before": {
-                                          content: "''",
-                                          height: 0,
-                                          width: "10rem",
-                                          position: "absolute",
-                                          top: "50%",
-                                          left: "50%",
-                                          zIndex: "0",
-                                          bgcolor: "white",
-                                          transform:
-                                            "rotate(-45deg) translate(-50%, -50%)",
-                                          transformOrigin: "0% 0%",
-                                          transition: "all 0.4s ease-in-out",
-                                        },
-                                        "&:hover": {
-                                          color: "text.primary",
-                                          bgcolor: "text.primary",
-                                          "&:before": { height: "10rem" },
-                                        },
                                       }}
-                                    >
-                                      <span style={{ position: "relative" }}>
-                                        Add Client
-                                      </span>
-                                    </Button>
+                                    />
                                   </Box>
                                 </MenuItem>
                                 <AddClientsModal
@@ -1423,48 +1389,16 @@ export default function Invoices() {
                                       ))}
                                     </TableBody>
                                     <Box sx={{ m: 1 }}>
-                                      <Button
-                                        disableRipple
-                                        sx={{
+                                      <ThemeButton
+                                        Text="Add task"
+                                        btnColor="text.primary"
+                                        buttonStyle={{
                                           maxHeight: "36px",
-                                          position: "relative",
-                                          px: 2.5,
-                                          py: 1.5,
-                                          bgcolor: "text.primary",
-                                          border: "1px solid",
-                                          borderColor: "text.primary",
-                                          color: "white",
-                                          lineHeight: 1,
-                                          borderRadius: 2.5,
-                                          overflow: "hidden",
-                                          "&:before": {
-                                            content: "''",
-                                            height: 0,
-                                            width: "10rem",
-                                            position: "absolute",
-                                            top: "50%",
-                                            left: "50%",
-                                            zIndex: "0",
-                                            bgcolor: "white",
-                                            transform:
-                                              "rotate(-45deg) translate(-50%, -50%)",
-                                            transformOrigin: "0% 0%",
-                                            transition: "all 0.4s ease-in-out",
-                                          },
-                                          "&:hover": {
-                                            color: "text.primary",
-                                            bgcolor: "text.primary",
-                                            "&:before": { height: "10rem" },
-                                          },
                                         }}
                                         onClick={() => {
                                           push(taskInitialValues);
                                         }}
-                                      >
-                                        <span style={{ position: "relative" }}>
-                                          Add Task
-                                        </span>
-                                      </Button>
+                                      />
                                     </Box>
                                   </>
                                 )}
@@ -1706,50 +1640,13 @@ export default function Invoices() {
                                       }}
                                     >
                                       <Box sx={{ display: "flex" }}>
-                                        <Button
-                                          disableRipple
-                                          sx={{
+                                        <ThemeButton
+                                          Text="Add Bank"
+                                          btnColor="text.primary"
+                                          buttonStyle={{
                                             maxHeight: "36px",
-                                            position: "relative",
-                                            px: 2.5,
-                                            py: 1,
-                                            bgcolor: "text.primary",
-                                            border: "1px solid",
-                                            borderColor: "text.primary",
-                                            color: "white",
-                                            lineHeight: 1,
-                                            borderRadius: 2.5,
-                                            overflow: "hidden",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            "&:before": {
-                                              content: "''",
-                                              height: 0,
-                                              width: "10rem",
-                                              position: "absolute",
-                                              top: "50%",
-                                              left: "50%",
-                                              zIndex: "0",
-                                              bgcolor: "white",
-                                              transform:
-                                                "rotate(-45deg) translate(-50%, -50%)",
-                                              transformOrigin: "0% 0%",
-                                              transition:
-                                                "all 0.4s ease-in-out",
-                                            },
-                                            "&:hover": {
-                                              color: "text.primary",
-                                              bgcolor: "text.primary",
-                                              "&:before": { height: "10rem" },
-                                            },
                                           }}
-                                        >
-                                          <span
-                                            style={{ position: "relative" }}
-                                          >
-                                            Add Bank
-                                          </span>
-                                        </Button>
+                                        />
                                       </Box>
                                     </MenuItem>
                                   </Select>
@@ -2062,85 +1959,16 @@ export default function Invoices() {
                         mt: 2.5,
                       }}
                     >
-                      {/* <Link to="./preview"> */}
-                      <Button
-                        type="submit"
-                        disableRipple
-                        sx={{
-                          maxHeight: "42px",
-                          position: "relative",
-                          px: 2.5,
-                          py: 1.5,
-                          bgcolor: "success.main",
-                          border: "1px solid",
-                          borderColor: "success.main",
-                          color: "white",
-                          lineHeight: 1,
-                          borderRadius: 2.5,
-                          overflow: "hidden",
-                          "&:before": {
-                            content: "''",
-                            height: 0,
-                            width: "10rem",
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            zIndex: "0",
-                            bgcolor: "white",
-                            transform: "rotate(-45deg) translate(-50%, -50%)",
-                            transformOrigin: "0% 0%",
-                            transition: "all 0.4s ease-in-out",
-                          },
-                          "&:hover": {
-                            color: "success.main",
-                            bgcolor: "success.main",
-                            "&:before": { height: "10rem" },
-                          },
-                        }}
-                      >
-                        <span style={{ position: "relative" }}>Preview</span>
-                      </Button>
-                      {/* </Link> */}
+                      <ThemeButton success Text="Preview" type="submit" />
                       <Link to="../invoices">
-                        <Button
-                          disableRipple
-                          sx={{
-                            maxHeight: "42px",
-                            position: "relative",
-                            px: 2.5,
-                            py: 1.5,
-                            color: "text.primary",
-                            bgcolor: "#e4e4e4",
-                            border: "1px solid",
-                            borderColor: "#e4e4e4",
-                            lineHeight: 1,
-                            borderRadius: 2.5,
-                            overflow: "hidden",
-                            "&:before": {
-                              content: "''",
-                              height: 0,
-                              width: "10rem",
-                              position: "absolute",
-                              top: "50%",
-                              left: "50%",
-                              zIndex: "0",
-                              bgcolor: "white",
-                              transform: "rotate(-45deg) translate(-50%, -50%)",
-                              transformOrigin: "0% 0%",
-                              transition: "all 0.4s ease-in-out",
-                            },
-                            "&:hover": {
-                              bgcolor: "#e4e4e4",
-                              "&:before": { height: "10rem" },
-                            },
-                          }}
-                        >
-                          <span style={{ position: "relative" }}>
-                            {location.pathname.includes("/edit/")
+                        <ThemeButton
+                          discard
+                          Text={
+                            location.pathname.includes("/edit/")
                               ? "Back"
-                              : "discard"}
-                          </span>
-                        </Button>
+                              : "discard"
+                          }
+                        />
                       </Link>
                     </Box>
                   </Form>

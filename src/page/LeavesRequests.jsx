@@ -27,6 +27,7 @@ import {
 } from "@mui/material";
 // import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
+import ThemeButton from "../component/ThemeButton";
 
 export default function LeavesRequests() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -389,7 +390,7 @@ export default function LeavesRequests() {
           >
             <Grid container rowSpacing={2.5} columnSpacing={2.5}>
               <Grid item xs={12}>
-                <FormControl fullWidth sx={{ m: 1 }}>
+                <FormControl fullWidth>
                   <TextField
                     required
                     fullWidth
@@ -412,80 +413,8 @@ export default function LeavesRequests() {
               spacing={2}
               sx={{ mt: 2 }}
             >
-              <Button
-                disableRipple
-                type="submit"
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "success.main",
-                  border: "1px solid",
-                  borderColor: "success.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "success.main",
-                    bgcolor: "success.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>approve</span>
-              </Button>
-              <Button
-                disableRipple
-                type="submit"
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "error.main",
-                  border: "1px solid",
-                  borderColor: "error.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "error.main",
-                    bgcolor: "error.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>unapprove</span>
-              </Button>
+              <ThemeButton success Text="approve" type="submit" />
+              <ThemeButton error Text="unapprove" type="submit" />
             </Stack>
           </ModalComponent>
         </Box>

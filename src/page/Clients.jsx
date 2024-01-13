@@ -26,6 +26,7 @@ import { APIS } from "../api/apiList.js";
 import { useAuth } from "../hooks/store/useAuth.js";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import NoData from "../component/NoData.jsx";
+import ThemeButton from "../component/ThemeButton.jsx";
 
 export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -120,43 +121,10 @@ export default function Clients() {
             </Box>
             <Box>
               <Link to="./add">
-                <Button
-                  disableRipple
+                <ThemeButton
+                  Text="Add client"
                   startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    bgcolor: "primary.main",
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    color: "white",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      color: "primary.main",
-                      bgcolor: "primary.main",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                >
-                  <span style={{ position: "relative" }}>Add client</span>
-                </Button>
+                />
               </Link>
             </Box>
           </Box>

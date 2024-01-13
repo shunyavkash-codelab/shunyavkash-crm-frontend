@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
+import ThemeButton from "../component/ThemeButton";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -306,24 +307,14 @@ export default function SignIn() {
                   Forgot password?
                 </Link>
               </Box>
-              <Button
-                disableRipple
-                fullWidth
-                sx={{
-                  p: 1.75,
-                  bgcolor: "success.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  "&:hover": {
-                    // bgcolor: "primary.main",
-                    bgcolor: "rgb(74, 210, 146, 80%)",
-                  },
-                }}
+              <ThemeButton
+                success
+                Text="sign in"
                 type="submit"
-              >
-                sign in
-              </Button>
+                buttonStyle={{
+                  width: "100%",
+                }}
+              />
             </Box>
             {/* <Typography sx={{ fontSize: "14px", mt: 2 }}>
               Don't have an account?

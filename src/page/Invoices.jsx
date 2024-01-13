@@ -30,6 +30,7 @@ import { useSnack } from "../hooks/store/useSnack";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import moment from "moment";
 import NoData from "../component/NoData";
+import ThemeButton from "../component/ThemeButton";
 
 // const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -154,46 +155,14 @@ export default function Invoices() {
               </Box>
             </Box>
             <Box>
-              <Button
-                disableRipple
+              <ThemeButton
+                Text="Create Invoice"
                 startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "primary.main",
-                  border: "1px solid",
-                  borderColor: "primary.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "primary.main",
-                    bgcolor: "primary.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
                 onClick={invoiceNumberGenerate}
-              >
-                <span style={{ position: "relative" }}>Create Invoice</span>
-              </Button>
+              />
             </Box>
           </Box>
+
           <Box
             sx={{
               display: "flex",
@@ -363,6 +332,7 @@ export default function Invoices() {
               </Button>
             </Box> */}
           </Box>
+
           <Typography
             variant="subtitle2"
             sx={{
@@ -373,30 +343,7 @@ export default function Invoices() {
           >
             {invoiceList.length} Invoices found
           </Typography>
-          {/* <Box sx={{ display: showTable ? "none" : "block" }}>
-            <Box>
-              <Grid container rowSpacing={2} columnSpacing={2}>
-                {gridItems.map((item) => (
-                  <Grid
-                    key={item}
-                    item
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    lg={6}
-                    xl={4}
-                    xxl={3}
-                    sx={{ maxWidth: "420px", mx: { xs: "auto", sm: "0" } }}
-                  >
-                    <Card
-                      variant="outlined"
-                      sx={{ height: "450px", borderRadius: 2.5 }}
-                    ></Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          </Box> */}
+
           {invoiceList.length === 0 ? (
             <NoData />
           ) : (

@@ -43,6 +43,7 @@ import EmployeeFamilyDetailForm from "../component/form/EmployeeFamilyDetailForm
 import EmployeeDocumentDetailForm from "../component/form/EmployeeDocumentDetailForm.jsx";
 import EmployeePersonalDetailForm from "../component/form/EmployeePersonalDetailForm.jsx";
 import moment from "moment";
+import ThemeButton from "../component/ThemeButton.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -378,86 +379,18 @@ export default function Home() {
                 </Box>
                 {id && (
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <Button
-                      disableRipple
+                    <ThemeButton
+                      Text={changeStatus ? "deactive" : "active"}
                       type="submit"
+                      btnColor={changeStatus ? "error.main" : "success.main"}
                       onClick={() => handleChangeActiveDeactive()}
-                      sx={{
-                        maxHeight: "42px",
-                        position: "relative",
-                        px: 2.5,
-                        py: 1.5,
-                        bgcolor: changeStatus ? "error.main" : "success.main",
-                        border: "1px solid",
-                        borderColor: changeStatus
-                          ? "error.main"
-                          : "success.main",
-                        color: "white",
-                        lineHeight: 1,
-                        borderRadius: 2.5,
-                        overflow: "hidden",
-                        "&:before": {
-                          content: "''",
-                          height: 0,
-                          width: "10rem",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          zIndex: "0",
-                          bgcolor: "white",
-                          transform: "rotate(-45deg) translate(-50%, -50%)",
-                          transformOrigin: "0% 0%",
-                          transition: "all 0.4s ease-in-out",
-                        },
-                        "&:hover": {
-                          color: changeStatus ? "error.main" : "success.main",
-                          bgcolor: changeStatus ? "error.main" : "success.main",
-                          "&:before": { height: "10rem" },
-                        },
-                      }}
-                    >
-                      <span style={{ position: "relative" }}>
-                        {changeStatus ? "deactive" : "active"}
-                      </span>
-                    </Button>
-                    <Button
-                      disableRipple
+                    />
+                    <ThemeButton
+                      error
+                      Text="delete"
                       type="submit"
                       onClick={() => handleChangeUserDelete()}
-                      sx={{
-                        maxHeight: "42px",
-                        position: "relative",
-                        px: 2.5,
-                        py: 1.5,
-                        bgcolor: "error.main",
-                        border: "1px solid",
-                        borderColor: "error.main",
-                        color: "white",
-                        lineHeight: 1,
-                        borderRadius: 2.5,
-                        overflow: "hidden",
-                        "&:before": {
-                          content: "''",
-                          height: 0,
-                          width: "10rem",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          zIndex: "0",
-                          bgcolor: "white",
-                          transform: "rotate(-45deg) translate(-50%, -50%)",
-                          transformOrigin: "0% 0%",
-                          transition: "all 0.4s ease-in-out",
-                        },
-                        "&:hover": {
-                          color: "error.main",
-                          bgcolor: "error.main",
-                          "&:before": { height: "10rem" },
-                        },
-                      }}
-                    >
-                      <span style={{ position: "relative" }}>delete</span>
-                    </Button>
+                    />
                   </Box>
                 )}
               </Box>
@@ -538,21 +471,13 @@ export default function Home() {
                   Details
                 </Typography>
                 {user.role === 0 && (
-                  <Button
+                  <ThemeButton
+                    transparent
+                    smallRounded
+                    Text="edit"
+                    startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
                     onClick={handleOpen.bind(null, "employee-detail")}
-                    startIcon={<EditIcon sx={{ width: 16 }} />}
-                    sx={{
-                      cursor: "pointer",
-                      height: "unset",
-                      py: 0.3,
-                      px: 1.5,
-                      border: "1px solid",
-                      borderColor: "primary.main",
-                      borderRadius: 4,
-                    }}
-                  >
-                    Edit
-                  </Button>
+                  />
                 )}
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
@@ -608,21 +533,13 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Personal Details</Typography>
-                <Button
+                <ThemeButton
+                  transparent
+                  smallRounded
+                  Text="edit"
+                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
                   onClick={handleOpen.bind(null, "personal-detail")}
-                  startIcon={<EditIcon sx={{ width: 16 }} />}
-                  sx={{
-                    cursor: "pointer",
-                    height: "unset",
-                    py: 0.3,
-                    px: 1.5,
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    borderRadius: 4,
-                  }}
-                >
-                  Edit
-                </Button>
+                />
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} xl={4}>
@@ -668,21 +585,13 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Contact Details</Typography>
-                <Button
+                <ThemeButton
+                  transparent
+                  smallRounded
+                  Text="edit"
+                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
                   onClick={handleOpen.bind(null, "contact-detail")}
-                  startIcon={<EditIcon sx={{ width: 16 }} />}
-                  sx={{
-                    cursor: "pointer",
-                    height: "unset",
-                    py: 0.3,
-                    px: 1.5,
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    borderRadius: 4,
-                  }}
-                >
-                  Edit
-                </Button>
+                />
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} xl={4}>
@@ -740,21 +649,13 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Family Details</Typography>
-                <Button
+                <ThemeButton
+                  transparent
+                  smallRounded
+                  Text="edit"
+                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
                   onClick={handleOpen.bind(null, "family-detail")}
-                  startIcon={<EditIcon sx={{ width: 16 }} />}
-                  sx={{
-                    cursor: "pointer",
-                    height: "unset",
-                    py: 0.3,
-                    px: 1.5,
-                    border: "1px solid",
-                    borderColor: "primary.main",
-                    borderRadius: 4,
-                  }}
-                >
-                  Edit
-                </Button>
+                />
               </Box>
               <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
                 <Grid item xs={12} md={6} xl={4}>
@@ -787,21 +688,13 @@ export default function Home() {
               <Box className="cardHeader">
                 <Typography className="cardTitle">Document Details</Typography>
                 {user.role === 1 && user.role === 2 && (
-                  <Button
+                  <ThemeButton
+                    transparent
+                    smallRounded
+                    Text="edit"
+                    startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
                     onClick={handleOpen.bind(null, "document-detail")}
-                    startIcon={<EditIcon sx={{ width: 16 }} />}
-                    sx={{
-                      cursor: "pointer",
-                      height: "unset",
-                      py: 0.3,
-                      px: 1.5,
-                      border: "1px solid",
-                      borderColor: "primary.main",
-                      borderRadius: 4,
-                    }}
-                  >
-                    Edit
-                  </Button>
+                  />
                 )}
               </Box>
               <Box

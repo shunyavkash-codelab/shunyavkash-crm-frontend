@@ -6,6 +6,7 @@ import { APIS } from "../../api/apiList";
 import { useAuth } from "../../hooks/store/useAuth";
 import { useSnack } from "../../hooks/store/useSnack";
 import * as Yup from "yup";
+import ThemeButton from "../ThemeButton";
 
 export default function AddressForm({ profileList }) {
   const { apiCall } = useApi();
@@ -145,78 +146,8 @@ export default function AddressForm({ profileList }) {
           </Grid>
           <Grid item xs={12}>
             <Stack direction="row" spacing={2}>
-              <Button
-                disableRipple
-                type="submit"
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "primary.main",
-                  border: "1px solid",
-                  borderColor: "primary.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "primary.main",
-                    bgcolor: "primary.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>Save Changes</span>
-              </Button>
-              <Button
-                disableRipple
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  color: "text.primary",
-                  bgcolor: "#e4e4e4",
-                  border: "1px solid",
-                  borderColor: "#e4e4e4",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    bgcolor: "#e4e4e4",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>discard</span>
-              </Button>
+              <ThemeButton success Text="Save" type="submit" />
+              <ThemeButton discard Text="discard" />
             </Stack>
           </Grid>
         </Grid>

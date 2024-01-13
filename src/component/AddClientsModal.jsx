@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Autocomplete,
-  InputAdornment,
-  Stack,
-} from "@mui/material";
+import { Box, TextField, Button, Typography, Stack } from "@mui/material";
 import { useFormik } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import * as Yup from "yup";
 import { APIS } from "../api/apiList";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
+import ThemeButton from "./ThemeButton";
 
 export default function AddClientsModal({ open, setOpen, fetchClients }) {
   const handleClose = () => setOpen(false);
@@ -571,43 +564,7 @@ export default function AddClientsModal({ open, setOpen, fetchClients }) {
               </Box>
 
               <Box sx={{ textAlign: "center", mt: 2.5 }}>
-                <Button
-                  disableRipple
-                  type="submit"
-                  sx={{
-                    maxHeight: "42px",
-                    position: "relative",
-                    px: 2.5,
-                    py: 1.5,
-                    bgcolor: "success.main",
-                    border: "1px solid",
-                    borderColor: "success.main",
-                    color: "white",
-                    lineHeight: 1,
-                    borderRadius: 2.5,
-                    overflow: "hidden",
-                    "&:before": {
-                      content: "''",
-                      height: 0,
-                      width: "10rem",
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "0",
-                      bgcolor: "white",
-                      transform: "rotate(-45deg) translate(-50%, -50%)",
-                      transformOrigin: "0% 0%",
-                      transition: "all 0.4s ease-in-out",
-                    },
-                    "&:hover": {
-                      color: "success.main",
-                      bgcolor: "success.main",
-                      "&:before": { height: "10rem" },
-                    },
-                  }}
-                >
-                  <span style={{ position: "relative" }}>Create</span>
-                </Button>
+                <ThemeButton success Text="Create" type="submit" />
               </Box>
             </Box>
           </Box>

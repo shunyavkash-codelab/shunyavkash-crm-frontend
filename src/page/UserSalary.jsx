@@ -29,7 +29,6 @@ import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import AccountHolderIcon from "@mui/icons-material/PermIdentityOutlined";
 import BankNameIcon from "@mui/icons-material/AccountBalance";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
-import Person2Icon from "@mui/icons-material/Person2";
 import RedeemIcon from "@mui/icons-material/Redeem";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import EditIcon from "@mui/icons-material/CreateOutlined";
@@ -37,13 +36,15 @@ import ConfirmNumber from "@mui/icons-material/ThumbUpAlt";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { Field, FormikProvider, useFormik } from "formik";
+import { useFormik } from "formik";
 import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi.js";
 import { useSnack } from "../hooks/store/useSnack.js";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import moment from "moment";
+import ThemeButton from "../component/ThemeButton";
+import PlusIcon from "@mui/icons-material/Close";
 
 export default function UserSalary({ userId, userBank, setUserBank }) {
   const [openBank, setOpenBank] = useState(false);
@@ -277,21 +278,13 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
             <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
               Add Bank Details
             </Typography>
-            <Button
+            <ThemeButton
+              transparent
+              smallRounded
+              Text="edit"
+              startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
               onClick={handleOpenBank}
-              startIcon={<EditIcon sx={{ width: 16 }} />}
-              sx={{
-                cursor: "pointer",
-                height: "unset",
-                py: 0.3,
-                px: 1.5,
-                border: "1px solid",
-                borderColor: "primary.main",
-                borderRadius: 4,
-              }}
-            >
-              Edit
-            </Button>
+            />
           </Box>
           <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
             <Grid item xs={12} md={6} xl={4}>
@@ -463,21 +456,20 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
               )}
             </Box>
             {/* Todos : This button visable only admin */}
-            <Button
+            <ThemeButton
+              transparent
+              smallRounded
+              Text="Add Salary"
+              startIcon={
+                <PlusIcon
+                  sx={{
+                    fontSize: "16px!important",
+                    transform: "rotate(45deg)",
+                  }}
+                />
+              }
               onClick={handleOpenSalary}
-              startIcon={<AddIcon sx={{ width: 16 }} />}
-              sx={{
-                cursor: "pointer",
-                height: "unset",
-                py: 0.3,
-                px: 1.5,
-                border: "1px solid",
-                borderColor: "primary.main",
-                borderRadius: 4,
-              }}
-            >
-              Add Salary
-            </Button>
+            />
           </Stack>
         </Stack>
         <Box sx={{ px: 3 }}>
@@ -564,14 +556,8 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
       >
         <Box component="form" onSubmit={formikBank.handleSubmit}>
           <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
                 <OutlinedInput
                   name="bankName"
                   placeholder="Bank Name"
@@ -597,14 +583,8 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   )}
               </FormControl>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
                 <OutlinedInput
                   name="holderName"
                   placeholder="A/c Holder Name"
@@ -630,18 +610,8 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   )}
               </FormControl>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={6}
-              sx={{
-                "> .MuiFormControl-root": {
-                  margin: 0,
-                },
-              }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
+            <Grid item xs={12} lg={6}>
+              <FormControl fullWidth>
                 <OutlinedInput
                   name="accountNumber"
                   inputProps={{ maxLength: 14 }}
@@ -669,18 +639,8 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   )}
               </FormControl>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={6}
-              sx={{
-                "> .MuiFormControl-root": {
-                  margin: 0,
-                },
-              }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
+            <Grid item xs={12} lg={6}>
+              <FormControl fullWidth>
                 <OutlinedInput
                   name="confirmAccountNumber"
                   inputProps={{ maxLength: 14 }}
@@ -708,14 +668,8 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   )}
               </FormControl>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <FormControl fullWidth sx={{ m: 1 }}>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
                 <OutlinedInput
                   name="IFSC"
                   inputProps={{ maxLength: 11 }}
@@ -739,50 +693,8 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                 )}
               </FormControl>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              sx={{ "> .MuiFormControl-root": { margin: 0 } }}
-            >
-              <Button
-                disableRipple
-                type="submit"
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "success.main",
-                  border: "1px solid",
-                  borderColor: "success.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "success.main",
-                    bgcolor: "success.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>Save</span>
-              </Button>
+            <Grid item xs={12}>
+              <ThemeButton success Text="add bank" type="submit" />
             </Grid>
           </Grid>
         </Box>
@@ -811,8 +723,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   onChange={(e) => formikSalary.setFieldValue("date", e)}
                   sx={{
                     minWidth: "100% !important",
-                    "&>div": { fontSize: "14px" },
-                    "&>label": { fontSize: "14px" },
+                    "&>div,&>label": { fontSize: "14px" },
                   }}
                   error={
                     formikSalary.touched.date &&
@@ -1004,43 +915,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <Button
-                disableRipple
-                type="submit"
-                sx={{
-                  maxHeight: "42px",
-                  position: "relative",
-                  px: 2.5,
-                  py: 1.5,
-                  bgcolor: "success.main",
-                  border: "1px solid",
-                  borderColor: "success.main",
-                  color: "white",
-                  lineHeight: 1,
-                  borderRadius: 2.5,
-                  overflow: "hidden",
-                  "&:before": {
-                    content: "''",
-                    height: 0,
-                    width: "10rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    zIndex: "0",
-                    bgcolor: "white",
-                    transform: "rotate(-45deg) translate(-50%, -50%)",
-                    transformOrigin: "0% 0%",
-                    transition: "all 0.4s ease-in-out",
-                  },
-                  "&:hover": {
-                    color: "success.main",
-                    bgcolor: "success.main",
-                    "&:before": { height: "10rem" },
-                  },
-                }}
-              >
-                <span style={{ position: "relative" }}>Add salary</span>
-              </Button>
+              <ThemeButton success Text="Add salary" type="submit" />
             </Grid>
           </Grid>
         </Box>

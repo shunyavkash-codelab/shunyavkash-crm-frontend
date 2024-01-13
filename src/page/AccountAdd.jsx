@@ -26,6 +26,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ImageUploder from "../component/form/ImageUploder";
 import { Link } from "react-router-dom";
+import ThemeButton from "../component/ThemeButton";
 
 function AccountAdd() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -381,42 +382,7 @@ function AccountAdd() {
                   <ImageUploder title="Invoice Upload"></ImageUploder>
                 </Grid>
                 <Grid item xs={12}>
-                  <Button
-                    disableRipple
-                    sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
-                      bgcolor: "success.main",
-                      border: "1px solid",
-                      borderColor: "success.main",
-                      color: "white",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "white",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
-                        color: "success.main",
-                        bgcolor: "success.main",
-                        "&:before": { height: "10rem" },
-                      },
-                    }}
-                  >
-                    <span style={{ position: "relative" }}>Add Account</span>
-                  </Button>
+                  <ThemeButton success Text="add entry" />
                 </Grid>
               </Grid>
             </Box>

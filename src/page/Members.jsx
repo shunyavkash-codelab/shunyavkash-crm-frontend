@@ -26,6 +26,7 @@ import { APIS } from "../api/apiList.js";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import { useSnack } from "../hooks/store/useSnack.js";
 import { useInviteMemberStore } from "../hooks/store/useInviteMemberStore.js";
+import ThemeButton from "../component/ThemeButton.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -146,7 +147,6 @@ export default function Members() {
         <Box component="main">
           <Box
             sx={{
-              mb: 3.25,
               display: "flex",
               alignItems: { sm: "center" },
               justifyContent: { sm: "space-between" },
@@ -190,43 +190,10 @@ export default function Members() {
             {user.role === 0 && (
               <Box>
                 <Link to="./add">
-                  <Button
-                    disableRipple
+                  <ThemeButton
+                    Text="Add Member"
                     startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                    sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
-                      bgcolor: "primary.main",
-                      border: "1px solid",
-                      borderColor: "primary.main",
-                      color: "white",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "white",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
-                        color: "primary.main",
-                        bgcolor: "primary.main",
-                        "&:before": { height: "10rem" },
-                      },
-                    }}
-                  >
-                    <span style={{ position: "relative" }}>Add Member</span>
-                  </Button>
+                  />
                 </Link>
               </Box>
             )}

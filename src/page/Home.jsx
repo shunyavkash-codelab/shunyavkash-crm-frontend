@@ -21,11 +21,11 @@ import { APIS } from "../api/apiList";
 import { useAuth } from "../hooks/store/useAuth";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
-import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 import PlusIcon from "@mui/icons-material/Close";
 import moment from "moment";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import NoData from "../component/NoData";
+import ThemeButton from "../component/ThemeButton";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -193,254 +193,20 @@ export default function Home() {
                   </Typography>
                 </Box>
                 <Box sx={{ display: "flex", gap: 1 }}>
-                  <Button
-                    disableRipple
+                  <ThemeButton
+                    transparent
+                    Text="Create Invoice"
                     startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                    sx={{
-                      maxHeight: "42px",
-                      position: "relative",
-                      px: 2.5,
-                      py: 1.5,
-                      border: "1px solid",
-                      borderColor: "primary.main",
-                      color: "primary.main",
-                      lineHeight: 1,
-                      borderRadius: 2.5,
-                      overflow: "hidden",
-                      "&:before": {
-                        content: "''",
-                        height: 0,
-                        width: "10rem",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        zIndex: "0",
-                        bgcolor: "primary.main",
-                        transform: "rotate(-45deg) translate(-50%, -50%)",
-                        transformOrigin: "0% 0%",
-                        transition: "all 0.4s ease-in-out",
-                      },
-                      "&:hover": {
-                        color: "white",
-                        "&:before": { height: "10rem" },
-                      },
-                    }}
                     onClick={invoiceNumberGenerate}
-                  >
-                    <span style={{ position: "relative" }}>Create Invoice</span>
-                  </Button>
+                  />
                   <Link
                     to="./invoices"
                     style={{ display: "inline-flex", textDecoration: "none" }}
                   >
-                    <Button
-                      disableRipple
-                      sx={{
-                        maxHeight: "42px",
-                        position: "relative",
-                        px: 2.5,
-                        py: 1.5,
-                        bgcolor: "primary.main",
-                        border: "1px solid",
-                        borderColor: "primary.main",
-                        color: "white",
-                        lineHeight: 1,
-                        borderRadius: 2.5,
-                        overflow: "hidden",
-                        "&:before": {
-                          content: "''",
-                          height: 0,
-                          width: "10rem",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          zIndex: "0",
-                          bgcolor: "white",
-                          transform: "rotate(-45deg) translate(-50%, -50%)",
-                          transformOrigin: "0% 0%",
-                          transition: "all 0.4s ease-in-out",
-                        },
-                        "&:hover": {
-                          color: "primary.main",
-                          bgcolor: "primary.main",
-                          "&:before": { height: "10rem" },
-                        },
-                      }}
-                    >
-                      <span style={{ position: "relative" }}>View all</span>
-                    </Button>
+                    <ThemeButton Text="View all" />
                   </Link>
                 </Box>
               </Box>
-              {/* <Box>
-              <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}
-                  xxl={4}
-                  sx={{
-                    "& .statusBtn": {
-                      color: "white",
-                      fontSize: "10px",
-                      px: 0.75,
-                      py: 0.5,
-                      bgcolor: "grey.dark",
-                      borderRadius: 1,
-                    },
-                    "& .pending": { bgcolor: "secondary.main" },
-                    "& .Done": { bgcolor: "success.main" },
-                  }}
-                >
-                  <Box
-                    sx={{
-                      boxShadow: "0 0 10px rgba(0,0,0,0.05)",
-                      bgcolor: "white",
-                      textTransform: "capitalize",
-                      p: { xs: 2.5, lg: 3 },
-                      borderRadius: 2.5,
-                      position: "relative",
-                      height: "100%",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        top: { xs: "18px", lg: "22px" },
-                        right: "15px",
-                      }}
-                    >
-                      <Box className="statusBtn intial">Initial</Box>
-                    </Box>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        pr: "40px",
-                        fontSize: { xs: "16px", lg: "18px" },
-                      }}
-                    >
-                      Shunyavkash CRM Design
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        mt: 2.5,
-                        gap: 1.25,
-                      }}
-                    >
-                      <Avatar
-                        sx={{ height: "34px", width: "34px" }}
-                        alt="Cindy Baker"
-                        src="https://plm-staging.s3.amazonaws.com/profiles/65264e33d2ac619310e6687a?v=27"
-                      />
-                      <Typography
-                        sx={{
-                          color: "rgba(123, 119, 120, 1)",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        Joel Male
-                      </Typography>
-                    </Box>
-                    <Typography
-                      className="truncate line-clamp-1"
-                      variant="subtitle3"
-                      sx={{
-                        mt: 2.5,
-                        mb: 3,
-                        lineHeight: 1.5,
-                        fontSize: { sm: "14px" },
-                      }}
-                    >
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry.Lorem Ipsum is simply dummy text of
-                      the printing and typesetting industry.Lorem Ipsum is
-                      simply dummy text of the printing and typesetting
-                      industry.
-                    </Typography>
-                    <Box
-                      sx={{
-                        "&>*:not(:first-of-type)": { mt: 1 },
-                        "& *": {
-                          fontSize: { sm: "14px!important" },
-                        },
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          gap: 2.5,
-                        }}
-                      >
-                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
-                          Hour charge
-                        </Typography>
-                        <Typography variant="subtitle3">$50</Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          gap: 2.5,
-                        }}
-                      >
-                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
-                          Pay Period
-                        </Typography>
-                        <Typography variant="subtitle3">4 Weeks</Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          gap: 2.5,
-                        }}
-                      >
-                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
-                          Invoice No
-                        </Typography>
-                        <Typography variant="subtitle3">SHU090984</Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          gap: 2.5,
-                        }}
-                      >
-                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
-                          Start Date
-                        </Typography>
-                        <Typography variant="subtitle3">
-                          Oct 15th 2023
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          gap: 2.5,
-                        }}
-                      >
-                        <Typography variant="subtitle3" sx={{ opacity: "50%" }}>
-                          End Date
-                        </Typography>
-                        <Typography variant="subtitle3">
-                          Nov 15th 2023
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Box> */}
               {invoiceList.length === 0 ? (
                 <NoData />
               ) : (

@@ -26,6 +26,8 @@ import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import ThemeButton from "../component/ThemeButton";
+import PlusIcon from "@mui/icons-material/Close";
 
 function UserLeave() {
   const [open, setOpen] = React.useState(false);
@@ -152,21 +154,20 @@ function UserLeave() {
           <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
             My Leaves
           </Typography>
-          <Button
+          <ThemeButton
+            transparent
+            smallRounded
+            Text="apply Leave"
+            startIcon={
+              <PlusIcon
+                sx={{
+                  fontSize: "16px!important",
+                  transform: "rotate(45deg)",
+                }}
+              />
+            }
             onClick={handleOpen}
-            startIcon={<AddOutlinedIcon sx={{ width: 16 }} />}
-            sx={{
-              cursor: "pointer",
-              height: "unset",
-              py: 0.3,
-              px: 1.5,
-              border: "1px solid",
-              borderColor: "primary.main",
-              borderRadius: 4,
-            }}
-          >
-            Add Leave
-          </Button>
+          />
         </Box>
         <Box>
           <TableContainer
@@ -528,42 +529,7 @@ function UserLeave() {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <Button
-              disableRipple
-              sx={{
-                maxHeight: "42px",
-                position: "relative",
-                px: 2.5,
-                py: 1.5,
-                bgcolor: "success.main",
-                border: "1px solid",
-                borderColor: "success.main",
-                color: "white",
-                lineHeight: 1,
-                borderRadius: 2.5,
-                overflow: "hidden",
-                "&:before": {
-                  content: "''",
-                  height: 0,
-                  width: "10rem",
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  zIndex: "0",
-                  bgcolor: "white",
-                  transform: "rotate(-45deg) translate(-50%, -50%)",
-                  transformOrigin: "0% 0%",
-                  transition: "all 0.4s ease-in-out",
-                },
-                "&:hover": {
-                  color: "success.main",
-                  bgcolor: "success.main",
-                  "&:before": { height: "10rem" },
-                },
-              }}
-            >
-              <span style={{ position: "relative" }}>Add Leave</span>
-            </Button>
+            <ThemeButton success Text="apply Leave" type="submit" />
           </Grid>
         </Grid>
       </ModalComponent>
