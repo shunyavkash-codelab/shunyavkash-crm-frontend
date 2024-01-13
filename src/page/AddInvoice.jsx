@@ -506,47 +506,87 @@ export default function Invoices() {
         component={Formik}
         validationSchema={schema}
         enableReinitialize={true}
-        initialValues={{
-          email: adminList.email,
-          address: adminList.address,
-          address2: adminList.address2,
-          landmark: adminList.landmark,
-          pincode: adminList.pincode,
-          mobileCode: adminList.mobileCode,
-          mobileNumber: adminList.mobileNumber,
-          invoiceNumber: invoiceData?.invoiceNumber || invoiceNumber,
-          task: (invoiceData?.tasks || taskList)
-            // .filter((task) => personName.includes(task.taskName))
-            .map((task) => ({
-              // _id: task._id,
-              name: task.taskName,
-              number: task.hours || "00.00",
-              pricePerHours: task.price_hours || "00.00",
-              amount: task.hours * task.price_hours,
-            })),
-          clientAddress: invoiceData?.clientAddress,
-          total: invoiceData?.total || "10",
-          // projectDescription: projectDescription?.description || "",
-          selectBank: invoiceData?.selectBank || "",
-          bankName: invoiceData?.bank.bankName || "",
-          IFSC: invoiceData?.bank.IFSC || "",
-          holderName: invoiceData?.bank.holderName || "",
-          accountNumber: invoiceData?.bank.accountNumber || "",
-          to: invoiceData?.clientId || "",
-          // project: "",
-          salesTax: invoiceData?.totals?.salesTax || 0,
-          discountRS: invoiceData?.totals?.discountRS || 0,
-          discountPer: invoiceData?.totals?.discountPer || 0,
-          note: invoiceData?.note || "",
-          invoiceDate: invoiceData?.invoiceDate
-            ? new Date(invoiceData?.invoiceDate)?.toISOString().split("T")[0]
-            : currentDate.toISOString().split("T")[0],
-          invoiceDueDate: invoiceData?.invoiceDueDate
-            ? new Date(invoiceData?.invoiceDueDate)?.toISOString().split("T")[0]
-            : fifteenDaysAgo.toISOString().split("T")[0],
-          watermark: invoiceData?.watermark === "false" ? false : true || true,
-          signature: adminList?.signature || "/images/sign.svg",
-        }}
+        initialValues={
+          invoiceData
+            ? {
+                email: invoiceData.email,
+                address: invoiceData.address,
+                address2: invoiceData.address2,
+                landmark: invoiceData.landmark,
+                pincode: invoiceData.pincode,
+                mobileCode: invoiceData.mobileCode,
+                mobileNumber: invoiceData.mobileNumber,
+                invoiceNumber: invoiceData.invoiceNumber,
+                task: invoiceData.tasks
+                  // .filter((task) => personName.includes(task.taskName))
+                  .map((task) => ({
+                    // _id: task._id,
+                    name: task.taskName,
+                    number: task.hours || "00.00",
+                    pricePerHours: task.price_hours || "00.00",
+                    amount: task.hours * task.price_hours,
+                  })),
+                clientAddress: invoiceData.clientAddress,
+                total: invoiceData.total,
+                // projectDescription: projectDescription.description || "",
+                selectBank: invoiceData.selectBank,
+                bankName: invoiceData.bank.bankName,
+                IFSC: invoiceData.bank.IFSC,
+                holderName: invoiceData.bank.holderName,
+                accountNumber: invoiceData.bank.accountNumber,
+                to: invoiceData.clientId,
+                // project: "",
+                salesTax: invoiceData.totals.salesTax,
+                discountRS: invoiceData.totals.discountRS,
+                discountPer: invoiceData.totals.discountPer,
+                note: invoiceData.note,
+                invoiceDate: new Date(invoiceData.invoiceDate)
+                  .toISOString()
+                  .split("T")[0],
+                invoiceDueDate: new Date(invoiceData.invoiceDueDate)
+                  .toISOString()
+                  .split("T")[0],
+                watermark: invoiceData.watermark === "false" ? false : true,
+                signature: invoiceData.signature,
+              }
+            : {
+                email: adminList.email,
+                address: adminList.address,
+                address2: adminList.address2,
+                landmark: adminList.landmark,
+                pincode: adminList.pincode,
+                mobileCode: adminList.mobileCode,
+                mobileNumber: adminList.mobileNumber,
+                invoiceNumber: invoiceNumber,
+                task: taskList
+                  // .filter((task) => personName.includes(task.taskName))
+                  .map((task) => ({
+                    // _id: task._id,
+                    name: task.taskName,
+                    number: task.hours || "00.00",
+                    pricePerHours: task.price_hours || "00.00",
+                    amount: task.hours * task.price_hours,
+                  })),
+                clientAddress: "",
+                total: "10",
+                // projectDescription: projectDescription?.description || "",
+                selectBank: "",
+                bankName: "",
+                IFSC: "",
+                holderName: "",
+                accountNumber: "",
+                to: "",
+                // project: "",
+                salesTax: 0,
+                discountRS: 0,
+                discountPer: 0,
+                note: "",
+                invoiceDate: currentDate.toISOString().split("T")[0],
+                invoiceDueDate: fifteenDaysAgo.toISOString().split("T")[0],
+                watermark: true,
+                signature: adminList?.signature || "/images/sign.svg",
+              }
+        }
         onSubmit={async (values) => {
           if (serverError) return;
           // for (let i = 0; i < values.task.length; i++) {
