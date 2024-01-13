@@ -16,7 +16,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import ModalComponent from "../component/ModalComponent";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -28,58 +28,72 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ThemeButton from "../component/ThemeButton";
 import PlusIcon from "@mui/icons-material/Close";
+import { useFormik } from "formik";
+import { APIS } from "../api/apiList.js";
+import * as Yup from "yup";
+import useApi from "../hooks/useApi.js";
+import { useSnack } from "../hooks/store/useSnack.js";
+import { useParams } from "react-router-dom";
+import moment from "moment";
+import { logDOM } from "@testing-library/react";
 
-function UserLeave() {
+function UserLeave({ userId }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
+  const { apiCall } = useApi();
+  const { setSnack } = useSnack();
 
-  const leaves = [
-    {
-      id: 1,
-      type: "casual",
-      reason: "Marriage Function",
-      startDate: "15/01/2023",
-      startDayType: "first half",
-      endDate: "17/01/2023",
-      endDayType: "second half",
-      status: "approve",
-      statusReason: "Lorem ipsum dolor sit amet",
-    },
-    {
-      id: 2,
-      type: "sick",
-      reason: "Medical",
-      startDate: "25/02/2023",
-      startDayType: "second half",
-      endDate: "27/02/2023",
-      endDayType: "full day",
-      status: "approve",
-      statusReason: "Lorem ipsum dolor sit amet",
-    },
-    {
-      id: 3,
-      type: "paid",
-      reason: "Going to Village",
-      startDate: "31/04/2023",
-      startDayType: "full day",
-      endDate: "2/05/2023",
-      endDayType: "full day",
-      status: "unapprove",
-      statusReason: "ipsum dolor sit amet lorem",
-    },
-    {
-      id: 4,
-      type: "unpaid",
-      reason: "Going to Friend's Birthday Party",
-      startDate: "25/04/2023",
-      startDayType: "second half",
-      endDate: "25/04/2023",
-      endDayType: "first half",
-      status: "unapprove",
-      statusReason: "Lorem dolor sit ipsum amet",
-    },
-  ];
+  const [leaveList, setLeaveList] = useState([]);
+  const { id } = useParams();
 
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      leaveType: "",
+      startDate: "",
+      startDayType: "",
+      endDate: "",
+      endDayType: "",
+      reason: "",
+    },
+
+    onSubmit: async (values) => {
+      console.log(values, "--------------60");
+      try {
+        const res = await apiCall({
+          url: APIS.LEAVE.ADD,
+          method: "post",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.data.success === true) {
+          console.log(res.data.data, "-------------------69");
+          setSnack(res.data.message);
+          setLeaveList([res.data.data, ...leaveList]);
+          setOpen(false);
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
+
+  const viewUserLeave = async (userId) => {
+    try {
+      const res = await apiCall({
+        url: APIS.LEAVE.LIST(userId),
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setLeaveList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    viewUserLeave(id || userId);
+  }, []);
   return (
     <>
       <Grid container rowSpacing={2.5} columnSpacing={2.5} mt={0}>
@@ -205,7 +219,7 @@ function UserLeave() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {leaves.map((leave) => (
+                {leaveList.map((leave) => (
                   <TableRow
                     key={leave.key}
                     sx={{
@@ -226,34 +240,38 @@ function UserLeave() {
                           maxWidth: "fit-content",
                           lineHeight: 1,
                           bgcolor:
-                            leave.type === "casual"
+                            leave.leaveType === "casual"
                               ? "rgba(94, 115, 141, 15%)"
-                              : leave.type === "sick"
+                              : leave.leaveType === "sick"
                               ? "rgba(248, 174, 0, 15%)"
-                              : leave.type === "unpaid"
+                              : leave.leaveType === "unpaid"
                               ? "rgba(225, 107, 22, 15%)"
                               : "rgba(74, 210, 146, 15%)",
                           color:
-                            leave.type === "casual"
+                            leave.leaveType === "casual"
                               ? "grey.dark"
-                              : leave.type === "sick"
+                              : leave.leaveType === "sick"
                               ? "secondary.main"
-                              : leave.type === "unpaid"
+                              : leave.leaveType === "unpaid"
                               ? "review.main"
                               : "success.main",
                         }}
                       >
-                        {leave.type}
+                        {leave.leaveType}
                       </Box>
                     </TableCell>
                     <TableCell>{leave.reason}</TableCell>
-                    <TableCell>{leave.startDate}</TableCell>
+                    <TableCell>
+                      {moment(leave.startDate).format("DD/MM/YYYY")}
+                    </TableCell>
                     <TableCell>{leave.startDayType}</TableCell>
-                    <TableCell>{leave.endDate}</TableCell>
+                    <TableCell>
+                      {moment(leave.endDate).format("DD/MM/YYYY")}
+                    </TableCell>
                     <TableCell>{leave.endDayType}</TableCell>
                     {/* Admin ni status ni row na aave */}
                     <TableCell>
-                      <Tooltip title={leave.statusReason} arrow>
+                      <Tooltip title={leave.description} arrow>
                         <Button
                           disableRipple
                           sx={{
@@ -303,235 +321,258 @@ function UserLeave() {
         modalTitle="Add Leave"
         sx={{ padding: "6px" }}
       >
-        <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-          <Grid item xs={12}>
-            <FormControl
-              fullWidth
-              size="normal"
-              sx={{
-                textTransform: "capitalize",
-                "&>label": { fontSize: "14px" },
-              }}
-            >
-              <InputLabel
-                sx={{ textTransform: "capitalize" }}
-                id="demo-simple-select-label"
-              >
-                Leave Type
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Leave Type"
-                sx={{ fontSize: "14px" }}
-              >
-                <MenuItem value={"casual"}>
-                  <Box
-                    sx={{
-                      textTransform: "capitalize",
-                      fontSize: "12px",
-                      p: 0.5,
-                      borderRadius: 1,
-                      maxWidth: "fit-content",
-                      lineHeight: 1,
-                      bgcolor: "rgba(94, 115, 141, 15%)",
-                      color: "grey.dark",
-                    }}
-                  >
-                    Casual
-                  </Box>
-                </MenuItem>
-                <MenuItem value={"sick"}>
-                  <Box
-                    sx={{
-                      textTransform: "capitalize",
-                      fontSize: "12px",
-                      p: 0.5,
-                      borderRadius: 1,
-                      maxWidth: "fit-content",
-                      lineHeight: 1,
-                      bgcolor: "rgba(248, 174, 0, 15%)",
-                      color: "secondary.main",
-                    }}
-                  >
-                    Sick
-                  </Box>
-                </MenuItem>
-                <MenuItem value={"paid"}>
-                  <Box
-                    sx={{
-                      textTransform: "capitalize",
-                      fontSize: "12px",
-                      p: 0.5,
-                      borderRadius: 1,
-                      maxWidth: "fit-content",
-                      lineHeight: 1,
-                      bgcolor: "rgba(74, 210, 146, 15%)",
-                      color: "success.main",
-                    }}
-                  >
-                    Paid
-                  </Box>
-                </MenuItem>
-                <MenuItem value={"unpaid"}>
-                  <Box
-                    sx={{
-                      textTransform: "capitalize",
-                      fontSize: "12px",
-                      p: 0.5,
-                      borderRadius: 1,
-                      maxWidth: "fit-content",
-                      lineHeight: 1,
-                      bgcolor: "rgba(225, 107, 22, 15%)",
-                      color: "review.main",
-                    }}
-                  >
-                    Unpaid
-                  </Box>
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-              style={{
-                width: "100%",
-                maxWidth: "100%",
-              }}
-            >
-              <MobileDatePicker
+        <Box component="form" onSubmit={formik.handleSubmit}>
+          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+            <Grid item xs={12}>
+              <FormControl
                 fullWidth
-                label="Start Date"
-                defaultValue={dayjs(new Date().toLocaleDateString())}
+                size="normal"
                 sx={{
-                  minWidth: "100% !important",
-                  fontSize: "14px !important",
-                  "&>div": { fontSize: "14px" },
+                  textTransform: "capitalize",
                   "&>label": { fontSize: "14px" },
                 }}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl
-              fullWidth
-              size="normal"
-              sx={{
-                textTransform: "capitalize",
-                "&>label": { fontSize: "14px" },
-              }}
-            >
-              <InputLabel
-                sx={{ textTransform: "capitalize" }}
-                id="demo-simple-select-label"
               >
-                Day type
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Day type"
-                sx={{ fontSize: "14px" }}
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
+                >
+                  Leave Type
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="leaveType"
+                  value={formik.values.leaveType}
+                  onChange={(e) =>
+                    formik.setFieldValue("leaveType", e.target.value)
+                  }
+                  label="Leave Type"
+                  sx={{ fontSize: "14px" }}
+                >
+                  <MenuItem value={"casual"}>
+                    <Box
+                      sx={{
+                        textTransform: "capitalize",
+                        fontSize: "12px",
+                        p: 0.5,
+                        borderRadius: 1,
+                        maxWidth: "fit-content",
+                        lineHeight: 1,
+                        bgcolor: "rgba(94, 115, 141, 15%)",
+                        color: "grey.dark",
+                      }}
+                    >
+                      Casual
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value={"sick"}>
+                    <Box
+                      sx={{
+                        textTransform: "capitalize",
+                        fontSize: "12px",
+                        p: 0.5,
+                        borderRadius: 1,
+                        maxWidth: "fit-content",
+                        lineHeight: 1,
+                        bgcolor: "rgba(248, 174, 0, 15%)",
+                        color: "secondary.main",
+                      }}
+                    >
+                      Sick
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value={"paid"}>
+                    <Box
+                      sx={{
+                        textTransform: "capitalize",
+                        fontSize: "12px",
+                        p: 0.5,
+                        borderRadius: 1,
+                        maxWidth: "fit-content",
+                        lineHeight: 1,
+                        bgcolor: "rgba(74, 210, 146, 15%)",
+                        color: "success.main",
+                      }}
+                    >
+                      Paid
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value={"unpaid"}>
+                    <Box
+                      sx={{
+                        textTransform: "capitalize",
+                        fontSize: "12px",
+                        p: 0.5,
+                        borderRadius: 1,
+                        maxWidth: "fit-content",
+                        lineHeight: 1,
+                        bgcolor: "rgba(225, 107, 22, 15%)",
+                        color: "review.main",
+                      }}
+                    >
+                      Unpaid
+                    </Box>
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                style={{
+                  width: "100%",
+                  maxWidth: "100%",
+                }}
               >
-                <MenuItem
-                  sx={{ textTransform: "capitalize" }}
-                  value={"frist half"}
-                >
-                  frist half
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize" }}
-                  value={"seconad half"}
-                >
-                  seconad half
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize" }}
-                  value={"full day"}
-                >
-                  full day
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-              style={{
-                width: "100%",
-                maxWidth: "100%",
-              }}
-            >
-              <MobileDatePicker
-                label="End Date"
-                defaultValue={dayjs(new Date().toLocaleDateString())}
+                <MobileDatePicker
+                  fullWidth
+                  label="Start Date"
+                  name="startDate"
+                  value={dayjs(formik.values.startDate || new Date())}
+                  onChange={(e) => formik.setFieldValue("startDate", e)}
+                  sx={{
+                    minWidth: "100% !important",
+                    fontSize: "14px !important",
+                    "&>div": { fontSize: "14px" },
+                    "&>label": { fontSize: "14px" },
+                  }}
+                />
+              </LocalizationProvider>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl
+                fullWidth
+                size="normal"
                 sx={{
-                  minWidth: "100% !important",
-                  "&>div": { fontSize: "14px" },
+                  textTransform: "capitalize",
                   "&>label": { fontSize: "14px" },
                 }}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl
-              fullWidth
-              size="normal"
-              sx={{
-                textTransform: "capitalize",
-                "&>label": { fontSize: "14px" },
-              }}
-            >
-              <InputLabel
-                sx={{ textTransform: "capitalize" }}
-                id="demo-simple-select-label"
               >
-                Day type
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Day type"
-                sx={{ fontSize: "14px" }}
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
+                >
+                  Day type
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="startDayType"
+                  value={formik.values.startDayType}
+                  onChange={(e) =>
+                    formik.setFieldValue("startDayType", e.target.value)
+                  }
+                  label="Day type"
+                  sx={{ fontSize: "14px" }}
+                >
+                  <MenuItem
+                    sx={{ textTransform: "capitalize" }}
+                    value={"first half"}
+                  >
+                    frist half
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize" }}
+                    value={"second half"}
+                  >
+                    seconad half
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize" }}
+                    value={"full day"}
+                  >
+                    full day
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                style={{
+                  width: "100%",
+                  maxWidth: "100%",
+                }}
               >
-                <MenuItem
+                <MobileDatePicker
+                  label="End Date"
+                  name="endDate"
+                  value={dayjs(formik.values.endDate || new Date())}
+                  onChange={(e) => formik.setFieldValue("endDate", e)}
+                  sx={{
+                    minWidth: "100% !important",
+                    "&>div": { fontSize: "14px" },
+                    "&>label": { fontSize: "14px" },
+                  }}
+                />
+              </LocalizationProvider>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl
+                fullWidth
+                size="normal"
+                sx={{
+                  textTransform: "capitalize",
+                  "&>label": { fontSize: "14px" },
+                }}
+              >
+                <InputLabel
                   sx={{ textTransform: "capitalize" }}
-                  value={"frist half"}
+                  id="demo-simple-select-label"
                 >
-                  frist half
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize" }}
-                  value={"seconad half"}
+                  Day type
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="endDayType"
+                  value={formik.values.endDayType}
+                  onChange={(e) =>
+                    formik.setFieldValue("endDayType", e.target.value)
+                  }
+                  label="Day type"
+                  sx={{ fontSize: "14px" }}
                 >
-                  seconad half
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize" }}
-                  value={"full day"}
-                >
-                  full day
-                </MenuItem>
-              </Select>
-            </FormControl>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize" }}
+                    value={"first half"}
+                  >
+                    frist half
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize" }}
+                    value={"second half"}
+                  >
+                    seconad half
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize" }}
+                    value={"full day"}
+                  >
+                    full day
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth sx={{ "&>div": { fontSize: "14px" } }}>
+                <OutlinedInput
+                  placeholder="Leave Title"
+                  name="reason"
+                  onChange={formik.handleChange}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <AccountHolderIcon />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <ThemeButton success Text="apply Leave" type="submit" />
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth sx={{ "&>div": { fontSize: "14px" } }}>
-              <OutlinedInput
-                placeholder="Leave Title"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <AccountHolderIcon />
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <ThemeButton success Text="apply Leave" type="submit" />
-          </Grid>
-        </Grid>
+        </Box>
       </ModalComponent>
     </>
   );

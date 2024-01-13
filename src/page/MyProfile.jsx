@@ -893,7 +893,7 @@ export default function Home() {
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={2}>
-            <UserLeave />
+            <UserLeave userId={id || userId}/>
           </CustomTabPanel>
 
           <ModalComponent

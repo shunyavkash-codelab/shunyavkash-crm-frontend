@@ -66,4 +66,8 @@ export const APIS = {
     ADD: "/salary/add",
     GET: (userId) => `/salary/user/${userId}`,
   },
+  LEAVE: {
+    ADD: "/leave/apply",
+    LIST: (userId) => `leave/user/${userId}`,
+  },
 };
