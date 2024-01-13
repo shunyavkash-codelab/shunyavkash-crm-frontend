@@ -45,6 +45,7 @@ import { useParams } from "react-router-dom";
 import moment from "moment";
 import ThemeButton from "../component/ThemeButton";
 import PlusIcon from "@mui/icons-material/Close";
+import { useAuth } from "../hooks/store/useAuth.js";
 
 export default function UserSalary({ userId, userBank, setUserBank }) {
   const [openBank, setOpenBank] = useState(false);
@@ -55,6 +56,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
   const handleOpenBank = () => setOpenBank(true);
   const handleOpenSalary = () => setOpenSalary(true);
   const [date, setDate] = useState("");
+  const { user } = useAuth();
   const { id } = useParams();
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
@@ -69,8 +71,8 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
         .required("IFSC is required.")
         .length(11)
         .matches(
-          /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
-          "First 4 characters must be alphabets and last 7 characters must be numbers"
+          /^[A-Z]{4}[0][A-Z0-9]{6}$/,
+          "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
         ),
       bankName: Yup.string().required("Bank Name is required."),
       holderName: Yup.string().required("A/c holder name is required."),
@@ -148,40 +150,40 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
     setDate(event.target.value);
   };
 
-  const salaries = [
-    {
-      id: 1,
-      date: "01/01/2023",
-      memberName: "Deep Bhimani",
-      status: "paid",
-      amount: "₹10000",
-      incentive: "₹6000",
-    },
-    {
-      id: 2,
-      date: "03/01/2023",
-      memberName: "sujit hirapara",
-      status: "unpaid",
-      amount: "₹20000",
-      incentive: "₹7000",
-    },
-    {
-      id: 3,
-      date: "15/01/2023",
-      memberName: "prince suhagiya",
-      status: "paid",
-      amount: "₹30000",
-      incentive: "₹8000",
-    },
-    {
-      id: 4,
-      date: "28/01/2023",
-      memberName: "ravi chodvadiya",
-      status: "unpaid",
-      amount: "₹40000",
-      incentive: "₹9000",
-    },
-  ];
+  // const salaries = [
+  //   {
+  //     id: 1,
+  //     date: "01/01/2023",
+  //     memberName: "Deep Bhimani",
+  //     status: "paid",
+  //     amount: "₹10000",
+  //     incentive: "₹6000",
+  //   },
+  //   {
+  //     id: 2,
+  //     date: "03/01/2023",
+  //     memberName: "sujit hirapara",
+  //     status: "unpaid",
+  //     amount: "₹20000",
+  //     incentive: "₹7000",
+  //   },
+  //   {
+  //     id: 3,
+  //     date: "15/01/2023",
+  //     memberName: "prince suhagiya",
+  //     status: "paid",
+  //     amount: "₹30000",
+  //     incentive: "₹8000",
+  //   },
+  //   {
+  //     id: 4,
+  //     date: "28/01/2023",
+  //     memberName: "ravi chodvadiya",
+  //     status: "unpaid",
+  //     amount: "₹40000",
+  //     incentive: "₹9000",
+  //   },
+  // ];
 
   const viewUserSalary = async (userId) => {
     try {
@@ -456,20 +458,22 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
               )}
             </Box>
             {/* Todos : This button visable only admin */}
-            <ThemeButton
-              transparent
-              smallRounded
-              Text="Add Salary"
-              startIcon={
-                <PlusIcon
-                  sx={{
-                    fontSize: "16px!important",
-                    transform: "rotate(45deg)",
-                  }}
-                />
-              }
-              onClick={handleOpenSalary}
-            />
+            {user.role === 0 && (
+              <ThemeButton
+                transparent
+                smallRounded
+                Text="Add Salary"
+                startIcon={
+                  <PlusIcon
+                    sx={{
+                      fontSize: "16px!important",
+                      transform: "rotate(45deg)",
+                    }}
+                  />
+                }
+                onClick={handleOpenSalary}
+              />
+            )}
           </Stack>
         </Stack>
         <Box sx={{ px: 3 }}>
@@ -674,7 +678,12 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   name="IFSC"
                   inputProps={{ maxLength: 11 }}
                   placeholder="IFSC"
-                  sx={{ fontSize: 14 }}
+                  sx={{
+                    fontSize: 14,
+                    "& input": {
+                      textTransform: "uppercase",
+                    },
+                  }}
                   onChange={formikBank.handleChange}
                   value={formikBank.values.IFSC}
                   startAdornment={
@@ -717,9 +726,8 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
               >
                 <MobileDatePicker
                   label="Date"
-                  defaultValue={dayjs(new Date().toLocaleDateString())}
                   name="date"
-                  value={dayjs(formikSalary.values.date)}
+                  value={dayjs(formikSalary.values.date || new Date())}
                   onChange={(e) => formikSalary.setFieldValue("date", e)}
                   sx={{
                     minWidth: "100% !important",

@@ -279,8 +279,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                           textWrap: "wrap",
                         }}
                       >
-                        {/* {user.email ? user.email : "aaron@example.com"} */}
-                        hiren.polara@shunyavkash.com
+                        {user.email ? user.email : "aaron@example.com"}
                       </Typography>
                     </Box>
                   </MenuItem>

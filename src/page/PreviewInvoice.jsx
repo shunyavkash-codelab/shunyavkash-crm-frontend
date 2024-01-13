@@ -768,30 +768,32 @@ export default function Invoices() {
                         </Box>
                       </Box>
                     </Box>
-                    <Box sx={{ mt: 7.25 }}>
-                      <Typography
-                        variant="h6"
-                        sx={{ fontSize: "20px", textTransform: "capitalize" }}
-                      >
-                        notes
-                      </Typography>
-                      <Box
-                        sx={{
-                          mt: 1.75,
-                        }}
-                      >
+                    {invoiceData.note && (
+                      <Box sx={{ mt: 7.25 }}>
                         <Typography
-                          variant="subtitle3"
+                          variant="h6"
+                          sx={{ fontSize: "20px", textTransform: "capitalize" }}
+                        >
+                          notes
+                        </Typography>
+                        <Box
                           sx={{
-                            lineHeight: 1.6,
-                            display: "block",
-                            fontSize: "16px",
+                            mt: 1.75,
                           }}
                         >
-                          {invoiceData.note}
-                        </Typography>
+                          <Typography
+                            variant="subtitle3"
+                            sx={{
+                              lineHeight: 1.6,
+                              display: "block",
+                              fontSize: "16px",
+                            }}
+                          >
+                            {invoiceData.note}
+                          </Typography>
+                        </Box>
                       </Box>
-                    </Box>
+                    )}
                   </Box>
                   <Box
                     sx={{

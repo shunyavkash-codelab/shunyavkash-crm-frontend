@@ -67,26 +67,12 @@ export default function AddClient() {
     IFSC: Yup.string()
       .length(11)
       .matches(
-        /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
-        "First 4 characters must be alphabets and last 7 characters must be numbers"
+        /^[A-Z]{4}[0][A-Z0-9]{6}$/,
+        "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
       ),
     bankName: Yup.string(),
     holderName: Yup.string(),
   });
-
-  // bank data validator schhema
-  // const bankSchema = Yup.object({
-  //   accountNumber: Yup.number().required("Account number is a required"),
-  //   IFSC: Yup.string()
-  //     .length(11)
-  //     .matches(
-  //       /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
-  //       "First 4 characters must be alphabets and last 7 characters must be numbers"
-  //     )
-  //     .required("IFSC is a required"),
-  //   bankName: Yup.string().required("Bank name is a required"),
-  //   holderName: Yup.string().required("Holder name is a required"),
-  // });
 
   const formik = useFormik({
     validationSchema: schema,
@@ -108,7 +94,6 @@ export default function AddClient() {
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log(values, "==============90");
       let formData = new FormData();
       Object.entries(values).forEach(([key, value]) => {
         if (value) {

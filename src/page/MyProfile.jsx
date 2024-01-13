@@ -687,7 +687,7 @@ export default function Home() {
             <Box>
               <Box className="cardHeader">
                 <Typography className="cardTitle">Document Details</Typography>
-                {user.role === 1 && user.role === 2 && (
+                {(user.role === 1 || user.role === 2) && (
                   <ThemeButton
                     transparent
                     smallRounded
@@ -707,7 +707,7 @@ export default function Home() {
                 }}
               >
                 <Link
-                  href={profileUser?.empaloyeeSignature}
+                  to={profileUser?.signature}
                   target="_blank"
                   style={{
                     textDecoration: "none",
@@ -725,23 +725,10 @@ export default function Home() {
                     MainStyle={{ mb: 0 }}
                   />
                 </Link>
-                <Link
-                  href="#javascript:void(0);"
-                  target="_blank"
-                  style={{
-                    textDecoration: "none",
-                    color: "#2a4062",
-                    opacity: "0.8",
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 1,
-                    padding: "5px 10px",
-                    display: "inline-flex",
-                  }}
-                  MainStyle={{ mb: 0 }}
-                >
-                  <DetailsList
-                    Title={"HSC-SSC certification"}
-                    Icon={<FileDownloadOutlinedIcon />}
+                {profileUser?.degreeCertification && (
+                  <Link
+                    to={profileUser.degreeCertification}
+                    target="_blank"
                     style={{
                       textDecoration: "none",
                       color: "#2a4062",
@@ -752,25 +739,27 @@ export default function Home() {
                       display: "inline-flex",
                     }}
                     MainStyle={{ mb: 0 }}
-                  />
-                </Link>
-                <Link
-                  href="#javascript:void(0);"
-                  target="_blank"
-                  style={{
-                    textDecoration: "none",
-                    color: "#2a4062",
-                    opacity: "0.8",
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 1,
-                    padding: "5px 10px",
-                    display: "inline-flex",
-                  }}
-                  MainStyle={{ mb: 0 }}
-                >
-                  <DetailsList
-                    Title={"Adhar Card"}
-                    Icon={<FileDownloadOutlinedIcon />}
+                  >
+                    <DetailsList
+                      Title={"HSC-SSC certification"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                      style={{
+                        textDecoration: "none",
+                        color: "#2a4062",
+                        opacity: "0.8",
+                        backgroundColor: "rgba(0,0,0,0.1)",
+                        borderRadius: 1,
+                        padding: "5px 10px",
+                        display: "inline-flex",
+                      }}
+                      MainStyle={{ mb: 0 }}
+                    />
+                  </Link>
+                )}
+                {profileUser?.adharCard && (
+                  <Link
+                    to={profileUser.adharCard}
+                    target="_blank"
                     style={{
                       textDecoration: "none",
                       color: "#2a4062",
@@ -781,25 +770,27 @@ export default function Home() {
                       display: "inline-flex",
                     }}
                     MainStyle={{ mb: 0 }}
-                  />
-                </Link>
-                <Link
-                  href="#javascript:void(0);"
-                  target="_blank"
-                  style={{
-                    textDecoration: "none",
-                    color: "#2a4062",
-                    opacity: "0.8",
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 1,
-                    padding: "5px 10px",
-                    display: "inline-flex",
-                  }}
-                  MainStyle={{ mb: 0 }}
-                >
-                  <DetailsList
-                    Title={"Adress Proof"}
-                    Icon={<FileDownloadOutlinedIcon />}
+                  >
+                    <DetailsList
+                      Title={"Adhar Card"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                      style={{
+                        textDecoration: "none",
+                        color: "#2a4062",
+                        opacity: "0.8",
+                        backgroundColor: "rgba(0,0,0,0.1)",
+                        borderRadius: 1,
+                        padding: "5px 10px",
+                        display: "inline-flex",
+                      }}
+                      MainStyle={{ mb: 0 }}
+                    />
+                  </Link>
+                )}
+                {profileUser?.addressProof && (
+                  <Link
+                    to={profileUser.addressProof}
+                    target="_blank"
                     style={{
                       textDecoration: "none",
                       color: "#2a4062",
@@ -810,25 +801,27 @@ export default function Home() {
                       display: "inline-flex",
                     }}
                     MainStyle={{ mb: 0 }}
-                  />
-                </Link>
-                <Link
-                  href="#javascript:void(0);"
-                  target="_blank"
-                  style={{
-                    textDecoration: "none",
-                    color: "#2a4062",
-                    opacity: "0.8",
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 1,
-                    padding: "5px 10px",
-                    display: "inline-flex",
-                  }}
-                  MainStyle={{ mb: 0 }}
-                >
-                  <DetailsList
-                    Title={"Property tax bill"}
-                    Icon={<FileDownloadOutlinedIcon />}
+                  >
+                    <DetailsList
+                      Title={"Adress Proof"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                      style={{
+                        textDecoration: "none",
+                        color: "#2a4062",
+                        opacity: "0.8",
+                        backgroundColor: "rgba(0,0,0,0.1)",
+                        borderRadius: 1,
+                        padding: "5px 10px",
+                        display: "inline-flex",
+                      }}
+                      MainStyle={{ mb: 0 }}
+                    />
+                  </Link>
+                )}
+                {profileUser?.propertyTax && (
+                  <Link
+                    to={profileUser.propertyTax}
+                    target="_blank"
                     style={{
                       textDecoration: "none",
                       color: "#2a4062",
@@ -839,25 +832,27 @@ export default function Home() {
                       display: "inline-flex",
                     }}
                     MainStyle={{ mb: 0 }}
-                  />
-                </Link>
-                <Link
-                  href="#javascript:void(0);"
-                  target="_blank"
-                  style={{
-                    textDecoration: "none",
-                    color: "#2a4062",
-                    opacity: "0.8",
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 1,
-                    padding: "5px 10px",
-                    display: "inline-flex",
-                  }}
-                  MainStyle={{ mb: 0 }}
-                >
-                  <DetailsList
-                    Title={"Electricity bill"}
-                    Icon={<FileDownloadOutlinedIcon />}
+                  >
+                    <DetailsList
+                      Title={"Property tax bill"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                      style={{
+                        textDecoration: "none",
+                        color: "#2a4062",
+                        opacity: "0.8",
+                        backgroundColor: "rgba(0,0,0,0.1)",
+                        borderRadius: 1,
+                        padding: "5px 10px",
+                        display: "inline-flex",
+                      }}
+                      MainStyle={{ mb: 0 }}
+                    />
+                  </Link>
+                )}
+                {profileUser?.electricityBill && (
+                  <Link
+                    to={profileUser.electricityBill}
+                    target="_blank"
                     style={{
                       textDecoration: "none",
                       color: "#2a4062",
@@ -868,8 +863,23 @@ export default function Home() {
                       display: "inline-flex",
                     }}
                     MainStyle={{ mb: 0 }}
-                  />
-                </Link>
+                  >
+                    <DetailsList
+                      Title={"Electricity bill"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                      style={{
+                        textDecoration: "none",
+                        color: "#2a4062",
+                        opacity: "0.8",
+                        backgroundColor: "rgba(0,0,0,0.1)",
+                        borderRadius: 1,
+                        padding: "5px 10px",
+                        display: "inline-flex",
+                      }}
+                      MainStyle={{ mb: 0 }}
+                    />
+                  </Link>
+                )}
               </Box>
             </Box>
           </CustomTabPanel>

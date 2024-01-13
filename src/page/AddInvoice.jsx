@@ -208,8 +208,8 @@ export default function Invoices() {
         (bankDetails) => bankDetails !== undefined
       )
       .matches(
-        /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/,
-        "First 4 characters must be alphabets and last 7 characters must be numbers"
+        /^[A-Z]{4}[0][A-Z0-9]{6}$/,
+        "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
       ),
     bankName: Yup.string().test(
       "Bank Name",
