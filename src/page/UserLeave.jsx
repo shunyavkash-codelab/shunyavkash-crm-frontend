@@ -325,10 +325,8 @@ function UserLeave({ userId }) {
                             },
                           }}
                           endIcon={
-                            !leave.status === "panding" ? (
+                            leave.status !== "pending" && (
                               <InfoIcon sx={{ fontSize: "18px!important" }} />
-                            ) : (
-                              ""
                             )
                           }
                         >
