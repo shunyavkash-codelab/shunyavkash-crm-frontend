@@ -113,7 +113,8 @@ function ImageUploder({ title, fileTypes, name, doc }) {
             alignItems: "center",
             borderRadius: 1,
             overflow: "hidden",
-            p: "8px",
+            p: 1,
+            pl: 1.75,
           }}
         >
           <Box

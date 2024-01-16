@@ -4,7 +4,6 @@ import { useAuth } from "../hooks/store/useAuth";
 import Header from "../component/Header";
 import {
   Box,
-  Button,
   Card,
   FormControl,
   FormControlLabel,
@@ -17,11 +16,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  DatePicker,
-  LocalizationProvider,
-  MobileDatePicker,
-} from "@mui/x-date-pickers";
+import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ImageUploder from "../component/form/ImageUploder";
@@ -32,10 +27,7 @@ function AccountAdd() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
-  const [selected, setSelected] = useState("");
-  const changeHandler = (e) => {
-    setSelected(e.target.value);
-  };
+  const [selected, setSelected] = useState(true);
   return (
     <>
       <SideBar
@@ -58,7 +50,7 @@ function AccountAdd() {
               variant="h5"
               sx={{ textTransform: "capitalize", mb: 0.5 }}
             >
-              Add Account
+              Add Entry
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
               <Link to="/account-management" style={{ textDecoration: "none" }}>
@@ -73,7 +65,7 @@ function AccountAdd() {
                     },
                   }}
                 >
-                  Account Management /
+                  A/c Management /
                 </Typography>
               </Link>
               <Typography
@@ -110,30 +102,30 @@ function AccountAdd() {
                   >
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      // defaultValue="Credit"
+                      defaultValue="income"
                       name="radio-buttons-group"
                       sx={{
                         width: "100%",
                         flexDirection: "row",
                         justifyContent: "center",
-                        "& .MuiButtonBase-root": { paddingY: 0 },
+                        "& span": {
+                          py: 0,
+                          fontSize: "14px",
+                          bgcolor: "transparent!important",
+                        },
                       }}
                     >
                       <FormControlLabel
                         value="income"
                         control={<Radio />}
                         label="Income"
-                        sx={{ "& > *.MuiTypography-root": { fontSize: 14 } }}
-                        checked={selected === "income"}
-                        onChange={changeHandler}
+                        onClick={() => setSelected(true)}
                       />
                       <FormControlLabel
                         value="expance"
                         control={<Radio />}
                         label="Expance"
-                        sx={{ "& > *.MuiTypography-root": { fontSize: 14 } }}
-                        checked={selected === "expance"}
-                        onChange={changeHandler}
+                        onClick={() => setSelected(false)}
                       />
                     </RadioGroup>
                   </FormControl>
@@ -198,7 +190,7 @@ function AccountAdd() {
                   />
                 </Grid>
                 {/* Expance Type */}
-                {selected === "expance" ? (
+                {!selected && (
                   <Grid item xs={12} lg={6}>
                     <FormControl
                       fullWidth
@@ -246,8 +238,6 @@ function AccountAdd() {
                       </Select>
                     </FormControl>
                   </Grid>
-                ) : (
-                  ""
                 )}
                 {/* Invoice Type */}
                 <Grid item xs={12} lg={6}>
@@ -332,7 +322,7 @@ function AccountAdd() {
                   </FormControl>
                 </Grid>
                 {/* Collaborator */}
-                {selected === "income" ? (
+                {selected && (
                   <Grid item xs={12} lg={6}>
                     <FormControl
                       fullWidth
@@ -374,12 +364,10 @@ function AccountAdd() {
                       </Select>
                     </FormControl>
                   </Grid>
-                ) : (
-                  ""
                 )}
                 {/* Invoice Upload */}
                 <Grid item xs={12} lg={6}>
-                  <ImageUploder title="Invoice Upload"></ImageUploder>
+                  <ImageUploder title="Invoice Upload" />
                 </Grid>
                 <Grid item xs={12}>
                   <ThemeButton success Text="add entry" />
