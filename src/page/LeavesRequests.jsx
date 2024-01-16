@@ -45,6 +45,7 @@ export default function LeavesRequests() {
   const handleOpen = () => setOpen(true);
   const [allLeaveList, setAllLeaveList] = useState([]);
   const [dashboard, setDashboard] = useState([]);
+  const [selectedDescription, setSelectedDescription] = useState();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
 
@@ -453,6 +454,9 @@ export default function LeavesRequests() {
                                 onClick={() => {
                                   handleOpen();
                                   setLeaveId(leaveRequest._id);
+                                  setSelectedDescription(
+                                    leaveRequest?.description
+                                  );
                                 }}
                                 direction="row"
                                 alignItems="center"
@@ -484,6 +488,9 @@ export default function LeavesRequests() {
                                 onClick={() => {
                                   handleOpen();
                                   setLeaveId(leaveRequest._id);
+                                  setSelectedDescription(
+                                    leaveRequest?.description
+                                  );
                                 }}
                                 direction="row"
                                 alignItems="center"
@@ -538,6 +545,7 @@ export default function LeavesRequests() {
                       placeholder="Description"
                       autoComplete="off"
                       onChange={formik.handleChange}
+                      value={selectedDescription ? selectedDescription : ""}
                       sx={{
                         "&>label,& input,&>div": { fontSize: "14px" },
                       }}

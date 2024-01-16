@@ -26,8 +26,6 @@ export default function EmployeeListRaw({
   dataList,
   type,
 }) {
-  console.log(row, "--------------------28");
-  console.log(row.isActive, "--------------------------30");
   const [role, setRole] = useState();
   const { apiCall } = useApi();
   const { setSnack } = useSnack();

@@ -31,7 +31,7 @@ const schema = Yup.object({
     .required("Email is required.")
     .trim(),
 
-  jobRole: Yup.string()
+  designation: Yup.string()
     .required("JobRole is required")
     .matches(
       /^[a-zA-Z ]+$/,
@@ -55,7 +55,7 @@ export default function EmployeeDetailsForm({
       dateOfJoining: dayjs(data.dateOfJoining),
       employeeId: data.employeeId,
       email: data.email,
-      jobRole: data.jobRole,
+      designation: data.designation,
       role: data.role,
     },
     onSubmit: async (values) => {
@@ -136,7 +136,7 @@ export default function EmployeeDetailsForm({
         <ThemeInput
           placeholder={"Job role"}
           Icon={AccountBoxOutlinedIcon}
-          name="jobRole"
+          name="designation"
           onChange={formik.handleChange}
           formik={formik}
         />

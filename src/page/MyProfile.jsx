@@ -358,9 +358,10 @@ export default function Home() {
                       variant="body1"
                       sx={{
                         opacity: 0.5,
+                        textTransform: "capitalize",
                       }}
                     >
-                      {profileUser?.jobRole}
+                      {profileUser?.designation}
                     </Typography>
                     {/* Todo : This Button is visible for admin only */}
                     <Chip
@@ -506,7 +507,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"Job Title"}
-                    Text={profileUser?.jobRole || "N/A"}
+                    Text={profileUser?.designation || "N/A"}
                     Icon={<AccountBoxOutlinedIcon />}
                     TextStyle={{ textTransform: "capitalize" }}
                   />
