@@ -50,7 +50,7 @@ function AccountManage() {
       title: "system",
       descrption: "sit amet lorem ipsum sit amet.",
       paymentMethod: "UPI",
-      amount: "+$1000",
+      amount: "+10000",
       invoiceType: "Inbound",
       invoiceOwner: "Shunyavkash",
       collaborator: "Pixel",
@@ -61,6 +61,7 @@ function AccountManage() {
       title: "Chair",
       descrption: "lorem ipsum lorem ipsum sit amet.",
       paymentMethod: "Cash",
+      amount: "+500",
       invoiceType: "Outbound",
       invoiceOwner: "Shunyavkash",
       expanceType: "Miscellaneous",
@@ -70,7 +71,7 @@ function AccountManage() {
       title: "tomb raider",
       descrption: "dolor sit lorem ipsum sit amet.",
       paymentMethod: "Bank",
-      amount: "+$1000",
+      amount: "+4500",
       invoiceType: "Outbound",
       invoiceOwner: "Shunyavkash",
       collaborator: "Simpliigence",
@@ -80,7 +81,7 @@ function AccountManage() {
       title: "packets of foods",
       descrption: "lorem ipsum sit amet.",
       paymentMethod: "Cash",
-      amount: "-$2000",
+      amount: "-1500",
       invoiceType: "Inbound",
       invoiceOwner: "Shunyavkash",
       expanceType: "Asset Purchase",
@@ -172,35 +173,7 @@ function AccountManage() {
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  ₹1,50,000
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Expance
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  ₹80,000
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Balance
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  ₹50,000
+                  ₹16,500
                 </Typography>
               </Box>
             </Grid>
@@ -214,7 +187,35 @@ function AccountManage() {
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  ₹565000
+                  ₹14,500
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={6} md={3} lg={3}>
+              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+                <Typography
+                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
+                >
+                  Total Expance
+                </Typography>
+                <Typography
+                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
+                >
+                  ₹2000
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={6} md={3} lg={3}>
+              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+                <Typography
+                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
+                >
+                  Total Balance
+                </Typography>
+                <Typography
+                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
+                >
+                  ₹12,500
                 </Typography>
               </Box>
             </Grid>
@@ -266,22 +267,14 @@ function AccountManage() {
                     <TableCell sx={{ width: "120px" }}>Collaborator</TableCell>
                     <TableCell sx={{ width: "120px" }}>Expance Type</TableCell>
                     <TableCell sx={{ width: "140px", textAlign: "center" }}>
-                      Amount
+                      Amount (₹)
                     </TableCell>
                     <TableCell sx={{ width: "100px", textAlign: "center" }}>
                       actions
                     </TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody
-                  sx={
-                    {
-                      // "&>*:nth-of-type(even)": {
-                      //   bgcolor: "rgb(22 119 255/ 6%)",
-                      // },
-                    }
-                  }
-                >
+                <TableBody>
                   {accounts.map((account) => (
                     <TableRow
                       key={account.key}
@@ -308,11 +301,16 @@ function AccountManage() {
                       </TableCell>
                       <TableCell>
                         <Stack direction="row" alignItems="center" spacing={1}>
-                          <Box sx={{ display: "inline-flex", opacity: "0.5" }}>
+                          <Box
+                            sx={{
+                              display: "inline-flex",
+                              "& span": { opacity: "0.5" },
+                            }}
+                          >
                             {account.paymentMethod === "Cash" ? (
-                              <CashIcon />
+                              <CashIcon sx={{ color: "#43991e" }} />
                             ) : account.paymentMethod === "Bank" ? (
-                              <BankIcon />
+                              <BankIcon sx={{ color: "#3a85ff" }} />
                             ) : (
                               <Stack
                                 direction="row"
@@ -363,7 +361,7 @@ function AccountManage() {
                             : "",
                         }}
                       >
-                        {account.amount ? account.amount : "-"}
+                        {account.amount}
                       </TableCell>
                       <TableCell>
                         <Stack
@@ -417,12 +415,11 @@ function AccountManage() {
                     <TableCell sx={{ color: "text.primary" }}>Total:</TableCell>
                     <TableCell
                       sx={{
-                        // bgcolor: "rgba(74, 210, 146, 15%)",
                         color: "success.main",
                         textAlign: "center",
                       }}
                     >
-                      $10000
+                      12500
                     </TableCell>
                     <TableCell></TableCell>
                   </TableRow>
