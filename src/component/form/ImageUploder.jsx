@@ -64,6 +64,13 @@ function ImageUploder({ title, fileTypes, name, doc }) {
         base64={true}
         handleFiles={handleFiles}
       >
+        {url ? (
+          <Typography sx={{ fontSize: 14, marginBottom: 0.5 }}>
+            {title}
+          </Typography>
+        ) : (
+          ""
+        )}
         <Button
           disableRipple
           sx={{
@@ -74,7 +81,7 @@ function ImageUploder({ title, fileTypes, name, doc }) {
             alignItems: "center",
             borderRadius: 1,
             overflow: "hidden",
-            p: "8px 8px 8px 14px",
+            p: "8px",
           }}
         >
           <Box
@@ -90,7 +97,12 @@ function ImageUploder({ title, fileTypes, name, doc }) {
             {url ? (
               <img
                 src={url}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  maxHeight: "36px",
+                }}
                 alt=""
               />
             ) : (
