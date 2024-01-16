@@ -221,7 +221,14 @@ export default function LeavesRequests() {
             sx={{ mt: 0.75 }}
           >
             <Grid item xs={6} md={3} lg={2.4}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+              <Box
+                p={3}
+                sx={{
+                  backgroundColor: "white",
+                  height: "100%",
+                  borderRadius: 3,
+                }}
+              >
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
                 >
@@ -235,7 +242,14 @@ export default function LeavesRequests() {
               </Box>
             </Grid>
             <Grid item xs={6} md={3} lg={2.4}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+              <Box
+                p={3}
+                sx={{
+                  backgroundColor: "white",
+                  height: "100%",
+                  borderRadius: 3,
+                }}
+              >
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
                 >
@@ -249,7 +263,14 @@ export default function LeavesRequests() {
               </Box>
             </Grid>
             <Grid item xs={6} md={3} lg={2.4}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+              <Box
+                p={3}
+                sx={{
+                  backgroundColor: "white",
+                  height: "100%",
+                  borderRadius: 3,
+                }}
+              >
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
                 >
@@ -263,7 +284,14 @@ export default function LeavesRequests() {
               </Box>
             </Grid>
             <Grid item xs={6} md={3} lg={2.4}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+              <Box
+                p={3}
+                sx={{
+                  backgroundColor: "white",
+                  height: "100%",
+                  borderRadius: 3,
+                }}
+              >
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
                 >
@@ -277,7 +305,14 @@ export default function LeavesRequests() {
               </Box>
             </Grid>
             <Grid item xs={6} md={3} lg={2.4}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+              <Box
+                p={3}
+                sx={{
+                  backgroundColor: "white",
+                  height: "100%",
+                  borderRadius: 3,
+                }}
+              >
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
                 >
@@ -348,14 +383,6 @@ export default function LeavesRequests() {
                         <TableCell>{leaveRequest.userName}</TableCell>
                         <TableCell
                           sx={{
-                            "& .statusBtn": {
-                              color: "white",
-                              fontSize: "12px",
-                              p: 0.5,
-                              borderRadius: 1,
-                              maxWidth: "fit-content",
-                              lineHeight: 1,
-                            },
                             "& .casual": {
                               bgcolor: "rgba(94, 115, 141, 15%)",
                               color: "grey.dark",
@@ -375,7 +402,7 @@ export default function LeavesRequests() {
                           }}
                         >
                           <Box
-                            className={`statusBtn ${
+                            className={
                               leaveRequest.leaveType === "casual"
                                 ? "casual"
                                 : leaveRequest.leaveType === "sick"
@@ -383,7 +410,15 @@ export default function LeavesRequests() {
                                 : leaveRequest.leaveType === "unpaid"
                                 ? "unpaid"
                                 : "paid"
-                            }`}
+                            }
+                            sx={{
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
+                            }}
                           >
                             {leaveRequest.leaveType}
                           </Box>
@@ -399,14 +434,14 @@ export default function LeavesRequests() {
                           sx={{
                             "& .statusBtn": {
                               fontSize: { xs: "12px", sm: "14px" },
-                              px: "16px",
-                              py:
-                                !leaveRequest.status ||
-                                leaveRequest.status === ""
-                                  ? "12px"
-                                  : "7px",
+                              px: 2,
+                              py: 1,
                               maxWidth: "fit-content",
                               lineHeight: 1,
+                              minHeight: "36px",
+                              "& svg": {
+                                fontSize: "20px",
+                              },
                             },
                           }}
                         >
