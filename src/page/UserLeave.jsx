@@ -285,11 +285,15 @@ function UserLeave({ userId }) {
                             bgcolor:
                               leave.status === "unapprove"
                                 ? "review.main"
+                                : leave.status === "pending"
+                                ? "error.main"
                                 : "success.main",
                             "&:hover": {
                               bgcolor:
                                 leave.status === "unapprove"
                                   ? "review.main"
+                                  : leave.status === "pending"
+                                  ? "error.light"
                                   : "success.main",
                             },
                             "& .MuiButton-endIcon": {
@@ -298,7 +302,11 @@ function UserLeave({ userId }) {
                             },
                           }}
                           endIcon={
-                            <InfoIcon sx={{ fontSize: "18px!important" }} />
+                            !leave.status === "panding" ? (
+                              <InfoIcon sx={{ fontSize: "18px!important" }} />
+                            ) : (
+                              ""
+                            )
                           }
                         >
                           <span style={{ display: "inline-block" }}>
