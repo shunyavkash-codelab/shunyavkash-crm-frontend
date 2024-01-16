@@ -106,7 +106,7 @@ function UserLeave({ userId }) {
   return (
     <>
       <Grid container rowSpacing={2.5} columnSpacing={2.5} mt={0}>
-        <Grid item xs={6} md={3} lg={3}>
+        <Grid item xs={6} md={3} lg={2.4}>
           <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -120,7 +120,7 @@ function UserLeave({ userId }) {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={6} md={3} lg={3}>
+        <Grid item xs={6} md={3} lg={2.4}>
           <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -134,7 +134,7 @@ function UserLeave({ userId }) {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={6} md={3} lg={3}>
+        <Grid item xs={6} md={3} lg={2.4}>
           <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -148,7 +148,7 @@ function UserLeave({ userId }) {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={6} md={3} lg={3}>
+        <Grid item xs={6} md={3} lg={2.4}>
           <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -159,6 +159,20 @@ function UserLeave({ userId }) {
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
             >
               N/A
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={3} lg={2.4}>
+          <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+            <Typography
+              sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
+            >
+              Paid Leaves
+            </Typography>
+            <Typography
+              sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
+            >
+              0
             </Typography>
           </Box>
         </Grid>
@@ -295,14 +309,14 @@ function UserLeave({ userId }) {
                               leave.status === "unapprove"
                                 ? "review.main"
                                 : leave.status === "pending"
-                                ? "error.main"
+                                ? "#f4a736"
                                 : "success.main",
                             "&:hover": {
                               bgcolor:
                                 leave.status === "unapprove"
                                   ? "review.main"
                                   : leave.status === "pending"
-                                  ? "error.light"
+                                  ? "#f0bb6e"
                                   : "success.main",
                             },
                             "& .MuiButton-endIcon": {
