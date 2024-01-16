@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   MenuItem,
@@ -47,6 +48,14 @@ function UserLeave({ userId }) {
   const { id } = useParams();
 
   const formik = useFormik({
+    validationSchema: Yup.object({
+      leaveType: Yup.string().required("Leave type is required."),
+      startDate: Yup.date().required("Start date is required."),
+      startDayType: Yup.string().required("Start day type is required."),
+      endDate: Yup.date().required("End date is required."),
+      endDayType: Yup.string().required("End day type is required."),
+      reason: Yup.string().required("Reason is required."),
+    }),
     enableReinitialize: true,
     initialValues: {
       leaveType: "",
@@ -356,6 +365,9 @@ function UserLeave({ userId }) {
                   }
                   label="Leave Type"
                   sx={{ fontSize: "14px" }}
+                  error={
+                    formik.touched.leaveType && Boolean(formik.errors.leaveType)
+                  }
                 >
                   <MenuItem value={"casual"}>
                     <Box
@@ -422,6 +434,12 @@ function UserLeave({ userId }) {
                     </Box>
                   </MenuItem>
                 </Select>
+                {formik.touched.leaveType &&
+                  Boolean(formik.errors.leaveType) && (
+                    <FormHelperText error={true}>
+                      {formik.touched.leaveType && formik.errors.leaveType}
+                    </FormHelperText>
+                  )}
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -444,7 +462,16 @@ function UserLeave({ userId }) {
                     "&>div": { fontSize: "14px" },
                     "&>label": { fontSize: "14px" },
                   }}
+                  error={
+                    formik.touched.startDate && Boolean(formik.errors.startDate)
+                  }
                 />
+                {formik.touched.startDate &&
+                  Boolean(formik.errors.startDate) && (
+                    <FormHelperText error={true}>
+                      {formik.touched.startDate && formik.errors.startDate}
+                    </FormHelperText>
+                  )}
               </LocalizationProvider>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -472,6 +499,10 @@ function UserLeave({ userId }) {
                   }
                   label="Day type"
                   sx={{ fontSize: "14px" }}
+                  error={
+                    formik.touched.startDayType &&
+                    Boolean(formik.errors.startDayType)
+                  }
                 >
                   <MenuItem
                     sx={{ textTransform: "capitalize" }}
@@ -492,6 +523,13 @@ function UserLeave({ userId }) {
                     full day
                   </MenuItem>
                 </Select>
+                {formik.touched.startDayType &&
+                  Boolean(formik.errors.startDayType) && (
+                    <FormHelperText error={true}>
+                      {formik.touched.startDayType &&
+                        formik.errors.startDayType}
+                    </FormHelperText>
+                  )}
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -512,7 +550,15 @@ function UserLeave({ userId }) {
                     "&>div": { fontSize: "14px" },
                     "&>label": { fontSize: "14px" },
                   }}
+                  error={
+                    formik.touched.endDate && Boolean(formik.errors.endDate)
+                  }
                 />
+                {formik.touched.endDate && Boolean(formik.errors.endDate) && (
+                  <FormHelperText error={true}>
+                    {formik.touched.endDate && formik.errors.endDate}
+                  </FormHelperText>
+                )}
               </LocalizationProvider>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -540,6 +586,10 @@ function UserLeave({ userId }) {
                   }
                   label="Day type"
                   sx={{ fontSize: "14px" }}
+                  error={
+                    formik.touched.endDayType &&
+                    Boolean(formik.errors.endDayType)
+                  }
                 >
                   <MenuItem
                     sx={{ textTransform: "capitalize" }}
@@ -560,6 +610,12 @@ function UserLeave({ userId }) {
                     full day
                   </MenuItem>
                 </Select>
+                {formik.touched.endDayType &&
+                  Boolean(formik.errors.endDayType) && (
+                    <FormHelperText error={true}>
+                      {formik.touched.endDayType && formik.errors.endDayType}
+                    </FormHelperText>
+                  )}
               </FormControl>
             </Grid>
             <Grid item xs={12}>
@@ -573,7 +629,13 @@ function UserLeave({ userId }) {
                       <AccountHolderIcon />
                     </InputAdornment>
                   }
+                  error={formik.touched.reason && Boolean(formik.errors.reason)}
                 />
+                {formik.touched.reason && Boolean(formik.errors.reason) && (
+                  <FormHelperText error={true}>
+                    {formik.touched.reason && formik.errors.reason}
+                  </FormHelperText>
+                )}
               </FormControl>
             </Grid>
             <Grid item xs={12}>
