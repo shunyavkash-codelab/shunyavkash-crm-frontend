@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SideBar from "../component/SideBar";
 import { useAuth } from "../hooks/store/useAuth";
@@ -36,20 +36,56 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import InvoiceTypeIcon from "@mui/icons-material/Receipt";
 import PlusIcon from "@mui/icons-material/Close";
 import ThemeButton from "../component/ThemeButton";
+import { APIS } from "../api/apiList";
+import useApi from "../hooks/useApi";
+import { useSnack } from "../hooks/store/useSnack";
+import moment from "moment";
 import ImageUploder from "../component/form/ImageUploder";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [transactionList, setTransactionList] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
   const { accessToken } = useAuth();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+  const { apiCall } = useApi();
+  const { setSnack } = useSnack();
+
+  const viewAllTransaction = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.ACCOUNTMANAGE.LIST,
+        method: "get",
+        params: { sortField: "date" },
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setTransactionList(res.data.data.data);
+        let total = 0;
+        for (var trans of res.data.data.data) {
+          if (trans.type === "expance") {
+            total = total - trans.amount;
+          } else {
+            total = total + trans.amount;
+          }
+        }
+        setTotalAmount(total);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    viewAllTransaction();
+  }, []);
 
   const accounts = [
     {
       date: "01/01/2024",
       title: "system",
-      descrption: "sit amet lorem ipsum sit amet.",
+      description: "sit amet lorem ipsum sit amet.",
       paymentMethod: "UPI",
       amount: "+10000",
       invoiceType: "Inbound",
@@ -60,7 +96,7 @@ function AccountManage() {
     {
       date: "12/11/2023",
       title: "Chair",
-      descrption: "lorem ipsum lorem ipsum sit amet.",
+      description: "lorem ipsum lorem ipsum sit amet.",
       paymentMethod: "Cash",
       amount: "+500",
       invoiceType: "Outbound",
@@ -70,7 +106,7 @@ function AccountManage() {
     {
       date: "26/05/2023",
       title: "tomb raider",
-      descrption: "dolor sit lorem ipsum sit amet.",
+      description: "dolor sit lorem ipsum sit amet.",
       paymentMethod: "Bank",
       amount: "+4500",
       invoiceType: "Outbound",
@@ -80,7 +116,7 @@ function AccountManage() {
     {
       date: "03/02/2023",
       title: "packets of foods",
-      descrption: "lorem ipsum sit amet.",
+      description: "lorem ipsum sit amet.",
       paymentMethod: "Cash",
       amount: "-1500",
       invoiceType: "Inbound",
@@ -276,14 +312,17 @@ function AccountManage() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {accounts.map((account) => (
+                  {transactionList.map((account) => (
                     <TableRow
                       key={account.key}
                       sx={{
                         "&>td": { fontSize: { xs: "12px", sm: "14px" } },
                       }}
                     >
-                      <TableCell>{account.date}</TableCell>
+                      <TableCell>
+                        {moment(account.date).format("DD/MM/YYYY")}
+                      </TableCell>
+
                       <TableCell>
                         <Box
                           className="truncate line-clamp-1"
@@ -297,7 +336,7 @@ function AccountManage() {
                           className="truncate line-clamp-2"
                           sx={{ textWrap: "wrap" }}
                         >
-                          {account.descrption}
+                          {account.description}
                         </Box>
                       </TableCell>
                       <TableCell>
@@ -348,7 +387,7 @@ function AccountManage() {
                         {account.collaborator ? account.collaborator : "-"}
                       </TableCell>
                       <TableCell>
-                        {account.expanceType ? account.expanceType : "-"}
+                        {account.expanseType ? account.expanseType : "-"}
                       </TableCell>
                       <TableCell
                         sx={{
@@ -357,12 +396,12 @@ function AccountManage() {
                             ? "text.primary"
                             : account.collaborator
                             ? "success.main"
-                            : account.expanceType
+                            : account.expanseType
                             ? "review.main"
                             : "",
                         }}
                       >
-                        {account.amount}
+                        ${account.amount ? account.amount : "-"}
                       </TableCell>
                       <TableCell>
                         <Stack
@@ -384,7 +423,7 @@ function AccountManage() {
                           <Button disableRipple onClick={handleOpen}>
                             <VisibilityIcon />
                           </Button>
-                          <Link to="./add">
+                          <Link to={`./edit/${account._id}`}>
                             <Button disableRipple>
                               <CreateIcon />
                             </Button>
@@ -416,11 +455,12 @@ function AccountManage() {
                     <TableCell sx={{ color: "text.primary" }}>Total:</TableCell>
                     <TableCell
                       sx={{
-                        color: "success.main",
+                        // bgcolor: "rgba(74, 210, 146, 15%)",
+                        color: totalAmount < 0 ? "review.main" : "success.main",
                         textAlign: "center",
                       }}
                     >
-                      12500
+                      ${Math.abs(totalAmount)}
                     </TableCell>
                     <TableCell></TableCell>
                   </TableRow>

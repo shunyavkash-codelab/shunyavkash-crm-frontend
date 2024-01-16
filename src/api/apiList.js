@@ -74,4 +74,8 @@ export const APIS = {
     ALL: `leave/all`,
     DASHBOARD: "leave/dashboard",
   },
+  ACCOUNTMANAGE: {
+    ADD: "account/add",
+    LIST: "account",
+  },
 };
