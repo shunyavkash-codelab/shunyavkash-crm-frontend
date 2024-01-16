@@ -71,7 +71,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
         .required("IFSC is required.")
         .length(11)
         .matches(
-          /^[A-Z]{4}[0][A-Z0-9]{6}$/,
+          /^[a-zA-Z]{4}[0][a-zA-Z0-9]{6}$/,
           "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
         ),
       bankName: Yup.string().required("Bank Name is required."),
@@ -87,6 +87,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
     },
 
     onSubmit: async (values) => {
+      console.log(values);
       try {
         const res = await apiCall({
           url: userBank ? APIS.BANK.EDIT(userBank._id) : APIS.BANK.ADD,
@@ -601,15 +602,15 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                     </InputAdornment>
                   }
                   error={
-                    formikBank.touched.bankName &&
-                    Boolean(formikBank.errors.bankName)
+                    formikBank.touched.holderName &&
+                    Boolean(formikBank.errors.holderName)
                   }
                 />
-                {formikBank.touched.bankName &&
-                  Boolean(formikBank.errors.bankName) && (
+                {formikBank.touched.holderName &&
+                  Boolean(formikBank.errors.holderName) && (
                     <FormHelperText error={true}>
-                      {formikBank.touched.bankName &&
-                        formikBank.errors.bankName}
+                      {formikBank.touched.holderName &&
+                        formikBank.errors.holderName}
                     </FormHelperText>
                   )}
               </FormControl>

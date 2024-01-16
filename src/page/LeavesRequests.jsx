@@ -32,10 +32,13 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList";
 import moment from "moment";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 export default function LeavesRequests() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [leaveId, setLeaveId] = useState(false);
   const { accessToken } = useAuth();
 
   const [open, setOpen] = React.useState(false);
@@ -43,6 +46,36 @@ export default function LeavesRequests() {
   const [allLeaveList, setAllLeaveList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
+
+  const formik = useFormik({
+    validationSchema: Yup.object({
+      description: Yup.string().required("Description is required."),
+      status: Yup.string().required("Status is required."),
+    }),
+    enableReinitialize: true,
+    initialValues: {
+      description: "",
+      status: "",
+    },
+
+    onSubmit: async (values) => {
+      try {
+        const res = await apiCall({
+          url: APIS.LEAVE.EDIT(leaveId),
+          method: "patch",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.data.success === true) {
+          setSnack(res.data.message);
+          setOpen(false);
+          leaveList();
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
 
   const leaveList = async () => {
     try {
@@ -348,10 +381,13 @@ export default function LeavesRequests() {
                         >
                           <ButtonGroup sx={{ overflow: "hidden" }}>
                             {!leaveRequest.status ||
-                            leaveRequest.status === "" ||
+                            leaveRequest.status === "pending" ||
                             leaveRequest.status === "approve" ? (
                               <Stack
-                                onClick={handleOpen}
+                                onClick={() => {
+                                  handleOpen();
+                                  setLeaveId(leaveRequest._id);
+                                }}
                                 direction="row"
                                 alignItems="center"
                                 spacing={0.75}
@@ -367,7 +403,7 @@ export default function LeavesRequests() {
                                   approve
                                 </span>
                                 {leaveRequest.status === "approve" && (
-                                  <Tooltip title={leaveRequest.statusReason}>
+                                  <Tooltip title={leaveRequest.description}>
                                     <InfoIcon />
                                   </Tooltip>
                                 )}
@@ -376,10 +412,13 @@ export default function LeavesRequests() {
                               ""
                             )}
                             {!leaveRequest.status ||
-                            leaveRequest.status === "" ||
+                            leaveRequest.status === "pending" ||
                             leaveRequest.status === "unapprove" ? (
                               <Stack
-                                onClick={handleOpen}
+                                onClick={() => {
+                                  handleOpen();
+                                  setLeaveId(leaveRequest._id);
+                                }}
                                 direction="row"
                                 alignItems="center"
                                 spacing={0.75}
@@ -396,36 +435,7 @@ export default function LeavesRequests() {
                                   unapprove
                                 </span>
                                 {leaveRequest.status === "unapprove" && (
-                                  <Tooltip title={leaveRequest.statusReason}>
-                                    <InfoIcon />
-                                  </Tooltip>
-                                )}
-                              </Stack>
-                            ) : (
-                              ""
-                            )}
-                            {!leaveRequest.status ||
-                            leaveRequest.status === "" ||
-                            leaveRequest.status === "pending" ? (
-                              <Stack
-                                onClick={handleOpen}
-                                direction="row"
-                                alignItems="center"
-                                spacing={0.75}
-                                className="statusBtn"
-                                sx={{
-                                  cursor: "pointer",
-                                  bgcolor: "rgba(225, 107, 22, 15%)",
-                                  color: "review.main",
-                                  // py: 0.75,
-                                  // padding: "6px 16px 6px 16px !important",
-                                }}
-                              >
-                                <span style={{ display: "inline-block" }}>
-                                  pending
-                                </span>
-                                {leaveRequest.status === "pending" && (
-                                  <Tooltip title={leaveRequest.statusReason}>
+                                  <Tooltip title={leaveRequest.description}>
                                     <InfoIcon />
                                   </Tooltip>
                                 )}
@@ -449,34 +459,53 @@ export default function LeavesRequests() {
             modalTitle="Give Reason"
             sx={{ padding: "6px" }}
           >
-            <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <TextField
-                    required
-                    fullWidth
-                    multiline
-                    rows={4}
-                    size="normal"
-                    id="name"
-                    placeholder="Description"
-                    autoComplete="off"
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                    }}
-                  />
-                </FormControl>
+            <Box component="form" onSubmit={formik.handleSubmit}>
+              <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
+                    <TextField
+                      fullWidth
+                      multiline
+                      rows={4}
+                      size="normal"
+                      name="description"
+                      placeholder="Description"
+                      autoComplete="off"
+                      onChange={formik.handleChange}
+                      sx={{
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                      }}
+                      error={
+                        formik.touched.description &&
+                        Boolean(formik.errors.description)
+                      }
+                      helperText={
+                        formik.touched.description && formik.errors.description
+                      }
+                    />
+                  </FormControl>
+                </Grid>
               </Grid>
-            </Grid>
-            <Stack
-              direction="row"
-              justifyContent="center"
-              spacing={2}
-              sx={{ mt: 2 }}
-            >
-              <ThemeButton success Text="approve" type="submit" />
-              <ThemeButton error Text="unapprove" type="submit" />
-            </Stack>
+              <Stack
+                direction="row"
+                justifyContent="center"
+                spacing={2}
+                sx={{ mt: 2 }}
+              >
+                <ThemeButton
+                  success
+                  Text="approve"
+                  onClick={() => formik.setFieldValue("status", "approve")}
+                  type="submit"
+                />
+                <ThemeButton
+                  error
+                  Text="unapprove"
+                  onClick={() => formik.setFieldValue("status", "unapprove")}
+                  type="submit"
+                />
+              </Stack>
+            </Box>
           </ModalComponent>
         </Box>
       </Box>

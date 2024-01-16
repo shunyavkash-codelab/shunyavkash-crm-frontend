@@ -208,7 +208,7 @@ export default function Invoices() {
         (bankDetails) => bankDetails !== undefined
       )
       .matches(
-        /^[A-Z]{4}[0][A-Z0-9]{6}$/,
+        /^[a-zA-Z]{4}[0][a-zA-Z0-9]{6}$/,
         "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
       ),
     bankName: Yup.string().test(
@@ -805,8 +805,8 @@ export default function Invoices() {
                                 fontSize: "16px",
                               }}
                             >
-                              {adminList.address} {adminList.address2}
-                              {adminList.landmark} {adminList.pincode}
+                              {values.address} {values.address2}
+                              {values.landmark} {values.pincode}
                             </Typography>
                             <Box
                               sx={{
@@ -820,7 +820,7 @@ export default function Invoices() {
                                   fontSize: "16px",
                                 }}
                               >
-                                {adminList.mobileCode} {adminList.mobileNumber}
+                                {values.mobileCode} {values.mobileNumber}
                               </Typography>
                               <Typography
                                 variant="subtitle3"
@@ -830,7 +830,7 @@ export default function Invoices() {
                                   fontSize: "16px",
                                 }}
                               >
-                                {adminList.email}
+                                {values.email}
                               </Typography>
                             </Box>
                             <Box

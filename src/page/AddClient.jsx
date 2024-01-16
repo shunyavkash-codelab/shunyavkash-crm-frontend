@@ -67,7 +67,7 @@ export default function AddClient() {
     IFSC: Yup.string()
       .length(11)
       .matches(
-        /^[A-Z]{4}[0][A-Z0-9]{6}$/,
+        /^[a-zA-Z]{4}[0][a-zA-Z0-9]{6}$/,
         "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
       ),
     bankName: Yup.string(),

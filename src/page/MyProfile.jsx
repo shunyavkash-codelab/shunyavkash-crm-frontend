@@ -625,7 +625,9 @@ export default function Home() {
                     Title={"Address"}
                     Text={
                       profileUser?.address +
+                        " " +
                         profileUser?.address2 +
+                        " " +
                         profileUser?.landmark +
                         "-" +
                         profileUser?.pincode || "N/A"
