@@ -44,6 +44,7 @@ function UserLeave({ userId }) {
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
 
+  const [dashboard, setDashboard] = useState([]);
   const [leaveList, setLeaveList] = useState([]);
   const { id } = useParams();
 
@@ -67,7 +68,6 @@ function UserLeave({ userId }) {
     },
 
     onSubmit: async (values) => {
-      console.log(values, "--------------60");
       try {
         const res = await apiCall({
           url: APIS.LEAVE.ADD,
@@ -75,7 +75,6 @@ function UserLeave({ userId }) {
           data: JSON.stringify(values, null, 2),
         });
         if (res.data.success === true) {
-          console.log(res.data.data, "-------------------69");
           setSnack(res.data.message);
           setLeaveList([res.data.data, ...leaveList]);
           setOpen(false);
@@ -86,6 +85,21 @@ function UserLeave({ userId }) {
       }
     },
   });
+
+  const leaveDashboard = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.LEAVE.DASHBOARD,
+        method: "get",
+        params: { userId: userId },
+      });
+      if (res.data.success === true) {
+        setDashboard(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
 
   const viewUserLeave = async (userId) => {
     try {
@@ -101,6 +115,7 @@ function UserLeave({ userId }) {
     }
   };
   useEffect(() => {
+    leaveDashboard();
     viewUserLeave(id || userId);
   }, []);
   return (
@@ -116,7 +131,7 @@ function UserLeave({ userId }) {
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
             >
-              15
+              {dashboard.total || 0}
             </Typography>
           </Box>
         </Grid>
@@ -130,7 +145,7 @@ function UserLeave({ userId }) {
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
             >
-              5
+              {dashboard.casual || 0}
             </Typography>
           </Box>
         </Grid>
@@ -144,7 +159,7 @@ function UserLeave({ userId }) {
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
             >
-              5
+              {dashboard.sick || 0}
             </Typography>
           </Box>
         </Grid>
@@ -158,7 +173,7 @@ function UserLeave({ userId }) {
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
             >
-              N/A
+              {dashboard.unpaid || 0}
             </Typography>
           </Box>
         </Grid>
@@ -172,7 +187,7 @@ function UserLeave({ userId }) {
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
             >
-              0
+              {dashboard.paid || 0}
             </Typography>
           </Box>
         </Grid>

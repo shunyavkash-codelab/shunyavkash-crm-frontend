@@ -615,7 +615,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"personal email"}
-                    Text={profileUser?.personalEmail}
+                    Text={profileUser?.personalEmail || "N/A"}
                     Icon={<EmailOutlinedIcon />}
                     TextStyle={{ wordBreak: "break-all" }}
                   />
@@ -624,13 +624,15 @@ export default function Home() {
                   <DetailsList
                     Title={"Address"}
                     Text={
-                      profileUser?.address +
-                        " " +
-                        profileUser?.address2 +
-                        " " +
-                        profileUser?.landmark +
-                        "-" +
-                        profileUser?.pincode || "N/A"
+                      (profileUser?.address &&
+                        profileUser.address +
+                          " " +
+                          profileUser.address2 +
+                          " " +
+                          profileUser.landmark +
+                          "-" +
+                          profileUser.pincode) ||
+                      "N/A"
                     }
                     // Text={
                     //   profileUser?.address?.split("\n").map((line, index) => (

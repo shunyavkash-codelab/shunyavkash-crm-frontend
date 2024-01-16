@@ -14,10 +14,33 @@ function ImageUploder({ title, fileTypes, name, doc }) {
   const { setSnack } = useSnack();
   const { apiCall, isLoading } = useApi();
   // var _URL = window.URL || window.webkitURL;
+
+  const editUserProfile = async (formData, message) => {
+    try {
+      const res = await apiCall({
+        url: APIS.MANAGER.EDIT(userId),
+        method: "patch",
+        headers: "multipart/form-data",
+        data: formData,
+      });
+      if (res.status === 200) {
+        setSnack(`${message}`);
+        // setUrl(files.base64);
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
+    }
+  };
+
   const handleFiles = async (files) => {
-    setUrl(files.base64);
+    console.log(files);
+    setUrl(files?.base64);
     var file, img;
-    if ((file = files.fileList[0] && title === "signature")) {
+    if (
+      files.fileList.length &&
+      (file = files.fileList[0] && title === "signature")
+    ) {
       img = new Image();
       // var objectUrl = _URL.createObjectURL(file);
       img.onload = function () {
@@ -29,21 +52,29 @@ function ImageUploder({ title, fileTypes, name, doc }) {
     let formData = new FormData();
 
     formData.append(name, files.fileList[0]);
-    try {
-      const res = await apiCall({
-        url: APIS.MANAGER.EDIT(userId),
-        method: "patch",
-        headers: "multipart/form-data",
-        data: formData,
-      });
-      if (res.status === 200) {
-        setSnack(`${title} upload successfully.`);
-        // setUrl(files.base64);
-      }
-    } catch (error) {
-      let errorMessage = error.response.data.message;
-      setSnack(errorMessage, "warning");
-    }
+    await editUserProfile(formData, `${title} upload successfully.`);
+    // try {
+    //   const res = await apiCall({
+    //     url: APIS.MANAGER.EDIT(userId),
+    //     method: "patch",
+    //     headers: "multipart/form-data",
+    //     data: formData,
+    //   });
+    //   if (res.status === 200) {
+    //     setSnack(`${title} upload successfully.`);
+    //     // setUrl(files.base64);
+    //   }
+    // } catch (error) {
+    //   let errorMessage = error.response.data.message;
+    //   setSnack(errorMessage, "warning");
+    // }
+  };
+
+  const removeDoc = async () => {
+    let formData = new FormData();
+
+    formData.append(name, "");
+    await editUserProfile(formData, `Remove ${title} successfully.`);
   };
   return (
     <>
@@ -109,6 +140,7 @@ function ImageUploder({ title, fileTypes, name, doc }) {
                   alt=""
                 />
                 <Button
+                  onClick={removeDoc}
                   sx={{
                     position: "absolute",
                     top: "-4px",

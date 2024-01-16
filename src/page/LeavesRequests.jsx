@@ -44,6 +44,7 @@ export default function LeavesRequests() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const [allLeaveList, setAllLeaveList] = useState([]);
+  const [dashboard, setDashboard] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
 
@@ -77,6 +78,20 @@ export default function LeavesRequests() {
     },
   });
 
+  const leaveDashboard = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.LEAVE.DASHBOARD,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setDashboard(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
   const leaveList = async () => {
     try {
       const res = await apiCall({
@@ -92,60 +107,62 @@ export default function LeavesRequests() {
     }
   };
   useEffect(() => {
+    leaveDashboard();
     leaveList();
   }, []);
-  const leavesRequests = [
-    {
-      id: 1,
-      username: "Deep Bhimani",
-      type: "casual",
-      reason: "Marriage Function",
-      startDate: "15/01/2023",
-      endDate: "17/01/2023",
-      status: "approve",
-      statusReason: "Lorem ipsum dolor sit amet 1",
-    },
-    {
-      id: 2,
-      username: "Deep Bhimani",
-      type: "sick",
-      reason: "Medical",
-      startDate: "25/02/2023",
-      endDate: "27/02/2023",
-      status: "approve",
-      statusReason: "Lorem ipsum dolor sit amet 2",
-    },
-    {
-      id: 3,
-      username: "Deep Bhimani",
-      type: "paid",
-      reason: "Going to Village",
-      startDate: "31/04/2023",
-      endDate: "2/05/2023",
-      status: "unapprove",
-      statusReason: "ipsum dolor sit amet lorem 3",
-    },
-    {
-      id: 4,
-      username: "Deep Bhimani",
-      type: "unpaid",
-      reason: "Going to Friend's Birthday Party",
-      startDate: "25/04/2023",
-      endDate: "25/04/2023",
-      status: "unapprove",
-      statusReason: "Lorem dolor sit ipsum amet 4",
-    },
-    {
-      id: 5,
-      username: "Dipali Gediya",
-      type: "unpaid",
-      reason: "Going to Friend's Birthday Party",
-      startDate: "25/04/2023",
-      endDate: "25/04/2023",
-      status: "",
-      statusReason: "Lorem dolor sit ipsum amet 4",
-    },
-  ];
+
+  // const leavesRequests = [
+  //   {
+  //     id: 1,
+  //     username: "Deep Bhimani",
+  //     type: "casual",
+  //     reason: "Marriage Function",
+  //     startDate: "15/01/2023",
+  //     endDate: "17/01/2023",
+  //     status: "approve",
+  //     statusReason: "Lorem ipsum dolor sit amet 1",
+  //   },
+  //   {
+  //     id: 2,
+  //     username: "Deep Bhimani",
+  //     type: "sick",
+  //     reason: "Medical",
+  //     startDate: "25/02/2023",
+  //     endDate: "27/02/2023",
+  //     status: "approve",
+  //     statusReason: "Lorem ipsum dolor sit amet 2",
+  //   },
+  //   {
+  //     id: 3,
+  //     username: "Deep Bhimani",
+  //     type: "paid",
+  //     reason: "Going to Village",
+  //     startDate: "31/04/2023",
+  //     endDate: "2/05/2023",
+  //     status: "unapprove",
+  //     statusReason: "ipsum dolor sit amet lorem 3",
+  //   },
+  //   {
+  //     id: 4,
+  //     username: "Deep Bhimani",
+  //     type: "unpaid",
+  //     reason: "Going to Friend's Birthday Party",
+  //     startDate: "25/04/2023",
+  //     endDate: "25/04/2023",
+  //     status: "unapprove",
+  //     statusReason: "Lorem dolor sit ipsum amet 4",
+  //   },
+  //   {
+  //     id: 5,
+  //     username: "Dipali Gediya",
+  //     type: "unpaid",
+  //     reason: "Going to Friend's Birthday Party",
+  //     startDate: "25/04/2023",
+  //     endDate: "25/04/2023",
+  //     status: "",
+  //     statusReason: "Lorem dolor sit ipsum amet 4",
+  //   },
+  // ];
 
   return (
     <>
@@ -203,7 +220,7 @@ export default function LeavesRequests() {
             mt={0}
             sx={{ mt: 0.75 }}
           >
-            <Grid item xs={6} md={3} lg={3}>
+            <Grid item xs={6} md={3} lg={2.4}>
               <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -213,11 +230,11 @@ export default function LeavesRequests() {
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  15
+                  {dashboard.total || 0}
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6} md={3} lg={3}>
+            <Grid item xs={6} md={3} lg={2.4}>
               <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -227,11 +244,11 @@ export default function LeavesRequests() {
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  5
+                  {dashboard.casual || 0}
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6} md={3} lg={3}>
+            <Grid item xs={6} md={3} lg={2.4}>
               <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -241,11 +258,11 @@ export default function LeavesRequests() {
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  5
+                  {dashboard.sick || 0}
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6} md={3} lg={3}>
+            <Grid item xs={6} md={3} lg={2.4}>
               <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -255,7 +272,21 @@ export default function LeavesRequests() {
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  N/A
+                  {dashboard.unpaid || 0}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={6} md={3} lg={2.4}>
+              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+                <Typography
+                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
+                >
+                  Paid Leaves
+                </Typography>
+                <Typography
+                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
+                >
+                  {dashboard.paid}
                 </Typography>
               </Box>
             </Grid>
