@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Tooltip, Typography } from "@mui/material";
 import React, { useState } from "react";
 import ReactFileReader from "react-file-reader";
 import UploadOutlinedIcon from "@mui/icons-material/UploadOutlined";
@@ -78,58 +78,47 @@ function ImageUploder({ title, fileTypes, name, doc }) {
   };
   return (
     <>
-      {/* <Typography
-        variant="h5"
+      {/* <Box
         sx={{
-          fontSize: 14,
-          color: "black",
-          fontWeight: "400",
-          mb: 1.5,
-          textTransform: "capitalize",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "end",
+          height: "100%",
         }}
-      >
-        {props.title}
-      </Typography> */}
-      <ReactFileReader
-        name={name}
-        fileTypes={fileTypes}
-        base64={true}
-        handleFiles={handleFiles}
-      >
-        {url ? (
-          <Typography sx={{ fontSize: 14, marginBottom: 0.5 }}>
+      > */}
+      {/* {url && (
+          <Typography sx={{ fontSize: "14px", marginBottom: 0.75 }}>
             {title}
           </Typography>
-        ) : (
-          ""
-        )}
-        <Button
-          disableRipple
+        )} */}
+      <Button
+        disableRipple
+        sx={{
+          width: "100%",
+          backgroundColor: "rgba(0,0,0,0.1)!important",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderRadius: 1,
+          overflow: "hidden",
+          p: 1,
+          pl: 1.75,
+        }}
+      >
+        <Box
           sx={{
-            width: "100%",
-            backgroundColor: "rgba(0,0,0,0.1)!important",
+            fontSize: "14px",
+            color: "text.primary",
+            flexShrink: 0,
             display: "flex",
-            justifyContent: "space-between",
             alignItems: "center",
-            borderRadius: 1,
-            overflow: "hidden",
-            p: 1,
-            pl: 1.75,
+            gap: 2,
+            position: "relative",
           }}
         >
-          <Box
-            sx={{
-              fontSize: 14,
-              color: "text.primary",
-              flexShrink: 0,
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              position: "relative",
-            }}
-          >
-            {url ? (
-              <>
+          {url ? (
+            <>
+              <Tooltip arrow title={title}>
                 <img
                   src={url}
                   style={{
@@ -138,47 +127,52 @@ function ImageUploder({ title, fileTypes, name, doc }) {
                     objectFit: "cover",
                     maxHeight: "36px",
                   }}
-                  alt=""
+                  alt="image"
                 />
-                <Button
-                  onClick={removeDoc}
-                  sx={{
-                    position: "absolute",
-                    top: "-4px",
-                    right: "-4px",
-                    padding: 0,
-                    lineHeight: 1,
-                    minWidth: "auto",
+              </Tooltip>
+              <Button
+                onClick={removeDoc}
+                sx={{
+                  position: "absolute",
+                  top: "-4px",
+                  right: "-4px",
+                  padding: 0,
+                  lineHeight: 1,
+                  minWidth: "auto",
+                  bgcolor: "#fff",
+                  color: "#000",
+                  "&:hover": {
                     bgcolor: "#fff",
-                    color: "#000",
-                    "&:hover": {
-                      bgcolor: "#fff",
-                    },
-                  }}
-                >
-                  <CloseIcon sx={{ fontSize: "14px" }} />
-                </Button>
-              </>
-            ) : (
-              <>{title}</>
-            )}
-          </Box>
+                  },
+                }}
+              >
+                <CloseIcon sx={{ fontSize: "14px" }} />
+              </Button>
+            </>
+          ) : (
+            <>{title}</>
+          )}
+        </Box>
+        <ReactFileReader
+          name={name}
+          fileTypes={fileTypes}
+          base64={true}
+          handleFiles={handleFiles}
+        >
           <Box
             sx={{
               display: "inline-flex",
-              backgroundColor: "rgba(0,0,0,0.2)!important",
+              backgroundColor: "rgba(0,0,0,0.2)",
               py: 0.75,
               px: 2.5,
+              color: "text.primary",
             }}
           >
-            <UploadOutlinedIcon
-              sx={{
-                color: "text.primary",
-              }}
-            />
+            <UploadOutlinedIcon />
           </Box>
-        </Button>
-      </ReactFileReader>
+        </ReactFileReader>
+      </Button>
+      {/* </Box> */}
     </>
   );
 }

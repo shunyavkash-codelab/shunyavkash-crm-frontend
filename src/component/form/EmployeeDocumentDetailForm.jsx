@@ -5,13 +5,7 @@ import ImageUploder from "./ImageUploder";
 export default function EmployeeDocumentDetailForm({ data }) {
   console.log(data, "data");
   return (
-    <Grid
-      container
-      rowSpacing={2.5}
-      columnSpacing={2.5}
-      // mt={3}
-      component={"form"}
-    >
+    <Grid container rowSpacing={2.5} columnSpacing={2.5} component={"form"}>
       <Grid item xs={12} lg={6}>
         <ImageUploder
           name="signature"
