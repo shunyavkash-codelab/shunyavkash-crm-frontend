@@ -6,6 +6,7 @@ import useApi from "../../hooks/useApi";
 import { APIS } from "../../api/apiList";
 import { useAuth } from "../../hooks/store/useAuth";
 import { useSnack } from "../../hooks/store/useSnack";
+import CloseIcon from "@mui/icons-material/Close";
 
 function ImageUploder({ title, fileTypes, name, doc }) {
   const [url, setUrl] = useState(doc);
@@ -92,19 +93,39 @@ function ImageUploder({ title, fileTypes, name, doc }) {
               display: "flex",
               alignItems: "center",
               gap: 2,
+              position: "relative",
             }}
           >
             {url ? (
-              <img
-                src={url}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  maxHeight: "36px",
-                }}
-                alt=""
-              />
+              <>
+                <img
+                  src={url}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    maxHeight: "36px",
+                  }}
+                  alt=""
+                />
+                <Button
+                  sx={{
+                    position: "absolute",
+                    top: "-4px",
+                    right: "-4px",
+                    padding: 0,
+                    lineHeight: 1,
+                    minWidth: "auto",
+                    bgcolor: "#fff",
+                    color: "#000",
+                    "&:hover": {
+                      bgcolor: "#fff",
+                    },
+                  }}
+                >
+                  <CloseIcon sx={{ fontSize: "14px" }} />
+                </Button>
+              </>
             ) : (
               <>{title}</>
             )}
