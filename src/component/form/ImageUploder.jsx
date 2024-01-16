@@ -8,7 +8,7 @@ import { useAuth } from "../../hooks/store/useAuth";
 import { useSnack } from "../../hooks/store/useSnack";
 import CloseIcon from "@mui/icons-material/Close";
 
-function ImageUploder({ title, fileTypes, name, doc }) {
+function ImageUploder({ title, fileTypes, name, doc, style }) {
   const [url, setUrl] = useState(doc);
   const { userId } = useAuth();
   const { setSnack } = useSnack();
@@ -96,13 +96,14 @@ function ImageUploder({ title, fileTypes, name, doc }) {
         sx={{
           width: "100%",
           backgroundColor: "rgba(0,0,0,0.1)!important",
-          display: "flex",
+          display: "inline-flex",
           justifyContent: "space-between",
           alignItems: "center",
           borderRadius: 1,
           overflow: "hidden",
           p: 1,
           pl: 1.75,
+          ...style,
         }}
       >
         <Box

@@ -36,6 +36,7 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import InvoiceTypeIcon from "@mui/icons-material/Receipt";
 import PlusIcon from "@mui/icons-material/Close";
 import ThemeButton from "../component/ThemeButton";
+import ImageUploder from "../component/form/ImageUploder";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -433,188 +434,78 @@ function AccountManage() {
       <ModalComponent
         open={open}
         setOpen={setOpen}
-        modalTitle="Add Accounting"
+        // todo = show only one type
+        modalTitle="Income / Expance"
         size="large"
       >
-        <Box>
-          <Typography className="cardTitle" variant="h5" sx={{ mb: 4 }}>
-            Income
-          </Typography>
-          <Grid container rowSpacing={3.5} sx={{ px: 0 }}>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Date"}
-                Text={"01/12/2022"}
-                Icon={<DateIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Title"}
-                Text={"System"}
-                Icon={<TitleIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Account Type"}
-                Text={"Income"}
-                Icon={<TitleIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Amount"}
-                Text={"1000$"}
-                Icon={<AccountBoxIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Invoice Type"}
-                Text={"Inbound"}
-                Icon={<InvoiceTypeIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Invoice Owner"}
-                Text={"Abc"}
-                Icon={<InvoiceOwnerIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Payment Method"}
-                Text={"bank Transfer"}
-                Icon={<PaymentIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Collaborator"}
-                Text={"Pixel"}
-                Icon={<CollaboratorIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Description"}
-                Text={"Sit Amet Lorem Ipsum Sit Amet."}
-                Icon={<EmailIcon />}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Link
-                href="#javascript:void(0);"
-                target="_blank"
-                sx={{
-                  textDecoration: "none",
-                  color: "#2a4062",
-                  opacity: "0.8",
-                  backgroundColor: "rgba(0,0,0,0.1)",
-                  borderRadius: 1,
-                  padding: "5px 10px",
-                  display: "inline-block",
-                  "& > div": {
-                    mb: 0,
-                  },
-                }}
-              >
-                <DetailsList
-                  Title={"Invoice Upload"}
-                  Icon={<FileDownloadIcon2 />}
-                />
-              </Link>
-            </Grid>
+        <Grid container rowSpacing={5} columnSpacing={1.5}>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Date"}
+              Text={"01/12/2022"}
+              Icon={<DateIcon />}
+            />
           </Grid>
-        </Box>
-        <Box sx={{ mt: 4 }}>
-          <Typography className="cardTitle" variant="h5" sx={{ mb: 4 }}>
-            Expance
-          </Typography>
-          <Grid container rowSpacing={3.5} sx={{ px: 0 }}>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Date"}
-                Text={"01/12/2022"}
-                Icon={<DateIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Title"}
-                Text={"System"}
-                Icon={<TitleIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Description"}
-                Text={"Sit Amet Lorem Ipsum Sit Amet."}
-                Icon={<EmailIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Amount"}
-                Text={"1000$"}
-                Icon={<AccountBoxIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Expance Type"}
-                Text={"Salary"}
-                Icon={<AccountBoxIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Invoice Type"}
-                Text={"Outbound"}
-                Icon={<InvoiceTypeIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Invoice Owner"}
-                Text={"XYZ"}
-                Icon={<InvoiceOwnerIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Payment Method"}
-                Text={"ABC"}
-                Icon={<PaymentIcon />}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Link
-                href="#javascript:void(0);"
-                target="_blank"
-                sx={{
-                  textDecoration: "none",
-                  color: "#2a4062",
-                  opacity: "0.8",
-                  backgroundColor: "rgba(0,0,0,0.1)",
-                  borderRadius: 1,
-                  padding: "5px 10px",
-                  display: "inline-block",
-                  "& > div": {
-                    mb: 0,
-                  },
-                }}
-              >
-                <DetailsList
-                  Title={"Invoice Upload"}
-                  Icon={<FileDownloadIcon2 />}
-                />
-              </Link>
-            </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList Title={"Title"} Text={"System"} Icon={<TitleIcon />} />
           </Grid>
-        </Box>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Description"}
+              Text={"Sit Amet Lorem Ipsum Sit Amet."}
+              Icon={<EmailIcon />}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Amount"}
+              Text={"1000$"}
+              Icon={<AccountBoxIcon />}
+            />
+          </Grid>
+          {/* todo = show only in Expance */}
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Expance Type"}
+              Text={"Salary"}
+              Icon={<AccountBoxIcon />}
+            />
+          </Grid>
+          {/* todo = show only in Income */}
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Collaborator"}
+              Text={"Pixel"}
+              Icon={<CollaboratorIcon />}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Invoice Type"}
+              Text={"Inbound"}
+              Icon={<InvoiceTypeIcon />}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Invoice Owner"}
+              Text={"Abc"}
+              Icon={<InvoiceOwnerIcon />}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Payment Method"}
+              Text={"bank Transfer"}
+              Icon={<PaymentIcon />}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Box>
+              <ImageUploder title="invoice" />
+            </Box>
+          </Grid>
+        </Grid>
       </ModalComponent>
     </>
   );
