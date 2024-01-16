@@ -71,7 +71,7 @@ function a11yProps(index) {
   };
 }
 
-export default function Home() {
+export default function MyProfile() {
   const { id } = useParams();
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);

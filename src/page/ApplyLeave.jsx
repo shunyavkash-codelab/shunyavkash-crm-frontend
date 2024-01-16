@@ -11,7 +11,7 @@ import { useFormik } from "formik";
 import moment from "moment";
 import ThemeButton from "../component/ThemeButton";
 
-export default function Home() {
+export default function ApplyLeave() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();

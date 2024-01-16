@@ -291,10 +291,7 @@ export default function Profile() {
             }}
           >
             <Box>
-              <Typography
-                variant="h5"
-                sx={{ mb: 0.75, textTransform: "capitalize" }}
-              >
+              <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
                 My Account
               </Typography>
             </Box>

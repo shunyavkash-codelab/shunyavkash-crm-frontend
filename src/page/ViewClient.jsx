@@ -16,7 +16,7 @@ import GenderIcon from "@mui/icons-material/WcOutlined";
 import WebsiteIcon from "@mui/icons-material/LanguageOutlined";
 import ProjectsIcon from "../component/icons/ProjectsIcon.jsx";
 
-export default function Manager() {
+export default function ViewClient() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();

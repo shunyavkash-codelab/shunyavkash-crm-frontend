@@ -25,7 +25,7 @@ import { useSnack } from "../hooks/store/useSnack";
 import moment from "moment";
 import ThemeButton from "../component/ThemeButton";
 
-export default function Invoices() {
+export default function PreviewInvoice() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();

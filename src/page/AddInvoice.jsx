@@ -69,7 +69,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function Invoices() {
+export default function AddInvoice() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, userId } = useAuth();

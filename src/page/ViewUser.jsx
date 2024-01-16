@@ -12,7 +12,7 @@ import CompanyIcon from "@mui/icons-material/BusinessOutlined";
 import { useParams } from "react-router-dom";
 import AddressIcon from "@mui/icons-material/LocationOnOutlined";
 
-export default function User() {
+export default function ViewUser() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { apiCall } = useApi();
