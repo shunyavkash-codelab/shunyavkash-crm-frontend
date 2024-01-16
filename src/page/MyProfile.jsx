@@ -404,7 +404,7 @@ export default function Home() {
                 mt: 2,
                 "& .MuiTabs-flexContainer": {
                   justifyContent: "flex-start",
-                  px: 2,
+                  // px: 2,
                   borderTop: "1px solid rgba(0,0,0,0.1)",
                 },
                 "& button": {

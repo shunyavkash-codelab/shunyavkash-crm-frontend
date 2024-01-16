@@ -285,7 +285,10 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                   </MenuItem>
                   <Divider sx={{ borderColor: "rgba(0,0,0,10%)" }} />
                   <MenuItem
-                    onClick={() => navigate("/profile")}
+                    // onClick={() => navigate("/profile")}
+                    onClick={() =>
+                      navigate(user.role === 0 ? "/profile" : "/my-profile")
+                    }
                     sx={{
                       lineHeight: 1,
                       fontWeight: 600,
