@@ -89,7 +89,6 @@ export default function Members() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         setManagerList(res.data.data.data);
-        console.log(res.data.data.data, "--------------------91");
       }
     } catch (error) {
       console.log(error, setSnack);

@@ -9,7 +9,7 @@ export default function EmployeeDocumentDetailForm({ data }) {
       container
       rowSpacing={2.5}
       columnSpacing={2.5}
-      mt={3}
+      // mt={3}
       component={"form"}
     >
       <Grid item xs={12} lg={6}>

@@ -69,7 +69,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function Invoices() {
+export default function AddInvoice() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, userId } = useAuth();
@@ -208,7 +208,7 @@ export default function Invoices() {
         (bankDetails) => bankDetails !== undefined
       )
       .matches(
-        /^[A-Z]{4}[0][A-Z0-9]{6}$/,
+        /^[a-zA-Z]{4}[0][a-zA-Z0-9]{6}$/,
         "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
       ),
     bankName: Yup.string().test(
@@ -805,8 +805,8 @@ export default function Invoices() {
                                 fontSize: "16px",
                               }}
                             >
-                              {adminList.address} {adminList.address2}
-                              {adminList.landmark} {adminList.pincode}
+                              {values.address} {values.address2}
+                              {values.landmark} {values.pincode}
                             </Typography>
                             <Box
                               sx={{
@@ -820,7 +820,7 @@ export default function Invoices() {
                                   fontSize: "16px",
                                 }}
                               >
-                                {adminList.mobileCode} {adminList.mobileNumber}
+                                {values.mobileCode} {values.mobileNumber}
                               </Typography>
                               <Typography
                                 variant="subtitle3"
@@ -830,7 +830,7 @@ export default function Invoices() {
                                   fontSize: "16px",
                                 }}
                               >
-                                {adminList.email}
+                                {values.email}
                               </Typography>
                             </Box>
                             <Box
@@ -1786,42 +1786,60 @@ export default function Invoices() {
                               display: showSign ? "inline-flex" : "none",
                               mt: 8.5,
                               mr: 6,
-                              maxHeight: "100px",
-                              maxWidth: "300px",
                               flexShrink: 0,
                               position: "relative",
+                              maxHeight: "100px",
+                              maxWidth: "300px",
                             }}
                           >
-                            <img
-                              src={url ? url.base64 : values.signature}
-                              style={{
-                                maxHeight: "inherit",
-                                width: "100%",
-                                display: "block",
-                              }}
-                              alt="Signature"
-                            />
-                            <IconButton
-                              aria-label="close"
-                              onClick={() => removeSignature(formik)}
-                              sx={{
-                                position: "absolute",
-                                top: "6px",
-                                right: "6px",
-                                borderRadius: "100%",
-                                bgcolor: "white",
-                                padding: "4px",
-                                boxShadow: "0 0 10px rgba(0,0,0,0.15)",
-                                "& svg": {
-                                  fontSize: { xs: "10px", sm: "16px" },
-                                },
-                                "&:hover": {
-                                  bgcolor: "white",
-                                },
-                              }}
-                            >
-                              <CloseIcon />
-                            </IconButton>
+                            {url || values.signature ? (
+                              <Box
+                                sx={{ maxHeight: "100px", maxWidth: "300px" }}
+                              >
+                                <img
+                                  src={url ? url.base64 : values.signature}
+                                  style={{
+                                    maxHeight: "inherit",
+                                    width: "100%",
+                                    display: "block",
+                                  }}
+                                  alt="Signature"
+                                />
+                                <IconButton
+                                  aria-label="close"
+                                  onClick={() => removeSignature(formik)}
+                                  sx={{
+                                    position: "absolute",
+                                    top: "6px",
+                                    right: "6px",
+                                    borderRadius: "100%",
+                                    bgcolor: "white",
+                                    padding: "4px",
+                                    boxShadow: "0 0 10px rgba(0,0,0,0.15)",
+                                    "& svg": {
+                                      fontSize: { xs: "10px", sm: "16px" },
+                                    },
+                                    "&:hover": {
+                                      bgcolor: "white",
+                                    },
+                                  }}
+                                >
+                                  <CloseIcon />
+                                </IconButton>
+                              </Box>
+                            ) : (
+                              <Typography
+                                sx={{
+                                  mb: 1,
+                                  pb: 0.75,
+                                  borderBottom: "1px solid rgba(0,0,0,0.3)",
+                                  minWidth: "130px",
+                                  textTransform: "capitalize",
+                                }}
+                              >
+                                signature
+                              </Typography>
+                            )}
                             <Tooltip
                               title="Please add 300x100 size image"
                               arrow

@@ -71,7 +71,7 @@ function a11yProps(index) {
   };
 }
 
-export default function Home() {
+export default function MyProfile() {
   const { id } = useParams();
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
@@ -96,7 +96,7 @@ export default function Home() {
 
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.EDIT(id),
+        url: APIS.MANAGER.EDIT(id || userId),
         method: "patch",
         headers: "multipart/form-data",
         data: formData,
@@ -224,7 +224,7 @@ export default function Home() {
                 : "Employee Profile"}
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/"} style={{ textDecoration: "none" }}>
+              <Link to={"/members"} style={{ textDecoration: "none" }}>
                 <Typography
                   variant="subtitle2"
                   sx={{
@@ -236,7 +236,7 @@ export default function Home() {
                     },
                   }}
                 >
-                  Dashboard /
+                  members /
                 </Typography>
               </Link>
               <Typography
@@ -358,9 +358,10 @@ export default function Home() {
                       variant="body1"
                       sx={{
                         opacity: 0.5,
+                        textTransform: "capitalize",
                       }}
                     >
-                      {profileUser?.jobRole}
+                      {profileUser?.designation}
                     </Typography>
                     {/* Todo : This Button is visible for admin only */}
                     <Chip
@@ -404,7 +405,7 @@ export default function Home() {
                 mt: 2,
                 "& .MuiTabs-flexContainer": {
                   justifyContent: "flex-start",
-                  px: 2,
+                  // px: 2,
                   borderTop: "1px solid rgba(0,0,0,0.1)",
                 },
                 "& button": {
@@ -506,7 +507,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"Job Title"}
-                    Text={profileUser?.jobRole || "N/A"}
+                    Text={profileUser?.designation || "N/A"}
                     Icon={<AccountBoxOutlinedIcon />}
                     TextStyle={{ textTransform: "capitalize" }}
                   />
@@ -615,7 +616,7 @@ export default function Home() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"personal email"}
-                    Text={profileUser?.personalEmail}
+                    Text={profileUser?.personalEmail || "N/A"}
                     Icon={<EmailOutlinedIcon />}
                     TextStyle={{ wordBreak: "break-all" }}
                   />
@@ -624,11 +625,15 @@ export default function Home() {
                   <DetailsList
                     Title={"Address"}
                     Text={
-                      profileUser?.address +
-                        profileUser?.address2 +
-                        profileUser?.landmark +
-                        "-" +
-                        profileUser?.pincode || "N/A"
+                      (profileUser?.address &&
+                        profileUser.address +
+                          " " +
+                          profileUser.address2 +
+                          " " +
+                          profileUser.landmark +
+                          "-" +
+                          profileUser.pincode) ||
+                      "N/A"
                     }
                     // Text={
                     //   profileUser?.address?.split("\n").map((line, index) => (
@@ -893,7 +898,7 @@ export default function Home() {
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={2}>
-            <UserLeave userId={id || userId}/>
+            <UserLeave userId={id || userId} />
           </CustomTabPanel>
 
           <ModalComponent

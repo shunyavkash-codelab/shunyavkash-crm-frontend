@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   MenuItem,
@@ -35,7 +36,7 @@ import useApi from "../hooks/useApi.js";
 import { useSnack } from "../hooks/store/useSnack.js";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-import { logDOM } from "@testing-library/react";
+import { useAuth } from "../hooks/store/useAuth.js";
 
 function UserLeave({ userId }) {
   const [open, setOpen] = React.useState(false);
@@ -43,10 +44,19 @@ function UserLeave({ userId }) {
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
 
+  const [dashboard, setDashboard] = useState([]);
   const [leaveList, setLeaveList] = useState([]);
-  const { id } = useParams();
+  const { user } = useAuth();
 
   const formik = useFormik({
+    validationSchema: Yup.object({
+      leaveType: Yup.string().required("Leave type is required."),
+      startDate: Yup.date().required("Start date is required."),
+      startDayType: Yup.string().required("Start day type is required."),
+      endDate: Yup.date().required("End date is required."),
+      endDayType: Yup.string().required("End day type is required."),
+      reason: Yup.string().required("Reason is required."),
+    }),
     enableReinitialize: true,
     initialValues: {
       leaveType: "",
@@ -58,7 +68,6 @@ function UserLeave({ userId }) {
     },
 
     onSubmit: async (values) => {
-      console.log(values, "--------------60");
       try {
         const res = await apiCall({
           url: APIS.LEAVE.ADD,
@@ -66,7 +75,6 @@ function UserLeave({ userId }) {
           data: JSON.stringify(values, null, 2),
         });
         if (res.data.success === true) {
-          console.log(res.data.data, "-------------------69");
           setSnack(res.data.message);
           setLeaveList([res.data.data, ...leaveList]);
           setOpen(false);
@@ -77,6 +85,21 @@ function UserLeave({ userId }) {
       }
     },
   });
+
+  const leaveDashboard = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.LEAVE.DASHBOARD,
+        method: "get",
+        params: { userId: userId },
+      });
+      if (res.data.success === true) {
+        setDashboard(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
 
   const viewUserLeave = async (userId) => {
     try {
@@ -92,12 +115,13 @@ function UserLeave({ userId }) {
     }
   };
   useEffect(() => {
-    viewUserLeave(id || userId);
+    leaveDashboard();
+    viewUserLeave(userId);
   }, []);
   return (
     <>
       <Grid container rowSpacing={2.5} columnSpacing={2.5} mt={0}>
-        <Grid item xs={6} md={3} lg={3}>
+        <Grid item xs={6} md={3} lg={2.4}>
           <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -107,11 +131,11 @@ function UserLeave({ userId }) {
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
             >
-              15
+              {dashboard.total || 0}
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={6} md={3} lg={3}>
+        <Grid item xs={6} md={3} lg={2.4}>
           <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -121,11 +145,11 @@ function UserLeave({ userId }) {
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
             >
-              5
+              {dashboard.casual || 0}
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={6} md={3} lg={3}>
+        <Grid item xs={6} md={3} lg={2.4}>
           <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -135,11 +159,11 @@ function UserLeave({ userId }) {
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
             >
-              5
+              {dashboard.sick || 0}
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={6} md={3} lg={3}>
+        <Grid item xs={6} md={3} lg={2.4}>
           <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
             <Typography
               sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
@@ -149,40 +173,57 @@ function UserLeave({ userId }) {
             <Typography
               sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
             >
-              N/A
+              {dashboard.unpaid || 0}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={6} md={3} lg={2.4}>
+          <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+            <Typography
+              sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
+            >
+              Paid Leaves
+            </Typography>
+            <Typography
+              sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
+            >
+              {dashboard.paid || 0}
             </Typography>
           </Box>
         </Grid>
       </Grid>
 
       <Box sx={{ mt: 5 }}>
-        <Box
-          className="cardHeader"
-          sx={{
-            mb: 2,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
-            My Leaves
-          </Typography>
-          <ThemeButton
-            transparent
-            smallRounded
-            Text="apply Leave"
-            startIcon={
-              <PlusIcon
-                sx={{
-                  fontSize: "16px!important",
-                  transform: "rotate(45deg)",
-                }}
-              />
-            }
-            onClick={handleOpen}
-          />
-        </Box>
+        {user._id == userId && (
+          <Box
+            className="cardHeader"
+            sx={{
+              mb: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
+              My Leaves
+            </Typography>
+            <ThemeButton
+              transparent
+              smallRounded
+              Text="apply Leave"
+              startIcon={
+                <PlusIcon
+                  sx={{
+                    fontSize: "16px!important",
+                    transform: "rotate(45deg)",
+                  }}
+                />
+              }
+              onClick={handleOpen}
+            />
+          </Box>
+        )}
+
         <Box>
           <TableContainer
             component={Paper}
@@ -285,11 +326,15 @@ function UserLeave({ userId }) {
                             bgcolor:
                               leave.status === "unapprove"
                                 ? "review.main"
+                                : leave.status === "pending"
+                                ? "#f4a736"
                                 : "success.main",
                             "&:hover": {
                               bgcolor:
                                 leave.status === "unapprove"
                                   ? "review.main"
+                                  : leave.status === "pending"
+                                  ? "#f0bb6e"
                                   : "success.main",
                             },
                             "& .MuiButton-endIcon": {
@@ -298,7 +343,9 @@ function UserLeave({ userId }) {
                             },
                           }}
                           endIcon={
-                            <InfoIcon sx={{ fontSize: "18px!important" }} />
+                            leave.status !== "pending" && (
+                              <InfoIcon sx={{ fontSize: "18px!important" }} />
+                            )
                           }
                         >
                           <span style={{ display: "inline-block" }}>
@@ -348,6 +395,9 @@ function UserLeave({ userId }) {
                   }
                   label="Leave Type"
                   sx={{ fontSize: "14px" }}
+                  error={
+                    formik.touched.leaveType && Boolean(formik.errors.leaveType)
+                  }
                 >
                   <MenuItem value={"casual"}>
                     <Box
@@ -414,6 +464,12 @@ function UserLeave({ userId }) {
                     </Box>
                   </MenuItem>
                 </Select>
+                {formik.touched.leaveType &&
+                  Boolean(formik.errors.leaveType) && (
+                    <FormHelperText error={true}>
+                      {formik.touched.leaveType && formik.errors.leaveType}
+                    </FormHelperText>
+                  )}
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -436,7 +492,16 @@ function UserLeave({ userId }) {
                     "&>div": { fontSize: "14px" },
                     "&>label": { fontSize: "14px" },
                   }}
+                  error={
+                    formik.touched.startDate && Boolean(formik.errors.startDate)
+                  }
                 />
+                {formik.touched.startDate &&
+                  Boolean(formik.errors.startDate) && (
+                    <FormHelperText error={true}>
+                      {formik.touched.startDate && formik.errors.startDate}
+                    </FormHelperText>
+                  )}
               </LocalizationProvider>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -464,6 +529,10 @@ function UserLeave({ userId }) {
                   }
                   label="Day type"
                   sx={{ fontSize: "14px" }}
+                  error={
+                    formik.touched.startDayType &&
+                    Boolean(formik.errors.startDayType)
+                  }
                 >
                   <MenuItem
                     sx={{ textTransform: "capitalize" }}
@@ -484,6 +553,13 @@ function UserLeave({ userId }) {
                     full day
                   </MenuItem>
                 </Select>
+                {formik.touched.startDayType &&
+                  Boolean(formik.errors.startDayType) && (
+                    <FormHelperText error={true}>
+                      {formik.touched.startDayType &&
+                        formik.errors.startDayType}
+                    </FormHelperText>
+                  )}
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -504,7 +580,15 @@ function UserLeave({ userId }) {
                     "&>div": { fontSize: "14px" },
                     "&>label": { fontSize: "14px" },
                   }}
+                  error={
+                    formik.touched.endDate && Boolean(formik.errors.endDate)
+                  }
                 />
+                {formik.touched.endDate && Boolean(formik.errors.endDate) && (
+                  <FormHelperText error={true}>
+                    {formik.touched.endDate && formik.errors.endDate}
+                  </FormHelperText>
+                )}
               </LocalizationProvider>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -532,6 +616,10 @@ function UserLeave({ userId }) {
                   }
                   label="Day type"
                   sx={{ fontSize: "14px" }}
+                  error={
+                    formik.touched.endDayType &&
+                    Boolean(formik.errors.endDayType)
+                  }
                 >
                   <MenuItem
                     sx={{ textTransform: "capitalize" }}
@@ -552,6 +640,12 @@ function UserLeave({ userId }) {
                     full day
                   </MenuItem>
                 </Select>
+                {formik.touched.endDayType &&
+                  Boolean(formik.errors.endDayType) && (
+                    <FormHelperText error={true}>
+                      {formik.touched.endDayType && formik.errors.endDayType}
+                    </FormHelperText>
+                  )}
               </FormControl>
             </Grid>
             <Grid item xs={12}>
@@ -565,7 +659,13 @@ function UserLeave({ userId }) {
                       <AccountHolderIcon />
                     </InputAdornment>
                   }
+                  error={formik.touched.reason && Boolean(formik.errors.reason)}
                 />
+                {formik.touched.reason && Boolean(formik.errors.reason) && (
+                  <FormHelperText error={true}>
+                    {formik.touched.reason && formik.errors.reason}
+                  </FormHelperText>
+                )}
               </FormControl>
             </Grid>
             <Grid item xs={12}>
