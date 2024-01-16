@@ -36,7 +36,7 @@ import useApi from "../hooks/useApi.js";
 import { useSnack } from "../hooks/store/useSnack.js";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-import { logDOM } from "@testing-library/react";
+import { useAuth } from "../hooks/store/useAuth.js";
 
 function UserLeave({ userId }) {
   const [open, setOpen] = React.useState(false);
@@ -46,7 +46,7 @@ function UserLeave({ userId }) {
 
   const [dashboard, setDashboard] = useState([]);
   const [leaveList, setLeaveList] = useState([]);
-  const { id } = useParams();
+  const { user } = useAuth();
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -116,7 +116,7 @@ function UserLeave({ userId }) {
   };
   useEffect(() => {
     leaveDashboard();
-    viewUserLeave(id || userId);
+    viewUserLeave(userId);
   }, []);
   return (
     <>
@@ -194,33 +194,36 @@ function UserLeave({ userId }) {
       </Grid>
 
       <Box sx={{ mt: 5 }}>
-        <Box
-          className="cardHeader"
-          sx={{
-            mb: 2,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
-            My Leaves
-          </Typography>
-          <ThemeButton
-            transparent
-            smallRounded
-            Text="apply Leave"
-            startIcon={
-              <PlusIcon
-                sx={{
-                  fontSize: "16px!important",
-                  transform: "rotate(45deg)",
-                }}
-              />
-            }
-            onClick={handleOpen}
-          />
-        </Box>
+        {user._id == userId && (
+          <Box
+            className="cardHeader"
+            sx={{
+              mb: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
+              My Leaves
+            </Typography>
+            <ThemeButton
+              transparent
+              smallRounded
+              Text="apply Leave"
+              startIcon={
+                <PlusIcon
+                  sx={{
+                    fontSize: "16px!important",
+                    transform: "rotate(45deg)",
+                  }}
+                />
+              }
+              onClick={handleOpen}
+            />
+          </Box>
+        )}
+
         <Box>
           <TableContainer
             component={Paper}

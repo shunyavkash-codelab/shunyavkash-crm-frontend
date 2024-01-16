@@ -224,7 +224,7 @@ export default function MyProfile() {
                 : "Employee Profile"}
             </Typography>
             <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/"} style={{ textDecoration: "none" }}>
+              <Link to={"/members"} style={{ textDecoration: "none" }}>
                 <Typography
                   variant="subtitle2"
                   sx={{
@@ -236,7 +236,7 @@ export default function MyProfile() {
                     },
                   }}
                 >
-                  Dashboard /
+                  members /
                 </Typography>
               </Link>
               <Typography
