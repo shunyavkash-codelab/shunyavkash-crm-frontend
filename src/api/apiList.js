@@ -69,5 +69,7 @@ export const APIS = {
   LEAVE: {
     ADD: "/leave/apply",
     LIST: (userId) => `leave/user/${userId}`,
+    APPROVELIST: `leave/approve`,
+    ALL: `leave/all`,
   },
 };

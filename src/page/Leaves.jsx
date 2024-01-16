@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Paper,
@@ -14,11 +14,36 @@ import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import { Link } from "react-router-dom";
+import { APIS } from "../api/apiList";
+import useApi from "../hooks/useApi";
+import { useSnack } from "../hooks/store/useSnack";
+import moment from "moment";
 
 export default function Leaves() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [approveList, setApproveList] = useState([]);
   const { accessToken } = useAuth();
+  const { apiCall, isLoading } = useApi();
+  const { setSnack } = useSnack();
+
+  const approveLeaveList = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.LEAVE.APPROVELIST,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setApproveList(res.data.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    approveLeaveList();
+  }, []);
 
   const leavesRequests = [
     {
@@ -136,69 +161,74 @@ export default function Leaves() {
                     <TableCell>End Date</TableCell>
                   </TableRow>
                 </TableHead>
-
-                <TableBody>
-                  {leavesRequests.map((leaveRequest) => (
-                    <TableRow
-                      key={leaveRequest.key}
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-of-type td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
-                      }}
-                    >
-                      <TableCell>{leaveRequest.username}</TableCell>
-                      <TableCell
+                {approveList.length > 0 && (
+                  <TableBody>
+                    {approveList.map((leaveRequest) => (
+                      <TableRow
+                        key={leaveRequest.key}
                         sx={{
-                          "& .statusBtn": {
-                            color: "white",
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          },
-                          "& .casual": {
-                            bgcolor: "rgba(94, 115, 141, 15%)",
-                            color: "grey.dark",
-                          },
-                          "& .sick": {
-                            bgcolor: "rgba(248, 174, 0, 15%)",
-                            color: "secondary.main",
-                          },
-                          "& .unpaid": {
-                            bgcolor: "rgba(225, 107, 22, 15%)",
-                            color: "review.main",
-                          },
-                          "& .paid": {
-                            bgcolor: "rgba(74, 210, 146, 15%)",
-                            color: "success.main",
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&:first-of-type td": {
+                            maxWidth: "250px",
+                            textWrap: "wrap",
                           },
                         }}
                       >
-                        <Box
-                          className={`statusBtn ${
-                            leaveRequest.type === "casual"
-                              ? "casual"
-                              : leaveRequest.type === "sick"
-                              ? "sick"
-                              : leaveRequest.type === "unpaid"
-                              ? "unpaid"
-                              : "paid"
-                          }`}
+                        <TableCell>{leaveRequest.userName}</TableCell>
+                        <TableCell
+                          sx={{
+                            "& .statusBtn": {
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
+                            },
+                            "& .casual": {
+                              bgcolor: "rgba(94, 115, 141, 15%)",
+                              color: "grey.dark",
+                            },
+                            "& .sick": {
+                              bgcolor: "rgba(248, 174, 0, 15%)",
+                              color: "secondary.main",
+                            },
+                            "& .unpaid": {
+                              bgcolor: "rgba(225, 107, 22, 15%)",
+                              color: "review.main",
+                            },
+                            "& .paid": {
+                              bgcolor: "rgba(74, 210, 146, 15%)",
+                              color: "success.main",
+                            },
+                          }}
                         >
-                          {leaveRequest.type}
-                        </Box>
-                      </TableCell>
-                      <TableCell>{leaveRequest.reason}</TableCell>
-                      <TableCell>{leaveRequest.startDate}</TableCell>
-                      <TableCell>{leaveRequest.endDate}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
+                          <Box
+                            className={`statusBtn ${
+                              leaveRequest.leaveType === "casual"
+                                ? "casual"
+                                : leaveRequest.leaveType === "sick"
+                                ? "sick"
+                                : leaveRequest.leaveType === "unpaid"
+                                ? "unpaid"
+                                : "paid"
+                            }`}
+                          >
+                            {leaveRequest.leaveType}
+                          </Box>
+                        </TableCell>
+                        <TableCell>{leaveRequest.reason}</TableCell>
+                        <TableCell>
+                          {moment(leaveRequest.startDate).format("DD/MM/YYYY")}
+                        </TableCell>
+                        <TableCell>
+                          {moment(leaveRequest.endDate).format("DD/MM/YYYY")}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                )}
               </Table>
             </TableContainer>
           </Box>

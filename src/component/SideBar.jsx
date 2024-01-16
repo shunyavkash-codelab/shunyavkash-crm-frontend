@@ -219,56 +219,58 @@ export default function SideBar({
           </List>
         </Box>
 
-        <List sx={{ px: 2, py: 1.5, bgcolor: "#f9f9f9" }}>
-          <ListItem
-            key={"Setup my Profile"}
-            disablePadding
-            sx={{
-              transition: "all 0.4s ease-in-out",
-              "&:hover": {
-                boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
-                "& svg": {
-                  animation: "swing ease-in-out 0.4s alternate",
-                },
-              },
-              "&:not(:first-of-type)": { mt: 0.75 },
-              borderRadius: "10px",
-              overflow: "hidden",
-              color: location.pathname === "/my-profile" && "primary.main",
-              bgcolor: location.pathname === "/my-profile" && "primary.light",
-            }}
-          >
-            <ListItemButton
-              disableRipple
-              component={Link} // Use Link component for routing
-              to="/my-profile" // Specify the route to navigate to
+        {user.role !== 0 && (
+          <List sx={{ px: 2, py: 1.5, bgcolor: "#f9f9f9" }}>
+            <ListItem
+              key={"Setup my Profile"}
+              disablePadding
               sx={{
-                p: 1.5,
                 transition: "all 0.4s ease-in-out",
-                ":hover": {
-                  color: "primary.main",
-                  bgcolor:
-                    location.pathname === "/my-profile"
-                      ? "transparent"
-                      : "primary.light",
+                "&:hover": {
+                  boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
+                  "& svg": {
+                    animation: "swing ease-in-out 0.4s alternate",
+                  },
                 },
+                "&:not(:first-of-type)": { mt: 0.75 },
+                borderRadius: "10px",
+                overflow: "hidden",
+                color: location.pathname === "/my-profile" && "primary.main",
+                bgcolor: location.pathname === "/my-profile" && "primary.light",
               }}
             >
-              <ListItemIcon
+              <ListItemButton
+                disableRipple
+                component={Link} // Use Link component for routing
+                to="/my-profile" // Specify the route to navigate to
                 sx={{
-                  color: "currentcolor",
-                  minWidth: "40px",
+                  p: 1.5,
+                  transition: "all 0.4s ease-in-out",
+                  ":hover": {
+                    color: "primary.main",
+                    bgcolor:
+                      location.pathname === "/my-profile"
+                        ? "transparent"
+                        : "primary.light",
+                  },
                 }}
               >
-                <SetupProfileIcon />
-              </ListItemIcon>
-              <ListItemText
-                sx={{ my: 0, "&>span": { fontSize: "14px" } }}
-                primary={"Setup my Profile"}
-              />
-            </ListItemButton>
-          </ListItem>
-        </List>
+                <ListItemIcon
+                  sx={{
+                    color: "currentcolor",
+                    minWidth: "40px",
+                  }}
+                >
+                  <SetupProfileIcon />
+                </ListItemIcon>
+                <ListItemText
+                  sx={{ my: 0, "&>span": { fontSize: "14px" } }}
+                  primary={"Setup my Profile"}
+                />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        )}
       </Box>
 
       <Box

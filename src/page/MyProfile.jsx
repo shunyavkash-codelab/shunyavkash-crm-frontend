@@ -96,7 +96,7 @@ export default function Home() {
 
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.EDIT(id),
+        url: APIS.MANAGER.EDIT(id || userId),
         method: "patch",
         headers: "multipart/form-data",
         data: formData,
@@ -893,7 +893,7 @@ export default function Home() {
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={2}>
-            <UserLeave userId={id || userId}/>
+            <UserLeave userId={id || userId} />
           </CustomTabPanel>
 
           <ModalComponent
