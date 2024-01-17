@@ -11,6 +11,7 @@ import PhoneIcon from "@mui/icons-material/PhoneIphone";
 import CompanyIcon from "@mui/icons-material/BusinessOutlined";
 import { useParams } from "react-router-dom";
 import AddressIcon from "@mui/icons-material/LocationOnOutlined";
+import SectionHeader from "../component/SectionHeader.jsx";
 
 export default function ViewUser() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -57,37 +58,13 @@ export default function ViewUser() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box sx={{ mb: 3.25 }}>
-            <Typography
-              variant="h5"
-              sx={{ mb: 0.75, textTransform: "capitalize" }}
-            >
-              Manager
-            </Typography>
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/members"} style={{ textDecoration: "none" }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "primary.main",
-                    transition: "all 0.4s ease-in-out",
-                    ":not(:hover)": {
-                      opacity: 0.7,
-                    },
-                  }}
-                >
-                  Members /
-                </Typography>
-              </Link>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                User
-              </Typography>
-            </Box>
-          </Box>
+          <SectionHeader
+            Title="Manager"
+            BreadCrumbPreviousLink="/members"
+            BreadCrumbPreviousTitle="Members"
+            BreadCrumbCurrentTitle="User"
+          />
+
           <Box
             sx={{
               p: { xs: 2, sm: 3.25 },

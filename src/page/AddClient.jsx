@@ -20,6 +20,7 @@ import { APIS } from "../api/apiList";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import ThemeButton from "../component/ThemeButton";
+import SectionHeader from "../component/SectionHeader";
 
 export default function AddClient() {
   const { id } = useParams();
@@ -201,37 +202,12 @@ export default function AddClient() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box sx={{ mb: 3.25 }}>
-            <Typography
-              variant="h5"
-              sx={{ mb: 0.75, textTransform: "capitalize" }}
-            >
-              {clientList ? "Edit Client" : "Add Client"}
-            </Typography>
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/clients"} style={{ textDecoration: "none" }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "primary.main",
-                    transition: "all 0.4s ease-in-out",
-                    ":not(:hover)": {
-                      opacity: 0.7,
-                    },
-                  }}
-                >
-                  clients /
-                </Typography>
-              </Link>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                {clientList ? "Edit Client" : "Add Client"}
-              </Typography>
-            </Box>
-          </Box>
+          <SectionHeader
+            Title="Add Client"
+            BreadCrumbPreviousLink="/Clients"
+            BreadCrumbPreviousTitle="Clients"
+            BreadCrumbCurrentTitle="Add Client"
+          />
           {(clientList || id === undefined) && (
             <FormikProvider value={formik}>
               <Box

@@ -26,6 +26,7 @@ import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ThemeButton from "../component/ThemeButton";
+import SectionHeader from "../component/SectionHeader";
 
 export default function AddProject() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -166,37 +167,12 @@ export default function AddProject() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box sx={{ mb: 3.25 }}>
-            <Typography
-              variant="h5"
-              sx={{ mb: 2.25, textTransform: "capitalize" }}
-            >
-              {projectData ? "Edit Project" : "Add Project"}
-            </Typography>
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/projects"} style={{ textDecoration: "none" }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "primary.main",
-                    transition: "all 0.4s ease-in-out",
-                    ":not(:hover)": {
-                      opacity: 0.7,
-                    },
-                  }}
-                >
-                  Projects /
-                </Typography>
-              </Link>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                {projectData ? "Edit Project" : "Add Project"}
-              </Typography>
-            </Box>
-          </Box>
+          <SectionHeader
+            Title="Add Project"
+            BreadCrumbPreviousLink="/projects"
+            BreadCrumbPreviousTitle="Projects"
+            BreadCrumbCurrentTitle="Add Project"
+          />
 
           {(projectData || id === undefined) && (
             <FormikProvider value={formik}>

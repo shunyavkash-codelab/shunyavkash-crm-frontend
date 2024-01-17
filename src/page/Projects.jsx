@@ -12,6 +12,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Stack,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -26,6 +27,7 @@ import { useAuth } from "../hooks/store/useAuth";
 import { useSearchData } from "../hooks/store/useSearchData";
 import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
+import SectionHeader from "../component/SectionHeader";
 
 export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -75,57 +77,31 @@ export default function Project() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ sm: "center" }}
+            justifyContent={{ sm: "space-between" }}
+            columnGap={2}
+            rowGap={2.5}
             sx={{
               mb: 3.25,
-              display: "flex",
-              alignItems: { sm: "center" },
-              justifyContent: { sm: "space-between" },
-              flexDirection: { xs: "column", sm: "row" },
-              columnGap: 2,
-              rowGap: 2.5,
             }}
           >
-            <Box>
-              <Typography
-                variant="h5"
-                sx={{ mb: 0.75, textTransform: "capitalize" }}
-              >
-                Our Projects
-              </Typography>
-              <Box sx={{ display: "flex", gap: 0.5 }}>
-                <Link to={"/"} style={{ textDecoration: "none" }}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      textTransform: "capitalize",
-                      color: "primary.main",
-                      transition: "all 0.4s ease-in-out",
-                      ":not(:hover)": {
-                        opacity: 0.7,
-                      },
-                    }}
-                  >
-                    Dashboard /
-                  </Typography>
-                </Link>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
-                >
-                  projects
-                </Typography>
-              </Box>
-            </Box>
-            <Box>
-              <Link to="./add">
-                <ThemeButton
-                  Text="Add Project"
-                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                />
-              </Link>
-            </Box>
-          </Box>
+            <SectionHeader
+              Title="Our Projects"
+              BreadCrumbPreviousLink="/"
+              BreadCrumbPreviousTitle="Dashboard"
+              BreadCrumbCurrentTitle="projects"
+              style={{ mb: 0 }}
+            />
+            <Link to="./add">
+              <ThemeButton
+                Text="Add Project"
+                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+              />
+            </Link>
+          </Stack>
+
           {projectList.length === 0 ? (
             <NoData />
           ) : (

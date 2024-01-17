@@ -13,7 +13,7 @@ function ThemeButton(props) {
         sx={{
           maxHeight: "42px",
           position: "relative",
-          px: props.smallRounded ? 1.5 : 2.5,
+          px: props.smallRounded ? 1.5 : 2,
           py: props.smallRounded ? 0.75 : 1.5,
           border: "1px solid",
           lineHeight: 1,

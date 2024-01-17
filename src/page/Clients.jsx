@@ -27,6 +27,7 @@ import { useAuth } from "../hooks/store/useAuth.js";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import NoData from "../component/NoData.jsx";
 import ThemeButton from "../component/ThemeButton.jsx";
+import SectionHeader from "../component/SectionHeader.jsx";
 
 export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -77,57 +78,31 @@ export default function Clients() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ sm: "center" }}
+            justifyContent={{ sm: "space-between" }}
+            columnGap={2}
+            rowGap={2.5}
             sx={{
               mb: 3.25,
-              display: "flex",
-              alignItems: { sm: "center" },
-              justifyContent: { sm: "space-between" },
-              flexDirection: { xs: "column", sm: "row" },
-              columnGap: 2,
-              rowGap: 2.5,
             }}
           >
-            <Box>
-              <Typography
-                variant="h5"
-                sx={{ mb: 0.75, textTransform: "capitalize" }}
-              >
-                Our Clients
-              </Typography>
-              <Box sx={{ display: "flex", gap: 0.5 }}>
-                <Link to={"/"} style={{ textDecoration: "none" }}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      textTransform: "capitalize",
-                      color: "primary.main",
-                      transition: "all 0.4s ease-in-out",
-                      ":not(:hover)": {
-                        opacity: 0.7,
-                      },
-                    }}
-                  >
-                    Dashboard /
-                  </Typography>
-                </Link>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
-                >
-                  clients
-                </Typography>
-              </Box>
-            </Box>
-            <Box>
-              <Link to="./add">
-                <ThemeButton
-                  Text="Add client"
-                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                />
-              </Link>
-            </Box>
-          </Box>
+            <SectionHeader
+              Title="Our Clients"
+              BreadCrumbPreviousLink="/"
+              BreadCrumbPreviousTitle="Dashboard"
+              BreadCrumbCurrentTitle="Clients"
+              style={{ mb: 0 }}
+            />
+            <Link to="./add">
+              <ThemeButton
+                Text="Add client"
+                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+              />
+            </Link>
+          </Stack>
+
           {clientList.length === 0 ? (
             <NoData />
           ) : (

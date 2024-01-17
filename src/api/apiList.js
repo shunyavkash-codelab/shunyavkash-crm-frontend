@@ -74,4 +74,11 @@ export const APIS = {
     ALL: `leave/all`,
     DASHBOARD: "leave/dashboard",
   },
+  ACCOUNTMANAGE: {
+    ADD: "transaction/add",
+    LIST: "transaction",
+    GET: (transactionId) => `transaction/${transactionId}`,
+    EDIT: (transactionId) => `transaction/${transactionId}`,
+    DASHBOARD: "transaction/dashboard",
+  },
 };

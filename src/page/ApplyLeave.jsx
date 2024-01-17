@@ -10,6 +10,7 @@ import FormLabel from "@mui/material/FormLabel";
 import { useFormik } from "formik";
 import moment from "moment";
 import ThemeButton from "../component/ThemeButton";
+import SectionHeader from "../component/SectionHeader";
 
 export default function ApplyLeave() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -67,15 +68,7 @@ export default function ApplyLeave() {
                 p: 4,
               }}
             >
-              <Typography
-                variant="h4"
-                sx={{
-                  mb: 5,
-                  lineHeight: 1.2,
-                }}
-              >
-                Apply For Leave
-              </Typography>
+              <SectionHeader Title="Apply Leave" />
               <Box sx={{ mb: 4 }}>
                 <FormLabel
                   id="leave-type-group-buttons"

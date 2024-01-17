@@ -14,6 +14,7 @@ import {
   Grid,
   Tab,
   Tabs,
+  Stack,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
@@ -27,6 +28,7 @@ import { useSearchData } from "../hooks/store/useSearchData.js";
 import { useSnack } from "../hooks/store/useSnack.js";
 import { useInviteMemberStore } from "../hooks/store/useInviteMemberStore.js";
 import ThemeButton from "../component/ThemeButton.jsx";
+import SectionHeader from "../component/SectionHeader.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -144,66 +146,34 @@ export default function Members() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ sm: "center" }}
+            justifyContent={{ sm: "space-between" }}
+            columnGap={2}
+            rowGap={2.5}
             sx={{
-              display: "flex",
-              alignItems: { sm: "center" },
-              justifyContent: { sm: "space-between" },
-              flexDirection: { xs: "column", sm: "row" },
-              columnGap: 2,
-              rowGap: 2.5,
+              mb: 3.25,
             }}
           >
-            <Box>
-              <Typography
-                variant="h5"
-                sx={{ mb: 0.75, textTransform: "capitalize" }}
-              >
-                Our Members
-              </Typography>
-              <Box sx={{ display: "flex", gap: 0.5 }}>
-                <Link to={"/"} style={{ textDecoration: "none" }}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      textTransform: "capitalize",
-                      color: "primary.main",
-                      transition: "all 0.4s ease-in-out",
-                      ":not(:hover)": {
-                        opacity: 0.7,
-                      },
-                    }}
-                  >
-                    Dashboard /
-                  </Typography>
-                </Link>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
-                >
-                  Member
-                </Typography>
-              </Box>
-            </Box>
-
+            <SectionHeader
+              Title="Our Members"
+              BreadCrumbPreviousLink="/"
+              BreadCrumbPreviousTitle="Dashboard"
+              BreadCrumbCurrentTitle="Member"
+              style={{ mb: 0 }}
+            />
             {user.role === 0 && (
-              <Box>
-                <Link to="./add">
-                  <ThemeButton
-                    Text="Add Member"
-                    startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                  />
-                </Link>
-              </Box>
+              <Link to="./add">
+                <ThemeButton
+                  Text="Add Member"
+                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                />
+              </Link>
             )}
-          </Box>
+          </Stack>
 
-          <Grid
-            container
-            rowSpacing={2.5}
-            columnSpacing={2.5}
-            sx={{ mt: 0.75 }}
-          >
+          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
             <Grid item xs={6} md={3} lg={4}>
               <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
                 <Typography

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SideBar from "../component/SideBar";
 import { useAuth } from "../hooks/store/useAuth";
 import Header from "../component/Header";
+import SectionHeader from "../component/SectionHeader";
 import {
   Box,
   Button,
@@ -36,56 +37,73 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import InvoiceTypeIcon from "@mui/icons-material/Receipt";
 import PlusIcon from "@mui/icons-material/Close";
 import ThemeButton from "../component/ThemeButton";
+import { APIS } from "../api/apiList";
+import useApi from "../hooks/useApi";
+import { useSnack } from "../hooks/store/useSnack";
+import moment from "moment";
+import ImageUploder from "../component/form/ImageUploder";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [transactionList, setTransactionList] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [dashboard, setDashboard] = useState();
   const { accessToken } = useAuth();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+  const { apiCall } = useApi();
+  const { setSnack } = useSnack();
+  const [selectedTransaction, setSelectedTransaction] = useState();
 
-  const accounts = [
-    {
-      date: "01/01/2024",
-      title: "system",
-      descrption: "sit amet lorem ipsum sit amet.",
-      paymentMethod: "UPI",
-      amount: "+$1000",
-      invoiceType: "Inbound",
-      invoiceOwner: "Shunyavkash",
-      collaborator: "Pixel",
-      expanceType: "-",
-    },
-    {
-      date: "12/11/2023",
-      title: "Chair",
-      descrption: "lorem ipsum lorem ipsum sit amet.",
-      paymentMethod: "Cash",
-      invoiceType: "Outbound",
-      invoiceOwner: "Shunyavkash",
-      expanceType: "Miscellaneous",
-    },
-    {
-      date: "26/05/2023",
-      title: "tomb raider",
-      descrption: "dolor sit lorem ipsum sit amet.",
-      paymentMethod: "Bank",
-      amount: "+$1000",
-      invoiceType: "Outbound",
-      invoiceOwner: "Shunyavkash",
-      collaborator: "Simpliigence",
-    },
-    {
-      date: "03/02/2023",
-      title: "packets of foods",
-      descrption: "lorem ipsum sit amet.",
-      paymentMethod: "Cash",
-      amount: "-$2000",
-      invoiceType: "Inbound",
-      invoiceOwner: "Shunyavkash",
-      expanceType: "Asset Purchase",
-    },
-  ];
+  const viewAllTransaction = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.ACCOUNTMANAGE.LIST,
+        method: "get",
+        params: { sortField: "date" },
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setTransactionList(res.data.data.data);
+        let total = 0;
+        for (var trans of res.data.data.data) {
+          if (trans.type === "expense") {
+            total = total - trans.amount;
+          } else {
+            total = total + trans.amount;
+          }
+        }
+        setTotalAmount(total);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+  const transactionDashboard = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.ACCOUNTMANAGE.DASHBOARD,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setDashboard(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+  useEffect(() => {
+    transactionDashboard();
+    viewAllTransaction();
+  }, []);
+
+  let acFormattedDate;
+  if (selectedTransaction?.date) {
+    let originalDate = moment(selectedTransaction?.date);
+    acFormattedDate = originalDate.format("DD/MM/YYYY");
+  }
 
   return (
     <>
@@ -104,47 +122,23 @@ function AccountManage() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ sm: "center" }}
+            justifyContent={{ sm: "space-between" }}
+            columnGap={2}
+            rowGap={2.5}
             sx={{
-              display: "flex",
-              alignItems: { sm: "center" },
-              justifyContent: { sm: "space-between" },
-              flexDirection: { xs: "column", sm: "row" },
-              columnGap: 2,
-              rowGap: 2.5,
+              mb: 3.25,
             }}
           >
-            <Box>
-              <Typography
-                variant="h5"
-                sx={{ mb: 0.75, textTransform: "capitalize" }}
-              >
-                Account Management
-              </Typography>
-              <Stack direction="row" spacing={0.5}>
-                <Link to={"/"} style={{ textDecoration: "none" }}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      textTransform: "capitalize",
-                      color: "primary.main",
-                      transition: "all 0.4s ease-in-out",
-                      ":not(:hover)": {
-                        opacity: 0.7,
-                      },
-                    }}
-                  >
-                    Dashboard /
-                  </Typography>
-                </Link>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
-                >
-                  Account
-                </Typography>
-              </Stack>
-            </Box>
+            <SectionHeader
+              Title="A/c Management"
+              BreadCrumbPreviousLink="/"
+              BreadCrumbPreviousTitle="Dashboard"
+              BreadCrumbCurrentTitle="Account"
+              style={{ mb: 0 }}
+            />
             <Link
               to="./add"
               style={{ display: "inline-flex", textDecoration: "none" }}
@@ -154,14 +148,9 @@ function AccountManage() {
                 startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
               />
             </Link>
-          </Box>
+          </Stack>
 
-          <Grid
-            container
-            rowSpacing={2.5}
-            columnSpacing={2.5}
-            sx={{ mt: 0.75 }}
-          >
+          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
             <Grid item xs={6} md={3} lg={3}>
               <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
                 <Typography
@@ -172,35 +161,7 @@ function AccountManage() {
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  ₹1,50,000
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Expance
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  ₹80,000
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Balance
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  ₹50,000
+                  ₹{dashboard?.totalSales || 0}
                 </Typography>
               </Box>
             </Grid>
@@ -214,7 +175,35 @@ function AccountManage() {
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  ₹565000
+                  ₹{dashboard?.totalIncome || 0}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={6} md={3} lg={3}>
+              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+                <Typography
+                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
+                >
+                  Total Expense
+                </Typography>
+                <Typography
+                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
+                >
+                  ₹{Math.abs(dashboard?.totalExpense) || 0}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={6} md={3} lg={3}>
+              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+                <Typography
+                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
+                >
+                  Total Balance
+                </Typography>
+                <Typography
+                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
+                >
+                  ₹{dashboard?.totalBalance || 0}
                 </Typography>
               </Box>
             </Grid>
@@ -266,30 +255,25 @@ function AccountManage() {
                     <TableCell sx={{ width: "120px" }}>Collaborator</TableCell>
                     <TableCell sx={{ width: "120px" }}>Expance Type</TableCell>
                     <TableCell sx={{ width: "140px", textAlign: "center" }}>
-                      Amount
+                      Amount (₹)
                     </TableCell>
                     <TableCell sx={{ width: "100px", textAlign: "center" }}>
                       actions
                     </TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody
-                  sx={
-                    {
-                      // "&>*:nth-of-type(even)": {
-                      //   bgcolor: "rgb(22 119 255/ 6%)",
-                      // },
-                    }
-                  }
-                >
-                  {accounts.map((account) => (
+                <TableBody>
+                  {transactionList.map((account) => (
                     <TableRow
                       key={account.key}
                       sx={{
                         "&>td": { fontSize: { xs: "12px", sm: "14px" } },
                       }}
                     >
-                      <TableCell>{account.date}</TableCell>
+                      <TableCell>
+                        {moment(account.date).format("DD/MM/YYYY")}
+                      </TableCell>
+
                       <TableCell>
                         <Box
                           className="truncate line-clamp-1"
@@ -303,16 +287,21 @@ function AccountManage() {
                           className="truncate line-clamp-2"
                           sx={{ textWrap: "wrap" }}
                         >
-                          {account.descrption}
+                          {account.description}
                         </Box>
                       </TableCell>
                       <TableCell>
                         <Stack direction="row" alignItems="center" spacing={1}>
-                          <Box sx={{ display: "inline-flex", opacity: "0.5" }}>
+                          <Box
+                            sx={{
+                              display: "inline-flex",
+                              "& span": { opacity: "0.5" },
+                            }}
+                          >
                             {account.paymentMethod === "Cash" ? (
-                              <CashIcon />
+                              <CashIcon sx={{ color: "#43991e" }} />
                             ) : account.paymentMethod === "Bank" ? (
-                              <BankIcon />
+                              <BankIcon sx={{ color: "#3a85ff" }} />
                             ) : (
                               <Stack
                                 direction="row"
@@ -349,21 +338,18 @@ function AccountManage() {
                         {account.collaborator ? account.collaborator : "-"}
                       </TableCell>
                       <TableCell>
-                        {account.expanceType ? account.expanceType : "-"}
+                        {account.expenseType ? account.expenseType : "-"}
                       </TableCell>
                       <TableCell
                         sx={{
                           textAlign: "center",
-                          color: !account.amount
-                            ? "text.primary"
-                            : account.collaborator
-                            ? "success.main"
-                            : account.expanceType
-                            ? "review.main"
-                            : "",
+                          color:
+                            account.type == "expense"
+                              ? "review.main"
+                              : "success.main",
                         }}
                       >
-                        {account.amount ? account.amount : "-"}
+                        ${account.amount ? account.amount : "-"}
                       </TableCell>
                       <TableCell>
                         <Stack
@@ -382,10 +368,16 @@ function AccountManage() {
                             "& svg": { fontSize: { xs: "20px", sm: "21px" } },
                           }}
                         >
-                          <Button disableRipple onClick={handleOpen}>
+                          <Button
+                            disableRipple
+                            onClick={() => {
+                              handleOpen();
+                              setSelectedTransaction(account);
+                            }}
+                          >
                             <VisibilityIcon />
                           </Button>
-                          <Link to="./add">
+                          <Link to={`./edit/${account._id}`}>
                             <Button disableRipple>
                               <CreateIcon />
                             </Button>
@@ -418,11 +410,11 @@ function AccountManage() {
                     <TableCell
                       sx={{
                         // bgcolor: "rgba(74, 210, 146, 15%)",
-                        color: "success.main",
+                        color: totalAmount < 0 ? "review.main" : "success.main",
                         textAlign: "center",
                       }}
                     >
-                      $10000
+                      ${Math.abs(totalAmount)}
                     </TableCell>
                     <TableCell></TableCell>
                   </TableRow>
@@ -436,188 +428,82 @@ function AccountManage() {
       <ModalComponent
         open={open}
         setOpen={setOpen}
-        modalTitle="Add Accounting"
+        // todo = show only one type
+        modalTitle="Income / Expance"
         size="large"
       >
-        <Box>
-          <Typography className="cardTitle" variant="h5" sx={{ mb: 4 }}>
-            Income
-          </Typography>
-          <Grid container rowSpacing={3.5} sx={{ px: 0 }}>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Date"}
-                Text={"01/12/2022"}
-                Icon={<DateIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Title"}
-                Text={"System"}
-                Icon={<TitleIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Account Type"}
-                Text={"Income"}
-                Icon={<TitleIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Amount"}
-                Text={"1000$"}
-                Icon={<AccountBoxIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Invoice Type"}
-                Text={"Inbound"}
-                Icon={<InvoiceTypeIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Invoice Owner"}
-                Text={"Abc"}
-                Icon={<InvoiceOwnerIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Payment Method"}
-                Text={"bank Transfer"}
-                Icon={<PaymentIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Collaborator"}
-                Text={"Pixel"}
-                Icon={<CollaboratorIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Description"}
-                Text={"Sit Amet Lorem Ipsum Sit Amet."}
-                Icon={<EmailIcon />}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Link
-                href="#javascript:void(0);"
-                target="_blank"
-                sx={{
-                  textDecoration: "none",
-                  color: "#2a4062",
-                  opacity: "0.8",
-                  backgroundColor: "rgba(0,0,0,0.1)",
-                  borderRadius: 1,
-                  padding: "5px 10px",
-                  display: "inline-block",
-                  "& > div": {
-                    mb: 0,
-                  },
-                }}
-              >
-                <DetailsList
-                  Title={"Invoice Upload"}
-                  Icon={<FileDownloadIcon2 />}
-                />
-              </Link>
-            </Grid>
+        <Grid container rowSpacing={5} columnSpacing={1.5}>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Date"}
+              Text={acFormattedDate || "N/A"}
+              Icon={<DateIcon />}
+            />
           </Grid>
-        </Box>
-        <Box sx={{ mt: 4 }}>
-          <Typography className="cardTitle" variant="h5" sx={{ mb: 4 }}>
-            Expance
-          </Typography>
-          <Grid container rowSpacing={3.5} sx={{ px: 0 }}>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Date"}
-                Text={"01/12/2022"}
-                Icon={<DateIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Title"}
-                Text={"System"}
-                Icon={<TitleIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Description"}
-                Text={"Sit Amet Lorem Ipsum Sit Amet."}
-                Icon={<EmailIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Amount"}
-                Text={"1000$"}
-                Icon={<AccountBoxIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Expance Type"}
-                Text={"Salary"}
-                Icon={<AccountBoxIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Invoice Type"}
-                Text={"Outbound"}
-                Icon={<InvoiceTypeIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Invoice Owner"}
-                Text={"XYZ"}
-                Icon={<InvoiceOwnerIcon />}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"Payment Method"}
-                Text={"ABC"}
-                Icon={<PaymentIcon />}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Link
-                href="#javascript:void(0);"
-                target="_blank"
-                sx={{
-                  textDecoration: "none",
-                  color: "#2a4062",
-                  opacity: "0.8",
-                  backgroundColor: "rgba(0,0,0,0.1)",
-                  borderRadius: 1,
-                  padding: "5px 10px",
-                  display: "inline-block",
-                  "& > div": {
-                    mb: 0,
-                  },
-                }}
-              >
-                <DetailsList
-                  Title={"Invoice Upload"}
-                  Icon={<FileDownloadIcon2 />}
-                />
-              </Link>
-            </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Title"}
+              Text={selectedTransaction?.title || "N/A"}
+              Icon={<TitleIcon />}
+            />
           </Grid>
-        </Box>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Description"}
+              Text={selectedTransaction?.description || "N/A"}
+              Icon={<EmailIcon />}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Amount"}
+              Text={selectedTransaction?.amount || "N/A"}
+              Icon={<AccountBoxIcon />}
+            />
+          </Grid>
+          {/* todo = show only in Expance */}
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Expance Type"}
+              Text={selectedTransaction?.expenseType || "N/A"}
+              Icon={<AccountBoxIcon />}
+            />
+          </Grid>
+          {/* todo = show only in Income */}
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Collaborator"}
+              Text={selectedTransaction?.collaborator || "N/A"}
+              Icon={<CollaboratorIcon />}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Invoice Type"}
+              Text={selectedTransaction?.invoiceType || "N/A"}
+              Icon={<InvoiceTypeIcon />}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Invoice Owner"}
+              Text={selectedTransaction?.invoiceOwner || "N/A"}
+              Icon={<InvoiceOwnerIcon />}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DetailsList
+              Title={"Payment Method"}
+              Text={selectedTransaction?.paymentMethod || "N/A"}
+              Icon={<PaymentIcon />}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Box>
+              <ImageUploder title="invoice" />
+            </Box>
+          </Grid>
+        </Grid>
       </ModalComponent>
     </>
   );

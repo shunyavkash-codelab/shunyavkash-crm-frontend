@@ -44,6 +44,7 @@ import SignChangeIcon from "@mui/icons-material/CameraAlt";
 import ReactFileReader from "react-file-reader";
 import CloseIcon from "@mui/icons-material/Close";
 import ThemeButton from "../component/ThemeButton";
+import SectionHeader from "../component/SectionHeader";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -734,16 +735,14 @@ export default function AddInvoice() {
             <>
               <Box sx={{ ml: { lg: sideBarWidth } }}>
                 <Box component="main">
-                  <Box sx={{ mb: 3.25, textAlign: "center" }}>
-                    <Typography
-                      variant="h5"
-                      sx={{ textTransform: "capitalize" }}
-                    >
-                      {location.pathname.includes("/edit/")
+                  <SectionHeader
+                    Title={
+                      location.pathname.includes("/edit/")
                         ? "edit invoice"
-                        : "Add Invoice"}
-                    </Typography>
-                  </Box>
+                        : "Add Invoice"
+                    }
+                    style={{ textAlign: "center" }}
+                  />
                   <Form style={{ position: "relative" }}>
                     <Box
                       sx={{

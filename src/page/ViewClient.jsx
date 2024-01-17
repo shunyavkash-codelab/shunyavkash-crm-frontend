@@ -15,6 +15,7 @@ import DetailsList from "../component/employee/DetailsList.jsx";
 import GenderIcon from "@mui/icons-material/WcOutlined";
 import WebsiteIcon from "@mui/icons-material/LanguageOutlined";
 import ProjectsIcon from "../component/icons/ProjectsIcon.jsx";
+import SectionHeader from "../component/SectionHeader.jsx";
 
 export default function ViewClient() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -61,37 +62,12 @@ export default function ViewClient() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box sx={{ mb: 3.25 }}>
-            <Typography
-              variant="h5"
-              sx={{ mb: 0.75, textTransform: "capitalize" }}
-            >
-              Client
-            </Typography>
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/clients"} style={{ textDecoration: "none" }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "primary.main",
-                    transition: "all 0.4s ease-in-out",
-                    ":not(:hover)": {
-                      opacity: 0.7,
-                    },
-                  }}
-                >
-                  clients /
-                </Typography>
-              </Link>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                {clientList.name}
-              </Typography>
-            </Box>
-          </Box>
+          <SectionHeader
+            Title="Client"
+            BreadCrumbPreviousLink="/clients"
+            BreadCrumbPreviousTitle="clients"
+            BreadCrumbCurrentTitle={clientList.name}
+          />
 
           <Box
             sx={{
