@@ -596,7 +596,7 @@ export default function PreviewInvoice() {
                         pl: 1.75,
                         display: "flex",
                         justifyContent: "space-between",
-                        gap: 11.25,
+                        gap: 10.25,
                         "&>*": {
                           lineHeight: "1!important",
                           "&:first-child": {
