@@ -54,6 +54,7 @@ function AccountManage() {
   const handleOpen = () => setOpen(true);
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
+  const [selectedTransaction, setSelectedTransaction] = useState();
 
   const viewAllTransaction = async () => {
     try {
@@ -98,49 +99,11 @@ function AccountManage() {
     viewAllTransaction();
   }, []);
 
-  // const accounts = [
-  //   {
-  //     date: "01/01/2024",
-  //     title: "system",
-  //     description: "sit amet lorem ipsum sit amet.",
-  //     paymentMethod: "UPI",
-  //     amount: "+10000",
-  //     invoiceType: "Inbound",
-  //     invoiceOwner: "Shunyavkash",
-  //     collaborator: "Pixel",
-  //     expenseType: "-",
-  //   },
-  //   {
-  //     date: "12/11/2023",
-  //     title: "Chair",
-  //     description: "lorem ipsum lorem ipsum sit amet.",
-  //     paymentMethod: "Cash",
-  //     amount: "+500",
-  //     invoiceType: "Outbound",
-  //     invoiceOwner: "Shunyavkash",
-  //     expenseType: "Miscellaneous",
-  //   },
-  //   {
-  //     date: "26/05/2023",
-  //     title: "tomb raider",
-  //     description: "dolor sit lorem ipsum sit amet.",
-  //     paymentMethod: "Bank",
-  //     amount: "+4500",
-  //     invoiceType: "Outbound",
-  //     invoiceOwner: "Shunyavkash",
-  //     collaborator: "Simpliigence",
-  //   },
-  //   {
-  //     date: "03/02/2023",
-  //     title: "packets of foods",
-  //     description: "lorem ipsum sit amet.",
-  //     paymentMethod: "Cash",
-  //     amount: "-1500",
-  //     invoiceType: "Inbound",
-  //     invoiceOwner: "Shunyavkash",
-  //     expenseType: "Asset Purchase",
-  //   },
-  // ];
+  let acFormattedDate;
+  if (selectedTransaction?.date) {
+    let originalDate = moment(selectedTransaction?.date);
+    acFormattedDate = originalDate.format("DD/MM/YYYY");
+  }
 
   return (
     <>
@@ -405,7 +368,13 @@ function AccountManage() {
                             "& svg": { fontSize: { xs: "20px", sm: "21px" } },
                           }}
                         >
-                          <Button disableRipple onClick={handleOpen}>
+                          <Button
+                            disableRipple
+                            onClick={() => {
+                              handleOpen();
+                              setSelectedTransaction(account);
+                            }}
+                          >
                             <VisibilityIcon />
                           </Button>
                           <Link to={`./edit/${account._id}`}>
@@ -467,24 +436,28 @@ function AccountManage() {
           <Grid item xs={12} sm={6} md={4}>
             <DetailsList
               Title={"Date"}
-              Text={"01/12/2022"}
+              Text={acFormattedDate || "N/A"}
               Icon={<DateIcon />}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <DetailsList Title={"Title"} Text={"System"} Icon={<TitleIcon />} />
+            <DetailsList
+              Title={"Title"}
+              Text={selectedTransaction?.title || "N/A"}
+              Icon={<TitleIcon />}
+            />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <DetailsList
               Title={"Description"}
-              Text={"Sit Amet Lorem Ipsum Sit Amet."}
+              Text={selectedTransaction?.description || "N/A"}
               Icon={<EmailIcon />}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <DetailsList
               Title={"Amount"}
-              Text={"1000$"}
+              Text={selectedTransaction?.amount || "N/A"}
               Icon={<AccountBoxIcon />}
             />
           </Grid>
@@ -492,7 +465,7 @@ function AccountManage() {
           <Grid item xs={12} sm={6} md={4}>
             <DetailsList
               Title={"Expance Type"}
-              Text={"Salary"}
+              Text={selectedTransaction?.expenseType || "N/A"}
               Icon={<AccountBoxIcon />}
             />
           </Grid>
@@ -500,28 +473,28 @@ function AccountManage() {
           <Grid item xs={12} sm={6} md={4}>
             <DetailsList
               Title={"Collaborator"}
-              Text={"Pixel"}
+              Text={selectedTransaction?.collaborator || "N/A"}
               Icon={<CollaboratorIcon />}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <DetailsList
               Title={"Invoice Type"}
-              Text={"Inbound"}
+              Text={selectedTransaction?.invoiceType || "N/A"}
               Icon={<InvoiceTypeIcon />}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <DetailsList
               Title={"Invoice Owner"}
-              Text={"Abc"}
+              Text={selectedTransaction?.invoiceOwner || "N/A"}
               Icon={<InvoiceOwnerIcon />}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <DetailsList
               Title={"Payment Method"}
-              Text={"bank Transfer"}
+              Text={selectedTransaction?.paymentMethod || "N/A"}
               Icon={<PaymentIcon />}
             />
           </Grid>
