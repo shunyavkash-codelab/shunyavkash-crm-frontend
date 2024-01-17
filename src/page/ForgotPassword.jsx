@@ -1,11 +1,12 @@
 import React from "react";
-import { Box, TextField, Typography, Button } from "@mui/material";
+import { Box, TextField, Typography, Button, Stack } from "@mui/material";
 import { APIS } from "../api/apiList";
 import { useFormik } from "formik";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import * as Yup from "yup";
 import ThemeButton from "../component/ThemeButton";
+import { Link } from "react-router-dom";
 
 export default function ForgotPassword() {
   const { setSnack } = useSnack();
@@ -44,98 +45,123 @@ export default function ForgotPassword() {
   });
 
   return (
-    <Box component="main" sx={{ height: "100vh", p: 0, maxWidth: "unset" }}>
+    <Stack
+      component="main"
+      direction="row"
+      justifyContent="center"
+      alignItems="center"
+      sx={{
+        p: 0,
+        maxWidth: "unset",
+        height: "100vh",
+        backgroundImage: "url('./images/wave-img2.png')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }}
+    >
       <Box
+        component="form"
+        noValidate
+        autoComplete="off"
+        flexShrink={0}
+        onSubmit={formik.handleSubmit}
         sx={{
-          height: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          borderRadius: 2.5,
+          p: 4.25,
+          bgcolor: "rgb(255 255 255 / 30%)",
+          maxWidth: "430px",
+          flexGrow: 1,
+          backdropFilter: "blur(5px)",
+          boxShadow: "0 0 28px rgba(0,0,0,0.2)",
         }}
       >
-        <Box
+        <Typography
+          id="modal-modal-title"
+          variant="h6"
           sx={{
-            padding: { xs: 2, sm: 3 },
-            flexGrow: 1,
-            maxWidth: "350px",
-            borderRadius: 2.5,
-            bgcolor: "white",
-            mx: 1.5,
+            textAlign: "center",
+            fontSize: { xs: "22px", sm: "26px" },
+            textTransform: "capitalize",
+            mb: 3.75,
+            fontWeight: 700,
           }}
         >
-          <Box
-            component="form"
-            noValidate
+          Forgot Password
+        </Typography>
+
+        <Box
+          sx={{
+            "&>*:not(:first-of-type)": { mt: 2 },
+            "& fieldset": {
+              borderRadius: 1.5,
+              "& legend": { fontSize: "0.65em" },
+            },
+          }}
+        >
+          <TextField
+            fullWidth
+            required
+            size="small"
+            id="email"
+            label="Email"
+            name="email"
             autoComplete="off"
-            onSubmit={formik.handleSubmit}
-          >
-            <Typography
-              id="modal-modal-title"
-              variant="h6"
-              sx={{
-                textAlign: "center",
-                fontSize: { xs: "22px", sm: "26px" },
-                textTransform: "capitalize",
-                mb: 3.75,
-                fontWeight: 700,
-              }}
-            >
-              Forgot Password
-            </Typography>
-            <Box
-              sx={{
-                "&>*:not(:first-of-type)": { mt: 2 },
-                "& fieldset": {
-                  borderRadius: 1.5,
-                  "& legend": { fontSize: "0.65em" },
-                },
-              }}
-            >
-              <TextField
-                fullWidth
-                size="small"
-                required
-                id="email"
-                label="Email"
-                name="email"
-                autoComplete="off"
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                }}
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-              <ThemeButton
-                success
-                Text="get otp"
-                type="submit"
-                buttonStyle={{
-                  width: "100%",
-                }}
-              />
-            </Box>
-          </Box>
-          {/* <Box sx={{ mt: 2.5 }}>
-            <Typography sx={{ fontSize: "14px" }}>
-              Don't have an account?
-              <Link
-                underline="none"
-                href="./SignUp"
-                sx={{
-                  display: "inline-block",
-                  ml: 0.75,
-                  cursor: "pointer",
-                  lineHeight: 1,
-                }}
-              >
-                Sign up
-              </Link>
-            </Typography>
-          </Box> */}
+            sx={{
+              "&>label,& input,&>div": { fontSize: "14px" },
+              "&>label": { top: "4px" },
+              "& input": { py: 1.5 },
+            }}
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          />
+
+          <ThemeButton
+            Text="get otp"
+            type="submit"
+            btnColor="text.primary"
+            buttonStyle={{
+              width: "100%",
+              my: 3,
+            }}
+          />
         </Box>
+
+        <Typography sx={{ fontSize: "14px" }}>
+          You remeber your password?
+          <Link
+            to="/signin"
+            style={{
+              display: "inline-block",
+              marginLeft: "6px",
+              cursor: "pointer",
+              lineHeight: 1,
+              color: "#1677FF",
+              fontWeight: 500,
+            }}
+          >
+            Log in
+          </Link>
+        </Typography>
+
+        {/* <Typography sx={{ fontSize: "14px", mt: 1 }}>
+          Don't have an account?
+          <Link
+            to="/SignUp"
+            style={{
+              display: "inline-block",
+              marginLeft: "6px",
+              cursor: "pointer",
+              lineHeight: 1,
+              color: "#1677FF",
+              fontWeight: 500,
+            }}
+          >
+            Sign up
+          </Link>
+        </Typography> */}
       </Box>
-    </Box>
+    </Stack>
   );
 }
