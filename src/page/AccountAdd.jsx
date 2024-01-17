@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../component/SideBar";
 import { useAuth } from "../hooks/store/useAuth";
 import Header from "../component/Header";
+import SectionHeader from "../component/SectionHeader";
 import {
   Box,
   Card,
@@ -21,7 +22,7 @@ import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ImageUploder from "../component/form/ImageUploder";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import ThemeButton from "../component/ThemeButton";
 import { useFormik } from "formik";
 import { APIS } from "../api/apiList";
@@ -32,11 +33,14 @@ import * as Yup from "yup";
 function AccountAdd() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [viewTransaction, setViewTransaction] = useState(false);
   const { accessToken } = useAuth();
+  const { id } = useParams();
   const [selected, setSelected] = useState(true);
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -45,7 +49,7 @@ function AccountAdd() {
       title: Yup.string().required("Title is required."),
       description: Yup.string().required("Description is required."),
       amount: Yup.number().required("Amount is required."),
-      expanseType: Yup.string(),
+      expenseType: Yup.string(),
       invoiceOwner: Yup.string().required("InvoiceOwner is required."),
       invoiceType: Yup.string().required("InvoiceType is required."),
       paymentMethod: Yup.string().required("paymentMethod is required."),
@@ -53,23 +57,24 @@ function AccountAdd() {
     }),
     enableReinitialize: true,
     initialValues: {
-      type: "",
-      date: "",
-      title: "",
-      description: "",
-      amount: "",
-      expanseType: "",
-      invoiceOwner: "",
-      invoiceType: "",
-      paymentMethod: "",
-      collaborator: "",
+      type: viewTransaction?.type || "",
+      date: viewTransaction?.date || "",
+      title: viewTransaction?.title || "",
+      description: viewTransaction?.description || "",
+      amount: viewTransaction?.amount || "",
+      expenseType: viewTransaction?.expenseType || "",
+      invoiceOwner: viewTransaction?.invoiceOwner || "",
+      invoiceType: viewTransaction?.invoiceType || "",
+      paymentMethod: viewTransaction?.paymentMethod || "",
+      collaborator: viewTransaction?.collaborator || "",
     },
 
     onSubmit: async (values) => {
+      console.log(values);
       try {
         const res = await apiCall({
-          url: APIS.ACCOUNTMANAGE.ADD,
-          method: "post",
+          url: id ? APIS.ACCOUNTMANAGE.EDIT : APIS.ACCOUNTMANAGE.ADD,
+          method: id ? "patch" : "post",
           data: JSON.stringify(values, null, 2),
         });
         if (res.data.success === true) {
@@ -77,15 +82,34 @@ function AccountAdd() {
           navigate("/account-management");
         }
       } catch (error) {
+        console.log(error);
         let errorMessage = error.response.data.message;
         setSnack(errorMessage, "warning");
       }
     },
   });
 
-  const changeHandler = (e) => {
-    setSelected(e.target.value);
+  const getTransaction = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.ACCOUNTMANAGE.GET(id),
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setViewTransaction(res.data.data);
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
+    }
   };
+  useEffect(() => {
+    if (id) {
+      getTransaction(id);
+    }
+  }, [id]);
+
   return (
     <>
       <SideBar
@@ -103,41 +127,19 @@ function AccountAdd() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box>
-            <Typography
-              variant="h5"
-              sx={{ textTransform: "capitalize", mb: 0.5 }}
-            >
-              Add Entry
-            </Typography>
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to="/account-management" style={{ textDecoration: "none" }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "primary.main",
-                    transition: "all 0.4s ease-in-out",
-                    ":not(:hover)": {
-                      opacity: 0.7,
-                    },
-                  }}
-                >
-                  A/c Management /
-                </Typography>
-              </Link>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                Add Entry
-              </Typography>
-            </Box>
-          </Box>
+          <SectionHeader
+            Title={
+              location.pathname.includes("/edit/") ? "Edit Entry" : "Add Entry"
+            }
+            BreadCrumbPreviousLink="/account-management"
+            BreadCrumbPreviousTitle="A/C Management"
+            BreadCrumbCurrentTitle={
+              location.pathname.includes("/edit/") ? "Edit Entry" : "Add Entry"
+            }
+          />
           <Card
             sx={{
               p: 3,
-              mt: 3,
               border: 0,
               borderRadius: 3,
               boxShadow: "none",
@@ -173,6 +175,7 @@ function AccountAdd() {
                         },
                       }}
                       onClick={formik.handleChange}
+                      value={formik.values.type}
                     >
                       <FormControlLabel
                         value="income"
@@ -181,7 +184,7 @@ function AccountAdd() {
                         onClick={() => setSelected(true)}
                       />
                       <FormControlLabel
-                        value="expance"
+                        value="expense"
                         control={<Radio />}
                         label="Expance"
                         onClick={() => setSelected(false)}
@@ -224,6 +227,7 @@ function AccountAdd() {
                     defaultValue=""
                     size="normal"
                     onChange={formik.handleChange}
+                    value={formik.values.title}
                     sx={{
                       width: "100%",
                       "& > .MuiFormLabel-root": { fontSize: 14 },
@@ -241,6 +245,7 @@ function AccountAdd() {
                     label="Description"
                     defaultValue=""
                     onChange={formik.handleChange}
+                    value={formik.values.description}
                     sx={{
                       width: "100%",
                       fontSize: 14,
@@ -262,6 +267,7 @@ function AccountAdd() {
                     label="Amount"
                     defaultValue=""
                     onChange={formik.handleChange}
+                    value={formik.values.amount}
                     sx={{ width: "100%", "& > *": { fontSize: 14 } }}
                     error={
                       formik.touched.amount && Boolean(formik.errors.amount)
@@ -289,15 +295,15 @@ function AccountAdd() {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         label="Expanse Type"
-                        name="expanseType"
-                        value={formik.values.expanseType}
+                        name="expenseType"
+                        value={formik.values.expenseType}
                         onChange={(e) =>
-                          formik.setFieldValue("expanseType", e.target.value)
+                          formik.setFieldValue("expenseType", e.target.value)
                         }
                         sx={{ fontSize: "14px" }}
                         error={
-                          formik.touched.expanseType &&
-                          Boolean(formik.errors.expanseType)
+                          formik.touched.expenseType &&
+                          Boolean(formik.errors.expenseType)
                         }
                       >
                         <MenuItem
@@ -325,11 +331,11 @@ function AccountAdd() {
                           Asset purchase
                         </MenuItem>
                       </Select>
-                      {formik.touched.expanseType &&
-                        Boolean(formik.errors.expanseType) && (
+                      {formik.touched.expenseType &&
+                        Boolean(formik.errors.expenseType) && (
                           <FormHelperText error={true}>
-                            {formik.touched.expanseType &&
-                              formik.errors.expanseType}
+                            {formik.touched.expenseType &&
+                              formik.errors.expenseType}
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -395,6 +401,7 @@ function AccountAdd() {
                     defaultValue=""
                     name="invoiceOwner"
                     onChange={formik.handleChange}
+                    value={formik.values.invoiceOwner}
                     sx={{ width: "100%", "& > *": { fontSize: 14 } }}
                     error={
                       formik.touched.invoiceOwner &&
@@ -526,7 +533,15 @@ function AccountAdd() {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <ThemeButton success Text="add entry" type="submit" />
+                  <ThemeButton
+                    success
+                    Text={
+                      location.pathname.includes("/edit/")
+                        ? "Edit Entry"
+                        : "Add Entry"
+                    }
+                    type="submit"
+                  />
                 </Grid>
               </Grid>
             </Box>

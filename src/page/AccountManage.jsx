@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SideBar from "../component/SideBar";
 import { useAuth } from "../hooks/store/useAuth";
 import Header from "../component/Header";
+import SectionHeader from "../component/SectionHeader";
 import {
   Box,
   Button,
@@ -47,6 +48,7 @@ function AccountManage() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [transactionList, setTransactionList] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [dashboard, setDashboard] = useState();
   const { accessToken } = useAuth();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -65,7 +67,7 @@ function AccountManage() {
         setTransactionList(res.data.data.data);
         let total = 0;
         for (var trans of res.data.data.data) {
-          if (trans.type === "expance") {
+          if (trans.type === "expense") {
             total = total - trans.amount;
           } else {
             total = total + trans.amount;
@@ -77,53 +79,68 @@ function AccountManage() {
       console.log(error, setSnack);
     }
   };
+  const transactionDashboard = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.ACCOUNTMANAGE.DASHBOARD,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        setDashboard(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
   useEffect(() => {
+    transactionDashboard();
     viewAllTransaction();
   }, []);
 
-  const accounts = [
-    {
-      date: "01/01/2024",
-      title: "system",
-      description: "sit amet lorem ipsum sit amet.",
-      paymentMethod: "UPI",
-      amount: "+10000",
-      invoiceType: "Inbound",
-      invoiceOwner: "Shunyavkash",
-      collaborator: "Pixel",
-      expanceType: "-",
-    },
-    {
-      date: "12/11/2023",
-      title: "Chair",
-      description: "lorem ipsum lorem ipsum sit amet.",
-      paymentMethod: "Cash",
-      amount: "+500",
-      invoiceType: "Outbound",
-      invoiceOwner: "Shunyavkash",
-      expanceType: "Miscellaneous",
-    },
-    {
-      date: "26/05/2023",
-      title: "tomb raider",
-      description: "dolor sit lorem ipsum sit amet.",
-      paymentMethod: "Bank",
-      amount: "+4500",
-      invoiceType: "Outbound",
-      invoiceOwner: "Shunyavkash",
-      collaborator: "Simpliigence",
-    },
-    {
-      date: "03/02/2023",
-      title: "packets of foods",
-      description: "lorem ipsum sit amet.",
-      paymentMethod: "Cash",
-      amount: "-1500",
-      invoiceType: "Inbound",
-      invoiceOwner: "Shunyavkash",
-      expanceType: "Asset Purchase",
-    },
-  ];
+  // const accounts = [
+  //   {
+  //     date: "01/01/2024",
+  //     title: "system",
+  //     description: "sit amet lorem ipsum sit amet.",
+  //     paymentMethod: "UPI",
+  //     amount: "+10000",
+  //     invoiceType: "Inbound",
+  //     invoiceOwner: "Shunyavkash",
+  //     collaborator: "Pixel",
+  //     expenseType: "-",
+  //   },
+  //   {
+  //     date: "12/11/2023",
+  //     title: "Chair",
+  //     description: "lorem ipsum lorem ipsum sit amet.",
+  //     paymentMethod: "Cash",
+  //     amount: "+500",
+  //     invoiceType: "Outbound",
+  //     invoiceOwner: "Shunyavkash",
+  //     expenseType: "Miscellaneous",
+  //   },
+  //   {
+  //     date: "26/05/2023",
+  //     title: "tomb raider",
+  //     description: "dolor sit lorem ipsum sit amet.",
+  //     paymentMethod: "Bank",
+  //     amount: "+4500",
+  //     invoiceType: "Outbound",
+  //     invoiceOwner: "Shunyavkash",
+  //     collaborator: "Simpliigence",
+  //   },
+  //   {
+  //     date: "03/02/2023",
+  //     title: "packets of foods",
+  //     description: "lorem ipsum sit amet.",
+  //     paymentMethod: "Cash",
+  //     amount: "-1500",
+  //     invoiceType: "Inbound",
+  //     invoiceOwner: "Shunyavkash",
+  //     expenseType: "Asset Purchase",
+  //   },
+  // ];
 
   return (
     <>
@@ -142,47 +159,23 @@ function AccountManage() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ sm: "center" }}
+            justifyContent={{ sm: "space-between" }}
+            columnGap={2}
+            rowGap={2.5}
             sx={{
-              display: "flex",
-              alignItems: { sm: "center" },
-              justifyContent: { sm: "space-between" },
-              flexDirection: { xs: "column", sm: "row" },
-              columnGap: 2,
-              rowGap: 2.5,
+              mb: 3.25,
             }}
           >
-            <Box>
-              <Typography
-                variant="h5"
-                sx={{ mb: 0.75, textTransform: "capitalize" }}
-              >
-                Account Management
-              </Typography>
-              <Stack direction="row" spacing={0.5}>
-                <Link to={"/"} style={{ textDecoration: "none" }}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      textTransform: "capitalize",
-                      color: "primary.main",
-                      transition: "all 0.4s ease-in-out",
-                      ":not(:hover)": {
-                        opacity: 0.7,
-                      },
-                    }}
-                  >
-                    Dashboard /
-                  </Typography>
-                </Link>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
-                >
-                  Account
-                </Typography>
-              </Stack>
-            </Box>
+            <SectionHeader
+              Title="A/c Management"
+              BreadCrumbPreviousLink="/"
+              BreadCrumbPreviousTitle="Dashboard"
+              BreadCrumbCurrentTitle="Account"
+              style={{ mb: 0 }}
+            />
             <Link
               to="./add"
               style={{ display: "inline-flex", textDecoration: "none" }}
@@ -192,14 +185,9 @@ function AccountManage() {
                 startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
               />
             </Link>
-          </Box>
+          </Stack>
 
-          <Grid
-            container
-            rowSpacing={2.5}
-            columnSpacing={2.5}
-            sx={{ mt: 0.75 }}
-          >
+          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
             <Grid item xs={6} md={3} lg={3}>
               <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
                 <Typography
@@ -210,7 +198,7 @@ function AccountManage() {
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  ₹16,500
+                  ₹{dashboard?.totalSales || 0}
                 </Typography>
               </Box>
             </Grid>
@@ -224,7 +212,7 @@ function AccountManage() {
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  ₹14,500
+                  ₹{dashboard?.totalIncome || 0}
                 </Typography>
               </Box>
             </Grid>
@@ -233,12 +221,12 @@ function AccountManage() {
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
                 >
-                  Total Expance
+                  Total Expense
                 </Typography>
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  ₹2000
+                  ₹{Math.abs(dashboard?.totalExpense) || 0}
                 </Typography>
               </Box>
             </Grid>
@@ -252,7 +240,7 @@ function AccountManage() {
                 <Typography
                   sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
                 >
-                  ₹12,500
+                  ₹{dashboard?.totalBalance || 0}
                 </Typography>
               </Box>
             </Grid>
@@ -387,18 +375,15 @@ function AccountManage() {
                         {account.collaborator ? account.collaborator : "-"}
                       </TableCell>
                       <TableCell>
-                        {account.expanseType ? account.expanseType : "-"}
+                        {account.expenseType ? account.expenseType : "-"}
                       </TableCell>
                       <TableCell
                         sx={{
                           textAlign: "center",
-                          color: !account.amount
-                            ? "text.primary"
-                            : account.collaborator
-                            ? "success.main"
-                            : account.expanseType
-                            ? "review.main"
-                            : "",
+                          color:
+                            account.type == "expense"
+                              ? "review.main"
+                              : "success.main",
                         }}
                       >
                         ${account.amount ? account.amount : "-"}

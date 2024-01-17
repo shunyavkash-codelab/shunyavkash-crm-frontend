@@ -67,6 +67,7 @@ const routes = createBrowserRouter([
   { path: "/my-profile/:id", Component: MyProfile },
   { path: "/account-management", Component: AccountManage },
   { path: "/account-management/add", Component: AccountAdd },
+  { path: "/account-management/edit/:id", Component: AccountAdd },
   { path: "/members/add", Component: AddMember },
 ]);
 export default function Routes() {
