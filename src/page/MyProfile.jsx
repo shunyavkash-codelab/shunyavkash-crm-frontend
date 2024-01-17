@@ -876,7 +876,7 @@ export default function MyProfile() {
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={2}>
-            <UserLeave userId={id || userId} />
+            <UserLeave profileId={id || userId} />
           </CustomTabPanel>
 
           <ModalComponent

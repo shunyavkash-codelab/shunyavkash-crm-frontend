@@ -38,7 +38,7 @@ import { useParams } from "react-router-dom";
 import moment from "moment";
 import { useAuth } from "../hooks/store/useAuth.js";
 
-function UserLeave({ userId }) {
+function UserLeave({ profileId }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const { apiCall } = useApi();
@@ -46,8 +46,7 @@ function UserLeave({ userId }) {
 
   const [dashboard, setDashboard] = useState([]);
   const [leaveList, setLeaveList] = useState([]);
-  const { user } = useAuth();
-
+  const { userId } = useAuth();
   const formik = useFormik({
     validationSchema: Yup.object({
       leaveType: Yup.string().required("Leave type is required."),
@@ -91,7 +90,7 @@ function UserLeave({ userId }) {
       const res = await apiCall({
         url: APIS.LEAVE.DASHBOARD,
         method: "get",
-        params: { userId: userId },
+        params: { userId: profileId },
       });
       if (res.data.success === true) {
         setDashboard(res.data.data);
@@ -116,7 +115,7 @@ function UserLeave({ userId }) {
   };
   useEffect(() => {
     leaveDashboard();
-    viewUserLeave(userId);
+    viewUserLeave(profileId);
   }, []);
   return (
     <>
@@ -194,7 +193,7 @@ function UserLeave({ userId }) {
       </Grid>
 
       <Box sx={{ mt: 5 }}>
-        {user._id == userId && (
+        {userId == profileId && (
           <Box
             className="cardHeader"
             sx={{

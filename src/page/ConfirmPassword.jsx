@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, Stack } from "@mui/material";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList";
@@ -58,94 +58,91 @@ export default function ConfirmPassword() {
   return (
     <>
       {Boolean(query.get("key")) && (
-        <Box component="main" sx={{ height: "100vh", p: 0, maxWidth: "unset" }}>
+        <Stack
+          component="main"
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            p: 0,
+            maxWidth: "unset",
+            height: "100vh",
+            backgroundImage: "url('./images/wave-img2.png')",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
+        >
           <Box
-            sx={{
-              height: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={formik.handleSubmit}
           >
-            <Box
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
               sx={{
-                padding: { xs: 2, sm: 3 },
-                flexGrow: 1,
-                maxWidth: "350px",
-                borderRadius: 2.5,
-                bgcolor: "white",
-                mx: 1.5,
+                textAlign: "center",
+                fontSize: { xs: "22px", sm: "26px" },
+                textTransform: "capitalize",
+                mb: 3.75,
+                fontWeight: 700,
               }}
             >
-              <Box
-                component="form"
-                noValidate
-                autoComplete="off"
-                onSubmit={formik.handleSubmit}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="h6"
-                  sx={{
-                    textAlign: "center",
-                    fontSize: { xs: "22px", sm: "26px" },
-                    textTransform: "capitalize",
-                    mb: 3.75,
-                    fontWeight: 700,
-                  }}
-                >
-                  Confirm Password
-                </Typography>
-                <Box
-                  sx={{
-                    "&>*:not(:first-of-type)": { mt: 2 },
-                    "& fieldset": {
-                      borderRadius: 1.5,
-                      "& legend": { fontSize: "0.65em" },
-                    },
-                  }}
-                >
-                  <PasswordField
-                    formik={formik}
-                    id={"password"}
-                    label={"Password"}
-                  />
+              Confirm Password
+            </Typography>
 
-                  <PasswordField
-                    formik={formik}
-                    id={"confirm_password"}
-                    label={"Confirm Password"}
-                  />
-                  <ThemeButton
-                    success
-                    Text="Submit"
-                    type="submit"
-                    buttonStyle={{
-                      width: "100%",
-                    }}
-                  />
-                </Box>
-              </Box>
-              {/* <Box sx={{ mt: 2.5 }}>
-                <Typography sx={{ fontSize: "14px" }}>
-                  Don't have an account?
-                  <Link
-                    underline="none"
-                    href="./SignUp"
-                    sx={{
-                      display: "inline-block",
-                      ml: 0.75,
-                      cursor: "pointer",
-                      lineHeight: 1,
-                    }}
-                  >
-                    Sign up
-                  </Link>
-                </Typography>
-              </Box> */}
+            <Box
+              sx={{
+                "&>*:not(:first-of-type)": { mt: 2 },
+                "& fieldset": {
+                  borderRadius: 1.5,
+                  "& legend": { fontSize: "0.65em" },
+                },
+              }}
+            >
+              <PasswordField
+                formik={formik}
+                id={"password"}
+                label={"Password"}
+                Inputstyle={{
+                  "&>div": { fontSize: "14px" },
+                  "&>label": { top: "4px" },
+                  "& input": {
+                    py: 1.5,
+                    pr: 5,
+                  },
+                }}
+                Iconstyle={{ top: "13px" }}
+              />
+
+              <PasswordField
+                formik={formik}
+                id={"confirm_password"}
+                label={"Confirm Password"}
+                Inputstyle={{
+                  "&>div": { fontSize: "14px" },
+                  "&>label": { top: "4px" },
+                  "& input": {
+                    py: 1.5,
+                    pr: 5,
+                  },
+                }}
+                Iconstyle={{ top: "13px" }}
+              />
+
+              <ThemeButton
+                success
+                Text="Create New password"
+                type="submit"
+                btnColor="text.primary"
+                buttonStyle={{
+                  width: "100%",
+                }}
+              />
             </Box>
           </Box>
-        </Box>
+        </Stack>
       )}
     </>
   );

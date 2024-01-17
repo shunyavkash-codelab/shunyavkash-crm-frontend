@@ -1879,54 +1879,54 @@ export default function AddInvoice() {
                         </Box>
                       </Box>
 
-                      <Stack direction="row" spacing={1} sx={{ mt: 3 }}>
-                        <FormControlLabel
-                          label="Add Watermark"
-                          sx={{
-                            userSelect: "none",
-                            gap: 1,
-                          }}
-                          control={
-                            <Checkbox
-                              onClick={(e) =>
-                                formik.setFieldValue(
-                                  "watermark",
-                                  e.target.checked
-                                )
-                              }
-                              disableRipple
-                              sx={{
-                                p: 0,
-                                position: "relative",
-                                borderRadius: "4px",
-                                width: "20px",
-                                height: "20px",
-                                bgcolor: "text.primary",
-                                "& svg": { opacity: 0 },
-                                "&:before": {
-                                  content: "'✓'",
-                                  position: "absolute",
-                                  top: "50%",
-                                  left: "50%",
-                                  transform: "translate(-50%,-50%)",
-                                  opacity: 0,
-                                  transition: "all 0.2s ease-in-out",
-                                  color: "white",
-                                  fontSize: "14px",
-                                },
-                                "&.Mui-checked:before": {
-                                  opacity: 1,
-                                },
-                              }}
-                              defaultChecked={
-                                invoiceData?.watermark === "false"
-                                  ? false
-                                  : true
-                              }
-                            />
-                          }
-                        />
-                        {/* <FormControlLabel
+                      {/* <Stack direction="row" spacing={1} sx={{ mt: 3 }}> */}
+                      <FormControlLabel
+                        label="Add Watermark"
+                        sx={{
+                          m: 0,
+                          mt: 3,
+                          userSelect: "none",
+                          gap: 1,
+                        }}
+                        control={
+                          <Checkbox
+                            onClick={(e) =>
+                              formik.setFieldValue(
+                                "watermark",
+                                e.target.checked
+                              )
+                            }
+                            disableRipple
+                            sx={{
+                              p: 0,
+                              position: "relative",
+                              borderRadius: "4px",
+                              width: "20px",
+                              height: "20px",
+                              bgcolor: "text.primary",
+                              "& svg": { opacity: 0 },
+                              "&:before": {
+                                content: "'✓'",
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%,-50%)",
+                                opacity: 0,
+                                transition: "all 0.2s ease-in-out",
+                                color: "white",
+                                fontSize: "14px",
+                              },
+                              "&.Mui-checked:before": {
+                                opacity: 1,
+                              },
+                            }}
+                            defaultChecked={
+                              invoiceData?.watermark === "false" ? false : true
+                            }
+                          />
+                        }
+                      />
+                      {/* <FormControlLabel
                           label="Add Signature"
                           sx={{
                             userSelect: "none",
@@ -1966,7 +1966,7 @@ export default function AddInvoice() {
                             />
                           }
                         /> */}
-                      </Stack>
+                      {/* </Stack> */}
                     </Box>
                     <Box
                       sx={{
