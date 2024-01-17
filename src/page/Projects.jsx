@@ -13,6 +13,8 @@ import {
   TableRow,
   Paper,
   Stack,
+  TablePagination,
+  Pagination,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -28,35 +30,50 @@ import { useSearchData } from "../hooks/store/useSearchData";
 import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [projectList, setProjectList] = useState([]);
-  const { apiCall } = useApi();
+  const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const { accessToken } = useAuth();
   const { searchData } = useSearchData();
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+
+  // pagination
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const handleChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
   const fetchProjects = async () => {
     try {
       const res = await apiCall({
         url: APIS.PROJECT.LIST,
         method: "get",
-        params: { search: searchData },
+        params: { search: searchData, page, limit: rowsPerPage },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
         setProjectList(res.data.data.data);
+        setTotalPage(res.data.data.pagination.pages);
       }
     } catch (error) {
       console.log(error, setSnack);
       handleApiError(error, setSnack);
     }
   };
+
   useEffect(() => {
     fetchProjects();
-  }, []);
-  // });
+  }, [page, rowsPerPage]);
+
   useEffect(() => {
     if (searchData !== undefined) fetchProjects();
   }, [searchData]);
@@ -117,6 +134,7 @@ export default function Project() {
               >
                 <Table
                   className="projectTable"
+                  id={"tableData"}
                   sx={{
                     minWidth: 650,
                     textTransform: "capitalize",
@@ -222,6 +240,42 @@ export default function Project() {
                   </TableBody>
                 </Table>
               </TableContainer>
+              <TablePagination
+                component="div"
+                count={10}
+                page={page}
+                onPageChange={handleChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                sx={{
+                  "&>div": {
+                    p: 0,
+                    minHeight: "24px",
+                    "& .MuiTablePagination-selectLabel": {
+                      lineHeight: 1,
+                      fontWeight: 600,
+                    },
+                    "& .MuiTablePagination-input": {
+                      mr: 0,
+                      "&>div": {
+                        p: "0 24px 0 0",
+                      },
+                    },
+                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                      {
+                        display: "none",
+                      },
+                  },
+                }}
+              />
+              <Stack spacing={2}>
+                <Typography>Page: {page}</Typography>
+                <Pagination
+                  count={totalPage}
+                  page={page}
+                  onChange={handleChange}
+                />
+              </Stack>
             </>
           )}
         </Box>
