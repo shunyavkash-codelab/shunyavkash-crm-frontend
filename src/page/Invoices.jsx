@@ -16,6 +16,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Stack,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -31,6 +32,7 @@ import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import moment from "moment";
 import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
+import SectionHeader from "../component/SectionHeader";
 
 // const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -112,56 +114,29 @@ export default function Invoices() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ sm: "center" }}
+            justifyContent={{ sm: "space-between" }}
+            columnGap={2}
+            rowGap={2.5}
             sx={{
               mb: 3.25,
-              display: "flex",
-              alignItems: { sm: "center" },
-              justifyContent: { sm: "space-between" },
-              flexDirection: { xs: "column", sm: "row" },
-              columnGap: 2,
-              rowGap: 2.5,
             }}
           >
-            <Box>
-              <Typography
-                variant="h5"
-                sx={{ mb: 0.75, textTransform: "capitalize" }}
-              >
-                Our invoices
-              </Typography>
-              <Box sx={{ display: "flex", gap: 0.5 }}>
-                <Link to={"/"} style={{ textDecoration: "none" }}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      textTransform: "capitalize",
-                      color: "primary.main",
-                      transition: "all 0.4s ease-in-out",
-                      ":not(:hover)": {
-                        opacity: 0.7,
-                      },
-                    }}
-                  >
-                    Dashboard /
-                  </Typography>
-                </Link>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
-                >
-                  invoices
-                </Typography>
-              </Box>
-            </Box>
-            <Box>
-              <ThemeButton
-                Text="Create Invoice"
-                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                onClick={invoiceNumberGenerate}
-              />
-            </Box>
-          </Box>
+            <SectionHeader
+              Title="Our Invoices"
+              BreadCrumbPreviousLink="/"
+              BreadCrumbPreviousTitle="Dashboard"
+              BreadCrumbCurrentTitle="Invoices"
+              style={{ mb: 0 }}
+            />
+            <ThemeButton
+              Text="Create Invoice"
+              startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+              onClick={invoiceNumberGenerate}
+            />
+          </Stack>
 
           <Box
             sx={{

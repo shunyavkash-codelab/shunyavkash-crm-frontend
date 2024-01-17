@@ -25,6 +25,7 @@ import BankDetailForm from "../component/form/BankDetailForm";
 import * as Yup from "yup";
 import ReactFileReader from "react-file-reader";
 import ThemeButton from "../component/ThemeButton";
+import SectionHeader from "../component/SectionHeader";
 
 // const StyledBadge = styled(Badge)(({ theme }) => ({
 //   "& .MuiBadge-badge": {
@@ -154,6 +155,7 @@ function a11yProps(index) {
 //     }),
 //   },
 // }));
+
 export default function Profile() {
   const handleFiles = (files) => {
     setUrl(files);
@@ -279,23 +281,7 @@ export default function Profile() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box
-            sx={{
-              mb: 3.25,
-              display: "flex",
-              alignItems: { sm: "center" },
-              justifyContent: { sm: "space-between" },
-              flexDirection: { xs: "column", sm: "row" },
-              columnGap: 2,
-              rowGap: 2.5,
-            }}
-          >
-            <Box>
-              <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
-                My Account
-              </Typography>
-            </Box>
-          </Box>
+          <SectionHeader Title="My Account" />
           <Box
             sx={{
               flexGrow: 1,

@@ -24,6 +24,7 @@ import { APIS } from "../api/apiList";
 import { useSnack } from "../hooks/store/useSnack";
 import moment from "moment";
 import ThemeButton from "../component/ThemeButton";
+import SectionHeader from "../component/SectionHeader";
 
 export default function PreviewInvoice() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -89,14 +90,11 @@ export default function PreviewInvoice() {
       {invoiceData && (
         <Box sx={{ ml: { lg: sideBarWidth } }}>
           <Box component="main">
-            <Box sx={{ mb: 3.25 }}>
-              <Typography
-                variant="h5"
-                sx={{ textTransform: "capitalize", textAlign: "center" }}
-              >
-                {view ? "View" : "Preview"} Invoice
-              </Typography>
-            </Box>
+            <SectionHeader
+              Title={`${view ? "View" : "Preview"} Invoice`}
+              style={{ textAlign: "center" }}
+            />
+
             <Stack
               direction="column"
               justifyContent="space-between"

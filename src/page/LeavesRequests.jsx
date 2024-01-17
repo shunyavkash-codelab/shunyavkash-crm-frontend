@@ -34,6 +34,7 @@ import { APIS } from "../api/apiList";
 import moment from "moment";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import SectionHeader from "../component/SectionHeader";
 
 export default function LeavesRequests() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -182,45 +183,14 @@ export default function LeavesRequests() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box>
-            <Typography
-              variant="h5"
-              sx={{ mb: 0.75, textTransform: "capitalize" }}
-            >
-              leaves requests
-            </Typography>
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/"} style={{ textDecoration: "none" }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "primary.main",
-                    transition: "all 0.4s ease-in-out",
-                    ":not(:hover)": {
-                      opacity: 0.7,
-                    },
-                  }}
-                >
-                  Dashboard /
-                </Typography>
-              </Link>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                leaves Requests
-              </Typography>
-            </Box>
-          </Box>
+          <SectionHeader
+            Title="Leaves Requests"
+            BreadCrumbPreviousLink="/"
+            BreadCrumbPreviousTitle="Dashboard"
+            BreadCrumbCurrentTitle="Leaves Requests"
+          />
 
-          <Grid
-            container
-            rowSpacing={2.5}
-            columnSpacing={2.5}
-            mt={0}
-            sx={{ mt: 0.75 }}
-          >
+          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
             <Grid item xs={6} md={3} lg={2.4}>
               <Box
                 p={3}
@@ -328,203 +298,201 @@ export default function LeavesRequests() {
             </Grid>
           </Grid>
 
-          <Box sx={{ mt: 4 }}>
-            <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
-              Members Leave Requests
-            </Typography>
-          </Box>
+          <Typography
+            sx={{ textTransform: "capitalize", fontWeight: 600, mt: 4, mb: 2 }}
+          >
+            Members Leave Requests
+          </Typography>
 
-          <Box sx={{ mt: 2 }}>
-            <TableContainer
-              component={Paper}
+          <TableContainer
+            component={Paper}
+            sx={{
+              border: "1px solid rgba(224, 224, 224, 1)",
+              mx: { xs: "-10px", sm: 0 },
+              width: { xs: "auto", sm: "auto" },
+              borderRadius: 2.5,
+            }}
+          >
+            <Table
+              className="projectTable"
               sx={{
-                border: "1px solid rgba(224, 224, 224, 1)",
-                mx: { xs: "-10px", sm: 0 },
-                width: { xs: "auto", sm: "auto" },
-                borderRadius: 2.5,
+                minWidth: 650,
+                textTransform: "capitalize",
+                textWrap: "nowrap",
+                "& th,& td": { borderBottom: 0 },
+                "& tbody tr": {
+                  borderTop: "1px solid rgba(224, 224, 224, 1)",
+                },
               }}
+              aria-label="simple table"
             >
-              <Table
-                className="projectTable"
-                sx={{
-                  minWidth: 650,
-                  textTransform: "capitalize",
-                  textWrap: "nowrap",
-                  "& th,& td": { borderBottom: 0 },
-                  "& tbody tr": {
-                    borderTop: "1px solid rgba(224, 224, 224, 1)",
-                  },
-                }}
-                aria-label="simple table"
-              >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                    <TableCell>Member</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Reason</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
-                    <TableCell>Status</TableCell>
-                  </TableRow>
-                </TableHead>
-                {allLeaveList.length > 0 && (
-                  <TableBody>
-                    {allLeaveList.map((leaveRequest) => (
-                      <TableRow
-                        key={leaveRequest.key}
+              <TableHead>
+                <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                  <TableCell>Member</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Reason</TableCell>
+                  <TableCell>Start Date</TableCell>
+                  <TableCell>End Date</TableCell>
+                  <TableCell>Status</TableCell>
+                </TableRow>
+              </TableHead>
+              {allLeaveList.length > 0 && (
+                <TableBody>
+                  {allLeaveList.map((leaveRequest) => (
+                    <TableRow
+                      key={leaveRequest.key}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&:first-of-type td": {
+                          maxWidth: "250px",
+                          textWrap: "wrap",
+                        },
+                      }}
+                    >
+                      <TableCell>{leaveRequest.userName}</TableCell>
+                      <TableCell
                         sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                          "&:first-of-type td": {
-                            maxWidth: "250px",
-                            textWrap: "wrap",
+                          "& .casual": {
+                            bgcolor: "rgba(94, 115, 141, 15%)",
+                            color: "grey.dark",
+                          },
+                          "& .sick": {
+                            bgcolor: "rgba(248, 174, 0, 15%)",
+                            color: "secondary.main",
+                          },
+                          "& .unpaid": {
+                            bgcolor: "rgb(255 0 0 / 15%)",
+                            color: "error.main",
+                          },
+                          "& .paid": {
+                            bgcolor: "rgba(74, 210, 146, 15%)",
+                            color: "success.main",
                           },
                         }}
                       >
-                        <TableCell>{leaveRequest.userName}</TableCell>
-                        <TableCell
+                        <Box
+                          className={
+                            leaveRequest.leaveType === "casual"
+                              ? "casual"
+                              : leaveRequest.leaveType === "sick"
+                              ? "sick"
+                              : leaveRequest.leaveType === "unpaid"
+                              ? "unpaid"
+                              : "paid"
+                          }
                           sx={{
-                            "& .casual": {
-                              bgcolor: "rgba(94, 115, 141, 15%)",
-                              color: "grey.dark",
-                            },
-                            "& .sick": {
-                              bgcolor: "rgba(248, 174, 0, 15%)",
-                              color: "secondary.main",
-                            },
-                            "& .unpaid": {
-                              bgcolor: "rgb(255 0 0 / 15%)",
-                              color: "error.main",
-                            },
-                            "& .paid": {
-                              bgcolor: "rgba(74, 210, 146, 15%)",
-                              color: "success.main",
-                            },
+                            color: "white",
+                            fontSize: "12px",
+                            p: 0.5,
+                            borderRadius: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
                           }}
                         >
-                          <Box
-                            className={
-                              leaveRequest.leaveType === "casual"
-                                ? "casual"
-                                : leaveRequest.leaveType === "sick"
-                                ? "sick"
-                                : leaveRequest.leaveType === "unpaid"
-                                ? "unpaid"
-                                : "paid"
-                            }
-                            sx={{
-                              color: "white",
-                              fontSize: "12px",
-                              p: 0.5,
-                              borderRadius: 1,
-                              maxWidth: "fit-content",
-                              lineHeight: 1,
-                            }}
-                          >
-                            {leaveRequest.leaveType}
-                          </Box>
-                        </TableCell>
-                        <TableCell>{leaveRequest.reason}</TableCell>
-                        <TableCell>
-                          {moment(leaveRequest.startDate).format("DD/MM/YYYY")}
-                        </TableCell>
-                        <TableCell>
-                          {moment(leaveRequest.endDate).format("DD/MM/YYYY")}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            "& .statusBtn": {
-                              fontSize: { xs: "12px", sm: "14px" },
-                              px: 2,
-                              py: 1,
-                              maxWidth: "fit-content",
-                              lineHeight: 1,
-                              minHeight: "36px",
-                              "& svg": {
-                                fontSize: "20px",
-                              },
+                          {leaveRequest.leaveType}
+                        </Box>
+                      </TableCell>
+                      <TableCell>{leaveRequest.reason}</TableCell>
+                      <TableCell>
+                        {moment(leaveRequest.startDate).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell>
+                        {moment(leaveRequest.endDate).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          "& .statusBtn": {
+                            fontSize: { xs: "12px", sm: "14px" },
+                            px: 2,
+                            py: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
+                            minHeight: "36px",
+                            "& svg": {
+                              fontSize: "20px",
                             },
-                          }}
-                        >
-                          <ButtonGroup sx={{ overflow: "hidden" }}>
-                            {!leaveRequest.status ||
-                            leaveRequest.status === "pending" ||
-                            leaveRequest.status === "approve" ? (
-                              <Stack
-                                onClick={() => {
-                                  handleOpen();
-                                  setLeaveId(leaveRequest._id);
-                                  setSelectedDescription(
-                                    leaveRequest?.description
-                                  );
-                                }}
-                                direction="row"
-                                alignItems="center"
-                                spacing={0.75}
-                                className="statusBtn"
-                                sx={{
-                                  cursor: "pointer",
-                                  bgcolor: "rgba(74, 210, 146, 15%)",
-                                  color: "success.main",
-                                  // padding: "6px 16px 6px 16px !important",
-                                }}
-                              >
-                                <span style={{ display: "inline-block" }}>
-                                  approve
-                                </span>
-                                {leaveRequest.status === "approve" && (
-                                  <Tooltip title={leaveRequest.description}>
-                                    <InfoIcon />
-                                  </Tooltip>
-                                )}
-                              </Stack>
-                            ) : (
-                              ""
-                            )}
-                            {!leaveRequest.status ||
-                            leaveRequest.status === "pending" ||
-                            leaveRequest.status === "unapprove" ? (
-                              <Stack
-                                onClick={() => {
-                                  handleOpen();
-                                  setLeaveId(leaveRequest._id);
-                                  setSelectedDescription(
-                                    leaveRequest?.description
-                                  );
-                                }}
-                                direction="row"
-                                alignItems="center"
-                                spacing={0.75}
-                                className="statusBtn"
-                                sx={{
-                                  cursor: "pointer",
-                                  bgcolor: "rgba(225, 107, 22, 15%)",
-                                  color: "review.main",
-                                  // py: 0.75,
-                                  // padding: "6px 16px 6px 16px !important",
-                                }}
-                              >
-                                <span style={{ display: "inline-block" }}>
-                                  unapprove
-                                </span>
-                                {leaveRequest.status === "unapprove" && (
-                                  <Tooltip title={leaveRequest.description}>
-                                    <InfoIcon />
-                                  </Tooltip>
-                                )}
-                              </Stack>
-                            ) : (
-                              ""
-                            )}
-                          </ButtonGroup>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Box>
+                          },
+                        }}
+                      >
+                        <ButtonGroup sx={{ overflow: "hidden" }}>
+                          {!leaveRequest.status ||
+                          leaveRequest.status === "pending" ||
+                          leaveRequest.status === "approve" ? (
+                            <Stack
+                              onClick={() => {
+                                handleOpen();
+                                setLeaveId(leaveRequest._id);
+                                setSelectedDescription(
+                                  leaveRequest?.description
+                                );
+                              }}
+                              direction="row"
+                              alignItems="center"
+                              spacing={0.75}
+                              className="statusBtn"
+                              sx={{
+                                cursor: "pointer",
+                                bgcolor: "rgba(74, 210, 146, 15%)",
+                                color: "success.main",
+                                // padding: "6px 16px 6px 16px !important",
+                              }}
+                            >
+                              <span style={{ display: "inline-block" }}>
+                                approve
+                              </span>
+                              {leaveRequest.status === "approve" && (
+                                <Tooltip title={leaveRequest.description}>
+                                  <InfoIcon />
+                                </Tooltip>
+                              )}
+                            </Stack>
+                          ) : (
+                            ""
+                          )}
+                          {!leaveRequest.status ||
+                          leaveRequest.status === "pending" ||
+                          leaveRequest.status === "unapprove" ? (
+                            <Stack
+                              onClick={() => {
+                                handleOpen();
+                                setLeaveId(leaveRequest._id);
+                                setSelectedDescription(
+                                  leaveRequest?.description
+                                );
+                              }}
+                              direction="row"
+                              alignItems="center"
+                              spacing={0.75}
+                              className="statusBtn"
+                              sx={{
+                                cursor: "pointer",
+                                bgcolor: "rgba(225, 107, 22, 15%)",
+                                color: "review.main",
+                                // py: 0.75,
+                                // padding: "6px 16px 6px 16px !important",
+                              }}
+                            >
+                              <span style={{ display: "inline-block" }}>
+                                unapprove
+                              </span>
+                              {leaveRequest.status === "unapprove" && (
+                                <Tooltip title={leaveRequest.description}>
+                                  <InfoIcon />
+                                </Tooltip>
+                              )}
+                            </Stack>
+                          ) : (
+                            ""
+                          )}
+                        </ButtonGroup>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              )}
+            </Table>
+          </TableContainer>
 
           <ModalComponent
             open={open}

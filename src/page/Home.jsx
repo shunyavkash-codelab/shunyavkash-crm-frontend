@@ -11,6 +11,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Stack,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -26,6 +27,7 @@ import moment from "moment";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
+import SectionHeader from "../component/SectionHeader";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -117,237 +119,211 @@ export default function Home() {
       {user.role === 0 ? (
         <Box sx={{ ml: { lg: sideBarWidth } }}>
           <Box component="main">
-            <Box>
-              <Box sx={{ mb: 3.25 }}>
-                <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
-                  DashBoard
-                </Typography>
-                {/* <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize", mt: 0.75 }}
-              >
-                DashBoard
-              </Typography> */}
-              </Box>
-              <Box
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns: {
-                    xs: "repeat(1,1fr)",
-                    sm: "repeat(2,1fr)",
-                    xl: "repeat(4,1fr)",
-                  },
-                  gap: 2.5,
-                }}
-              >
-                <CounterCards
-                  CardBgcolor={"rgb(22 119 255/ 10%)"}
-                  Title={"Clients"}
-                  Counter={dashboardData.totalClient || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/clients"}
-                  ArrowBgColor={"rgb(22 119 255 / 60%)"}
-                />
-                <CounterCards
-                  CardBgcolor={"rgba(248, 174, 0, 10%)"}
-                  Title={"projects"}
-                  Counter={dashboardData.totalProject || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/projects"}
-                  ArrowBgColor={"rgba(248, 174, 0, 60%)"}
-                />
-                <CounterCards
-                  CardBgcolor={"rgba(74, 210, 146, 10%)"}
-                  Title={"invoices"}
-                  Counter={dashboardData.totalInvoice || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/invoices"}
-                  ArrowBgColor={"rgba(74, 210, 146, 60%)"}
-                />
-                <CounterCards
-                  CardBgcolor={"rgba(244, 67, 54, 10%)"}
-                  Title={"employees"}
-                  Counter={dashboardData.totalEmployee || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/employees"}
-                  ArrowBgColor={"rgba(244, 67, 54, 60%)"}
-                />
-              </Box>
+            <SectionHeader Title="dashboard" />
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "repeat(1,1fr)",
+                  sm: "repeat(2,1fr)",
+                  xl: "repeat(4,1fr)",
+                },
+                gap: 2.5,
+              }}
+            >
+              <CounterCards
+                CardBgcolor={"rgb(22 119 255/ 10%)"}
+                Title={"Clients"}
+                Counter={dashboardData.totalClient || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/clients"}
+                ArrowBgColor={"rgb(22 119 255 / 60%)"}
+              />
+              <CounterCards
+                CardBgcolor={"rgba(248, 174, 0, 10%)"}
+                Title={"projects"}
+                Counter={dashboardData.totalProject || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/projects"}
+                ArrowBgColor={"rgba(248, 174, 0, 60%)"}
+              />
+              <CounterCards
+                CardBgcolor={"rgba(74, 210, 146, 10%)"}
+                Title={"invoices"}
+                Counter={dashboardData.totalInvoice || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/invoices"}
+                ArrowBgColor={"rgba(74, 210, 146, 60%)"}
+              />
+              <CounterCards
+                CardBgcolor={"rgba(244, 67, 54, 10%)"}
+                Title={"employees"}
+                Counter={dashboardData.totalEmployee || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/employees"}
+                ArrowBgColor={"rgba(244, 67, 54, 60%)"}
+              />
             </Box>
-            <Box sx={{ mt: 8 }}>
-              <Box
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              alignItems={{ sm: "center" }}
+              justifyContent={{ sm: "space-between" }}
+              flexWrap="wrap"
+              columnGap={2}
+              rowGap={2.5}
+              sx={{ mb: 3.25, mt: 8 }}
+            >
+              <SectionHeader Title="Our Recent invoices" style={{ mb: 0 }} />
+              <Stack direction="row" spacing={1}>
+                <ThemeButton
+                  transparent
+                  Text="Create Invoice"
+                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                  onClick={invoiceNumberGenerate}
+                />
+                <Link
+                  to="./invoices"
+                  style={{ display: "inline-flex", textDecoration: "none" }}
+                >
+                  <ThemeButton Text="View all" />
+                </Link>
+              </Stack>
+            </Stack>
+            {invoiceList.length === 0 ? (
+              <NoData />
+            ) : (
+              <TableContainer
+                component={Paper}
                 sx={{
-                  mb: 3.25,
-                  display: "flex",
-                  alignItems: { sm: "center" },
-                  justifyContent: { sm: "space-between" },
-                  flexDirection: { xs: "column", sm: "row" },
-                  flexWrap: "wrap",
-                  columnGap: 2,
-                  rowGap: 2.5,
+                  border: "1px solid rgba(224, 224, 224, 1)",
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
                 }}
               >
-                <Box>
-                  <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
-                    Our Recent invoices
-                  </Typography>
-                </Box>
-                <Box sx={{ display: "flex", gap: 1 }}>
-                  <ThemeButton
-                    transparent
-                    Text="Create Invoice"
-                    startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                    onClick={invoiceNumberGenerate}
-                  />
-                  <Link
-                    to="./invoices"
-                    style={{ display: "inline-flex", textDecoration: "none" }}
-                  >
-                    <ThemeButton Text="View all" />
-                  </Link>
-                </Box>
-              </Box>
-              {invoiceList.length === 0 ? (
-                <NoData />
-              ) : (
-                <TableContainer
-                  component={Paper}
+                <Table
+                  className="projectTable"
                   sx={{
-                    border: "1px solid rgba(224, 224, 224, 1)",
-                    mx: { xs: "-10px", sm: 0 },
-                    width: { xs: "auto", sm: "auto" },
-                    borderRadius: 2.5,
+                    minWidth: 650,
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": { borderBottom: 0 },
+                    "& tbody tr": {
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    },
                   }}
+                  aria-label="simple table"
                 >
-                  <Table
-                    className="projectTable"
-                    sx={{
-                      minWidth: 650,
-                      textTransform: "capitalize",
-                      textWrap: "nowrap",
-                      "& th,& td": { borderBottom: 0 },
-                      "& tbody tr": {
-                        borderTop: "1px solid rgba(224, 224, 224, 1)",
-                      },
-                    }}
-                    aria-label="simple table"
-                  >
-                    <TableHead>
+                  <TableHead>
+                    <TableRow
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                    >
+                      <TableCell key={"Project Name"}>Project Name</TableCell>
+                      <TableCell key={"Client"}>Client</TableCell>
+                      <TableCell key={"Manager"}>Manager</TableCell>
+                      <TableCell key={"Invoice No."}>Invoice No.</TableCell>
+                      <TableCell key={"Invoice Date"}>Invoice Date</TableCell>
+                      <TableCell key={"Status"}>Status</TableCell>
+                      <TableCell key={"Total"}>Total</TableCell>
+                      <TableCell key={"Actions"}>Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {invoiceList.map((row) => (
                       <TableRow
-                        sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&:first-of-type td": {
+                            maxWidth: "250px",
+                            textWrap: "wrap",
+                          },
+                        }}
                       >
-                        <TableCell key={"Project Name"}>Project Name</TableCell>
-                        <TableCell key={"Client"}>Client</TableCell>
-                        <TableCell key={"Manager"}>Manager</TableCell>
-                        <TableCell key={"Invoice No."}>Invoice No.</TableCell>
-                        <TableCell key={"Invoice Date"}>Invoice Date</TableCell>
-                        <TableCell key={"Status"}>Status</TableCell>
-                        <TableCell key={"Total"}>Total</TableCell>
-                        <TableCell key={"Actions"}>Actions</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {invoiceList.map((row) => (
-                        <TableRow
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                            "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                            "&:first-of-type td": {
-                              maxWidth: "250px",
-                              textWrap: "wrap",
-                            },
-                          }}
-                        >
-                          <TableCell>{row.projectName}</TableCell>
-                          <TableCell>{row.clientName}</TableCell>
-                          <TableCell>{row.userName}</TableCell>
-                          <TableCell>{row.invoiceNumber}</TableCell>
-                          <TableCell>
-                            {moment(row.invoiceDate).format("DD/MM/YYYY")}
-                          </TableCell>
-                          <TableCell
+                        <TableCell>{row.projectName}</TableCell>
+                        <TableCell>{row.clientName}</TableCell>
+                        <TableCell>{row.userName}</TableCell>
+                        <TableCell>{row.invoiceNumber}</TableCell>
+                        <TableCell>
+                          {moment(row.invoiceDate).format("DD/MM/YYYY")}
+                        </TableCell>
+                        <TableCell>
+                          <Box
+                            className={`statusBtn ${
+                              row.status === "success" ? "success" : "pending"
+                            }`}
                             sx={{
-                              "& .statusBtn": {
-                                color: "white",
-                                fontSize: "12px",
-                                p: 0.5,
-                                borderRadius: 1,
-                                maxWidth: "fit-content",
-                                lineHeight: 1,
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
+                              bgcolor:
+                                row.status === "success"
+                                  ? "success.main"
+                                  : "secondary.main",
+                            }}
+                          >
+                            {row.status}
+                          </Box>
+                          <Box
+                            sx={{
+                              fontSize: "12px",
+                              lineHeight: 1,
+                              textWrap: "nowrap",
+                              mt: 0.75,
+                            }}
+                          >
+                            {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
+                          </Box>
+                        </TableCell>
+                        <TableCell>${row.totals.total}</TableCell>
+                        <TableCell>
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={{ xs: 1.25, sm: 1.5 }}
+                            sx={{
+                              opacity: 0.3,
+                              "& button": {
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
                               },
-                              "& .pending": {
-                                bgcolor: "secondary.main",
-                              },
-                              "& .success": {
-                                bgcolor: "success.main",
+                              "& svg": {
+                                fontSize: { xs: "20px", sm: "21px" },
                               },
                             }}
                           >
-                            <Box
-                              className={`statusBtn ${
-                                row.status === "success" ? "success" : "pending"
-                              }`}
+                            <Button
+                              disableRipple
+                              onClick={() =>
+                                viewInvoice(row.invoiceNumber, row)
+                              }
                             >
-                              {row.status}
-                            </Box>
-                            <Box
-                              sx={{
-                                fontSize: "12px",
-                                lineHeight: 1,
-                                textWrap: "nowrap",
-                                mt: 0.75,
-                              }}
-                            >
-                              {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
-                            </Box>
-                          </TableCell>
-                          <TableCell>${row.totals.total}</TableCell>
-                          <TableCell>
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: { xs: 1.25, sm: 1.5 },
-                                opacity: 0.3,
-                                "& button": {
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "black",
-                                  "&:hover": { color: "primary.main" },
-                                },
-                                "& svg": {
-                                  fontSize: { xs: "20px", sm: "21px" },
-                                },
-                              }}
-                            >
-                              <Button
-                                disableRipple
-                                onClick={() =>
-                                  viewInvoice(row.invoiceNumber, row)
-                                }
-                              >
-                                <VisibilityIcon />
-                              </Button>
-                              {/* <Button disableRipple>
+                              <VisibilityIcon />
+                            </Button>
+                            {/* <Button disableRipple>
                                 <MarkAsPaidIcon />
                               </Button> */}
-                              <Button
-                                disableRipple
-                                onClick={() =>
-                                  editInvoice(row.invoiceNumber, row)
-                                }
-                              >
-                                <CreateIcon />
-                              </Button>
-                            </Box>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              )}
-            </Box>
+                            <Button
+                              disableRipple
+                              onClick={() =>
+                                editInvoice(row.invoiceNumber, row)
+                              }
+                            >
+                              <CreateIcon />
+                            </Button>
+                          </Stack>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
           </Box>
         </Box>
       ) : (

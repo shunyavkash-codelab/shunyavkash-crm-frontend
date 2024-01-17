@@ -21,6 +21,7 @@ import { useSnack } from "../hooks/store/useSnack";
 import EmployeeListRaw from "../component/EmployeeListRaw.jsx";
 import { useInviteMemberStore } from "../hooks/store/useInviteMemberStore.js";
 import NoData from "../component/NoData.jsx";
+import SectionHeader from "../component/SectionHeader.jsx";
 
 export default function Employees() {
   const { accessToken } = useAuth();
@@ -73,49 +74,12 @@ export default function Employees() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box
-            sx={{
-              mb: 3.25,
-              display: "flex",
-              alignItems: { sm: "center" },
-              justifyContent: { sm: "space-between" },
-              flexDirection: { xs: "column", sm: "row" },
-              columnGap: 2,
-              rowGap: 2.5,
-            }}
-          >
-            <Box>
-              <Typography
-                variant="h5"
-                sx={{ mb: 0.75, textTransform: "capitalize" }}
-              >
-                Our Employees
-              </Typography>
-              <Box sx={{ display: "flex", gap: 0.5 }}>
-                <Link to={"/"} style={{ textDecoration: "none" }}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{
-                      textTransform: "capitalize",
-                      color: "primary.main",
-                      transition: "all 0.4s ease-in-out",
-                      ":not(:hover)": {
-                        opacity: 0.7,
-                      },
-                    }}
-                  >
-                    Dashboard /
-                  </Typography>
-                </Link>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ opacity: 0.4, textTransform: "capitalize" }}
-                >
-                  Employees
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
+          <SectionHeader
+            Title="Our Employees"
+            BreadCrumbPreviousLink="/"
+            BreadCrumbPreviousTitle="Dashboard"
+            BreadCrumbCurrentTitle="Employees"
+          />
 
           {/* <FormikProvider value={formik}> */}
           <Box>

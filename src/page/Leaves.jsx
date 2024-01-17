@@ -18,6 +18,7 @@ import { APIS } from "../api/apiList";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import moment from "moment";
+import SectionHeader from "../component/SectionHeader";
 
 export default function Leaves() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -97,141 +98,114 @@ export default function Leaves() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box sx={{ mb: 3.25 }}>
-            <Typography
-              variant="h5"
-              sx={{ mb: 0.75, textTransform: "capitalize" }}
-            >
-              Members Leaves
-            </Typography>
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/"} style={{ textDecoration: "none" }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "primary.main",
-                    transition: "all 0.4s ease-in-out",
-                    ":not(:hover)": {
-                      opacity: 0.7,
-                    },
-                  }}
-                >
-                  Dashboard /
-                </Typography>
-              </Link>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                leaves
-              </Typography>
-            </Box>
-          </Box>
+          <SectionHeader
+            Title="Members Leaves"
+            BreadCrumbPreviousLink="/"
+            BreadCrumbPreviousTitle="Dashboard"
+            BreadCrumbCurrentTitle="Leaves"
+          />
 
-          <Box>
-            <TableContainer
-              component={Paper}
+          <TableContainer
+            component={Paper}
+            sx={{
+              border: "1px solid rgba(224, 224, 224, 1)",
+              mx: { xs: "-10px", sm: 0 },
+              width: { xs: "auto", sm: "auto" },
+              borderRadius: 2.5,
+            }}
+          >
+            <Table
+              className="projectTable"
               sx={{
-                border: "1px solid rgba(224, 224, 224, 1)",
-                mx: { xs: "-10px", sm: 0 },
-                width: { xs: "auto", sm: "auto" },
-                borderRadius: 2.5,
+                minWidth: 650,
+                textTransform: "capitalize",
+                textWrap: "nowrap",
+                "& th,& td": { borderBottom: 0 },
+                "& tbody tr": {
+                  borderTop: "1px solid rgba(224, 224, 224, 1)",
+                },
               }}
+              aria-label="simple table"
             >
-              <Table
-                className="projectTable"
-                sx={{
-                  minWidth: 650,
-                  textTransform: "capitalize",
-                  textWrap: "nowrap",
-                  "& th,& td": { borderBottom: 0 },
-                  "& tbody tr": {
-                    borderTop: "1px solid rgba(224, 224, 224, 1)",
-                  },
-                }}
-                aria-label="simple table"
-              >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                    <TableCell>Member</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Reason</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
-                  </TableRow>
-                </TableHead>
-                {approveList.length > 0 && (
-                  <TableBody>
-                    {approveList.map((leaveRequest) => (
-                      <TableRow
-                        key={leaveRequest.key}
+              <TableHead>
+                <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                  <TableCell>Member</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Reason</TableCell>
+                  <TableCell>Start Date</TableCell>
+                  <TableCell>End Date</TableCell>
+                </TableRow>
+              </TableHead>
+              {approveList.length > 0 && (
+                <TableBody>
+                  {approveList.map((leaveRequest) => (
+                    <TableRow
+                      key={leaveRequest.key}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&:first-of-type td": {
+                          maxWidth: "250px",
+                          textWrap: "wrap",
+                        },
+                      }}
+                    >
+                      <TableCell>{leaveRequest.userName}</TableCell>
+                      <TableCell
                         sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                          "&:first-of-type td": {
-                            maxWidth: "250px",
-                            textWrap: "wrap",
+                          "& .statusBtn": {
+                            color: "white",
+                            fontSize: "12px",
+                            p: 0.5,
+                            borderRadius: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
+                          },
+                          "& .casual": {
+                            bgcolor: "rgba(94, 115, 141, 15%)",
+                            color: "grey.dark",
+                          },
+                          "& .sick": {
+                            bgcolor: "rgba(248, 174, 0, 15%)",
+                            color: "secondary.main",
+                          },
+                          "& .unpaid": {
+                            bgcolor: "rgba(225, 107, 22, 15%)",
+                            color: "review.main",
+                          },
+                          "& .paid": {
+                            bgcolor: "rgba(74, 210, 146, 15%)",
+                            color: "success.main",
                           },
                         }}
                       >
-                        <TableCell>{leaveRequest.userName}</TableCell>
-                        <TableCell
-                          sx={{
-                            "& .statusBtn": {
-                              color: "white",
-                              fontSize: "12px",
-                              p: 0.5,
-                              borderRadius: 1,
-                              maxWidth: "fit-content",
-                              lineHeight: 1,
-                            },
-                            "& .casual": {
-                              bgcolor: "rgba(94, 115, 141, 15%)",
-                              color: "grey.dark",
-                            },
-                            "& .sick": {
-                              bgcolor: "rgba(248, 174, 0, 15%)",
-                              color: "secondary.main",
-                            },
-                            "& .unpaid": {
-                              bgcolor: "rgba(225, 107, 22, 15%)",
-                              color: "review.main",
-                            },
-                            "& .paid": {
-                              bgcolor: "rgba(74, 210, 146, 15%)",
-                              color: "success.main",
-                            },
-                          }}
+                        <Box
+                          className={`statusBtn ${
+                            leaveRequest.leaveType === "casual"
+                              ? "casual"
+                              : leaveRequest.leaveType === "sick"
+                              ? "sick"
+                              : leaveRequest.leaveType === "unpaid"
+                              ? "unpaid"
+                              : "paid"
+                          }`}
                         >
-                          <Box
-                            className={`statusBtn ${
-                              leaveRequest.leaveType === "casual"
-                                ? "casual"
-                                : leaveRequest.leaveType === "sick"
-                                ? "sick"
-                                : leaveRequest.leaveType === "unpaid"
-                                ? "unpaid"
-                                : "paid"
-                            }`}
-                          >
-                            {leaveRequest.leaveType}
-                          </Box>
-                        </TableCell>
-                        <TableCell>{leaveRequest.reason}</TableCell>
-                        <TableCell>
-                          {moment(leaveRequest.startDate).format("DD/MM/YYYY")}
-                        </TableCell>
-                        <TableCell>
-                          {moment(leaveRequest.endDate).format("DD/MM/YYYY")}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Box>
+                          {leaveRequest.leaveType}
+                        </Box>
+                      </TableCell>
+                      <TableCell>{leaveRequest.reason}</TableCell>
+                      <TableCell>
+                        {moment(leaveRequest.startDate).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell>
+                        {moment(leaveRequest.endDate).format("DD/MM/YYYY")}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              )}
+            </Table>
+          </TableContainer>
         </Box>
       </Box>
     </>

@@ -23,6 +23,7 @@ import { APIS } from "../api/apiList";
 import FileUploadButton from "../component/FileUploadButton";
 import * as Yup from "yup";
 import ThemeButton from "../component/ThemeButton";
+import SectionHeader from "../component/SectionHeader";
 
 export default function AddUser() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -147,37 +148,13 @@ export default function AddUser() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box sx={{ mb: 3.25 }}>
-            <Typography
-              variant="h5"
-              sx={{ mb: 0.75, textTransform: "capitalize" }}
-            >
-              Add manager
-            </Typography>
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/users"} style={{ textDecoration: "none" }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "primary.main",
-                    transition: "all 0.4s ease-in-out",
-                    ":not(:hover)": {
-                      opacity: 0.7,
-                    },
-                  }}
-                >
-                  Manager /
-                </Typography>
-              </Link>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                Add Manager
-              </Typography>
-            </Box>
-          </Box>
+          <SectionHeader
+            Title="Add manager"
+            BreadCrumbPreviousLink="/users"
+            BreadCrumbPreviousTitle="Manager"
+            BreadCrumbCurrentTitle="Add manager"
+          />
+
           <FormikProvider value={formik}>
             <Box
               component="form"

@@ -44,6 +44,7 @@ import EmployeeDocumentDetailForm from "../component/form/EmployeeDocumentDetail
 import EmployeePersonalDetailForm from "../component/form/EmployeePersonalDetailForm.jsx";
 import moment from "moment";
 import ThemeButton from "../component/ThemeButton.jsx";
+import SectionHeader from "../component/SectionHeader.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -212,41 +213,18 @@ export default function MyProfile() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box sx={{ mb: 3.25 }}>
-            <Typography
-              variant="h5"
-              sx={{ mb: 0.75, textTransform: "capitalize" }}
-            >
-              {profileUser?.role === 0
+          <SectionHeader
+            Title={
+              profileUser?.role === 0
                 ? "my Profile"
                 : profileUser?.role === 1
                 ? "Manager Profile"
-                : "Employee Profile"}
-            </Typography>
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/members"} style={{ textDecoration: "none" }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "primary.main",
-                    transition: "all 0.4s ease-in-out",
-                    ":not(:hover)": {
-                      opacity: 0.7,
-                    },
-                  }}
-                >
-                  members /
-                </Typography>
-              </Link>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                {profileUser?.name}
-              </Typography>
-            </Box>
-          </Box>
+                : "Employee Profile"
+            }
+            BreadCrumbPreviousLink="/members"
+            BreadCrumbPreviousTitle="Members"
+            BreadCrumbCurrentTitle={profileUser?.name}
+          />
 
           <Box
             sx={{

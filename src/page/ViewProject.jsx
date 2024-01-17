@@ -17,6 +17,7 @@ import HorlyRateIcon from "../component/icons/HorlyRateIcon";
 import TimePeriodIcon from "../component/icons/TimePeriodIcon";
 import StatusIcon from "../component/icons/StatusIcon";
 import ProjectsIcon from "../component/icons/ProjectsIcon";
+import SectionHeader from "../component/SectionHeader.jsx";
 
 export default function ViewProject() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -74,37 +75,12 @@ export default function ViewProject() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <Box sx={{ mb: 3.25 }}>
-            <Typography
-              variant="h5"
-              sx={{ mb: 0.75, textTransform: "capitalize" }}
-            >
-              Project
-            </Typography>
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              <Link to={"/projects"} style={{ textDecoration: "none" }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textTransform: "capitalize",
-                    color: "primary.main",
-                    transition: "all 0.4s ease-in-out",
-                    ":not(:hover)": {
-                      opacity: 0.7,
-                    },
-                  }}
-                >
-                  Projects /
-                </Typography>
-              </Link>
-              <Typography
-                variant="subtitle2"
-                sx={{ opacity: 0.4, textTransform: "capitalize" }}
-              >
-                {projectList.name}
-              </Typography>
-            </Box>
-          </Box>
+          <SectionHeader
+            Title="Project"
+            BreadCrumbPreviousLink="/Projects"
+            BreadCrumbPreviousTitle="Projects"
+            BreadCrumbCurrentTitle={projectList.name}
+          />
 
           <Box
             sx={{

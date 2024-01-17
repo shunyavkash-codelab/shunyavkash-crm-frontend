@@ -1,19 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 function SectionHeader(props) {
   return (
     <>
-      <Box sx={{ ...props.SectionHeaderStyle }}>
-        <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
-          {props.Title}
-        </Typography>
+      <Box sx={{ textTransform: "capitalize", mb: 3.25, ...props.style }}>
+        <Typography variant="h5">{props.Title}</Typography>
         {props.BreadCrumbPreviousTitle && props.BreadCrumbCurrentTitle && (
-          <Box
+          <Stack
+            direction="row"
+            spacing={0.5}
             sx={{
-              display: "flex",
-              gap: 0.5,
               mt: 0.75,
               ...props.BreadCrumbStyle,
             }}
@@ -25,7 +23,6 @@ function SectionHeader(props) {
               <Typography
                 variant="subtitle2"
                 sx={{
-                  textTransform: "capitalize",
                   color: "primary.main",
                   transition: "all 0.4s ease-in-out",
                   ":not(:hover)": {
@@ -36,13 +33,10 @@ function SectionHeader(props) {
                 {props.BreadCrumbPreviousTitle}
               </Typography>
             </Link>
-            <Typography
-              variant="subtitle2"
-              sx={{ opacity: 0.4, textTransform: "capitalize" }}
-            >
+            <Typography variant="subtitle2" sx={{ opacity: 0.4 }}>
               / {props.BreadCrumbCurrentTitle}
             </Typography>
-          </Box>
+          </Stack>
         )}
       </Box>
     </>
