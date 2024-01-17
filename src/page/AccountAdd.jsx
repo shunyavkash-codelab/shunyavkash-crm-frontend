@@ -72,11 +72,19 @@ function AccountAdd() {
     },
 
     onSubmit: async (values) => {
+      let formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        if (value && key !== "invoiceUpload") {
+          formData.append(key, value);
+        }
+      });
+      formData.append("invoiceUpload", values.invoiceUpload);
       try {
         const res = await apiCall({
           url: id ? APIS.ACCOUNTMANAGE.EDIT(id) : APIS.ACCOUNTMANAGE.ADD,
           method: id ? "patch" : "post",
-          data: JSON.stringify(values, null, 2),
+          headers: "multipart/form-data",
+          data: formData,
         });
         if (res.data.success === true) {
           setSnack(res.data.message);
@@ -118,6 +126,7 @@ function AccountAdd() {
       console.log(error, setSnack);
     }
   };
+
   useEffect(() => {
     fetchClients();
   }, []);
@@ -594,6 +603,10 @@ function AccountAdd() {
                       name="invoiceUpload"
                       title="Invoice Upload"
                       fileTypes={[".jpeg", ".jpg", "pdf", ".png"]}
+                      doc={viewTransaction?.invoiceUpload}
+                      removeDocument={(data) =>
+                        formik.setFieldValue("invoiceUpload", "")
+                      }
                     />
                   </Grid>
                   <Grid item xs={12}>
