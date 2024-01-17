@@ -1419,19 +1419,18 @@ export default function AddInvoice() {
                             ml: "auto",
                             maxWidth: "fit-content",
                             "&>*": {
-                              "&:not(:first-of-type)": { mt: 1.75 },
-                              px: 1.75,
+                              "&:not(:first-child)": { mt: 1.75 },
+                              pl: 1.75,
                               display: "flex",
                               justifyContent: "space-between",
-                              gap: 9.75,
+                              gap: 6.25,
                               "&>*": {
                                 lineHeight: "1!important",
-                                "&:first-of-type": {
+                                "&:first-child": {
                                   textTransform: "capitalize",
-                                  width: "140px",
                                 },
                                 "&:last-child": {
-                                  width: "78px",
+                                  width: "92px",
                                 },
                               },
                             },
@@ -1454,9 +1453,6 @@ export default function AddInvoice() {
                           <Box
                             sx={{
                               alignItems: "center",
-                              "& > *:last-child": {
-                                maxWidth: "85px",
-                              },
                             }}
                           >
                             <Typography
@@ -1489,6 +1485,11 @@ export default function AddInvoice() {
                                   disabled={
                                     getSubTotal(values.task) > 0 ? false : true
                                   }
+                                  style={{
+                                    "& input": {
+                                      p: "8.5px",
+                                    },
+                                  }}
                                 />
                               </Box>
                             </Typography>
@@ -1503,14 +1504,16 @@ export default function AddInvoice() {
                               disabled={
                                 getSubTotal(values.task) > 0 ? false : true
                               }
+                              style={{
+                                "& input": {
+                                  p: "8.5px",
+                                },
+                              }}
                             />
                           </Box>
                           <Box
                             sx={{
                               alignItems: "center",
-                              "& > *:last-child": {
-                                maxWidth: "85px",
-                              },
                             }}
                           >
                             <Typography
@@ -1529,6 +1532,11 @@ export default function AddInvoice() {
                               disabled={
                                 getSubTotal(values.task) > 0 ? false : true
                               }
+                              style={{
+                                "& input": {
+                                  p: "8.5px",
+                                },
+                              }}
                             />
                           </Box>
                           <Box

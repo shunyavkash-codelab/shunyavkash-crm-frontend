@@ -445,14 +445,14 @@ export default function PreviewInvoice() {
                       <TableBody
                         sx={{
                           "&>*": {
-                            "&:nth-of-type(even) span": {
+                            "&:nth-child(even) span": {
                               bgcolor: "#f3f3f3",
                             },
-                            "&:nth-of-type(odd):last-child": {
+                            "&:nth-child(odd):last-child": {
                               borderBottom: "1px solid rgba(0,0,0,0.1)",
                             },
                             "&>*": {
-                              "&:first-of-type span": {
+                              "&:first-child span": {
                                 borderRadius: "10px 0 0 10px",
                               },
                               "&:last-child span": {
@@ -466,15 +466,32 @@ export default function PreviewInvoice() {
                           <TableRow
                             sx={{
                               "&>*": {
-                                py: 1.5,
-                                "&:first-of-type": { fontWeight: "600" },
+                                p: "0!important",
+                                fontWeight: "500",
+                                "&:first-child": {
+                                  maxWidth: "400px",
+                                  textWrap: "wrap",
+                                },
+                                "&>span": {
+                                  display: "block",
+                                  px: "16px",
+                                  py: "14px",
+                                },
                               },
                             }}
                           >
-                            <TableCell>{task.taskName}</TableCell>
-                            <TableCell>${task.price_hours}</TableCell>
-                            <TableCell>{task.hours}</TableCell>
-                            <TableCell>${task.amount}</TableCell>
+                            <TableCell>
+                              <span>{task.taskName}</span>
+                            </TableCell>
+                            <TableCell>
+                              <span>${task.price_hours}</span>
+                            </TableCell>
+                            <TableCell>
+                              <span>{task.hours}</span>
+                            </TableCell>
+                            <TableCell>
+                              <span>${task.amount}</span>
+                            </TableCell>
                           </TableRow>
                         ))}
                         {/* <TableRow
