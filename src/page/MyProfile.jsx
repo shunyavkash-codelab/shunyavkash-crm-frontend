@@ -689,25 +689,28 @@ export default function MyProfile() {
                   gap: 1,
                 }}
               >
-                <Link
-                  to={profileUser?.signature}
-                  target="_blank"
-                  style={{
-                    textDecoration: "none",
-                    color: "#2a4062",
-                    opacity: "0.8",
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                    borderRadius: 1,
-                    padding: "5px 10px",
-                    display: "inline-flex",
-                  }}
-                >
-                  <DetailsList
-                    Title={"signature"}
-                    Icon={<FileDownloadOutlinedIcon />}
-                    MainStyle={{ mb: 0 }}
-                  />
-                </Link>
+                {profileUser?.signature && (
+                  <Link
+                    to={profileUser?.signature}
+                    target="_blank"
+                    style={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-flex",
+                    }}
+                  >
+                    <DetailsList
+                      Title={"signature"}
+                      Icon={<FileDownloadOutlinedIcon />}
+                      MainStyle={{ mb: 0 }}
+                    />
+                  </Link>
+                )}
+
                 {profileUser?.degreeCertification && (
                   <Link
                     to={profileUser.degreeCertification}

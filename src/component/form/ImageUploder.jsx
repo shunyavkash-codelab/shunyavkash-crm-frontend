@@ -1,80 +1,40 @@
 import { Box, Button, Stack, Tooltip, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactFileReader from "react-file-reader";
 import UploadOutlinedIcon from "@mui/icons-material/UploadOutlined";
-import useApi from "../../hooks/useApi";
-import { APIS } from "../../api/apiList";
-import { useAuth } from "../../hooks/store/useAuth";
-import { useSnack } from "../../hooks/store/useSnack";
 import CloseIcon from "@mui/icons-material/Close";
 
-function ImageUploder({ title, fileTypes, name, doc, style }) {
+function ImageUploder({
+  title,
+  fileTypes,
+  name,
+  doc,
+  style,
+  formik,
+  handleFileCallback,
+  removeDocument,
+}) {
   const [url, setUrl] = useState(doc);
-  const { userId } = useAuth();
-  const { setSnack } = useSnack();
-  const { apiCall, isLoading } = useApi();
-  // var _URL = window.URL || window.webkitURL;
-
-  const editUserProfile = async (formData, message) => {
-    try {
-      const res = await apiCall({
-        url: APIS.MANAGER.EDIT(userId),
-        method: "patch",
-        headers: "multipart/form-data",
-        data: formData,
-      });
-      if (res.status === 200) {
-        setSnack(`${message}`);
-        // setUrl(files.base64);
-      }
-    } catch (error) {
-      let errorMessage = error.response.data.message;
-      setSnack(errorMessage, "warning");
-    }
-  };
-
   const handleFiles = async (files) => {
-    console.log(files);
     setUrl(files?.base64);
-    var file, img;
-    if (
-      files.fileList.length &&
-      (file = files.fileList[0] && title === "signature")
-    ) {
-      img = new Image();
-      // var objectUrl = _URL.createObjectURL(file);
-      img.onload = function () {
-        console.log(this.width, this.height, "=========");
-        if (this.width > 300) console.log("width");
-      };
-      // img.src = objectUrl;
+    if (typeof handleFileCallback === "function") {
+      handleFileCallback(files.fileList[0]);
+    } else {
+      formik.setFieldValue(name, files.fileList[0]);
     }
-    let formData = new FormData();
-
-    formData.append(name, files.fileList[0]);
-    await editUserProfile(formData, `${title} upload successfully.`);
-    // try {
-    //   const res = await apiCall({
-    //     url: APIS.MANAGER.EDIT(userId),
-    //     method: "patch",
-    //     headers: "multipart/form-data",
-    //     data: formData,
-    //   });
-    //   if (res.status === 200) {
-    //     setSnack(`${title} upload successfully.`);
-    //     // setUrl(files.base64);
-    //   }
-    // } catch (error) {
-    //   let errorMessage = error.response.data.message;
-    //   setSnack(errorMessage, "warning");
-    // }
   };
 
+  useEffect(() => {
+    if (doc) {
+      setUrl(doc);
+    }
+  }, [doc]);
   const removeDoc = async () => {
-    let formData = new FormData();
-
-    formData.append(name, "");
-    await editUserProfile(formData, `Remove ${title} successfully.`);
+    setUrl(false);
+    removeDocument(name);
+    // let formData = new FormData();
+    // formData.append(name, "");
+    // await editUserProfile(formData, `Remove ${title} successfully.`);
   };
   return (
     <>

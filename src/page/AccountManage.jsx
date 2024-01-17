@@ -500,7 +500,10 @@ function AccountManage() {
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <Box>
-              <ImageUploder title="invoice" />
+              <ImageUploder
+                title="invoice"
+                doc={selectedTransaction?.invoiceUpload}
+              />
             </Box>
           </Grid>
         </Grid>

@@ -175,6 +175,7 @@ export default function InvoiceInputForm({
                   >
                     <TextField
                       fullWidth
+                      multiline
                       size="small"
                       id={key}
                       label={key}
