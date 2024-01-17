@@ -983,8 +983,12 @@ export default function AddInvoice() {
                                   <Box sx={{ display: "flex" }}>
                                     <ThemeButton
                                       Text="Add Client"
+                                      btnColor="text.primary"
                                       buttonStyle={{
                                         maxHeight: "36px",
+                                        py: 0.75,
+                                        px: 1.5,
+                                        fontSize: "12px",
                                       }}
                                     />
                                   </Box>
@@ -1644,6 +1648,9 @@ export default function AddInvoice() {
                                           btnColor="text.primary"
                                           buttonStyle={{
                                             maxHeight: "36px",
+                                            py: 0.75,
+                                            px: 1.5,
+                                            fontSize: "12px",
                                           }}
                                         />
                                       </Box>
