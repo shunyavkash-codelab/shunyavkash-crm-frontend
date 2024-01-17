@@ -1431,6 +1431,7 @@ export default function AddInvoice() {
                                 },
                                 "&:last-child": {
                                   width: "92px",
+                                  pr: 0.5,
                                 },
                               },
                             },

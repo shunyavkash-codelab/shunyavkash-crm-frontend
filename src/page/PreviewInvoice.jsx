@@ -293,7 +293,7 @@ export default function PreviewInvoice() {
                           "&>*": {
                             lineHeight: 1,
                           },
-                          "&>*:first-of-type": {
+                          "&>*:first-child": {
                             fontSize: "16px",
                             display: "flex",
                             justifyContent: "space-between",
@@ -305,7 +305,7 @@ export default function PreviewInvoice() {
                             fontSize: "16px",
                           },
                         },
-                        "&>*:not(:first-of-type)": {
+                        "&>*:not(:first-child)": {
                           mt: 1.5,
                         },
                       }}
@@ -414,7 +414,7 @@ export default function PreviewInvoice() {
                                 color: "white",
                                 p: 2,
                               },
-                              "&:first-of-type span": {
+                              "&:first-child span": {
                                 borderRadius: "10px 0 0 10px",
                               },
                               "&:last-child span": {
@@ -475,7 +475,7 @@ export default function PreviewInvoice() {
                                 "&>span": {
                                   display: "block",
                                   px: "16px",
-                                  py: "14px",
+                                  py: "12px",
                                 },
                               },
                             }}
@@ -499,7 +499,7 @@ export default function PreviewInvoice() {
                           "&>*": {
                             p: "0!important",
                             fontWeight: "500",
-                            "&:first-of-type": {
+                            "&:first-child": {
                               maxWidth: "400px",
                               textWrap: "wrap",
                             },
@@ -529,7 +529,7 @@ export default function PreviewInvoice() {
                           "&>*": {
                             p: "0!important",
                             fontWeight: "500",
-                            "&:first-of-type": {
+                            "&:first-child": {
                               maxWidth: "400px",
                               textWrap: "wrap",
                             },
@@ -559,7 +559,7 @@ export default function PreviewInvoice() {
                           "&>*": {
                             p: "0!important",
                             fontWeight: "500",
-                            "&:first-of-type": {
+                            "&:first-child": {
                               maxWidth: "400px",
                               textWrap: "wrap",
                             },
@@ -592,19 +592,20 @@ export default function PreviewInvoice() {
                       ml: "auto",
                       maxWidth: "fit-content",
                       "&>*": {
-                        "&:not(:first-of-type)": { mt: 1.75 },
-                        px: 1.75,
+                        "&:not(:first-child)": { mt: 1.75 },
+                        pl: 1.75,
                         display: "flex",
                         justifyContent: "space-between",
-                        gap: 9.75,
+                        gap: 11.25,
                         "&>*": {
                           lineHeight: "1!important",
-                          "&:first-of-type": {
+                          "&:first-child": {
                             textTransform: "capitalize",
-                            width: "140px",
+                            width: "138px",
                           },
                           "&:last-child": {
-                            width: "78px",
+                            width: "92px",
+                            pr: 0.5,
                           },
                         },
                       },
@@ -742,12 +743,12 @@ export default function PreviewInvoice() {
                           "&>*": {
                             display: "flex",
                             gap: 1.25,
-                            "&:not(:first-of-type)": { mt: 1.75 },
+                            "&:not(:first-child)": { mt: 1.75 },
                             "&>*": {
                               fontSize: "16px!important",
                               lineHeight: "1!important",
                               textTransform: "capitalize",
-                              "&:first-of-type": {
+                              "&:first-child": {
                                 width: "110px",
                                 display: "flex",
                                 justifyContent: "space-between",
@@ -887,12 +888,12 @@ export default function PreviewInvoice() {
                         "&>*": {
                           display: "flex",
                           gap: 1.25,
-                          "&:not(:first-of-type)": { mt: 1.75 },
+                          "&:not(:first-child)": { mt: 1.75 },
                           "&>*": {
                             fontSize: "16px!important",
                             lineHeight: "1!important",
                             textTransform: "capitalize",
-                            "&:first-of-type": {
+                            "&:first-child": {
                               width: "110px",
                               display: "flex",
                               justifyContent: "space-between",
