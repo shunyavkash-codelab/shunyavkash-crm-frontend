@@ -68,6 +68,7 @@ function AccountAdd() {
       invoiceType: viewTransaction?.invoiceType || "",
       paymentMethod: viewTransaction?.paymentMethod || "",
       collaborator: viewTransaction?.collaborator || "",
+      invoiceUpload: viewTransaction?.invoiceUpload || "",
     },
 
     onSubmit: async (values) => {
@@ -589,6 +590,7 @@ function AccountAdd() {
                   {/* Invoice Upload */}
                   <Grid item xs={12} lg={6}>
                     <ImageUploder
+                      formik={formik}
                       name="invoiceUpload"
                       title="Invoice Upload"
                       fileTypes={[".jpeg", ".jpg", "pdf", ".png"]}

@@ -513,7 +513,7 @@ export default function LeavesRequests() {
                       placeholder="Description"
                       autoComplete="off"
                       onChange={formik.handleChange}
-                      value={selectedDescription ? selectedDescription : ""}
+                      value={selectedDescription}
                       sx={{
                         "&>label,& input,&>div": { fontSize: "14px" },
                       }}
