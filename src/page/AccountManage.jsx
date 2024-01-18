@@ -465,8 +465,6 @@ function AccountManage() {
             ) : (
               <NoData />
             )}
-            ${Math.abs(totalAmount)}
-            <TableCell></TableCell>
             {/* pagination */}
             <TablePagination
               component="div"
