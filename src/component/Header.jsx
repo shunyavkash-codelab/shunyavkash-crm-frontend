@@ -90,7 +90,8 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                 }}
               />
             </Button>
-            {location.pathname === "/" ? (
+            {location.pathname === "/" ||
+            location.pathname.includes("/view") ? (
               ""
             ) : (
               <Box

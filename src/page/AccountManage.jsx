@@ -19,6 +19,8 @@ import {
   TableRow,
   Tooltip,
   Typography,
+  TablePagination,
+  Pagination,
 } from "@mui/material";
 import ModalComponent from "../component/ModalComponent";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
@@ -44,6 +46,8 @@ import { useSnack } from "../hooks/store/useSnack";
 import moment from "moment";
 import InvoiceImageIcon from "@mui/icons-material/DescriptionOutlined";
 import NoData from "../component/NoData";
+import ImageUploder from "../component/form/ImageUploder";
+import { useSearchData } from "../hooks/store/useSearchData.js";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -57,17 +61,36 @@ function AccountManage() {
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const [selectedTransaction, setSelectedTransaction] = useState();
+  const { searchData } = useSearchData();
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+
+  // pagination
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const handleChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
 
   const viewAllTransaction = async () => {
     try {
       const res = await apiCall({
         url: APIS.ACCOUNTMANAGE.LIST,
         method: "get",
-        params: { sortField: "date" },
+        params: {
+          sortField: "date",
+          search: searchData,
+          page: searchData ? 1 : page,
+          limit: rowsPerPage,
+        },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
         setTransactionList(res.data.data.data);
+        setTotalPage(res.data.data.pagination.pages);
         let total = 0;
         for (var trans of res.data.data.data) {
           if (trans.type === "expense") {
@@ -99,7 +122,7 @@ function AccountManage() {
   useEffect(() => {
     transactionDashboard();
     viewAllTransaction();
-  }, []);
+  }, [page, rowsPerPage]);
 
   let acFormattedDate;
   if (selectedTransaction?.date) {
@@ -442,6 +465,45 @@ function AccountManage() {
             ) : (
               <NoData />
             )}
+            ${Math.abs(totalAmount)}
+            <TableCell></TableCell>
+            {/* pagination */}
+            <TablePagination
+              component="div"
+              count={10}
+              page={page}
+              onPageChange={handleChange}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              sx={{
+                "&>div": {
+                  p: 0,
+                  minHeight: "24px",
+                  "& .MuiTablePagination-selectLabel": {
+                    lineHeight: 1,
+                    fontWeight: 600,
+                  },
+                  "& .MuiTablePagination-input": {
+                    mr: 0,
+                    "&>div": {
+                      p: "0 24px 0 0",
+                    },
+                  },
+                  "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                    {
+                      display: "none",
+                    },
+                },
+              }}
+            />
+            <Stack spacing={2}>
+              {/* <Typography>Page: {page}</Typography> */}
+              <Pagination
+                count={totalPage}
+                page={page}
+                onChange={handleChange}
+              />
+            </Stack>
           </Box>
         </Box>
       </Box>

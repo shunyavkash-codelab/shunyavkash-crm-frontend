@@ -268,7 +268,7 @@ export default function Project() {
                 }}
               />
               <Stack spacing={2}>
-                <Typography>Page: {page}</Typography>
+                {/* <Typography>Page: {page}</Typography> */}
                 <Pagination
                   count={totalPage}
                   page={page}

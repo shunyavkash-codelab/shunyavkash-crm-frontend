@@ -24,6 +24,8 @@ import {
   TextField,
   Tooltip,
   Typography,
+  TablePagination,
+  Pagination,
 } from "@mui/material";
 // import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
@@ -36,6 +38,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import SectionHeader from "../component/SectionHeader";
 import NoData from "../component/NoData";
+import { useSearchData } from "../hooks/store/useSearchData.js";
 
 export default function LeavesRequests() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -50,6 +53,19 @@ export default function LeavesRequests() {
   const [selectedDescription, setSelectedDescription] = useState();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const { searchData } = useSearchData();
+
+  // pagination
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const handleChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
 
   const formik = useFormik({
     validationSchema: Yup.object({
@@ -100,10 +116,16 @@ export default function LeavesRequests() {
       const res = await apiCall({
         url: APIS.LEAVE.ALL,
         method: "get",
+        params: {
+          search: searchData,
+          page: searchData ? 1 : page,
+          limit: rowsPerPage,
+        },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
         setAllLeaveList(res.data.data.data);
+        setTotalPage(res.data.data.pagination.pages);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -112,60 +134,7 @@ export default function LeavesRequests() {
   useEffect(() => {
     leaveDashboard();
     leaveList();
-  }, []);
-
-  // const leavesRequests = [
-  //   {
-  //     id: 1,
-  //     username: "Deep Bhimani",
-  //     type: "casual",
-  //     reason: "Marriage Function",
-  //     startDate: "15/01/2023",
-  //     endDate: "17/01/2023",
-  //     status: "approve",
-  //     statusReason: "Lorem ipsum dolor sit amet 1",
-  //   },
-  //   {
-  //     id: 2,
-  //     username: "Deep Bhimani",
-  //     type: "sick",
-  //     reason: "Medical",
-  //     startDate: "25/02/2023",
-  //     endDate: "27/02/2023",
-  //     status: "approve",
-  //     statusReason: "Lorem ipsum dolor sit amet 2",
-  //   },
-  //   {
-  //     id: 3,
-  //     username: "Deep Bhimani",
-  //     type: "paid",
-  //     reason: "Going to Village",
-  //     startDate: "31/04/2023",
-  //     endDate: "2/05/2023",
-  //     status: "unapprove",
-  //     statusReason: "ipsum dolor sit amet lorem 3",
-  //   },
-  //   {
-  //     id: 4,
-  //     username: "Deep Bhimani",
-  //     type: "unpaid",
-  //     reason: "Going to Friend's Birthday Party",
-  //     startDate: "25/04/2023",
-  //     endDate: "25/04/2023",
-  //     status: "unapprove",
-  //     statusReason: "Lorem dolor sit ipsum amet 4",
-  //   },
-  //   {
-  //     id: 5,
-  //     username: "Dipali Gediya",
-  //     type: "unpaid",
-  //     reason: "Going to Friend's Birthday Party",
-  //     startDate: "25/04/2023",
-  //     endDate: "25/04/2023",
-  //     status: "",
-  //     statusReason: "Lorem dolor sit ipsum amet 4",
-  //   },
-  // ];
+  }, [page, rowsPerPage]);
 
   return (
     <>
@@ -496,6 +465,39 @@ export default function LeavesRequests() {
           ) : (
             <NoData />
           )}
+          {/* pagination */}
+          <TablePagination
+            component="div"
+            count={10}
+            page={page}
+            onPageChange={handleChange}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={{
+              "&>div": {
+                p: 0,
+                minHeight: "24px",
+                "& .MuiTablePagination-selectLabel": {
+                  lineHeight: 1,
+                  fontWeight: 600,
+                },
+                "& .MuiTablePagination-input": {
+                  mr: 0,
+                  "&>div": {
+                    p: "0 24px 0 0",
+                  },
+                },
+                "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                  {
+                    display: "none",
+                  },
+              },
+            }}
+          />
+          <Stack spacing={2}>
+            {/* <Typography>Page: {page}</Typography> */}
+            <Pagination count={totalPage} page={page} onChange={handleChange} />
+          </Stack>
 
           <ModalComponent
             open={open}

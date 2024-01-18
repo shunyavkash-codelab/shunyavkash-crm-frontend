@@ -15,6 +15,8 @@ import {
   Tab,
   Tabs,
   Stack,
+  TablePagination,
+  Pagination,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
@@ -81,17 +83,34 @@ export default function Members() {
   const { apiCall } = useApi();
   const { searchData } = useSearchData();
   const { setSnack } = useSnack();
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+
+  // pagination
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const handleChangeOnPageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
 
   const fetchManager = async () => {
     try {
       const res = await apiCall({
         url: APIS.MANAGER.LIST,
         method: "get",
-        params: { search: searchData },
+        params: {
+          search: searchData,
+          page: searchData ? 1 : page,
+          limit: rowsPerPage,
+        },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
         setManagerList(res.data.data.data);
+        setTotalPage(res.data.data.pagination.pages);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -117,7 +136,7 @@ export default function Members() {
   useEffect(() => {
     fetchManager();
     fetchEmployees();
-  }, []);
+  }, [page, rowsPerPage]);
 
   // serech data
   useEffect(() => {
@@ -326,6 +345,67 @@ export default function Members() {
               ) : (
                 <NoData />
               )}
+              <TableHead>
+                <TableRow
+                  sx={{
+                    "&>th": { lineHeight: 1, fontWeight: 700 },
+                  }}
+                >
+                  <TableCell sx={{ width: "400px" }}>Manager</TableCell>
+                  <TableCell>mobile number</TableCell>
+                  <TableCell sx={{ width: "250px" }}>Role</TableCell>
+                  <TableCell sx={{ width: "140px" }}>status</TableCell>
+                  <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {managerList.map((row) => (
+                  <EmployeeListRaw
+                    row={row}
+                    uniqId={row._id}
+                    setEmployeesList={setManagerList}
+                    dataList={managerList}
+                  />
+                ))}
+              </TableBody>
+
+              {/* pagination */}
+              <TablePagination
+                component="div"
+                count={10}
+                page={page}
+                onPageChange={handleChangeOnPageChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                sx={{
+                  "&>div": {
+                    p: 0,
+                    minHeight: "24px",
+                    "& .MuiTablePagination-selectLabel": {
+                      lineHeight: 1,
+                      fontWeight: 600,
+                    },
+                    "& .MuiTablePagination-input": {
+                      mr: 0,
+                      "&>div": {
+                        p: "0 24px 0 0",
+                      },
+                    },
+                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                      {
+                        display: "none",
+                      },
+                  },
+                }}
+              />
+              <Stack spacing={2}>
+                {/* <Typography>Page: {page}</Typography> */}
+                <Pagination
+                  count={totalPage}
+                  page={page}
+                  onChange={handleChangeOnPageChange}
+                />
+              </Stack>
             </CustomTabPanel>
 
             {/* Employee */}
@@ -381,6 +461,67 @@ export default function Members() {
               ) : (
                 <NoData />
               )}
+              <TableHead>
+                <TableRow
+                  sx={{
+                    "&>th": { lineHeight: 1, fontWeight: 700 },
+                  }}
+                >
+                  <TableCell sx={{ width: "400px" }}>employee</TableCell>
+                  <TableCell>mobile number</TableCell>
+                  <TableCell sx={{ width: "250px" }}>Role</TableCell>
+                  <TableCell sx={{ width: "140px" }}>status</TableCell>
+                  <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {employeesList.map((row) => (
+                  <EmployeeListRaw
+                    row={row}
+                    uniqId={row._id}
+                    setEmployeesList={setEmployeesList}
+                    employeesList={employeesList}
+                  />
+                ))}
+              </TableBody>
+
+              {/* pagination */}
+              <TablePagination
+                component="div"
+                count={10}
+                page={page}
+                onPageChange={handleChangeOnPageChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                sx={{
+                  "&>div": {
+                    p: 0,
+                    minHeight: "24px",
+                    "& .MuiTablePagination-selectLabel": {
+                      lineHeight: 1,
+                      fontWeight: 600,
+                    },
+                    "& .MuiTablePagination-input": {
+                      mr: 0,
+                      "&>div": {
+                        p: "0 24px 0 0",
+                      },
+                    },
+                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                      {
+                        display: "none",
+                      },
+                  },
+                }}
+              />
+              <Stack spacing={2}>
+                {/* <Typography>Page: {page}</Typography> */}
+                <Pagination
+                  count={totalPage}
+                  page={page}
+                  onChange={handleChangeOnPageChange}
+                />
+              </Stack>
             </CustomTabPanel>
 
             {/* <CustomTabPanel value={value} index={0}>
