@@ -38,6 +38,7 @@ export default function PreviewInvoice() {
   const { setSnack } = useSnack();
   const location = useLocation();
   let view = location.pathname.includes("/view/") ? true : false;
+  console.log(invoiceData);
   // add invoice
   const addInvoice = async () => {
     try {
@@ -967,25 +968,27 @@ export default function PreviewInvoice() {
                     </Box>
                   )}
                 </Box>
-                <Box
-                  sx={{
-                    mt: 8.5,
-                    mr: 6,
-                    maxHeight: "80px",
-                    maxWidth: "200px",
-                    flexShrink: 0,
-                  }}
-                >
-                  <img
-                    src={invoiceData.signature}
-                    style={{
-                      maxHeight: "inherit",
-                      width: "100%",
-                      display: "block",
+                {invoiceData.signature && (
+                  <Box
+                    sx={{
+                      mt: 8.5,
+                      mr: 6,
+                      maxHeight: "80px",
+                      maxWidth: "200px",
+                      flexShrink: 0,
                     }}
-                    alt="signature"
-                  />
-                </Box>
+                  >
+                    <img
+                      src={invoiceData.signature}
+                      style={{
+                        maxHeight: "inherit",
+                        width: "100%",
+                        display: "block",
+                      }}
+                      alt="signature"
+                    />
+                  </Box>
+                )}
               </Box>
             </Stack>
             <Box
