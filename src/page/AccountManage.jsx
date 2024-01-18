@@ -286,7 +286,7 @@ function AccountManage() {
                         Collaborator
                       </TableCell>
                       <TableCell sx={{ width: "120px" }}>
-                        Expance Type
+                        Expense Type
                       </TableCell>
                       <TableCell sx={{ width: "140px", textAlign: "center" }}>
                         Amount (₹)
@@ -512,7 +512,7 @@ function AccountManage() {
         open={open}
         setOpen={setOpen}
         // todo = show only one Entry type
-        modalTitle="Income / Expance"
+        modalTitle={selectedTransaction?.type}
         size="large"
       >
         <Grid container rowSpacing={5} columnSpacing={1.5}>
@@ -547,7 +547,7 @@ function AccountManage() {
           {/* todo = show only in Expance */}
           <Grid item xs={12} sm={6} md={4}>
             <DetailsList
-              Title={"Expance Type"}
+              Title={"Expense Type"}
               Text={selectedTransaction?.expenseType || "N/A"}
               Icon={<AccountBoxIcon />}
               TextStyle={{ textTransform: "capitalize" }}

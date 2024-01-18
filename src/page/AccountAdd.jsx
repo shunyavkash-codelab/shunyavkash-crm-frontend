@@ -213,7 +213,7 @@ function AccountAdd() {
                         <FormControlLabel
                           value="expense"
                           control={<Radio />}
-                          label="Expance"
+                          label="Expense"
                           onClick={() => setSelected(false)}
                         />
                       </RadioGroup>
