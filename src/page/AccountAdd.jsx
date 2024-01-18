@@ -372,6 +372,106 @@ function AccountAdd() {
                       </FormControl>
                     </Grid>
                   )}
+                  {/* Collaborator */}
+                  {selected && (
+                    <Grid item xs={12} lg={6}>
+                      <FormControl
+                        fullWidth
+                        size="normal"
+                        sx={{
+                          "&>label": { fontSize: "14px" },
+                        }}
+                      >
+                        <InputLabel
+                          sx={{ textTransform: "capitalize" }}
+                          id="demo-simple-select-label"
+                        >
+                          Collaborator
+                        </InputLabel>
+                        {/* <Field
+                          name="file"
+                          render={({ field, form }) => (
+                            <>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="collaborator"
+                                label="Collaborator"
+                                sx={{ fontSize: "14px" }}
+                                {...field}
+                                defaultValue={viewTransaction?.collaborator}
+                                onChange={(event) => {
+                                  form.setFieldValue(
+                                    "collaborator",
+                                    event.target.value
+                                  );
+                                }}
+                              >
+                                {clientList.map((item) => (
+                                  <MenuItem
+                                    sx={{
+                                      textTransform: "capitalize",
+                                      fontSize: "14px",
+                                    }}
+                                    value={item._id}
+                                  >
+                                    {item.name}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                              {formik.touched.collaborator &&
+                                Boolean(formik.errors.collaborator) && (
+                                  <FormHelperText error={true}>
+                                    {formik.touched.collaborator &&
+                                      formik.errors.collaborator}
+                                  </FormHelperText>
+                                )}
+                            </>
+                          )}
+                        /> */}
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          label="Collaborator"
+                          name="collaborator"
+                          value={formik.values.collaborator}
+                          onChange={(e) =>
+                            formik.setFieldValue("collaborator", e.target.value)
+                          }
+                          sx={{ fontSize: "14px" }}
+                          error={
+                            formik.touched.collaborator &&
+                            Boolean(formik.errors.collaborator)
+                          }
+                        >
+                          <MenuItem
+                            sx={{ textTransform: "capitalize" }}
+                            value={"pixel"}
+                          >
+                            Pixel
+                          </MenuItem>
+                          <MenuItem
+                            sx={{ textTransform: "capitalize" }}
+                            value={"simpliigence"}
+                          >
+                            Simpliigence
+                          </MenuItem>
+                          <MenuItem
+                            sx={{ textTransform: "capitalize" }}
+                            value={"rewenewd"}
+                          >
+                            Rewenewd
+                          </MenuItem>
+                        </Select>
+                        {formik.touched.collaborator &&
+                          Boolean(formik.errors.collaborator) && (
+                            <FormHelperText error={true}>
+                              {formik.touched.collaborator &&
+                                formik.errors.collaborator}
+                            </FormHelperText>
+                          )}
+                      </FormControl>
+                    </Grid>
+                  )}
                   {/* Invoice Type */}
                   <Grid item xs={12} lg={6}>
                     <FormControl
@@ -496,106 +596,6 @@ function AccountAdd() {
                         )}
                     </FormControl>
                   </Grid>
-                  {/* Collaborator */}
-                  {selected && (
-                    <Grid item xs={12} lg={6}>
-                      <FormControl
-                        fullWidth
-                        size="normal"
-                        sx={{
-                          "&>label": { fontSize: "14px" },
-                        }}
-                      >
-                        <InputLabel
-                          sx={{ textTransform: "capitalize" }}
-                          id="demo-simple-select-label"
-                        >
-                          Collaborator
-                        </InputLabel>
-                        {/* <Field
-                          name="file"
-                          render={({ field, form }) => (
-                            <>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="collaborator"
-                                label="Collaborator"
-                                sx={{ fontSize: "14px" }}
-                                {...field}
-                                defaultValue={viewTransaction?.collaborator}
-                                onChange={(event) => {
-                                  form.setFieldValue(
-                                    "collaborator",
-                                    event.target.value
-                                  );
-                                }}
-                              >
-                                {clientList.map((item) => (
-                                  <MenuItem
-                                    sx={{
-                                      textTransform: "capitalize",
-                                      fontSize: "14px",
-                                    }}
-                                    value={item._id}
-                                  >
-                                    {item.name}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                              {formik.touched.collaborator &&
-                                Boolean(formik.errors.collaborator) && (
-                                  <FormHelperText error={true}>
-                                    {formik.touched.collaborator &&
-                                      formik.errors.collaborator}
-                                  </FormHelperText>
-                                )}
-                            </>
-                          )}
-                        /> */}
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          label="Collaborator"
-                          name="collaborator"
-                          value={formik.values.collaborator}
-                          onChange={(e) =>
-                            formik.setFieldValue("collaborator", e.target.value)
-                          }
-                          sx={{ fontSize: "14px" }}
-                          error={
-                            formik.touched.collaborator &&
-                            Boolean(formik.errors.collaborator)
-                          }
-                        >
-                          <MenuItem
-                            sx={{ textTransform: "capitalize" }}
-                            value={"pixel"}
-                          >
-                            Pixel
-                          </MenuItem>
-                          <MenuItem
-                            sx={{ textTransform: "capitalize" }}
-                            value={"simpliigence"}
-                          >
-                            Simpliigence
-                          </MenuItem>
-                          <MenuItem
-                            sx={{ textTransform: "capitalize" }}
-                            value={"rewenewd"}
-                          >
-                            Rewenewd
-                          </MenuItem>
-                        </Select>
-                        {formik.touched.collaborator &&
-                          Boolean(formik.errors.collaborator) && (
-                            <FormHelperText error={true}>
-                              {formik.touched.collaborator &&
-                                formik.errors.collaborator}
-                            </FormHelperText>
-                          )}
-                      </FormControl>
-                    </Grid>
-                  )}
                   {/* Invoice Upload */}
                   <Grid item xs={12} lg={6}>
                     <ImageUploder

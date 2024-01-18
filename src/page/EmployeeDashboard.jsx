@@ -56,6 +56,7 @@ export default function EmployeeDashboard() {
         <Box sx={{ ml: { lg: sideBarWidth } }}>
           <Box component="main">
             <SectionHeader Title="Employee Dashboard" />
+
             <Grid
               container
               rowSpacing={2}
@@ -66,8 +67,12 @@ export default function EmployeeDashboard() {
                 },
               }}
             >
-              <TaskCard heading={"Today's Priority"} />
-              <TaskCard heading={"Upcoming Due (Task)"} />
+              <Grid item xs={12} xl={4}>
+                <TaskCard heading={"Today's Priority"} />
+              </Grid>
+              <Grid item xs={12} xl={4}>
+                <TaskCard heading={"Upcoming Due (Task)"} />
+              </Grid>
               <Grid item xs={12} xl={4}>
                 <Box
                   sx={{
@@ -132,6 +137,7 @@ export default function EmployeeDashboard() {
                 </Box>
               </Grid>
             </Grid>
+
             <Box sx={{ mt: 8 }}>
               <Stack
                 direction="row"
@@ -145,6 +151,7 @@ export default function EmployeeDashboard() {
                 }}
               >
                 <SectionHeader Title="Employee Tasks" style={{ mb: 0 }} />
+
                 <TablePagination
                   component="div"
                   count={10}
@@ -174,6 +181,7 @@ export default function EmployeeDashboard() {
                   }}
                 />
               </Stack>
+
               <TableContainer
                 component={Paper}
                 sx={{
@@ -210,10 +218,11 @@ export default function EmployeeDashboard() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <TaskDetail task={"some thing is fishy!"} showExtraDetail />
+                    <TaskDetail task showExtraDetail />
                   </TableBody>
                 </Table>
               </TableContainer>
+
               <Pagination
                 count={50}
                 siblingCount={0}

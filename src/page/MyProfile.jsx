@@ -262,6 +262,7 @@ export default function MyProfile() {
                   src={url ? url : isLoading}
                 />
                 <Button
+                  disableRipple
                   sx={{
                     position: "absolute",
                     bottom: 0,

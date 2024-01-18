@@ -65,11 +65,6 @@ export default function SideBar({
       link: "/employee-dashboard",
     },
     {
-      text: "Apply Leave",
-      icon: <LeavesRequests />,
-      link: "/applyleave",
-    },
-    {
       text: "Leaves",
       icon: <LeavesIcon />,
       link: "/leaves",
@@ -89,11 +84,7 @@ export default function SideBar({
           "Employees",
           "Leaves Requests",
         ].includes(ele.text) && user.role !== 0
-      ) &&
-      !(
-        ["Apply Leave", "Employee Dashboard"].includes(ele.text) &&
-        user.role === 0
-      )
+      ) && !(["Employee Dashboard"].includes(ele.text) && user.role === 0)
     );
   });
   useEffect(() => {

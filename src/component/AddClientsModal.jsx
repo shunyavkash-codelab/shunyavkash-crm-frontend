@@ -71,24 +71,24 @@ export default function AddClientsModal({ open, setOpen, fetchClients }) {
     },
   });
 
-  // get country list
-  const fetchCountry = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.COUNTRY.GET,
-        method: "get",
-      });
-      if (res.data.success === true) {
-        setCountryList(res.data.data);
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+  // // get country list
+  // const fetchCountry = async () => {
+  //   try {
+  //     const res = await apiCall({
+  //       url: APIS.COUNTRY.GET,
+  //       method: "get",
+  //     });
+  //     if (res.data.success === true) {
+  //       setCountryList(res.data.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchCountry();
-  }, []);
+  // useEffect(() => {
+  //   fetchCountry();
+  // }, []);
 
   return (
     <>

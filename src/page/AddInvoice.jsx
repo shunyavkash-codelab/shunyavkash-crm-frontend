@@ -196,11 +196,13 @@ export default function AddInvoice() {
     task: Yup.array()
       .min(1, "Minimum ${min} task required")
       .required("Task is required"),
-    accountNumber: Yup.number().test(
-      "Account Number",
-      "Account Number is a required.",
-      (bankDetails) => bankDetails !== undefined
-    ),
+    accountNumber: Yup.number()
+      .typeError("Account Number must only contain numeric digits.")
+      .test(
+        "Account Number",
+        "Account Number is a required.",
+        (bankDetails) => bankDetails !== undefined
+      ),
     IFSC: Yup.string()
       .length(11)
       .test(
@@ -212,16 +214,20 @@ export default function AddInvoice() {
         /^[a-zA-Z]{4}[0][a-zA-Z0-9]{6}$/,
         "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
       ),
-    bankName: Yup.string().test(
-      "Bank Name",
-      "Bank Name is a required.",
-      (bankDetails) => bankDetails !== undefined
-    ),
-    holderName: Yup.string().test(
-      "A/c holder name",
-      "A/c holder name is a required.",
-      (bankDetails) => bankDetails !== undefined
-    ),
+    bankName: Yup.string()
+      .test(
+        "Bank Name",
+        "Bank Name is a required.",
+        (bankDetails) => bankDetails !== undefined
+      )
+      .matches(/^[a-zA-Z ]+$/, "Bank Name must only contain alphabets."),
+    holderName: Yup.string()
+      .test(
+        "A/c holder name",
+        "A/c holder name is a required.",
+        (bankDetails) => bankDetails !== undefined
+      )
+      .matches(/^[a-zA-Z .]+$/, "A/c holder name must only contain alphabets."),
   });
   // useEffect(() => {
   //   if (invoiceData?.invoiceDate) {
@@ -337,7 +343,7 @@ export default function AddInvoice() {
     const clientAddress = clientList.find((client) => {
       return client._id === id;
     });
-    formik.setFieldValue("clientAddress", clientAddress.address);
+    formik.setFieldValue("clientAddress", clientAddress?.address);
     setSelectedClient(clientAddress);
     // await fetchProject(id);
   };
@@ -661,8 +667,13 @@ export default function AddInvoice() {
                 amount: tas.amount || tas.pricePerHours * tas.number,
               };
             });
+            console.log(tasks);
             tasks = tasks.filter((tas) => {
-              return tas.taskName !== "";
+              return (
+                tas.taskName !== "" &&
+                tas.price_hours !== "" &&
+                tas.hours !== ""
+              );
             });
             // let taskId = values.task.filter((id) => id._id).map((id) => id._id);
             let obj = {
@@ -993,11 +1004,12 @@ export default function AddInvoice() {
                                     />
                                   </Box>
                                 </MenuItem>
-                                <AddClientsModal
-                                  open={open}
-                                  setOpen={setOpen}
-                                />
                               </Select>
+                              <AddClientsModal
+                                open={open}
+                                setOpen={setOpen}
+                                fetchClients={fetchClient}
+                              />
                               {Boolean(formik.errors.to) &&
                                 formik.touched.to && (
                                   <FormHelperText error={true}>
