@@ -121,7 +121,7 @@ function UserLeave({ profileId }) {
   }, []);
   return (
     <>
-      <Grid container rowSpacing={2.5} columnSpacing={2.5} mt={0}>
+      <Grid container spacing={2.5}>
         <Grid item xs={6} md={3} lg={2.4}>
           <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
             <Typography
@@ -375,7 +375,7 @@ function UserLeave({ profileId }) {
         sx={{ padding: "6px" }}
       >
         <Box component="form" onSubmit={formik.handleSubmit}>
-          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+          <Grid container spacing={2.5}>
             <Grid item xs={12}>
               <FormControl
                 fullWidth

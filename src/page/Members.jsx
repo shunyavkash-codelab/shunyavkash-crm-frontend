@@ -193,7 +193,7 @@ export default function Members() {
             )}
           </Stack>
 
-          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+          <Grid container spacing={2.5}>
             <Grid item xs={6} md={3} lg={4}>
               <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
                 <Typography

@@ -44,19 +44,21 @@ export default function CounterCards(props) {
           }}
         >
           {props.Counter}
-          <Link to={props.Link}>
-            <Box
-              sx={{
-                display: "inline-flex",
-                p: 1,
-                bgcolor: props.ArrowBgColor,
-                borderRadius: "10px",
-                color: "white",
-              }}
-            >
-              <ArrowIcon />
-            </Box>
-          </Link>
+          {props.Link && (
+            <Link to={props.Link}>
+              <Box
+                sx={{
+                  display: "inline-flex",
+                  p: 1,
+                  bgcolor: props.ArrowBgColor,
+                  borderRadius: "10px",
+                  color: "white",
+                }}
+              >
+                <ArrowIcon />
+              </Box>
+            </Link>
+          )}
         </Typography>
       </Box>
     </>

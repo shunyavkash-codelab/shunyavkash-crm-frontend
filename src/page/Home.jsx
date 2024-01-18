@@ -14,6 +14,7 @@ import {
   Stack,
   TablePagination,
   Pagination,
+  Grid,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -136,50 +137,50 @@ export default function Home() {
         <Box sx={{ ml: { lg: sideBarWidth } }}>
           <Box component="main">
             <SectionHeader Title="dashboard" />
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: {
-                  xs: "repeat(1,1fr)",
-                  sm: "repeat(2,1fr)",
-                  xl: "repeat(4,1fr)",
-                },
-                gap: 2.5,
-              }}
-            >
-              <CounterCards
-                CardBgcolor={"rgb(22 119 255/ 10%)"}
-                Title={"Clients"}
-                Counter={dashboardData.totalClient || 0}
-                Text={"lorem ipsum sit amet."}
-                Link={"/clients"}
-                ArrowBgColor={"rgb(22 119 255 / 60%)"}
-              />
-              <CounterCards
-                CardBgcolor={"rgba(248, 174, 0, 10%)"}
-                Title={"projects"}
-                Counter={dashboardData.totalProject || 0}
-                Text={"lorem ipsum sit amet."}
-                Link={"/projects"}
-                ArrowBgColor={"rgba(248, 174, 0, 60%)"}
-              />
-              <CounterCards
-                CardBgcolor={"rgba(74, 210, 146, 10%)"}
-                Title={"invoices"}
-                Counter={dashboardData.totalInvoice || 0}
-                Text={"lorem ipsum sit amet."}
-                Link={"/invoices"}
-                ArrowBgColor={"rgba(74, 210, 146, 60%)"}
-              />
-              <CounterCards
-                CardBgcolor={"rgba(244, 67, 54, 10%)"}
-                Title={"employees"}
-                Counter={dashboardData.totalEmployee || 0}
-                Text={"lorem ipsum sit amet."}
-                Link={"/employees"}
-                ArrowBgColor={"rgba(244, 67, 54, 60%)"}
-              />
-            </Box>
+
+            <Grid container spacing={2.5}>
+              <Grid item xs={12} sm={6} xl={3}>
+                <CounterCards
+                  CardBgcolor={"rgb(22 119 255/ 10%)"}
+                  Title={"Clients"}
+                  Counter={dashboardData.totalClient || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/clients"}
+                  ArrowBgColor={"rgb(22 119 255 / 60%)"}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} xl={3}>
+                <CounterCards
+                  CardBgcolor={"rgba(248, 174, 0, 10%)"}
+                  Title={"projects"}
+                  Counter={dashboardData.totalProject || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/projects"}
+                  ArrowBgColor={"rgba(248, 174, 0, 60%)"}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} xl={3}>
+                <CounterCards
+                  CardBgcolor={"rgba(74, 210, 146, 10%)"}
+                  Title={"invoices"}
+                  Counter={dashboardData.totalInvoice || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/invoices"}
+                  ArrowBgColor={"rgba(74, 210, 146, 60%)"}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} xl={3}>
+                <CounterCards
+                  CardBgcolor={"rgba(244, 67, 54, 10%)"}
+                  Title={"employees"}
+                  Counter={dashboardData.totalEmployee || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/employees"}
+                  ArrowBgColor={"rgba(244, 67, 54, 60%)"}
+                />
+              </Grid>
+            </Grid>
+
             <Stack
               direction={{ xs: "column", sm: "row" }}
               alignItems={{ sm: "center" }}
@@ -205,6 +206,7 @@ export default function Home() {
                 </Link>
               </Stack>
             </Stack>
+
             {invoiceList.length === 0 ? (
               <NoData />
             ) : (

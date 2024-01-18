@@ -160,7 +160,7 @@ export default function LeavesRequests() {
             BreadCrumbCurrentTitle="Leaves Requests"
           />
 
-          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+          <Grid container spacing={2.5}>
             <Grid item xs={6} md={3} lg={2.4}>
               <Box
                 p={3}
@@ -506,33 +506,27 @@ export default function LeavesRequests() {
             sx={{ padding: "6px" }}
           >
             <Box component="form" onSubmit={formik.handleSubmit}>
-              <Grid container rowSpacing={2.5} columnSpacing={2.5}>
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <TextField
-                      fullWidth
-                      multiline
-                      rows={4}
-                      size="normal"
-                      name="description"
-                      placeholder="Description"
-                      autoComplete="off"
-                      onChange={formik.handleChange}
-                      value={selectedDescription}
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                      }}
-                      error={
-                        formik.touched.description &&
-                        Boolean(formik.errors.description)
-                      }
-                      helperText={
-                        formik.touched.description && formik.errors.description
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                size="normal"
+                name="description"
+                placeholder="Description"
+                autoComplete="off"
+                onChange={formik.handleChange}
+                value={selectedDescription}
+                sx={{
+                  "&>label,& input,&>div": { fontSize: "14px" },
+                }}
+                error={
+                  formik.touched.description &&
+                  Boolean(formik.errors.description)
+                }
+                helperText={
+                  formik.touched.description && formik.errors.description
+                }
+              />
               <Stack
                 direction="row"
                 justifyContent="center"
