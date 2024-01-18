@@ -30,7 +30,6 @@ import { useSearchData } from "../hooks/store/useSearchData";
 import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
