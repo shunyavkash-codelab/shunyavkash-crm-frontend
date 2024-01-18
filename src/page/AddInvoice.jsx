@@ -669,7 +669,6 @@ export default function AddInvoice() {
                 amount: tas.amount || tas.pricePerHours * tas.number,
               };
             });
-            console.log(tasks);
             tasks = tasks.filter((tas) => {
               return (
                 tas.taskName !== "" &&
@@ -677,6 +676,10 @@ export default function AddInvoice() {
                 tas.hours !== ""
               );
             });
+            console.log(tasks);
+            if (tasks.length === 0) {
+              return setSnack("Minimum 1 Task Required", "warning");
+            }
             // let taskId = values.task.filter((id) => id._id).map((id) => id._id);
             let obj = {
               from: {

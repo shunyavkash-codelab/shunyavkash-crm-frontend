@@ -255,9 +255,7 @@ function UserLeave({ profileId }) {
                     <TableCell>Leave Type</TableCell>
                     <TableCell>Reason</TableCell>
                     <TableCell>Start Date</TableCell>
-                    <TableCell>day type</TableCell>
                     <TableCell>End Date</TableCell>
-                    <TableCell>day type</TableCell>
                     {/* Todo: Admin ni status ni row na aave */}
                     <TableCell>Status</TableCell>
                   </TableRow>
@@ -306,13 +304,53 @@ function UserLeave({ profileId }) {
                       </TableCell>
                       <TableCell>{leave.reason}</TableCell>
                       <TableCell>
-                        {moment(leave.startDate).format("DD/MM/YYYY")}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.75,
+                          }}
+                        >
+                          <Box>
+                            {moment(leave.startDate).format("DD/MM/YYYY")}
+                            <Typography
+                              sx={{
+                                marginTop: "3px",
+                                lineHeight: 1,
+                                textAlign: "center",
+                                fontSize: "12px",
+                                color: "darkgray",
+                              }}
+                            >
+                              ({leave.startDayType})
+                            </Typography>
+                          </Box>
+                        </Box>
                       </TableCell>
-                      <TableCell>{leave.startDayType}</TableCell>
                       <TableCell>
-                        {moment(leave.endDate).format("DD/MM/YYYY")}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.75,
+                          }}
+                        >
+                          <Box>
+                            {moment(leave.endDate).format("DD/MM/YYYY")}
+                            <Typography
+                              sx={{
+                                marginTop: "3px",
+                                lineHeight: 1,
+                                textAlign: "center",
+                                fontSize: "12px",
+                                color: "darkgray",
+                              }}
+                            >
+                              ({leave.endDayType})
+                            </Typography>
+                          </Box>
+                        </Box>
                       </TableCell>
-                      <TableCell>{leave.endDayType}</TableCell>
                       {/* Admin ni status ni row na aave */}
                       <TableCell>
                         <Tooltip title={leave.description} arrow>
