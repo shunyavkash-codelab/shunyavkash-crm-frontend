@@ -32,6 +32,7 @@ import { useInviteMemberStore } from "../hooks/store/useInviteMemberStore.js";
 import ThemeButton from "../component/ThemeButton.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
 import NoData from "../component/NoData.jsx";
+import CounterCards from "../component/CounterCards.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -195,7 +196,7 @@ export default function Members() {
 
           <Grid container spacing={2.5}>
             <Grid item xs={6} md={3} lg={4}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
+              {/* <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
                 <Typography
                   sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
                 >
@@ -211,45 +212,29 @@ export default function Members() {
                 >
                   {`${(managerList.length || 0) + (employeesList.length || 0)}`}
                 </Typography>
-              </Box>
+              </Box> */}
+
+              <CounterCards
+                CardBgcolor="white"
+                Title="Total Members"
+                Counter={`${
+                  (managerList.length || 0) + (employeesList.length || 0)
+                }`}
+              />
             </Grid>
             <Grid item xs={6} md={3} lg={4}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Managers
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: 22,
-                    color: "black",
-                    fontWeight: 600,
-                    mt: 2,
-                  }}
-                >
-                  {managerList.length || 0}
-                </Typography>
-              </Box>
+              <CounterCards
+                CardBgcolor="white"
+                Title="Total Managers"
+                Counter={managerList.length || 0}
+              />
             </Grid>
             <Grid item xs={6} md={3} lg={4}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Employee
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: 22,
-                    color: "black",
-                    fontWeight: 600,
-                    mt: 2,
-                  }}
-                >
-                  {employeesList.length || 0}
-                </Typography>
-              </Box>
+              <CounterCards
+                CardBgcolor="white"
+                Title="Total Employee"
+                Counter={employeesList.length || 0}
+              />
             </Grid>
           </Grid>
 
