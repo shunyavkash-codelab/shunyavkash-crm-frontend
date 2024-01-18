@@ -388,7 +388,9 @@ export default function AddInvoice() {
 
   const getSubTotal = (task) => {
     let amount = task.reduce((accum, taskDetail) => {
-      accum += taskDetail.pricePerHours * taskDetail.number;
+      if (taskDetail.name !== "") {
+        accum += taskDetail.pricePerHours * taskDetail.number;
+      }
       return accum;
     }, 0);
     setAmount(amount);
@@ -517,13 +519,13 @@ export default function AddInvoice() {
         initialValues={
           invoiceData
             ? {
-                email: invoiceData.email,
-                address: invoiceData.address,
-                address2: invoiceData.address2,
-                landmark: invoiceData.landmark,
-                pincode: invoiceData.pincode,
-                mobileCode: invoiceData.mobileCode,
-                mobileNumber: invoiceData.mobileNumber,
+                email: invoiceData.from.email,
+                address: invoiceData.from.address,
+                address2: invoiceData.from.address2,
+                landmark: invoiceData.from.landmark,
+                pincode: invoiceData.from.pincode,
+                mobileCode: invoiceData.from.mobileCode,
+                mobileNumber: invoiceData.from.mobileNumber,
                 invoiceNumber: invoiceData.invoiceNumber,
                 task: invoiceData.tasks
                   // .filter((task) => personName.includes(task.taskName))
