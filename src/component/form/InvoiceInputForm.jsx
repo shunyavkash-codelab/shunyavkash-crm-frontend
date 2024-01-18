@@ -1,13 +1,20 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  FormHelperText,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import { APIS } from "../../api/apiList.js";
 import { useSnack } from "../../hooks/store/useSnack.js";
 import useApi from "../../hooks/useApi";
 import ThemeButton from "../ThemeButton.jsx";
+import * as Yup from "yup";
 
 export default function InvoiceInputForm({
   open,
@@ -21,18 +28,42 @@ export default function InvoiceInputForm({
   const handleClose = () => setOpen(false);
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
+  // yup data validator schhema
+  const schema = Yup.object({
+    address: Yup.string().required("Address is required.").trim(),
+    address2: Yup.string().required("Address line 2 is required.").trim(),
+    landmark: Yup.string().required("Landmark is required.").trim(),
+    pincode: Yup.string()
+      .required("Pincode is required.")
+      .trim()
+      .length(6)
+      .matches(/^[0-9]+$/, "Pincode must only contain numeric digits."),
+    email: Yup.string()
+      .email("Field should contain a valid e-mail")
+      .max(255)
+      .required("Email is required.")
+      .trim(),
+    mobileNumber: Yup.string()
+      .required("Moblie number is required.")
+      .length(10)
+      .matches(/^[0-9]+$/, "Mobile number must only contain numeric digits."),
+    description: Yup.string(),
+    // companyName: Yup.string().required("Company name is required.").trim(),
+  });
 
   const formik = useFormik({
+    validationSchema: schema,
     initialValues: {
-      address: "",
-      address2: "",
-      landmark: "",
-      pincode: "",
-      email: "",
-      mobileNumber: "",
-      mobileCode: "",
-      description: "",
+      address: val[0].address || "",
+      address2: val[0].address2 || "",
+      landmark: val[0].landmark || "",
+      pincode: val[0].pincode || "",
+      email: val[0].email || "",
+      mobileNumber: val[0].mobileNumber || "",
+      mobileCode: val[0].mobileCode || "",
+      description: val[0].description || "",
     },
+    enableReinitialize: true,
     onSubmit: async (values) => {
       const nonBlankValues = Object.entries(values).reduce(
         (acc, [key, value]) => {
@@ -186,6 +217,8 @@ export default function InvoiceInputForm({
                       }}
                       onChange={formik.handleChange}
                       value={formik.values.key}
+                      error={formik.touched[key] && Boolean(formik.errors[key])}
+                      helperText={formik.touched[key] && formik.errors[key]}
                     />
                   </Box>
                 ))
