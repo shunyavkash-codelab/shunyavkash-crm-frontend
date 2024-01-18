@@ -17,6 +17,7 @@ import {
   TableFooter,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import ModalComponent from "../component/ModalComponent";
@@ -32,16 +33,16 @@ import TitleIcon from "@mui/icons-material/Grid3x3";
 import EmailIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxIcon from "@mui/icons-material/AccountBoxOutlined";
 import FileDownloadIcon2 from "@mui/icons-material/FileDownloadOutlined";
-import CollaboratorIcon from "@mui/icons-material/PeopleAlt";
+import CollaboratorIcon from "@mui/icons-material/PeopleOutlineOutlined";
 import PaymentIcon from "@mui/icons-material/Payment";
-import InvoiceTypeIcon from "@mui/icons-material/Receipt";
+import InvoiceTypeIcon from "@mui/icons-material/ReceiptOutlined";
 import PlusIcon from "@mui/icons-material/Close";
 import ThemeButton from "../component/ThemeButton";
 import { APIS } from "../api/apiList";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import moment from "moment";
-import ImageUploder from "../component/form/ImageUploder";
+import InvoiceImageIcon from "@mui/icons-material/DescriptionOutlined";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -428,7 +429,7 @@ function AccountManage() {
       <ModalComponent
         open={open}
         setOpen={setOpen}
-        // todo = show only one type
+        // todo = show only one Entry type
         modalTitle="Income / Expance"
         size="large"
       >
@@ -457,7 +458,7 @@ function AccountManage() {
           <Grid item xs={12} sm={6} md={4}>
             <DetailsList
               Title={"Amount"}
-              Text={selectedTransaction?.amount || "N/A"}
+              Text={"₹" + selectedTransaction?.amount || "N/A"}
               Icon={<AccountBoxIcon />}
             />
           </Grid>
@@ -467,6 +468,7 @@ function AccountManage() {
               Title={"Expance Type"}
               Text={selectedTransaction?.expenseType || "N/A"}
               Icon={<AccountBoxIcon />}
+              TextStyle={{ textTransform: "capitalize" }}
             />
           </Grid>
           {/* todo = show only in Income */}
@@ -475,6 +477,7 @@ function AccountManage() {
               Title={"Collaborator"}
               Text={selectedTransaction?.collaborator || "N/A"}
               Icon={<CollaboratorIcon />}
+              TextStyle={{ textTransform: "capitalize" }}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
@@ -482,6 +485,7 @@ function AccountManage() {
               Title={"Invoice Type"}
               Text={selectedTransaction?.invoiceType || "N/A"}
               Icon={<InvoiceTypeIcon />}
+              TextStyle={{ textTransform: "capitalize" }}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
@@ -489,6 +493,7 @@ function AccountManage() {
               Title={"Invoice Owner"}
               Text={selectedTransaction?.invoiceOwner || "N/A"}
               Icon={<InvoiceOwnerIcon />}
+              TextStyle={{ textTransform: "capitalize" }}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
@@ -496,14 +501,33 @@ function AccountManage() {
               Title={"Payment Method"}
               Text={selectedTransaction?.paymentMethod || "N/A"}
               Icon={<PaymentIcon />}
+              TextStyle={{ textTransform: "capitalize" }}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <Box>
-              <ImageUploder
+            {/* <ImageUploder
                 title="invoice"
                 doc={selectedTransaction?.invoiceUpload}
-              />
+              /> */}
+            <DetailsList
+              Title={"invoice"}
+              Icon={<InvoiceImageIcon />}
+              TextStyle={{ display: "none" }}
+            />
+            <Box>
+              <Tooltip title="Invoice" arrow>
+                <img
+                  src="https://res.cloudinary.com/dbffq11b0/image/upload/v1705492192/y61sc77i0ree7itjma1s.avif"
+                  style={{
+                    height: "200px",
+                    width: "100%",
+                    objectFit: "cover",
+                    borderRadius: "6px",
+                    display: "block",
+                  }}
+                  alt="Invoice"
+                />
+              </Tooltip>
             </Box>
           </Grid>
         </Grid>
