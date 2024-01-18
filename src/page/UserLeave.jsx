@@ -8,6 +8,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -37,6 +38,7 @@ import { useSnack } from "../hooks/store/useSnack.js";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import { useAuth } from "../hooks/store/useAuth.js";
+import NoData from "../component/NoData.jsx";
 
 function UserLeave({ profileId }) {
   const [open, setOpen] = React.useState(false);
@@ -192,20 +194,22 @@ function UserLeave({ profileId }) {
         </Grid>
       </Grid>
 
-      <Box sx={{ mt: 5 }}>
-        {userId == profileId && (
-          <Box
-            className="cardHeader"
-            sx={{
-              mb: 2,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
-              My Leaves
-            </Typography>
+      <Box sx={{ bgcolor: "white", borderRadius: 4, mt: 3, pt: 2, pb: 3 }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{
+            px: 2,
+            mb: 3,
+            pb: 2,
+            borderBottom: "1px solid rgba(0,0,0,0.06)",
+          }}
+        >
+          <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
+            My Leaves
+          </Typography>
+          {userId == profileId && (
             <ThemeButton
               transparent
               smallRounded
@@ -220,144 +224,147 @@ function UserLeave({ profileId }) {
               }
               onClick={handleOpen}
             />
-          </Box>
-        )}
-
-        <Box>
-          <TableContainer
-            component={Paper}
-            sx={{
-              border: "1px solid rgba(224, 224, 224, 1)",
-              mx: { xs: "-10px", sm: 0 },
-              width: { xs: "auto", sm: "auto" },
-              borderRadius: 2.5,
-            }}
-          >
-            <Table
-              className="projectTable"
+          )}
+        </Stack>
+        <Box sx={{ px: 3 }}>
+          {leaveList.length > 0 ? (
+            <TableContainer
+              component={Paper}
               sx={{
-                minWidth: 650,
-                textTransform: "capitalize",
-                textWrap: "nowrap",
-                "& th,& td": { borderBottom: 0 },
-                "& tbody tr": {
-                  borderTop: "1px solid rgba(224, 224, 224, 1)",
-                },
+                border: "1px solid rgba(224, 224, 224, 1)",
+                mx: { xs: "-10px", sm: 0 },
+                width: { xs: "auto", sm: "auto" },
+                borderRadius: 2.5,
               }}
-              aria-label="simple table"
             >
-              <TableHead>
-                <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                  <TableCell>Leave Type</TableCell>
-                  <TableCell>Reason</TableCell>
-                  <TableCell>Start Date</TableCell>
-                  <TableCell>day type</TableCell>
-                  <TableCell>End Date</TableCell>
-                  <TableCell>day type</TableCell>
-                  {/* Admin ni status ni row na aave */}
-                  <TableCell>Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {leaveList.map((leave) => (
-                  <TableRow
-                    key={leave.key}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                      "&:first-of-type td": {
-                        maxWidth: "250px",
-                        textWrap: "wrap",
-                      },
-                    }}
-                  >
-                    <TableCell>
-                      <Box
-                        sx={{
-                          fontSize: "12px",
-                          p: 0.5,
-                          borderRadius: 1,
-                          maxWidth: "fit-content",
-                          lineHeight: 1,
-                          bgcolor:
-                            leave.leaveType === "casual"
-                              ? "rgba(94, 115, 141, 15%)"
-                              : leave.leaveType === "sick"
-                              ? "rgba(248, 174, 0, 15%)"
-                              : leave.leaveType === "unpaid"
-                              ? "rgba(225, 107, 22, 15%)"
-                              : "rgba(74, 210, 146, 15%)",
-                          color:
-                            leave.leaveType === "casual"
-                              ? "grey.dark"
-                              : leave.leaveType === "sick"
-                              ? "secondary.main"
-                              : leave.leaveType === "unpaid"
-                              ? "review.main"
-                              : "success.main",
-                        }}
-                      >
-                        {leave.leaveType}
-                      </Box>
-                    </TableCell>
-                    <TableCell>{leave.reason}</TableCell>
-                    <TableCell>
-                      {moment(leave.startDate).format("DD/MM/YYYY")}
-                    </TableCell>
-                    <TableCell>{leave.startDayType}</TableCell>
-                    <TableCell>
-                      {moment(leave.endDate).format("DD/MM/YYYY")}
-                    </TableCell>
-                    <TableCell>{leave.endDayType}</TableCell>
-                    {/* Admin ni status ni row na aave */}
-                    <TableCell>
-                      <Tooltip title={leave.description} arrow>
-                        <Button
-                          disableRipple
+              <Table
+                className="projectTable"
+                sx={{
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
+                }}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                    <TableCell>Leave Type</TableCell>
+                    <TableCell>Reason</TableCell>
+                    <TableCell>Start Date</TableCell>
+                    <TableCell>day type</TableCell>
+                    <TableCell>End Date</TableCell>
+                    <TableCell>day type</TableCell>
+                    {/* Todo: Admin ni status ni row na aave */}
+                    <TableCell>Status</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {leaveList.map((leave) => (
+                    <TableRow
+                      key={leave.key}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&:first-of-type td": {
+                          maxWidth: "250px",
+                          textWrap: "wrap",
+                        },
+                      }}
+                    >
+                      <TableCell>
+                        <Box
                           sx={{
-                            textTransform: "capitalize",
-                            color: "white",
                             fontSize: "12px",
                             p: 0.5,
                             borderRadius: 1,
                             maxWidth: "fit-content",
                             lineHeight: 1,
                             bgcolor:
-                              leave.status === "unapprove"
+                              leave.leaveType === "casual"
+                                ? "rgba(94, 115, 141, 15%)"
+                                : leave.leaveType === "sick"
+                                ? "rgba(248, 174, 0, 15%)"
+                                : leave.leaveType === "unpaid"
+                                ? "rgba(225, 107, 22, 15%)"
+                                : "rgba(74, 210, 146, 15%)",
+                            color:
+                              leave.leaveType === "casual"
+                                ? "grey.dark"
+                                : leave.leaveType === "sick"
+                                ? "secondary.main"
+                                : leave.leaveType === "unpaid"
                                 ? "review.main"
-                                : leave.status === "pending"
-                                ? "#f4a736"
                                 : "success.main",
-                            "&:hover": {
+                          }}
+                        >
+                          {leave.leaveType}
+                        </Box>
+                      </TableCell>
+                      <TableCell>{leave.reason}</TableCell>
+                      <TableCell>
+                        {moment(leave.startDate).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell>{leave.startDayType}</TableCell>
+                      <TableCell>
+                        {moment(leave.endDate).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell>{leave.endDayType}</TableCell>
+                      {/* Admin ni status ni row na aave */}
+                      <TableCell>
+                        <Tooltip title={leave.description} arrow>
+                          <Button
+                            disableRipple
+                            sx={{
+                              textTransform: "capitalize",
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
                               bgcolor:
                                 leave.status === "unapprove"
                                   ? "review.main"
                                   : leave.status === "pending"
-                                  ? "#f0bb6e"
+                                  ? "#f4a736"
                                   : "success.main",
-                            },
-                            "& .MuiButton-endIcon": {
-                              ml: "3px",
-                              mr: 0,
-                            },
-                          }}
-                          endIcon={
-                            leave.status !== "pending" && (
-                              <InfoIcon sx={{ fontSize: "18px!important" }} />
-                            )
-                          }
-                        >
-                          <span style={{ display: "inline-block" }}>
-                            {leave.status}
-                          </span>
-                        </Button>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                              "&:hover": {
+                                bgcolor:
+                                  leave.status === "unapprove"
+                                    ? "review.main"
+                                    : leave.status === "pending"
+                                    ? "#f0bb6e"
+                                    : "success.main",
+                              },
+                              "& .MuiButton-endIcon": {
+                                ml: "3px",
+                                mr: 0,
+                              },
+                            }}
+                            endIcon={
+                              leave.status !== "pending" && (
+                                <InfoIcon sx={{ fontSize: "18px!important" }} />
+                              )
+                            }
+                          >
+                            <span style={{ display: "inline-block" }}>
+                              {leave.status}
+                            </span>
+                          </Button>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <NoData />
+          )}
         </Box>
       </Box>
 

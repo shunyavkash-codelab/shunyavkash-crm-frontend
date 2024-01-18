@@ -46,6 +46,7 @@ import moment from "moment";
 import ThemeButton from "../component/ThemeButton";
 import PlusIcon from "@mui/icons-material/Close";
 import { useAuth } from "../hooks/store/useAuth.js";
+import NoData from "../component/NoData.jsx";
 
 export default function UserSalary({ userId, userBank, setUserBank }) {
   const [openBank, setOpenBank] = useState(false);
@@ -478,40 +479,40 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
           </Stack>
         </Stack>
         <Box sx={{ px: 3 }}>
-          <TableContainer
-            component={Paper}
-            sx={{
-              border: "1px solid rgba(224, 224, 224, 1)",
-              mx: { xs: "-10px", sm: 0 },
-              width: { xs: "auto", sm: "auto" },
-              borderRadius: 2.5,
-            }}
-          >
-            <Table
-              className="projectTable"
+          {salaryList.length > 0 ? (
+            <TableContainer
+              component={Paper}
               sx={{
-                minWidth: 650,
-                textTransform: "capitalize",
-                textWrap: "nowrap",
-                "& th,& td": { borderBottom: 0 },
-                "& tbody tr": {
-                  borderTop: "1px solid rgba(224, 224, 224, 1)",
-                },
+                border: "1px solid rgba(224, 224, 224, 1)",
+                mx: { xs: "-10px", sm: 0 },
+                width: { xs: "auto", sm: "auto" },
+                borderRadius: 2.5,
               }}
-              aria-label="simple table"
             >
-              <TableHead>
-                <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Member Name</TableCell>
-                  <TableCell>Salary Amount</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Incentive</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {salaryList &&
-                  salaryList.map((salary) => (
+              <Table
+                className="projectTable"
+                sx={{
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
+                }}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Member Name</TableCell>
+                    <TableCell>Salary Amount</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Incentive</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {salaryList.map((salary) => (
                     <TableRow
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
@@ -548,9 +549,12 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                       <TableCell>₹{salary.incentive || 0}</TableCell>
                     </TableRow>
                   ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <NoData />
+          )}
         </Box>
       </Box>
 
