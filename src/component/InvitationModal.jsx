@@ -10,6 +10,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  FormHelperText,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
@@ -242,7 +243,6 @@ export default function InvitationModal({ open, setOpen }) {
                           onChange={(event) => {
                             form.setFieldValue("role", event.target.value);
                           }}
-                          helperText={formik.touched.role && formik.errors.role}
                         >
                           {/* <MenuItem
                             sx={{
@@ -274,6 +274,11 @@ export default function InvitationModal({ open, setOpen }) {
                         </Select>
                       )}
                     />
+                    {formik.touched.role && Boolean(formik.errors.role) && (
+                      <FormHelperText error={true}>
+                        {formik.touched.role && formik.errors.role}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                   <TextField
                     fullWidth

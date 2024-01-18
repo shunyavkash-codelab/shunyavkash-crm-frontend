@@ -184,10 +184,54 @@ export default function Leaves() {
                       </TableCell>
                       <TableCell>{leaveRequest.reason}</TableCell>
                       <TableCell>
-                        {moment(leaveRequest.startDate).format("DD/MM/YYYY")}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.75,
+                          }}
+                        >
+                          <Box>
+                            {moment(leaveRequest.startDate).format(
+                              "DD/MM/YYYY"
+                            )}
+                            <Typography
+                              sx={{
+                                marginTop: "3px",
+                                lineHeight: 1,
+                                textAlign: "center",
+                                fontSize: "12px",
+                                color: "darkgray",
+                              }}
+                            >
+                              ({leaveRequest.startDayType})
+                            </Typography>
+                          </Box>
+                        </Box>
                       </TableCell>
                       <TableCell>
-                        {moment(leaveRequest.endDate).format("DD/MM/YYYY")}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.75,
+                          }}
+                        >
+                          <Box>
+                            {moment(leaveRequest.endDate).format("DD/MM/YYYY")}
+                            <Typography
+                              sx={{
+                                marginTop: "3px",
+                                lineHeight: 1,
+                                textAlign: "center",
+                                fontSize: "12px",
+                                color: "darkgray",
+                              }}
+                            >
+                              ({leaveRequest.endDayType})
+                            </Typography>
+                          </Box>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ))}
