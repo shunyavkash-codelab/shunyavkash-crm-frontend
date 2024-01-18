@@ -19,6 +19,7 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import moment from "moment";
 import SectionHeader from "../component/SectionHeader";
+import NoData from "../component/NoData.jsx";
 
 export default function Leaves() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -105,38 +106,38 @@ export default function Leaves() {
             BreadCrumbCurrentTitle="Leaves"
           />
 
-          <TableContainer
-            component={Paper}
-            sx={{
-              border: "1px solid rgba(224, 224, 224, 1)",
-              mx: { xs: "-10px", sm: 0 },
-              width: { xs: "auto", sm: "auto" },
-              borderRadius: 2.5,
-            }}
-          >
-            <Table
-              className="projectTable"
+          {approveList.length > 0 ? (
+            <TableContainer
+              component={Paper}
               sx={{
-                minWidth: 650,
-                textTransform: "capitalize",
-                textWrap: "nowrap",
-                "& th,& td": { borderBottom: 0 },
-                "& tbody tr": {
-                  borderTop: "1px solid rgba(224, 224, 224, 1)",
-                },
+                border: "1px solid rgba(224, 224, 224, 1)",
+                mx: { xs: "-10px", sm: 0 },
+                width: { xs: "auto", sm: "auto" },
+                borderRadius: 2.5,
               }}
-              aria-label="simple table"
             >
-              <TableHead>
-                <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                  <TableCell>Member</TableCell>
-                  <TableCell>Type</TableCell>
-                  <TableCell>Reason</TableCell>
-                  <TableCell>Start Date</TableCell>
-                  <TableCell>End Date</TableCell>
-                </TableRow>
-              </TableHead>
-              {approveList.length > 0 && (
+              <Table
+                className="projectTable"
+                sx={{
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
+                }}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                    <TableCell>Member</TableCell>
+                    <TableCell>Type</TableCell>
+                    <TableCell>Reason</TableCell>
+                    <TableCell>Start Date</TableCell>
+                    <TableCell>End Date</TableCell>
+                  </TableRow>
+                </TableHead>
                 <TableBody>
                   {approveList.map((leaveRequest) => (
                     <TableRow
@@ -203,9 +204,11 @@ export default function Leaves() {
                     </TableRow>
                   ))}
                 </TableBody>
-              )}
-            </Table>
-          </TableContainer>
+              </Table>
+            </TableContainer>
+          ) : (
+            <NoData />
+          )}
         </Box>
       </Box>
     </>

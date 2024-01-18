@@ -43,6 +43,7 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import moment from "moment";
 import InvoiceImageIcon from "@mui/icons-material/DescriptionOutlined";
+import NoData from "../component/NoData";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -211,179 +212,192 @@ function AccountManage() {
           </Grid>
 
           <Box sx={{ mt: 4 }}>
-            <TableContainer
-              component={Paper}
-              sx={{
-                mx: { xs: "-10px", sm: 0 },
-                width: { xs: "auto", sm: "auto" },
-                borderRadius: 2.5,
-              }}
-            >
-              <Table
-                className="projectTable"
+            {transactionList.length > 0 ? (
+              <TableContainer
+                component={Paper}
                 sx={{
-                  textTransform: "capitalize",
-                  textWrap: "nowrap",
-                  "& th,& td": {
-                    border: 0,
-                    padding: "14px",
-                    borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                    "&:not(:last-child)": {
-                      // borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                    },
-                  },
-                  "& tbody tr,& tfoot tr": {
-                    borderRight: "1px solid rgba(224, 224, 224, 1)",
-                  },
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
                 }}
               >
-                <TableHead>
-                  <TableRow
-                    sx={{
-                      "& th": {
-                        lineHeight: 1,
-                        fontWeight: 700,
-                        padding: "14px",
+                <Table
+                  className="projectTable"
+                  sx={{
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": {
+                      border: 0,
+                      padding: "14px",
+                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                      "&:not(:last-child)": {
+                        // borderBottom: "1px solid rgba(224, 224, 224, 1)",
                       },
-                    }}
-                  >
-                    <TableCell sx={{ width: "110px" }}>Date</TableCell>
-                    <TableCell sx={{ width: "184px" }}>Title</TableCell>
-                    <TableCell sx={{ width: "370px" }}>Description</TableCell>
-                    <TableCell sx={{ width: "154px" }}>method</TableCell>
-                    <TableCell sx={{ width: "120px" }}>Invoice Type</TableCell>
-                    <TableCell sx={{ width: "120px" }}>Invoice Owner</TableCell>
-                    <TableCell sx={{ width: "120px" }}>Collaborator</TableCell>
-                    <TableCell sx={{ width: "120px" }}>Expance Type</TableCell>
-                    <TableCell sx={{ width: "140px", textAlign: "center" }}>
-                      Amount (₹)
-                    </TableCell>
-                    <TableCell sx={{ width: "100px", textAlign: "center" }}>
-                      actions
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {transactionList.map((account) => (
+                    },
+                    "& tbody tr,& tfoot tr": {
+                      borderRight: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  }}
+                >
+                  <TableHead>
                     <TableRow
-                      key={account.key}
                       sx={{
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "& th": {
+                          lineHeight: 1,
+                          fontWeight: 700,
+                          padding: "14px",
+                        },
                       }}
                     >
-                      <TableCell>
-                        {moment(account.date).format("DD/MM/YYYY")}
+                      <TableCell sx={{ width: "110px" }}>Date</TableCell>
+                      <TableCell sx={{ width: "184px" }}>Title</TableCell>
+                      <TableCell sx={{ width: "370px" }}>Description</TableCell>
+                      <TableCell sx={{ width: "154px" }}>method</TableCell>
+                      <TableCell sx={{ width: "120px" }}>
+                        Invoice Type
                       </TableCell>
-
-                      <TableCell>
-                        <Box
-                          className="truncate line-clamp-1"
-                          sx={{ textWrap: "wrap" }}
-                        >
-                          {account.title}
-                        </Box>
+                      <TableCell sx={{ width: "120px" }}>
+                        Invoice Owner
                       </TableCell>
-                      <TableCell>
-                        <Box
-                          className="truncate line-clamp-2"
-                          sx={{ textWrap: "wrap" }}
-                        >
-                          {account.description}
-                        </Box>
+                      <TableCell sx={{ width: "120px" }}>
+                        Collaborator
                       </TableCell>
-                      <TableCell>
-                        <Stack direction="row" alignItems="center" spacing={1}>
-                          <Box
-                            sx={{
-                              display: "inline-flex",
-                              "& span": { opacity: "0.5" },
-                            }}
-                          >
-                            {account.paymentMethod === "Cash" ? (
-                              <CashIcon sx={{ color: "#43991e" }} />
-                            ) : account.paymentMethod === "Bank" ? (
-                              <BankIcon sx={{ color: "#3a85ff" }} />
-                            ) : (
-                              <Stack
-                                direction="row"
-                                alignItems="center"
-                                justifyContent="center"
-                                sx={{
-                                  height: "24px",
-                                  width: "24px",
-                                }}
-                              >
-                                <img
-                                  src="/images/upi.svg"
-                                  style={{ width: "100%", height: "100%" }}
-                                  alt="upi"
-                                />
-                              </Stack>
-                            )}
-                          </Box>
-                          <span style={{ display: "inline-block" }}>
-                            {account.paymentMethod}
-                          </span>
-                        </Stack>
+                      <TableCell sx={{ width: "120px" }}>
+                        Expance Type
                       </TableCell>
-                      <TableCell>
-                        <Box
-                          className="truncate line-clamp-2"
-                          sx={{ textWrap: "wrap" }}
-                        >
-                          {account.invoiceType}
-                        </Box>
+                      <TableCell sx={{ width: "140px", textAlign: "center" }}>
+                        Amount (₹)
                       </TableCell>
-                      <TableCell>{account.invoiceOwner}</TableCell>
-                      <TableCell>
-                        {account.collaborator ? account.collaborator : "-"}
+                      <TableCell sx={{ width: "100px", textAlign: "center" }}>
+                        actions
                       </TableCell>
-                      <TableCell>
-                        {account.expenseType ? account.expenseType : "-"}
-                      </TableCell>
-                      <TableCell
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {transactionList.map((account) => (
+                      <TableRow
+                        key={account.key}
                         sx={{
-                          textAlign: "center",
-                          color:
-                            account.type == "expense"
-                              ? "review.main"
-                              : "success.main",
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
                         }}
                       >
-                        ${account.amount ? account.amount : "-"}
-                      </TableCell>
-                      <TableCell>
-                        <Stack
-                          direction="row"
-                          alignItems="center"
-                          justifyContent="center"
-                          spacing={1.5}
+                        <TableCell>
+                          {moment(account.date).format("DD/MM/YYYY")}
+                        </TableCell>
+
+                        <TableCell>
+                          <Box
+                            className="truncate line-clamp-1"
+                            sx={{ textWrap: "wrap" }}
+                          >
+                            {account.title}
+                          </Box>
+                        </TableCell>
+                        <TableCell>
+                          <Box
+                            className="truncate line-clamp-2"
+                            sx={{ textWrap: "wrap" }}
+                          >
+                            {account.description}
+                          </Box>
+                        </TableCell>
+                        <TableCell>
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={1}
+                          >
+                            <Box
+                              sx={{
+                                display: "inline-flex",
+                                "& span": { opacity: "0.5" },
+                              }}
+                            >
+                              {account.paymentMethod === "Cash" ? (
+                                <CashIcon sx={{ color: "#43991e" }} />
+                              ) : account.paymentMethod === "Bank" ? (
+                                <BankIcon sx={{ color: "#3a85ff" }} />
+                              ) : (
+                                <Stack
+                                  direction="row"
+                                  alignItems="center"
+                                  justifyContent="center"
+                                  sx={{
+                                    height: "24px",
+                                    width: "24px",
+                                  }}
+                                >
+                                  <img
+                                    src="/images/upi.svg"
+                                    style={{ width: "100%", height: "100%" }}
+                                    alt="upi"
+                                  />
+                                </Stack>
+                              )}
+                            </Box>
+                            <span style={{ display: "inline-block" }}>
+                              {account.paymentMethod}
+                            </span>
+                          </Stack>
+                        </TableCell>
+                        <TableCell>
+                          <Box
+                            className="truncate line-clamp-2"
+                            sx={{ textWrap: "wrap" }}
+                          >
+                            {account.invoiceType}
+                          </Box>
+                        </TableCell>
+                        <TableCell>{account.invoiceOwner}</TableCell>
+                        <TableCell>
+                          {account.collaborator ? account.collaborator : "-"}
+                        </TableCell>
+                        <TableCell>
+                          {account.expenseType ? account.expenseType : "-"}
+                        </TableCell>
+                        <TableCell
                           sx={{
-                            "& button": {
-                              opacity: 0.5,
-                              p: 0,
-                              minWidth: "auto",
-                              color: "text.primary",
-                              "&:hover": { color: "primary.main" },
-                            },
-                            "& svg": { fontSize: { xs: "20px", sm: "21px" } },
+                            textAlign: "center",
+                            color:
+                              account.type == "expense"
+                                ? "review.main"
+                                : "success.main",
                           }}
                         >
-                          <Button
-                            disableRipple
-                            onClick={() => {
-                              handleOpen();
-                              setSelectedTransaction(account);
+                          ${account.amount ? account.amount : "-"}
+                        </TableCell>
+                        <TableCell>
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            justifyContent="center"
+                            spacing={1.5}
+                            sx={{
+                              "& button": {
+                                opacity: 0.5,
+                                p: 0,
+                                minWidth: "auto",
+                                color: "text.primary",
+                                "&:hover": { color: "primary.main" },
+                              },
+                              "& svg": { fontSize: { xs: "20px", sm: "21px" } },
                             }}
                           >
-                            <VisibilityIcon />
-                          </Button>
-                          <Link to={`./edit/${account._id}`}>
-                            <Button disableRipple>
-                              <CreateIcon />
+                            <Button
+                              disableRipple
+                              onClick={() => {
+                                handleOpen();
+                                setSelectedTransaction(account);
+                              }}
+                            >
+                              <VisibilityIcon />
                             </Button>
-                          </Link>
-                          {/* {account.invoice ? (
+                            <Link to={`./edit/${account._id}`}>
+                              <Button disableRipple>
+                                <CreateIcon />
+                              </Button>
+                            </Link>
+                            {/* {account.invoice ? (
                             <Link to={account.invoice}>
                               <Button disableRipple>
                                 <FileDownloadIcon />
@@ -392,36 +406,42 @@ function AccountManage() {
                           ) : (
                             ""
                           )} */}
-                        </Stack>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-                <TableFooter>
-                  <TableRow
-                    sx={{
-                      "&>td": {
-                        fontWeight: 700,
-                        fontSize: "16px",
-                      },
-                    }}
-                  >
-                    <TableCell colSpan={7}></TableCell>
-                    <TableCell sx={{ color: "text.primary" }}>Total:</TableCell>
-                    <TableCell
+                          </Stack>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                  <TableFooter>
+                    <TableRow
                       sx={{
-                        // bgcolor: "rgba(74, 210, 146, 15%)",
-                        color: totalAmount < 0 ? "review.main" : "success.main",
-                        textAlign: "center",
+                        "&>td": {
+                          fontWeight: 700,
+                          fontSize: "16px",
+                        },
                       }}
                     >
-                      ${Math.abs(totalAmount)}
-                    </TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </TableContainer>
+                      <TableCell colSpan={7}></TableCell>
+                      <TableCell sx={{ color: "text.primary" }}>
+                        Total:
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          // bgcolor: "rgba(74, 210, 146, 15%)",
+                          color:
+                            totalAmount < 0 ? "review.main" : "success.main",
+                          textAlign: "center",
+                        }}
+                      >
+                        ${Math.abs(totalAmount)}
+                      </TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableFooter>
+                </Table>
+              </TableContainer>
+            ) : (
+              <NoData />
+            )}
           </Box>
         </Box>
       </Box>
