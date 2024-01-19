@@ -180,9 +180,7 @@ function AccountManage() {
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Sales"
-                Counter={`₹${
-                  dashboard?.totalIncome + dashboard?.totalExpense || 0
-                }`}
+                Counter={`₹${dashboard?.totalSales || 0}`}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
