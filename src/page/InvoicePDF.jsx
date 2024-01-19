@@ -19,7 +19,7 @@ export default function InvoicePDF() {
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
   const { invoiceNumber } = useParams();
-  const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
+  // const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
   const { invoiceData } = useInvoiceStore();
   const navigate = useNavigate();
   const { apiCall } = useApi();
