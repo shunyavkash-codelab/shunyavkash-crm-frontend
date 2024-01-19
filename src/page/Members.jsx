@@ -196,26 +196,7 @@ export default function Members() {
 
           <Grid container spacing={2.5}>
             <Grid item xs={6} md={3} lg={4}>
-              {/* <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Members
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: 22,
-                    color: "black",
-                    fontWeight: 600,
-                    mt: 2,
-                  }}
-                >
-                  {`${(managerList.length || 0) + (employeesList.length || 0)}`}
-                </Typography>
-              </Box> */}
-
               <CounterCards
-                CardBgcolor="white"
                 Title="Total Members"
                 Counter={`${
                   (managerList.length || 0) + (employeesList.length || 0)
@@ -224,14 +205,12 @@ export default function Members() {
             </Grid>
             <Grid item xs={6} md={3} lg={4}>
               <CounterCards
-                CardBgcolor="white"
                 Title="Total Managers"
                 Counter={managerList.length || 0}
               />
             </Grid>
             <Grid item xs={6} md={3} lg={4}>
               <CounterCards
-                CardBgcolor="white"
                 Title="Total Employee"
                 Counter={employeesList.length || 0}
               />
@@ -240,7 +219,7 @@ export default function Members() {
 
           <Box
             sx={{
-              backgroundColor: "white",
+              bgcolor: "white",
               borderRadius: 3,
               p: 3,
               mt: 3,

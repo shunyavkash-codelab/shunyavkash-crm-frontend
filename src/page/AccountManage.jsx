@@ -48,6 +48,7 @@ import InvoiceImageIcon from "@mui/icons-material/DescriptionOutlined";
 import NoData from "../component/NoData";
 import ImageUploder from "../component/form/ImageUploder";
 import { useSearchData } from "../hooks/store/useSearchData.js";
+import CounterCards from "../component/CounterCards.jsx";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -176,61 +177,33 @@ function AccountManage() {
           </Stack>
 
           <Grid container spacing={2.5}>
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Sales
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  ₹{dashboard?.totalSales || 0}
-                </Typography>
-              </Box>
+            <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                Title="Total Sales"
+                Counter={`₹${
+                  dashboard?.totalIncome + dashboard?.totalExpense || 0
+                }`}
+              />
             </Grid>
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Income
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  ₹{dashboard?.totalIncome || 0}
-                </Typography>
-              </Box>
+            <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                Title="Total Income"
+                Counter={`₹${dashboard?.totalIncome || 0}`}
+              />
             </Grid>
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Expense
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  ₹{Math.abs(dashboard?.totalExpense) || 0}
-                </Typography>
-              </Box>
+            <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                Title="Total Expense"
+                Counter={`₹${Math.abs(dashboard?.totalExpense) || 0}`}
+              />
             </Grid>
-            <Grid item xs={6} md={3} lg={3}>
-              <Box p={3} sx={{ backgroundColor: "white", borderRadius: 3 }}>
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Balance
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  ₹{dashboard?.totalBalance || 0}
-                </Typography>
-              </Box>
+            <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                Title="Total Balance"
+                Counter={`₹${
+                  dashboard?.totalIncome - dashboard?.totalExpense || 0
+                }`}
+              />
             </Grid>
           </Grid>
 

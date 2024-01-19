@@ -1842,8 +1842,8 @@ export default function AddInvoice() {
                                   onClick={() => removeSignature(formik)}
                                   sx={{
                                     position: "absolute",
-                                    top: "6px",
-                                    right: "6px",
+                                    top: "-28px",
+                                    right: "0",
                                     borderRadius: "100%",
                                     bgcolor: "white",
                                     padding: "4px",

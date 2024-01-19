@@ -9,7 +9,7 @@ export default function CounterCards(props) {
       <Box
         sx={{
           p: { xs: 3, sm: 2.5 },
-          bgcolor: props.CardBgcolor,
+          bgcolor: props.CardBgcolor || "white",
           color: "text.primary",
           borderRadius: 2.5,
           display: "flex",
@@ -35,13 +35,13 @@ export default function CounterCards(props) {
           )}
         </Box>
         <Typography
-          variant="h3"
+          variant="h4"
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             gap: 1,
-            fontSize: { xs: "32px", sm: "36px" },
+            fontSize: "30px",
           }}
         >
           {props.Counter}
