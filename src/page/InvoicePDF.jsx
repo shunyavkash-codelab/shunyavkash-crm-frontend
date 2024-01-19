@@ -26,7 +26,6 @@ export default function InvoicePDF() {
   const { setSnack } = useSnack();
   const location = useLocation();
   let view = location.pathname.includes("/view/") ? true : false;
-  console.log(invoiceData);
   // add invoice
   const addInvoice = async () => {
     try {
@@ -123,13 +122,12 @@ export default function InvoicePDF() {
             style={{
               width: "100%",
               fontFamily: '"Open Sans",sans-serif',
-              fontSize: 14,
+              fontSize: "12px",
               backgroundColor: "#F3F4F9",
               color: "#2A4062",
               //   padding: "40px",
             }}
             cellSpacing={0}
-            ref={targetRef}
           >
             <tbody>
               <tr>
@@ -161,7 +159,7 @@ export default function InvoicePDF() {
                                         <td>
                                           <h4
                                             style={{
-                                              fontSize: "26px",
+                                              fontSize: "22px",
                                               fontWeight: 700,
                                               lineHeight: 1,
                                             }}
@@ -218,7 +216,7 @@ export default function InvoicePDF() {
                                       </tr>
                                       <tr>
                                         <td>
-                                          <div style={{ marginTop: 24 }}>
+                                          <div style={{ marginTop: "18px" }}>
                                             <div
                                               style={{
                                                 fontWeight: 500,
@@ -249,7 +247,7 @@ export default function InvoicePDF() {
                             </tbody>
                           </table>
                           <table
-                            style={{ width: "100%", margin: "44px 0" }}
+                            style={{ width: "100%", margin: "30px 0" }}
                             cellSpacing={0}
                           >
                             <tbody>
@@ -260,7 +258,7 @@ export default function InvoicePDF() {
                                 <td style={{ width: "176px" }}>
                                   <h3
                                     style={{
-                                      fontSize: "36px",
+                                      fontSize: "30px",
                                       fontWeight: 700,
                                       lineHeight: 1,
                                       letterSpacing: 4,
@@ -280,7 +278,12 @@ export default function InvoicePDF() {
                           <table style={{ width: "100%" }} cellSpacing={0}>
                             <tbody>
                               <tr>
-                                <td style={{ verticalAlign: "top", width: 70 }}>
+                                <td
+                                  style={{
+                                    verticalAlign: "top",
+                                    width: "70px",
+                                  }}
+                                >
                                   <div
                                     style={{
                                       fontWeight: 600,
@@ -301,7 +304,7 @@ export default function InvoicePDF() {
                                         fontWeight: 700,
                                         lineHeight: "1.1",
                                         textTransform: "capitalize",
-                                        fontSize: "20px",
+                                        fontSize: "16px",
                                       }}
                                     >
                                       {invoiceData?.to?.name}
@@ -449,7 +452,7 @@ export default function InvoicePDF() {
                             style={{
                               width: "100%",
                               marginTop: "56px",
-                              marginBottom: "28px",
+                              marginBottom: "10px",
                             }}
                             cellSpacing={0}
                           >
@@ -527,7 +530,7 @@ export default function InvoicePDF() {
                                       style={{
                                         display: "block",
                                         paddingLeft: "16px",
-                                        padding: "14px",
+                                        padding: "6px",
                                         borderRadius: "10px 0 0 10px",
                                         lineHeight: "1.4",
                                       }}
@@ -540,7 +543,7 @@ export default function InvoicePDF() {
                                       style={{
                                         display: "block",
                                         paddingLeft: "16px",
-                                        padding: "14px",
+                                        padding: "6px",
                                       }}
                                     >
                                       ${task.price_hours}
@@ -551,7 +554,7 @@ export default function InvoicePDF() {
                                       style={{
                                         display: "block",
                                         paddingLeft: "16px",
-                                        padding: "14px",
+                                        padding: "6px",
                                       }}
                                     >
                                       {task.hours}
@@ -562,7 +565,7 @@ export default function InvoicePDF() {
                                       style={{
                                         display: "block",
                                         paddingLeft: "16px",
-                                        padding: "14px",
+                                        padding: "6px",
                                         borderRadius: "0 10px 10px 0",
                                       }}
                                     >
@@ -586,7 +589,7 @@ export default function InvoicePDF() {
                                               textTransform: "capitalize",
                                               fontWeight: 700,
                                               lineHeight: 1,
-                                              paddingRight: 25,
+                                              paddingRight: "25px",
                                               paddingLeft: "14px",
                                             }}
                                           >
@@ -616,7 +619,7 @@ export default function InvoicePDF() {
                                                 textTransform: "capitalize",
                                                 fontWeight: 500,
                                                 lineHeight: 1,
-                                                paddingRight: 25,
+                                                paddingRight: "25px",
                                                 marginTop: "14px",
                                                 paddingLeft: "14px",
                                               }}
@@ -653,7 +656,7 @@ export default function InvoicePDF() {
                                                 textTransform: "capitalize",
                                                 fontWeight: 500,
                                                 lineHeight: 1,
-                                                paddingRight: 25,
+                                                paddingRight: "25px",
                                                 marginTop: "14px",
                                                 paddingLeft: "14px",
                                               }}
@@ -661,7 +664,7 @@ export default function InvoicePDF() {
                                               tax
                                             </div>
                                           </td>
-                                          <td style={{ width: 82 }}>
+                                          <td style={{ width: "82px" }}>
                                             <div
                                               style={{
                                                 fontWeight: 500,
@@ -724,8 +727,17 @@ export default function InvoicePDF() {
                               </tr>
                             </tbody>
                           </table>
+                          {invoiceData.tasks.length > 7 && (
+                            <div style={{ pageBreakBefore: "always" }}>
+                              &nbsp;
+                            </div>
+                          )}
+
                           <table
-                            style={{ width: "100%", marginTop: "10px" }}
+                            style={{
+                              width: "100%",
+                              marginTop: "10px",
+                            }}
                             cellSpacing={0}
                           >
                             <tbody>
@@ -747,7 +759,7 @@ export default function InvoicePDF() {
                                                 <td>
                                                   <h6
                                                     style={{
-                                                      fontSize: "20px",
+                                                      fontSize: "16px",
                                                       fontWeight: 700,
                                                       lineHeight: "1.1",
                                                     }}
@@ -789,7 +801,7 @@ export default function InvoicePDF() {
                                       <tr>
                                         <td>
                                           <table
-                                            style={{ margin: "28px 0 44px" }}
+                                            style={{ margin: "24px 0 36px" }}
                                             cellSpacing={0}
                                           >
                                             <tbody>
@@ -971,7 +983,7 @@ export default function InvoicePDF() {
                                                       style={{
                                                         fontWeight: 700,
                                                         lineHeight: "1.1",
-                                                        fontSize: "20px",
+                                                        fontSize: "16px",
                                                         textTransform:
                                                           "capitalize",
                                                       }}
