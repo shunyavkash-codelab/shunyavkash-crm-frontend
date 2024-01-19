@@ -16,6 +16,7 @@ export default function CounterCards(props) {
           flexDirection: "column",
           justifyContent: "space-between",
           height: "100%",
+          ...props.style,
         }}
       >
         <Box sx={{ mb: 3.75 }}>
@@ -24,6 +25,8 @@ export default function CounterCards(props) {
             sx={{
               textTransform: "capitalize",
               fontWeight: 600,
+              opacity: "50%",
+              ...props.titleStyle,
             }}
           >
             {props.Title}
@@ -35,13 +38,13 @@ export default function CounterCards(props) {
           )}
         </Box>
         <Typography
-          variant="h4"
+          variant="h5"
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             gap: 1,
-            fontSize: "30px",
+            ...props.counterStyle,
           }}
         >
           {props.Counter}

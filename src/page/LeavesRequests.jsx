@@ -39,6 +39,7 @@ import * as Yup from "yup";
 import SectionHeader from "../component/SectionHeader";
 import NoData from "../component/NoData";
 import { useSearchData } from "../hooks/store/useSearchData.js";
+import CounterCards from "../component/CounterCards.jsx";
 
 export default function LeavesRequests() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -162,109 +163,28 @@ export default function LeavesRequests() {
 
           <Grid container spacing={2.5}>
             <Grid item xs={6} md={3} lg={2.4}>
-              <Box
-                p={3}
-                sx={{
-                  backgroundColor: "white",
-                  height: "100%",
-                  borderRadius: 3,
-                }}
-              >
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Total Leaves Requests
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  {dashboard.total || 0}
-                </Typography>
-              </Box>
+              <CounterCards
+                Title="Total Requests"
+                Counter={dashboard.total || 0}
+              />
             </Grid>
             <Grid item xs={6} md={3} lg={2.4}>
-              <Box
-                p={3}
-                sx={{
-                  backgroundColor: "white",
-                  height: "100%",
-                  borderRadius: 3,
-                }}
-              >
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Casual Leaves
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  {dashboard.casual || 0}
-                </Typography>
-              </Box>
+              <CounterCards
+                Title="Casual Leaves"
+                Counter={dashboard.casual || 0}
+              />
             </Grid>
             <Grid item xs={6} md={3} lg={2.4}>
-              <Box
-                p={3}
-                sx={{
-                  backgroundColor: "white",
-                  height: "100%",
-                  borderRadius: 3,
-                }}
-              >
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Sick Leaves
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  {dashboard.sick || 0}
-                </Typography>
-              </Box>
+              <CounterCards Title="Sick Leaves" Counter={dashboard.sick || 0} />
             </Grid>
             <Grid item xs={6} md={3} lg={2.4}>
-              <Box
-                p={3}
-                sx={{
-                  backgroundColor: "white",
-                  height: "100%",
-                  borderRadius: 3,
-                }}
-              >
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Unpaid Leaves
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  {dashboard.unpaid || 0}
-                </Typography>
-              </Box>
+              <CounterCards
+                Title="Unpaid Leaves"
+                Counter={dashboard.unpaid || 0}
+              />
             </Grid>
             <Grid item xs={6} md={3} lg={2.4}>
-              <Box
-                p={3}
-                sx={{
-                  backgroundColor: "white",
-                  height: "100%",
-                  borderRadius: 3,
-                }}
-              >
-                <Typography
-                  sx={{ color: "#2a4062", fontWeight: 500, opacity: 0.5 }}
-                >
-                  Paid Leaves
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 22, color: "black", fontWeight: 600, mt: 2 }}
-                >
-                  {dashboard.paid}
-                </Typography>
-              </Box>
+              <CounterCards Title="Paid Leaves" Counter={dashboard.paid} />
             </Grid>
           </Grid>
 

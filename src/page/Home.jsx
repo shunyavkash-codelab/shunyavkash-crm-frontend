@@ -147,6 +147,12 @@ export default function Home() {
                   Text={"lorem ipsum sit amet."}
                   Link={"/clients"}
                   ArrowBgColor={"rgb(22 119 255 / 60%)"}
+                  titleStyle={{
+                    opacity: "100%",
+                  }}
+                  counterStyle={{
+                    fontSize: "30px",
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6} xl={3}>
@@ -157,6 +163,12 @@ export default function Home() {
                   Text={"lorem ipsum sit amet."}
                   Link={"/projects"}
                   ArrowBgColor={"rgba(248, 174, 0, 60%)"}
+                  titleStyle={{
+                    opacity: "100%",
+                  }}
+                  counterStyle={{
+                    fontSize: "30px",
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6} xl={3}>
@@ -167,6 +179,12 @@ export default function Home() {
                   Text={"lorem ipsum sit amet."}
                   Link={"/invoices"}
                   ArrowBgColor={"rgba(74, 210, 146, 60%)"}
+                  titleStyle={{
+                    opacity: "100%",
+                  }}
+                  counterStyle={{
+                    fontSize: "30px",
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6} xl={3}>
@@ -177,6 +195,12 @@ export default function Home() {
                   Text={"lorem ipsum sit amet."}
                   Link={"/employees"}
                   ArrowBgColor={"rgba(244, 67, 54, 60%)"}
+                  titleStyle={{
+                    opacity: "100%",
+                  }}
+                  counterStyle={{
+                    fontSize: "30px",
+                  }}
                 />
               </Grid>
             </Grid>
