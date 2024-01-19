@@ -597,12 +597,12 @@ export default function PreviewInvoice() {
                         pl: 1.75,
                         display: "flex",
                         justifyContent: "space-between",
-                        gap: 10.25,
+                        gap: 8.75,
                         "&>*": {
                           lineHeight: "1!important",
                           "&:first-child": {
                             textTransform: "capitalize",
-                            width: "138px",
+                            width: "150px",
                           },
                           "&:last-child": {
                             width: "92px",
@@ -914,10 +914,13 @@ export default function PreviewInvoice() {
                       </Box>
                       <Box>
                         <Typography variant="subtitle2">
-                          A/c No.<span>:</span>
+                          IFSC Code<span>:</span>
                         </Typography>
-                        <Typography variant="subtitle2">
-                          {invoiceData.bank.accountNumber}
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ textTransform: "uppercase" }}
+                        >
+                          {invoiceData.bank.IFSC}
                         </Typography>
                       </Box>
                       <Box>
@@ -930,13 +933,10 @@ export default function PreviewInvoice() {
                       </Box>
                       <Box>
                         <Typography variant="subtitle2">
-                          IFSC Code<span>:</span>
+                          A/c No.<span>:</span>
                         </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ textTransform: "uppercase" }}
-                        >
-                          {invoiceData.bank.IFSC}
+                        <Typography variant="subtitle2">
+                          {invoiceData.bank.accountNumber}
                         </Typography>
                       </Box>
                     </Box>
