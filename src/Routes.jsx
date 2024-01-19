@@ -29,6 +29,7 @@ import MyProfile from "./page/MyProfile";
 import AccountManage from "./page/AccountManage";
 import AccountAdd from "./page/AccountAdd";
 import AddMember from "./page/AddMember";
+import InvoicePDF from "./page/InvoicePDF";
 
 const routes = createBrowserRouter([
   { path: "/signup", Component: SignUp },
@@ -67,6 +68,7 @@ const routes = createBrowserRouter([
   { path: "/account-management/add", Component: AccountAdd },
   { path: "/account-management/edit/:id", Component: AccountAdd },
   { path: "/members/add", Component: AddMember },
+  { path: "/invoices/edit/:invoiceNumber/invoice-pdf", Component: InvoicePDF },
 ]);
 export default function Routes() {
   return (

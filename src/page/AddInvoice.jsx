@@ -736,7 +736,7 @@ export default function AddInvoice() {
             navigate(
               `/invoices/${edit ? "edit" : "add"}/${
                 values.invoiceNumber
-              }/preview`
+              }/invoice-pdf`
             );
           } catch (error) {
             let errorMessage = error.response.data.message;
