@@ -24,6 +24,7 @@ import moment from "moment";
 import SectionHeader from "../component/SectionHeader";
 import NoData from "../component/NoData.jsx";
 import { useSearchData } from "../hooks/store/useSearchData.js";
+import ThemePagination from "../component/Pagination.jsx";
 
 export default function Leaves() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -95,186 +96,202 @@ export default function Leaves() {
           />
 
           {approveList.length > 0 ? (
-            <TableContainer
-              component={Paper}
-              sx={{
-                border: "1px solid rgba(224, 224, 224, 1)",
-                mx: { xs: "-10px", sm: 0 },
-                width: { xs: "auto", sm: "auto" },
-                borderRadius: 2.5,
-              }}
-            >
-              <Table
-                className="projectTable"
+            <>
+              <TableContainer
+                component={Paper}
                 sx={{
-                  minWidth: 650,
-                  textTransform: "capitalize",
-                  textWrap: "nowrap",
-                  "& th,& td": { borderBottom: 0 },
-                  "& tbody tr": {
-                    borderTop: "1px solid rgba(224, 224, 224, 1)",
-                  },
+                  border: "1px solid rgba(224, 224, 224, 1)",
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
                 }}
-                aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                    <TableCell>Member</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Reason</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {approveList.map((leaveRequest) => (
+                <Table
+                  className="projectTable"
+                  sx={{
+                    minWidth: 650,
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": { borderBottom: 0 },
+                    "& tbody tr": {
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
                     <TableRow
-                      key={leaveRequest.key}
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-of-type td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
-                      }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
-                      <TableCell>{leaveRequest.userName}</TableCell>
-                      <TableCell
+                      <TableCell>Member</TableCell>
+                      <TableCell>Type</TableCell>
+                      <TableCell>Reason</TableCell>
+                      <TableCell>Start Date</TableCell>
+                      <TableCell>End Date</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {approveList.map((leaveRequest) => (
+                      <TableRow
+                        key={leaveRequest.key}
                         sx={{
-                          "& .statusBtn": {
-                            color: "white",
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          },
-                          "& .casual": {
-                            bgcolor: "rgba(94, 115, 141, 15%)",
-                            color: "grey.dark",
-                          },
-                          "& .sick": {
-                            bgcolor: "rgba(248, 174, 0, 15%)",
-                            color: "secondary.main",
-                          },
-                          "& .unpaid": {
-                            bgcolor: "rgba(225, 107, 22, 15%)",
-                            color: "review.main",
-                          },
-                          "& .paid": {
-                            bgcolor: "rgba(74, 210, 146, 15%)",
-                            color: "success.main",
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&:first-of-type td": {
+                            maxWidth: "250px",
+                            textWrap: "wrap",
                           },
                         }}
                       >
-                        <Box
-                          className={`statusBtn ${
-                            leaveRequest.leaveType === "casual"
-                              ? "casual"
-                              : leaveRequest.leaveType === "sick"
-                              ? "sick"
-                              : leaveRequest.leaveType === "unpaid"
-                              ? "unpaid"
-                              : "paid"
-                          }`}
-                        >
-                          {leaveRequest.leaveType}
-                        </Box>
-                      </TableCell>
-                      <TableCell>{leaveRequest.reason}</TableCell>
-                      <TableCell>
-                        <Box
+                        <TableCell>{leaveRequest.userName}</TableCell>
+                        <TableCell
                           sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1.75,
+                            "& .statusBtn": {
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
+                            },
+                            "& .casual": {
+                              bgcolor: "rgba(94, 115, 141, 15%)",
+                              color: "grey.dark",
+                            },
+                            "& .sick": {
+                              bgcolor: "rgba(248, 174, 0, 15%)",
+                              color: "secondary.main",
+                            },
+                            "& .unpaid": {
+                              bgcolor: "rgba(225, 107, 22, 15%)",
+                              color: "review.main",
+                            },
+                            "& .paid": {
+                              bgcolor: "rgba(74, 210, 146, 15%)",
+                              color: "success.main",
+                            },
                           }}
                         >
-                          <Box>
-                            {moment(leaveRequest.startDate).format(
-                              "DD/MM/YYYY"
-                            )}
-                            <Typography
-                              sx={{
-                                marginTop: "3px",
-                                lineHeight: 1,
-                                textAlign: "center",
-                                fontSize: "12px",
-                                color: "darkgray",
-                              }}
-                            >
-                              ({leaveRequest.startDayType})
-                            </Typography>
+                          <Box
+                            className={`statusBtn ${
+                              leaveRequest.leaveType === "casual"
+                                ? "casual"
+                                : leaveRequest.leaveType === "sick"
+                                ? "sick"
+                                : leaveRequest.leaveType === "unpaid"
+                                ? "unpaid"
+                                : "paid"
+                            }`}
+                          >
+                            {leaveRequest.leaveType}
                           </Box>
-                        </Box>
-                      </TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1.75,
-                          }}
-                        >
-                          <Box>
-                            {moment(leaveRequest.endDate).format("DD/MM/YYYY")}
-                            <Typography
-                              sx={{
-                                marginTop: "3px",
-                                lineHeight: 1,
-                                textAlign: "center",
-                                fontSize: "12px",
-                                color: "darkgray",
-                              }}
-                            >
-                              ({leaveRequest.endDayType})
-                            </Typography>
+                        </TableCell>
+                        <TableCell>{leaveRequest.reason}</TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1.75,
+                            }}
+                          >
+                            <Box>
+                              {moment(leaveRequest.startDate).format(
+                                "DD/MM/YYYY"
+                              )}
+                              <Typography
+                                sx={{
+                                  marginTop: "3px",
+                                  lineHeight: 1,
+                                  textAlign: "center",
+                                  fontSize: "12px",
+                                  color: "darkgray",
+                                }}
+                              >
+                                ({leaveRequest.startDayType})
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                        </TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1.75,
+                            }}
+                          >
+                            <Box>
+                              {moment(leaveRequest.endDate).format(
+                                "DD/MM/YYYY"
+                              )}
+                              <Typography
+                                sx={{
+                                  marginTop: "3px",
+                                  lineHeight: 1,
+                                  textAlign: "center",
+                                  fontSize: "12px",
+                                  color: "darkgray",
+                                }}
+                              >
+                                ({leaveRequest.endDayType})
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              {/* pagination */}
+              <ThemePagination
+                count={10}
+                page={page}
+                onChange={handleChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                totalpage={totalPage}
+              />
+              {/* <TablePagination
+                component="div"
+                count={10}
+                page={page}
+                onPageChange={handleChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                sx={{
+                  "&>div": {
+                    p: 0,
+                    minHeight: "24px",
+                    "& .MuiTablePagination-selectLabel": {
+                      lineHeight: 1,
+                      fontWeight: 600,
+                    },
+                    "& .MuiTablePagination-input": {
+                      mr: 0,
+                      "&>div": {
+                        p: "0 24px 0 0",
+                      },
+                    },
+                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                      {
+                        display: "none",
+                      },
+                  },
+                }}
+              />
+              <Stack spacing={2}>
+                <Pagination
+                  count={totalPage}
+                  page={page}
+                  onChange={handleChange}
+                />
+              </Stack> */}
+            </>
           ) : (
             <NoData />
           )}
-
-          {/* pagination */}
-          <TablePagination
-            component="div"
-            count={10}
-            page={page}
-            onPageChange={handleChange}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            sx={{
-              "&>div": {
-                p: 0,
-                minHeight: "24px",
-                "& .MuiTablePagination-selectLabel": {
-                  lineHeight: 1,
-                  fontWeight: 600,
-                },
-                "& .MuiTablePagination-input": {
-                  mr: 0,
-                  "&>div": {
-                    p: "0 24px 0 0",
-                  },
-                },
-                "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                  {
-                    display: "none",
-                  },
-              },
-            }}
-          />
-          <Stack spacing={2}>
-            {/* <Typography>Page: {page}</Typography> */}
-            <Pagination count={totalPage} page={page} onChange={handleChange} />
-          </Stack>
         </Box>
       </Box>
     </>

@@ -36,6 +36,7 @@ import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
 import { useSearchData } from "../hooks/store/useSearchData.js";
+import ThemePagination from "../component/Pagination.jsx";
 
 // const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -482,7 +483,16 @@ export default function Invoices() {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <TablePagination
+              {/* pagination */}
+              <ThemePagination
+                count={10}
+                page={page}
+                onChange={handleChangeOnPageChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                totalpage={totalPage}
+              />
+              {/* <TablePagination
                 component="div"
                 count={10}
                 page={page}
@@ -511,13 +521,12 @@ export default function Invoices() {
                 }}
               />
               <Stack spacing={2}>
-                {/* <Typography>Page: {page}</Typography> */}
                 <Pagination
                   count={totalPage}
                   page={page}
                   onChange={handleChangeOnPageChange}
                 />
-              </Stack>
+              </Stack> */}
             </>
             // </Box>
           )}

@@ -30,6 +30,7 @@ import { useSearchData } from "../hooks/store/useSearchData.js";
 import NoData from "../component/NoData.jsx";
 import ThemeButton from "../component/ThemeButton.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
+import ThemePagination from "../component/Pagination.jsx";
 
 export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -265,7 +266,16 @@ export default function Clients() {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <TablePagination
+              {/* pagination */}
+              <ThemePagination
+                count={10}
+                page={page}
+                onChange={handleChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                totalpage={totalPage}
+              />
+              {/* <TablePagination
                 component="div"
                 count={10}
                 page={page}
@@ -294,13 +304,12 @@ export default function Clients() {
                 }}
               />
               <Stack spacing={2}>
-                {/* <Typography>Page: {page}</Typography> */}
                 <Pagination
                   count={totalPage}
                   page={page}
                   onChange={handleChange}
                 />
-              </Stack>
+              </Stack> */}
             </>
           )}
         </Box>

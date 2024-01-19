@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
-  Typography,
   Button,
   Table,
   TableBody,
@@ -12,8 +11,6 @@ import {
   TableRow,
   Paper,
   Stack,
-  TablePagination,
-  Pagination,
   Grid,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
@@ -31,6 +28,7 @@ import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
+import ThemePagination from "../component/Pagination";
 
 export default function Home() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -231,9 +229,7 @@ export default function Home() {
               </Stack>
             </Stack>
 
-            {invoiceList.length === 0 ? (
-              <NoData />
-            ) : (
+            {invoiceList.length > 0 ? (
               <>
                 <TableContainer
                   component={Paper}
@@ -366,7 +362,16 @@ export default function Home() {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <TablePagination
+                {/* pagination */}
+                <ThemePagination
+                  count={10}
+                  page={page}
+                  onChange={handleChange}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  totalpage={totalPage}
+                />
+                {/* <TablePagination
                   component="div"
                   count={10}
                   page={page}
@@ -395,14 +400,15 @@ export default function Home() {
                   }}
                 />
                 <Stack spacing={2}>
-                  {/* <Typography>Page: {page}</Typography> */}
                   <Pagination
                     count={totalPage}
                     page={page}
                     onChange={handleChange}
                   />
-                </Stack>
+                </Stack> */}
               </>
+            ) : (
+              <NoData />
             )}
           </Box>
         </Box>

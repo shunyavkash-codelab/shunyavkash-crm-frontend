@@ -33,6 +33,7 @@ import ThemeButton from "../component/ThemeButton.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
 import NoData from "../component/NoData.jsx";
 import CounterCards from "../component/CounterCards.jsx";
+import ThemePagination from "../component/Pagination.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -259,187 +260,198 @@ export default function Members() {
             {/* Manager */}
             <CustomTabPanel value={value} index={0}>
               {managerList.length > 0 ? (
-                <TableContainer
-                  component={Paper}
-                  sx={{
-                    border: "1px solid rgba(224, 224, 224, 1)",
-                    mx: { xs: "-10px", sm: 0 },
-                    width: { xs: "auto", sm: "auto" },
-                    borderRadius: 2.5,
-                  }}
-                >
-                  <Table
-                    className="userTable"
+                <>
+                  <TableContainer
+                    component={Paper}
                     sx={{
-                      minWidth: 650,
-                      textTransform: "capitalize",
-                      textWrap: "nowrap",
-                      "& th,& td": { borderBottom: 0 },
-                      "& tbody tr": {
-                        borderTop: "1px solid rgba(224, 224, 224, 1)",
+                      border: "1px solid rgba(224, 224, 224, 1)",
+                      mx: { xs: "-10px", sm: 0 },
+                      width: { xs: "auto", sm: "auto" },
+                      borderRadius: 2.5,
+                    }}
+                  >
+                    <Table
+                      className="userTable"
+                      sx={{
+                        minWidth: 650,
+                        textTransform: "capitalize",
+                        textWrap: "nowrap",
+                        "& th,& td": { borderBottom: 0 },
+                        "& tbody tr": {
+                          borderTop: "1px solid rgba(224, 224, 224, 1)",
+                        },
+                      }}
+                      aria-label="simple table"
+                    >
+                      <TableHead>
+                        <TableRow
+                          sx={{
+                            "&>th": { lineHeight: 1, fontWeight: 700 },
+                          }}
+                        >
+                          <TableCell sx={{ width: "400px" }}>Manager</TableCell>
+                          <TableCell>mobile number</TableCell>
+                          <TableCell sx={{ width: "250px" }}>Role</TableCell>
+                          <TableCell sx={{ width: "140px" }}>status</TableCell>
+                          <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {managerList.map((row) => (
+                          <EmployeeListRaw
+                            row={row}
+                            uniqId={row._id}
+                            setEmployeesList={setManagerList}
+                            dataList={managerList}
+                          />
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  {/* pagination */}
+                  <ThemePagination
+                    count={10}
+                    page={page}
+                    onChange={handleChangeOnPageChange}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    totalpage={totalPage}
+                  />
+                  {/* <TablePagination
+                    component="div"
+                    count={10}
+                    page={page}
+                    onPageChange={handleChangeOnPageChange}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    sx={{
+                      "&>div": {
+                        p: 0,
+                        minHeight: "24px",
+                        "& .MuiTablePagination-selectLabel": {
+                          lineHeight: 1,
+                          fontWeight: 600,
+                        },
+                        "& .MuiTablePagination-input": {
+                          mr: 0,
+                          "&>div": {
+                            p: "0 24px 0 0",
+                          },
+                        },
+                        "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                          {
+                            display: "none",
+                          },
                       },
                     }}
-                    aria-label="simple table"
-                  >
-                    <TableHead>
-                      <TableRow
-                        sx={{
-                          "&>th": { lineHeight: 1, fontWeight: 700 },
-                        }}
-                      >
-                        <TableCell sx={{ width: "400px" }}>Manager</TableCell>
-                        <TableCell>mobile number</TableCell>
-                        <TableCell sx={{ width: "250px" }}>Role</TableCell>
-                        <TableCell sx={{ width: "140px" }}>status</TableCell>
-                        <TableCell sx={{ width: "140px" }}>Actions</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {managerList.map((row) => (
-                        <EmployeeListRaw
-                          row={row}
-                          uniqId={row._id}
-                          setEmployeesList={setManagerList}
-                          dataList={managerList}
-                        />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                  />
+                  <Stack spacing={2}>
+                    <Pagination
+                      count={totalPage}
+                      page={page}
+                      onChange={handleChangeOnPageChange}
+                    />
+                  </Stack> */}
+                </>
               ) : (
                 <NoData />
               )}
-
-              {/* pagination */}
-              <TablePagination
-                component="div"
-                count={10}
-                page={page}
-                onPageChange={handleChangeOnPageChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                sx={{
-                  "&>div": {
-                    p: 0,
-                    minHeight: "24px",
-                    "& .MuiTablePagination-selectLabel": {
-                      lineHeight: 1,
-                      fontWeight: 600,
-                    },
-                    "& .MuiTablePagination-input": {
-                      mr: 0,
-                      "&>div": {
-                        p: "0 24px 0 0",
-                      },
-                    },
-                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                      {
-                        display: "none",
-                      },
-                  },
-                }}
-              />
-              <Stack spacing={2}>
-                {/* <Typography>Page: {page}</Typography> */}
-                <Pagination
-                  count={totalPage}
-                  page={page}
-                  onChange={handleChangeOnPageChange}
-                />
-              </Stack>
             </CustomTabPanel>
 
             {/* Employee */}
             <CustomTabPanel value={value} index={1}>
               {employeesList.length > 0 ? (
-                <TableContainer
-                  component={Paper}
-                  sx={{
-                    border: "1px solid rgba(224, 224, 224, 1)",
-                    mx: { xs: "-10px", sm: 0 },
-                    width: { xs: "auto", sm: "auto" },
-                    borderRadius: 2.5,
-                  }}
-                >
-                  <Table
-                    className="userTable"
+                <>
+                  <TableContainer
+                    component={Paper}
                     sx={{
-                      minWidth: 650,
-                      textTransform: "capitalize",
-                      textWrap: "nowrap",
-                      "& th,& td": { borderBottom: 0 },
-                      "& tbody tr": {
-                        borderTop: "1px solid rgba(224, 224, 224, 1)",
+                      border: "1px solid rgba(224, 224, 224, 1)",
+                      mx: { xs: "-10px", sm: 0 },
+                      width: { xs: "auto", sm: "auto" },
+                      borderRadius: 2.5,
+                    }}
+                  >
+                    <Table
+                      className="userTable"
+                      sx={{
+                        minWidth: 650,
+                        textTransform: "capitalize",
+                        textWrap: "nowrap",
+                        "& th,& td": { borderBottom: 0 },
+                        "& tbody tr": {
+                          borderTop: "1px solid rgba(224, 224, 224, 1)",
+                        },
+                      }}
+                      aria-label="simple table"
+                    >
+                      <TableHead>
+                        <TableRow
+                          sx={{
+                            "&>th": { lineHeight: 1, fontWeight: 700 },
+                          }}
+                        >
+                          <TableCell sx={{ width: "400px" }}>
+                            employee
+                          </TableCell>
+                          <TableCell>mobile number</TableCell>
+                          <TableCell sx={{ width: "250px" }}>Role</TableCell>
+                          <TableCell sx={{ width: "140px" }}>status</TableCell>
+                          <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {employeesList.map((row) => (
+                          <EmployeeListRaw
+                            row={row}
+                            uniqId={row._id}
+                            setEmployeesList={setEmployeesList}
+                            employeesList={employeesList}
+                          />
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  {/* pagination */}
+                  <TablePagination
+                    component="div"
+                    count={10}
+                    page={page}
+                    onPageChange={handleChangeOnPageChange}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    sx={{
+                      "&>div": {
+                        p: 0,
+                        minHeight: "24px",
+                        "& .MuiTablePagination-selectLabel": {
+                          lineHeight: 1,
+                          fontWeight: 600,
+                        },
+                        "& .MuiTablePagination-input": {
+                          mr: 0,
+                          "&>div": {
+                            p: "0 24px 0 0",
+                          },
+                        },
+                        "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                          {
+                            display: "none",
+                          },
                       },
                     }}
-                    aria-label="simple table"
-                  >
-                    <TableHead>
-                      <TableRow
-                        sx={{
-                          "&>th": { lineHeight: 1, fontWeight: 700 },
-                        }}
-                      >
-                        <TableCell sx={{ width: "400px" }}>employee</TableCell>
-                        <TableCell>mobile number</TableCell>
-                        <TableCell sx={{ width: "250px" }}>Role</TableCell>
-                        <TableCell sx={{ width: "140px" }}>status</TableCell>
-                        <TableCell sx={{ width: "140px" }}>Actions</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {employeesList.map((row) => (
-                        <EmployeeListRaw
-                          row={row}
-                          uniqId={row._id}
-                          setEmployeesList={setEmployeesList}
-                          employeesList={employeesList}
-                        />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                  />
+                  <Stack spacing={2}>
+                    {/* <Typography>Page: {page}</Typography> */}
+                    <Pagination
+                      count={totalPage}
+                      page={page}
+                      onChange={handleChangeOnPageChange}
+                    />
+                  </Stack>
+                </>
               ) : (
                 <NoData />
               )}
-
-              {/* pagination */}
-              <TablePagination
-                component="div"
-                count={10}
-                page={page}
-                onPageChange={handleChangeOnPageChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                sx={{
-                  "&>div": {
-                    p: 0,
-                    minHeight: "24px",
-                    "& .MuiTablePagination-selectLabel": {
-                      lineHeight: 1,
-                      fontWeight: 600,
-                    },
-                    "& .MuiTablePagination-input": {
-                      mr: 0,
-                      "&>div": {
-                        p: "0 24px 0 0",
-                      },
-                    },
-                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                      {
-                        display: "none",
-                      },
-                  },
-                }}
-              />
-              <Stack spacing={2}>
-                {/* <Typography>Page: {page}</Typography> */}
-                <Pagination
-                  count={totalPage}
-                  page={page}
-                  onChange={handleChangeOnPageChange}
-                />
-              </Stack>
             </CustomTabPanel>
           </Box>
         </Box>
