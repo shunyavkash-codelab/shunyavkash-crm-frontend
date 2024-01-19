@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-// mui components
 import {
   Avatar,
   Box,
@@ -15,8 +13,6 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-
-// icons
 import StartTimeIcon from "@mui/icons-material/PlayCircle";
 import StopTimeIcon from "@mui/icons-material/StopCircle";
 import StatusIcon from "@mui/icons-material/SquareRounded";
@@ -26,14 +22,10 @@ import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 const options = ["to do", "in progress", "in review"];
 
 const TaskDetail = ({ task, showExtraDetail = false }) => {
-  // local states
   const [open, setOpen] = useState(false);
   const [startTime, setStartTime] = useState(false);
   const anchorRef = React.useRef(null);
 
-  // end local states
-
-  // component method
   const handleMenuItemClick = (event) => {
     // setSelectedIndex(index);
     setOpen(false);
@@ -48,7 +40,6 @@ const TaskDetail = ({ task, showExtraDetail = false }) => {
     }
     setOpen(false);
   };
-  // end components method
 
   return (
     <TableRow
@@ -133,14 +124,16 @@ const TaskDetail = ({ task, showExtraDetail = false }) => {
               },
             }}
           >
-            <StatusIcon
-              sx={{
-                fontSize: {
-                  xs: showExtraDetail ? "18px" : "16px",
-                  sm: showExtraDetail ? "20px" : "16px",
-                },
-              }}
-            />
+            <Tooltip title="toDo" arrow>
+              <StatusIcon
+                sx={{
+                  fontSize: {
+                    xs: showExtraDetail ? "18px" : "16px",
+                    sm: showExtraDetail ? "20px" : "16px",
+                  },
+                }}
+              />
+            </Tooltip>
           </Button>
         </Box>
         <Popper
@@ -177,33 +170,21 @@ const TaskDetail = ({ task, showExtraDetail = false }) => {
                         }}
                       >
                         <Box
-                          className={`${
-                            option === "in review"
-                              ? "inReview"
-                              : option === "in progress"
-                              ? "inProgress"
-                              : "toDo"
-                          }`}
                           sx={{
                             display: "flex",
-                            "&.toDo": {
-                              color: "grey.dark",
-                            },
-                            "&.inProgress": {
-                              color: "secondary.main",
-                            },
-                            "&.inReview": {
-                              color: "review.main",
-                            },
+                            color:
+                              option === "in review"
+                                ? "review.main"
+                                : option === "in progress"
+                                ? "secondary.main"
+                                : "grey.dark",
                           }}
                         >
-                          <Tooltip title="toDo" arrow>
-                            <StatusIcon
-                              sx={{
-                                fontSize: "16px",
-                              }}
-                            />
-                          </Tooltip>
+                          <StatusIcon
+                            sx={{
+                              fontSize: "16px",
+                            }}
+                          />
                         </Box>
                         {option}
                       </MenuItem>

@@ -24,7 +24,7 @@ import moment from "moment";
 import SectionHeader from "../component/SectionHeader";
 import NoData from "../component/NoData.jsx";
 import { useSearchData } from "../hooks/store/useSearchData.js";
-import ThemePagination from "../component/Pagination.jsx";
+import ThemePagination from "../component/ThemePagination";
 
 export default function Leaves() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -246,12 +246,10 @@ export default function Leaves() {
               </TableContainer>
               {/* pagination */}
               <ThemePagination
-                count={10}
-                page={page}
+                totalpage={totalPage}
                 onChange={handleChange}
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-                totalpage={totalPage}
               />
               {/* <TablePagination
                 component="div"

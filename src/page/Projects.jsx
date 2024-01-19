@@ -30,7 +30,7 @@ import { useSearchData } from "../hooks/store/useSearchData";
 import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
-import ThemePagination from "../component/Pagination";
+import ThemePagination from "../component/ThemePagination";
 
 export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -242,12 +242,10 @@ export default function Project() {
               </TableContainer>
               {/* pagination */}
               <ThemePagination
-                count={10}
-                page={page}
+                totalpage={totalPage}
                 onChange={handleChange}
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-                totalpage={totalPage}
               />
               {/* <TablePagination
                 component="div"

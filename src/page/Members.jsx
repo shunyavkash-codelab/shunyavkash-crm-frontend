@@ -33,7 +33,7 @@ import ThemeButton from "../component/ThemeButton.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
 import NoData from "../component/NoData.jsx";
 import CounterCards from "../component/CounterCards.jsx";
-import ThemePagination from "../component/Pagination.jsx";
+import ThemePagination from "../component/ThemePagination";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -310,12 +310,10 @@ export default function Members() {
                   </TableContainer>
                   {/* pagination */}
                   <ThemePagination
-                    count={10}
-                    page={page}
+                    totalpage={totalPage}
                     onChange={handleChangeOnPageChange}
                     rowsPerPage={rowsPerPage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                    totalpage={totalPage}
                   />
                   {/* <TablePagination
                     component="div"

@@ -49,7 +49,7 @@ import NoData from "../component/NoData";
 import ImageUploder from "../component/form/ImageUploder";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import CounterCards from "../component/CounterCards.jsx";
-import ThemePagination from "../component/Pagination.jsx";
+import ThemePagination from "../component/ThemePagination";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -441,12 +441,10 @@ function AccountManage() {
                 </TableContainer>
                 {/* pagination */}
                 <ThemePagination
-                  count={10}
-                  page={page}
+                  totalpage={totalPage}
                   onChange={handleChange}
                   rowsPerPage={rowsPerPage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
-                  totalpage={totalPage}
                 />
                 {/* <TablePagination
                   component="div"

@@ -21,20 +21,23 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import TaskDetail from "../component/employee/TaskDetail";
 import TaskCard from "../component/employee/TaskCard";
 import SectionHeader from "../component/SectionHeader";
+import ThemePagination from "../component/ThemePagination";
 
 export default function EmployeeDashboard() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, user } = useAuth();
 
-  const [page, setPage] = React.useState(2);
+  // pagination
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
   };
 
   return (
@@ -178,7 +181,13 @@ export default function EmployeeDashboard() {
             </TableContainer>
 
             {/* pagination */}
-            <Stack
+            <ThemePagination
+              totalpage={totalPage}
+              onChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+            {/* <Stack
               direction="row"
               alignItems="center"
               justifyContent={{ xs: "space-between", xl: "center" }}
@@ -187,11 +196,7 @@ export default function EmployeeDashboard() {
               <Pagination count={50} siblingCount={0} />
               <TablePagination
                 component="div"
-                count={10}
-                page={page}
                 onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
                 sx={{
                   position: { xl: "absolute" },
                   top: { xl: "50%" },
@@ -218,7 +223,7 @@ export default function EmployeeDashboard() {
                   },
                 }}
               />
-            </Stack>
+            </Stack> */}
           </Box>
         </Box>
       )}

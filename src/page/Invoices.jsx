@@ -36,7 +36,7 @@ import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
 import { useSearchData } from "../hooks/store/useSearchData.js";
-import ThemePagination from "../component/Pagination.jsx";
+import ThemePagination from "../component/ThemePagination";
 
 // const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -485,12 +485,10 @@ export default function Invoices() {
               </TableContainer>
               {/* pagination */}
               <ThemePagination
-                count={10}
-                page={page}
+                totalpage={totalPage}
                 onChange={handleChangeOnPageChange}
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-                totalpage={totalPage}
               />
               {/* <TablePagination
                 component="div"
