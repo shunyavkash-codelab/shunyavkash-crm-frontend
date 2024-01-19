@@ -174,7 +174,7 @@ function AccountAdd() {
           >
             <FormikProvider value={formik}>
               <Box component="form" onSubmit={formik.handleSubmit}>
-                <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+                <Grid container spacing={2.5}>
                   {/* Radio Buttons */}
                   <Grid
                     item
@@ -213,7 +213,7 @@ function AccountAdd() {
                         <FormControlLabel
                           value="expense"
                           control={<Radio />}
-                          label="Expance"
+                          label="Expense"
                           onClick={() => setSelected(false)}
                         />
                       </RadioGroup>

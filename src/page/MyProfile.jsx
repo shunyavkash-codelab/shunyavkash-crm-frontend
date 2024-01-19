@@ -60,11 +60,13 @@ function CustomTabPanel(props) {
     </Box>
   );
 }
+
 CustomTabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
 };
+
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -233,6 +235,7 @@ export default function MyProfile() {
               overflow: "hidden",
               p: 3,
               pb: 0,
+              mb: 3,
             }}
           >
             <Box
@@ -419,9 +422,11 @@ export default function MyProfile() {
               "&>div>div": {
                 bgcolor: "white",
                 borderRadius: 4,
-                mt: 3,
                 pt: 2,
                 pb: 3,
+                "&:not(:first-child)": {
+                  mt: 3,
+                },
               },
               "& .cardHeader": {
                 px: 3,

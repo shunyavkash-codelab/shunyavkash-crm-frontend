@@ -54,7 +54,7 @@ export default function EmployeeDocumentDetailForm({ data }) {
   };
 
   return (
-    <Grid container rowSpacing={2.5} columnSpacing={2.5} component="form">
+    <Grid container spacing={2.5} component="form">
       <Grid item xs={12} lg={6}>
         <ImageUploder
           name="signature"

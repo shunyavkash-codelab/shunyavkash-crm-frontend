@@ -669,7 +669,6 @@ export default function AddInvoice() {
                 amount: tas.amount || tas.pricePerHours * tas.number,
               };
             });
-            console.log(tasks);
             tasks = tasks.filter((tas) => {
               return (
                 tas.taskName !== "" &&
@@ -677,6 +676,10 @@ export default function AddInvoice() {
                 tas.hours !== ""
               );
             });
+            console.log(tasks);
+            if (tasks.length === 0) {
+              return setSnack("Minimum 1 Task Required", "warning");
+            }
             // let taskId = values.task.filter((id) => id._id).map((id) => id._id);
             let obj = {
               from: {
@@ -733,7 +736,7 @@ export default function AddInvoice() {
             navigate(
               `/invoices/${edit ? "edit" : "add"}/${
                 values.invoiceNumber
-              }/preview`
+              }/invoice-pdf`
             );
           } catch (error) {
             let errorMessage = error.response.data.message;
@@ -1839,8 +1842,8 @@ export default function AddInvoice() {
                                   onClick={() => removeSignature(formik)}
                                   sx={{
                                     position: "absolute",
-                                    top: "6px",
-                                    right: "6px",
+                                    top: "-28px",
+                                    right: "0",
                                     borderRadius: "100%",
                                     bgcolor: "white",
                                     padding: "4px",

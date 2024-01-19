@@ -21,20 +21,23 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import TaskDetail from "../component/employee/TaskDetail";
 import TaskCard from "../component/employee/TaskCard";
 import SectionHeader from "../component/SectionHeader";
+import ThemePagination from "../component/ThemePagination";
 
 export default function EmployeeDashboard() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, user } = useAuth();
 
-  const [page, setPage] = React.useState(2);
+  // pagination
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(1);
   };
 
   return (
@@ -138,97 +141,89 @@ export default function EmployeeDashboard() {
               </Grid>
             </Grid>
 
-            <Box sx={{ mt: 8 }}>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                flexWrap="wrap"
-                columnGap={2}
-                rowGap={2.5}
+            <SectionHeader Title="Employee Tasks" style={{ mt: 8 }} />
+
+            <TableContainer
+              component={Paper}
+              sx={{
+                border: "1px solid rgba(224, 224, 224, 1)",
+                borderRadius: 2.5,
+              }}
+            >
+              <Table
+                className="projectTable"
                 sx={{
-                  mb: 3.25,
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
                 }}
               >
-                <SectionHeader Title="Employee Tasks" style={{ mb: 0 }} />
+                <TableHead>
+                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                    <TableCell sx={{ minWidth: "300px" }} colSpan={2}>
+                      Task Name
+                    </TableCell>
+                    <TableCell sx={{ width: "150px" }}>Priority</TableCell>
+                    <TableCell sx={{ width: "150px" }}>Due Date</TableCell>
+                    <TableCell sx={{ width: "150px" }}>Assignee</TableCell>
+                    <TableCell sx={{ width: "150px" }}>Time Tracked</TableCell>
+                    <TableCell sx={{ width: "150px" }}>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TaskDetail task showExtraDetail />
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-                <TablePagination
-                  component="div"
-                  count={10}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  rowsPerPage={rowsPerPage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  sx={{
-                    "&>div": {
-                      p: 0,
-                      minHeight: "24px",
-                      "& .MuiTablePagination-selectLabel": {
-                        lineHeight: 1,
-                        fontWeight: 600,
-                      },
-                      "& .MuiTablePagination-input": {
-                        mr: 0,
-                        "&>div": {
-                          p: "0 24px 0 0",
-                        },
-                      },
-                      "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                        {
-                          display: "none",
-                        },
-                    },
-                  }}
-                />
-              </Stack>
-
-              <TableContainer
-                component={Paper}
+            {/* pagination */}
+            <ThemePagination
+              totalpage={totalPage}
+              onChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+            {/* <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent={{ xs: "space-between", xl: "center" }}
+              sx={{ position: { xl: "relative" }, mt: 2.5 }}
+            >
+              <Pagination count={50} siblingCount={0} />
+              <TablePagination
+                component="div"
+                onPageChange={handleChangePage}
                 sx={{
-                  border: "1px solid rgba(224, 224, 224, 1)",
-                  borderRadius: 2.5,
-                }}
-              >
-                <Table
-                  className="projectTable"
-                  sx={{
-                    minWidth: 650,
-                    textTransform: "capitalize",
-                    textWrap: "nowrap",
-                    "& th,& td": { borderBottom: 0 },
-                    "& tbody tr": {
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  position: { xl: "absolute" },
+                  top: { xl: "50%" },
+                  transform: { xl: "translateY(-50%)" },
+                  right: { xl: 0 },
+                  "&>div": {
+                    p: 0,
+                    minHeight: "24px",
+                    "& .MuiTablePagination-selectLabel": {
+                      lineHeight: 1,
+                      fontWeight: 600,
                     },
-                  }}
-                >
-                  <TableHead>
-                    <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
-                    >
-                      <TableCell sx={{ minWidth: "300px" }} colSpan={2}>
-                        Task Name
-                      </TableCell>
-                      <TableCell sx={{ width: "150px" }}>Priority</TableCell>
-                      <TableCell sx={{ width: "150px" }}>Due Date</TableCell>
-                      <TableCell sx={{ width: "150px" }}>Assignee</TableCell>
-                      <TableCell sx={{ width: "150px" }}>
-                        Time Tracked
-                      </TableCell>
-                      <TableCell sx={{ width: "150px" }}>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TaskDetail task showExtraDetail />
-                  </TableBody>
-                </Table>
-              </TableContainer>
-
-              <Pagination
-                count={50}
-                siblingCount={0}
-                sx={{ mt: 3.5, "& ul": { justifyContent: "center" } }}
+                    "& .MuiTablePagination-input": {
+                      mr: 0,
+                      "&>div": {
+                        p: "0 24px 0 0",
+                        bgcolor: "transparent",
+                      },
+                    },
+                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                      {
+                        display: "none",
+                      },
+                  },
+                }}
               />
-            </Box>
+            </Stack> */}
           </Box>
         </Box>
       )}

@@ -14,6 +14,8 @@ import {
   Avatar,
   Chip,
   Stack,
+  TablePagination,
+  Pagination,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -28,6 +30,7 @@ import { useSearchData } from "../hooks/store/useSearchData.js";
 import NoData from "../component/NoData.jsx";
 import ThemeButton from "../component/ThemeButton.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
+import ThemePagination from "../component/ThemePagination";
 
 export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -37,17 +40,34 @@ export default function Clients() {
   const { setSnack } = useSnack();
   const { accessToken } = useAuth();
   const { searchData } = useSearchData();
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+
+  // pagination
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const handleChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
 
   const fetchclientData = async () => {
     try {
       const res = await apiCall({
         url: APIS.CLIENT.LIST,
         method: "get",
-        params: { search: searchData },
+        params: {
+          search: searchData,
+          page: searchData ? 1 : page,
+          limit: rowsPerPage,
+        },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
         setClientList(res.data.data.data);
+        setTotalPage(res.data.data.pagination.pages);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -55,7 +75,7 @@ export default function Clients() {
   };
   useEffect(() => {
     fetchclientData();
-  }, []);
+  }, [page, rowsPerPage]);
   // });
   useEffect(() => {
     if (searchData !== undefined) fetchclientData();
@@ -71,6 +91,7 @@ export default function Clients() {
         accessToken={accessToken}
       />
       <Header
+        setPage={setPage}
         sideBarWidth={sideBarWidth}
         setSidebarWidth={setSidebarWidth}
         showSidebar={showSidebar}
@@ -103,9 +124,7 @@ export default function Clients() {
             </Link>
           </Stack>
 
-          {clientList.length === 0 ? (
-            <NoData />
-          ) : (
+          {clientList.length > 0 ? (
             <>
               <TableContainer
                 component={Paper}
@@ -245,7 +264,51 @@ export default function Clients() {
                   </TableBody>
                 </Table>
               </TableContainer>
+              {/* pagination */}
+              <ThemePagination
+                totalpage={totalPage}
+                onChange={handleChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+              {/* <TablePagination
+                component="div"
+                count={10}
+                page={page}
+                onPageChange={handleChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                sx={{
+                  "&>div": {
+                    p: 0,
+                    minHeight: "24px",
+                    "& .MuiTablePagination-selectLabel": {
+                      lineHeight: 1,
+                      fontWeight: 600,
+                    },
+                    "& .MuiTablePagination-input": {
+                      mr: 0,
+                      "&>div": {
+                        p: "0 24px 0 0",
+                      },
+                    },
+                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                      {
+                        display: "none",
+                      },
+                  },
+                }}
+              />
+              <Stack spacing={2}>
+                <Pagination
+                  count={totalPage}
+                  page={page}
+                  onChange={handleChange}
+                />
+              </Stack> */}
             </>
+          ) : (
+            <NoData />
           )}
         </Box>
       </Box>

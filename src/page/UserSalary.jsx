@@ -227,7 +227,6 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
           sx={{
             bgcolor: "white",
             borderRadius: 4,
-            mt: 3,
             p: 4,
           }}
         >
@@ -564,7 +563,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
         modalTitle={userBank ? "Edit Bank Details" : "Add Bank Details"}
       >
         <Box component="form" onSubmit={formikBank.handleSubmit}>
-          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+          <Grid container spacing={2.5}>
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <OutlinedInput
@@ -720,7 +719,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
         modalTitle="Add Salary"
       >
         <Box component="form" onSubmit={formikSalary.handleSubmit}>
-          <Grid container rowSpacing={2.5} columnSpacing={2.5}>
+          <Grid container spacing={2.5}>
             <Grid item xs={12} sm={6}>
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}

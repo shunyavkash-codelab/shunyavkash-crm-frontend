@@ -17,6 +17,8 @@ import {
   Select,
   TextField,
   Stack,
+  TablePagination,
+  Pagination,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -33,6 +35,8 @@ import moment from "moment";
 import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
+import { useSearchData } from "../hooks/store/useSearchData.js";
+import ThemePagination from "../component/ThemePagination";
 
 // const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -46,6 +50,19 @@ export default function Invoices() {
   const { setSnack } = useSnack();
   const [invoiceList, setInvoiceList] = useState([]);
   const { setInvoiceData, resetInvoiceStore } = useInvoiceStore();
+  const { searchData } = useSearchData();
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+
+  // pagination
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const handleChangeOnPageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+  };
 
   const handleChange = (event) => {
     setDate(event.target.value);
@@ -82,10 +99,16 @@ export default function Invoices() {
       const res = await apiCall({
         url: APIS.INVOICE.LIST,
         method: "get",
+        params: {
+          search: searchData,
+          page: searchData ? 1 : page,
+          limit: rowsPerPage,
+        },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
         setInvoiceList(res.data.data.data);
+        setTotalPage(res.data.data.pagination.pages);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -94,7 +117,7 @@ export default function Invoices() {
   useEffect(() => {
     listInvoice();
     resetInvoiceStore();
-  }, []);
+  }, [page, rowsPerPage]);
   // });
 
   return (
@@ -323,136 +346,186 @@ export default function Invoices() {
             <NoData />
           ) : (
             // <Box sx={{ display: showTable ? "block" : "none" }}>
-            <TableContainer
-              component={Paper}
-              sx={{
-                border: "1px solid rgba(224, 224, 224, 1)",
-                mx: { xs: "-10px", sm: 0 },
-                width: { xs: "auto", sm: "auto" },
-                borderRadius: 2.5,
-              }}
-            >
-              <Table
-                className="projectTable"
+            <>
+              <TableContainer
+                component={Paper}
                 sx={{
-                  minWidth: 650,
-                  textTransform: "capitalize",
-                  textWrap: "nowrap",
-                  "& th,& td": { borderBottom: 0 },
-                  "& tbody tr": {
-                    borderTop: "1px solid rgba(224, 224, 224, 1)",
-                  },
+                  border: "1px solid rgba(224, 224, 224, 1)",
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
                 }}
-                aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                    <TableCell>Project Name</TableCell>
-                    <TableCell>Client</TableCell>
-                    <TableCell>User</TableCell>
-                    <TableCell>Invoice No.</TableCell>
-                    <TableCell>Invoice Date</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Total</TableCell>
-                    <TableCell>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {invoiceList.map((row) => (
+                <Table
+                  className="projectTable"
+                  sx={{
+                    minWidth: 650,
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": { borderBottom: 0 },
+                    "& tbody tr": {
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
                     <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-of-type td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
-                      }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
-                      <TableCell value={row.projectId}>
-                        {row.projectName}
-                      </TableCell>
-                      <TableCell>{row.clientName}</TableCell>
-                      <TableCell>{row.userName}</TableCell>
-                      <TableCell>{row.invoiceNumber}</TableCell>
-                      <TableCell>
-                        {moment(row.invoiceDate).format("DD/MM/YYYY")}
-                      </TableCell>
-                      <TableCell
+                      <TableCell>Project Name</TableCell>
+                      <TableCell>Client</TableCell>
+                      <TableCell>User</TableCell>
+                      <TableCell>Invoice No.</TableCell>
+                      <TableCell>Invoice Date</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Total</TableCell>
+                      <TableCell>Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {invoiceList.map((row) => (
+                      <TableRow
                         sx={{
-                          "& .statusBtn": {
-                            color: "white",
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          },
-                          "& .pending": {
-                            bgcolor: "secondary.main",
-                          },
-                          "& .success": {
-                            bgcolor: "success.main",
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&:first-of-type td": {
+                            maxWidth: "250px",
+                            textWrap: "wrap",
                           },
                         }}
                       >
-                        <Box
-                          className={`statusBtn ${
-                            row.status === "success" ? "success" : "pending"
-                          }`}
-                        >
-                          {row.status}
-                        </Box>
-                        <Box
+                        <TableCell value={row.projectId}>
+                          {row.projectName}
+                        </TableCell>
+                        <TableCell>{row.clientName}</TableCell>
+                        <TableCell>{row.userName}</TableCell>
+                        <TableCell>{row.invoiceNumber}</TableCell>
+                        <TableCell>
+                          {moment(row.invoiceDate).format("DD/MM/YYYY")}
+                        </TableCell>
+                        <TableCell
                           sx={{
-                            fontSize: "13px",
-                            lineHeight: 1,
-                            textWrap: "nowrap",
-                            mt: 0.75,
-                          }}
-                        >
-                          {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
-                        </Box>
-                      </TableCell>
-                      <TableCell>${row.totals.total}</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: { xs: 1.25, sm: 1.5 },
-                            opacity: 0.3,
-                            "& button": {
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              "&:hover": { color: "primary.main" },
+                            "& .statusBtn": {
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
                             },
-                            "& svg": { fontSize: { xs: "20px", sm: "21px" } },
+                            "& .pending": {
+                              bgcolor: "secondary.main",
+                            },
+                            "& .success": {
+                              bgcolor: "success.main",
+                            },
                           }}
                         >
-                          <Button
-                            disableRipple
-                            onClick={() => viewInvoice(row.invoiceNumber, row)}
+                          <Box
+                            className={`statusBtn ${
+                              row.status === "success" ? "success" : "pending"
+                            }`}
                           >
-                            <VisibilityIcon />
-                          </Button>
-                          {/* <Button disableRipple>
+                            {row.status}
+                          </Box>
+                          <Box
+                            sx={{
+                              fontSize: "13px",
+                              lineHeight: 1,
+                              textWrap: "nowrap",
+                              mt: 0.75,
+                            }}
+                          >
+                            {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
+                          </Box>
+                        </TableCell>
+                        <TableCell>${row.totals.total}</TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: { xs: 1.25, sm: 1.5 },
+                              opacity: 0.3,
+                              "& button": {
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              },
+                              "& svg": { fontSize: { xs: "20px", sm: "21px" } },
+                            }}
+                          >
+                            <Button
+                              disableRipple
+                              onClick={() =>
+                                viewInvoice(row.invoiceNumber, row)
+                              }
+                            >
+                              <VisibilityIcon />
+                            </Button>
+                            {/* <Button disableRipple>
                             <MarkAsPaidIcon />
                           </Button> */}
-                          <Button
-                            disableRipple
-                            onClick={() => editInvoice(row.invoiceNumber, row)}
-                          >
-                            <CreateIcon />
-                          </Button>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                            <Button
+                              disableRipple
+                              onClick={() =>
+                                editInvoice(row.invoiceNumber, row)
+                              }
+                            >
+                              <CreateIcon />
+                            </Button>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              {/* pagination */}
+              <ThemePagination
+                totalpage={totalPage}
+                onChange={handleChangeOnPageChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+              {/* <TablePagination
+                component="div"
+                count={10}
+                page={page}
+                onPageChange={handleChangeOnPageChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                sx={{
+                  "&>div": {
+                    p: 0,
+                    minHeight: "24px",
+                    "& .MuiTablePagination-selectLabel": {
+                      lineHeight: 1,
+                      fontWeight: 600,
+                    },
+                    "& .MuiTablePagination-input": {
+                      mr: 0,
+                      "&>div": {
+                        p: "0 24px 0 0",
+                      },
+                    },
+                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                      {
+                        display: "none",
+                      },
+                  },
+                }}
+              />
+              <Stack spacing={2}>
+                <Pagination
+                  count={totalPage}
+                  page={page}
+                  onChange={handleChangeOnPageChange}
+                />
+              </Stack> */}
+            </>
             // </Box>
           )}
         </Box>

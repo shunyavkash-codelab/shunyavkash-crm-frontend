@@ -9,12 +9,14 @@ export default function CounterCards(props) {
       <Box
         sx={{
           p: { xs: 3, sm: 2.5 },
-          bgcolor: props.CardBgcolor,
+          bgcolor: props.CardBgcolor || "white",
           color: "text.primary",
           borderRadius: 2.5,
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
+          height: "100%",
+          ...props.style,
         }}
       >
         <Box sx={{ mb: 3.75 }}>
@@ -22,41 +24,45 @@ export default function CounterCards(props) {
             variant="h6"
             sx={{
               textTransform: "capitalize",
-              fontSize: "16px",
-              mb: 0.75,
               fontWeight: 600,
+              opacity: "50%",
+              ...props.titleStyle,
             }}
           >
             {props.Title}
           </Typography>
-          <Typography variant="body2" sx={{ lineHeight: 1.1 }}>
-            {props.Text}
-          </Typography>
+          {props.Text && (
+            <Typography variant="body2" sx={{ lineHeight: 1.1, mt: 0.75 }}>
+              {props.Text}
+            </Typography>
+          )}
         </Box>
         <Typography
-          variant="h3"
+          variant="h5"
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             gap: 1,
-            fontSize: { xs: "32px", sm: "36px" },
+            ...props.counterStyle,
           }}
         >
           {props.Counter}
-          <Link to={props.Link}>
-            <Box
-              sx={{
-                display: "inline-flex",
-                p: 1,
-                bgcolor: props.ArrowBgColor,
-                borderRadius: "10px",
-                color: "white",
-              }}
-            >
-              <ArrowIcon />
-            </Box>
-          </Link>
+          {props.Link && (
+            <Link to={props.Link}>
+              <Box
+                sx={{
+                  display: "inline-flex",
+                  p: 1,
+                  bgcolor: props.ArrowBgColor,
+                  borderRadius: "10px",
+                  color: "white",
+                }}
+              >
+                <ArrowIcon />
+              </Box>
+            </Link>
+          )}
         </Typography>
       </Box>
     </>
