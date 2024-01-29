@@ -556,7 +556,7 @@ export default function AddInvoice() {
                 invoiceDueDate: new Date(invoiceData.invoiceDueDate)
                   .toISOString()
                   .split("T")[0],
-                watermark: invoiceData.watermark === "false" ? false : true,
+                watermark: invoiceData.watermark,
                 signature: invoiceData.signature,
               }
             : {
@@ -676,7 +676,6 @@ export default function AddInvoice() {
                 tas.hours !== ""
               );
             });
-            console.log(tasks);
             if (tasks.length === 0) {
               return setSnack("Minimum 1 Task Required", "warning");
             }
@@ -728,7 +727,7 @@ export default function AddInvoice() {
                 accountNumber: bankDetails.label || values.accountNumber,
               },
               note: values.note,
-              watermark: values.watermark ? "true" : "false",
+              watermark: values.watermark ? true : false,
               signature: values.signature,
             };
             setInvoiceData(obj);
@@ -1953,9 +1952,7 @@ export default function AddInvoice() {
                                 opacity: 1,
                               },
                             }}
-                            defaultChecked={
-                              invoiceData?.watermark === "false" ? false : true
-                            }
+                            defaultChecked={invoiceData?.watermark}
                           />
                         }
                       />
