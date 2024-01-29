@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../hooks/store/useAuth";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { usePDF } from "react-to-pdf";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
@@ -15,8 +14,12 @@ import SectionHeader from "../component/SectionHeader";
 import html2pdf from "html2pdf.js";
 
 export default function InvoicePDF() {
+  useEffect(() => {
+    document.getElementsByTagName("body")[0].style.fontSize = "12px";
+  }, []);
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [base64Sign, setBase64Sign] = useState(false);
   const { accessToken } = useAuth();
   const { invoiceNumber } = useParams();
   // const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
@@ -34,17 +37,12 @@ export default function InvoicePDF() {
       let component_element = node.innerHTML;
 
       var opt = {
-        html2canvas: {
-          letterRendering: true,
-          useCORS: true,
-          logging: true,
-        },
         filename: `${invoiceNumber}.pdf`,
         margin: [0.3, 0],
         image: { type: "jpeg", quality: 0.98 },
         enableLinks: true,
         html2canvas: { scale: 3, bottom: 20, letterRendering: true },
-        jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
+        jsPDF: { unit: "mm", format: "A4", orientation: "portrait" },
       };
       if (!view) {
         const res = await apiCall({
@@ -56,7 +54,6 @@ export default function InvoicePDF() {
         });
         if (res.data.success === true) {
           setSnack(res.data.message);
-          //   toPDF();
           html2pdf()
             .set(opt)
             .from(component_element)
@@ -65,6 +62,7 @@ export default function InvoicePDF() {
             .toImg()
             .toPdf()
             .save();
+
           setSnack("PDF download successfully.");
           navigate("/invoices");
         }
@@ -73,8 +71,6 @@ export default function InvoicePDF() {
           setSnack(errorMessage, "warning");
         }
       } else {
-        // toPDF();
-
         html2pdf()
           .set(opt)
           .from(component_element)
@@ -86,13 +82,27 @@ export default function InvoicePDF() {
         setSnack("PDF download successfully.");
       }
     } catch (error) {
-      let errorMessage = error.response.data.message;
+      let errorMessage =
+        error.response?.data?.message || error || "Something went wrong.";
       setSnack(errorMessage, "warning");
     }
   };
-
+  function imageUrlToBase64(imageUrl) {
+    return fetch(imageUrl)
+      .then((response) => response.blob())
+      .then(
+        (blob) =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => setBase64Sign(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          })
+      );
+  }
   useEffect(() => {
     if (!invoiceData) navigate("/invoices");
+    imageUrlToBase64(invoiceData?.signature);
   }, [invoiceData]);
 
   return (
@@ -125,7 +135,6 @@ export default function InvoicePDF() {
               fontSize: "12px",
               backgroundColor: "#F3F4F9",
               color: "#2A4062",
-              //   padding: "40px",
             }}
             cellSpacing={0}
           >
@@ -134,12 +143,18 @@ export default function InvoicePDF() {
                 <td>
                   <table
                     style={{
-                      width: "700px",
+                      width: "760px",
                       marginLeft: "auto",
                       marginRight: "auto",
                       background: "white",
-                      padding: "28px",
+                      padding: "20px",
                       borderRadius: "10px",
+                      backgroundImage: invoiceData.watermark
+                        ? "url(/images/watermark-bg.png)"
+                        : "",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
                     }}
                     cellSpacing={0}
                   >
@@ -451,7 +466,7 @@ export default function InvoicePDF() {
                           <table
                             style={{
                               width: "100%",
-                              marginTop: "56px",
+                              marginTop: "36px",
                               marginBottom: "10px",
                             }}
                             cellSpacing={0}
@@ -522,9 +537,34 @@ export default function InvoicePDF() {
                                 </th>
                               </tr>
                             </thead>
-                            <tbody>
-                              {invoiceData?.tasks.map((task) => (
-                                <tr>
+                            <tbody
+                              style={{
+                                "&>*": {
+                                  "&:nth-child(even) td": {
+                                    bgcolor: "#f3f3f3",
+                                  },
+                                  "&:nth-child(odd):last-child": {
+                                    borderBottom: "1px solid rgba(0,0,0,0.1)",
+                                  },
+                                  "&>*": {
+                                    "&:first-child td": {
+                                      borderRadius: "10px 0 0 10px",
+                                    },
+                                    "&:last-child td": {
+                                      borderRadius: "0 10px 10px 0",
+                                    },
+                                  },
+                                },
+                              }}
+                            >
+                              {invoiceData?.tasks.map((task, index) => (
+                                <tr
+                                  style={{
+                                    backgroundColor:
+                                      index % 2 !== 0 &&
+                                      "rgb(243 243 243 / 50%)",
+                                  }}
+                                >
                                   <td>
                                     <div
                                       style={{
@@ -576,7 +616,10 @@ export default function InvoicePDF() {
                               ))}
                             </tbody>
                           </table>
-                          <table style={{ width: "100%" }} cellSpacing={0}>
+                          <table
+                            style={{ width: "100%", paddingRight: "8px" }}
+                            cellSpacing={0}
+                          >
                             <tbody>
                               <tr>
                                 <td>
@@ -1023,14 +1066,14 @@ export default function InvoicePDF() {
                                           <td>
                                             <div
                                               style={{
-                                                maxHeight: "80px",
-                                                maxWidth: "170px",
-                                                minWidth: "170px",
-                                                margin: "68px 48px 0 0",
+                                                maxHeight: "50px",
+                                                maxWidth: "150px",
+                                                minWidth: "100px",
+                                                margin: "20px 25px 0 0",
                                               }}
                                             >
                                               <img
-                                                src={invoiceData.signature}
+                                                src={base64Sign}
                                                 style={{
                                                   maxHeight: "inherit",
                                                   display: "block",
@@ -1076,7 +1119,11 @@ export default function InvoicePDF() {
               onClick={() => {
                 view
                   ? navigate("/invoices")
-                  : navigate(`/invoices/add/${invoiceNumber}`);
+                  : navigate(
+                      `/invoices/${
+                        location.pathname.includes("/edit/") ? "edit" : "add"
+                      }/${invoiceNumber}`
+                    );
               }}
             />
           </Box>
