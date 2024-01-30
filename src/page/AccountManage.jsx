@@ -21,6 +21,11 @@ import {
   Typography,
   TablePagination,
   Pagination,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
 } from "@mui/material";
 import ModalComponent from "../component/ModalComponent";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
@@ -66,17 +71,25 @@ function AccountManage() {
   const { searchData } = useSearchData();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
-
+  const [date, setDate] = useState("");
+  const [filter, setFilter] = useState();
+  const [from, setFrom] = useState();
+  const [to, setTo] = useState();
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handleChange = (event, newPage) => {
+  const handlePageChange = (event, newPage) => {
     setPage(newPage);
+  };
+  const handleDateChange = (event) => {
+    setDate(event.target.value);
+  };
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
   };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1);
   };
-
   const viewAllTransaction = async () => {
     try {
       const res = await apiCall({
@@ -87,6 +100,9 @@ function AccountManage() {
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
+          from: from,
+          to: to,
+          filter: filter,
         },
       });
       if (res.data.success === true) {
@@ -125,7 +141,27 @@ function AccountManage() {
     transactionDashboard();
     viewAllTransaction();
   }, [page, rowsPerPage]);
-
+  useEffect(() => {
+    if (date === "lastweek") {
+      setFrom(
+        moment().subtract(1, "weeks").startOf("week").format("YYYY-MM-DD")
+      );
+      setTo(moment().subtract(1, "weeks").endOf("week").format("YYYY-MM-DD"));
+    } else if (date === "lastmonth") {
+      setFrom(
+        moment().subtract(1, "months").startOf("month").format("YYYY-MM-DD")
+      );
+      setTo(moment().subtract(1, "months").endOf("month").format("YYYY-MM-DD"));
+    } else if (date === "lastyear") {
+      setFrom(
+        moment().subtract(1, "years").startOf("year").format("YYYY-MM-DD")
+      );
+      setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
+    }
+    if ((to && from) || filter) {
+      viewAllTransaction();
+    }
+  }, [date, to, from, filter]);
   let acFormattedDate;
   if (selectedTransaction?.date) {
     let originalDate = moment(selectedTransaction?.date);
@@ -188,12 +224,14 @@ function AccountManage() {
               <CounterCards
                 Title="Total Income"
                 Counter={`₹${dashboard?.totalIncome || 0}`}
+                style={{ color: "success.main" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Expense"
                 Counter={`₹${Math.abs(dashboard?.totalExpense) || 0}`}
+                style={{ color: "review.main" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
@@ -205,7 +243,188 @@ function AccountManage() {
               />
             </Grid>
           </Grid>
-
+          <Box
+            sx={{
+              marginTop: "30px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box
+              noValidate
+              autoComplete="off"
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                flexDirection: "column",
+                gap: 2.5,
+                "& fieldset": { borderRadius: "6px" },
+                maxWidth: "320px",
+              }}
+            >
+              <FormControl
+                size="small"
+                sx={{
+                  "&>label": { fontSize: "14px" },
+                  flexGrow: 1,
+                }}
+              >
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
+                >
+                  Date
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={date}
+                  label="Date"
+                  onChange={handleDateChange}
+                  className="selectInput"
+                  style={{ height: "auto" }}
+                  sx={{
+                    fontSize: "14px",
+                    "&": {
+                      bgcolor: "white",
+                    },
+                  }}
+                >
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastweek"}
+                  >
+                    Last Week
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastmonth"}
+                  >
+                    Last Month
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastyear"}
+                  >
+                    Last Year
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"CustomRange"}
+                  >
+                    Custom Range
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              {date === "CustomRange" && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: { xs: "column", sm: "row" },
+                    "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                    gap: 2.5,
+                    flexShrink: 0,
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="form"
+                    label="From"
+                    autoComplete="off"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="mm/dd/yyyy"
+                    onChange={(e) => setFrom(e.target.value)}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&": {
+                        bgcolor: "white",
+                        borderRadius: 1.5,
+                      },
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="to"
+                    label="To"
+                    autoComplete="off"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="mm/dd/yyyy"
+                    onChange={(e) => setTo(e.target.value)}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&": {
+                        bgcolor: "white",
+                        borderRadius: 1.5,
+                      },
+                    }}
+                  />
+                </Box>
+              )}
+            </Box>
+            <Box
+              noValidate
+              autoComplete="off"
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                flexDirection: "column",
+                gap: 2.5,
+                "& fieldset": { borderRadius: "6px" },
+                maxWidth: "200px",
+              }}
+            >
+              <FormControl
+                size="small"
+                sx={{
+                  "&>label": { fontSize: "14px" },
+                  flexGrow: 1,
+                }}
+              >
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
+                >
+                  Filter
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={filter}
+                  label="Filter"
+                  onChange={handleFilterChange}
+                  className="selectInput"
+                  style={{ height: "auto" }}
+                  sx={{
+                    fontSize: "14px",
+                    "&": {
+                      bgcolor: "white",
+                    },
+                  }}
+                >
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"income"}
+                  >
+                    Income
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"expense"}
+                  >
+                    Expense
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </Box>
           <Box sx={{ mt: 4 }}>
             {transactionList.length > 0 ? (
               <>
@@ -442,7 +661,7 @@ function AccountManage() {
                 {/* pagination */}
                 <ThemePagination
                   totalpage={totalPage}
-                  onChange={handleChange}
+                  onChange={handlePageChange}
                   rowsPerPage={rowsPerPage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                 />
