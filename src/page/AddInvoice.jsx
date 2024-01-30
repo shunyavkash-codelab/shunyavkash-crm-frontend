@@ -269,6 +269,7 @@ export default function AddInvoice() {
       const res = await apiCall({
         url: APIS.CLIENT.LIST,
         method: "get",
+        params: { limit: 1000 },
       });
       if (res.data.success === true) {
         setClientList(res.data.data.data);
@@ -820,8 +821,10 @@ export default function AddInvoice() {
                                 fontSize: "16px",
                               }}
                             >
-                              {values.address} {values.address2}
-                              {values.landmark} {values.pincode}
+                              <div>{values.address}</div>{" "}
+                              <div>{values.address2}</div>
+                              <div>{values.landmark}</div>{" "}
+                              <div>{values.pincode}</div>
                             </Typography>
                             <Box
                               sx={{
@@ -1051,8 +1054,18 @@ export default function AddInvoice() {
                                     fontSize: "16px",
                                   }}
                                 >
-                                  {selectedClient?.address ||
-                                    invoiceData?.to?.address}
+                                  <p>
+                                    {selectedClient?.address
+                                      .split("\n")
+                                      .map((line, index) => (
+                                        <div key={index}>{line}</div>
+                                      )) ||
+                                      invoiceData?.to?.address
+                                        .split("\n")
+                                        .map((line, index) => (
+                                          <div key={index}>{line}</div>
+                                        ))}
+                                  </p>
                                 </Typography>
                                 <Box
                                   className="editIcon"
@@ -1833,8 +1846,6 @@ export default function AddInvoice() {
                             sx={{
                               userSelect: "none",
                               display: showSign ? "inline-flex" : "none",
-                              mt: 8.5,
-                              mr: 6,
                               flexShrink: 0,
                               position: "relative",
                               maxHeight: "100px",

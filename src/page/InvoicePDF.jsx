@@ -222,10 +222,18 @@ export default function InvoicePDF() {
                                               width: "324px",
                                             }}
                                           >
-                                            {invoiceData.from.address}
-                                            {invoiceData.from.address2}
-                                            {invoiceData.from.landmark}
-                                            {invoiceData.from.pincode}
+                                            <div>
+                                              {invoiceData.from.address}
+                                            </div>{" "}
+                                            <div>
+                                              {invoiceData.from.address2}
+                                            </div>
+                                            <div>
+                                              {invoiceData.from.landmark}
+                                            </div>{" "}
+                                            <div>
+                                              {invoiceData.from.pincode}
+                                            </div>
                                           </p>
                                         </td>
                                       </tr>
@@ -332,7 +340,11 @@ export default function InvoicePDF() {
                                         fontWeight: 500,
                                       }}
                                     >
-                                      {invoiceData?.to?.address}
+                                      {invoiceData?.to?.address
+                                        .split("\n")
+                                        .map((line, index) => (
+                                          <div key={index}>{line}</div>
+                                        ))}
                                     </p>
                                   </div>
                                 </td>
