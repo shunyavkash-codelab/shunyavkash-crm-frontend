@@ -28,7 +28,7 @@ label.Mui-focused {
 }
 
 .MuiMenu-list.MuiList-root {
-  height: 202px;
+  max-height: 202px;
 }
 
 .MuiMenu-list.MuiList-root li {
