@@ -68,13 +68,11 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
       confirmAccountNumber: Yup.number()
         .required("Confirm a/c number is required.")
         .oneOf([Yup.ref("accountNumber"), null], "A/c number must match"),
-      IFSC: Yup.string()
-        .required("IFSC is required.")
-        .length(11)
-        .matches(
-          /^[a-zA-Z]{4}[0][a-zA-Z0-9]{6}$/,
-          "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
-        ),
+      IFSC: Yup.string().required("IFSC is required.").length(11),
+      // .matches(
+      //   /^[a-zA-Z]{4}[0][a-zA-Z0-9]{6}$/,
+      //   "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
+      // ),
       bankName: Yup.string().required("Bank Name is required."),
       holderName: Yup.string().required("A/c holder name is required."),
     }),

@@ -23,33 +23,40 @@ export default function InvoiceInputForm({
   val,
   uniqId,
   identify,
-  onSuccess = () => {},
+  onSuccess = async () => {},
 }) {
   const handleClose = () => setOpen(false);
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
   // yup data validator schhema
-  const schema = Yup.object({
-    address: Yup.string().required("Address is required.").trim(),
-    address2: Yup.string().required("Address line 2 is required.").trim(),
-    landmark: Yup.string().required("Landmark is required.").trim(),
-    pincode: Yup.string()
-      .required("Pincode is required.")
-      .trim()
-      .length(6)
-      .matches(/^[0-9]+$/, "Pincode must only contain numeric digits."),
-    email: Yup.string()
-      .email("Field should contain a valid e-mail")
-      .max(255)
-      .required("Email is required.")
-      .trim(),
-    mobileNumber: Yup.string()
-      .required("Moblie number is required.")
-      .length(10)
-      .matches(/^[0-9]+$/, "Mobile number must only contain numeric digits."),
-    description: Yup.string(),
-    // companyName: Yup.string().required("Company name is required.").trim(),
-  });
+  const schema = Yup.object(
+    identify === 1
+      ? {
+          address: Yup.string().required("Address is required.").trim(),
+          address2: Yup.string().required("Address line 2 is required.").trim(),
+          landmark: Yup.string().required("Landmark is required.").trim(),
+          pincode: Yup.string()
+            .required("Pincode is required.")
+            .trim()
+            .length(6)
+            .matches(/^[0-9]+$/, "Pincode must only contain numeric digits."),
+          email: Yup.string()
+            .email("Field should contain a valid e-mail")
+            .max(255)
+            .required("Email is required.")
+            .trim(),
+          mobileNumber: Yup.string()
+            .required("Moblie number is required.")
+            .length(10)
+            .matches(
+              /^[0-9]+$/,
+              "Mobile number must only contain numeric digits."
+            ),
+          description: Yup.string(),
+          // companyName: Yup.string().required("Company name is required.").trim(),
+        }
+      : { address: Yup.string().required("Address is required.").trim() }
+  );
 
   const formik = useFormik({
     validationSchema: schema,
@@ -111,9 +118,8 @@ export default function InvoiceInputForm({
 
         if (res.data.success === true) {
           setSnack(res.data.message);
-          console.log(res.data.data);
           setOpen(false);
-          onSuccess();
+          await onSuccess();
         }
       } catch (error) {
         let errorMessage = error.response.data.message;
@@ -234,7 +240,7 @@ export default function InvoiceInputForm({
                 }}
               >
                 <ThemeButton success Text="Submit" type="submit" />
-                <ThemeButton discard Text="discard" />
+                <ThemeButton discard Text="discard" onClick={handleClose} />
               </Box>
             </Box>
           </Box>

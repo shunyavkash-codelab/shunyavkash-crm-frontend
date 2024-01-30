@@ -10,7 +10,11 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import ThemeButton from "./ThemeButton";
 
-export default function AddClientsModal({ open, setOpen, fetchClients }) {
+export default function AddClientsModal({
+  open,
+  setOpen,
+  onSuccess = async () => {},
+}) {
   const handleClose = () => setOpen(false);
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
@@ -60,7 +64,7 @@ export default function AddClientsModal({ open, setOpen, fetchClients }) {
           data: JSON.stringify(values, null, 2),
         });
         if (res.status === 201) {
-          await fetchClients();
+          await onSuccess(res.data.data._id);
           setSnack(res.data.message);
           setOpen(false);
         }

@@ -27,7 +27,11 @@ label.Mui-focused {
   border-width: 1px !important;
 }
 
-.css-6hp17o-MuiList-root-MuiMenu-list li {
+.MuiMenu-list.MuiList-root {
+  height: 202px;
+}
+
+.MuiMenu-list.MuiList-root li {
   font-size: 14px;
   min-height: unset;
 }

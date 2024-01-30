@@ -65,12 +65,11 @@ export default function AddClient() {
     //   }),
     websiteURL: Yup.string().url("Invalid URL"),
     accountNumber: Yup.number(),
-    IFSC: Yup.string()
-      .length(11)
-      .matches(
-        /^[a-zA-Z]{4}[0][a-zA-Z0-9]{6}$/,
-        "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
-      ),
+    IFSC: Yup.string().length(11),
+    // .matches(
+    //   /^[a-zA-Z]{4}[0][a-zA-Z0-9]{6}$/,
+    //   "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
+    // ),
     bankName: Yup.string(),
     holderName: Yup.string(),
   });
@@ -215,7 +214,6 @@ export default function AddClient() {
                 noValidate
                 autoComplete="off"
                 onSubmit={(e) => {
-                  console.log(formik.values, "==============183");
                   e.preventDefault();
                   formik.handleSubmit();
                 }}
