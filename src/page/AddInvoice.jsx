@@ -209,11 +209,11 @@ export default function AddInvoice() {
         "IFSC Code",
         "IFSC Code is a required.",
         (bankDetails) => bankDetails !== undefined
-      )
-      .matches(
-        /^[a-zA-Z]{4}[0][a-zA-Z0-9]{6}$/,
-        "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
       ),
+    // .matches(
+    //   /^[a-zA-Z]{4}[0][a-zA-Z0-9]{6}$/,
+    //   "First 4 characters must be alphabets, 5th is '0' and last 6 characters any alphabets or numbers."
+    // ),
     bankName: Yup.string()
       .test(
         "Bank Name",
@@ -272,6 +272,7 @@ export default function AddInvoice() {
       });
       if (res.data.success === true) {
         setClientList(res.data.data.data);
+        return res.data.data.data;
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -339,7 +340,7 @@ export default function AddInvoice() {
   // };
 
   // client Data
-  const clientData = async (formik, id) => {
+  const clientData = (formik, id) => {
     const clientAddress = clientList.find((client) => {
       return client._id === id;
     });
@@ -536,7 +537,7 @@ export default function AddInvoice() {
                     pricePerHours: task.price_hours || "00.00",
                     amount: task.hours * task.price_hours,
                   })),
-                clientAddress: invoiceData.clientAddress,
+                clientAddress: invoiceData.to.address,
                 total: invoiceData.total,
                 // projectDescription: projectDescription.description || "",
                 selectBank: invoiceData.selectBank,
@@ -976,11 +977,15 @@ export default function AddInvoice() {
                                 id="to"
                                 label="To"
                                 onChange={(e) => {
+                                  if (e.target.value === "Add Client") {
+                                    return;
+                                  }
                                   formik.setFieldValue("to", e.target.value);
                                   clientData(formik, e.target.value);
                                 }}
                                 sx={{ fontSize: "14px" }}
                                 defaultValue={invoiceData?.clientId}
+                                value={values.to}
                               >
                                 {clientList.map((clientName) => (
                                   <MenuItem
@@ -1012,7 +1017,20 @@ export default function AddInvoice() {
                               <AddClientsModal
                                 open={open}
                                 setOpen={setOpen}
-                                fetchClients={fetchClient}
+                                onSuccess={async (id) => {
+                                  let clients = await fetchClient();
+                                  const clientAddress = clients.find(
+                                    (client) => {
+                                      return client._id === id;
+                                    }
+                                  );
+                                  formik.setFieldValue("to", id);
+                                  formik.setFieldValue(
+                                    "clientAddress",
+                                    clientAddress?.address
+                                  );
+                                  setSelectedClient(clientAddress);
+                                }}
                               />
                               {Boolean(formik.errors.to) &&
                                 formik.touched.to && (
@@ -1956,47 +1974,6 @@ export default function AddInvoice() {
                           />
                         }
                       />
-                      {/* <FormControlLabel
-                          label="Add Signature"
-                          sx={{
-                            userSelect: "none",
-                            m: 0,
-                            "&>span:last-child": {
-                              ml: 1,
-                            },
-                          }}
-                          control={
-                            <Checkbox
-                              onClick={() => setShowSign(!showSign)}
-                              disableRipple
-                              sx={{
-                                p: 0,
-                                position: "relative",
-                                borderRadius: "4px",
-                                width: "20px",
-                                height: "20px",
-                                bgcolor: "text.primary",
-                                "& svg": { opacity: 0 },
-                                "&:before": {
-                                  content: "'✓'",
-                                  position: "absolute",
-                                  top: "50%",
-                                  left: "50%",
-                                  transform: "translate(-50%,-50%)",
-                                  opacity: 0,
-                                  transition: "all 0.2s ease-in-out",
-                                  color: "white",
-                                  fontSize: "14px",
-                                },
-                                "&.Mui-checked:before": {
-                                  opacity: 1,
-                                },
-                              }}
-                              defaultChecked
-                            />
-                          }
-                        /> */}
-                      {/* </Stack> */}
                     </Box>
                     <Box
                       sx={{
@@ -2048,14 +2025,16 @@ export default function AddInvoice() {
                     address: values.clientAddress,
                   },
                 ]}
-                onSuccess={fetchClient}
-                // onSuccess={
-                //   selectedClient?._id
-                //     ? fetchProject.bind(null, selectedClient._id)
-                //     : () => {}
-                // }
+                onSuccess={async () => {
+                  let clients = await fetchClient();
+                  const clientAddress = clients.find((client) => {
+                    return client._id === values.to;
+                  });
+                  formik.setFieldValue("clientAddress", clientAddress?.address);
+                  setSelectedClient(clientAddress);
+                }}
                 label={"Edit Client Information"}
-                uniqId={selectedClient?._id}
+                uniqId={selectedClient?._id || values.to}
                 identify={2}
               />
               {/* project information edit */}
@@ -2076,30 +2055,6 @@ export default function AddInvoice() {
                 uniqId={projectDescription?._id}
                 identify={3}
               /> */}
-              {/* invoice information edit */}
-              <InvoiceInputForm
-                open={invoiceOpen}
-                setOpen={setInvoiceOpen}
-                val={[
-                  {
-                    invoiceNumber: invoiceNumber,
-                    invoiceDate:
-                      // new Date(invoiceData.invoiceDATE)
-                      //   .toISOString()
-                      //   .split("T")[0] ||
-                      new Date().toISOString().split("T")[0],
-                    invoiceDueDate: fifteenDaysAgo.toISOString().split("T")[0],
-                  },
-                ]}
-                // onSuccess={
-                //   selectedClient?._id
-                //     ? fetchProject.bind(null, selectedClient._id)
-                //     : () => {}
-                // }
-                label={"Edit Invoice Information"}
-                // uniqId={projectDescription?._id}
-                identify={3}
-              />
             </>
           );
         }}
