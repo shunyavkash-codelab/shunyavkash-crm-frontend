@@ -373,7 +373,7 @@ export default function Invoices() {
             </Box> */}
           </Box>
 
-          <Typography
+          {/* <Typography
             variant="subtitle2"
             sx={{
               opacity: 0.6,
@@ -382,7 +382,7 @@ export default function Invoices() {
             }}
           >
             {invoiceList.length} Invoices found
-          </Typography>
+          </Typography> */}
 
           {invoiceList.length === 0 ? (
             <NoData />
