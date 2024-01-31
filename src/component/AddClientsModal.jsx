@@ -55,9 +55,7 @@ export default function AddClientsModal({
       address: "",
     },
     onSubmit: async (values) => {
-      console.log(values, "--------------------51");
       try {
-        // values.currency = currencyValue?.symbol;
         const res = await apiCall({
           url: APIS.CLIENT.ADD,
           method: "post",
@@ -132,7 +130,7 @@ export default function AddClientsModal({
                 onClick={handleClose}
                 disableRipple
                 disableElevation
-                id="cancle_icon"
+                id="cencel_icon"
                 sx={{
                   color: "white",
                   position: { sm: "absolute" },

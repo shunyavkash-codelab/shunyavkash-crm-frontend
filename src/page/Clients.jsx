@@ -78,7 +78,12 @@ export default function Clients() {
   }, [page, rowsPerPage]);
   // });
   useEffect(() => {
-    if (searchData !== undefined) fetchclientData();
+    if (searchData !== undefined) {
+      const getData = setTimeout(async () => {
+        fetchclientData();
+      }, 1000);
+      return () => clearTimeout(getData);
+    }
   }, [searchData]);
 
   return (

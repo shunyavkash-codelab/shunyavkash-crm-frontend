@@ -729,6 +729,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                 <MobileDatePicker
                   label="Date"
                   name="date"
+                  format="DD/MM/YYYY"
                   value={dayjs(formikSalary.values.date || new Date())}
                   onChange={(e) => formikSalary.setFieldValue("date", e)}
                   sx={{

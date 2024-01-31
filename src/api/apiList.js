@@ -79,6 +79,7 @@ export const APIS = {
     LIST: "transaction",
     GET: (transactionId) => `transaction/${transactionId}`,
     EDIT: (transactionId) => `transaction/${transactionId}`,
+    DELETE: (transactionId) => `transaction/${transactionId}`,
     DASHBOARD: "transaction/dashboard",
   },
 };

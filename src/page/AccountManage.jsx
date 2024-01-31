@@ -61,6 +61,8 @@ function AccountManage() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [transactionList, setTransactionList] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [totalIncome, setTotalIncome] = useState(0);
+  const [totalExpense, setTotalExpense] = useState(0);
   const [dashboard, setDashboard] = useState();
   const { accessToken } = useAuth();
   const [open, setOpen] = useState(false);
@@ -72,7 +74,7 @@ function AccountManage() {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [date, setDate] = useState("");
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState("all");
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
   // pagination
@@ -102,21 +104,27 @@ function AccountManage() {
           limit: rowsPerPage,
           from: from,
           to: to,
-          filter: filter,
+          filter: filter === "all" ? undefined : filter,
         },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
         setTransactionList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
-        let total = 0;
+        let total = 0,
+          totalExp = 0,
+          totalInc = 0;
         for (var trans of res.data.data.data) {
           if (trans.type === "expense") {
             total = total - trans.amount;
+            totalExp = totalExp - trans.amount;
           } else {
             total = total + trans.amount;
+            totalInc = totalInc + trans.amount;
           }
         }
+        setTotalExpense(totalExp);
+        setTotalIncome(totalInc);
         setTotalAmount(total);
       }
     } catch (error) {
@@ -142,7 +150,23 @@ function AccountManage() {
     viewAllTransaction();
   }, [page, rowsPerPage]);
   useEffect(() => {
-    if (date === "lastweek") {
+    if (searchData !== undefined) {
+      const getData = setTimeout(async () => {
+        viewAllTransaction();
+      }, 1000);
+      return () => clearTimeout(getData);
+    }
+  }, [searchData]);
+  useEffect(() => {
+    if ((to && from) || filter) {
+      viewAllTransaction();
+    }
+  }, [to, from, filter]);
+  useEffect(() => {
+    if (date === "CustomRange") {
+      setFrom(moment().subtract(1, "days").endOf("day").format("YYYY-MM-DD"));
+      setTo(moment().format("YYYY-MM-DD"));
+    } else if (date === "lastweek") {
       setFrom(
         moment().subtract(1, "weeks").startOf("week").format("YYYY-MM-DD")
       );
@@ -158,10 +182,7 @@ function AccountManage() {
       );
       setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
     }
-    if ((to && from) || filter) {
-      viewAllTransaction();
-    }
-  }, [date, to, from, filter]);
+  }, [date]);
   let acFormattedDate;
   if (selectedTransaction?.date) {
     let originalDate = moment(selectedTransaction?.date);
@@ -224,14 +245,12 @@ function AccountManage() {
               <CounterCards
                 Title="Total Income"
                 Counter={`₹${dashboard?.totalIncome || 0}`}
-                style={{ color: "success.main" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Expense"
                 Counter={`₹${Math.abs(dashboard?.totalExpense) || 0}`}
-                style={{ color: "review.main" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
@@ -240,6 +259,12 @@ function AccountManage() {
                 Counter={`₹${
                   dashboard?.totalIncome - dashboard?.totalExpense || 0
                 }`}
+                counterStyle={{
+                  color:
+                    dashboard?.totalIncome - dashboard?.totalExpense > 0
+                      ? "success.main"
+                      : "review.main",
+                }}
               />
             </Grid>
           </Grid>
@@ -329,7 +354,7 @@ function AccountManage() {
                   <TextField
                     fullWidth
                     size="small"
-                    id="form"
+                    id="from"
                     label="From"
                     autoComplete="off"
                     type="date"
@@ -337,6 +362,7 @@ function AccountManage() {
                       shrink: true,
                     }}
                     placeholder="mm/dd/yyyy"
+                    value={from}
                     onChange={(e) => setFrom(e.target.value)}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
@@ -357,6 +383,7 @@ function AccountManage() {
                       shrink: true,
                     }}
                     placeholder="mm/dd/yyyy"
+                    value={to}
                     onChange={(e) => setTo(e.target.value)}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
@@ -408,7 +435,14 @@ function AccountManage() {
                       bgcolor: "white",
                     },
                   }}
+                  defaultValue={"all"}
                 >
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"all"}
+                  >
+                    All
+                  </MenuItem>
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
                     value={"income"}
@@ -482,9 +516,21 @@ function AccountManage() {
                         <TableCell sx={{ width: "120px" }}>
                           Expense Type
                         </TableCell>
-                        <TableCell sx={{ width: "140px", textAlign: "center" }}>
-                          Amount (₹)
-                        </TableCell>
+                        {filter !== "expense" && (
+                          <TableCell
+                            sx={{ width: "140px", textAlign: "center" }}
+                          >
+                            Income (₹)
+                          </TableCell>
+                        )}
+                        {filter !== "income" && (
+                          <TableCell
+                            sx={{ width: "140px", textAlign: "center" }}
+                          >
+                            Expense (₹)
+                          </TableCell>
+                        )}
+
                         <TableCell sx={{ width: "100px", textAlign: "center" }}>
                           actions
                         </TableCell>
@@ -575,13 +621,22 @@ function AccountManage() {
                           <TableCell
                             sx={{
                               textAlign: "center",
-                              color:
-                                account.type == "expense"
-                                  ? "review.main"
-                                  : "success.main",
+                              color: "success.main",
                             }}
                           >
-                            ${account.amount ? account.amount : "-"}
+                            {account.type === "income"
+                              ? "$" + account.amount
+                              : "-"}
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              textAlign: "center",
+                              color: "review.main",
+                            }}
+                          >
+                            {account.type === "expense"
+                              ? "$" + account.amount
+                              : "-"}
                           </TableCell>
                           <TableCell>
                             <Stack
@@ -616,15 +671,6 @@ function AccountManage() {
                                   <CreateIcon />
                                 </Button>
                               </Link>
-                              {/* {account.invoice ? (
-                            <Link to={account.invoice}>
-                              <Button disableRipple>
-                                <FileDownloadIcon />
-                              </Button>
-                            </Link>
-                          ) : (
-                            ""
-                          )} */}
                             </Stack>
                           </TableCell>
                         </TableRow>
@@ -641,11 +687,10 @@ function AccountManage() {
                       >
                         <TableCell colSpan={7}></TableCell>
                         <TableCell sx={{ color: "text.primary" }}>
-                          Total:
+                          Total Balance:
                         </TableCell>
                         <TableCell
                           sx={{
-                            // bgcolor: "rgba(74, 210, 146, 15%)",
                             color:
                               totalAmount < 0 ? "review.main" : "success.main",
                             textAlign: "center",
@@ -653,6 +698,43 @@ function AccountManage() {
                         >
                           ${Math.abs(totalAmount)}
                         </TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                      </TableRow>
+                    </TableFooter>
+                    <TableFooter>
+                      <TableRow
+                        sx={{
+                          "&>td": {
+                            fontWeight: 700,
+                            fontSize: "16px",
+                          },
+                        }}
+                      >
+                        <TableCell colSpan={7}></TableCell>
+                        <TableCell sx={{ color: "text.primary" }}>
+                          Total:
+                        </TableCell>
+                        {filter !== "expense" && (
+                          <TableCell
+                            sx={{
+                              color: "success.main",
+                              textAlign: "center",
+                            }}
+                          >
+                            ${Math.abs(totalIncome)}
+                          </TableCell>
+                        )}
+                        {filter !== "income" && (
+                          <TableCell
+                            sx={{
+                              color: "review.main",
+                              textAlign: "center",
+                            }}
+                          >
+                            ${Math.abs(totalExpense)}
+                          </TableCell>
+                        )}
                         <TableCell></TableCell>
                       </TableRow>
                     </TableFooter>

@@ -4,7 +4,9 @@ import { useAuth } from "../hooks/store/useAuth";
 import Header from "../component/Header";
 import SectionHeader from "../component/SectionHeader";
 import {
+  Autocomplete,
   Box,
+  Button,
   Card,
   FormControl,
   FormControlLabel,
@@ -16,6 +18,7 @@ import {
   RadioGroup,
   Select,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
@@ -29,6 +32,10 @@ import { APIS } from "../api/apiList";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import * as Yup from "yup";
+import AddClientsModal from "../component/AddClientsModal";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+
+const invoiceOwnerList = ["Shunyavkash", "Hiren Polara", "Jaydip Suvagiya"];
 
 function AccountAdd() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -38,6 +45,7 @@ function AccountAdd() {
   const { accessToken } = useAuth();
   const { id } = useParams();
   const [selected, setSelected] = useState(true);
+  const [open, setOpen] = useState(false);
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
@@ -58,7 +66,7 @@ function AccountAdd() {
     }),
     enableReinitialize: true,
     initialValues: {
-      type: viewTransaction?.type || "",
+      type: viewTransaction?.type || "income",
       date: viewTransaction?.date || "",
       title: viewTransaction?.title || "",
       description: viewTransaction?.description || "",
@@ -98,6 +106,18 @@ function AccountAdd() {
     },
   });
 
+  useEffect(() => {
+    if (formik.values.date === "") {
+      formik.setFieldValue("date", new Date().toISOString());
+    }
+  }, [formik.values.date]);
+  useEffect(() => {
+    if (formik.values.type === "income") {
+      formik.setFieldValue("invoiceType", "outbound");
+    } else {
+      formik.setFieldValue("invoiceType", "inbound");
+    }
+  }, [formik.values.type]);
   const getTransaction = async (id) => {
     try {
       const res = await apiCall({
@@ -118,12 +138,30 @@ function AccountAdd() {
       const res = await apiCall({
         url: APIS.CLIENT.LIST,
         method: "get",
+        params: { limit: 1000 },
       });
       if (res.data.success === true) {
         setClientList(res.data.data.data);
+        return res.data.data.data;
       }
     } catch (error) {
       console.log(error, setSnack);
+    }
+  };
+  // delete employee and user
+  const deleteEmpandman = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.ACCOUNTMANAGE.DELETE(id),
+        method: "delete",
+      });
+      if (res.status === 200) {
+        setSnack(res.data.message);
+        navigate("/account-management");
+      }
+    } catch (error) {
+      let errorMessage = error.response.data.message;
+      setSnack(errorMessage, "warning");
     }
   };
 
@@ -182,17 +220,27 @@ function AccountAdd() {
                     sx={{
                       display: "flex",
                       alignItems: "center",
+                      "& > .MuiFormControl-root": {
+                        display: "flex",
+                        flexDirection: "row",
+                      },
                     }}
                   >
                     <FormControl
-                      sx={{ "& > .MuiFormControl-root": { minWidth: "100%" } }}
+                      fullWidth
+                      sx={{
+                        "& > .MuiFormGroup-root": {
+                          width: "auto",
+                          marginRight: "auto",
+                        },
+                      }}
                     >
                       <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         // defaultValue="Credit"
                         name="type"
                         sx={{
-                          width: "100%",
+                          width: "80%",
                           flexDirection: "row",
                           justifyContent: "center",
                           "& span": {
@@ -217,6 +265,19 @@ function AccountAdd() {
                           onClick={() => setSelected(false)}
                         />
                       </RadioGroup>
+                      {location.pathname.includes("/edit/") && (
+                        <Tooltip title="Delete" sx={{ width: "auto" }} arrow>
+                          <Button
+                            disableRipple
+                            sx={{
+                              transition: "all 0.4s ease-in-out",
+                            }}
+                            onClick={() => deleteEmpandman()}
+                          >
+                            <DeleteIcon />
+                          </Button>
+                        </Tooltip>
+                      )}
                     </FormControl>
                   </Grid>
                   {/* Date */}
@@ -229,14 +290,18 @@ function AccountAdd() {
                       }}
                     >
                       <MobileDatePicker
+                        fullWidth
                         name="date"
                         label="Date"
                         value={dayjs(formik.values.date || new Date())}
                         onChange={(e) => formik.setFieldValue("date", e)}
                         sx={{
-                          minWidth: "100% !important",
-                          "& > *": { fontSize: "14px !important" },
+                          width: "100%",
+                          "&>label,& input,&>div": { fontSize: "14px" },
+                          "&>label": { top: "4px" },
+                          "& input": { py: 1.5 },
                         }}
+                        format="DD/MM/YYYY"
                         error={
                           formik.touched.date && Boolean(formik.errors.date)
                         }
@@ -251,15 +316,17 @@ function AccountAdd() {
                   {/* Title */}
                   <Grid item xs={12}>
                     <TextField
+                      fullWidth
                       id="title"
                       label="Title"
                       defaultValue=""
-                      size="normal"
+                      size="small"
                       onChange={formik.handleChange}
                       value={formik.values.title}
                       sx={{
-                        width: "100%",
-                        "& > .MuiFormLabel-root": { fontSize: 14 },
+                        "&>label,& input,&>div": { fontSize: "14px" },
+                        "&>label": { top: "4px" },
+                        "& input": { textTransform: "capitalize", py: 1.5 },
                       }}
                       error={
                         formik.touched.title && Boolean(formik.errors.title)
@@ -275,12 +342,15 @@ function AccountAdd() {
                       id="description"
                       label="Description"
                       defaultValue=""
+                      size="small"
                       onChange={formik.handleChange}
                       value={formik.values.description}
                       sx={{
                         width: "100%",
-                        fontSize: 14,
-                        "& > *": { fontSize: 14 },
+                        "&>div": { fontSize: "14px" },
+                        "& > *": { fontSize: "14px" },
+                        "& input": { py: 1.5 },
+                        "&>label": { top: "4px" },
                       }}
                       error={
                         formik.touched.description &&
@@ -297,9 +367,15 @@ function AccountAdd() {
                       id="amount"
                       label="Amount"
                       defaultValue=""
+                      size="small"
                       onChange={formik.handleChange}
                       value={formik.values.amount}
-                      sx={{ width: "100%", "& > *": { fontSize: 14 } }}
+                      sx={{
+                        width: "100%",
+                        "& > *": { fontSize: 14 },
+                        "& input": { py: 1.5 },
+                        "&>label": { top: "4px" },
+                      }}
                       error={
                         formik.touched.amount && Boolean(formik.errors.amount)
                       }
@@ -307,13 +383,14 @@ function AccountAdd() {
                     />
                   </Grid>
                   {/* Expance Type */}
-                  {!selected && (
+                  {formik.values.type === "expense" && (
                     <Grid item xs={12} lg={6}>
                       <FormControl
                         fullWidth
-                        size="normal"
+                        size="small"
                         sx={{
-                          "&>label": { fontSize: "14px" },
+                          "&>label": { fontSize: "14px", top: "4px" },
+                          "&>div>div": { py: 1.5 },
                         }}
                       >
                         <InputLabel
@@ -373,13 +450,14 @@ function AccountAdd() {
                     </Grid>
                   )}
                   {/* Collaborator */}
-                  {selected && (
+                  {formik.values.type === "income" && (
                     <Grid item xs={12} lg={6}>
                       <FormControl
                         fullWidth
-                        size="normal"
+                        size="small"
                         sx={{
-                          "&>label": { fontSize: "14px" },
+                          "&>label": { fontSize: "14px", top: "4px" },
+                          "&>div>div": { py: 1.5 },
                         }}
                       >
                         <InputLabel
@@ -388,7 +466,7 @@ function AccountAdd() {
                         >
                           Collaborator
                         </InputLabel>
-                        {/* <Field
+                        <Field
                           name="file"
                           render={({ field, form }) => (
                             <>
@@ -399,6 +477,7 @@ function AccountAdd() {
                                 sx={{ fontSize: "14px" }}
                                 {...field}
                                 defaultValue={viewTransaction?.collaborator}
+                                value={formik.values.collaborator}
                                 onChange={(event) => {
                                   form.setFieldValue(
                                     "collaborator",
@@ -417,6 +496,14 @@ function AccountAdd() {
                                     {item.name}
                                   </MenuItem>
                                 ))}
+                                <MenuItem onClick={() => setOpen(true)}>
+                                  <Box sx={{ display: "flex" }}>
+                                    <ThemeButton
+                                      Text="Add Client"
+                                      buttonStyle={{ maxHeight: "36px" }}
+                                    />
+                                  </Box>
+                                </MenuItem>
                               </Select>
                               {formik.touched.collaborator &&
                                 Boolean(formik.errors.collaborator) && (
@@ -427,41 +514,7 @@ function AccountAdd() {
                                 )}
                             </>
                           )}
-                        /> */}
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          label="Collaborator"
-                          name="collaborator"
-                          value={formik.values.collaborator}
-                          onChange={(e) =>
-                            formik.setFieldValue("collaborator", e.target.value)
-                          }
-                          sx={{ fontSize: "14px" }}
-                          error={
-                            formik.touched.collaborator &&
-                            Boolean(formik.errors.collaborator)
-                          }
-                        >
-                          <MenuItem
-                            sx={{ textTransform: "capitalize" }}
-                            value={"pixel"}
-                          >
-                            Pixel
-                          </MenuItem>
-                          <MenuItem
-                            sx={{ textTransform: "capitalize" }}
-                            value={"simpliigence"}
-                          >
-                            Simpliigence
-                          </MenuItem>
-                          <MenuItem
-                            sx={{ textTransform: "capitalize" }}
-                            value={"rewenewd"}
-                          >
-                            Rewenewd
-                          </MenuItem>
-                        </Select>
+                        />
                         {formik.touched.collaborator &&
                           Boolean(formik.errors.collaborator) && (
                             <FormHelperText error={true}>
@@ -470,15 +523,24 @@ function AccountAdd() {
                             </FormHelperText>
                           )}
                       </FormControl>
+                      <AddClientsModal
+                        open={open}
+                        setOpen={setOpen}
+                        onSuccess={async (id) => {
+                          await fetchClients();
+                          formik.setFieldValue("collaborator", id);
+                        }}
+                      />
                     </Grid>
                   )}
                   {/* Invoice Type */}
                   <Grid item xs={12} lg={6}>
                     <FormControl
                       fullWidth
-                      size="normal"
+                      size="small"
                       sx={{
-                        "&>label": { fontSize: "14px" },
+                        "&>label": { fontSize: "14px", top: "4px" },
+                        "&>div>div": { py: 1.5 },
                       }}
                     >
                       <InputLabel
@@ -526,31 +588,63 @@ function AccountAdd() {
                   </Grid>
                   {/* Invoice Owner */}
                   <Grid item xs={12} md={6}>
-                    <TextField
-                      id="invoice-owner"
-                      label="Invoice Owner"
-                      defaultValue=""
-                      name="invoiceOwner"
-                      onChange={formik.handleChange}
+                    <Autocomplete
+                      id="free-solo-demo"
+                      freeSolo
+                      options={invoiceOwnerList.map((option) => option)}
+                      sx={{
+                        fontSize: "14px!important",
+                        "& .MuiAutocomplete-clearIndicator": {
+                          display: "none",
+                        },
+                      }}
+                      renderOption={(props, option) => (
+                        <Box
+                          component="li"
+                          sx={{
+                            "&": {
+                              fontSize: "14px",
+                              textTransform: "capitalize",
+                            },
+                          }}
+                          {...props}
+                        >
+                          {option}
+                        </Box>
+                      )}
                       value={formik.values.invoiceOwner}
-                      sx={{ width: "100%", "& > *": { fontSize: 14 } }}
-                      error={
-                        formik.touched.invoiceOwner &&
-                        Boolean(formik.errors.invoiceOwner)
-                      }
-                      helperText={
-                        formik.touched.invoiceOwner &&
-                        formik.errors.invoiceOwner
-                      }
+                      onChange={(event, newValue) => {
+                        formik.setFieldValue("invoiceOwner", newValue); // Update Formik field value
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          onKeyUp={(e) => {
+                            let value = e.target.value;
+                            formik.setFieldValue("invoiceOwner", value);
+                          }}
+                          sx={{
+                            "& input,&>div,&>label": { fontSize: "14px" },
+                            "&>label": { lineHeight: 1 },
+                            "&>div": { height: "44px", pl: "12px!important" },
+                            "& input": {
+                              textTransform: "capitalize",
+                              p: "0!important",
+                            },
+                          }}
+                          label="Invoice Owner"
+                        />
+                      )}
                     />
                   </Grid>
                   {/* Payment Method */}
                   <Grid item xs={12} lg={6}>
                     <FormControl
                       fullWidth
-                      size="normal"
+                      size="small"
                       sx={{
-                        "&>label": { fontSize: "14px" },
+                        "&>label": { fontSize: "14px", top: "4px" },
+                        "&>div>div": { py: 1.5 },
                       }}
                     >
                       <InputLabel
@@ -578,13 +672,19 @@ function AccountAdd() {
                           sx={{ textTransform: "capitalize" }}
                           value={"card"}
                         >
-                          Card
+                          Cash
                         </MenuItem>
                         <MenuItem
                           sx={{ textTransform: "capitalize" }}
                           value={"bankTransfer"}
                         >
                           Bank Transfer
+                        </MenuItem>
+                        <MenuItem
+                          sx={{ textTransform: "capitalize" }}
+                          value={"upi"}
+                        >
+                          UPI
                         </MenuItem>
                       </Select>
                       {formik.touched.paymentMethod &&
@@ -607,6 +707,13 @@ function AccountAdd() {
                       removeDocument={(data) =>
                         formik.setFieldValue("invoiceUpload", "")
                       }
+                      style={{
+                        py: 0.75,
+                        "& .react-file-reader-button": {
+                          display: "flex",
+                          "& >div": { py: 0.5 },
+                        },
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>

@@ -137,7 +137,14 @@ export default function LeavesRequests() {
     leaveDashboard();
     leaveList();
   }, [page, rowsPerPage]);
-
+  useEffect(() => {
+    if (searchData !== undefined) {
+      const getData = setTimeout(async () => {
+        leaveList();
+      }, 1000);
+      return () => clearTimeout(getData);
+    }
+  }, [searchData]);
   return (
     <>
       <SideBar

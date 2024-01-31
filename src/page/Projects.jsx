@@ -75,7 +75,12 @@ export default function Project() {
   }, [page, rowsPerPage]);
 
   useEffect(() => {
-    if (searchData !== undefined) fetchProjects();
+    if (searchData !== undefined) {
+      const getData = setTimeout(async () => {
+        fetchProjects();
+      }, 1000);
+      return () => clearTimeout(getData);
+    }
   }, [searchData]);
   return (
     <>

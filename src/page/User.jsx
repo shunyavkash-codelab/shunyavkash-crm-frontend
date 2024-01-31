@@ -54,9 +54,13 @@ export default function User() {
   useEffect(() => {
     fetchUsers();
   }, []);
-  // });
   useEffect(() => {
-    if (searchData !== undefined) fetchUsers();
+    if (searchData !== undefined) {
+      const getData = setTimeout(async () => {
+        fetchUsers();
+      }, 1000);
+      return () => clearTimeout(getData);
+    }
   }, [searchData]);
   return (
     <>

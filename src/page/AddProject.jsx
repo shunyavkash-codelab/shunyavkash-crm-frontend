@@ -500,7 +500,7 @@ export default function AddProject() {
                   >
                     <MobileDatePicker
                       label="Project Start Date"
-                      format="MM/DD/YYYY"
+                      format="DD/MM/YYYY"
                       value={dayjs(formik.values.startDate)}
                       sx={{
                         "&,&>div,&>label": { fontSize: "14px!important" },
@@ -534,7 +534,7 @@ export default function AddProject() {
                   >
                     <MobileDatePicker
                       label="Project End Date"
-                      format="MM/DD/YYYY"
+                      format="DD/MM/YYYY"
                       minDate={dayjs(formik.values.startDate).add(1, "day")}
                       value={dayjs(formik.values.endDate).add(1, "day")}
                       sx={{

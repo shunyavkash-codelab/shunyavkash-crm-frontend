@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Divider,
   FormControlLabel,
   Grid,
   Stack,
@@ -73,6 +74,8 @@ export default function BankDetailForm({ profileList }) {
   const [defaultChecked, setDefaultChecked] = useState({ id: "" });
   const { setSnack } = useSnack();
   const [bankList, setBankList] = useState([]);
+  const [showBtn, setShowBtn] = useState();
+  const [setDeleteBankData] = useState(false);
 
   // add and edit bank
   const formik = useFormik({
@@ -107,6 +110,7 @@ export default function BankDetailForm({ profileList }) {
                 return bank;
               })
             );
+            setShowBtn(false);
           }
         }
 
@@ -140,8 +144,6 @@ export default function BankDetailForm({ profileList }) {
       }
     },
   });
-
-  const [setDeleteBankData] = useState(false);
 
   // delete bank
   const deleteBankdetail = async (id) => {
@@ -196,7 +198,7 @@ export default function BankDetailForm({ profileList }) {
           alignItems: { sm: "start", md: "center" },
         }}
       >
-        <Typography variant="h4" gutterBottom sx={{ fontSize: 16 }}>
+        <Typography variant="h4" gutterBottom sx={{ fontSize: 16, mb: 0 }}>
           Bank Details
         </Typography>
         <ThemeButton
@@ -236,17 +238,28 @@ export default function BankDetailForm({ profileList }) {
             value={row.unSaved ? "create" : "update"}
             name="unsave"
           />
+          <Divider sx={{ borderColor: "rgba(0,0,0,10%)", my: 3 }} />
           <Grid
             container
             rowSpacing={2}
             columnSpacing={2}
-            mt={2}
             sx={{
               "& .MuiFormLabel-root, & .MuiInputBase-input": {
                 fontSize: "14px",
               },
             }}
           >
+            <Grid item xs={12} sx={{ pt: 3 }}>
+              <Box>
+                <Typography
+                  variant="h4"
+                  gutterBottom
+                  sx={{ fontSize: "16px", mb: "10px" }}
+                >
+                  {row.bankName}
+                </Typography>
+              </Box>
+            </Grid>
             <Grid item xs={12} sm={6}>
               <Box>
                 <TextField
@@ -349,6 +362,7 @@ export default function BankDetailForm({ profileList }) {
                       checked={defaultChecked.id === row._id}
                       onChange={() => {
                         setDefaultChecked({ id: row._id });
+                        setShowBtn(defaultChecked.id !== row._id);
                       }}
                     />
                   }
@@ -362,35 +376,37 @@ export default function BankDetailForm({ profileList }) {
                 />
               </Box>
             </Grid>
-            <Grid item xs={12}>
-              <Stack direction="row" spacing={2}>
-                <ThemeButton
-                  success
-                  Text="Save"
-                  type="submit"
-                  onClick={() => {
-                    formik.setFieldValue("id", row._id);
-                  }}
-                />
-                <ThemeButton
-                  discard
-                  Text="discard"
-                  onClick={async () => {
-                    try {
-                      if (!row.unSaved) {
-                        // api
-                        await deleteBankdetail(row._id);
+            {showBtn && defaultChecked.id === row._id && (
+              <Grid item xs={12}>
+                <Stack direction="row" spacing={2}>
+                  <ThemeButton
+                    success
+                    Text="Save"
+                    type="submit"
+                    onClick={() => {
+                      formik.setFieldValue("id", row._id);
+                    }}
+                  />
+                  <ThemeButton
+                    discard
+                    Text="discard"
+                    onClick={async () => {
+                      try {
+                        if (!row.unSaved) {
+                          // api
+                          await deleteBankdetail(row._id);
+                        }
+                        setBankList((prev) =>
+                          prev.filter((bank) => bank._id !== row._id)
+                        );
+                      } catch (error) {
+                        setSnack(error.response.data.message, "error");
                       }
-                      setBankList((prev) =>
-                        prev.filter((bank) => bank._id !== row._id)
-                      );
-                    } catch (error) {
-                      setSnack(error.response.data.message, "error");
-                    }
-                  }}
-                />
-              </Stack>
-            </Grid>
+                    }}
+                  />
+                </Stack>
+              </Grid>
+            )}
           </Grid>
         </Box>
       ))}
