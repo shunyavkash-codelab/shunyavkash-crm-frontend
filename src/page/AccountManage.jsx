@@ -618,26 +618,30 @@ function AccountManage() {
                           <TableCell>
                             {account.expenseType ? account.expenseType : "-"}
                           </TableCell>
-                          <TableCell
-                            sx={{
-                              textAlign: "center",
-                              color: "success.main",
-                            }}
-                          >
-                            {account.type === "income"
-                              ? "$" + account.amount
-                              : "-"}
-                          </TableCell>
-                          <TableCell
-                            sx={{
-                              textAlign: "center",
-                              color: "review.main",
-                            }}
-                          >
-                            {account.type === "expense"
-                              ? "$" + account.amount
-                              : "-"}
-                          </TableCell>
+                          {filter !== "expense" && (
+                            <TableCell
+                              sx={{
+                                textAlign: "center",
+                                color: "success.main",
+                              }}
+                            >
+                              {account.type === "income"
+                                ? "$" + account.amount
+                                : "-"}
+                            </TableCell>
+                          )}
+                          {filter !== "income" && (
+                            <TableCell
+                              sx={{
+                                textAlign: "center",
+                                color: "review.main",
+                              }}
+                            >
+                              {account.type === "expense"
+                                ? "$" + account.amount
+                                : "-"}
+                            </TableCell>
+                          )}
                           <TableCell>
                             <Stack
                               direction="row"
