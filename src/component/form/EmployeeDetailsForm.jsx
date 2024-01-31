@@ -97,7 +97,6 @@ export default function EmployeeDetailsForm({
             label="Start Date"
             format="DD/MM/YYYY"
             value={dayjs(formik.values.dateOfJoining)}
-            // value={dayjs(date, { format: "DD/MM/YYYY" }).toDate()}
             sx={{
               minWidth: "100% !important",
               fontSize: "14px !important",

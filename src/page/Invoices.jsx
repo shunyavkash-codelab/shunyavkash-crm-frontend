@@ -53,6 +53,8 @@ export default function Invoices() {
   const { searchData } = useSearchData();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+  const [from, setFrom] = useState();
+  const [to, setTo] = useState();
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -100,9 +102,12 @@ export default function Invoices() {
         url: APIS.INVOICE.LIST,
         method: "get",
         params: {
+          sortField: "invoiceDate",
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
+          from: from,
+          to: to,
         },
       });
       if (res.data.success === true) {
@@ -118,7 +123,40 @@ export default function Invoices() {
     listInvoice();
     resetInvoiceStore();
   }, [page, rowsPerPage]);
-  // });
+  useEffect(() => {
+    if (searchData !== undefined) {
+      const getData = setTimeout(async () => {
+        listInvoice();
+      }, 1000);
+      return () => clearTimeout(getData);
+    }
+  }, [searchData]);
+  useEffect(() => {
+    if (to && from) {
+      listInvoice();
+    }
+  }, [to, from]);
+  useEffect(() => {
+    if (date === "CustomRange") {
+      setFrom(moment().subtract(1, "days").endOf("day").format("YYYY-MM-DD"));
+      setTo(moment().format("YYYY-MM-DD"));
+    } else if (date === "lastweek") {
+      setFrom(
+        moment().subtract(1, "weeks").startOf("week").format("YYYY-MM-DD")
+      );
+      setTo(moment().subtract(1, "weeks").endOf("week").format("YYYY-MM-DD"));
+    } else if (date === "lastmonth") {
+      setFrom(
+        moment().subtract(1, "months").startOf("month").format("YYYY-MM-DD")
+      );
+      setTo(moment().subtract(1, "months").endOf("month").format("YYYY-MM-DD"));
+    } else if (date === "lastyear") {
+      setFrom(
+        moment().subtract(1, "years").startOf("year").format("YYYY-MM-DD")
+      );
+      setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
+    }
+  }, [date]);
 
   return (
     <>
@@ -211,21 +249,21 @@ export default function Invoices() {
                 >
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"1WeekAgo"}
+                    value={"lastweek"}
                   >
-                    1 Week ago
+                    Last Week
                   </MenuItem>
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"1MonthAgo"}
+                    value={"lastmonth"}
                   >
-                    1 Month ago
+                    Last Month
                   </MenuItem>
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"1YearAgo"}
+                    value={"lastyear"}
                   >
-                    1 Year ago
+                    Last Year
                   </MenuItem>
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
@@ -248,7 +286,7 @@ export default function Invoices() {
                   <TextField
                     fullWidth
                     size="small"
-                    id="form"
+                    id="from"
                     label="From"
                     autoComplete="off"
                     type="date"
@@ -256,6 +294,8 @@ export default function Invoices() {
                       shrink: true,
                     }}
                     placeholder="mm/dd/yyyy"
+                    value={from}
+                    onChange={(e) => setFrom(e.target.value)}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
                       "&": {
@@ -275,6 +315,8 @@ export default function Invoices() {
                       shrink: true,
                     }}
                     placeholder="mm/dd/yyyy"
+                    value={to}
+                    onChange={(e) => setTo(e.target.value)}
                     sx={{
                       "&>label,& input,&>div": { fontSize: "14px" },
                       "&": {

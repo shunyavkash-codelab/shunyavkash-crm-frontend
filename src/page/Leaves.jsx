@@ -70,7 +70,14 @@ export default function Leaves() {
   useEffect(() => {
     approveLeaveList();
   }, [page, rowsPerPage]);
-
+  useEffect(() => {
+    if (searchData !== undefined) {
+      const getData = setTimeout(async () => {
+        approveLeaveList();
+      }, 1000);
+      return () => clearTimeout(getData);
+    }
+  }, [searchData]);
   return (
     <>
       <SideBar

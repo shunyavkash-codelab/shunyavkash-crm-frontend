@@ -474,6 +474,7 @@ function UserLeave({ profileId }) {
                   fullWidth
                   label="Start Date"
                   name="startDate"
+                  format="DD/MM/YYYY"
                   value={dayjs(formik.values.startDate || new Date())}
                   onChange={(e) => formik.setFieldValue("startDate", e)}
                   sx={{
@@ -563,6 +564,7 @@ function UserLeave({ profileId }) {
                 <MobileDatePicker
                   label="End Date"
                   name="endDate"
+                  format="DD/MM/YYYY"
                   value={dayjs(formik.values.endDate || new Date())}
                   onChange={(e) => formik.setFieldValue("endDate", e)}
                   sx={{

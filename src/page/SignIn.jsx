@@ -191,7 +191,7 @@ export default function SignIn() {
             my: 3,
           }}
         >
-          <FormControlLabel
+          {/* <FormControlLabel
             label="Add Watermark"
             sx={{
               userSelect: "none",
@@ -230,7 +230,7 @@ export default function SignIn() {
                 }}
               />
             }
-          />
+          /> */}
 
           <Link
             to="/forgot-password"

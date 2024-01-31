@@ -142,7 +142,13 @@ export default function Members() {
 
   // serech data
   useEffect(() => {
-    if (searchData !== undefined) fetchManager();
+    if (searchData !== undefined) {
+      const getData = setTimeout(async () => {
+        fetchManager();
+        fetchEmployees();
+      }, 1000);
+      return () => clearTimeout(getData);
+    }
   }, [searchData]);
 
   // employee
