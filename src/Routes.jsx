@@ -8,9 +8,6 @@ import ForgotPassword from "./page/ForgotPassword";
 import ConfirmPassword from "./page/ConfirmPassword";
 import Home from "./page/Home";
 import EmployeeDashboard from "./page/EmployeeDashboard";
-import User from "./page/User";
-import AddUser from "./page/AddUser";
-import ViewUser from "./page/ViewUser";
 import Members from "./page/Members";
 import Clients from "./page/Clients";
 import AddClient from "./page/AddClient";
@@ -22,7 +19,6 @@ import AddInvoice from "./page/AddInvoice";
 import PreviewInvoice from "./page/PreviewInvoice";
 import Profile from "./page/Profile";
 import ViewProject from "./page/ViewProject";
-import Employees from "./page/Employees";
 import LeavesRequests from "./page/LeavesRequests";
 import Leaves from "./page/Leaves";
 import MyProfile from "./page/MyProfile";
@@ -38,11 +34,8 @@ const routes = createBrowserRouter([
   { path: "/confirm-password", Component: ConfirmPassword },
   { path: "/", Component: Home },
   { path: "/employee-dashboard", Component: EmployeeDashboard },
-  { path: "/users", Component: User },
-  { path: "/users/add", Component: AddUser },
-  // { path: "/users/view/:id", Component: ViewUser },
-  { path: "/members/view/:id", Component: ViewUser },
   { path: "/members", Component: Members },
+  { path: "/members/add", Component: AddMember },
   { path: "/clients", Component: Clients },
   { path: "/Clients/add", Component: AddClient },
   { path: "/Clients/edit/:id", Component: AddClient },
@@ -56,19 +49,15 @@ const routes = createBrowserRouter([
   { path: "/invoices/add/:invoiceNumber/preview", Component: PreviewInvoice },
   { path: "/invoices/edit/:invoiceNumber/preview", Component: PreviewInvoice },
   { path: "/invoices/view/:invoiceNumber", Component: InvoicePDF },
-  // { path: "/invoices/view/:invoiceNumber", Component: PreviewInvoice },
   { path: "/invoices/edit/:invoiceNumber", Component: AddInvoice },
-  { path: "/employees", Component: Employees },
   { path: "/profile", Component: Profile },
   { path: "/leaves-requests", Component: LeavesRequests },
   { path: "/leaves", Component: Leaves },
   { path: "/my-profile", Component: MyProfile },
-  // { path: "/my-profile", Component: MyProfile },
   { path: "/my-profile/:id", Component: MyProfile },
   { path: "/account-management", Component: AccountManage },
   { path: "/account-management/add", Component: AccountAdd },
   { path: "/account-management/edit/:id", Component: AccountAdd },
-  { path: "/members/add", Component: AddMember },
   { path: "/invoices/edit/:invoiceNumber/invoice-pdf", Component: InvoicePDF },
   { path: "/invoices/add/:invoiceNumber/invoice-pdf", Component: InvoicePDF },
 ]);
