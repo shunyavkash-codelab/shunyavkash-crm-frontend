@@ -233,6 +233,7 @@ export default function LeavesRequests() {
                       <TableCell>Member</TableCell>
                       <TableCell>Type</TableCell>
                       <TableCell>Reason</TableCell>
+                      <TableCell>Apply Date</TableCell>
                       <TableCell>Start Date</TableCell>
                       <TableCell>End Date</TableCell>
                       <TableCell>Status</TableCell>
@@ -303,6 +304,19 @@ export default function LeavesRequests() {
                               gap: 1.75,
                             }}
                           >
+                            {moment(leaveRequest.createdAt).format(
+                              "DD/MM/YYYY"
+                            )}
+                          </Box>
+                        </TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1.75,
+                            }}
+                          >
                             <Box>
                               {moment(leaveRequest.startDate).format(
                                 "DD/MM/YYYY"
@@ -327,24 +341,29 @@ export default function LeavesRequests() {
                               display: "flex",
                               alignItems: "center",
                               gap: 1.75,
+                              marginLeft: !leaveRequest?.endDate && "32px",
                             }}
                           >
-                            <Box>
-                              {moment(leaveRequest.endDate).format(
-                                "DD/MM/YYYY"
-                              )}
-                              <Typography
-                                sx={{
-                                  marginTop: "3px",
-                                  lineHeight: 1,
-                                  textAlign: "center",
-                                  fontSize: "12px",
-                                  color: "darkgray",
-                                }}
-                              >
-                                ({leaveRequest.endDayType})
-                              </Typography>
-                            </Box>
+                            {leaveRequest.endDate ? (
+                              <Box>
+                                {moment(leaveRequest.endDate).format(
+                                  "DD/MM/YYYY"
+                                )}
+                                <Typography
+                                  sx={{
+                                    marginTop: "3px",
+                                    lineHeight: 1,
+                                    textAlign: "center",
+                                    fontSize: "12px",
+                                    color: "darkgray",
+                                  }}
+                                >
+                                  ({leaveRequest.endDayType})
+                                </Typography>
+                              </Box>
+                            ) : (
+                              "-"
+                            )}
                           </Box>
                         </TableCell>
                         <TableCell

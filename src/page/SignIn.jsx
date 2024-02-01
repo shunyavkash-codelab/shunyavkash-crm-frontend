@@ -186,7 +186,7 @@ export default function SignIn() {
         <Stack
           direction="row"
           alignItems="center"
-          justifyContent="space-between"
+          justifyContent="flex-end"
           sx={{
             my: 3,
           }}
