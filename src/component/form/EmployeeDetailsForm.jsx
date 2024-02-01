@@ -76,7 +76,6 @@ export default function EmployeeDetailsForm({
       }
     },
   });
-  console.log(formik.errors);
   return (
     <Grid
       component={"form"}

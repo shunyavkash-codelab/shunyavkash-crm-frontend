@@ -41,6 +41,7 @@ import NoData from "../component/NoData";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import CounterCards from "../component/CounterCards.jsx";
 import ThemePagination from "../component/ThemePagination";
+import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 
 export default function LeavesRequests() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -202,7 +203,11 @@ export default function LeavesRequests() {
             Members Leave Requests
           </Typography>
 
-          {allLeaveList.length > 0 ? (
+          {isLoading ? (
+            <LoadingIcon style={{ height: "50vh" }} />
+          ) : allLeaveList.length === 0 ? (
+            <NoData />
+          ) : (
             <>
               <TableContainer
                 component={Paper}
@@ -465,44 +470,7 @@ export default function LeavesRequests() {
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
-              {/* <TablePagination
-                component="div"
-                count={10}
-                page={page}
-                onPageChange={handleChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                sx={{
-                  "&>div": {
-                    p: 0,
-                    minHeight: "24px",
-                    "& .MuiTablePagination-selectLabel": {
-                      lineHeight: 1,
-                      fontWeight: 600,
-                    },
-                    "& .MuiTablePagination-input": {
-                      mr: 0,
-                      "&>div": {
-                        p: "0 24px 0 0",
-                      },
-                    },
-                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                      {
-                        display: "none",
-                      },
-                  },
-                }}
-              />
-              <Stack spacing={2}>
-                <Pagination
-                  count={totalPage}
-                  page={page}
-                  onChange={handleChange}
-                />
-              </Stack> */}
             </>
-          ) : (
-            <NoData />
           )}
 
           <ModalComponent

@@ -128,11 +128,6 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
                 type="file"
                 accept="image/*"
                 onChange={(event) => {
-                  //   console.log(
-                  //     event.target.files,
-                  //     form.setFieldValue(id, event.target.files[0]),
-                  //     "================"
-                  //   );
                   form.setFieldValue(id, event.target.files[0]);
                   setFile(URL.createObjectURL(event.target.files[0]));
                 }}

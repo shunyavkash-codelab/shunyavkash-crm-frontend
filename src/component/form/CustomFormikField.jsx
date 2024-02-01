@@ -15,7 +15,6 @@ export default function CustomFormikField({
       validateOnChange
       name={name}
       render={({ field, form }) => {
-        // console.log(form, field);
         return (
           <>
             <TextField
@@ -26,7 +25,6 @@ export default function CustomFormikField({
               helperText={
                 serverErrorMessage || (form.touched[name] && form.errors[name])
               }
-              // onBlur={formikBag.handleBlur}
               fullWidth
               size="small"
               sx={{

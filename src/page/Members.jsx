@@ -34,6 +34,7 @@ import SectionHeader from "../component/SectionHeader.jsx";
 import NoData from "../component/NoData.jsx";
 import CounterCards from "../component/CounterCards.jsx";
 import ThemePagination from "../component/ThemePagination";
+import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -82,7 +83,7 @@ export default function Members() {
   };
 
   const [employeesList, setEmployeesList] = useState([]);
-  const { apiCall } = useApi();
+  const { apiCall, isLoading } = useApi();
   const { searchData } = useSearchData();
   const { setSnack } = useSnack();
   const [page, setPage] = useState(1);
@@ -265,7 +266,11 @@ export default function Members() {
 
             {/* Manager */}
             <CustomTabPanel value={value} index={0}>
-              {managerList.length > 0 ? (
+              {isLoading ? (
+                <LoadingIcon style={{ height: "50vh" }} />
+              ) : managerList.length === 0 ? (
+                <NoData />
+              ) : (
                 <>
                   <TableContainer
                     component={Paper}
@@ -321,50 +326,17 @@ export default function Members() {
                     rowsPerPage={rowsPerPage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                   />
-                  {/* <TablePagination
-                    component="div"
-                    count={10}
-                    page={page}
-                    onPageChange={handleChangeOnPageChange}
-                    rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    sx={{
-                      "&>div": {
-                        p: 0,
-                        minHeight: "24px",
-                        "& .MuiTablePagination-selectLabel": {
-                          lineHeight: 1,
-                          fontWeight: 600,
-                        },
-                        "& .MuiTablePagination-input": {
-                          mr: 0,
-                          "&>div": {
-                            p: "0 24px 0 0",
-                          },
-                        },
-                        "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                          {
-                            display: "none",
-                          },
-                      },
-                    }}
-                  />
-                  <Stack spacing={2}>
-                    <Pagination
-                      count={totalPage}
-                      page={page}
-                      onChange={handleChangeOnPageChange}
-                    />
-                  </Stack> */}
                 </>
-              ) : (
-                <NoData />
               )}
             </CustomTabPanel>
 
             {/* Employee */}
             <CustomTabPanel value={value} index={1}>
-              {employeesList.length > 0 ? (
+              {isLoading ? (
+                <LoadingIcon style={{ height: "50vh" }} />
+              ) : employeesList.length === 0 ? (
+                <NoData />
+              ) : (
                 <>
                   <TableContainer
                     component={Paper}
@@ -453,8 +425,6 @@ export default function Members() {
                     />
                   </Stack>
                 </>
-              ) : (
-                <NoData />
               )}
             </CustomTabPanel>
           </Box>

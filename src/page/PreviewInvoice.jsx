@@ -38,7 +38,6 @@ export default function PreviewInvoice() {
   const { setSnack } = useSnack();
   const location = useLocation();
   let view = location.pathname.includes("/view/") ? true : false;
-  console.log(invoiceData);
   // add invoice
   const addInvoice = async () => {
     try {

@@ -28,6 +28,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import ModalComponent from "../component/ModalComponent.jsx";
 import AddLeaveForm from "../component/form/AddLeaveForm.jsx";
+import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 
 export default function Leaves() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -183,7 +184,11 @@ export default function Leaves() {
               />
             )}
           </Stack>
-          {approveList.length > 0 ? (
+          {isLoading ? (
+            <LoadingIcon style={{ height: "50vh" }} />
+          ) : approveList.length === 0 ? (
+            <NoData />
+          ) : (
             <>
               <TableContainer
                 component={Paper}
@@ -345,8 +350,6 @@ export default function Leaves() {
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
             </>
-          ) : (
-            <NoData />
           )}
         </Box>
       </Box>
