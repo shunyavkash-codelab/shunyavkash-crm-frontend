@@ -9,14 +9,11 @@ import {
   TableHead,
   TableRow,
   Typography,
-  TablePagination,
-  Pagination,
   Stack,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import { Link } from "react-router-dom";
 import { APIS } from "../api/apiList";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
@@ -25,17 +22,24 @@ import SectionHeader from "../component/SectionHeader";
 import NoData from "../component/NoData.jsx";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import ThemePagination from "../component/ThemePagination";
+import ThemeButton from "../component/ThemeButton.jsx";
+import PlusIcon from "@mui/icons-material/Close";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import ModalComponent from "../component/ModalComponent.jsx";
+import AddLeaveForm from "../component/form/AddLeaveForm.jsx";
 
 export default function Leaves() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [approveList, setApproveList] = useState([]);
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const { searchData } = useSearchData();
+  const [open, setOpen] = useState(false);
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -46,6 +50,60 @@ export default function Leaves() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1);
   };
+
+  const formik = useFormik({
+    validationSchema: Yup.object({
+      leaveType: Yup.string().required("Leave type is required."),
+      startDate: Yup.date().required("Start date is required."),
+      startDayType: Yup.string().required("Start day type is required."),
+      endDate: Yup.date().test(
+        "End date",
+        "End date is a required.",
+        function (value) {
+          if (this.parent.moreDay) {
+            return value !== undefined;
+          } else return true;
+        }
+      ),
+      endDayType: Yup.string().test(
+        "End day type",
+        "End day type is a required.",
+        function (value) {
+          if (this.parent.moreDay) {
+            return value !== undefined;
+          } else return true;
+        }
+      ),
+      reason: Yup.string().required("Reason is required."),
+    }),
+    enableReinitialize: true,
+    initialValues: {
+      leaveType: "",
+      startDate: moment().format("DD/MM/YYYY"),
+      startDayType: "full day",
+      endDate: undefined,
+      endDayType: undefined,
+      reason: "",
+      moreDay: false,
+    },
+
+    onSubmit: async (values) => {
+      try {
+        const res = await apiCall({
+          url: APIS.LEAVE.ADD,
+          method: "post",
+          data: JSON.stringify(values, null, 2),
+        });
+        if (res.data.success === true) {
+          setSnack(res.data.message);
+          setOpen(false);
+        }
+      } catch (error) {
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
 
   const approveLeaveList = async () => {
     try {
@@ -95,13 +153,36 @@ export default function Leaves() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <SectionHeader
-            Title="Members Leaves"
-            BreadCrumbPreviousLink="/"
-            BreadCrumbPreviousTitle="Dashboard"
-            BreadCrumbCurrentTitle="Leaves"
-          />
-
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ sm: "center" }}
+            justifyContent={{ sm: "space-between" }}
+            columnGap={2}
+            rowGap={2.5}
+          >
+            <SectionHeader
+              Title="Members Leaves"
+              BreadCrumbPreviousLink="/"
+              BreadCrumbPreviousTitle="Dashboard"
+              BreadCrumbCurrentTitle="Leaves"
+            />
+            {user.role !== 0 && (
+              <ThemeButton
+                transparent
+                smallRounded
+                Text="apply Leave"
+                startIcon={
+                  <PlusIcon
+                    sx={{
+                      fontSize: "16px!important",
+                      transform: "rotate(45deg)",
+                    }}
+                  />
+                }
+                onClick={() => setOpen(true)}
+              />
+            )}
+          </Stack>
           {approveList.length > 0 ? (
             <>
               <TableContainer
@@ -226,24 +307,29 @@ export default function Leaves() {
                               display: "flex",
                               alignItems: "center",
                               gap: 1.75,
+                              marginLeft: !leaveRequest?.endDate && "32px",
                             }}
                           >
-                            <Box>
-                              {moment(leaveRequest.endDate).format(
-                                "DD/MM/YYYY"
-                              )}
-                              <Typography
-                                sx={{
-                                  marginTop: "3px",
-                                  lineHeight: 1,
-                                  textAlign: "center",
-                                  fontSize: "12px",
-                                  color: "darkgray",
-                                }}
-                              >
-                                ({leaveRequest.endDayType})
-                              </Typography>
-                            </Box>
+                            {leaveRequest.endDate ? (
+                              <Box>
+                                {moment(leaveRequest.endDate).format(
+                                  "DD/MM/YYYY"
+                                )}
+                                <Typography
+                                  sx={{
+                                    marginTop: "3px",
+                                    lineHeight: 1,
+                                    textAlign: "center",
+                                    fontSize: "12px",
+                                    color: "darkgray",
+                                  }}
+                                >
+                                  ({leaveRequest.endDayType})
+                                </Typography>
+                              </Box>
+                            ) : (
+                              "-"
+                            )}
                           </Box>
                         </TableCell>
                       </TableRow>
@@ -258,47 +344,20 @@ export default function Leaves() {
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
-              {/* <TablePagination
-                component="div"
-                count={10}
-                page={page}
-                onPageChange={handleChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                sx={{
-                  "&>div": {
-                    p: 0,
-                    minHeight: "24px",
-                    "& .MuiTablePagination-selectLabel": {
-                      lineHeight: 1,
-                      fontWeight: 600,
-                    },
-                    "& .MuiTablePagination-input": {
-                      mr: 0,
-                      "&>div": {
-                        p: "0 24px 0 0",
-                      },
-                    },
-                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                      {
-                        display: "none",
-                      },
-                  },
-                }}
-              />
-              <Stack spacing={2}>
-                <Pagination
-                  count={totalPage}
-                  page={page}
-                  onChange={handleChange}
-                />
-              </Stack> */}
             </>
           ) : (
             <NoData />
           )}
         </Box>
       </Box>
+      <ModalComponent
+        open={open}
+        setOpen={setOpen}
+        modalTitle="Add Leave"
+        sx={{ padding: "6px" }}
+      >
+        <AddLeaveForm formik={formik} />
+      </ModalComponent>
     </>
   );
 }

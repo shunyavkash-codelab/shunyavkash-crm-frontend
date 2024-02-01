@@ -91,7 +91,9 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
               />
             </Button>
             {location.pathname === "/" ||
-            location.pathname.includes("/view") ? (
+            location.pathname.includes("/view") ||
+            location.pathname.includes("/edit/") ||
+            location.pathname.includes("/my-profile/") ? (
               ""
             ) : (
               <Box
