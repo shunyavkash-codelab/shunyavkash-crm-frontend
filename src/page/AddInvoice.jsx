@@ -635,7 +635,6 @@ export default function AddInvoice() {
                 data: bankObj,
               });
               if (res.status === 200) {
-                console.log(res.data.message);
                 values.selectBank = res.data.data._id;
               }
             } catch (error) {
@@ -653,7 +652,6 @@ export default function AddInvoice() {
                 data: formData,
               });
               if (res.status === 200) {
-                console.log(res.data.message);
                 // setUrl(files.base64);
               }
             } catch (error) {

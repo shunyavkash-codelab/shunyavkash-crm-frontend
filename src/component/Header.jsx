@@ -144,7 +144,6 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                     },
                   }}
                   onChange={(e) => {
-                    console.log(e.target.value);
                     setSearchData(e.target.value);
                   }}
                 />

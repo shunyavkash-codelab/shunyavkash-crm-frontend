@@ -17,7 +17,6 @@ export default function ThemeInput({
   sx = {},
   formik,
 }) {
-  console.log(formik.errors[name]);
   return (
     <FormControl fullWidth>
       <OutlinedInput

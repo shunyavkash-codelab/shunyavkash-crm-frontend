@@ -10,7 +10,6 @@ export default function EmployeeDocumentDetailForm({ data }) {
   const { userId } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall, isLoading } = useApi();
-  console.log(data, "data");
   // var _URL = window.URL || window.webkitURL;
   const editUserProfile = async (formData, message) => {
     try {

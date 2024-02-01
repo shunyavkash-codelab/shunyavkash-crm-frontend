@@ -69,7 +69,6 @@ export default function AddProject() {
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log(values, "----------------------70");
       try {
         // values.currency = currencyValue?.symbol;
         const res = await apiCall({

@@ -443,10 +443,8 @@ export default function AddClientsModal({
                     }}
                     name="mobileCode"
                     onChange={(event, newValue) => {
-                      console.log(newValue, "------------------220");
                       formik.setFieldValue("mobileCode", newValue?.phone); // Update Formik field value
                       setCountry(newValue);
-                      console.log(country, "---------------223----country");
                     }}
                     autoHighlight
                     renderOption={(props, option) => (

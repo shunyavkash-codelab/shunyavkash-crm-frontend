@@ -31,6 +31,7 @@ import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
 import ThemePagination from "../component/ThemePagination";
+import LoadingIcon from "../component/icons/LoadingIcon";
 
 export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -124,7 +125,9 @@ export default function Project() {
             </Link>
           </Stack>
 
-          {projectList.length === 0 ? (
+          {isLoading ? (
+            <LoadingIcon style={{ height: "50vh" }} />
+          ) : projectList.length === 0 ? (
             <NoData />
           ) : (
             <>

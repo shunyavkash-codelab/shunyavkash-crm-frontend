@@ -86,7 +86,6 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
     },
 
     onSubmit: async (values) => {
-      console.log(values);
       try {
         const res = await apiCall({
           url: userBank ? APIS.BANK.EDIT(userBank._id) : APIS.BANK.ADD,
@@ -123,7 +122,6 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
     },
 
     onSubmit: async (values) => {
-      console.log(values);
       try {
         const res = await apiCall({
           url: APIS.SALARY.ADD,

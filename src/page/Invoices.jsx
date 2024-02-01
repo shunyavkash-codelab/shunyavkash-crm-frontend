@@ -37,6 +37,7 @@ import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import ThemePagination from "../component/ThemePagination";
+import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 
 // const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -45,7 +46,7 @@ export default function Invoices() {
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
   const [date, setDate] = useState("");
-  const { apiCall } = useApi();
+  const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
   const { setSnack } = useSnack();
   const [invoiceList, setInvoiceList] = useState([]);
@@ -384,7 +385,9 @@ export default function Invoices() {
             {invoiceList.length} Invoices found
           </Typography> */}
 
-          {invoiceList.length === 0 ? (
+          {isLoading ? (
+            <LoadingIcon style={{ height: "50vh" }} />
+          ) : invoiceList.length === 0 ? (
             <NoData />
           ) : (
             // <Box sx={{ display: showTable ? "block" : "none" }}>
@@ -532,41 +535,6 @@ export default function Invoices() {
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
-              {/* <TablePagination
-                component="div"
-                count={10}
-                page={page}
-                onPageChange={handleChangeOnPageChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                sx={{
-                  "&>div": {
-                    p: 0,
-                    minHeight: "24px",
-                    "& .MuiTablePagination-selectLabel": {
-                      lineHeight: 1,
-                      fontWeight: 600,
-                    },
-                    "& .MuiTablePagination-input": {
-                      mr: 0,
-                      "&>div": {
-                        p: "0 24px 0 0",
-                      },
-                    },
-                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                      {
-                        display: "none",
-                      },
-                  },
-                }}
-              />
-              <Stack spacing={2}>
-                <Pagination
-                  count={totalPage}
-                  page={page}
-                  onChange={handleChangeOnPageChange}
-                />
-              </Stack> */}
             </>
             // </Box>
           )}

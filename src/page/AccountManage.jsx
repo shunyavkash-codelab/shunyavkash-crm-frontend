@@ -55,6 +55,7 @@ import ImageUploder from "../component/form/ImageUploder";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import CounterCards from "../component/CounterCards.jsx";
 import ThemePagination from "../component/ThemePagination";
+import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -67,7 +68,7 @@ function AccountManage() {
   const { accessToken } = useAuth();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const { apiCall } = useApi();
+  const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const [selectedTransaction, setSelectedTransaction] = useState();
   const { searchData } = useSearchData();
@@ -459,8 +460,13 @@ function AccountManage() {
               </FormControl>
             </Box>
           </Box>
+
           <Box sx={{ mt: 4 }}>
-            {transactionList.length > 0 ? (
+            {isLoading ? (
+              <LoadingIcon style={{ height: "50vh" }} />
+            ) : transactionList.length === 0 ? (
+              <NoData />
+            ) : (
               <>
                 <TableContainer
                   component={Paper}
@@ -592,7 +598,10 @@ function AccountManage() {
                                   >
                                     <img
                                       src="/images/upi.svg"
-                                      style={{ width: "100%", height: "100%" }}
+                                      style={{
+                                        width: "100%",
+                                        height: "100%",
+                                      }}
                                       alt="upi"
                                     />
                                   </Stack>
@@ -751,44 +760,7 @@ function AccountManage() {
                   rowsPerPage={rowsPerPage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-                {/* <TablePagination
-                  component="div"
-                  count={10}
-                  page={page}
-                  onPageChange={handleChange}
-                  rowsPerPage={rowsPerPage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  sx={{
-                    "&>div": {
-                      p: 0,
-                      minHeight: "24px",
-                      "& .MuiTablePagination-selectLabel": {
-                        lineHeight: 1,
-                        fontWeight: 600,
-                      },
-                      "& .MuiTablePagination-input": {
-                        mr: 0,
-                        "&>div": {
-                          p: "0 24px 0 0",
-                        },
-                      },
-                      "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                        {
-                          display: "none",
-                        },
-                    },
-                  }}
-                />
-                <Stack spacing={2}>
-                  <Pagination
-                    count={totalPage}
-                    page={page}
-                    onChange={handleChange}
-                  />
-                </Stack> */}
               </>
-            ) : (
-              <NoData />
             )}
           </Box>
         </Box>
