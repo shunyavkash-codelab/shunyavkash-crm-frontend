@@ -74,7 +74,7 @@ export default function BankDetailForm({ profileList }) {
   const [defaultChecked, setDefaultChecked] = useState({ id: "" });
   const { setSnack } = useSnack();
   const [bankList, setBankList] = useState([]);
-  const [showBtn, setShowBtn] = useState();
+  const [showBtn, setShowBtn] = useState(false);
   const [setDeleteBankData] = useState(false);
 
   // add and edit bank
@@ -145,6 +145,7 @@ export default function BankDetailForm({ profileList }) {
     },
   });
 
+  console.log({ formik });
   // delete bank
   const deleteBankdetail = async (id) => {
     try {
@@ -362,7 +363,7 @@ export default function BankDetailForm({ profileList }) {
                       checked={defaultChecked.id === row._id}
                       onChange={() => {
                         setDefaultChecked({ id: row._id });
-                        setShowBtn(defaultChecked.id !== row._id);
+                        setShowBtn(true);
                       }}
                     />
                   }
@@ -376,7 +377,8 @@ export default function BankDetailForm({ profileList }) {
                 />
               </Box>
             </Grid>
-            {showBtn && defaultChecked.id === row._id && (
+            {((showBtn && defaultChecked.id === row._id) ||
+              Boolean(row.unSaved)) && (
               <Grid item xs={12}>
                 <Stack direction="row" spacing={2}>
                   <ThemeButton
