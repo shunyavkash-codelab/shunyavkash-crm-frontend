@@ -77,7 +77,7 @@ export default function LeavesRequests() {
     }),
     enableReinitialize: true,
     initialValues: {
-      description: "",
+      description: selectedDescription || "",
       status: "",
     },
 
@@ -126,7 +126,6 @@ export default function LeavesRequests() {
         },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setAllLeaveList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
       }
@@ -489,7 +488,7 @@ export default function LeavesRequests() {
                 placeholder="Description"
                 autoComplete="off"
                 onChange={formik.handleChange}
-                value={selectedDescription}
+                value={formik.values.description}
                 sx={{
                   "&>label,& input,&>div": { fontSize: "14px" },
                 }}

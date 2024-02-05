@@ -159,7 +159,6 @@ export default function MyProfile() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setProfileUser(res.data.data);
         setChangeStatus(res.data.data.isActive);
         setUrl(res.data.data.profile_img);

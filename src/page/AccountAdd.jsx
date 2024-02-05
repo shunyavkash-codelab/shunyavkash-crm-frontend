@@ -125,7 +125,6 @@ function AccountAdd() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setViewTransaction(res.data.data);
       }
     } catch (error) {

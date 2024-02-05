@@ -33,7 +33,6 @@ export default function ViewClient() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setClientList(res.data.data);
       }
     } catch (error) {

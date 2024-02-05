@@ -753,7 +753,7 @@ export default function AddClient() {
                     />
                     <ThemeButton
                       discard
-                      Text="Save"
+                      Text="Discard"
                       onClick={() => navigate("/clients")}
                     />
                   </Box>

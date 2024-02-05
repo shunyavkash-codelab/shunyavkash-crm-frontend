@@ -111,7 +111,6 @@ export default function Members() {
         },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setManagerList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
       }
@@ -128,7 +127,6 @@ export default function Members() {
         params: { search: searchData },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setEmployeesList(res.data.data.data);
       }
     } catch (error) {

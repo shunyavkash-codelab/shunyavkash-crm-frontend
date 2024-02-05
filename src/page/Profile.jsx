@@ -242,7 +242,6 @@ export default function Profile() {
         // data: id,
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setProfileList(res.data.data);
         formik.setFieldValue("name", res.data.data.name);
         formik.setFieldValue("companyName", res.data.data.companyName);

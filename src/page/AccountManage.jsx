@@ -109,7 +109,6 @@ function AccountManage() {
         },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setTransactionList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
         let total = 0,
@@ -139,7 +138,6 @@ function AccountManage() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setDashboard(res.data.data);
       }
     } catch (error) {

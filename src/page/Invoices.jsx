@@ -112,7 +112,6 @@ export default function Invoices() {
         },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setInvoiceList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
       }

@@ -61,7 +61,6 @@ export default function Home() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setDashboardData(res.data.data);
       }
     } catch (error) {
@@ -83,7 +82,6 @@ export default function Home() {
         params: { limit: 10 },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setInvoiceList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
       }

@@ -35,7 +35,6 @@ export default function ViewProject() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setProjectList(res.data.data);
       }
     } catch (error) {

@@ -66,7 +66,6 @@ export default function Clients() {
         },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setClientList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
       }

@@ -61,7 +61,6 @@ export default function Project() {
         params: { search: searchData, page, limit: rowsPerPage },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setProjectList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
       }
