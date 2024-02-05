@@ -118,7 +118,6 @@ export default function Leaves() {
         },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setApproveList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
       }

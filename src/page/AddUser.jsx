@@ -101,7 +101,6 @@ export default function AddUser() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setUserList(res.data.data);
       }
     } catch (error) {

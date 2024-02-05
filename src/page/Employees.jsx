@@ -41,7 +41,6 @@ export default function Employees() {
         params: { search: searchData },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setEmployeesList(res.data.data.data);
       }
     } catch (error) {

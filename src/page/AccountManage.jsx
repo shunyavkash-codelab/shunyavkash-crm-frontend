@@ -18,9 +18,6 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-  Typography,
-  TablePagination,
-  Pagination,
   FormControl,
   InputLabel,
   Select,
@@ -39,7 +36,6 @@ import InvoiceOwnerIcon from "@mui/icons-material/PermIdentityOutlined";
 import TitleIcon from "@mui/icons-material/Grid3x3";
 import EmailIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxIcon from "@mui/icons-material/AccountBoxOutlined";
-import FileDownloadIcon2 from "@mui/icons-material/FileDownloadOutlined";
 import CollaboratorIcon from "@mui/icons-material/PeopleOutlineOutlined";
 import PaymentIcon from "@mui/icons-material/Payment";
 import InvoiceTypeIcon from "@mui/icons-material/ReceiptOutlined";
@@ -51,7 +47,6 @@ import { useSnack } from "../hooks/store/useSnack";
 import moment from "moment";
 import InvoiceImageIcon from "@mui/icons-material/DescriptionOutlined";
 import NoData from "../component/NoData";
-import ImageUploder from "../component/form/ImageUploder";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import CounterCards from "../component/CounterCards.jsx";
 import ThemePagination from "../component/ThemePagination";
@@ -109,7 +104,6 @@ function AccountManage() {
         },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setTransactionList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
         let total = 0,
@@ -139,7 +133,6 @@ function AccountManage() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setDashboard(res.data.data);
       }
     } catch (error) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Avatar, Grid, Button } from "@mui/material";
+import { Box, Typography, Avatar, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
@@ -242,7 +242,6 @@ export default function Profile() {
         // data: id,
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setProfileList(res.data.data);
         formik.setFieldValue("name", res.data.data.name);
         formik.setFieldValue("companyName", res.data.data.companyName);
@@ -258,7 +257,6 @@ export default function Profile() {
   useEffect(() => {
     fetchProfile(userId);
   }, []);
-  // });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

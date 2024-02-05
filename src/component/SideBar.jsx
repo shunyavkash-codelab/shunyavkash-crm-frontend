@@ -22,6 +22,8 @@ import AccountManagement from "@mui/icons-material/ManageHistoryOutlined";
 import EmployeesDashboardIcon from "@mui/icons-material/PermContactCalendarOutlined";
 import SetupProfileIcon from "@mui/icons-material/PendingActionsOutlined";
 import LeavesIcon from "@mui/icons-material/ExitToApp";
+import HourglassBottomOutlinedIcon from "@mui/icons-material/HourglassBottomOutlined";
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 
 export default function SideBar({
   sideBarWidth,
@@ -49,11 +51,6 @@ export default function SideBar({
       icon: <AccountManagement />,
       link: "/account-management",
     },
-    // {
-    //   text: "Employees",
-    //   icon: <EmployeesIcon />,
-    //   link: "/employees",
-    // },
     {
       text: "Leaves Requests",
       icon: <LeavesRequests />,
@@ -68,6 +65,16 @@ export default function SideBar({
       text: "Leaves",
       icon: <LeavesIcon />,
       link: "/leaves",
+    },
+    {
+      text: "My Leave",
+      icon: <HourglassBottomOutlinedIcon />,
+      link: "/my-leave",
+    },
+    {
+      text: "My Salary",
+      icon: <AccountBalanceWalletOutlinedIcon />,
+      link: "/my-salary",
     },
   ];
   let newArray = sidebarList.filter((ele) => {
@@ -84,7 +91,11 @@ export default function SideBar({
           "Employees",
           "Leaves Requests",
         ].includes(ele.text) && user.role !== 0
-      ) && !(["Employee Dashboard"].includes(ele.text) && user.role === 0)
+      ) &&
+      !(
+        ["Employee Dashboard", "My Salary", "My Leave"].includes(ele.text) &&
+        user.role === 0
+      )
     );
   });
   useEffect(() => {

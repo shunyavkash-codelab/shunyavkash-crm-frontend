@@ -26,6 +26,8 @@ import AccountManage from "./page/AccountManage";
 import AccountAdd from "./page/AccountAdd";
 import AddMember from "./page/AddMember";
 import InvoicePDF from "./page/InvoicePDF";
+import MyLeave from "./page/MyLeave";
+import MySalary from "./page/MySalary";
 
 const routes = createBrowserRouter([
   { path: "/signup", Component: SignUp },
@@ -55,6 +57,8 @@ const routes = createBrowserRouter([
   { path: "/leaves", Component: Leaves },
   { path: "/my-profile", Component: MyProfile },
   { path: "/my-profile/:id", Component: MyProfile },
+  { path: "/my-salary", Component: MySalary },
+  { path: "/my-leave", Component: MyLeave },
   { path: "/account-management", Component: AccountManage },
   { path: "/account-management/add", Component: AccountAdd },
   { path: "/account-management/edit/:id", Component: AccountAdd },

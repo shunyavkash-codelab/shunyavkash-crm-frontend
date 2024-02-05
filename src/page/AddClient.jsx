@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import {
-  Box,
-  TextField,
-  Typography,
-  Button,
-  Autocomplete,
-  InputAdornment,
-  Stack,
-} from "@mui/material";
+import { Box, TextField, Typography, Stack } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import FileUploadButton from "../component/FileUploadButton";
 import { FormikProvider, useFormik } from "formik";
@@ -33,9 +24,8 @@ export default function AddClient() {
   const { apiCall } = useApi();
   const navigate = useNavigate();
   const [clientList, setClientList] = useState(false);
-  const [bankList, setBankList] = useState(false);
-  const [countryList, setCountryList] = useState([]);
-  const [country, setCountry] = useState(null);
+  // const [countryList, setCountryList] = useState([]);
+  // const [country, setCountry] = useState(null);
 
   // yup data validator schhema
   const schema = Yup.object({
@@ -164,25 +154,24 @@ export default function AddClient() {
   };
 
   // get country list
-  const fetchCountry = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.COUNTRY.GET,
-        method: "get",
-      });
-      if (res.data.success === true) {
-        setCountryList(res.data.data);
-      }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+  // const fetchCountry = async () => {
+  //   try {
+  //     const res = await apiCall({
+  //       url: APIS.COUNTRY.GET,
+  //       method: "get",
+  //     });
+  //     if (res.data.success === true) {
+  //       setCountryList(res.data.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error, setSnack);
+  //   }
+  // };
 
   useEffect(() => {
     if (id !== undefined) fetchClient(id);
-    fetchCountry();
+    // fetchCountry();
   }, []);
-  // });
 
   return (
     <>
@@ -753,7 +742,7 @@ export default function AddClient() {
                     />
                     <ThemeButton
                       discard
-                      Text="Save"
+                      Text="Discard"
                       onClick={() => navigate("/clients")}
                     />
                   </Box>

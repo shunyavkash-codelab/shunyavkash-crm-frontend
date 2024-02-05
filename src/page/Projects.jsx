@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import {
   Box,
-  Typography,
   Button,
   Table,
   TableBody,
@@ -13,8 +12,6 @@ import {
   TableRow,
   Paper,
   Stack,
-  TablePagination,
-  Pagination,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -61,7 +58,6 @@ export default function Project() {
         params: { search: searchData, page, limit: rowsPerPage },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setProjectList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
       }

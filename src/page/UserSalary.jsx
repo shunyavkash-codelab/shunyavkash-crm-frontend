@@ -14,7 +14,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  TextField,
   Stack,
   FormHelperText,
 } from "@mui/material";
@@ -99,6 +98,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
       accountNumber: userBank?.accountNumber || "",
       confirmAccountNumber: userBank?.confirmAccountNumber || "",
       IFSC: userBank?.IFSC || "",
+      userId: userId,
     },
 
     onSubmit: async (values) => {
@@ -146,7 +146,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
         if (res.data.success === true) {
           setSnack(res.data.message);
           let newSalaryUser = userList.filter(
-            (user) => user._id == res.data.data.employee
+            (user) => user._id.toString() === res.data.data.employee.toString()
           );
           res.data.data.employee = newSalaryUser[0].name;
           setSalaryList([res.data.data, ...salaryList]);

@@ -44,7 +44,6 @@ export default function User() {
         params: { search: searchData },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setUserList(res.data.data.data);
       }
     } catch (error) {

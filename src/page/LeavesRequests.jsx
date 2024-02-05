@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
 import ModalComponent from "../component/ModalComponent";
 import {
   Box,
-  Button,
   ButtonGroup,
-  FormControl,
   Grid,
   // InputLabel,
   // MenuItem,
@@ -24,8 +21,6 @@ import {
   TextField,
   Tooltip,
   Typography,
-  TablePagination,
-  Pagination,
 } from "@mui/material";
 // import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
@@ -77,7 +72,7 @@ export default function LeavesRequests() {
     }),
     enableReinitialize: true,
     initialValues: {
-      description: "",
+      description: selectedDescription || "",
       status: "",
     },
 
@@ -126,7 +121,6 @@ export default function LeavesRequests() {
         },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setAllLeaveList(res.data.data.data);
         setTotalPage(res.data.data.pagination.pages);
       }
@@ -489,7 +483,7 @@ export default function LeavesRequests() {
                 placeholder="Description"
                 autoComplete="off"
                 onChange={formik.handleChange}
-                value={selectedDescription}
+                value={formik.values.description}
                 sx={{
                   "&>label,& input,&>div": { fontSize: "14px" },
                 }}

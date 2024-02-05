@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Box, Typography, Chip, Avatar, Grid } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -12,7 +11,7 @@ import CompanyIcon from "@mui/icons-material/BusinessOutlined";
 import AddressIcon from "@mui/icons-material/LocationOnOutlined";
 import { useParams } from "react-router-dom";
 import DetailsList from "../component/employee/DetailsList.jsx";
-import GenderIcon from "@mui/icons-material/WcOutlined";
+// import GenderIcon from "@mui/icons-material/WcOutlined";
 import WebsiteIcon from "@mui/icons-material/LanguageOutlined";
 import ProjectsIcon from "../component/icons/ProjectsIcon.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
@@ -33,7 +32,6 @@ export default function ViewClient() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setClientList(res.data.data);
       }
     } catch (error) {
@@ -43,7 +41,6 @@ export default function ViewClient() {
   useEffect(() => {
     viewClient();
   }, []);
-  // });
 
   return (
     <>

@@ -28,7 +28,6 @@ import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import NoData from "../component/NoData";
 import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
-import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon";
 
 export default function Home() {
@@ -41,18 +40,6 @@ export default function Home() {
   const navigate = useNavigate();
   const [invoiceList, setInvoiceList] = useState([]);
   const { setInvoiceData } = useInvoiceStore();
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1);
-
-  // pagination
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handleChange = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
-  };
 
   const fetchDashboardData = async () => {
     try {
@@ -61,7 +48,6 @@ export default function Home() {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setDashboardData(res.data.data);
       }
     } catch (error) {
@@ -83,9 +69,7 @@ export default function Home() {
         params: { limit: 10 },
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setInvoiceList(res.data.data.data);
-        setTotalPage(res.data.data.pagination.pages);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -95,7 +79,7 @@ export default function Home() {
   useEffect(() => {
     fetchDashboardData();
     listInvoice();
-  }, [page, rowsPerPage]);
+  }, []);
 
   //edit invoice
   const editInvoice = async (invoiceNumber, row) => {
@@ -367,13 +351,6 @@ export default function Home() {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                {/* pagination */}
-                {/* <ThemePagination
-                  totalpage={totalPage}
-                  onChange={handleChange}
-                  rowsPerPage={rowsPerPage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                /> */}
               </>
             )}
           </Box>

@@ -160,7 +160,6 @@ export default function BankDetailForm({ profileList }) {
     } catch (error) {
       setSnack(error.response.data.message, "error");
       throw error;
-      // handleApiError(error, setSnack);
     }
   };
 
@@ -172,7 +171,6 @@ export default function BankDetailForm({ profileList }) {
         method: "get",
       });
       if (res.data.success === true) {
-        setSnack(res.data.message);
         setBankList(res.data.data.data);
         setDefaultChecked({
           id: res.data.data.data.find((bank) => bank.defaultBank)._id,
