@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Divider,
   FormControlLabel,
   Grid,
@@ -74,7 +73,7 @@ export default function BankDetailForm({ profileList }) {
   const [defaultChecked, setDefaultChecked] = useState({ id: "" });
   const { setSnack } = useSnack();
   const [bankList, setBankList] = useState([]);
-  const [showBtn, setShowBtn] = useState();
+  const [showBtn, setShowBtn] = useState(false);
   const [setDeleteBankData] = useState(false);
 
   // add and edit bank
@@ -146,6 +145,7 @@ export default function BankDetailForm({ profileList }) {
   });
 
   // delete bank
+  // eslint-disable-next-line no-unused-vars
   const deleteBankdetail = async (id) => {
     try {
       const res = await apiCall({
@@ -362,7 +362,10 @@ export default function BankDetailForm({ profileList }) {
                       checked={defaultChecked.id === row._id}
                       onChange={() => {
                         setDefaultChecked({ id: row._id });
-                        setShowBtn(defaultChecked.id !== row._id);
+                        setShowBtn(
+                          bankList.find((bank) => bank.defaultBank)._id !==
+                            row._id
+                        );
                       }}
                     />
                   }
@@ -376,7 +379,8 @@ export default function BankDetailForm({ profileList }) {
                 />
               </Box>
             </Grid>
-            {showBtn && defaultChecked.id === row._id && (
+            {((showBtn && defaultChecked.id === row._id) ||
+              Boolean(row.unSaved)) && (
               <Grid item xs={12}>
                 <Stack direction="row" spacing={2}>
                   <ThemeButton
@@ -393,8 +397,14 @@ export default function BankDetailForm({ profileList }) {
                     onClick={async () => {
                       try {
                         if (!row.unSaved) {
+                          // set previous account as default
+                          setDefaultChecked({
+                            id: bankList.find((bank) => bank.defaultBank)._id,
+                          });
+                          setShowBtn(false);
                           // api
-                          await deleteBankdetail(row._id);
+                          // await deleteBankdetail(row._id);
+                          return;
                         }
                         setBankList((prev) =>
                           prev.filter((bank) => bank._id !== row._id)

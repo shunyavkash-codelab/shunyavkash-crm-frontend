@@ -80,7 +80,7 @@ export default function Home() {
       const res = await apiCall({
         url: APIS.INVOICE.LIST,
         method: "get",
-        params: { page, limit: rowsPerPage },
+        params: { limit: 10 },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
@@ -368,12 +368,12 @@ export default function Home() {
                   </Table>
                 </TableContainer>
                 {/* pagination */}
-                <ThemePagination
+                {/* <ThemePagination
                   totalpage={totalPage}
                   onChange={handleChange}
                   rowsPerPage={rowsPerPage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                /> */}
               </>
             )}
           </Box>
