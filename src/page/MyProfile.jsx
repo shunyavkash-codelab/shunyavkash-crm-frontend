@@ -18,6 +18,7 @@ import DetailsList from "../component/employee/DetailsList";
 import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
+import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import EditIcon from "@mui/icons-material/CreateOutlined";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
@@ -509,6 +510,14 @@ export default function MyProfile() {
                         : "N/A"
                     }
                     Icon={<PermIdentityOutlinedIcon />}
+                    TextStyle={{ textTransform: "capitalize" }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} xl={4}>
+                  <DetailsList
+                    Title={"CTC"}
+                    Text={profileUser?.ctc || "N/A"}
+                    Icon={<CurrencyRupeeOutlinedIcon />}
                     TextStyle={{ textTransform: "capitalize" }}
                   />
                 </Grid>

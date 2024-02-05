@@ -47,19 +47,35 @@ import ThemeButton from "../component/ThemeButton";
 import PlusIcon from "@mui/icons-material/Close";
 import { useAuth } from "../hooks/store/useAuth.js";
 import NoData from "../component/NoData.jsx";
+import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
+import ThemePagination from "../component/ThemePagination.jsx";
+import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 
 export default function UserSalary({ userId, userBank, setUserBank }) {
   const [openBank, setOpenBank] = useState(false);
   const [openSalary, setOpenSalary] = useState(false);
   const [salaryList, setSalaryList] = useState([]);
   const [userList, setUserList] = useState([]);
-
+  const [from, setFrom] = useState();
+  const [to, setTo] = useState();
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
   const handleOpenBank = () => setOpenBank(true);
-  const handleOpenSalary = () => setOpenSalary(true);
+  const handleOpenSalary = () => {
+    if (userBank) {
+      setOpenSalary(true);
+    } else {
+      setSnack(
+        "You can't add salary because employee bank not available.",
+        "warning"
+      );
+    }
+  };
   const [date, setDate] = useState("");
   const { user } = useAuth();
   const { id } = useParams();
-  const { apiCall } = useApi();
+  const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   // add and edit bank
   const formikBank = useFormik({
@@ -103,7 +119,6 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
       }
     },
   });
-
   const formikSalary = useFormik({
     validationSchema: Yup.object({
       date: Yup.date().required("Date is required."),
@@ -114,9 +129,9 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
     }),
     enableReinitialize: true,
     initialValues: {
-      date: "",
+      date: dayjs().format("DD/MM/YYYY"),
       status: "",
-      employee: "",
+      employee: userId,
       amount: "",
       incentive: "",
     },
@@ -146,6 +161,13 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
 
   const handleChange = (event) => {
     setDate(event.target.value);
+  };
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(1);
   };
 
   // const salaries = [
@@ -188,10 +210,17 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
       const res = await apiCall({
         url: APIS.SALARY.GET(userId),
         method: "get",
-        params: { sortField: "date" },
+        params: {
+          sortField: "date",
+          page: page,
+          limit: rowsPerPage,
+          from: from,
+          to: to,
+        },
       });
       if (res.data.success === true) {
         setSalaryList(res.data.data.data);
+        setTotalPage(res.data.data.pagination.pages);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -215,6 +244,30 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
     viewUserSalary(id || userId);
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    if (to && from) {
+      viewUserSalary(userId);
+    }
+  }, [to, from]);
+  useEffect(() => {
+    if (date === "lastquarter") {
+      setFrom(
+        moment().subtract(4, "months").startOf("month").format("YYYY-MM-DD")
+      );
+      setTo(moment().subtract(1, "months").endOf("month").format("YYYY-MM-DD"));
+    } else if (date === "lastmonth") {
+      setFrom(
+        moment().subtract(1, "months").startOf("month").format("YYYY-MM-DD")
+      );
+      setTo(moment().subtract(1, "months").endOf("month").format("YYYY-MM-DD"));
+    } else if (date === "lastyear") {
+      setFrom(
+        moment().subtract(1, "years").startOf("year").format("YYYY-MM-DD")
+      );
+      setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
+    }
+  }, [date]);
 
   return (
     <>
@@ -246,9 +299,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
             }}
           >
             <AddIcon sx={{ display: "block", mx: "auto", mb: 1 }} />
-            <span style={{ display: "inline-block" }}>
-              Add Your Bank Details
-            </span>
+            <span style={{ display: "inline-block" }}>Add Bank Details</span>
           </Button>
         </Box>
       )}
@@ -379,80 +430,24 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                 >
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastWeek"}
-                  >
-                    Last Week
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastMonth"}
+                    value={"lastmonth"}
                   >
                     Last Month
                   </MenuItem>
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastQuarter"}
+                    value={"lastquarter"}
                   >
                     Last Quarter
                   </MenuItem>
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastYear"}
+                    value={"lastyear"}
                   >
                     Last Year
                   </MenuItem>
                 </Select>
               </FormControl>
-              {date === "CustomRange" && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: { xs: "column", sm: "row" },
-                    "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
-                    gap: 2.5,
-                    flexShrink: 0,
-                  }}
-                >
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="from"
-                    label="From"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="to"
-                    label="To"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                </Box>
-              )}
             </Box>
             {/* Todos : This button visable only admin */}
             {user.role === 0 && (
@@ -474,81 +469,115 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
           </Stack>
         </Stack>
         <Box sx={{ px: 3 }}>
-          {salaryList.length > 0 ? (
-            <TableContainer
-              component={Paper}
-              sx={{
-                border: "1px solid rgba(224, 224, 224, 1)",
-                mx: { xs: "-10px", sm: 0 },
-                width: { xs: "auto", sm: "auto" },
-                borderRadius: 2.5,
-              }}
-            >
-              <Table
-                className="projectTable"
-                sx={{
-                  minWidth: 650,
-                  textTransform: "capitalize",
-                  textWrap: "nowrap",
-                  "& th,& td": { borderBottom: 0 },
-                  "& tbody tr": {
-                    borderTop: "1px solid rgba(224, 224, 224, 1)",
-                  },
-                }}
-                aria-label="simple table"
-              >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Member Name</TableCell>
-                    <TableCell>Salary Amount</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Incentive</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {salaryList.map((salary) => (
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-of-type td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
-                      }}
-                    >
-                      <TableCell>
-                        {moment(salary.date).format("DD/MM/YYYY")}
-                      </TableCell>
-                      <TableCell>{salary.employee}</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            color: "white",
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                            bgcolor:
-                              salary.status === "paid"
-                                ? "success.main"
-                                : "review.main",
-                          }}
-                        >
-                          {salary.status}
-                        </Box>
-                      </TableCell>
-                      <TableCell>₹{salary.amount}</TableCell>
-                      <TableCell>₹{salary.incentive || 0}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
+          {isLoading ? (
+            <LoadingIcon style={{ height: "50vh" }} />
+          ) : salaryList.length === 0 ? (
             <NoData />
+          ) : (
+            <>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  border: "1px solid rgba(224, 224, 224, 1)",
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
+                }}
+              >
+                <Table
+                  className="projectTable"
+                  sx={{
+                    minWidth: 650,
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": { borderBottom: 0 },
+                    "& tbody tr": {
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
+                    <TableRow
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                    >
+                      <TableCell>Date</TableCell>
+                      <TableCell>Member Name</TableCell>
+                      <TableCell>Salary Amount</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Incentive</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {salaryList.map((salary) => (
+                      <TableRow
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&:first-of-type td": {
+                            maxWidth: "250px",
+                            textWrap: "wrap",
+                          },
+                        }}
+                      >
+                        <TableCell>
+                          {moment(salary.date).format("DD/MM/YYYY")}
+                        </TableCell>
+                        <TableCell>{salary.employee}</TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
+                              bgcolor:
+                                salary.status === "paid"
+                                  ? "success.main"
+                                  : "review.main",
+                            }}
+                          >
+                            {salary.status}
+                          </Box>
+                        </TableCell>
+                        <TableCell>₹{salary.amount}</TableCell>
+                        <TableCell>₹{salary.incentive || 0}</TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: { xs: 1.25, sm: 1.5 },
+                              opacity: 0.3,
+                              "& button": {
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              },
+                              "& svg": { fontSize: { xs: "20px", sm: "21px" } },
+                            }}
+                          >
+                            <a href={salary.pdf} target="_blank">
+                              <VisibilityIcon />
+                            </a>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <ThemePagination
+                totalpage={totalPage}
+                onChange={handlePageChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </>
           )}
         </Box>
       </Box>
@@ -728,7 +757,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   label="Date"
                   name="date"
                   format="DD/MM/YYYY"
-                  value={dayjs(formikSalary.values.date || new Date())}
+                  value={dayjs(formikSalary.values.date)}
                   onChange={(e) => formikSalary.setFieldValue("date", e)}
                   sx={{
                     minWidth: "100% !important",

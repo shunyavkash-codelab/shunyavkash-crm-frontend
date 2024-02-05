@@ -6,6 +6,7 @@ import ThemeInput from "./ThemeInput";
 import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
+import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
 import ThemeSelect from "./ThemeSelect";
 import { useFormik } from "formik";
 import { APIS } from "../../api/apiList";
@@ -57,6 +58,7 @@ export default function EmployeeDetailsForm({
       email: data.email,
       designation: data.designation,
       role: data.role,
+      ctc: data.ctc,
     },
     onSubmit: async (values) => {
       try {
@@ -147,6 +149,15 @@ export default function EmployeeDetailsForm({
             { name: "Manager", value: 1 },
             { name: "Employee", value: 2 },
           ]}
+          onChange={formik.handleChange}
+          formik={formik}
+        />
+      </Grid>
+      <Grid item xs={12} lg={6}>
+        <ThemeInput
+          placeholder="CTC Amount"
+          Icon={CurrencyRupeeOutlinedIcon}
+          name={"ctc"}
           onChange={formik.handleChange}
           formik={formik}
         />
