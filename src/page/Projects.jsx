@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import {
   Box,
-  Typography,
   Button,
   Table,
   TableBody,
@@ -13,8 +12,6 @@ import {
   TableRow,
   Paper,
   Stack,
-  TablePagination,
-  Pagination,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";

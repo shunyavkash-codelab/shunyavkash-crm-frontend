@@ -1979,7 +1979,7 @@ export default function AddInvoice() {
                                 opacity: 1,
                               },
                             }}
-                            defaultChecked={invoiceData?.watermark}
+                            checked={values?.watermark}
                           />
                         }
                       />

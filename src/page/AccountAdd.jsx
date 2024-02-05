@@ -19,13 +19,12 @@ import {
   Select,
   TextField,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ImageUploder from "../component/form/ImageUploder";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ThemeButton from "../component/ThemeButton";
 import { Field, FormikProvider, useFormik } from "formik";
 import { APIS } from "../api/apiList";
@@ -44,7 +43,6 @@ function AccountAdd() {
   const [clientList, setClientList] = useState([]);
   const { accessToken } = useAuth();
   const { id } = useParams();
-  const [selected, setSelected] = useState(true);
   const [open, setOpen] = useState(false);
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
@@ -255,13 +253,11 @@ function AccountAdd() {
                           value="income"
                           control={<Radio />}
                           label="Income"
-                          onClick={() => setSelected(true)}
                         />
                         <FormControlLabel
                           value="expense"
                           control={<Radio />}
                           label="Expense"
-                          onClick={() => setSelected(false)}
                         />
                       </RadioGroup>
                       {location.pathname.includes("/edit/") && (

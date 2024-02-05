@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Avatar, Grid, Button } from "@mui/material";
+import { Box, Typography, Avatar, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
@@ -257,7 +257,6 @@ export default function Profile() {
   useEffect(() => {
     fetchProfile(userId);
   }, []);
-  // });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

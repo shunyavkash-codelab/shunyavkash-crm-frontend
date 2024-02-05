@@ -14,7 +14,7 @@ export default function MySalary() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [userBank, setUserBank] = useState(false);
   const { accessToken, userId } = useAuth();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
 
   const viewUserBank = async (userId) => {

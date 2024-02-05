@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Box, Typography, Chip, Grid } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -44,7 +43,6 @@ export default function ViewProject() {
   useEffect(() => {
     viewProject();
   }, []);
-  // });
 
   // date formatted change
   const MyDate = (date) => {
