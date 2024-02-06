@@ -15,6 +15,7 @@ import UserIcon from "@mui/icons-material/PermIdentityOutlined";
 import ClientsIcon from "@mui/icons-material/PeopleAltOutlined";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 // import EmployeesIcon from "@mui/icons-material/BadgeOutlined";
 import LeavesRequests from "@mui/icons-material/AccessTimeOutlined";
 // import EmployeeDashboardIcon from "@mui/icons-material/AccountBoxOutlined";
@@ -46,6 +47,7 @@ export default function SideBar({
     { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
     { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
     { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
+    { text: "Salary", icon: <CurrencyRupeeIcon />, link: "/salary" },
     {
       text: "Account Management",
       icon: <AccountManagement />,
