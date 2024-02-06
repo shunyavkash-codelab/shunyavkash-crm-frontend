@@ -575,9 +575,9 @@ function AccountManage() {
                                   "& span": { opacity: "0.5" },
                                 }}
                               >
-                                {account.paymentMethod === "Cash" ? (
+                                {account.paymentMethod === "cash" ? (
                                   <CashIcon sx={{ color: "#43991e" }} />
-                                ) : account.paymentMethod === "Bank" ? (
+                                ) : account.paymentMethod === "bankTransfer" ? (
                                   <BankIcon sx={{ color: "#3a85ff" }} />
                                 ) : (
                                   <Stack
@@ -837,32 +837,30 @@ function AccountManage() {
               TextStyle={{ textTransform: "capitalize" }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            {/* <ImageUploder
-                title="invoice"
-                doc={selectedTransaction?.invoiceUpload}
-              /> */}
-            <DetailsList
-              Title={"invoice"}
-              Icon={<InvoiceImageIcon />}
-              TextStyle={{ display: "none" }}
-            />
-            <Box>
-              <Tooltip title="Invoice" arrow>
-                <img
-                  src="https://res.cloudinary.com/dbffq11b0/image/upload/v1705492192/y61sc77i0ree7itjma1s.avif"
-                  style={{
-                    height: "200px",
-                    width: "100%",
-                    objectFit: "cover",
-                    borderRadius: "6px",
-                    display: "block",
-                  }}
-                  alt="Invoice"
-                />
-              </Tooltip>
-            </Box>
-          </Grid>
+          {selectedTransaction?.invoiceUpload && (
+            <Grid item xs={12} sm={6} md={4}>
+              <DetailsList
+                Title={"invoice"}
+                Icon={<InvoiceImageIcon />}
+                TextStyle={{ display: "none" }}
+              />
+              <Box>
+                <Tooltip title="Invoice" arrow>
+                  <img
+                    src={selectedTransaction.invoiceUpload}
+                    style={{
+                      height: "200px",
+                      width: "100%",
+                      objectFit: "cover",
+                      borderRadius: "6px",
+                      display: "block",
+                    }}
+                    alt="Invoice"
+                  />
+                </Tooltip>
+              </Box>
+            </Grid>
+          )}
         </Grid>
       </ModalComponent>
     </>

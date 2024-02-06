@@ -628,6 +628,14 @@ function AccountAdd() {
                             },
                           }}
                           label="Invoice Owner"
+                          error={
+                            formik.touched.invoiceOwner &&
+                            Boolean(formik.errors.invoiceOwner)
+                          }
+                          helperText={
+                            formik.touched.invoiceOwner &&
+                            formik.errors.invoiceOwner
+                          }
                         />
                       )}
                     />
@@ -665,7 +673,7 @@ function AccountAdd() {
                       >
                         <MenuItem
                           sx={{ textTransform: "capitalize" }}
-                          value={"card"}
+                          value={"cash"}
                         >
                           Cash
                         </MenuItem>
@@ -697,7 +705,7 @@ function AccountAdd() {
                       formik={formik}
                       name="invoiceUpload"
                       title="Invoice Upload"
-                      fileTypes={[".jpeg", ".jpg", "pdf", ".png"]}
+                      fileTypes={[".jpeg", ".jpg", ".pdf", ".png"]}
                       doc={viewTransaction?.invoiceUpload}
                       removeDocument={(data) =>
                         formik.setFieldValue("invoiceUpload", "")

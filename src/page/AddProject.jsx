@@ -62,7 +62,7 @@ export default function AddProject() {
       startDate: dayjs(projectData?.startDate).format("YYYY-MM-DD"),
       endDate: dayjs(projectData?.endDate).format("YYYY-MM-DD"),
       perHourCharge: projectData?.perHourCharge,
-      currency: projectData?.currency,
+      currency: projectData?.currency ? projectData.currency : "$",
       payPeriod: projectData?.payPeriod,
       // prefix: projectData?.prefix,
       status: projectData?.status,
@@ -302,68 +302,70 @@ export default function AddProject() {
                       },
                     }}
                   >
-                    <Autocomplete
-                      size="small"
-                      id="country-select-demo"
-                      sx={{
-                        mr: "-1px",
-                        flexShrink: 0,
-                        width: "85px",
-                        "& input": { fontSize: "14px" },
-                        "& button[title='Clear']": { display: "none" },
-                        "& fieldset": {
-                          borderRadius: "6px 0 0 6px !important",
-                          borderRight: 0,
-                        },
-                        "&>div>div": {
-                          p: "9px 24px 10px 6px!important",
-                          bgcolor: "#f4f4f4",
-                        },
-                        "& input+div": {
-                          right: "0!important",
-                        },
-                      }}
-                      options={currencylist}
-                      autoHighlight
-                      getOptionLabel={(option) => option.symbol}
-                      renderOption={(props, option) => (
-                        <Box
-                          component="li"
-                          sx={{
-                            "& > img": { mr: 0.75, flexShrink: 0 },
-                            fontSize: { xs: "12px", sm: "14px" },
-                          }}
-                          {...props}
-                        >
-                          ({option.symbol}) {option.code}
-                        </Box>
-                      )}
-                      defaultValue={
-                        currencylist[
-                          currencylist.findIndex(
-                            (currency) =>
-                              currency.symbol === projectData?.currency
-                          )
-                        ]
-                      }
-                      value={formik.values.currency}
-                      onChange={(event, newValue) => {
-                        formik.setFieldValue("currency", newValue.symbol); // Update Formik field value
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          name="currency"
-                          {...params}
-                          error={
-                            formik.touched.currency &&
-                            Boolean(formik.errors.currency)
-                          }
-                          helperText={
-                            formik.touched.currency && formik.errors.currency
-                          }
-                        />
-                      )}
-                    />
+                    {currencylist.length > 0 && (
+                      <Autocomplete
+                        size="small"
+                        id="country-select-demo"
+                        sx={{
+                          mr: "-1px",
+                          flexShrink: 0,
+                          width: "85px",
+                          "& input": { fontSize: "14px" },
+                          "& button[title='Clear']": { display: "none" },
+                          "& fieldset": {
+                            borderRadius: "6px 0 0 6px !important",
+                            borderRight: 0,
+                          },
+                          "&>div>div": {
+                            p: "9px 24px 10px 6px!important",
+                            bgcolor: "#f4f4f4",
+                          },
+                          "& input+div": {
+                            right: "0!important",
+                          },
+                        }}
+                        options={currencylist}
+                        autoHighlight
+                        getOptionLabel={(option) => option}
+                        renderOption={(props, option) => (
+                          <Box
+                            component="li"
+                            sx={{
+                              "& > img": { mr: 0.75, flexShrink: 0 },
+                              fontSize: { xs: "12px", sm: "14px" },
+                            }}
+                            {...props}
+                          >
+                            ({option.symbol}) {option.code}
+                          </Box>
+                        )}
+                        // defaultValue={
+                        //   currencylist[
+                        //     currencylist.findIndex(
+                        //       (currency) =>
+                        //         currency.symbol === projectData?.currency
+                        //     )
+                        //   ]
+                        // }
+                        value={formik.values.currency}
+                        onChange={(event, newValue) => {
+                          formik.setFieldValue("currency", newValue.symbol); // Update Formik field value
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            name="currency"
+                            {...params}
+                            error={
+                              formik.touched.currency &&
+                              Boolean(formik.errors.currency)
+                            }
+                            helperText={
+                              formik.touched.currency && formik.errors.currency
+                            }
+                          />
+                        )}
+                      />
+                    )}
                     <TextField
                       fullWidth
                       size="small"

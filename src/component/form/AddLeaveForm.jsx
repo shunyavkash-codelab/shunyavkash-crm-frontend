@@ -14,7 +14,7 @@ import {
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import React from "react";
 import ThemeButton from "../ThemeButton";
 
 export default function AddLeaveForm({ formik }) {
@@ -267,6 +267,7 @@ export default function AddLeaveForm({ formik }) {
                   label="End Date"
                   name="endDate"
                   format="DD/MM/YYYY"
+                  minDate={dayjs(formik.values.startDate).add(1, "day")}
                   value={formik.values.endDate}
                   onChange={(e) => formik.setFieldValue("endDate", e)}
                   sx={{

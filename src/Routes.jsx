@@ -28,6 +28,7 @@ import AddMember from "./page/AddMember";
 import InvoicePDF from "./page/InvoicePDF";
 import MyLeave from "./page/MyLeave";
 import MySalary from "./page/MySalary";
+import Salary from "./page/Salary";
 
 const routes = createBrowserRouter([
   { path: "/signup", Component: SignUp },
@@ -64,6 +65,7 @@ const routes = createBrowserRouter([
   { path: "/account-management/edit/:id", Component: AccountAdd },
   { path: "/invoices/edit/:invoiceNumber/invoice-pdf", Component: InvoicePDF },
   { path: "/invoices/add/:invoiceNumber/invoice-pdf", Component: InvoicePDF },
+  { path: "/salary", Component: Salary },
 ]);
 export default function Routes() {
   return (
