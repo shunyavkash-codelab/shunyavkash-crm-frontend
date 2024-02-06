@@ -129,7 +129,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
     }),
     enableReinitialize: true,
     initialValues: {
-      date: dayjs().format("DD/MM/YYYY"),
+      date: dayjs().format("MM/DD/YYYY"),
       status: "",
       employee: userId,
       amount: "",
@@ -868,6 +868,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   onChange={(e) =>
                     formikSalary.setFieldValue("employee", e.target.value)
                   }
+                  disabled={userId}
                   sx={{ fontSize: "14px" }}
                   error={
                     formikSalary.touched.employee &&

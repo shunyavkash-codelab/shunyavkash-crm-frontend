@@ -575,9 +575,9 @@ function AccountManage() {
                                   "& span": { opacity: "0.5" },
                                 }}
                               >
-                                {account.paymentMethod === "Cash" ? (
+                                {account.paymentMethod === "cash" ? (
                                   <CashIcon sx={{ color: "#43991e" }} />
-                                ) : account.paymentMethod === "Bank" ? (
+                                ) : account.paymentMethod === "bankTransfer" ? (
                                   <BankIcon sx={{ color: "#3a85ff" }} />
                                 ) : (
                                   <Stack
