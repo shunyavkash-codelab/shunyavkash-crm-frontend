@@ -92,6 +92,7 @@ export default function SideBar({
           "Account Management",
           "Employees",
           "Leaves Requests",
+          "Salary",
         ].includes(ele.text) && user.role !== 0
       ) &&
       !(

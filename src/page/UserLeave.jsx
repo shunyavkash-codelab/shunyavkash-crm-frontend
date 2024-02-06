@@ -66,7 +66,7 @@ function UserLeave({ profileId }) {
     enableReinitialize: true,
     initialValues: {
       leaveType: "",
-      startDate: moment().format("DD/MM/YYYY"),
+      startDate: moment().format("MM/DD/YYYY"),
       startDayType: "full day",
       endDate: undefined,
       endDayType: undefined,

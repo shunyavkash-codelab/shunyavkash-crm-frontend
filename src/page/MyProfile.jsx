@@ -590,10 +590,7 @@ export default function MyProfile() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"Phone number"}
-                    Text={
-                      profileUser?.mobileCode + profileUser?.mobileNumber ||
-                      "N/A"
-                    }
+                    Text={profileUser?.mobileNumber || "N/A"}
                     Icon={<PhoneOutlinedIcon />}
                   />
                 </Grid>
