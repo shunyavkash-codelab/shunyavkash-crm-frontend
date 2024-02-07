@@ -13,7 +13,7 @@ import {
   Paper,
   Avatar,
   Chip,
-  Stack,  
+  Stack,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -30,6 +30,7 @@ import ThemeButton from "../component/ThemeButton.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -50,6 +51,21 @@ export default function Clients() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1);
+  };
+
+  const deleteClient = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.CLIENT.DELETE(id),
+        method: "delete",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        fetchclientData();
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
   };
 
   const fetchclientData = async () => {
@@ -74,7 +90,6 @@ export default function Clients() {
   useEffect(() => {
     fetchclientData();
   }, [page, rowsPerPage]);
-  // });
   useEffect(() => {
     if (searchData !== undefined) {
       const getData = setTimeout(async () => {
@@ -253,7 +268,7 @@ export default function Clients() {
                                 <CreateIcon />
                               </Button>
                             </Link>
-                            {/* <Button
+                            <Button
                               disableRipple
                               sx={{
                                 p: 0,
@@ -261,9 +276,10 @@ export default function Clients() {
                                 color: "black",
                                 "&:hover": { color: "primary.main" },
                               }}
+                              onClick={() => deleteClient(row._id)}
                             >
                               <DeleteIcon />
-                            </Button> */}
+                            </Button>
                           </Box>
                         </TableCell>
                       </TableRow>

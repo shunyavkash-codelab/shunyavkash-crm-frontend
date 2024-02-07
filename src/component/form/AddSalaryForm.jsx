@@ -181,6 +181,7 @@ export default function AddSalaryForm({ formikSalary, userList }) {
               placeholder="Amount"
               name="amount"
               onChange={formikSalary.handleChange}
+              value={formikSalary.values.amount}
               sx={{ fontSize: 14 }}
               startAdornment={
                 <InputAdornment position="start">
@@ -206,6 +207,7 @@ export default function AddSalaryForm({ formikSalary, userList }) {
               placeholder="Incentive"
               name="incentive"
               onChange={formikSalary.handleChange}
+              value={formikSalary.values.incentive}
               sx={{ fontSize: 14 }}
               startAdornment={
                 <InputAdornment position="start">

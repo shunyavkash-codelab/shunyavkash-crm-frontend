@@ -29,6 +29,7 @@ import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 export default function Project() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -50,6 +51,22 @@ export default function Project() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1);
   };
+
+  const deleteProject = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.PROJECT.DELETE(id),
+        method: "delete",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        fetchProjects();
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
   const fetchProjects = async () => {
     try {
       const res = await apiCall({
@@ -237,6 +254,18 @@ export default function Project() {
                                 <CreateIcon />
                               </Button>
                             </Link>
+                            <Button
+                              disableRipple
+                              sx={{
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              }}
+                              onClick={() => deleteProject(row._id)}
+                            >
+                              <DeleteIcon />
+                            </Button>
                           </Box>
                         </TableCell>
                       </TableRow>
@@ -251,41 +280,6 @@ export default function Project() {
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
-              {/* <TablePagination
-                component="div"
-                count={10}
-                page={page}
-                onPageChange={handleChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                sx={{
-                  "&>div": {
-                    p: 0,
-                    minHeight: "24px",
-                    "& .MuiTablePagination-selectLabel": {
-                      lineHeight: 1,
-                      fontWeight: 600,
-                    },
-                    "& .MuiTablePagination-input": {
-                      mr: 0,
-                      "&>div": {
-                        p: "0 24px 0 0",
-                      },
-                    },
-                    "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                      {
-                        display: "none",
-                      },
-                  },
-                }}
-              />
-              <Stack spacing={2}>
-                <Pagination
-                  count={totalPage}
-                  page={page}
-                  onChange={handleChange}
-                />
-              </Stack> */}
             </>
           )}
         </Box>

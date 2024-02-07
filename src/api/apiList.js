@@ -22,11 +22,13 @@ export const APIS = {
     EDIT: (clientId) => `/client/${clientId}`,
     VIEW: (clientId) => `/client/${clientId}`,
     LIST: "/client/get-clients",
+    DELETE: (clientId) => `/client/${clientId}`,
   },
   PROJECT: {
     ADD: "/project/add",
     EDIT: (projectId) => `/project/${projectId}`,
     VIEW: (projectId) => `/project/${projectId}`,
+    DELETE: (projectId) => `/project/${projectId}`,
     LIST: "/project/get-projects",
     CLIENTWISEPROJECT: (clientId) => `/project/get-project-name/${clientId}`,
   },
@@ -42,6 +44,7 @@ export const APIS = {
     GENERATENUM: "/invoice/generate-invoice-number",
     ADD: "/invoice/add",
     EDIT: "/invoice/edit",
+    DELETE: (invoiceId) => `/invoice/${invoiceId}`,
     CHECKINVOICENUMBER: (number) => `/invoice/check-invoice-number/${number}`,
     LIST: "/invoice/invoices",
   },
@@ -63,6 +66,7 @@ export const APIS = {
   SALARY: {
     ADD: "/salary/add",
     GET: (userId) => `/salary/user/${userId}`,
+    DELETE: (userId) => `/salary/${userId}`,
     ALL: "/salary",
   },
   LEAVE: {
