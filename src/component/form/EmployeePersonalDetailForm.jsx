@@ -62,7 +62,7 @@ export default function EmployeePersonalDetailForm({
       // values.profile_img = url?.fileList[0];
       try {
         const res = await apiCall({
-          url: APIS.MANAGER.EDIT(uniqId),
+          url: APIS.USER.EDIT(uniqId),
           method: "patch",
           data: values,
         });

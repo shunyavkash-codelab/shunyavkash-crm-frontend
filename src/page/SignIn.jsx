@@ -40,7 +40,7 @@ export default function SignIn() {
     onSubmit: async (values) => {
       try {
         const res = await apiCall({
-          url: APIS.MANAGER.LOGIN,
+          url: APIS.USER.LOGIN,
           method: "post",
           data: JSON.stringify(values, null, 2),
         });

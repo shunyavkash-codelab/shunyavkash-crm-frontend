@@ -14,7 +14,7 @@ export default function EmployeeDocumentDetailForm({ data }) {
   const editUserProfile = async (formData, message) => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.EDIT(userId),
+        url: APIS.USER.EDIT(userId),
         method: "patch",
         headers: "multipart/form-data",
         data: formData,

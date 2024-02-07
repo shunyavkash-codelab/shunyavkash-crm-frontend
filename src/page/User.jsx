@@ -39,7 +39,7 @@ export default function User() {
   const fetchUsers = async () => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.LIST,
+        url: APIS.USER.MANAGERLIST,
         method: "get",
         params: { search: searchData },
       });

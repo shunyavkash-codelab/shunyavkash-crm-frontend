@@ -481,7 +481,9 @@ export default function Invoices() {
                             {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
                           </Box>
                         </TableCell>
-                        <TableCell>${row.totals.total}</TableCell>
+                        <TableCell>
+                          ${row.totals.total?.toLocaleString()}
+                        </TableCell>
                         <TableCell>
                           <Box
                             sx={{

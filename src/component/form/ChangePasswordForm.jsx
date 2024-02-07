@@ -43,7 +43,7 @@ export default function ChangePasswordForm({ profileList }) {
     onSubmit: async (values) => {
       try {
         const res = await apiCall({
-          url: APIS.MANAGER.CHANGEPASSWORD,
+          url: APIS.USER.CHANGEPASSWORD,
           method: "post",
           data: JSON.stringify(values, null, 2),
         });

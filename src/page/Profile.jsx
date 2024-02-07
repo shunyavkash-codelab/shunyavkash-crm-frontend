@@ -194,7 +194,7 @@ export default function Profile() {
       });
       try {
         const res = await apiCall({
-          url: APIS.MANAGER.EDIT(userId),
+          url: APIS.USER.EDIT(userId),
           method: "patch",
           headers: "multipart/form-data",
           data: formData,
@@ -219,7 +219,7 @@ export default function Profile() {
   //   onSubmit: async (values) => {
   //     try {
   //       const res = await apiCall({
-  //         url: APIS.MANAGER.EDIT(userId),
+  //         url: APIS.USER.EDIT(userId),
   //         method: "patch",
   //         data: JSON.stringify(values, null, 2),
   //       });
@@ -237,7 +237,7 @@ export default function Profile() {
   const fetchProfile = async (id) => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.VIEW(id),
+        url: APIS.USER.VIEW(id),
         method: "get",
         // data: id,
       });

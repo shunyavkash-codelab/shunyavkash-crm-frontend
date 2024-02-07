@@ -1,10 +1,12 @@
 import { useState, useCallback } from "react";
 import { instance } from "../api/instance";
 import { useAuth } from "./store/useAuth";
+import { useSnack } from "./store/useSnack";
 
 export default function useApi() {
   const [isLoading, setIsLoading] = useState(false);
-  const { accessToken } = useAuth();
+  const { accessToken, logout } = useAuth();
+  const { setSnack } = useSnack();
   const apiCall = useCallback(async function (
     config = { url: "", method: "", headers: "", params: {}, data: {} }
   ) {
@@ -37,6 +39,16 @@ export default function useApi() {
             ) {
               prevRequest.sent = true;
               return apiInstance(prevRequest);
+            } else if (
+              error?.response?.status === 400 &&
+              error.response?.data.data.logout === true
+            ) {
+              logout();
+              setSnack(error.response.data.message, "error");
+              window.scrollTo(0, 0);
+              return setTimeout(() => {
+                window.location = "/signin";
+              }, 2000);
             } else throw error;
           }
         );

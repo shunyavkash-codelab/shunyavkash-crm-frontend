@@ -29,7 +29,7 @@ export default function ForgotPassword() {
     onSubmit: async (values) => {
       try {
         const res = await apiCall({
-          url: APIS.MANAGER.FORGETPASSWORD,
+          url: APIS.USER.FORGETPASSWORD,
           method: "post",
           data: JSON.stringify(values, null, 2),
         });

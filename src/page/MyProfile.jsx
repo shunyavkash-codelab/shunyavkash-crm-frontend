@@ -100,7 +100,7 @@ export default function MyProfile() {
 
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.EDIT(id || userId),
+        url: APIS.USER.EDIT(id || userId),
         method: "patch",
         headers: "multipart/form-data",
         data: formData,
@@ -120,7 +120,7 @@ export default function MyProfile() {
     setChangeStatus(!changeStatus);
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.EDIT(id),
+        url: APIS.USER.EDIT(id),
         method: "patch",
         data: { isActive: !changeStatus },
       });
@@ -136,7 +136,7 @@ export default function MyProfile() {
   const handleChangeUserDelete = async () => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.EDIT(id),
+        url: APIS.USER.EDIT(id),
         method: "patch",
         data: { isDeleted: true },
       });
@@ -155,7 +155,7 @@ export default function MyProfile() {
   const viewEmployees = async () => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.VIEW(id || userId),
+        url: APIS.USER.VIEW(id || userId),
         method: "get",
       });
       if (res.data.success === true) {
@@ -515,7 +515,7 @@ export default function MyProfile() {
                 <Grid item xs={12} md={6} xl={4}>
                   <DetailsList
                     Title={"CTC"}
-                    Text={profileUser?.ctc || "N/A"}
+                    Text={profileUser?.ctc?.toLocaleString() || "N/A"}
                     Icon={<CurrencyRupeeOutlinedIcon />}
                     TextStyle={{ textTransform: "capitalize" }}
                   />

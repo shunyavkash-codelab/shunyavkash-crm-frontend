@@ -38,7 +38,7 @@ export default function EmployeeListRaw({
   const editRole = async (id) => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.EDIT(id),
+        url: APIS.USER.EDIT(id),
         method: "patch",
         data: { role: role === "SuperAdmin" ? 0 : role === "Manager" ? 1 : 2 },
       });
@@ -56,7 +56,7 @@ export default function EmployeeListRaw({
   const deleteEmpandman = async (id) => {
     try {
       const res = await apiCall({
-        url: APIS.EMPLOYEE.DELETE(id),
+        url: APIS.USER.DELETE(id),
         method: "delete",
       });
       if (res.status === 200) {

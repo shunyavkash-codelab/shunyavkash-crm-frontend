@@ -73,7 +73,7 @@ export default function MyProfile() {
   const fetchUsers = async () => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.ALLUSER,
+        url: APIS.USER.ALLUSER,
         method: "get",
       });
       if (res.data.success === true) {
@@ -404,8 +404,12 @@ export default function MyProfile() {
                                 {salary.status}
                               </Box>
                             </TableCell>
-                            <TableCell>₹{salary.amount}</TableCell>
-                            <TableCell>₹{salary.incentive || 0}</TableCell>
+                            <TableCell>
+                              ₹{salary.amount.toLocaleString()}
+                            </TableCell>
+                            <TableCell>
+                              ₹{salary.incentive?.toLocaleString() || 0}
+                            </TableCell>
                             <TableCell>
                               <Box
                                 sx={{

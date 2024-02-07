@@ -34,7 +34,7 @@ export default function AddressForm({ profileList }) {
     onSubmit: async (values) => {
       try {
         const res = await apiCall({
-          url: APIS.MANAGER.EDIT(userId),
+          url: APIS.USER.EDIT(userId),
           method: "patch",
           data: JSON.stringify(values, null, 2),
         });

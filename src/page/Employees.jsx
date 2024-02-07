@@ -36,7 +36,7 @@ export default function Employees() {
   const fetchEmployees = async () => {
     try {
       const res = await apiCall({
-        url: APIS.EMPLOYEE.ALLLIST,
+        url: APIS.USER.EMPLOYEELIST,
         method: "get",
         params: { search: searchData },
       });

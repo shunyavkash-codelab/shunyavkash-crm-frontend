@@ -40,7 +40,7 @@ export default function ConfirmPassword() {
           throw new Error("Password and confirm password do not match.");
         }
         const res = await apiCall({
-          url: APIS.MANAGER.RESETPASSWORD,
+          url: APIS.USER.RESETPASSWORD,
           method: "post",
           data: JSON.stringify(values, null, 2),
           params: { key: query.get("key") },

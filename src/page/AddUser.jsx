@@ -78,7 +78,7 @@ export default function AddUser() {
       });
       try {
         const res = await apiCall({
-          url: APIS.MANAGER.ADD,
+          url: APIS.USER.ADD,
           method: "post",
           headers: "multipart/form-data",
           data: formData,
@@ -97,7 +97,7 @@ export default function AddUser() {
   const fetchUsers = async () => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.ALLUSER,
+        url: APIS.USER.ALLUSER,
         method: "get",
       });
       if (res.data.success === true) {
