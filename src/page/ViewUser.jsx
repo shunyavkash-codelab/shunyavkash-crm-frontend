@@ -25,7 +25,7 @@ export default function ViewUser() {
   const viewUsers = async () => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.VIEW(id),
+        url: APIS.USER.VIEW(id),
         method: "get",
       });
       if (res.data.success === true) {

@@ -2,7 +2,7 @@ export const APIS = {
   DASHBOARD: {
     DATA: "/dashboard/dashboard",
   },
-  MANAGER: {
+  USER: {
     ADD: "/user/add",
     LOGIN: "/user/login",
     FORGETPASSWORD: "/user/forget-password",
@@ -10,13 +10,11 @@ export const APIS = {
     CHANGEPASSWORD: "/user/change-password",
     EDIT: (userId) => `/user/${userId}`,
     VIEW: (userId) => `/user/${userId}`,
-    VIEWLIST: "/user/get-users",
-    LIST: "/user/get-users",
+    DASHBOARD: "/user/dashboard",
+    MANAGERLIST: "/user/get-managers",
     ALLUSER: "/user/get-all-user",
-  },
-  EMPLOYEE: {
-    ADD: "/user/add",
-    ALLLIST: "/user/get-all-employees",
+    EMPLOYEELIST: "/user/get-all-employees",
+    INVITEDLIST: "/user/get-invited-user",
     DELETE: (employeeId) => `/user/${employeeId}`,
   },
   CLIENT: {

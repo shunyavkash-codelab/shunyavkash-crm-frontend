@@ -646,7 +646,7 @@ export default function AddInvoice() {
             formData.append("signature", url.fileList[0]);
             try {
               const res = await apiCall({
-                url: APIS.MANAGER.EDIT(userId),
+                url: APIS.USER.EDIT(userId),
                 method: "patch",
                 headers: "multipart/form-data",
                 data: formData,

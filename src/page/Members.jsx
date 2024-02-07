@@ -73,6 +73,7 @@ export default function Members() {
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken, user } = useAuth();
   const [managerList, setManagerList] = useState([]);
+  const [dashboard, setDashboard] = useState([]);
   const { inviteMemberStore } = useInviteMemberStore();
 
   const [value, setValue] = React.useState(0);
@@ -82,6 +83,7 @@ export default function Members() {
   };
 
   const [employeesList, setEmployeesList] = useState([]);
+  const [invitedList, setInvitedList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { searchData } = useSearchData();
   const { setSnack } = useSnack();
@@ -98,10 +100,24 @@ export default function Members() {
     setPage(1);
   };
 
+  const fetchDashboard = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.USER.DASHBOARD,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setDashboard(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
   const fetchManager = async () => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.LIST,
+        url: APIS.USER.MANAGERLIST,
         method: "get",
         params: {
           search: searchData,
@@ -121,12 +137,37 @@ export default function Members() {
   const fetchEmployees = async () => {
     try {
       const res = await apiCall({
-        url: APIS.EMPLOYEE.ALLLIST,
+        url: APIS.USER.EMPLOYEELIST,
         method: "get",
-        params: { search: searchData },
+        params: {
+          search: searchData,
+          page: searchData ? 1 : page,
+          limit: rowsPerPage,
+        },
       });
       if (res.data.success === true) {
         setEmployeesList(res.data.data.data);
+        setTotalPage(res.data.data.pagination.pages);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
+  const fetchInvited = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.USER.INVITEDLIST,
+        method: "get",
+        params: {
+          search: searchData,
+          page: searchData ? 1 : page,
+          limit: rowsPerPage,
+        },
+      });
+      if (res.data.success === true) {
+        setInvitedList(res.data.data.data);
+        setTotalPage(res.data.data.pagination.pages);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -136,14 +177,23 @@ export default function Members() {
   useEffect(() => {
     fetchManager();
     fetchEmployees();
+    fetchInvited();
+    fetchDashboard();
+  }, []);
+
+  useEffect(() => {
+    if (value === 0) fetchManager();
+    else if (value === 1) fetchEmployees();
+    else if (value === 2) fetchInvited();
   }, [page, rowsPerPage]);
 
   // serech data
   useEffect(() => {
     if (searchData !== undefined) {
       const getData = setTimeout(async () => {
-        fetchManager();
-        fetchEmployees();
+        if (value === 0) fetchManager();
+        else if (value === 1) fetchEmployees();
+        else if (value === 2) fetchInvited();
       }, 1000);
       return () => clearTimeout(getData);
     }
@@ -151,8 +201,10 @@ export default function Members() {
 
   // employee
   useEffect(() => {
-    if (inviteMemberStore)
+    if (inviteMemberStore) {
       setEmployeesList([...[inviteMemberStore], ...employeesList]);
+      setInvitedList([...[inviteMemberStore], ...invitedList]);
+    }
   }, [inviteMemberStore]);
 
   return (
@@ -204,20 +256,20 @@ export default function Members() {
               <CounterCards
                 Title="Total Members"
                 Counter={`${
-                  (managerList.length || 0) + (employeesList.length || 0)
+                  (dashboard.manager || 0) + (dashboard.employee || 0)
                 }`}
               />
             </Grid>
             <Grid item xs={6} md={3} lg={4}>
               <CounterCards
                 Title="Total Managers"
-                Counter={managerList.length || 0}
+                Counter={dashboard.manager || 0}
               />
             </Grid>
             <Grid item xs={6} md={3} lg={4}>
               <CounterCards
                 Title="Total Employee"
-                Counter={employeesList.length || 0}
+                Counter={dashboard.employee || 0}
               />
             </Grid>
           </Grid>
@@ -258,6 +310,12 @@ export default function Members() {
                 disableElevation
                 label="Employee"
                 {...a11yProps(1)}
+              />
+              <Tab
+                disableRipple
+                disableElevation
+                label="Invited Members"
+                {...a11yProps(2)}
               />
             </Tabs>
 
@@ -379,6 +437,104 @@ export default function Members() {
                             uniqId={row._id}
                             setEmployeesList={setEmployeesList}
                             employeesList={employeesList}
+                          />
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  {/* pagination */}
+                  <TablePagination
+                    component="div"
+                    count={10}
+                    page={page}
+                    onPageChange={handleChangeOnPageChange}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    sx={{
+                      "&>div": {
+                        p: 0,
+                        minHeight: "24px",
+                        "& .MuiTablePagination-selectLabel": {
+                          lineHeight: 1,
+                          fontWeight: 600,
+                        },
+                        "& .MuiTablePagination-input": {
+                          mr: 0,
+                          "&>div": {
+                            p: "0 24px 0 0",
+                          },
+                        },
+                        "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
+                          {
+                            display: "none",
+                          },
+                      },
+                    }}
+                  />
+                  <Stack spacing={2}>
+                    {/* <Typography>Page: {page}</Typography> */}
+                    <Pagination
+                      count={totalPage}
+                      page={page}
+                      onChange={handleChangeOnPageChange}
+                    />
+                  </Stack>
+                </>
+              )}
+            </CustomTabPanel>
+
+            {/* Invited */}
+            <CustomTabPanel value={value} index={2}>
+              {isLoading ? (
+                <LoadingIcon style={{ height: "50vh" }} />
+              ) : invitedList.length === 0 ? (
+                <NoData />
+              ) : (
+                <>
+                  <TableContainer
+                    component={Paper}
+                    sx={{
+                      border: "1px solid rgba(224, 224, 224, 1)",
+                      mx: { xs: "-10px", sm: 0 },
+                      width: { xs: "auto", sm: "auto" },
+                      borderRadius: 2.5,
+                    }}
+                  >
+                    <Table
+                      className="userTable"
+                      sx={{
+                        minWidth: 650,
+                        textTransform: "capitalize",
+                        textWrap: "nowrap",
+                        "& th,& td": { borderBottom: 0 },
+                        "& tbody tr": {
+                          borderTop: "1px solid rgba(224, 224, 224, 1)",
+                        },
+                      }}
+                      aria-label="simple table"
+                    >
+                      <TableHead>
+                        <TableRow
+                          sx={{
+                            "&>th": { lineHeight: 1, fontWeight: 700 },
+                          }}
+                        >
+                          <TableCell sx={{ width: "400px" }}>
+                            employee
+                          </TableCell>
+                          <TableCell>mobile number</TableCell>
+                          <TableCell sx={{ width: "250px" }}>Role</TableCell>
+                          <TableCell sx={{ width: "140px" }}>status</TableCell>
+                          <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {invitedList.map((row) => (
+                          <EmployeeListRaw
+                            row={row}
+                            uniqId={row._id}
+                            setEmployeesList={setEmployeesList}
+                            invitedList={invitedList}
                           />
                         ))}
                       </TableBody>

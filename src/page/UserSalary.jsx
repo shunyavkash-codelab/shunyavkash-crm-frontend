@@ -227,7 +227,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
   const fetchUsers = async () => {
     try {
       const res = await apiCall({
-        url: APIS.MANAGER.ALLUSER,
+        url: APIS.USER.ALLUSER,
         method: "get",
       });
       if (res.data.success === true) {

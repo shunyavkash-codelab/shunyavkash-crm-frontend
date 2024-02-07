@@ -65,7 +65,7 @@ export default function EmployeeContactForm({
     onSubmit: async (values) => {
       try {
         const res = await apiCall({
-          url: APIS.MANAGER.EDIT(uniqId),
+          url: APIS.USER.EDIT(uniqId),
           method: "patch",
           data: values,
         });

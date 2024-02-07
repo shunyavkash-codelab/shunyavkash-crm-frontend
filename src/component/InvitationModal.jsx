@@ -43,7 +43,7 @@ export default function InvitationModal({ open, setOpen }) {
       .trim(),
     password: Yup.string().required("Password is required.").trim(),
     role: Yup.string().required("Role is required.").trim(),
-    jobRole: Yup.string().required("Job role is required.").trim(),
+    designation: Yup.string().required("Job role is required.").trim(),
   });
 
   const formik = useFormik({
@@ -53,12 +53,13 @@ export default function InvitationModal({ open, setOpen }) {
       email: "",
       password: "",
       role: "",
-      jobRole: "",
+      designation: "",
+      isInvited: true,
     },
     onSubmit: async (values) => {
       try {
         const res = await apiCall({
-          url: APIS.EMPLOYEE.ADD,
+          url: APIS.USER.ADD,
           method: "post",
           data: JSON.stringify(values, null, 2),
         });
@@ -283,7 +284,7 @@ export default function InvitationModal({ open, setOpen }) {
                   <TextField
                     fullWidth
                     size="small"
-                    id="jobRole"
+                    id="designation"
                     label="Job Title"
                     autoComplete="off"
                     sx={{
@@ -293,11 +294,11 @@ export default function InvitationModal({ open, setOpen }) {
                       },
                     }}
                     onChange={formik.handleChange}
-                    value={formik.values.jobRole}
+                    value={formik.values.designation}
                     error={
-                      formik.touched.jobRole && Boolean(formik.errors.jobRole)
+                      formik.touched.designation && Boolean(formik.errors.designation)
                     }
-                    helperText={formik.touched.jobRole && formik.errors.jobRole}
+                    helperText={formik.touched.designation && formik.errors.designation}
                   />
                 </Box>
                 <Box

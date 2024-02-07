@@ -232,26 +232,26 @@ function AccountManage() {
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Sales"
-                Counter={`₹${dashboard?.totalSales || 0}`}
+                Counter={`₹${dashboard?.totalSales.toLocaleString() || 0}`}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Income"
-                Counter={`₹${dashboard?.totalIncome || 0}`}
+                Counter={`₹${dashboard?.totalIncome.toLocaleString() || 0}`}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Expense"
-                Counter={`₹${Math.abs(dashboard?.totalExpense) || 0}`}
+                Counter={`₹${Math.abs(dashboard?.totalExpense).toLocaleString() || 0}`}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Balance"
                 Counter={`₹${
-                  dashboard?.totalIncome - dashboard?.totalExpense || 0
+                  (dashboard?.totalIncome - dashboard?.totalExpense).toLocaleString() || 0
                 }`}
                 counterStyle={{
                   color:
@@ -628,7 +628,7 @@ function AccountManage() {
                               }}
                             >
                               {account.type === "income"
-                                ? "$" + account.amount
+                                ? "$" + account.amount.toLocaleString()
                                 : "-"}
                             </TableCell>
                           )}
@@ -640,7 +640,7 @@ function AccountManage() {
                               }}
                             >
                               {account.type === "expense"
-                                ? "$" + account.amount
+                                ? "$" + account.amount.toLocaleString()
                                 : "-"}
                             </TableCell>
                           )}
@@ -702,7 +702,7 @@ function AccountManage() {
                             textAlign: "center",
                           }}
                         >
-                          ${Math.abs(totalAmount)}
+                          ${Math.abs(totalAmount).toLocaleString()}
                         </TableCell>
                         <TableCell></TableCell>
                         <TableCell></TableCell>
@@ -728,7 +728,7 @@ function AccountManage() {
                               textAlign: "center",
                             }}
                           >
-                            ${Math.abs(totalIncome)}
+                            ${Math.abs(totalIncome).toLocaleString()}
                           </TableCell>
                         )}
                         {filter !== "income" && (
@@ -738,7 +738,7 @@ function AccountManage() {
                               textAlign: "center",
                             }}
                           >
-                            ${Math.abs(totalExpense)}
+                            ${Math.abs(totalExpense).toLocaleString()}
                           </TableCell>
                         )}
                         <TableCell></TableCell>
