@@ -115,6 +115,7 @@ export default function Leaves() {
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
+          date: moment().format(),
         },
       });
       if (res.data.success === true) {
