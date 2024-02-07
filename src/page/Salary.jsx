@@ -14,11 +14,11 @@ import {
   Paper,
   Stack,
   FormControl,
+  Button,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
-import { useParams, useNavigate } from "react-router-dom";
 import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
@@ -36,6 +36,8 @@ import dayjs from "dayjs";
 import ModalComponent from "../component/ModalComponent.jsx";
 import AddSalaryForm from "../component/form/AddSalaryForm.jsx";
 import { useSearchData } from "../hooks/store/useSearchData.js";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import CreateIcon from "@mui/icons-material/CreateOutlined";
 
 export default function MyProfile() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -48,6 +50,8 @@ export default function MyProfile() {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [openSalary, setOpenSalary] = useState(false);
+  const [selectSalary, setSelectSalary] = useState(false);
+  const [employeeId, setEmployeeId] = useState(false);
   const [salaryList, setSalaryList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [userBank, setUserBank] = useState();
@@ -66,8 +70,9 @@ export default function MyProfile() {
     setPage(1);
   };
 
-  const handleOpenSalary = () => {
+  const handleOpenSalary = (salary) => {
     setOpenSalary(true);
+    if (salary) setSelectSalary(salary);
   };
 
   const fetchUsers = async () => {
@@ -87,6 +92,30 @@ export default function MyProfile() {
     fetchUsers();
     viewAllSalary();
   }, []);
+
+  useEffect(() => {
+    if (selectSalary.employee) {
+      let employeeName = userList.find(
+        (user) => user.name === selectSalary.employee
+      );
+      setEmployeeId(employeeName._id);
+    }
+  }, [selectSalary]);
+
+  const deleteSalary = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.SALARY.DELETE(id),
+        method: "delete",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        viewAllSalary();
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
 
   const viewAllSalary = async () => {
     try {
@@ -154,11 +183,12 @@ export default function MyProfile() {
     }),
     enableReinitialize: true,
     initialValues: {
-      date: dayjs().format("DD/MM/YYYY"),
-      status: "",
-      employee: userId,
-      amount: "",
-      incentive: "",
+      _id: selectSalary._id || undefined,
+      date: selectSalary.date || dayjs().format("DD/MM/YYYY"),
+      status: selectSalary.status || "",
+      employee: employeeId || userId,
+      amount: selectSalary.amount?.toString() || "",
+      incentive: selectSalary.incentive?.toString() || "",
     },
 
     onSubmit: async (values) => {
@@ -180,7 +210,14 @@ export default function MyProfile() {
             (user) => user._id.toString() === res.data.data.employee.toString()
           );
           res.data.data.employee = newSalaryUser[0].name;
-          setSalaryList([res.data.data, ...salaryList]);
+          if (values._id) {
+            let oldSalary = salaryList.findIndex(
+              (item) => item._id === values._id
+            );
+            salaryList[oldSalary] = res.data.data;
+          } else {
+            setSalaryList([res.data.data, ...salaryList]);
+          }
           setOpenSalary(false);
         }
       } catch (error) {
@@ -428,9 +465,28 @@ export default function MyProfile() {
                                   },
                                 }}
                               >
-                                <a href={salary.pdf} target="_blank">
+                                <a
+                                  href={salary.pdf}
+                                  target="_blank"
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
                                   <VisibilityIcon />
                                 </a>
+                                <Button
+                                  disableRipple
+                                  onClick={() => handleOpenSalary(salary)}
+                                >
+                                  <CreateIcon />
+                                </Button>
+                                <Button
+                                  disableRipple
+                                  onClick={() => deleteSalary(salary._id)}
+                                >
+                                  <DeleteIcon />
+                                </Button>
                               </Box>
                             </TableCell>
                           </TableRow>

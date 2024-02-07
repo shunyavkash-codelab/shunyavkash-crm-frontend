@@ -35,6 +35,7 @@ import SectionHeader from "../component/SectionHeader";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 // const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -92,6 +93,21 @@ export default function Invoices() {
   const editInvoice = async (invoiceNumber, row) => {
     setInvoiceData(row);
     navigate(`/invoices/edit/${invoiceNumber}`);
+  };
+
+  const deleteInvoice = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.INVOICE.DELETE(id),
+        method: "delete",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        listInvoice();
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
   };
 
   const listInvoice = async () => {
@@ -386,7 +402,6 @@ export default function Invoices() {
           ) : invoiceList.length === 0 ? (
             <NoData />
           ) : (
-            // <Box sx={{ display: showTable ? "block" : "none" }}>
             <>
               <TableContainer
                 component={Paper}
@@ -519,6 +534,12 @@ export default function Invoices() {
                             >
                               <CreateIcon />
                             </Button>
+                            <Button
+                              disableRipple
+                              onClick={() => deleteInvoice(row._id)}
+                            >
+                              <DeleteIcon />
+                            </Button>
                           </Box>
                         </TableCell>
                       </TableRow>
@@ -534,7 +555,6 @@ export default function Invoices() {
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
             </>
-            // </Box>
           )}
         </Box>
       </Box>
