@@ -51,6 +51,7 @@ import { useSearchData } from "../hooks/store/useSearchData.js";
 import CounterCards from "../component/CounterCards.jsx";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 function AccountManage() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -69,7 +70,7 @@ function AccountManage() {
   const { searchData } = useSearchData();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState("all");
   const [filter, setFilter] = useState("all");
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
@@ -88,6 +89,20 @@ function AccountManage() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(1);
   };
+  const deleteTransaction = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.ACCOUNTMANAGE.DELETE(id),
+        method: "delete",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        viewAllTransaction();
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
   const viewAllTransaction = async () => {
     try {
       const res = await apiCall({
@@ -98,8 +113,8 @@ function AccountManage() {
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
-          from: from,
-          to: to,
+          from: date === "all" ? undefined : from,
+          to: date === "all" ? undefined : to,
           filter: filter === "all" ? undefined : filter,
         },
       });
@@ -175,6 +190,8 @@ function AccountManage() {
         moment().subtract(1, "years").startOf("year").format("YYYY-MM-DD")
       );
       setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
+    } else {
+      viewAllTransaction();
     }
   }, [date]);
   let acFormattedDate;
@@ -244,14 +261,18 @@ function AccountManage() {
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Expense"
-                Counter={`₹${Math.abs(dashboard?.totalExpense).toLocaleString() || 0}`}
+                Counter={`₹${
+                  Math.abs(dashboard?.totalExpense).toLocaleString() || 0
+                }`}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Balance"
                 Counter={`₹${
-                  (dashboard?.totalIncome - dashboard?.totalExpense).toLocaleString() || 0
+                  (
+                    dashboard?.totalIncome - dashboard?.totalExpense
+                  ).toLocaleString() || 0
                 }`}
                 counterStyle={{
                   color:
@@ -309,6 +330,12 @@ function AccountManage() {
                     },
                   }}
                 >
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"all"}
+                  >
+                    All
+                  </MenuItem>
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
                     value={"lastweek"}
@@ -429,7 +456,6 @@ function AccountManage() {
                       bgcolor: "white",
                     },
                   }}
-                  defaultValue={"all"}
                 >
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
@@ -677,6 +703,12 @@ function AccountManage() {
                                   <CreateIcon />
                                 </Button>
                               </Link>
+                              <Button
+                                disableRipple
+                                onClick={() => deleteTransaction(account._id)}
+                              >
+                                <DeleteIcon />
+                              </Button>
                             </Stack>
                           </TableCell>
                         </TableRow>

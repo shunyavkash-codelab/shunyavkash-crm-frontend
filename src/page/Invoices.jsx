@@ -43,7 +43,7 @@ export default function Invoices() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState("all");
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
   const { setSnack } = useSnack();
@@ -120,8 +120,8 @@ export default function Invoices() {
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
-          from: from,
-          to: to,
+          from: date === "all" ? undefined : from,
+          to: date === "all" ? undefined : to,
         },
       });
       if (res.data.success === true) {
@@ -168,6 +168,8 @@ export default function Invoices() {
         moment().subtract(1, "years").startOf("year").format("YYYY-MM-DD")
       );
       setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
+    } else {
+      listInvoice();
     }
   }, [date]);
 
@@ -260,6 +262,12 @@ export default function Invoices() {
                     },
                   }}
                 >
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"all"}
+                  >
+                    All
+                  </MenuItem>
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
                     value={"lastweek"}

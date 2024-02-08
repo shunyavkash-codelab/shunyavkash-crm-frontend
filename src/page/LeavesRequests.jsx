@@ -5,6 +5,7 @@ import Header from "../component/Header";
 import ModalComponent from "../component/ModalComponent";
 import {
   Box,
+  Button,
   ButtonGroup,
   Grid,
   // InputLabel,
@@ -37,6 +38,7 @@ import { useSearchData } from "../hooks/store/useSearchData.js";
 import CounterCards from "../component/CounterCards.jsx";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 export default function LeavesRequests() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -108,7 +110,20 @@ export default function LeavesRequests() {
       console.log(error, setSnack);
     }
   };
-
+  const deleteLeave = async (id) => {
+    try {
+      const res = await apiCall({
+        url: APIS.LEAVE.DELETE(id),
+        method: "delete",
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        leaveList();
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
   const leaveList = async () => {
     try {
       const res = await apiCall({
@@ -236,6 +251,7 @@ export default function LeavesRequests() {
                       <TableCell>Start Date</TableCell>
                       <TableCell>End Date</TableCell>
                       <TableCell>Status</TableCell>
+                      <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -451,6 +467,33 @@ export default function LeavesRequests() {
                               ""
                             )}
                           </ButtonGroup>
+                        </TableCell>
+                        <TableCell>
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            justifyContent="center"
+                            spacing={1.5}
+                            sx={{
+                              "& button": {
+                                opacity: 0.5,
+                                p: 0,
+                                minWidth: "auto",
+                                color: "text.primary",
+                                "&:hover": { color: "primary.main" },
+                              },
+                              "& svg": {
+                                fontSize: { xs: "20px", sm: "21px" },
+                              },
+                            }}
+                          >
+                            <Button
+                              disableRipple
+                              onClick={() => deleteLeave(leaveRequest._id)}
+                            >
+                              <DeleteIcon />
+                            </Button>
+                          </Stack>
                         </TableCell>
                       </TableRow>
                     ))}
