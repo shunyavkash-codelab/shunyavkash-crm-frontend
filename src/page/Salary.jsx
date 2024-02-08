@@ -15,6 +15,7 @@ import {
   Stack,
   FormControl,
   Button,
+  TextField,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
@@ -45,7 +46,7 @@ export default function MyProfile() {
   const { accessToken, userId, user } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -126,8 +127,8 @@ export default function MyProfile() {
           sortField: "date",
           page: page,
           limit: rowsPerPage,
-          from: from,
-          to: to,
+          from: date === "all" ? undefined : from,
+          to: date === "all" ? undefined : to,
           search: searchData,
         },
       });
@@ -161,6 +162,8 @@ export default function MyProfile() {
         moment().subtract(1, "years").startOf("year").format("YYYY-MM-DD")
       );
       setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
+    } else {
+      viewAllSalary();
     }
   }, [date]);
 
@@ -263,247 +266,299 @@ export default function MyProfile() {
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
         <Box component="main">
-          <SectionHeader
-            Title={"Salary"}
-            BreadCrumbPreviousLink="/"
-            BreadCrumbPreviousTitle="Dashboard"
-            BreadCrumbCurrentTitle="Salary"
-          />
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ sm: "center" }}
+            justifyContent={{ sm: "space-between" }}
+            columnGap={2}
+            rowGap={2.5}
+          >
+            <SectionHeader
+              Title={"Salary"}
+              BreadCrumbPreviousLink="/"
+              BreadCrumbPreviousTitle="Dashboard"
+              BreadCrumbCurrentTitle="Salary"
+            />
+            {/* Todos : This button visable only admin */}
+            {user.role === 0 && (
+              <ThemeButton
+                Text="Add Salary"
+                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                onClick={handleOpenSalary}
+              />
+            )}
+          </Stack>
 
-          <Box sx={{ bgcolor: "white", borderRadius: 4, mt: 3, pt: 2, pb: 3 }}>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 2.5,
+              mb: 3.25,
+              flexDirection: { xs: "column", sm: "row" },
+            }}
+          >
+            <Box
+              component="form"
+              noValidate
+              autoComplete="off"
               sx={{
-                px: 2,
-                mb: 3,
-                pb: 2,
-                borderBottom: "1px solid rgba(0,0,0,0.06)",
+                flexGrow: 1,
+                display: "flex",
+                flexDirection: "column",
+                gap: 2.5,
+                "& fieldset": { borderRadius: "6px" },
+                maxWidth: "320px",
               }}
             >
-              <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
-                Salary Details
-              </Typography>
-              <Stack direction="row" alignItems="center" spacing={2}>
-                <Box
-                  component="form"
-                  noValidate
-                  autoComplete="off"
+              <FormControl
+                size="small"
+                sx={{
+                  "&>label": { fontSize: "14px" },
+                  flexGrow: 1,
+                }}
+              >
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
+                >
+                  Date
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={date}
+                  label="Date"
+                  onChange={handleChange}
                   sx={{
-                    flexGrow: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "end",
-                    gap: 2.5,
-                    "& fieldset": { borderRadius: "6px" },
-                    minWidth: "140px",
+                    fontSize: "14px",
+                    "&": {
+                      bgcolor: "white",
+                    },
                   }}
                 >
-                  <FormControl
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"all"}
+                  >
+                    All
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastmonth"}
+                  >
+                    Last Month
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastquarter"}
+                  >
+                    Last Quarter
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastyear"}
+                  >
+                    Last Year
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"CustomRange"}
+                  >
+                    Custom Range
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              {date === "CustomRange" && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: { xs: "column", sm: "row" },
+                    "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                    gap: 2.5,
+                    flexShrink: 0,
+                  }}
+                >
+                  <TextField
+                    fullWidth
                     size="small"
-                    sx={{
-                      "&>label": { fontSize: "14px" },
-                      flexGrow: 1,
+                    id="from"
+                    label="From"
+                    autoComplete="off"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
                     }}
-                  >
-                    <InputLabel
-                      sx={{ textTransform: "capitalize" }}
-                      id="date-wise-select-label"
-                    >
-                      Date
-                    </InputLabel>
-                    <Select
-                      labelId="date-wise-select-label"
-                      id="demo-simple-select"
-                      value={date}
-                      label="Date"
-                      onChange={handleChange}
-                      sx={{
-                        fontSize: "14px",
-                        "&": {
-                          bgcolor: "white",
-                        },
-                      }}
-                    >
-                      <MenuItem
-                        sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                        value={"lastmonth"}
-                      >
-                        Last Month
-                      </MenuItem>
-                      <MenuItem
-                        sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                        value={"lastquarter"}
-                      >
-                        Last Quarter
-                      </MenuItem>
-                      <MenuItem
-                        sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                        value={"lastyear"}
-                      >
-                        Last Year
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
+                    placeholder="mm/dd/yyyy"
+                    value={from}
+                    onChange={(e) => setFrom(e.target.value)}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&": {
+                        bgcolor: "white",
+                        borderRadius: 1.5,
+                      },
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="to"
+                    label="To"
+                    autoComplete="off"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="mm/dd/yyyy"
+                    value={to}
+                    onChange={(e) => setTo(e.target.value)}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&": {
+                        bgcolor: "white",
+                        borderRadius: 1.5,
+                      },
+                    }}
+                  />
                 </Box>
-                {/* Todos : This button visable only admin */}
-                {user.role === 0 && (
-                  <ThemeButton
-                    transparent
-                    smallRounded
-                    Text="Add Salary"
-                    startIcon={
-                      <PlusIcon
-                        sx={{
-                          fontSize: "16px!important",
-                          transform: "rotate(45deg)",
-                        }}
-                      />
-                    }
-                    onClick={handleOpenSalary}
-                  />
-                )}
-              </Stack>
-            </Stack>
-            <Box sx={{ px: 3 }}>
-              {isLoading ? (
-                <LoadingIcon style={{ height: "50vh" }} />
-              ) : salaryList.length === 0 ? (
-                <NoData />
-              ) : (
-                <>
-                  <TableContainer
-                    component={Paper}
-                    sx={{
-                      border: "1px solid rgba(224, 224, 224, 1)",
-                      mx: { xs: "-10px", sm: 0 },
-                      width: { xs: "auto", sm: "auto" },
-                      borderRadius: 2.5,
-                    }}
-                  >
-                    <Table
-                      className="projectTable"
-                      sx={{
-                        minWidth: 650,
-                        textTransform: "capitalize",
-                        textWrap: "nowrap",
-                        "& th,& td": { borderBottom: 0 },
-                        "& tbody tr": {
-                          borderTop: "1px solid rgba(224, 224, 224, 1)",
-                        },
-                      }}
-                      aria-label="simple table"
-                    >
-                      <TableHead>
-                        <TableRow
-                          sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
-                        >
-                          <TableCell>Date</TableCell>
-                          <TableCell>Member Name</TableCell>
-                          <TableCell>Salary Amount</TableCell>
-                          <TableCell>Status</TableCell>
-                          <TableCell>Incentive</TableCell>
-                          <TableCell>Action</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {salaryList.map((salary) => (
-                          <TableRow
-                            sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
-                              "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                              "&:first-of-type td": {
-                                maxWidth: "250px",
-                                textWrap: "wrap",
-                              },
-                            }}
-                          >
-                            <TableCell>
-                              {moment(salary.date).format("DD/MM/YYYY")}
-                            </TableCell>
-                            <TableCell>{salary.employee}</TableCell>
-                            <TableCell>
-                              <Box
-                                sx={{
-                                  color: "white",
-                                  fontSize: "12px",
-                                  p: 0.5,
-                                  borderRadius: 1,
-                                  maxWidth: "fit-content",
-                                  lineHeight: 1,
-                                  bgcolor:
-                                    salary.status === "paid"
-                                      ? "success.main"
-                                      : "review.main",
-                                }}
-                              >
-                                {salary.status}
-                              </Box>
-                            </TableCell>
-                            <TableCell>
-                              ₹{salary.amount.toLocaleString()}
-                            </TableCell>
-                            <TableCell>
-                              ₹{salary.incentive?.toLocaleString() || 0}
-                            </TableCell>
-                            <TableCell>
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: { xs: 1.25, sm: 1.5 },
-                                  opacity: 0.3,
-                                  "& button": {
-                                    p: 0,
-                                    minWidth: "auto",
-                                    color: "black",
-                                    "&:hover": { color: "primary.main" },
-                                  },
-                                  "& svg": {
-                                    fontSize: { xs: "20px", sm: "21px" },
-                                  },
-                                }}
-                              >
-                                <a
-                                  href={salary.pdf}
-                                  target="_blank"
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <VisibilityIcon />
-                                </a>
-                                <Button
-                                  disableRipple
-                                  onClick={() => handleOpenSalary(salary)}
-                                >
-                                  <CreateIcon />
-                                </Button>
-                                <Button
-                                  disableRipple
-                                  onClick={() => deleteSalary(salary._id)}
-                                >
-                                  <DeleteIcon />
-                                </Button>
-                              </Box>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <ThemePagination
-                    totalpage={totalPage}
-                    onChange={handlePageChange}
-                    rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-                </>
               )}
             </Box>
           </Box>
+
+          {isLoading ? (
+            <LoadingIcon style={{ height: "50vh" }} />
+          ) : salaryList.length === 0 ? (
+            <NoData />
+          ) : (
+            <>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  border: "1px solid rgba(224, 224, 224, 1)",
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
+                }}
+              >
+                <Table
+                  className="projectTable"
+                  sx={{
+                    minWidth: 650,
+                    textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& th,& td": { borderBottom: 0 },
+                    "& tbody tr": {
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    },
+                  }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
+                    <TableRow
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                    >
+                      <TableCell>Date</TableCell>
+                      <TableCell>Member Name</TableCell>
+                      <TableCell>Salary Amount</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Incentive</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {salaryList.map((salary) => (
+                      <TableRow
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&:first-of-type td": {
+                            maxWidth: "250px",
+                            textWrap: "wrap",
+                          },
+                        }}
+                      >
+                        <TableCell>
+                          {moment(salary.date).format("DD/MM/YYYY")}
+                        </TableCell>
+                        <TableCell>{salary.employee}</TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
+                              bgcolor:
+                                salary.status === "paid"
+                                  ? "success.main"
+                                  : "review.main",
+                            }}
+                          >
+                            {salary.status}
+                          </Box>
+                        </TableCell>
+                        <TableCell>₹{salary.amount.toLocaleString()}</TableCell>
+                        <TableCell>
+                          ₹{salary.incentive?.toLocaleString() || 0}
+                        </TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: { xs: 1.25, sm: 1.5 },
+                              opacity: 0.3,
+                              "& button": {
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              },
+                              "& svg": {
+                                fontSize: { xs: "20px", sm: "21px" },
+                              },
+                            }}
+                          >
+                            <a
+                              href={salary.pdf}
+                              target="_blank"
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                              }}
+                            >
+                              <VisibilityIcon />
+                            </a>
+                            <Button
+                              disableRipple
+                              onClick={() => handleOpenSalary(salary)}
+                            >
+                              <CreateIcon />
+                            </Button>
+                            <Button
+                              disableRipple
+                              onClick={() => deleteSalary(salary._id)}
+                            >
+                              <DeleteIcon />
+                            </Button>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <ThemePagination
+                totalpage={totalPage}
+                onChange={handlePageChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </>
+          )}
         </Box>
       </Box>
 
