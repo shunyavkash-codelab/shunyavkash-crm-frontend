@@ -16,6 +16,7 @@ import {
   FormControl,
   Button,
   TextField,
+  TableSortLabel,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
@@ -59,6 +60,8 @@ export default function MyProfile() {
   const { searchData } = useSearchData();
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
+  const [sortField, setSortField] = useState();
+  const [orderBy, setOrderBy] = useState();
 
   const handleChange = (event) => {
     setDate(event.target.value);
@@ -124,7 +127,8 @@ export default function MyProfile() {
         url: APIS.SALARY.ALL,
         method: "get",
         params: {
-          sortField: "date",
+          sortField: sortField || "date",
+          orderBy: orderBy,
           page: page,
           limit: rowsPerPage,
           from: date === "all" ? undefined : from,
@@ -248,6 +252,16 @@ export default function MyProfile() {
       viewUserBank(formikSalary.values.employee);
     }
   }, [formikSalary.values.employee]);
+
+  const createSortHandler = (id) => {
+    setSortField(id);
+    setOrderBy(orderBy === "asc" ? "desc" : "asc");
+  };
+  useEffect(() => {
+    if (orderBy) {
+      viewAllSalary();
+    }
+  }, [orderBy]);
 
   return (
     <>
@@ -458,10 +472,42 @@ export default function MyProfile() {
                     <TableRow
                       sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
-                      <TableCell>Date</TableCell>
-                      <TableCell>Member Name</TableCell>
-                      <TableCell>Salary Amount</TableCell>
-                      <TableCell>Status</TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "date"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("date")}
+                        >
+                          Date
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "employee"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("employee")}
+                        >
+                          Member Name
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "status"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("status")}
+                        >
+                          Status
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "amount"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("amount")}
+                        >
+                          Salary Amount
+                        </TableSortLabel>
+                      </TableCell>
                       <TableCell>Incentive</TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>

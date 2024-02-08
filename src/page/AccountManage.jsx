@@ -23,6 +23,7 @@ import {
   Select,
   MenuItem,
   TextField,
+  TableSortLabel,
 } from "@mui/material";
 import ModalComponent from "../component/ModalComponent";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
@@ -74,6 +75,8 @@ function AccountManage() {
   const [filter, setFilter] = useState("all");
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
+  const [sortField, setSortField] = useState();
+  const [orderBy, setOrderBy] = useState();
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const handlePageChange = (event, newPage) => {
@@ -109,7 +112,8 @@ function AccountManage() {
         url: APIS.ACCOUNTMANAGE.LIST,
         method: "get",
         params: {
-          sortField: "date",
+          sortField: sortField || "date",
+          orderBy: orderBy,
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
@@ -199,6 +203,16 @@ function AccountManage() {
     let originalDate = moment(selectedTransaction?.date);
     acFormattedDate = originalDate.format("DD/MM/YYYY");
   }
+
+  const createSortHandler = (id) => {
+    setSortField(id);
+    setOrderBy(orderBy === "asc" ? "desc" : "asc");
+  };
+  useEffect(() => {
+    if (orderBy) {
+      viewAllTransaction();
+    }
+  }, [orderBy]);
 
   return (
     <>
@@ -523,12 +537,28 @@ function AccountManage() {
                           },
                         }}
                       >
-                        <TableCell sx={{ width: "110px" }}>Date</TableCell>
+                        <TableCell sx={{ width: "110px" }}>
+                          <TableSortLabel
+                            active={sortField === "date"}
+                            direction={orderBy || "asc"}
+                            onClick={() => createSortHandler("date")}
+                          >
+                            Date
+                          </TableSortLabel>
+                        </TableCell>
                         <TableCell sx={{ width: "184px" }}>Title</TableCell>
                         <TableCell sx={{ width: "370px" }}>
                           Description
                         </TableCell>
-                        <TableCell sx={{ width: "154px" }}>method</TableCell>
+                        <TableCell sx={{ width: "154px" }}>
+                          <TableSortLabel
+                            active={sortField === "paymentMethod"}
+                            direction={orderBy || "asc"}
+                            onClick={() => createSortHandler("paymentMethod")}
+                          >
+                            method
+                          </TableSortLabel>
+                        </TableCell>
                         <TableCell sx={{ width: "120px" }}>
                           Invoice Type
                         </TableCell>
@@ -545,14 +575,26 @@ function AccountManage() {
                           <TableCell
                             sx={{ width: "140px", textAlign: "center" }}
                           >
-                            Income (₹)
+                            <TableSortLabel
+                              active={sortField === "amount"}
+                              direction={orderBy || "asc"}
+                              onClick={() => createSortHandler("amount")}
+                            >
+                              Income (₹)
+                            </TableSortLabel>
                           </TableCell>
                         )}
                         {filter !== "income" && (
                           <TableCell
                             sx={{ width: "140px", textAlign: "center" }}
                           >
-                            Expense (₹)
+                            <TableSortLabel
+                              active={sortField === "amount"}
+                              direction={orderBy || "asc"}
+                              onClick={() => createSortHandler("amount")}
+                            >
+                              Expense (₹)
+                            </TableSortLabel>
                           </TableCell>
                         )}
 

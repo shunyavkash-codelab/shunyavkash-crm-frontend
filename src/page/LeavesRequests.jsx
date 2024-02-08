@@ -19,6 +19,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TableSortLabel,
   TextField,
   Tooltip,
   Typography,
@@ -56,6 +57,8 @@ export default function LeavesRequests() {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const { searchData } = useSearchData();
+  const [sortField, setSortField] = useState();
+  const [orderBy, setOrderBy] = useState();
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -133,6 +136,8 @@ export default function LeavesRequests() {
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
+          sortField: sortField,
+          orderBy: orderBy,
         },
       });
       if (res.data.success === true) {
@@ -155,6 +160,16 @@ export default function LeavesRequests() {
       return () => clearTimeout(getData);
     }
   }, [searchData]);
+
+  const createSortHandler = (id) => {
+    setSortField(id);
+    setOrderBy(orderBy === "asc" ? "desc" : "asc");
+  };
+  useEffect(() => {
+    if (orderBy) {
+      leaveList();
+    }
+  }, [orderBy]);
   return (
     <>
       <SideBar
@@ -245,12 +260,44 @@ export default function LeavesRequests() {
                       sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
                       <TableCell>Member</TableCell>
-                      <TableCell>Type</TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "leaveType"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("leaveType")}
+                        >
+                          Type
+                        </TableSortLabel>
+                      </TableCell>
                       <TableCell>Reason</TableCell>
-                      <TableCell>Apply Date</TableCell>
-                      <TableCell>Start Date</TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "createdAt"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("createdAt")}
+                        >
+                          Apply Date
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "startDate"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("startDate")}
+                        >
+                          Start Date
+                        </TableSortLabel>
+                      </TableCell>
                       <TableCell>End Date</TableCell>
-                      <TableCell>Status</TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "status"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("status")}
+                        >
+                          Status
+                        </TableSortLabel>
+                      </TableCell>
                       <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
