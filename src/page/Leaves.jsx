@@ -10,6 +10,7 @@ import {
   TableRow,
   Typography,
   Stack,
+  TableSortLabel,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
@@ -41,6 +42,8 @@ export default function Leaves() {
   const [totalPage, setTotalPage] = useState(1);
   const { searchData } = useSearchData();
   const [open, setOpen] = useState(false);
+  const [sortField, setSortField] = useState();
+  const [orderBy, setOrderBy] = useState();
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -116,6 +119,8 @@ export default function Leaves() {
           page: searchData ? 1 : page,
           limit: rowsPerPage,
           date: moment().format(),
+          sortField: sortField,
+          orderBy: orderBy,
         },
       });
       if (res.data.success === true) {
@@ -137,6 +142,16 @@ export default function Leaves() {
       return () => clearTimeout(getData);
     }
   }, [searchData]);
+
+  const createSortHandler = (id) => {
+    setSortField(id);
+    setOrderBy(orderBy === "asc" ? "desc" : "asc");
+  };
+  useEffect(() => {
+    if (orderBy) {
+      approveLeaveList();
+    }
+  }, [orderBy]);
   return (
     <>
       <SideBar
@@ -216,8 +231,24 @@ export default function Leaves() {
                     <TableRow
                       sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
-                      <TableCell>Member</TableCell>
-                      <TableCell>Type</TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "userName"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("userName")}
+                        >
+                          Member
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "leaveType"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("leaveType")}
+                        >
+                          Type
+                        </TableSortLabel>
+                      </TableCell>
                       <TableCell>Reason</TableCell>
                       <TableCell>Start Date</TableCell>
                       <TableCell>End Date</TableCell>

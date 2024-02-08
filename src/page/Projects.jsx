@@ -12,6 +12,7 @@ import {
   TableRow,
   Paper,
   Stack,
+  TableSortLabel,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -41,6 +42,8 @@ export default function Project() {
   const { searchData } = useSearchData();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+  const [sortField, setSortField] = useState();
+  const [orderBy, setOrderBy] = useState();
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -72,7 +75,13 @@ export default function Project() {
       const res = await apiCall({
         url: APIS.PROJECT.LIST,
         method: "get",
-        params: { search: searchData, page, limit: rowsPerPage },
+        params: {
+          search: searchData,
+          page,
+          limit: rowsPerPage,
+          sortField: sortField,
+          orderBy: orderBy,
+        },
       });
       if (res.data.success === true) {
         setProjectList(res.data.data.data);
@@ -96,6 +105,16 @@ export default function Project() {
       return () => clearTimeout(getData);
     }
   }, [searchData]);
+
+  const createSortHandler = (id) => {
+    setSortField(id);
+    setOrderBy(orderBy === "asc" ? "desc" : "asc");
+  };
+  useEffect(() => {
+    if (orderBy) {
+      fetchProjects();
+    }
+  }, [orderBy]);
   return (
     <>
       <SideBar
@@ -171,10 +190,26 @@ export default function Project() {
                     <TableRow
                       sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
-                      <TableCell>Project Name</TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "name"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("name")}
+                        >
+                          Project Name
+                        </TableSortLabel>
+                      </TableCell>
                       <TableCell>Client</TableCell>
                       <TableCell>Manager</TableCell>
-                      <TableCell>Start date</TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "startDate"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("startDate")}
+                        >
+                          Start date
+                        </TableSortLabel>
+                      </TableCell>
                       <TableCell>End date</TableCell>
                       <TableCell>Currency/hour</TableCell>
                       <TableCell>Status</TableCell>

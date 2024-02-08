@@ -14,6 +14,7 @@ import {
   Avatar,
   Chip,
   Stack,
+  TableSortLabel,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -42,6 +43,8 @@ export default function Clients() {
   const { searchData } = useSearchData();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+  const [sortField, setSortField] = useState();
+  const [orderBy, setOrderBy] = useState();
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -77,6 +80,8 @@ export default function Clients() {
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
+          sortField: sortField,
+          orderBy: orderBy,
         },
       });
       if (res.data.success === true) {
@@ -98,6 +103,16 @@ export default function Clients() {
       return () => clearTimeout(getData);
     }
   }, [searchData]);
+
+  const createSortHandler = (id) => {
+    setSortField(id);
+    setOrderBy(orderBy === "asc" ? "desc" : "asc");
+  };
+  useEffect(() => {
+    if (orderBy) {
+      fetchclientData();
+    }
+  }, [orderBy]);
 
   return (
     <>
@@ -174,7 +189,15 @@ export default function Clients() {
                     <TableRow
                       sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
-                      <TableCell>Name</TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "name"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("name")}
+                        >
+                          Name
+                        </TableSortLabel>
+                      </TableCell>
                       <TableCell>Company Name</TableCell>
                       <TableCell>Project</TableCell>
                       <TableCell>Actions</TableCell>

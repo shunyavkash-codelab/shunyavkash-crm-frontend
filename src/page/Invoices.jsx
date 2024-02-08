@@ -16,6 +16,7 @@ import {
   Select,
   TextField,
   Stack,
+  TableSortLabel,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -54,6 +55,8 @@ export default function Invoices() {
   const [totalPage, setTotalPage] = useState(1);
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
+  const [sortField, setSortField] = useState();
+  const [orderBy, setOrderBy] = useState();
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -116,7 +119,8 @@ export default function Invoices() {
         url: APIS.INVOICE.LIST,
         method: "get",
         params: {
-          sortField: "invoiceDate",
+          sortField: sortField || "invoiceDate",
+          orderBy: orderBy,
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
@@ -172,6 +176,16 @@ export default function Invoices() {
       listInvoice();
     }
   }, [date]);
+
+  const createSortHandler = (id) => {
+    setSortField(id);
+    setOrderBy(orderBy === "asc" ? "desc" : "asc");
+  };
+  useEffect(() => {
+    if (orderBy) {
+      listInvoice();
+    }
+  }, [orderBy]);
 
   return (
     <>
@@ -437,11 +451,35 @@ export default function Invoices() {
                     <TableRow
                       sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
                     >
-                      <TableCell>Project Name</TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "projectName"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("projectName")}
+                        >
+                          Project Name
+                        </TableSortLabel>
+                      </TableCell>
                       <TableCell>Client</TableCell>
                       <TableCell>User</TableCell>
-                      <TableCell>Invoice No.</TableCell>
-                      <TableCell>Invoice Date</TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "invoiceNumber"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("invoiceNumber")}
+                        >
+                          Invoice No
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>
+                        <TableSortLabel
+                          active={sortField === "invoiceDate"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("invoiceDate")}
+                        >
+                          Invoice Date
+                        </TableSortLabel>
+                      </TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell>Total</TableCell>
                       <TableCell>Actions</TableCell>
