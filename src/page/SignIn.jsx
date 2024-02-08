@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, TextField, Typography, Stack } from "@mui/material";
 import { useFormik } from "formik";
 import useApi from "../hooks/useApi";
@@ -7,10 +7,20 @@ import { APIS } from "../api/apiList";
 import { useAuth } from "../hooks/store/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import ThemeButton from "../component/ThemeButton";
 import PasswordField from "../component/PasswordField";
+
+const userRequired = [
+  "mobileNumber",
+  "personalEmail",
+  "whatsappNumber",
+  "motherName",
+  "fatherName",
+  "fatherNumber",
+  "name",
+  "phobia",
+  "hobbies",
+];
 
 export default function SignIn() {
   const {
@@ -18,7 +28,7 @@ export default function SignIn() {
     // isLoading
   } = useApi();
   const { setSnack } = useSnack();
-  const { login } = useAuth();
+  const { login, setUserProfile } = useAuth();
   const navigate = useNavigate();
 
   // yup data validator schhema
@@ -61,6 +71,22 @@ export default function SignIn() {
             userId: _id,
           });
           setSnack(res.data.message);
+          let requiredKey = [];
+          for (var key of userRequired) {
+            if (!res.data.data[key] || res.data.data[key] === "") {
+              requiredKey.push(key);
+            }
+          }
+          if (
+            requiredKey.length === 0 &&
+            (res.data.data.degreeCertification ||
+              res.data.data.adharCard ||
+              res.data.data.addressProof ||
+              res.data.data.propertyTax ||
+              res.data.data.electricityBill)
+          ) {
+            setUserProfile(true);
+          }
           if (role === 0) navigate("/");
           else navigate("/employee-dashboard");
         }
@@ -70,6 +96,7 @@ export default function SignIn() {
       }
     },
   });
+
   return (
     <Stack
       component="main"

@@ -363,61 +363,7 @@ export default function Invoices() {
                 </Box>
               )}
             </Box>
-            {/* <Box
-              sx={{
-                "& > button": {
-                  height: "40px",
-                  width: "40px",
-                  minWidth: "unset",
-                  borderRadius: 0,
-                },
-              }}
-            >
-              <Button
-                onClick={() => {
-                  setShowTable(false);
-                  setInvoiceTable(false);
-                }}
-                sx={{
-                  // bgcolor: showTable ? "#dcdcdc" : "primary.main",
-                  // color: showTable ? "primary.main" : "white",
-                  ":hover,&": {
-                    bgcolor: showTable ? "#dcdcdc" : "primary.main",
-                    color: showTable ? "primary.main" : "white",
-                  },
-                }}
-              >
-                <CreditCardOutlinedIcon />
-              </Button>
-              <Button
-                onClick={() => {
-                  setShowTable(true);
-                  setInvoiceTable(true);
-                }}
-                sx={{
-                  // bgcolor: showTable ? "primary.main" : "#dcdcdc",
-                  // color: showTable ? "white" : "primary.main",
-                  ":hover,&": {
-                    bgcolor: showTable ? "primary.main" : "#dcdcdc",
-                    color: showTable ? "white" : "primary.main",
-                  },
-                }}
-              >
-                <ListOutlinedIcon />
-              </Button>
-            </Box> */}
           </Box>
-
-          {/* <Typography
-            variant="subtitle2"
-            sx={{
-              opacity: 0.6,
-              lineHeight: 1,
-              mb: 1.75,
-            }}
-          >
-            {invoiceList.length} Invoices found
-          </Typography> */}
 
           {isLoading ? (
             <LoadingIcon style={{ height: "50vh" }} />

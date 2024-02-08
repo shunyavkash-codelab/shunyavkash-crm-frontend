@@ -7,7 +7,7 @@ export const useAuth = create(
       user: { name: "" },
       accessToken: "",
       userId: "",
-      invoiceTable: false,
+      setProfile: false,
       login: ({ user, accessToken, userId }) => {
         set((state) => ({
           ...state,
@@ -21,6 +21,7 @@ export const useAuth = create(
           user: {},
           accessToken: "",
           userId: "",
+          setProfile: false,
         })),
       setUserDatail: (name, profile_img, companyName) => {
         set((state) => ({
@@ -28,11 +29,8 @@ export const useAuth = create(
           user: { ...state.user, name, profile_img, companyName },
         }));
       },
-      setUserProfile: (profileImage) => {
-        set((state) => ({
-          ...state,
-          user: { ...state.user, profileImage },
-        }));
+      setUserProfile: (setProfile) => {
+        set((state) => ({ ...state, setProfile }));
       },
       setMobile: (mobile) => {
         set((state) => ({
@@ -40,16 +38,8 @@ export const useAuth = create(
           user: { ...state.user, mobile },
         }));
       },
-      setEmailVerificationFlag: (email_verified) => {
-        set((state) => ({
-          ...state,
-          user: { ...state.user, email_verified },
-        }));
-      },
       setAccessToken: (accessToken) =>
         set((state) => ({ ...state, accessToken })),
-      setInvoiceTable: (invoiceTable) =>
-        set((state) => ({ ...state, invoiceTable })),
     }),
     { name: "auth" }
   )

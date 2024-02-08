@@ -75,15 +75,26 @@ function a11yProps(index) {
   };
 }
 
+const userRequired = [
+  "mobileNumber",
+  "personalEmail",
+  "whatsappNumber",
+  "motherName",
+  "fatherName",
+  "fatherNumber",
+  "name",
+  "phobia",
+  "hobbies",
+];
+
 export default function MyProfile() {
   const { id } = useParams();
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, userId, user } = useAuth();
+  const { accessToken, userId, user, setProfile, setUserProfile } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
-
   const [profileUser, setProfileUser] = useState();
   const [changeStatus, setChangeStatus] = useState(true);
   const [value, setValue] = useState(0);
@@ -184,6 +195,27 @@ export default function MyProfile() {
     viewEmployees();
     viewUserBank(id || userId);
   }, []);
+
+  useEffect(() => {
+    if (!setProfile && profileUser) {
+      let requiredKey = [];
+      for (var key of userRequired) {
+        if (!profileUser[key] || profileUser[key] === "") {
+          requiredKey.push(key);
+        }
+      }
+      if (
+        requiredKey.length === 0 &&
+        (profileUser.degreeCertification ||
+          profileUser.adharCard ||
+          profileUser.addressProof ||
+          profileUser.propertyTax ||
+          profileUser.electricityBill)
+      ) {
+        setUserProfile(true);
+      }
+    }
+  }, [profileUser]);
 
   // const originalDateString = "2024-1-1T03:56:27.414+00:00";
   let joiningFormattedDate;
