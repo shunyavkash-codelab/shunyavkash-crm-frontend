@@ -34,7 +34,7 @@ export default function SideBar({
 }) {
   const navigate = useNavigate();
   let location = useLocation();
-  const { user } = useAuth();
+  const { user, setProfile } = useAuth();
 
   let sidebarList = [
     {
@@ -106,7 +106,6 @@ export default function SideBar({
       navigate("/signin");
     }
   }, []);
-  // });
   return (
     <>
       <Box
@@ -224,7 +223,7 @@ export default function SideBar({
           </List>
         </Box>
 
-        {user.role !== 0 && (
+        {user.role !== 0 && !setProfile && (
           <List sx={{ px: 2, py: 1.5, bgcolor: "#f9f9f9" }}>
             <ListItem
               key={"Setup my Profile"}
