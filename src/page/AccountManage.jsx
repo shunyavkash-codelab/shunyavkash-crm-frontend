@@ -695,7 +695,7 @@ function AccountManage() {
                               }}
                             >
                               {account.type === "income"
-                                ? "$" + account.amount.toLocaleString()
+                                ? "₹" + account.amount.toLocaleString()
                                 : "-"}
                             </TableCell>
                           )}
@@ -707,7 +707,7 @@ function AccountManage() {
                               }}
                             >
                               {account.type === "expense"
-                                ? "$" + account.amount.toLocaleString()
+                                ? "₹" + account.amount.toLocaleString()
                                 : "-"}
                             </TableCell>
                           )}

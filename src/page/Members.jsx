@@ -177,7 +177,7 @@ export default function Members() {
   useEffect(() => {
     fetchManager();
     fetchEmployees();
-    fetchInvited();
+    if (user.role === 0) fetchInvited();
     fetchDashboard();
   }, []);
 
@@ -311,12 +311,14 @@ export default function Members() {
                 label="Employee"
                 {...a11yProps(1)}
               />
-              <Tab
-                disableRipple
-                disableElevation
-                label="Invited Members"
-                {...a11yProps(2)}
-              />
+              {user.role === 0 && (
+                <Tab
+                  disableRipple
+                  disableElevation
+                  label="Invited Members"
+                  {...a11yProps(2)}
+                />
+              )}
             </Tabs>
 
             {/* Manager */}
@@ -359,7 +361,11 @@ export default function Members() {
                           <TableCell>mobile number</TableCell>
                           <TableCell sx={{ width: "250px" }}>Role</TableCell>
                           <TableCell sx={{ width: "140px" }}>status</TableCell>
-                          <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                          {user.role === 0 && (
+                            <TableCell sx={{ width: "140px" }}>
+                              Actions
+                            </TableCell>
+                          )}
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -369,6 +375,7 @@ export default function Members() {
                             uniqId={row._id}
                             setEmployeesList={setManagerList}
                             dataList={managerList}
+                            user={user}
                           />
                         ))}
                       </TableBody>
@@ -429,7 +436,11 @@ export default function Members() {
                           <TableCell>mobile number</TableCell>
                           <TableCell sx={{ width: "250px" }}>Role</TableCell>
                           <TableCell sx={{ width: "140px" }}>status</TableCell>
-                          <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                          {user.role === 0 && (
+                            <TableCell sx={{ width: "140px" }}>
+                              Actions
+                            </TableCell>
+                          )}
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -439,6 +450,7 @@ export default function Members() {
                             uniqId={row._id}
                             setEmployeesList={setEmployeesList}
                             employeesList={employeesList}
+                            user={user}
                           />
                         ))}
                       </TableBody>

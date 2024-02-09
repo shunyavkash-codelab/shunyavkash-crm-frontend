@@ -39,11 +39,10 @@ export default function SideBar({
   let sidebarList = [
     {
       text: "Dashboard",
-      icon: <DashboardIcon />,
-      link: "/",
+      icon: user.role === 0 ? <DashboardIcon /> : <EmployeesDashboardIcon />,
+      link: user.role === 0 ? "/" : "/employee-dashboard",
     },
     { text: "Members", icon: <UserIcon />, link: "/members" },
-    // { text: "Manager", icon: <UserIcon />, link: "/users" },
     { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
     { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
     { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
@@ -57,11 +56,6 @@ export default function SideBar({
       text: "Leaves Requests",
       icon: <LeavesRequests />,
       link: "/leaves-requests",
-    },
-    {
-      text: "Employee Dashboard",
-      icon: <EmployeesDashboardIcon />,
-      link: "/employee-dashboard",
     },
     {
       text: "Leaves",
@@ -81,26 +75,36 @@ export default function SideBar({
   ];
   let newArray = sidebarList.filter((ele) => {
     return (
-      !(
-        [
-          "Members",
-          "Invoices",
+      (user.role === 0 && !["My Salary", "My Leave"].includes(ele.text)) ||
+      (user.role === 1 &&
+        !["Invoices", "Salary", "Account Management"].includes(ele.text)) ||
+      (user.role === 2 &&
+        ![
           "Clients",
-          "Manager",
-          "Projects",
-          "Dashboard",
-          "Account Management",
-          "Employees",
-          "Leaves Requests",
+          "Invoices",
           "Salary",
-        ].includes(ele.text) && user.role !== 0
-      ) &&
-      !(
-        ["Employee Dashboard", "My Salary", "My Leave"].includes(ele.text) &&
-        user.role === 0
-      )
+          "Account Management",
+          "Leaves Requests",
+        ].includes(ele.text))
     );
   });
+  // let newArray = sidebarList.filter((ele) => {
+  //   return (
+  //     !(
+  //       [
+  //         "Members",
+  //         "Invoices",
+  //         "Clients",
+  //         "Manager",
+  //         "Projects",
+  //         "Account Management",
+  //         "Employees",
+  //         "Leaves Requests",
+  //         "Salary",
+  //       ].includes(ele.text) && user.role !== 0
+  //     ) && !(["My Salary", "My Leave"].includes(ele.text) && user.role === 0)
+  //   );
+  // });
   useEffect(() => {
     if (!accessToken) {
       navigate("/signin");

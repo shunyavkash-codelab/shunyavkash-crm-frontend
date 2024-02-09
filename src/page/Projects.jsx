@@ -38,7 +38,7 @@ export default function Project() {
   const [projectList, setProjectList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
   const { searchData } = useSearchData();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -66,7 +66,7 @@ export default function Project() {
         fetchProjects();
       }
     } catch (error) {
-      console.log(error, setSnack);
+      setSnack(error.response.data.message, "warning");
     }
   };
 
@@ -149,12 +149,14 @@ export default function Project() {
               BreadCrumbCurrentTitle="projects"
               style={{ mb: 0 }}
             />
-            <Link to="./add">
-              <ThemeButton
-                Text="Add Project"
-                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-              />
-            </Link>
+            {user.role !== 2 && (
+              <Link to="./add">
+                <ThemeButton
+                  Text="Add Project"
+                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                />
+              </Link>
+            )}
           </Stack>
 
           {isLoading ? (
@@ -284,23 +286,27 @@ export default function Project() {
                                 <VisibilityIcon />
                               </Button>
                             </Link>
-                            <Link to={`./edit/${row._id}`}>
-                              <Button disableRipple>
-                                <CreateIcon />
+                            {user.role !== 2 && (
+                              <Link to={`./edit/${row._id}`}>
+                                <Button disableRipple>
+                                  <CreateIcon />
+                                </Button>
+                              </Link>
+                            )}
+                            {user.role === 0 && (
+                              <Button
+                                disableRipple
+                                sx={{
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "primary.main" },
+                                }}
+                                onClick={() => deleteProject(row._id)}
+                              >
+                                <DeleteIcon />
                               </Button>
-                            </Link>
-                            <Button
-                              disableRipple
-                              sx={{
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              }}
-                              onClick={() => deleteProject(row._id)}
-                            >
-                              <DeleteIcon />
-                            </Button>
+                            )}
                           </Box>
                         </TableCell>
                       </TableRow>

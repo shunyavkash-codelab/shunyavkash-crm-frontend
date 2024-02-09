@@ -39,7 +39,7 @@ export default function Clients() {
   const [clientList, setClientList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
   const { searchData } = useSearchData();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -149,12 +149,14 @@ export default function Clients() {
               BreadCrumbCurrentTitle="Clients"
               style={{ mb: 0 }}
             />
-            <Link to="./add">
-              <ThemeButton
-                Text="Add client"
-                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-              />
-            </Link>
+            {user.role === 0 && (
+              <Link to="./add">
+                <ThemeButton
+                  Text="Add client"
+                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                />
+              </Link>
+            )}
           </Stack>
 
           {isLoading ? (
@@ -200,7 +202,7 @@ export default function Clients() {
                       </TableCell>
                       <TableCell>Company Name</TableCell>
                       <TableCell>Project</TableCell>
-                      <TableCell>Actions</TableCell>
+                      {user.role === 0 && <TableCell>Actions</TableCell>}
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -263,48 +265,50 @@ export default function Clients() {
                             ))}
                           </Stack>
                         </TableCell>
-                        <TableCell>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.5 },
-                              opacity: 0.3,
-                              "& button": {
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              },
-                              "& svg": {
-                                fontSize: { xs: "20px", sm: "22px" },
-                              },
-                            }}
-                          >
-                            <Link to={`./view/${row._id}`}>
-                              <Button disableRipple>
-                                <VisibilityIcon />
-                              </Button>
-                            </Link>
-                            <Link to={`./edit/${row._id}`}>
-                              <Button disableRipple>
-                                <CreateIcon />
-                              </Button>
-                            </Link>
-                            <Button
-                              disableRipple
+                        {user.role === 0 && (
+                          <TableCell>
+                            <Box
                               sx={{
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
+                                display: "flex",
+                                alignItems: "center",
+                                gap: { xs: 1.25, sm: 1.5 },
+                                opacity: 0.3,
+                                "& button": {
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "primary.main" },
+                                },
+                                "& svg": {
+                                  fontSize: { xs: "20px", sm: "22px" },
+                                },
                               }}
-                              onClick={() => deleteClient(row._id)}
                             >
-                              <DeleteIcon />
-                            </Button>
-                          </Box>
-                        </TableCell>
+                              <Link to={`./view/${row._id}`}>
+                                <Button disableRipple>
+                                  <VisibilityIcon />
+                                </Button>
+                              </Link>
+                              <Link to={`./edit/${row._id}`}>
+                                <Button disableRipple>
+                                  <CreateIcon />
+                                </Button>
+                              </Link>
+                              <Button
+                                disableRipple
+                                sx={{
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "primary.main" },
+                                }}
+                                onClick={() => deleteClient(row._id)}
+                              >
+                                <DeleteIcon />
+                              </Button>
+                            </Box>
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))}
                   </TableBody>

@@ -25,6 +25,7 @@ export default function EmployeeListRaw({
   setEmployeesList,
   dataList,
   type,
+  user,
 }) {
   const [role, setRole] = useState();
   const { apiCall } = useApi();
@@ -104,9 +105,9 @@ export default function EmployeeListRaw({
                   lineHeight: 1,
                   fontWeight: 600,
                   fontSize: { xs: "14px", sm: "16px" },
-                  cursor: "pointer",
+                  cursor: user.role === 0 && "pointer",
                 }}
-                onClick={() => handleNavigate(row._id)}
+                onClick={() => user.role === 0 && handleNavigate(row._id)}
               >
                 {row.name}
               </Typography>
@@ -130,6 +131,7 @@ export default function EmployeeListRaw({
             sx={{
               "&>label": { fontSize: "14px" },
             }}
+            disabled={user.role !== 0}
           >
             <InputLabel
               sx={{ textTransform: "capitalize" }}
@@ -197,58 +199,60 @@ export default function EmployeeListRaw({
             {row.invitationStatus === 0 ? "Not accepted" : "Accepted"}
           </Box>
         </TableCell>
-        <TableCell>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: { xs: 1.25, sm: 1.5 },
-              "& button": {
-                p: 0,
-                minWidth: "unset",
-                color: "black",
-                "&:hover": { color: "primary.main" },
-              },
-              "& svg": {
-                fontSize: { xs: "20px", sm: "22px" },
-              },
-            }}
-          >
-            {role && (
-              <Tooltip title="Save" arrow>
+        {user.role === 0 && (
+          <TableCell>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: { xs: 1.25, sm: 1.5 },
+                "& button": {
+                  p: 0,
+                  minWidth: "unset",
+                  color: "black",
+                  "&:hover": { color: "primary.main" },
+                },
+                "& svg": {
+                  fontSize: { xs: "20px", sm: "22px" },
+                },
+              }}
+            >
+              {role && (
+                <Tooltip title="Save" arrow>
+                  <Button
+                    type="submit"
+                    disableRipple
+                    disableElevation
+                    disabled={!role}
+                    sx={{
+                      transition: "all 0.4s ease-in-out",
+                      "&:hover": {
+                        bgcolor: "transparent",
+                      },
+                      "&:not(:hover)": { opacity: 0.2 },
+                    }}
+                    onClick={() => editRole(uniqId)}
+                  >
+                    <SaveIcon disableRipple />
+                  </Button>
+                </Tooltip>
+              )}
+
+              <Tooltip title="Delete" arrow>
                 <Button
-                  type="submit"
                   disableRipple
-                  disableElevation
-                  disabled={!role}
                   sx={{
                     transition: "all 0.4s ease-in-out",
-                    "&:hover": {
-                      bgcolor: "transparent",
-                    },
                     "&:not(:hover)": { opacity: 0.2 },
                   }}
-                  onClick={() => editRole(uniqId)}
+                  onClick={() => deleteEmpandman(uniqId)}
                 >
-                  <SaveIcon disableRipple />
+                  <DeleteIcon />
                 </Button>
               </Tooltip>
-            )}
-
-            <Tooltip title="Delete" arrow>
-              <Button
-                disableRipple
-                sx={{
-                  transition: "all 0.4s ease-in-out",
-                  "&:not(:hover)": { opacity: 0.2 },
-                }}
-                onClick={() => deleteEmpandman(uniqId)}
-              >
-                <DeleteIcon />
-              </Button>
-            </Tooltip>
-          </Box>
-        </TableCell>
+            </Box>
+          </TableCell>
+        )}
         {/* </form> */}
         {/* </FormikProvider> */}
       </TableRow>
