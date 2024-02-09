@@ -311,7 +311,7 @@ export default function Project() {
             </>
           )}
           {/* pagination */}
-          {projectList.length && (
+          {projectList.length > 0 && (
             <ThemePagination
               totalpage={totalPage}
               onChange={handleChange}

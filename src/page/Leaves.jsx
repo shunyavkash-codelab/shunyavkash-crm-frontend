@@ -376,7 +376,7 @@ export default function Leaves() {
             </>
           )}
           {/* pagination */}
-          {approveList.length && (
+          {approveList.length > 0 && (
             <ThemePagination
               totalpage={totalPage}
               onChange={handleChange}

@@ -599,7 +599,7 @@ export default function MyProfile() {
             </>
           )}
           {/* pagination */}
-          {salaryList.length && (
+          {salaryList.length > 0 && (
             <ThemePagination
               totalpage={totalPage}
               onChange={handlePageChange}

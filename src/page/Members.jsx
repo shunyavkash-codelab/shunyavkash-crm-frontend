@@ -377,7 +377,7 @@ export default function Members() {
                 </>
               )}
               {/* pagination */}
-              {managerList.length && (
+              {managerList.length > 0 && (
                 <ThemePagination
                   totalpage={totalPage}
                   onChange={handleChangeOnPageChange}
@@ -447,7 +447,7 @@ export default function Members() {
                 </>
               )}
               {/* pagination */}
-              {employeesList.length && (
+              {employeesList.length > 0 && (
                 <ThemePagination
                   totalpage={totalPage}
                   onChange={handleChangeOnPageChange}
@@ -517,7 +517,7 @@ export default function Members() {
                 </>
               )}
               {/* pagination */}
-              {invitedList.length && (
+              {invitedList.length > 0 && (
                 <ThemePagination
                   totalpage={totalPage}
                   onChange={handleChangeOnPageChange}

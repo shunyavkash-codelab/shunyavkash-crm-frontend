@@ -313,7 +313,7 @@ export default function Clients() {
             </>
           )}
           {/* pagination */}
-          {clientList.length && (
+          {clientList.length > 0 && (
             <ThemePagination
               totalpage={totalPage}
               onChange={handleChange}

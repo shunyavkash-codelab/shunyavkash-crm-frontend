@@ -550,7 +550,7 @@ export default function LeavesRequests() {
             </>
           )}
           {/* pagination */}
-          {allLeaveList.length && (
+          {allLeaveList.length > 0 && (
             <ThemePagination
               totalpage={totalPage}
               onChange={handleChange}

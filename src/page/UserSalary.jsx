@@ -571,7 +571,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
             </>
           )}
           {/* pagination */}
-          {salaryList.length && (
+          {salaryList.length > 0 && (
             <ThemePagination
               totalpage={totalPage}
               onChange={handlePageChange}

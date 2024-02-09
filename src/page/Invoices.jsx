@@ -542,7 +542,7 @@ export default function Invoices() {
             </>
           )}
           {/* pagination */}
-          {invoiceList.length && (
+          {invoiceList.length > 0 && (
             <ThemePagination
               totalpage={totalPage}
               onChange={handleChangeOnPageChange}

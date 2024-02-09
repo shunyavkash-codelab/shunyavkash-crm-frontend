@@ -822,7 +822,7 @@ function AccountManage() {
               </>
             )}
             {/* pagination */}
-            {transactionList.length && (
+            {transactionList.length > 0 && (
               <ThemePagination
                 totalpage={totalPage}
                 onChange={handlePageChange}
