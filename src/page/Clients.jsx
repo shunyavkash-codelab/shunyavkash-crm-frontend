@@ -310,14 +310,16 @@ export default function Clients() {
                   </TableBody>
                 </Table>
               </TableContainer>
-              {/* pagination */}
-              <ThemePagination
-                totalpage={totalPage}
-                onChange={handleChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
             </>
+          )}
+          {/* pagination */}
+          {clientList.length && (
+            <ThemePagination
+              totalpage={totalPage}
+              onChange={handleChange}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
           )}
         </Box>
       </Box>

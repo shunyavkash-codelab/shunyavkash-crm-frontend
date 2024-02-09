@@ -308,14 +308,16 @@ export default function Project() {
                   </TableBody>
                 </Table>
               </TableContainer>
-              {/* pagination */}
-              <ThemePagination
-                totalpage={totalPage}
-                onChange={handleChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
             </>
+          )}
+          {/* pagination */}
+          {projectList.length && (
+            <ThemePagination
+              totalpage={totalPage}
+              onChange={handleChange}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
           )}
         </Box>
       </Box>

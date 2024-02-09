@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Avatar,
   Box,
@@ -23,7 +23,30 @@ const options = ["to do", "in progress", "in review"];
 
 const TaskDetail = ({ task, showExtraDetail = false }) => {
   const [open, setOpen] = useState(false);
-  const [startTime, setStartTime] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const [timer, setTimer] = useState(0);
+  const countRef = useRef(null);
+
+  // stop watch
+  const handleStart = () => {
+    if (isActive) {
+      clearInterval(countRef.current);
+    } else {
+      countRef.current = setInterval(() => {
+        setTimer((timer) => timer + 1);
+      }, 1000);
+    }
+  };
+
+  const formatTime = (timer) => {
+    const getSeconds = `0${timer % 60}`.slice(-2);
+    const minutes = `${Math.floor(timer / 60)}`;
+    const getMinutes = `0${minutes % 60}`.slice(-2);
+    const getHours = `0${Math.floor(timer / 3600)}`.slice(-2);
+
+    return `${getHours} : ${getMinutes} : ${getSeconds}`;
+  };
+
   const anchorRef = React.useRef(null);
 
   const handleMenuItemClick = (event) => {
@@ -78,7 +101,8 @@ const TaskDetail = ({ task, showExtraDetail = false }) => {
           {!showExtraDetail && (
             <Button
               onClick={() => {
-                setStartTime(!startTime);
+                setIsActive(!isActive);
+                handleStart();
               }}
               disableRipple
               sx={{
@@ -92,14 +116,14 @@ const TaskDetail = ({ task, showExtraDetail = false }) => {
                 sx={{
                   fontSize: "16px",
                   color: "#008844",
-                  display: startTime ? "none" : "block",
+                  display: isActive ? "none" : "block",
                 }}
               />
               <StopTimeIcon
                 sx={{
                   fontSize: "16px",
                   color: "error.main",
-                  display: startTime ? "block" : "none",
+                  display: isActive ? "block" : "none",
                 }}
               />
             </Button>
@@ -261,7 +285,8 @@ const TaskDetail = ({ task, showExtraDetail = false }) => {
           <TableCell>
             <Button
               onClick={() => {
-                setStartTime(!startTime);
+                setIsActive(!isActive);
+                handleStart();
               }}
               disableRipple
               sx={{
@@ -277,14 +302,14 @@ const TaskDetail = ({ task, showExtraDetail = false }) => {
                 sx={{
                   fontSize: { xs: "18px", sm: "20px" },
                   color: "#008844",
-                  display: startTime ? "none" : "block",
+                  display: isActive ? "none" : "block",
                 }}
               />
               <StopTimeIcon
                 sx={{
                   fontSize: { xs: "18px", sm: "20px" },
                   color: "error.main",
-                  display: startTime ? "block" : "none",
+                  display: isActive ? "block" : "none",
                 }}
               />
               <Box
@@ -295,7 +320,7 @@ const TaskDetail = ({ task, showExtraDetail = false }) => {
                   fontSize: { xs: "12px", sm: "14px" },
                 }}
               >
-                00:00:00
+                {formatTime(timer)}
               </Box>
             </Button>
           </TableCell>
