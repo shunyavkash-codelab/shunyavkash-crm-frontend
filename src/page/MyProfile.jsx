@@ -91,7 +91,14 @@ export default function MyProfile() {
   const { id } = useParams();
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, userId, user, setProfile, setUserProfile } = useAuth();
+  const {
+    accessToken,
+    userId,
+    user,
+    setProfile,
+    setUserProfile,
+    setUserProfileImg,
+  } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
@@ -118,6 +125,7 @@ export default function MyProfile() {
       });
       if (res.status === 200) {
         setSnack(res.data.message);
+        setUserProfileImg(res.data.data.profile_img);
       }
     } catch (error) {
       let errorMessage = error.response.data.message;
