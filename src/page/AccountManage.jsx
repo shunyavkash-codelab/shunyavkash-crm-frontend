@@ -493,7 +493,6 @@ function AccountManage() {
               </FormControl>
             </Box>
           </Box>
-
           <Box sx={{ mt: 4 }}>
             {isLoading ? (
               <LoadingIcon style={{ height: "50vh" }} />
@@ -820,14 +819,16 @@ function AccountManage() {
                     </TableFooter>
                   </Table>
                 </TableContainer>
-                {/* pagination */}
-                <ThemePagination
-                  totalpage={totalPage}
-                  onChange={handlePageChange}
-                  rowsPerPage={rowsPerPage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
               </>
+            )}
+            {/* pagination */}
+            {transactionList.length && (
+              <ThemePagination
+                totalpage={totalPage}
+                onChange={handlePageChange}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             )}
           </Box>
         </Box>

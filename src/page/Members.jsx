@@ -374,14 +374,16 @@ export default function Members() {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                  {/* pagination */}
-                  <ThemePagination
-                    totalpage={totalPage}
-                    onChange={handleChangeOnPageChange}
-                    rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
                 </>
+              )}
+              {/* pagination */}
+              {managerList.length && (
+                <ThemePagination
+                  totalpage={totalPage}
+                  onChange={handleChangeOnPageChange}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
               )}
             </CustomTabPanel>
 
@@ -442,44 +444,16 @@ export default function Members() {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                  {/* pagination */}
-                  <TablePagination
-                    component="div"
-                    count={10}
-                    page={page}
-                    onPageChange={handleChangeOnPageChange}
-                    rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    sx={{
-                      "&>div": {
-                        p: 0,
-                        minHeight: "24px",
-                        "& .MuiTablePagination-selectLabel": {
-                          lineHeight: 1,
-                          fontWeight: 600,
-                        },
-                        "& .MuiTablePagination-input": {
-                          mr: 0,
-                          "&>div": {
-                            p: "0 24px 0 0",
-                          },
-                        },
-                        "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                          {
-                            display: "none",
-                          },
-                      },
-                    }}
-                  />
-                  <Stack spacing={2}>
-                    {/* <Typography>Page: {page}</Typography> */}
-                    <Pagination
-                      count={totalPage}
-                      page={page}
-                      onChange={handleChangeOnPageChange}
-                    />
-                  </Stack>
                 </>
+              )}
+              {/* pagination */}
+              {employeesList.length && (
+                <ThemePagination
+                  totalpage={totalPage}
+                  onChange={handleChangeOnPageChange}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
               )}
             </CustomTabPanel>
 
@@ -540,44 +514,16 @@ export default function Members() {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                  {/* pagination */}
-                  <TablePagination
-                    component="div"
-                    count={10}
-                    page={page}
-                    onPageChange={handleChangeOnPageChange}
-                    rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    sx={{
-                      "&>div": {
-                        p: 0,
-                        minHeight: "24px",
-                        "& .MuiTablePagination-selectLabel": {
-                          lineHeight: 1,
-                          fontWeight: 600,
-                        },
-                        "& .MuiTablePagination-input": {
-                          mr: 0,
-                          "&>div": {
-                            p: "0 24px 0 0",
-                          },
-                        },
-                        "& .MuiTablePagination-displayedRows,& .MuiTablePagination-actions":
-                          {
-                            display: "none",
-                          },
-                      },
-                    }}
-                  />
-                  <Stack spacing={2}>
-                    {/* <Typography>Page: {page}</Typography> */}
-                    <Pagination
-                      count={totalPage}
-                      page={page}
-                      onChange={handleChangeOnPageChange}
-                    />
-                  </Stack>
                 </>
+              )}
+              {/* pagination */}
+              {invitedList.length && (
+                <ThemePagination
+                  totalpage={totalPage}
+                  onChange={handleChangeOnPageChange}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
               )}
             </CustomTabPanel>
           </Box>

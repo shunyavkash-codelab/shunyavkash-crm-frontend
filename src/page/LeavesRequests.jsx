@@ -547,14 +547,16 @@ export default function LeavesRequests() {
                   </TableBody>
                 </Table>
               </TableContainer>
-              {/* pagination */}
-              <ThemePagination
-                totalpage={totalPage}
-                onChange={handleChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
             </>
+          )}
+          {/* pagination */}
+          {allLeaveList.length && (
+            <ThemePagination
+              totalpage={totalPage}
+              onChange={handleChange}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
           )}
 
           <ModalComponent

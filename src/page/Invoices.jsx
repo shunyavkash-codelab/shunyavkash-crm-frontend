@@ -539,14 +539,16 @@ export default function Invoices() {
                   </TableBody>
                 </Table>
               </TableContainer>
-              {/* pagination */}
-              <ThemePagination
-                totalpage={totalPage}
-                onChange={handleChangeOnPageChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
             </>
+          )}
+          {/* pagination */}
+          {invoiceList.length && (
+            <ThemePagination
+              totalpage={totalPage}
+              onChange={handleChangeOnPageChange}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
           )}
         </Box>
       </Box>

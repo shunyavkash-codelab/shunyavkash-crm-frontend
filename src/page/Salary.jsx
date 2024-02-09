@@ -596,13 +596,16 @@ export default function MyProfile() {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <ThemePagination
-                totalpage={totalPage}
-                onChange={handlePageChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
             </>
+          )}
+          {/* pagination */}
+          {salaryList.length && (
+            <ThemePagination
+              totalpage={totalPage}
+              onChange={handlePageChange}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
           )}
         </Box>
       </Box>

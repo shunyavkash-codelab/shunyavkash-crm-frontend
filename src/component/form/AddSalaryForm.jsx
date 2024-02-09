@@ -9,6 +9,7 @@ import {
   FormHelperText,
   OutlinedInput,
   InputAdornment,
+  Chip,
 } from "@mui/material";
 
 import ThemeButton from "../../component/ThemeButton.jsx";
@@ -18,6 +19,7 @@ import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import RedeemIcon from "@mui/icons-material/Redeem";
+import BadgeAvatar from "../BadgeAvatar.jsx";
 
 export default function AddSalaryForm({ formikSalary, userList }) {
   return (
@@ -148,9 +150,32 @@ export default function AddSalaryForm({ formikSalary, userList }) {
                 formikSalary.touched.employee &&
                 Boolean(formikSalary.errors.employee)
               }
+              renderValue={(selected) => (
+                // <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                <Chip
+                  key={selected}
+                  label={userList.find((item) => item._id === selected).name}
+                  // variant="light"
+                  sx={{
+                    fontSize: "unset",
+                    backgroundColor: "unset",
+                    borderRadius: "unset",
+                    textTransform: "capitalize",
+                    height: "unset",
+                  }}
+                  size="normal"
+                />
+                // </Box>
+              )}
             >
               {userList.map((member) => (
                 <MenuItem value={member._id}>
+                  <BadgeAvatar
+                    // Member nu status check karavu & Status ma active or inactive nakhavu
+                    Status={member.isActive == true ? "active" : "inactive"}
+                    AvatarSrc={member.profile_img || ""}
+                    AvatarStyle={{ width: "36px", height: "36px" }}
+                  />
                   <Box
                     sx={{
                       textTransform: "capitalize",
