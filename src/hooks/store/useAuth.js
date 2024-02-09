@@ -32,6 +32,9 @@ export const useAuth = create(
       setUserProfile: (setProfile) => {
         set((state) => ({ ...state, setProfile }));
       },
+      setUserProfileImg: (profile_img) => {
+        set((state) => ({ ...state, user: { ...state.user, profile_img } }));
+      },
       setMobile: (mobile) => {
         set((state) => ({
           ...state,
