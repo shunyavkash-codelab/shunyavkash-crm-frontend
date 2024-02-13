@@ -24,7 +24,7 @@ export default function CounterCards(props) {
             variant="h6"
             sx={{
               textTransform: "capitalize",
-              fontWeight: 600,
+              fontWeight: 500,
               opacity: "50%",
               ...props.titleStyle,
             }}
@@ -44,6 +44,7 @@ export default function CounterCards(props) {
             alignItems: "center",
             justifyContent: "space-between",
             gap: 1,
+            fontWeight: 500,
             ...props.counterStyle,
           }}
         >

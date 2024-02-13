@@ -469,7 +469,7 @@ export default function MyProfile() {
                 >
                   <TableHead>
                     <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
                     >
                       <TableCell>
                         <TableSortLabel

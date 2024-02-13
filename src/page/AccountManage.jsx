@@ -531,7 +531,7 @@ function AccountManage() {
                         sx={{
                           "& th": {
                             lineHeight: 1,
-                            fontWeight: 700,
+                            fontWeight: 600,
                             padding: "14px",
                           },
                         }}
@@ -759,7 +759,7 @@ function AccountManage() {
                       <TableRow
                         sx={{
                           "&>td": {
-                            fontWeight: 700,
+                            fontWeight: 500,
                             fontSize: "16px",
                           },
                         }}
@@ -775,7 +775,7 @@ function AccountManage() {
                             textAlign: "center",
                           }}
                         >
-                          ${Math.abs(totalAmount).toLocaleString()}
+                          ₹{Math.abs(totalAmount).toLocaleString()}
                         </TableCell>
                         <TableCell></TableCell>
                         <TableCell></TableCell>
@@ -801,7 +801,7 @@ function AccountManage() {
                               textAlign: "center",
                             }}
                           >
-                            ${Math.abs(totalIncome).toLocaleString()}
+                            ₹{Math.abs(totalIncome).toLocaleString()}
                           </TableCell>
                         )}
                         {filter !== "income" && (
@@ -811,7 +811,7 @@ function AccountManage() {
                               textAlign: "center",
                             }}
                           >
-                            ${Math.abs(totalExpense).toLocaleString()}
+                            ₹{Math.abs(totalExpense).toLocaleString()}
                           </TableCell>
                         )}
                         <TableCell></TableCell>

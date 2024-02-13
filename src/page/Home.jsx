@@ -244,7 +244,7 @@ export default function Home() {
                   >
                     <TableHead>
                       <TableRow
-                        sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                        sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
                       >
                         <TableCell key={"Project Name"}>Project Name</TableCell>
                         <TableCell key={"Client"}>Client</TableCell>

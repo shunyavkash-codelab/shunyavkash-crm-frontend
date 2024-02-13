@@ -17,8 +17,10 @@ function ThemeButton(props) {
           py: props.smallRounded ? 0.75 : 1.5,
           border: "1px solid",
           lineHeight: 1,
-          borderRadius: props.smallRounded ? "50px" : 2.5,
+          borderRadius: props.smallRounded ? "50px" : 1,
           overflow: "hidden",
+          textTransform: "capitalize",
+          fontWeight: "400",
           color: props.transparent
             ? "primary.main"
             : props.discard

@@ -374,7 +374,7 @@ export default function Members() {
                       <TableHead>
                         <TableRow
                           sx={{
-                            "&>th": { lineHeight: 1, fontWeight: 700 },
+                            "&>th": { lineHeight: 1, fontWeight: 600 },
                           }}
                         >
                           <TableCell sx={{ width: "400px" }}>Manager</TableCell>
@@ -449,7 +449,7 @@ export default function Members() {
                       <TableHead>
                         <TableRow
                           sx={{
-                            "&>th": { lineHeight: 1, fontWeight: 700 },
+                            "&>th": { lineHeight: 1, fontWeight: 600 },
                           }}
                         >
                           <TableCell sx={{ width: "400px" }}>
@@ -526,7 +526,7 @@ export default function Members() {
                       <TableHead>
                         <TableRow
                           sx={{
-                            "&>th": { lineHeight: 1, fontWeight: 700 },
+                            "&>th": { lineHeight: 1, fontWeight: 600 },
                           }}
                         >
                           <TableCell sx={{ width: "400px" }}>

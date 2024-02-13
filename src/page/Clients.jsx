@@ -189,7 +189,7 @@ export default function Clients() {
                 >
                   <TableHead>
                     <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
                     >
                       <TableCell>
                         <TableSortLabel
@@ -236,7 +236,7 @@ export default function Clients() {
                                 sx={{
                                   mb: 0.75,
                                   lineHeight: 1,
-                                  fontWeight: 600,
+                                  fontWeight: 500,
                                   fontSize: { xs: "14px", sm: "16px" },
                                 }}
                               >
