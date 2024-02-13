@@ -40,23 +40,23 @@ function ThemeButton(props) {
               ? "#e4e4e4"
               : props.btnColor || "primary.main"
             : "",
-          "&:before": {
-            content: "''",
-            height: 0,
-            width: "10rem",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            zIndex: "0",
-            transform: "rotate(-45deg) translate(-50%, -50%)",
-            transformOrigin: "0% 0%",
-            transition: "all 0.4s ease-in-out",
-            bgcolor: props.transparent
-              ? props.btnColor || "primary.main"
-              : "white",
-          },
+          // "&:before": {
+          //   content: "''",
+          //   height: 0,
+          //   width: "10rem",
+          //   position: "absolute",
+          //   top: "50%",
+          //   left: "50%",
+          //   zIndex: "0",
+          //   transform: "rotate(-45deg) translate(-50%, -50%)",
+          //   transformOrigin: "0% 0%",
+          //   transition: "all 0.4s ease-in-out",
+          //   bgcolor: props.transparent
+          //     ? props.btnColor || "primary.main"
+          //     : "white",
+          // },
           "&:hover": {
-            color: props.transparent
+            color: "white"
               ? "white"
               : props.success
               ? "success.main"
@@ -72,7 +72,16 @@ function ThemeButton(props) {
                 ? "error.main"
                 : props.discard
                 ? "#e4e4e4"
-                : props.btnColor || "primary.main"
+                : props.btnColor || "secondary.main"
+              : "",
+            borderColor: !props.transparent
+              ? props.success
+                ? "success.main"
+                : props.error
+                ? "error.main"
+                : props.discard
+                ? "#e4e4e4"
+                : props.btnColor || "secondary.main"
               : "",
             "&:before": { height: "10rem" },
           },

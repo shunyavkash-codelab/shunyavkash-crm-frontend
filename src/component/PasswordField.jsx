@@ -28,6 +28,7 @@ export default function PasswordField({
           type={showPassword ? "text" : "password"}
           sx={{
             "&>label,& input": { fontSize: "14px" },
+            "&>label": { color: "primary.main" },
             "& input": { pr: 5 },
             ...Inputstyle,
           }}
