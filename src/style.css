@@ -105,3 +105,7 @@ ul#\:r5\: {
       width: 3px;
       background-color: rgba(74, 210, 146, 100%);
     } */
+
+label {
+  color: #313131 !important;
+}

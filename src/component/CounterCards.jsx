@@ -11,7 +11,7 @@ export default function CounterCards(props) {
           p: { xs: 3, sm: 2.5 },
           bgcolor: props.CardBgcolor || "white",
           color: "text.primary",
-          borderRadius: 2.5,
+          borderRadius: 5,
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",

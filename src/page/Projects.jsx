@@ -153,6 +153,7 @@ export default function Project() {
               <Link to="./add">
                 <ThemeButton
                   Text="Add Project"
+                  secondary
                   startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
                 />
               </Link>

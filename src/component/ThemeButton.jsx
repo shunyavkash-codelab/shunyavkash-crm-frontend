@@ -17,7 +17,7 @@ function ThemeButton(props) {
           py: props.smallRounded ? 0.75 : 1.5,
           border: "1px solid",
           lineHeight: 1,
-          borderRadius: props.smallRounded ? "50px" : 1,
+          borderRadius: props.smallRounded ? "50px" : 5,
           overflow: "hidden",
           textTransform: "capitalize",
           fontWeight: "400",
@@ -65,7 +65,7 @@ function ThemeButton(props) {
             color: props.transparent
               ? "secondary.main"
               : props.success
-              ? "success.main"
+              ? "primary.main"
               : props.error
               ? "error.main"
               : props.discard
@@ -75,7 +75,7 @@ function ThemeButton(props) {
               : props.btnColor || "text.white",
             bgcolor: !props.transparent
               ? props.success
-                ? "success.main"
+                ? "success.light"
                 : props.error
                 ? "error.main"
                 : props.discard

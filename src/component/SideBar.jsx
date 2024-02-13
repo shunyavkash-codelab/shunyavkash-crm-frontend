@@ -155,7 +155,7 @@ export default function SideBar({
             height: "500px",
             overflowY: "auto",
             pt: "15px",
-            px: 2,
+            px: 0,
           }}
         >
           <List sx={{ pt: 0 }}>
@@ -172,7 +172,7 @@ export default function SideBar({
                     },
                   },
                   "&:not(:first-of-type)": { mt: 0.75 },
-                  borderRadius: "10px",
+                  borderRadius: "0px",
                   overflow: "hidden",
                   color: location.pathname === item.link && "text.white",
                   bgcolor: location.pathname === item.link && "secondary.main",
@@ -243,7 +243,7 @@ export default function SideBar({
                 "&:not(:first-of-type)": { mt: 0.75 },
                 borderRadius: "10px",
                 overflow: "hidden",
-                color: location.pathname === "/my-profile" && "primary.main",
+                color: location.pathname === "/my-profile" && "text.white",
                 bgcolor: location.pathname === "/my-profile" && "primary.light",
               }}
             >
@@ -254,12 +254,14 @@ export default function SideBar({
                 sx={{
                   p: 1.5,
                   transition: "all 0.4s ease-in-out",
+                  color: "text.white",
+                  bgcolor: "secondary.main",
                   ":hover": {
-                    color: "primary.main",
+                    color: "text.white",
                     bgcolor:
                       location.pathname === "/my-profile"
                         ? "transparent"
-                        : "primary.light",
+                        : "primary.main",
                   },
                 }}
               >

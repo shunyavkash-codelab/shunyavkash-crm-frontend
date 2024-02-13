@@ -254,6 +254,7 @@ function AccountManage() {
             >
               <ThemeButton
                 Text="Add Entry"
+                secondary
                 startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
               />
             </Link>

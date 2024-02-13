@@ -376,9 +376,9 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
           justifyContent="space-between"
           sx={{
             px: 2,
-            mb: 3,
+            mb: 0,
             pb: 2,
-            borderBottom: "1px solid rgba(0,0,0,0.06)",
+            // borderBottom: "1px solid rgba(0,0,0,0.06)",
           }}
         >
           <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
@@ -465,20 +465,24 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
             )}
           </Stack>
         </Stack>
-        <Box sx={{ px: 3 }}>
+        <Box sx={{ px: 0 }}>
           {isLoading ? (
             <LoadingIcon style={{ height: "50vh" }} />
           ) : salaryList.length === 0 ? (
-            <NoData />
+            <Box p={2.5}>
+              <NoData />
+            </Box>
           ) : (
             <>
               <TableContainer
                 component={Paper}
                 sx={{
-                  border: "1px solid rgba(224, 224, 224, 1)",
+                  borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  borderBottom: "1px solid rgba(224, 224, 224, 1)",
                   mx: { xs: "-10px", sm: 0 },
                   width: { xs: "auto", sm: "auto" },
-                  borderRadius: 2.5,
+                  borderRadius: 0,
+                  boxShadow: 0,
                 }}
               >
                 <Table
@@ -487,6 +491,9 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                     minWidth: 650,
                     textTransform: "capitalize",
                     textWrap: "nowrap",
+                    "& thead > tr > th": {
+                      backgroundColor: "#F8F9FA",
+                    },
                     "& th,& td": { borderBottom: 0 },
                     "& tbody tr": {
                       borderTop: "1px solid rgba(224, 224, 224, 1)",

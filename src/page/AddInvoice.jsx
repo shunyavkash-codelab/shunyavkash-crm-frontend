@@ -1699,7 +1699,7 @@ export default function AddInvoice() {
                                       <Box sx={{ display: "flex" }}>
                                         <ThemeButton
                                           Text="Add Bank"
-                                          btnColor="text.primary"
+                                          // btnColor="text.primary"
                                           buttonStyle={{
                                             maxHeight: "36px",
                                             py: 0.75,

@@ -151,9 +151,9 @@ function UserLeave({ profileId }) {
           justifyContent="space-between"
           sx={{
             px: 2,
-            mb: 3,
+            mb: 0,
             pb: 2,
-            borderBottom: "1px solid rgba(0,0,0,0.06)",
+            // borderBottom: "1px solid rgba(0,0,0,0.06)",
           }}
         >
           <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
@@ -176,15 +176,17 @@ function UserLeave({ profileId }) {
             />
           )}
         </Stack>
-        <Box sx={{ px: 3 }}>
+        <Box sx={{ px: 0 }}>
           {leaveList.length > 0 ? (
             <TableContainer
               component={Paper}
               sx={{
-                border: "1px solid rgba(224, 224, 224, 1)",
+                borderTop: "1px solid rgba(224, 224, 224, 1)",
+                borderBottom: "1px solid rgba(224, 224, 224, 1)",
                 mx: { xs: "-10px", sm: 0 },
                 width: { xs: "auto", sm: "auto" },
-                borderRadius: 2.5,
+                borderRadius: 0,
+                boxShadow: 0,
               }}
             >
               <Table
@@ -193,6 +195,9 @@ function UserLeave({ profileId }) {
                   minWidth: 650,
                   textTransform: "capitalize",
                   textWrap: "nowrap",
+                  "& thead > tr > th": {
+                    backgroundColor: "#F8F9FA",
+                  },
                   "& th,& td": { borderBottom: 0 },
                   "& tbody tr": {
                     borderTop: "1px solid rgba(224, 224, 224, 1)",
@@ -201,7 +206,7 @@ function UserLeave({ profileId }) {
                 aria-label="simple table"
               >
                 <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
+                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
                     <TableCell>Leave Type</TableCell>
                     <TableCell>Reason</TableCell>
                     <TableCell>Apply Date</TableCell>
@@ -244,7 +249,7 @@ function UserLeave({ profileId }) {
                               leave.leaveType === "casual"
                                 ? "grey.dark"
                                 : leave.leaveType === "sick"
-                                ? "secondary.main"
+                                ? "#f8ae00"
                                 : leave.leaveType === "unpaid"
                                 ? "review.main"
                                 : "success.main",
@@ -327,7 +332,9 @@ function UserLeave({ profileId }) {
                               textTransform: "capitalize",
                               color: "white",
                               fontSize: "12px",
-                              p: 0.5,
+                              fontWeight: "500",
+                              py: 0.5,
+                              px: 1,
                               borderRadius: 1,
                               maxWidth: "fit-content",
                               lineHeight: 1,
@@ -335,14 +342,14 @@ function UserLeave({ profileId }) {
                                 leave.status === "unapprove"
                                   ? "review.main"
                                   : leave.status === "pending"
-                                  ? "secondary.main"
+                                  ? "error.light"
                                   : "success.main",
                               "&:hover": {
                                 bgcolor:
                                   leave.status === "unapprove"
                                     ? "review.main"
                                     : leave.status === "pending"
-                                    ? "secondary.main"
+                                    ? "warning.light"
                                     : "success.main",
                               },
                               "& .MuiButton-endIcon": {
@@ -368,7 +375,9 @@ function UserLeave({ profileId }) {
               </Table>
             </TableContainer>
           ) : (
-            <NoData />
+            <Box p={2.5}>
+              <NoData />
+            </Box>
           )}
         </Box>
       </Box>

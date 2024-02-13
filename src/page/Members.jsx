@@ -245,6 +245,7 @@ export default function Members() {
               <Link to="./add">
                 <ThemeButton
                   Text="Add Member"
+                  secondary
                   startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
                 />
               </Link>
@@ -339,7 +340,9 @@ export default function Members() {
               {isLoading ? (
                 <LoadingIcon style={{ height: "50vh" }} />
               ) : managerList.length === 0 ? (
-                <NoData />
+                <Box p={2.5}>
+                  <NoData />
+                </Box>
               ) : (
                 <>
                   <TableContainer
@@ -419,7 +422,9 @@ export default function Members() {
               {isLoading ? (
                 <LoadingIcon style={{ height: "50vh" }} />
               ) : employeesList.length === 0 ? (
-                <NoData />
+                <Box p={2.5}>
+                  <NoData />
+                </Box>
               ) : (
                 <>
                   <TableContainer
@@ -496,7 +501,9 @@ export default function Members() {
               {isLoading ? (
                 <LoadingIcon style={{ height: "50vh" }} />
               ) : invitedList.length === 0 ? (
-                <NoData />
+                <Box p={2.5}>
+                  <NoData />
+                </Box>
               ) : (
                 <>
                   <TableContainer

@@ -223,6 +223,7 @@ export default function Invoices() {
             />
             <ThemeButton
               Text="Create Invoice"
+              secondary
               startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
               onClick={invoiceNumberGenerate}
             />

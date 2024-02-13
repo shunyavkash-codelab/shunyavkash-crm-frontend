@@ -296,6 +296,7 @@ export default function MyProfile() {
             {user.role === 0 && (
               <ThemeButton
                 Text="Add Salary"
+                secondary
                 startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
                 onClick={handleOpenSalary}
               />

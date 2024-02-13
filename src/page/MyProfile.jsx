@@ -442,24 +442,36 @@ export default function MyProfile() {
                 disableElevation
                 label="Details"
                 {...a11yProps(0)}
+                sx={{
+                  color: "text.dark",
+                }}
               />
               <Tab
                 disableRipple
                 disableElevation
                 label="Salary"
                 {...a11yProps(1)}
+                sx={{
+                  color: "text.dark",
+                }}
               />
               <Tab
                 disableRipple
                 disableElevation
                 label="Leave"
                 {...a11yProps(2)}
+                sx={{
+                  color: "text.dark",
+                }}
               />
               <Tab
                 disableRipple
                 disableElevation
                 label="Permission"
                 {...a11yProps(3)}
+                sx={{
+                  color: "text.dark",
+                }}
               />
             </Tabs>
           </Box>
