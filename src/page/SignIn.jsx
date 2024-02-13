@@ -64,11 +64,13 @@ export default function SignIn() {
             profile_img,
             token,
             _id,
+            permission,
           } = res.data.data;
           login({
             user: { name, email, role, mobileCode, mobileNumber, profile_img },
             accessToken: token,
             userId: _id,
+            permission: permission,
           });
           setSnack(res.data.message);
           let requiredKey = [];

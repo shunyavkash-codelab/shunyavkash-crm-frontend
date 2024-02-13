@@ -46,6 +46,7 @@ import EmployeePersonalDetailForm from "../component/form/EmployeePersonalDetail
 import moment from "moment";
 import ThemeButton from "../component/ThemeButton.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
+import UserPermission from "./UserPermission.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -453,6 +454,12 @@ export default function MyProfile() {
                 disableElevation
                 label="Leave"
                 {...a11yProps(2)}
+              />
+              <Tab
+                disableRipple
+                disableElevation
+                label="Permission"
+                {...a11yProps(3)}
               />
             </Tabs>
           </Box>
@@ -931,6 +938,10 @@ export default function MyProfile() {
 
           <CustomTabPanel value={value} index={2}>
             <UserLeave profileId={id || userId} />
+          </CustomTabPanel>
+
+          <CustomTabPanel value={value} index={3}>
+            <UserPermission profileId={id || userId} />
           </CustomTabPanel>
 
           <ModalComponent

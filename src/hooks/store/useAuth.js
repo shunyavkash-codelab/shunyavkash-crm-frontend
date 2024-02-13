@@ -8,12 +8,14 @@ export const useAuth = create(
       accessToken: "",
       userId: "",
       setProfile: false,
-      login: ({ user, accessToken, userId }) => {
+      permission: {},
+      login: ({ user, accessToken, userId, permission }) => {
         set((state) => ({
           ...state,
           user,
           accessToken,
           userId,
+          permission,
         }));
       },
       logout: () =>
@@ -22,6 +24,7 @@ export const useAuth = create(
           accessToken: "",
           userId: "",
           setProfile: false,
+          permission: {},
         })),
       setUserDatail: (name, profile_img, companyName) => {
         set((state) => ({
