@@ -200,7 +200,7 @@ export default function Home() {
               <SectionHeader Title="Our Recent invoices" style={{ mb: 0 }} />
               <Stack direction="row" spacing={1}>
                 <ThemeButton
-                  transparent
+                  secondary
                   Text="Create Invoice"
                   startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
                   onClick={invoiceNumberGenerate}
@@ -235,7 +235,7 @@ export default function Home() {
                       minWidth: 650,
                       textTransform: "capitalize",
                       textWrap: "nowrap",
-                      "& th,& td": { borderBottom: 0 },
+                      "& th,& td": { borderBottom: 0, p: 2 },
                       "& tbody tr": {
                         borderTop: "1px solid rgba(224, 224, 224, 1)",
                       },

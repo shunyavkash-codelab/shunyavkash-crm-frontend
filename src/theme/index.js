@@ -53,13 +53,14 @@ export const theme = createTheme({
     },
     secondary: {
       main: "#00ac8d",
-      light: "rgba(248, 174, 0, 80%)",
+      light: "#ddf1e6",
       // dark: "#b50458",
       // contrastText: "#FFFFFF",
     },
     text: {
       primary: "#002a4d",
       secondary: "#00ac8d",
+      white: "white",
       // primaryLight: "rgba(42, 64, 98, 30%)",
       // disabled: "rgba(55, 65, 81, 0.48)",
     },

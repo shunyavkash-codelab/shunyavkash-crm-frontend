@@ -174,8 +174,8 @@ export default function SideBar({
                   "&:not(:first-of-type)": { mt: 0.75 },
                   borderRadius: "10px",
                   overflow: "hidden",
-                  color: location.pathname === item.link && "primary.main",
-                  bgcolor: location.pathname === item.link && "primary.light",
+                  color: location.pathname === item.link && "text.white",
+                  bgcolor: location.pathname === item.link && "secondary.main",
                   //   color:
                   //     (location.pathname === item.link && "primary.main") ||
                   //     (location.pathname === item.link + "/add" &&
@@ -194,11 +194,11 @@ export default function SideBar({
                     p: 1.5,
                     transition: "all 0.4s ease-in-out",
                     ":hover": {
-                      color: "primary.main",
+                      color: "text.white",
                       bgcolor:
                         location.pathname === item.link
                           ? "transparent"
-                          : "primary.light",
+                          : "primary.main",
                       // bgcolor:
                       //   (location.pathname === item.link
                       //     ? "transparent"

@@ -7,8 +7,8 @@ function ThemePagination(props) {
       <Stack
         direction="row"
         alignItems="center"
-        justifyContent={{ xs: "space-between", xl: "center" }}
-        sx={{ position: { xl: "relative" }, mt: 2.5 }}
+        justifyContent={{ xs: "space-between", xl: "space-between" }}
+        sx={{ position: { xl: "relative" }, mt: 2.5, px: 2.5 }}
       >
         {props.totalpage > 1 && (
           <Pagination count={props.totalpage} onChange={props.onChange} />
@@ -19,10 +19,11 @@ function ThemePagination(props) {
           rowsPerPage={props.rowsPerPage}
           onRowsPerPageChange={props.onRowsPerPageChange}
           sx={{
-            position: { xl: "absolute" },
-            top: { xl: "50%" },
-            transform: { xl: "translateY(-50%)" },
-            right: { xl: 0 },
+            // position: { xl: "absolute" },
+            // top: { xl: "50%" },
+            // transform: { xl: "translateY(-50%)" },
+            // right: { xl: 0 },
+            marginLeft: "auto",
             "&>div": {
               p: 0,
               minHeight: "24px",

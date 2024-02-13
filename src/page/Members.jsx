@@ -47,7 +47,7 @@ function CustomTabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ pt: 3 }}>
+        <Box sx={{ pt: 0 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -278,7 +278,8 @@ export default function Members() {
             sx={{
               bgcolor: "white",
               borderRadius: 3,
-              p: 3,
+              py: 3,
+              px: 0,
               mt: 3,
             }}
           >
@@ -288,7 +289,7 @@ export default function Members() {
               aria-label="basic tabs example"
               sx={{
                 minHeight: "38px",
-
+                borderBottom: "1px solid #f2f2f2",
                 "& .MuiTabs-flexContainer": {
                   justifyContent: "flex-start",
                 },
@@ -304,12 +305,20 @@ export default function Members() {
                 disableElevation
                 label="Manager"
                 {...a11yProps(0)}
+                sx={{
+                  color: "primary.main",
+                  px: 2.5,
+                }}
               />
               <Tab
                 disableRipple
                 disableElevation
                 label="Employee"
                 {...a11yProps(1)}
+                sx={{
+                  color: "primary.main",
+                  px: 2.5,
+                }}
               />
               {user.role === 0 && (
                 <Tab
@@ -317,6 +326,10 @@ export default function Members() {
                   disableElevation
                   label="Invited Members"
                   {...a11yProps(2)}
+                  sx={{
+                    color: "primary.main",
+                    px: 2.5,
+                  }}
                 />
               )}
             </Tabs>
@@ -332,10 +345,12 @@ export default function Members() {
                   <TableContainer
                     component={Paper}
                     sx={{
-                      border: "1px solid rgba(224, 224, 224, 1)",
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
                       mx: { xs: "-10px", sm: 0 },
                       width: { xs: "auto", sm: "auto" },
-                      borderRadius: 2.5,
+                      borderRadius: 0,
+                      boxShadow: 0,
                     }}
                   >
                     <Table
@@ -344,7 +359,12 @@ export default function Members() {
                         minWidth: 650,
                         textTransform: "capitalize",
                         textWrap: "nowrap",
-                        "& th,& td": { borderBottom: 0 },
+                        "& thead > tr > th": {
+                          backgroundColor: "#F8F9FA",
+                        },
+                        "& th,& td": {
+                          borderBottom: 0,
+                        },
                         "& tbody tr": {
                           borderTop: "1px solid rgba(224, 224, 224, 1)",
                         },
@@ -405,10 +425,12 @@ export default function Members() {
                   <TableContainer
                     component={Paper}
                     sx={{
-                      border: "1px solid rgba(224, 224, 224, 1)",
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
                       mx: { xs: "-10px", sm: 0 },
                       width: { xs: "auto", sm: "auto" },
-                      borderRadius: 2.5,
+                      borderRadius: 0,
+                      boxShadow: 0,
                     }}
                   >
                     <Table
@@ -480,10 +502,12 @@ export default function Members() {
                   <TableContainer
                     component={Paper}
                     sx={{
-                      border: "1px solid rgba(224, 224, 224, 1)",
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
                       mx: { xs: "-10px", sm: 0 },
                       width: { xs: "auto", sm: "auto" },
-                      borderRadius: 2.5,
+                      borderRadius: 0,
+                      boxShadow: 0,
                     }}
                   >
                     <Table

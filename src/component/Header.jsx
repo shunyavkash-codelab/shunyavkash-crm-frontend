@@ -161,7 +161,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
             }}
           >
             {user.role === 0 && (
-              <ThemeButton Text="invite" onClick={handleOpen} />
+              <ThemeButton Text="invite" secondary onClick={handleOpen} />
             )}
             {isLoading ? (
               <>Loading..</>

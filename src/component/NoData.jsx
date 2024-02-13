@@ -9,7 +9,7 @@ export default function NoData() {
           width: "100%",
           display: "block",
           padding: "25px 16px",
-          backgroundColor: "primary.light",
+          backgroundColor: "secondary.light",
           textAlign: "center",
           borderRadius: 2.5,
         }}
@@ -19,7 +19,7 @@ export default function NoData() {
           sx={{
             // mb: 1.5,
             fontSize: "20px",
-            color: "#1677FF",
+            color: "secondary.main",
             fontWeight: "500",
             letterSpacing: "0.5px",
             textTransform: "capitalize",

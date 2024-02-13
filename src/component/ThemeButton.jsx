@@ -20,7 +20,7 @@ function ThemeButton(props) {
           borderRadius: props.smallRounded ? "50px" : 2.5,
           overflow: "hidden",
           color: props.transparent
-            ? props.btnColor
+            ? "primary.main"
             : props.discard
             ? "text.primary"
             : "white",
@@ -30,6 +30,8 @@ function ThemeButton(props) {
             ? "error.main"
             : props.discard
             ? "#e4e4e4"
+            : props.secondary
+            ? "secondary.main"
             : props.btnColor || "primary.main",
           bgcolor: !props.transparent
             ? props.success
@@ -38,6 +40,8 @@ function ThemeButton(props) {
               ? "error.main"
               : props.discard
               ? "#e4e4e4"
+              : props.secondary
+              ? "secondary.main"
               : props.btnColor || "primary.main"
             : "",
           // "&:before": {
@@ -56,15 +60,17 @@ function ThemeButton(props) {
           //     : "white",
           // },
           "&:hover": {
-            color: "white"
-              ? "white"
+            color: props.transparent
+              ? "secondary.main"
               : props.success
               ? "success.main"
               : props.error
               ? "error.main"
               : props.discard
               ? "text.primary"
-              : props.btnColor || "primary.main",
+              : props.secondary
+              ? "text.white"
+              : props.btnColor || "text.white",
             bgcolor: !props.transparent
               ? props.success
                 ? "success.main"
@@ -72,15 +78,21 @@ function ThemeButton(props) {
                 ? "error.main"
                 : props.discard
                 ? "#e4e4e4"
+                : props.secondary
+                ? "primary.main"
                 : props.btnColor || "secondary.main"
               : "",
-            borderColor: !props.transparent
+            borderColor: props.transparent
+              ? "secondary.main"
+              : !props.transparent
               ? props.success
                 ? "success.main"
                 : props.error
                 ? "error.main"
                 : props.discard
                 ? "#e4e4e4"
+                : props.secondary
+                ? "primary.main"
                 : props.btnColor || "secondary.main"
               : "",
             "&:before": { height: "10rem" },
