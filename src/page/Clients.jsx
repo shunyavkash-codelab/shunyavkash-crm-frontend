@@ -32,6 +32,7 @@ import SectionHeader from "../component/SectionHeader.jsx";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import ModalComponent from "../component/ModalComponent.jsx";
 
 export default function Clients() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
@@ -45,6 +46,8 @@ export default function Clients() {
   const [totalPage, setTotalPage] = useState(1);
   const [sortField, setSortField] = useState();
   const [orderBy, setOrderBy] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
+  const [selectClient, setSelectClient] = useState(false);
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -65,6 +68,7 @@ export default function Clients() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         fetchclientData();
+        setOpenDelete(false);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -312,7 +316,10 @@ export default function Clients() {
                                   color: "black",
                                   "&:hover": { color: "primary.main" },
                                 }}
-                                onClick={() => deleteClient(row._id)}
+                                onClick={() => {
+                                  setOpenDelete(true);
+                                  setSelectClient(row._id);
+                                }}
                               >
                                 <DeleteIcon sx={{ color: "error.main" }} />
                               </Button>
@@ -321,6 +328,27 @@ export default function Clients() {
                         )}
                       </TableRow>
                     ))}
+                    <ModalComponent
+                      open={openDelete}
+                      setOpen={setOpenDelete}
+                      modalTitle="Delete"
+                      modelStyle={{ maxWidth: "400px" }}
+                    >
+                      {"Are you sure delete this client?"}
+                      <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                        <ThemeButton
+                          success
+                          Text="Yes"
+                          type="submit"
+                          onClick={() => deleteClient(selectClient)}
+                        />
+                        <ThemeButton
+                          discard
+                          Text="No"
+                          onClick={() => setOpenDelete(false)}
+                        />
+                      </Box>
+                    </ModalComponent>
                   </TableBody>
                 </Table>
               </TableContainer>

@@ -362,9 +362,6 @@ export default function Members() {
                         minWidth: 650,
                         textTransform: "capitalize",
                         textWrap: "nowrap",
-                        "& thead > tr > th": {
-                          backgroundColor: "#F8F9FA",
-                        },
                         "& th,& td": {
                           borderBottom: 0,
                         },

@@ -61,6 +61,7 @@ export default function MyProfile() {
   const [to, setTo] = useState();
   const [sortField, setSortField] = useState();
   const [orderBy, setOrderBy] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
 
   const handleChange = (event) => {
     setDate(event.target.value);
@@ -114,6 +115,7 @@ export default function MyProfile() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         viewAllSalary();
+        setOpenDelete(false);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -599,7 +601,10 @@ export default function MyProfile() {
                             </Button>
                             <Button
                               disableRipple
-                              onClick={() => deleteSalary(salary._id)}
+                              onClick={() => {
+                                setOpenDelete(true);
+                                setSelectSalary(salary._id);
+                              }}
                             >
                               <DeleteIcon sx={{ color: "error.main" }} />
                             </Button>
@@ -607,6 +612,27 @@ export default function MyProfile() {
                         </TableCell>
                       </TableRow>
                     ))}
+                    <ModalComponent
+                      open={openDelete}
+                      setOpen={setOpenDelete}
+                      modalTitle="Delete"
+                      modelStyle={{ maxWidth: "400px" }}
+                    >
+                      {"Are you sure delete this salary?"}
+                      <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                        <ThemeButton
+                          success
+                          Text="Yes"
+                          type="submit"
+                          onClick={() => deleteSalary(selectSalary)}
+                        />
+                        <ThemeButton
+                          discard
+                          Text="No"
+                          onClick={() => setOpenDelete(false)}
+                        />
+                      </Box>
+                    </ModalComponent>
                   </TableBody>
                 </Table>
               </TableContainer>

@@ -59,6 +59,8 @@ export default function LeavesRequests() {
   const { searchData } = useSearchData();
   const [sortField, setSortField] = useState();
   const [orderBy, setOrderBy] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
+  const [selectLeaveReq, setSelectLeaveReq] = useState(false);
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -122,6 +124,7 @@ export default function LeavesRequests() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         leaveList();
+        setOpenDelete(false);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -554,7 +557,10 @@ export default function LeavesRequests() {
                             >
                               <Button
                                 disableRipple
-                                onClick={() => deleteLeave(leaveRequest._id)}
+                                onClick={() => {
+                                  setOpenDelete(true);
+                                  setSelectLeaveReq(leaveRequest._id);
+                                }}
                               >
                                 <DeleteIcon />
                               </Button>
@@ -563,6 +569,27 @@ export default function LeavesRequests() {
                         )}
                       </TableRow>
                     ))}
+                    <ModalComponent
+                      open={openDelete}
+                      setOpen={setOpenDelete}
+                      modalTitle="Delete"
+                      modelStyle={{ maxWidth: "400px" }}
+                    >
+                      {"Are you sure delete this leave request?"}
+                      <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                        <ThemeButton
+                          success
+                          Text="Yes"
+                          type="submit"
+                          onClick={() => deleteLeave(selectLeaveReq)}
+                        />
+                        <ThemeButton
+                          discard
+                          Text="No"
+                          onClick={() => setOpenDelete(false)}
+                        />
+                      </Box>
+                    </ModalComponent>
                   </TableBody>
                 </Table>
               </TableContainer>
