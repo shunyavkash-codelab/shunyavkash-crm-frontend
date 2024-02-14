@@ -552,6 +552,7 @@ export default function Members() {
                             uniqId={row._id}
                             setEmployeesList={setEmployeesList}
                             invitedList={invitedList}
+                            user={user}
                           />
                         ))}
                       </TableBody>

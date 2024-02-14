@@ -60,6 +60,7 @@ export const APIS = {
   },
   PERMISSION: {
     GET: (userId) => `/permission/user/${userId}`,
+    EDIT: (permissionId) => `/permission/user/${permissionId}`,
   },
   TASK: {
     GET: (projectId) => `/task/tasks/${projectId}`,

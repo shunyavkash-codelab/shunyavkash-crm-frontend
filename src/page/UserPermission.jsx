@@ -9,11 +9,65 @@ import React, { useEffect, useState } from "react";
 import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi.js";
 import { useSnack } from "../hooks/store/useSnack.js";
+import { useFormik } from "formik";
+import ThemeButton from "../component/ThemeButton.jsx";
 
 function UserPermission({ profileId }) {
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const [userPermission, setUserPermission] = useState(false);
+  const [changes, setChanges] = useState(false);
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: userPermission && {
+      memberRead: userPermission.member.read,
+      memberWrite: userPermission.member.write,
+      clientRead: userPermission.client.read,
+      clientWrite: userPermission.client.write,
+      projectRead: userPermission.project.read,
+      projectWrite: userPermission.project.write,
+      leaveReqRead: userPermission.leaveRequest.read,
+      leaveReqWrite: userPermission.leaveRequest.write,
+    },
+
+    onSubmit: async (values) => {
+      let perObj = {
+        member: {
+          read: values.memberRead,
+          write: values.memberWrite,
+        },
+        client: {
+          read: values.clientRead,
+          write: values.clientWrite,
+        },
+        project: {
+          read: values.projectRead,
+          write: values.projectWrite,
+        },
+        leaveRequest: {
+          read: values.leaveReqRead,
+          write: values.leaveReqWrite,
+        },
+      };
+      try {
+        const res = await apiCall({
+          url: APIS.PERMISSION.EDIT(userPermission._id),
+          method: "patch",
+          data: perObj,
+        });
+        if (res.data.success === true) {
+          setSnack(res.data.message);
+          setChanges(false);
+        }
+      } catch (error) {
+        console.log(error);
+        let errorMessage = error.response.data.message;
+        setSnack(errorMessage, "warning");
+      }
+    },
+  });
+
   const getPermission = async () => {
     try {
       const res = await apiCall({
@@ -43,7 +97,12 @@ function UserPermission({ profileId }) {
             pb: 2,
           }}
         >
-          <Box container sx={{ px: 3 }}>
+          <Box
+            component="form"
+            id="permissionsForm"
+            onSubmit={formik.handleSubmit}
+            sx={{ px: 3 }}
+          >
             <Stack direction={"row"} mb={"10px"}>
               <Typography
                 sx={{
@@ -70,9 +129,12 @@ function UserPermission({ profileId }) {
                   }}
                   control={
                     <Checkbox
-                      onClick={(e) => console.log(e.target.checked)}
+                      onClick={(e) => {
+                        formik.setFieldValue("memberRead", e.target.checked);
+                        setChanges(true);
+                      }}
                       disableRipple
-                      checked={userPermission.member.read}
+                      checked={formik.values.memberRead ? true : false}
                       sx={{
                         p: 0,
                         position: "relative",
@@ -112,9 +174,12 @@ function UserPermission({ profileId }) {
                   }}
                   control={
                     <Checkbox
-                      onClick={(e) => console.log(e.target.checked)}
+                      onClick={(e) => {
+                        formik.setFieldValue("memberWrite", e.target.checked);
+                        setChanges(true);
+                      }}
                       disableRipple
-                      checked={userPermission.member.write}
+                      checked={formik.values.memberWrite ? true : false}
                       sx={{
                         p: 0,
                         position: "relative",
@@ -170,9 +235,12 @@ function UserPermission({ profileId }) {
                   }}
                   control={
                     <Checkbox
-                      onClick={(e) => console.log(e.target.checked)}
+                      onClick={(e) => {
+                        formik.setFieldValue("clientRead", e.target.checked);
+                        setChanges(true);
+                      }}
                       disableRipple
-                      checked={userPermission.client.read}
+                      checked={formik.values.clientRead ? true : false}
                       sx={{
                         p: 0,
                         position: "relative",
@@ -212,9 +280,12 @@ function UserPermission({ profileId }) {
                   }}
                   control={
                     <Checkbox
-                      onClick={(e) => console.log(e.target.checked)}
+                      onClick={(e) => {
+                        formik.setFieldValue("clientWrite", e.target.checked);
+                        setChanges(true);
+                      }}
                       disableRipple
-                      checked={userPermission.client.write}
+                      checked={formik.values.clientWrite ? true : false}
                       sx={{
                         p: 0,
                         position: "relative",
@@ -270,9 +341,12 @@ function UserPermission({ profileId }) {
                   }}
                   control={
                     <Checkbox
-                      onClick={(e) => console.log(e.target.checked)}
+                      onClick={(e) => {
+                        formik.setFieldValue("projectRead", e.target.checked);
+                        setChanges(true);
+                      }}
                       disableRipple
-                      checked={userPermission.project.read}
+                      checked={formik.values.projectRead ? true : false}
                       sx={{
                         p: 0,
                         position: "relative",
@@ -312,9 +386,12 @@ function UserPermission({ profileId }) {
                   }}
                   control={
                     <Checkbox
-                      onClick={(e) => console.log(e.target.checked)}
+                      onClick={(e) => {
+                        formik.setFieldValue("projectWrite", e.target.checked);
+                        setChanges(true);
+                      }}
                       disableRipple
-                      checked={userPermission.project.write}
+                      checked={formik.values.projectWrite ? true : false}
                       sx={{
                         p: 0,
                         position: "relative",
@@ -370,9 +447,12 @@ function UserPermission({ profileId }) {
                   }}
                   control={
                     <Checkbox
-                      onClick={(e) => console.log(e.target.checked)}
+                      onClick={(e) => {
+                        formik.setFieldValue("leaveReqRead", e.target.checked);
+                        setChanges(true);
+                      }}
                       disableRipple
-                      checked={userPermission.leaveRequest.read}
+                      checked={formik.values.leaveReqRead ? true : false}
                       sx={{
                         p: 0,
                         position: "relative",
@@ -412,9 +492,12 @@ function UserPermission({ profileId }) {
                   }}
                   control={
                     <Checkbox
-                      onClick={(e) => console.log(e.target.checked)}
+                      onClick={(e) => {
+                        formik.setFieldValue("leaveReqWrite", e.target.checked);
+                        setChanges(true);
+                      }}
                       disableRipple
-                      checked={userPermission.leaveRequest.write}
+                      checked={formik.values.leaveReqWrite ? true : false}
                       sx={{
                         p: 0,
                         position: "relative",
@@ -444,6 +527,19 @@ function UserPermission({ profileId }) {
                 />
               </Stack>
             </Stack>
+            {changes && (
+              <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                <ThemeButton success Text={"Update"} type="submit" />
+                <ThemeButton
+                  discard
+                  Text="discard"
+                  onClick={(e) => {
+                    formik.resetForm();
+                    setChanges(false);
+                  }}
+                />
+              </Box>
+            )}
           </Box>
         </Box>
       )}
