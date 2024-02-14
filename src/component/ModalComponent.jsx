@@ -31,6 +31,7 @@ export default function ModalComponent({ open, setOpen, ...props }) {
               boxShadow: 24,
               p: 3,
               maxWidth: modalSize === "large" ? "800px" : maxWidth,
+              ...props.modelStyle,
             }}
           >
             <Box

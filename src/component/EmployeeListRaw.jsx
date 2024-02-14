@@ -18,6 +18,8 @@ import {
 import SaveIcon from "@mui/icons-material/CheckOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import BadgeAvatar from "../component/BadgeAvatar";
+import ModalComponent from "./ModalComponent.jsx";
+import ThemeButton from "./ThemeButton.jsx";
 
 export default function EmployeeListRaw({
   row,
@@ -27,6 +29,7 @@ export default function EmployeeListRaw({
   type,
   user,
 }) {
+  const [openDelete, setOpenDelete] = useState(false);
   const [role, setRole] = useState();
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
@@ -247,12 +250,33 @@ export default function EmployeeListRaw({
                     transition: "all 0.4s ease-in-out",
                     "&:not(:hover)": { opacity: 0.2 },
                   }}
-                  onClick={() => deleteEmpandman(uniqId)}
+                  onClick={() => setOpenDelete(true)}
                 >
                   <DeleteIcon />
                 </Button>
               </Tooltip>
             </Box>
+            <ModalComponent
+              open={openDelete}
+              setOpen={setOpenDelete}
+              modalTitle="Delete"
+              modelStyle={{ maxWidth: "400px" }}
+            >
+              {"Are you sure delete this user?"}
+              <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                <ThemeButton
+                  success
+                  Text="Yes"
+                  type="submit"
+                  onClick={() => deleteEmpandman(uniqId)}
+                />
+                <ThemeButton
+                  discard
+                  Text="No"
+                  onClick={() => setOpenDelete(false)}
+                />
+              </Box>
+            </ModalComponent>
           </TableCell>
         )}
         {/* </form> */}

@@ -77,6 +77,8 @@ function AccountManage() {
   const [to, setTo] = useState();
   const [sortField, setSortField] = useState();
   const [orderBy, setOrderBy] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
+  const [selectTransaction, setSelectTransaction] = useState(false);
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const handlePageChange = (event, newPage) => {
@@ -101,6 +103,7 @@ function AccountManage() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         viewAllTransaction();
+        setOpenDelete(false);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -279,20 +282,18 @@ function AccountManage() {
               <CounterCards
                 Title="Total Expense"
                 Symbol="₹"
-                Counter={`${
-                  Math.abs(dashboard?.totalExpense).toLocaleString() || 0
-                }`}
+                Counter={`${Math.abs(
+                  dashboard?.totalExpense || 0
+                ).toLocaleString()}`}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Balance"
                 Symbol="₹"
-                Counter={`${
-                  (
-                    dashboard?.totalIncome - dashboard?.totalExpense
-                  ).toLocaleString() || 0
-                }`}
+                Counter={`${(
+                  dashboard?.totalIncome - dashboard?.totalExpense || 0
+                ).toLocaleString()}`}
                 counterStyle={{
                   color:
                     dashboard?.totalIncome - dashboard?.totalExpense > 0
@@ -763,7 +764,10 @@ function AccountManage() {
                               </Link>
                               <Button
                                 disableRipple
-                                onClick={() => deleteTransaction(account._id)}
+                                onClick={() => {
+                                  setOpenDelete(true);
+                                  setSelectTransaction(account._id);
+                                }}
                               >
                                 <DeleteIcon sx={{ color: "error.main" }} />
                               </Button>
@@ -771,6 +775,27 @@ function AccountManage() {
                           </TableCell>
                         </TableRow>
                       ))}
+                      <ModalComponent
+                        open={openDelete}
+                        setOpen={setOpenDelete}
+                        modalTitle="Delete"
+                        modelStyle={{ maxWidth: "400px" }}
+                      >
+                        {"Are you sure delete this transaction?"}
+                        <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                          <ThemeButton
+                            success
+                            Text="Yes"
+                            type="submit"
+                            onClick={() => deleteTransaction(selectTransaction)}
+                          />
+                          <ThemeButton
+                            discard
+                            Text="No"
+                            onClick={() => setOpenDelete(false)}
+                          />
+                        </Box>
+                      </ModalComponent>
                     </TableBody>
                     <TableFooter>
                       <TableRow

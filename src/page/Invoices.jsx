@@ -37,6 +37,7 @@ import { useSearchData } from "../hooks/store/useSearchData.js";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import ModalComponent from "../component/ModalComponent.jsx";
 
 // const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -57,6 +58,8 @@ export default function Invoices() {
   const [to, setTo] = useState();
   const [sortField, setSortField] = useState();
   const [orderBy, setOrderBy] = useState();
+  const [openDelete, setOpenDelete] = useState(false);
+  const [selectInvoice, setSelectInvoice] = useState(false);
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -107,6 +110,7 @@ export default function Invoices() {
       if (res.data.success === true) {
         setSnack(res.data.message);
         listInvoice();
+        setOpenDelete(false);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -536,7 +540,10 @@ export default function Invoices() {
                             </Button>
                             <Button
                               disableRipple
-                              onClick={() => deleteInvoice(row._id)}
+                              onClick={() => {
+                                setOpenDelete(true);
+                                setSelectInvoice(row._id);
+                              }}
                             >
                               <DeleteIcon sx={{ color: "error.main" }} />
                             </Button>
@@ -544,6 +551,27 @@ export default function Invoices() {
                         </TableCell>
                       </TableRow>
                     ))}
+                    <ModalComponent
+                      open={openDelete}
+                      setOpen={setOpenDelete}
+                      modalTitle="Delete"
+                      modelStyle={{ maxWidth: "400px" }}
+                    >
+                      {"Are you sure delete this project?"}
+                      <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                        <ThemeButton
+                          success
+                          Text="Yes"
+                          type="submit"
+                          onClick={() => deleteInvoice(selectInvoice)}
+                        />
+                        <ThemeButton
+                          discard
+                          Text="No"
+                          onClick={() => setOpenDelete(false)}
+                        />
+                      </Box>
+                    </ModalComponent>
                   </TableBody>
                 </Table>
               </TableContainer>
