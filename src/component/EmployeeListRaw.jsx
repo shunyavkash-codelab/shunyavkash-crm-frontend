@@ -209,8 +209,9 @@ export default function EmployeeListRaw({
                 "& button": {
                   p: 0,
                   minWidth: "unset",
-                  color: "black",
-                  "&:hover": { color: "primary.main" },
+                  color: "error.main",
+                  opacity: 0.5,
+                  "&:hover": { opacity: 1 },
                 },
                 "& svg": {
                   fontSize: { xs: "20px", sm: "22px" },

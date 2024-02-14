@@ -387,6 +387,9 @@ export default function Invoices() {
                     minWidth: 650,
                     textTransform: "capitalize",
                     textWrap: "nowrap",
+                    "& thead > tr > th": {
+                      backgroundColor: "#F8F9FA",
+                    },
                     "& th,& td": { borderBottom: 0 },
                     "& tbody tr": {
                       borderTop: "1px solid rgba(224, 224, 224, 1)",
@@ -490,7 +493,8 @@ export default function Invoices() {
                           </Box>
                         </TableCell>
                         <TableCell>
-                          ${row.totals.total?.toLocaleString()}
+                          <span style={{ fontFamily: "monospace" }}>$</span>
+                          {row.totals.total?.toLocaleString()}
                         </TableCell>
                         <TableCell>
                           <Box
@@ -498,12 +502,12 @@ export default function Invoices() {
                               display: "flex",
                               alignItems: "center",
                               gap: { xs: 1.25, sm: 1.5 },
-                              opacity: 0.3,
-                              "& button": {
+                              "& button,& a": {
                                 p: 0,
                                 minWidth: "auto",
                                 color: "black",
-                                "&:hover": { color: "primary.main" },
+                                opacity: 0.6,
+                                "&:hover": { opacity: 1 },
                               },
                               "& svg": { fontSize: { xs: "20px", sm: "21px" } },
                             }}
@@ -514,7 +518,9 @@ export default function Invoices() {
                                 viewInvoice(row.invoiceNumber, row)
                               }
                             >
-                              <VisibilityIcon />
+                              <VisibilityIcon
+                                sx={{ color: "secondary.main" }}
+                              />
                             </Button>
                             {/* <Button disableRipple>
                             <MarkAsPaidIcon />
@@ -525,13 +531,13 @@ export default function Invoices() {
                                 editInvoice(row.invoiceNumber, row)
                               }
                             >
-                              <CreateIcon />
+                              <CreateIcon sx={{ color: "primary.main" }} />
                             </Button>
                             <Button
                               disableRipple
                               onClick={() => deleteInvoice(row._id)}
                             >
-                              <DeleteIcon />
+                              <DeleteIcon sx={{ color: "error.main" }} />
                             </Button>
                           </Box>
                         </TableCell>

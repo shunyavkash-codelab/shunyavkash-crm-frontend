@@ -290,7 +290,7 @@ export default function Members() {
               aria-label="basic tabs example"
               sx={{
                 minHeight: "38px",
-                borderBottom: "1px solid #f2f2f2",
+                // borderBottom: "1px solid #f2f2f2",
                 "& .MuiTabs-flexContainer": {
                   justifyContent: "flex-start",
                 },

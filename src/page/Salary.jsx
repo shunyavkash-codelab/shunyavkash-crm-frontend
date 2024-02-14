@@ -461,6 +461,9 @@ export default function MyProfile() {
                     minWidth: 650,
                     textTransform: "capitalize",
                     textWrap: "nowrap",
+                    "& thead > tr > th": {
+                      backgroundColor: "#F8F9FA",
+                    },
                     "& th,& td": { borderBottom: 0 },
                     "& tbody tr": {
                       borderTop: "1px solid rgba(224, 224, 224, 1)",
@@ -546,9 +549,13 @@ export default function MyProfile() {
                             {salary.status}
                           </Box>
                         </TableCell>
-                        <TableCell>₹{salary.amount.toLocaleString()}</TableCell>
                         <TableCell>
-                          ₹{salary.incentive?.toLocaleString() || 0}
+                          <span style={{ fontFamily: "monospace" }}>₹</span>
+                          {salary.amount.toLocaleString()}
+                        </TableCell>
+                        <TableCell>
+                          <span style={{ fontFamily: "monospace" }}>₹</span>
+                          {salary.incentive?.toLocaleString() || 0}
                         </TableCell>
                         <TableCell>
                           <Box
@@ -556,12 +563,15 @@ export default function MyProfile() {
                               display: "flex",
                               alignItems: "center",
                               gap: { xs: 1.25, sm: 1.5 },
-                              opacity: 0.3,
-                              "& button": {
+                              "& button,& a": {
                                 p: 0,
                                 minWidth: "auto",
                                 color: "black",
-                                "&:hover": { color: "primary.main" },
+                                opacity: 0.6,
+                                "&:hover": {
+                                  // color: "primary.main",
+                                  opacity: 1,
+                                },
                               },
                               "& svg": {
                                 fontSize: { xs: "20px", sm: "21px" },
@@ -576,19 +586,21 @@ export default function MyProfile() {
                                 alignItems: "center",
                               }}
                             >
-                              <VisibilityIcon />
+                              <VisibilityIcon
+                                sx={{ color: "secondary.main" }}
+                              />
                             </a>
                             <Button
                               disableRipple
                               onClick={() => handleOpenSalary(salary)}
                             >
-                              <CreateIcon />
+                              <CreateIcon sx={{ color: "primary.main" }} />
                             </Button>
                             <Button
                               disableRipple
                               onClick={() => deleteSalary(salary._id)}
                             >
-                              <DeleteIcon />
+                              <DeleteIcon sx={{ color: "error.main" }} />
                             </Button>
                           </Box>
                         </TableCell>

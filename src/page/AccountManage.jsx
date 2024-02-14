@@ -264,19 +264,22 @@ function AccountManage() {
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Sales"
-                Counter={`₹${dashboard?.totalSales.toLocaleString() || 0}`}
+                Symbol="₹"
+                Counter={`${dashboard?.totalSales.toLocaleString() || 0}`}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Income"
-                Counter={`₹${dashboard?.totalIncome.toLocaleString() || 0}`}
+                Symbol="₹"
+                Counter={`${dashboard?.totalIncome.toLocaleString() || 0}`}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Expense"
-                Counter={`₹${
+                Symbol="₹"
+                Counter={`${
                   Math.abs(dashboard?.totalExpense).toLocaleString() || 0
                 }`}
               />
@@ -284,7 +287,8 @@ function AccountManage() {
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Balance"
-                Counter={`₹${
+                Symbol="₹"
+                Counter={`${
                   (
                     dashboard?.totalIncome - dashboard?.totalExpense
                   ).toLocaleString() || 0
@@ -514,6 +518,9 @@ function AccountManage() {
                     sx={{
                       textTransform: "capitalize",
                       textWrap: "nowrap",
+                      "& thead > tr > th": {
+                        backgroundColor: "#F8F9FA",
+                      },
                       "& th,& td": {
                         border: 0,
                         padding: "14px",
@@ -720,11 +727,14 @@ function AccountManage() {
                               spacing={1.5}
                               sx={{
                                 "& button": {
-                                  opacity: 0.5,
+                                  opacity: 0.6,
                                   p: 0,
                                   minWidth: "auto",
                                   color: "text.primary",
-                                  "&:hover": { color: "primary.main" },
+                                  "&:hover": {
+                                    // color: "primary.main",
+                                    opacity: 1,
+                                  },
                                 },
                                 "& svg": {
                                   fontSize: { xs: "20px", sm: "21px" },
@@ -738,18 +748,20 @@ function AccountManage() {
                                   setSelectedTransaction(account);
                                 }}
                               >
-                                <VisibilityIcon />
+                                <VisibilityIcon
+                                  sx={{ color: "secondary.main" }}
+                                />
                               </Button>
                               <Link to={`./edit/${account._id}`}>
                                 <Button disableRipple>
-                                  <CreateIcon />
+                                  <CreateIcon sx={{ color: "primary.main" }} />
                                 </Button>
                               </Link>
                               <Button
                                 disableRipple
                                 onClick={() => deleteTransaction(account._id)}
                               >
-                                <DeleteIcon />
+                                <DeleteIcon sx={{ color: "error.main" }} />
                               </Button>
                             </Stack>
                           </TableCell>

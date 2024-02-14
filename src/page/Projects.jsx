@@ -182,6 +182,9 @@ export default function Project() {
                     minWidth: 650,
                     textTransform: "capitalize",
                     textWrap: "nowrap",
+                    "& thead > tr > th": {
+                      backgroundColor: "#F8F9FA",
+                    },
                     "& th,& td": { borderBottom: 0 },
                     "& tbody tr": {
                       borderTop: "1px solid rgba(224, 224, 224, 1)",
@@ -270,12 +273,15 @@ export default function Project() {
                               display: "flex",
                               alignItems: "center",
                               gap: { xs: 1.25, sm: 1.5 },
-                              opacity: 0.3,
                               "& button": {
                                 p: 0,
                                 minWidth: "auto",
                                 color: "black",
-                                "&:hover": { color: "primary.main" },
+                                opacity: 0.5,
+                                "&:hover": {
+                                  // color: "primary.main",
+                                  opacity: 1,
+                                },
                               },
                               "& svg": {
                                 fontSize: { xs: "20px", sm: "22px" },
@@ -284,13 +290,15 @@ export default function Project() {
                           >
                             <Link to={`./view/${row._id}`}>
                               <Button disableRipple>
-                                <VisibilityIcon />
+                                <VisibilityIcon
+                                  sx={{ color: "secondary.main" }}
+                                />
                               </Button>
                             </Link>
                             {user.role !== 2 && (
                               <Link to={`./edit/${row._id}`}>
                                 <Button disableRipple>
-                                  <CreateIcon />
+                                  <CreateIcon sx={{ color: "primary.main" }} />
                                 </Button>
                               </Link>
                             )}
@@ -305,7 +313,7 @@ export default function Project() {
                                 }}
                                 onClick={() => deleteProject(row._id)}
                               >
-                                <DeleteIcon />
+                                <DeleteIcon sx={{ color: "error.main" }} />
                               </Button>
                             )}
                           </Box>

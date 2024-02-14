@@ -124,43 +124,11 @@ export default function Home() {
             <Grid container spacing={2.5}>
               <Grid item xs={12} sm={6} xl={3}>
                 <CounterCards
-                  CardBgcolor={"rgb(22 119 255/ 10%)"}
+                  CardBgcolor={"rgba(74, 210, 146, 10%)"}
                   Title={"Clients"}
                   Counter={dashboardData.totalClient || 0}
                   Text={"lorem ipsum sit amet."}
                   Link={"/clients"}
-                  ArrowBgColor={"rgb(22 119 255 / 60%)"}
-                  titleStyle={{
-                    opacity: "100%",
-                  }}
-                  counterStyle={{
-                    fontSize: "30px",
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} xl={3}>
-                <CounterCards
-                  CardBgcolor={"rgba(248, 174, 0, 10%)"}
-                  Title={"projects"}
-                  Counter={dashboardData.totalProject || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/projects"}
-                  ArrowBgColor={"rgba(248, 174, 0, 60%)"}
-                  titleStyle={{
-                    opacity: "100%",
-                  }}
-                  counterStyle={{
-                    fontSize: "30px",
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} xl={3}>
-                <CounterCards
-                  CardBgcolor={"rgba(74, 210, 146, 10%)"}
-                  Title={"invoices"}
-                  Counter={dashboardData.totalInvoice || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/invoices"}
                   ArrowBgColor={"rgba(74, 210, 146, 60%)"}
                   titleStyle={{
                     opacity: "100%",
@@ -172,12 +140,44 @@ export default function Home() {
               </Grid>
               <Grid item xs={12} sm={6} xl={3}>
                 <CounterCards
-                  CardBgcolor={"rgba(244, 67, 54, 10%)"}
+                  CardBgcolor={"rgb(153 143 66 / 10%)"}
+                  Title={"projects"}
+                  Counter={dashboardData.totalProject || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/projects"}
+                  ArrowBgColor={"rgb(153 143 66 / 60%)"}
+                  titleStyle={{
+                    opacity: "100%",
+                  }}
+                  counterStyle={{
+                    fontSize: "30px",
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} xl={3}>
+                <CounterCards
+                  CardBgcolor={"rgb(53 113 51 / 10%)"}
+                  Title={"invoices"}
+                  Counter={dashboardData.totalInvoice || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/invoices"}
+                  ArrowBgColor={"rgb(53 113 51 / 60%)"}
+                  titleStyle={{
+                    opacity: "100%",
+                  }}
+                  counterStyle={{
+                    fontSize: "30px",
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} xl={3}>
+                <CounterCards
+                  CardBgcolor={"rgb(33 63 177 / 10%)"}
                   Title={"employees"}
                   Counter={dashboardData.totalEmployee || 0}
                   Text={"lorem ipsum sit amet."}
                   Link={"/employees"}
-                  ArrowBgColor={"rgba(244, 67, 54, 60%)"}
+                  ArrowBgColor={"rgb(33 63 177 / 60%)"}
                   titleStyle={{
                     opacity: "100%",
                   }}

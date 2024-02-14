@@ -48,7 +48,14 @@ export default function CounterCards(props) {
             ...props.counterStyle,
           }}
         >
-          {props.Counter}
+          <Box>
+            {props.Symbol ? (
+              <span style={{ fontFamily: "monospace" }}>₹</span>
+            ) : (
+              ""
+            )}
+            {props.Counter}
+          </Box>
           {props.Link && (
             <Link to={props.Link}>
               <Box
