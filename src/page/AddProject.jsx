@@ -617,7 +617,7 @@ export default function AddProject() {
                                 borderRadius: 1,
                                 maxWidth: "fit-content",
                                 lineHeight: 1,
-                                bgcolor: "secondary.main",
+                                bgcolor: "warning.main",
                               }}
                             >
                               In Progress

@@ -39,7 +39,7 @@ export default function Clients() {
   const [clientList, setClientList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
   const { searchData } = useSearchData();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -149,12 +149,15 @@ export default function Clients() {
               BreadCrumbCurrentTitle="Clients"
               style={{ mb: 0 }}
             />
-            <Link to="./add">
-              <ThemeButton
-                Text="Add client"
-                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-              />
-            </Link>
+            {user.role === 0 && (
+              <Link to="./add">
+                <ThemeButton
+                  Text="Add client"
+                  secondary
+                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                />
+              </Link>
+            )}
           </Stack>
 
           {isLoading ? (
@@ -178,6 +181,9 @@ export default function Clients() {
                     minWidth: 650,
                     textTransform: "capitalize",
                     textWrap: "nowrap",
+                    "& thead > tr > th": {
+                      backgroundColor: "#F8F9FA",
+                    },
                     "& th,& td": { borderBottom: 0 },
                     "& tbody tr": {
                       borderTop: "1px solid rgba(224, 224, 224, 1)",
@@ -187,7 +193,7 @@ export default function Clients() {
                 >
                   <TableHead>
                     <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
                     >
                       <TableCell>
                         <TableSortLabel
@@ -200,7 +206,7 @@ export default function Clients() {
                       </TableCell>
                       <TableCell>Company Name</TableCell>
                       <TableCell>Project</TableCell>
-                      <TableCell>Actions</TableCell>
+                      {user.role === 0 && <TableCell>Actions</TableCell>}
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -234,7 +240,7 @@ export default function Clients() {
                                 sx={{
                                   mb: 0.75,
                                   lineHeight: 1,
-                                  fontWeight: 600,
+                                  fontWeight: 500,
                                   fontSize: { xs: "14px", sm: "16px" },
                                 }}
                               >
@@ -263,48 +269,56 @@ export default function Clients() {
                             ))}
                           </Stack>
                         </TableCell>
-                        <TableCell>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.5 },
-                              opacity: 0.3,
-                              "& button": {
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              },
-                              "& svg": {
-                                fontSize: { xs: "20px", sm: "22px" },
-                              },
-                            }}
-                          >
-                            <Link to={`./view/${row._id}`}>
-                              <Button disableRipple>
-                                <VisibilityIcon />
-                              </Button>
-                            </Link>
-                            <Link to={`./edit/${row._id}`}>
-                              <Button disableRipple>
-                                <CreateIcon />
-                              </Button>
-                            </Link>
-                            <Button
-                              disableRipple
+                        {user.role === 0 && (
+                          <TableCell>
+                            <Box
                               sx={{
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
+                                display: "flex",
+                                alignItems: "center",
+                                gap: { xs: 1.25, sm: 1.5 },
+                                "& button": {
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  opacity: 0.5,
+                                  transition: "all 0.5s",
+                                  "&:hover": {
+                                    color: "primary.main",
+                                    opacity: 1,
+                                  },
+                                },
+                                "& svg": {
+                                  fontSize: { xs: "20px", sm: "22px" },
+                                },
                               }}
-                              onClick={() => deleteClient(row._id)}
                             >
-                              <DeleteIcon />
-                            </Button>
-                          </Box>
-                        </TableCell>
+                              <Link to={`./view/${row._id}`}>
+                                <Button disableRipple>
+                                  <VisibilityIcon
+                                    sx={{ color: "secondary.main" }}
+                                  />
+                                </Button>
+                              </Link>
+                              <Link to={`./edit/${row._id}`}>
+                                <Button disableRipple>
+                                  <CreateIcon sx={{ color: "primary.main" }} />
+                                </Button>
+                              </Link>
+                              <Button
+                                disableRipple
+                                sx={{
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "primary.main" },
+                                }}
+                                onClick={() => deleteClient(row._id)}
+                              >
+                                <DeleteIcon sx={{ color: "error.main" }} />
+                              </Button>
+                            </Box>
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))}
                   </TableBody>
@@ -313,7 +327,7 @@ export default function Clients() {
             </>
           )}
           {/* pagination */}
-          {clientList.length && (
+          {clientList.length > 0 && (
             <ThemePagination
               totalpage={totalPage}
               onChange={handleChange}

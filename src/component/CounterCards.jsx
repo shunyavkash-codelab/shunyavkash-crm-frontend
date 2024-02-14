@@ -11,7 +11,7 @@ export default function CounterCards(props) {
           p: { xs: 3, sm: 2.5 },
           bgcolor: props.CardBgcolor || "white",
           color: "text.primary",
-          borderRadius: 2.5,
+          borderRadius: 5,
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -24,7 +24,7 @@ export default function CounterCards(props) {
             variant="h6"
             sx={{
               textTransform: "capitalize",
-              fontWeight: 600,
+              fontWeight: 500,
               opacity: "50%",
               ...props.titleStyle,
             }}
@@ -44,10 +44,18 @@ export default function CounterCards(props) {
             alignItems: "center",
             justifyContent: "space-between",
             gap: 1,
+            fontWeight: 500,
             ...props.counterStyle,
           }}
         >
-          {props.Counter}
+          <Box>
+            {props.Symbol ? (
+              <span style={{ fontFamily: "monospace" }}>₹</span>
+            ) : (
+              ""
+            )}
+            {props.Counter}
+          </Box>
           {props.Link && (
             <Link to={props.Link}>
               <Box

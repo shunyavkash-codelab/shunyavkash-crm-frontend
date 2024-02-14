@@ -46,20 +46,23 @@ export const theme = createTheme({
     },
     divider: "#E6E8F0",
     primary: {
-      main: "#1677FF",
-      light: "rgb(22 119 255/ 6%)",
+      main: "#002a4d",
+      light: "#0a4f88",
       // dark: "#0B815A",
       // contrastText: "#FFFFFF",
     },
     secondary: {
-      main: "#f8ae00",
-      light: "rgba(248, 174, 0, 80%)",
+      main: "#00ac8d",
+      light: "#ddf1e6",
       // dark: "#b50458",
       // contrastText: "#FFFFFF",
     },
     text: {
-      primary: "#2A4062",
-      secondary: "#65748B",
+      primary: "#002a4d",
+      secondary: "#00ac8d",
+      white: "white",
+      dark: "#313131",
+      black: "black",
       // primaryLight: "rgba(42, 64, 98, 30%)",
       // disabled: "rgba(55, 65, 81, 0.48)",
     },
@@ -97,7 +100,8 @@ export const theme = createTheme({
 
   //   typography
   typography: {
-    fontFamily: '"Open Sans", "sans-serif"',
+    // fontFamily: '"Open Sans", "sans-serif"',
+    fontFamily: '"DM Sans", "sans-serif"',
     button: {
       fontWeight: 600,
       textWrap: "nowrap",

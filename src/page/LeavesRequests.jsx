@@ -45,7 +45,7 @@ export default function LeavesRequests() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const [leaveId, setLeaveId] = useState(false);
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -248,6 +248,9 @@ export default function LeavesRequests() {
                     minWidth: 650,
                     textTransform: "capitalize",
                     textWrap: "nowrap",
+                    "& thead > tr > th": {
+                      backgroundColor: "#F8F9FA",
+                    },
                     "& th,& td": { borderBottom: 0 },
                     "& tbody tr": {
                       borderTop: "1px solid rgba(224, 224, 224, 1)",
@@ -257,7 +260,7 @@ export default function LeavesRequests() {
                 >
                   <TableHead>
                     <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
                     >
                       <TableCell>Member</TableCell>
                       <TableCell>
@@ -298,7 +301,7 @@ export default function LeavesRequests() {
                           Status
                         </TableSortLabel>
                       </TableCell>
-                      <TableCell>Action</TableCell>
+                      {user.role === 0 && <TableCell>Action</TableCell>}
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -323,7 +326,7 @@ export default function LeavesRequests() {
                             },
                             "& .sick": {
                               bgcolor: "rgba(248, 174, 0, 15%)",
-                              color: "secondary.main",
+                              color: "rgba(248, 174, 0, 100%)",
                             },
                             "& .unpaid": {
                               bgcolor: "rgb(255 0 0 / 15%)",
@@ -463,6 +466,11 @@ export default function LeavesRequests() {
                                   cursor: "pointer",
                                   bgcolor: "rgba(74, 210, 146, 15%)",
                                   color: "success.main",
+                                  pointerEvents:
+                                    leaveRequest.userRole === 1 &&
+                                    user.role === 1
+                                      ? "none"
+                                      : "painted",
                                   // padding: "6px 16px 6px 16px !important",
                                 }}
                               >
@@ -497,6 +505,11 @@ export default function LeavesRequests() {
                                   cursor: "pointer",
                                   bgcolor: "rgba(225, 107, 22, 15%)",
                                   color: "review.main",
+                                  pointerEvents:
+                                    leaveRequest.userRole === 1 &&
+                                    user.role === 1
+                                      ? "none"
+                                      : "painted",
                                   // py: 0.75,
                                   // padding: "6px 16px 6px 16px !important",
                                 }}
@@ -515,33 +528,39 @@ export default function LeavesRequests() {
                             )}
                           </ButtonGroup>
                         </TableCell>
-                        <TableCell>
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            justifyContent="center"
-                            spacing={1.5}
-                            sx={{
-                              "& button": {
-                                opacity: 0.5,
-                                p: 0,
-                                minWidth: "auto",
-                                color: "text.primary",
-                                "&:hover": { color: "primary.main" },
-                              },
-                              "& svg": {
-                                fontSize: { xs: "20px", sm: "21px" },
-                              },
-                            }}
-                          >
-                            <Button
-                              disableRipple
-                              onClick={() => deleteLeave(leaveRequest._id)}
+                        {user.role === 0 && (
+                          <TableCell>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              justifyContent="center"
+                              spacing={1.5}
+                              sx={{
+                                "& button": {
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "error.main",
+                                  opacity: 0.5,
+                                  transition: "all 0.5s",
+                                  "&:hover": {
+                                    // color: "primary.main",
+                                    opacity: 1,
+                                  },
+                                },
+                                "& svg": {
+                                  fontSize: { xs: "20px", sm: "21px" },
+                                },
+                              }}
                             >
-                              <DeleteIcon />
-                            </Button>
-                          </Stack>
-                        </TableCell>
+                              <Button
+                                disableRipple
+                                onClick={() => deleteLeave(leaveRequest._id)}
+                              >
+                                <DeleteIcon />
+                              </Button>
+                            </Stack>
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))}
                   </TableBody>
@@ -550,7 +569,7 @@ export default function LeavesRequests() {
             </>
           )}
           {/* pagination */}
-          {allLeaveList.length && (
+          {allLeaveList.length > 0 && (
             <ThemePagination
               totalpage={totalPage}
               onChange={handleChange}

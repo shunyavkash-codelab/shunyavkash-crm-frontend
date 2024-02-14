@@ -254,6 +254,7 @@ function AccountManage() {
             >
               <ThemeButton
                 Text="Add Entry"
+                secondary
                 startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
               />
             </Link>
@@ -263,19 +264,22 @@ function AccountManage() {
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Sales"
-                Counter={`₹${dashboard?.totalSales.toLocaleString() || 0}`}
+                Symbol="₹"
+                Counter={`${dashboard?.totalSales.toLocaleString() || 0}`}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Income"
-                Counter={`₹${dashboard?.totalIncome.toLocaleString() || 0}`}
+                Symbol="₹"
+                Counter={`${dashboard?.totalIncome.toLocaleString() || 0}`}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Expense"
-                Counter={`₹${
+                Symbol="₹"
+                Counter={`${
                   Math.abs(dashboard?.totalExpense).toLocaleString() || 0
                 }`}
               />
@@ -283,7 +287,8 @@ function AccountManage() {
             <Grid item xs={12} sm={6} xl={3}>
               <CounterCards
                 Title="Total Balance"
-                Counter={`₹${
+                Symbol="₹"
+                Counter={`${
                   (
                     dashboard?.totalIncome - dashboard?.totalExpense
                   ).toLocaleString() || 0
@@ -511,8 +516,11 @@ function AccountManage() {
                   <Table
                     className="projectTable"
                     sx={{
-                      textTransform: "capitalize",
+                      // textTransform: "capitalize",
                       textWrap: "nowrap",
+                      "& thead > tr > th": {
+                        backgroundColor: "#F8F9FA",
+                      },
                       "& th,& td": {
                         border: 0,
                         padding: "14px",
@@ -531,7 +539,7 @@ function AccountManage() {
                         sx={{
                           "& th": {
                             lineHeight: 1,
-                            fontWeight: 700,
+                            fontWeight: 600,
                             padding: "14px",
                           },
                         }}
@@ -675,7 +683,10 @@ function AccountManage() {
                           <TableCell>
                             <Box
                               className="truncate line-clamp-2"
-                              sx={{ textWrap: "wrap" }}
+                              sx={{
+                                textWrap: "wrap",
+                                textTransform: "capitalize",
+                              }}
                             >
                               {account.invoiceType}
                             </Box>
@@ -695,7 +706,7 @@ function AccountManage() {
                               }}
                             >
                               {account.type === "income"
-                                ? "$" + account.amount.toLocaleString()
+                                ? "₹" + account.amount.toLocaleString()
                                 : "-"}
                             </TableCell>
                           )}
@@ -707,7 +718,7 @@ function AccountManage() {
                               }}
                             >
                               {account.type === "expense"
-                                ? "$" + account.amount.toLocaleString()
+                                ? "₹" + account.amount.toLocaleString()
                                 : "-"}
                             </TableCell>
                           )}
@@ -719,11 +730,15 @@ function AccountManage() {
                               spacing={1.5}
                               sx={{
                                 "& button": {
-                                  opacity: 0.5,
+                                  opacity: 0.6,
                                   p: 0,
                                   minWidth: "auto",
                                   color: "text.primary",
-                                  "&:hover": { color: "primary.main" },
+                                  transition: "all 0.5s",
+                                  "&:hover": {
+                                    // color: "primary.main",
+                                    opacity: 1,
+                                  },
                                 },
                                 "& svg": {
                                   fontSize: { xs: "20px", sm: "21px" },
@@ -737,18 +752,20 @@ function AccountManage() {
                                   setSelectedTransaction(account);
                                 }}
                               >
-                                <VisibilityIcon />
+                                <VisibilityIcon
+                                  sx={{ color: "secondary.main" }}
+                                />
                               </Button>
                               <Link to={`./edit/${account._id}`}>
                                 <Button disableRipple>
-                                  <CreateIcon />
+                                  <CreateIcon sx={{ color: "primary.main" }} />
                                 </Button>
                               </Link>
                               <Button
                                 disableRipple
                                 onClick={() => deleteTransaction(account._id)}
                               >
-                                <DeleteIcon />
+                                <DeleteIcon sx={{ color: "error.main" }} />
                               </Button>
                             </Stack>
                           </TableCell>
@@ -759,7 +776,7 @@ function AccountManage() {
                       <TableRow
                         sx={{
                           "&>td": {
-                            fontWeight: 700,
+                            fontWeight: 500,
                             fontSize: "16px",
                           },
                         }}
@@ -775,7 +792,7 @@ function AccountManage() {
                             textAlign: "center",
                           }}
                         >
-                          ${Math.abs(totalAmount).toLocaleString()}
+                          ₹{Math.abs(totalAmount).toLocaleString()}
                         </TableCell>
                         <TableCell></TableCell>
                         <TableCell></TableCell>
@@ -801,7 +818,7 @@ function AccountManage() {
                               textAlign: "center",
                             }}
                           >
-                            ${Math.abs(totalIncome).toLocaleString()}
+                            ₹{Math.abs(totalIncome).toLocaleString()}
                           </TableCell>
                         )}
                         {filter !== "income" && (
@@ -811,7 +828,7 @@ function AccountManage() {
                               textAlign: "center",
                             }}
                           >
-                            ${Math.abs(totalExpense).toLocaleString()}
+                            ₹{Math.abs(totalExpense).toLocaleString()}
                           </TableCell>
                         )}
                         <TableCell></TableCell>
@@ -822,7 +839,7 @@ function AccountManage() {
               </>
             )}
             {/* pagination */}
-            {transactionList.length && (
+            {transactionList.length > 0 && (
               <ThemePagination
                 totalpage={totalPage}
                 onChange={handlePageChange}

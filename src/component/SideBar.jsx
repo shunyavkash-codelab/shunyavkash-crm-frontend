@@ -34,73 +34,76 @@ export default function SideBar({
 }) {
   const navigate = useNavigate();
   let location = useLocation();
-  const { user, setProfile } = useAuth();
+  const { user, setProfile, permission } = useAuth();
 
   let sidebarList = [
     {
       text: "Dashboard",
-      icon: <DashboardIcon />,
-      link: "/",
+      icon: user.role === 0 ? <DashboardIcon /> : <EmployeesDashboardIcon />,
+      link: user.role === 0 ? "/" : "/employee-dashboard",
+      visible: true,
     },
-    { text: "Members", icon: <UserIcon />, link: "/members" },
-    // { text: "Manager", icon: <UserIcon />, link: "/users" },
-    { text: "Clients", icon: <ClientsIcon />, link: "/clients" },
-    { text: "Projects", icon: <ProjectsIcon />, link: "/projects" },
-    { text: "Invoices", icon: <InvoicesIcon />, link: "/invoices" },
-    { text: "Salary", icon: <CurrencyRupeeIcon />, link: "/salary" },
+    {
+      text: "Members",
+      icon: <UserIcon />,
+      link: "/members",
+      visible: permission.member?.read,
+    },
+    {
+      text: "Clients",
+      icon: <ClientsIcon />,
+      link: "/clients",
+      visible: permission.client?.read,
+    },
+    {
+      text: "Projects",
+      icon: <ProjectsIcon />,
+      link: "/projects",
+      visible: permission.project?.read,
+    },
+    {
+      text: "Invoices",
+      icon: <InvoicesIcon />,
+      link: "/invoices",
+      visible: user.role === 0,
+    },
+    {
+      text: "Salary",
+      icon: <CurrencyRupeeIcon />,
+      link: "/salary",
+      visible: user.role === 0,
+    },
     {
       text: "Account Management",
       icon: <AccountManagement />,
       link: "/account-management",
+      visible: user.role === 0,
     },
     {
       text: "Leaves Requests",
       icon: <LeavesRequests />,
       link: "/leaves-requests",
-    },
-    {
-      text: "Employee Dashboard",
-      icon: <EmployeesDashboardIcon />,
-      link: "/employee-dashboard",
+      visible: permission.leaveRequest?.read,
     },
     {
       text: "Leaves",
       icon: <LeavesIcon />,
       link: "/leaves",
+      visible: true,
     },
     {
       text: "My Leave",
       icon: <HourglassBottomOutlinedIcon />,
       link: "/my-leave",
+      visible: user.role !== 0,
     },
     {
       text: "My Salary",
       icon: <AccountBalanceWalletOutlinedIcon />,
       link: "/my-salary",
+      visible: user.role !== 0,
     },
   ];
-  let newArray = sidebarList.filter((ele) => {
-    return (
-      !(
-        [
-          "Members",
-          "Invoices",
-          "Clients",
-          "Manager",
-          "Projects",
-          "Dashboard",
-          "Account Management",
-          "Employees",
-          "Leaves Requests",
-          "Salary",
-        ].includes(ele.text) && user.role !== 0
-      ) &&
-      !(
-        ["Employee Dashboard", "My Salary", "My Leave"].includes(ele.text) &&
-        user.role === 0
-      )
-    );
-  });
   useEffect(() => {
     if (!accessToken) {
       navigate("/signin");
@@ -151,75 +154,79 @@ export default function SideBar({
             height: "500px",
             overflowY: "auto",
             pt: "15px",
-            px: 2,
+            px: 0,
           }}
         >
           <List sx={{ pt: 0 }}>
-            {newArray.map((item, index) => (
-              <ListItem
-                key={item.text}
-                disablePadding
-                sx={{
-                  transition: "all 0.4s ease-in-out",
-                  "&:hover": {
-                    boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
-                    "& svg": {
-                      animation: "swing ease-in-out 0.4s alternate",
-                    },
-                  },
-                  "&:not(:first-of-type)": { mt: 0.75 },
-                  borderRadius: "10px",
-                  overflow: "hidden",
-                  color: location.pathname === item.link && "primary.main",
-                  bgcolor: location.pathname === item.link && "primary.light",
-                  //   color:
-                  //     (location.pathname === item.link && "primary.main") ||
-                  //     (location.pathname === item.link + "/add" &&
-                  //       "primary.main"),
-                  //   bgcolor:
-                  //     (location.pathname === item.link && "primary.light") ||
-                  //     (location.pathname === item.link + "/add" &&
-                  //       "primary.light"),
-                }}
-              >
-                <ListItemButton
-                  disableRipple
-                  component={Link} // Use Link component for routing
-                  to={item.link} // Specify the route to navigate to
-                  sx={{
-                    p: 1.5,
-                    transition: "all 0.4s ease-in-out",
-                    ":hover": {
-                      color: "primary.main",
-                      bgcolor:
-                        location.pathname === item.link
-                          ? "transparent"
-                          : "primary.light",
-                      // bgcolor:
-                      //   (location.pathname === item.link
-                      //     ? "transparent"
-                      //     : "primary.light") ||
-                      //   (location.pathname === item.link + "/add"
-                      //     ? "transparent"
-                      //     : "primary.light"),
-                    },
-                  }}
-                >
-                  <ListItemIcon
+            {sidebarList.map(
+              (item, index) =>
+                item.visible && (
+                  <ListItem
+                    key={item.text}
+                    disablePadding
                     sx={{
-                      color: "currentcolor",
-                      minWidth: "40px",
+                      transition: "all 0.4s ease-in-out",
+                      "&:hover": {
+                        boxShadow: "0 0 4px 2px rgb(22, 119, 255, 20%)",
+                        "& svg": {
+                          animation: "swing ease-in-out 0.4s alternate",
+                        },
+                      },
+                      "&:not(:first-of-type)": { mt: 0.75 },
+                      borderRadius: "0px",
+                      overflow: "hidden",
+                      color: location.pathname === item.link && "text.white",
+                      bgcolor:
+                        location.pathname === item.link && "secondary.main",
+                      //   color:
+                      //     (location.pathname === item.link && "primary.main") ||
+                      //     (location.pathname === item.link + "/add" &&
+                      //       "primary.main"),
+                      //   bgcolor:
+                      //     (location.pathname === item.link && "primary.light") ||
+                      //     (location.pathname === item.link + "/add" &&
+                      //       "primary.light"),
                     }}
                   >
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    sx={{ my: 0, "&>span": { fontSize: "14px" } }}
-                    primary={item.text}
-                  />
-                </ListItemButton>
-              </ListItem>
-            ))}
+                    <ListItemButton
+                      disableRipple
+                      component={Link} // Use Link component for routing
+                      to={item.link} // Specify the route to navigate to
+                      sx={{
+                        p: 1.5,
+                        transition: "all 0.4s ease-in-out",
+                        ":hover": {
+                          color: "text.white",
+                          bgcolor:
+                            location.pathname === item.link
+                              ? "transparent"
+                              : "primary.main",
+                          // bgcolor:
+                          //   (location.pathname === item.link
+                          //     ? "transparent"
+                          //     : "primary.light") ||
+                          //   (location.pathname === item.link + "/add"
+                          //     ? "transparent"
+                          //     : "primary.light"),
+                        },
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          color: "currentcolor",
+                          minWidth: "40px",
+                        }}
+                      >
+                        {item.icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        sx={{ my: 0, "&>span": { fontSize: "14px" } }}
+                        primary={item.text}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                )
+            )}
           </List>
         </Box>
 
@@ -239,7 +246,7 @@ export default function SideBar({
                 "&:not(:first-of-type)": { mt: 0.75 },
                 borderRadius: "10px",
                 overflow: "hidden",
-                color: location.pathname === "/my-profile" && "primary.main",
+                color: location.pathname === "/my-profile" && "text.white",
                 bgcolor: location.pathname === "/my-profile" && "primary.light",
               }}
             >
@@ -250,12 +257,14 @@ export default function SideBar({
                 sx={{
                   p: 1.5,
                   transition: "all 0.4s ease-in-out",
+                  color: "text.white",
+                  bgcolor: "secondary.main",
                   ":hover": {
-                    color: "primary.main",
+                    color: "text.white",
                     bgcolor:
                       location.pathname === "/my-profile"
                         ? "transparent"
-                        : "primary.light",
+                        : "primary.main",
                   },
                 }}
               >

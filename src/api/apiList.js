@@ -58,6 +58,10 @@ export const APIS = {
     GET: "/admin/getAdmin",
     EDIT: "/admin/edit",
   },
+  PERMISSION: {
+    GET: (userId) => `/permission/user/${userId}`,
+    EDIT: (permissionId) => `/permission/${permissionId}`,
+  },
   TASK: {
     GET: (projectId) => `/task/tasks/${projectId}`,
     ADD: "/task/add",

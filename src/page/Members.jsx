@@ -47,7 +47,7 @@ function CustomTabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ pt: 3 }}>
+        <Box sx={{ pt: 0 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -177,7 +177,7 @@ export default function Members() {
   useEffect(() => {
     fetchManager();
     fetchEmployees();
-    fetchInvited();
+    if (user.role === 0) fetchInvited();
     fetchDashboard();
   }, []);
 
@@ -245,6 +245,7 @@ export default function Members() {
               <Link to="./add">
                 <ThemeButton
                   Text="Add Member"
+                  secondary
                   startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
                 />
               </Link>
@@ -278,7 +279,8 @@ export default function Members() {
             sx={{
               bgcolor: "white",
               borderRadius: 3,
-              p: 3,
+              py: 3,
+              px: 0,
               mt: 3,
             }}
           >
@@ -288,7 +290,7 @@ export default function Members() {
               aria-label="basic tabs example"
               sx={{
                 minHeight: "38px",
-
+                // borderBottom: "1px solid #f2f2f2",
                 "& .MuiTabs-flexContainer": {
                   justifyContent: "flex-start",
                 },
@@ -304,19 +306,33 @@ export default function Members() {
                 disableElevation
                 label="Manager"
                 {...a11yProps(0)}
+                sx={{
+                  color: "primary.main",
+                  px: 2.5,
+                }}
               />
               <Tab
                 disableRipple
                 disableElevation
                 label="Employee"
                 {...a11yProps(1)}
+                sx={{
+                  color: "primary.main",
+                  px: 2.5,
+                }}
               />
-              <Tab
-                disableRipple
-                disableElevation
-                label="Invited Members"
-                {...a11yProps(2)}
-              />
+              {user.role === 0 && (
+                <Tab
+                  disableRipple
+                  disableElevation
+                  label="Invited Members"
+                  {...a11yProps(2)}
+                  sx={{
+                    color: "primary.main",
+                    px: 2.5,
+                  }}
+                />
+              )}
             </Tabs>
 
             {/* Manager */}
@@ -324,16 +340,20 @@ export default function Members() {
               {isLoading ? (
                 <LoadingIcon style={{ height: "50vh" }} />
               ) : managerList.length === 0 ? (
-                <NoData />
+                <Box p={2.5}>
+                  <NoData />
+                </Box>
               ) : (
                 <>
                   <TableContainer
                     component={Paper}
                     sx={{
-                      border: "1px solid rgba(224, 224, 224, 1)",
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
                       mx: { xs: "-10px", sm: 0 },
                       width: { xs: "auto", sm: "auto" },
-                      borderRadius: 2.5,
+                      borderRadius: 0,
+                      boxShadow: 0,
                     }}
                   >
                     <Table
@@ -342,7 +362,12 @@ export default function Members() {
                         minWidth: 650,
                         textTransform: "capitalize",
                         textWrap: "nowrap",
-                        "& th,& td": { borderBottom: 0 },
+                        "& thead > tr > th": {
+                          backgroundColor: "#F8F9FA",
+                        },
+                        "& th,& td": {
+                          borderBottom: 0,
+                        },
                         "& tbody tr": {
                           borderTop: "1px solid rgba(224, 224, 224, 1)",
                         },
@@ -352,14 +377,18 @@ export default function Members() {
                       <TableHead>
                         <TableRow
                           sx={{
-                            "&>th": { lineHeight: 1, fontWeight: 700 },
+                            "&>th": { lineHeight: 1, fontWeight: 600 },
                           }}
                         >
                           <TableCell sx={{ width: "400px" }}>Manager</TableCell>
                           <TableCell>mobile number</TableCell>
                           <TableCell sx={{ width: "250px" }}>Role</TableCell>
                           <TableCell sx={{ width: "140px" }}>status</TableCell>
-                          <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                          {user.role === 0 && (
+                            <TableCell sx={{ width: "140px" }}>
+                              Actions
+                            </TableCell>
+                          )}
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -369,6 +398,7 @@ export default function Members() {
                             uniqId={row._id}
                             setEmployeesList={setManagerList}
                             dataList={managerList}
+                            user={user}
                           />
                         ))}
                       </TableBody>
@@ -377,7 +407,7 @@ export default function Members() {
                 </>
               )}
               {/* pagination */}
-              {managerList.length && (
+              {managerList.length > 0 && (
                 <ThemePagination
                   totalpage={totalPage}
                   onChange={handleChangeOnPageChange}
@@ -392,16 +422,20 @@ export default function Members() {
               {isLoading ? (
                 <LoadingIcon style={{ height: "50vh" }} />
               ) : employeesList.length === 0 ? (
-                <NoData />
+                <Box p={2.5}>
+                  <NoData />
+                </Box>
               ) : (
                 <>
                   <TableContainer
                     component={Paper}
                     sx={{
-                      border: "1px solid rgba(224, 224, 224, 1)",
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
                       mx: { xs: "-10px", sm: 0 },
                       width: { xs: "auto", sm: "auto" },
-                      borderRadius: 2.5,
+                      borderRadius: 0,
+                      boxShadow: 0,
                     }}
                   >
                     <Table
@@ -420,7 +454,7 @@ export default function Members() {
                       <TableHead>
                         <TableRow
                           sx={{
-                            "&>th": { lineHeight: 1, fontWeight: 700 },
+                            "&>th": { lineHeight: 1, fontWeight: 600 },
                           }}
                         >
                           <TableCell sx={{ width: "400px" }}>
@@ -429,7 +463,11 @@ export default function Members() {
                           <TableCell>mobile number</TableCell>
                           <TableCell sx={{ width: "250px" }}>Role</TableCell>
                           <TableCell sx={{ width: "140px" }}>status</TableCell>
-                          <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                          {user.role === 0 && (
+                            <TableCell sx={{ width: "140px" }}>
+                              Actions
+                            </TableCell>
+                          )}
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -439,6 +477,7 @@ export default function Members() {
                             uniqId={row._id}
                             setEmployeesList={setEmployeesList}
                             employeesList={employeesList}
+                            user={user}
                           />
                         ))}
                       </TableBody>
@@ -447,7 +486,7 @@ export default function Members() {
                 </>
               )}
               {/* pagination */}
-              {employeesList.length && (
+              {employeesList.length > 0 && (
                 <ThemePagination
                   totalpage={totalPage}
                   onChange={handleChangeOnPageChange}
@@ -462,16 +501,20 @@ export default function Members() {
               {isLoading ? (
                 <LoadingIcon style={{ height: "50vh" }} />
               ) : invitedList.length === 0 ? (
-                <NoData />
+                <Box p={2.5}>
+                  <NoData />
+                </Box>
               ) : (
                 <>
                   <TableContainer
                     component={Paper}
                     sx={{
-                      border: "1px solid rgba(224, 224, 224, 1)",
+                      borderTop: "1px solid rgba(224, 224, 224, 1)",
+                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
                       mx: { xs: "-10px", sm: 0 },
                       width: { xs: "auto", sm: "auto" },
-                      borderRadius: 2.5,
+                      borderRadius: 0,
+                      boxShadow: 0,
                     }}
                   >
                     <Table
@@ -490,7 +533,7 @@ export default function Members() {
                       <TableHead>
                         <TableRow
                           sx={{
-                            "&>th": { lineHeight: 1, fontWeight: 700 },
+                            "&>th": { lineHeight: 1, fontWeight: 600 },
                           }}
                         >
                           <TableCell sx={{ width: "400px" }}>
@@ -509,6 +552,7 @@ export default function Members() {
                             uniqId={row._id}
                             setEmployeesList={setEmployeesList}
                             invitedList={invitedList}
+                            user={user}
                           />
                         ))}
                       </TableBody>
@@ -517,7 +561,7 @@ export default function Members() {
                 </>
               )}
               {/* pagination */}
-              {invitedList.length && (
+              {invitedList.length > 0 && (
                 <ThemePagination
                   totalpage={totalPage}
                   onChange={handleChangeOnPageChange}

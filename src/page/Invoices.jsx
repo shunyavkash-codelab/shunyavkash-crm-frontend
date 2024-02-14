@@ -223,6 +223,7 @@ export default function Invoices() {
             />
             <ThemeButton
               Text="Create Invoice"
+              secondary
               startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
               onClick={invoiceNumberGenerate}
             />
@@ -386,6 +387,9 @@ export default function Invoices() {
                     minWidth: 650,
                     textTransform: "capitalize",
                     textWrap: "nowrap",
+                    "& thead > tr > th": {
+                      backgroundColor: "#F8F9FA",
+                    },
                     "& th,& td": { borderBottom: 0 },
                     "& tbody tr": {
                       borderTop: "1px solid rgba(224, 224, 224, 1)",
@@ -395,7 +399,7 @@ export default function Invoices() {
                 >
                   <TableHead>
                     <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
                     >
                       <TableCell>
                         <TableSortLabel
@@ -489,7 +493,8 @@ export default function Invoices() {
                           </Box>
                         </TableCell>
                         <TableCell>
-                          ${row.totals.total?.toLocaleString()}
+                          <span style={{ fontFamily: "monospace" }}>$</span>
+                          {row.totals.total?.toLocaleString()}
                         </TableCell>
                         <TableCell>
                           <Box
@@ -497,12 +502,13 @@ export default function Invoices() {
                               display: "flex",
                               alignItems: "center",
                               gap: { xs: 1.25, sm: 1.5 },
-                              opacity: 0.3,
-                              "& button": {
+                              "& button,& a": {
                                 p: 0,
                                 minWidth: "auto",
                                 color: "black",
-                                "&:hover": { color: "primary.main" },
+                                opacity: 0.6,
+                                transition: "all 0.5s",
+                                "&:hover": { opacity: 1 },
                               },
                               "& svg": { fontSize: { xs: "20px", sm: "21px" } },
                             }}
@@ -513,7 +519,9 @@ export default function Invoices() {
                                 viewInvoice(row.invoiceNumber, row)
                               }
                             >
-                              <VisibilityIcon />
+                              <VisibilityIcon
+                                sx={{ color: "secondary.main" }}
+                              />
                             </Button>
                             {/* <Button disableRipple>
                             <MarkAsPaidIcon />
@@ -524,13 +532,13 @@ export default function Invoices() {
                                 editInvoice(row.invoiceNumber, row)
                               }
                             >
-                              <CreateIcon />
+                              <CreateIcon sx={{ color: "primary.main" }} />
                             </Button>
                             <Button
                               disableRipple
                               onClick={() => deleteInvoice(row._id)}
                             >
-                              <DeleteIcon />
+                              <DeleteIcon sx={{ color: "error.main" }} />
                             </Button>
                           </Box>
                         </TableCell>
@@ -542,7 +550,7 @@ export default function Invoices() {
             </>
           )}
           {/* pagination */}
-          {invoiceList.length && (
+          {invoiceList.length > 0 && (
             <ThemePagination
               totalpage={totalPage}
               onChange={handleChangeOnPageChange}

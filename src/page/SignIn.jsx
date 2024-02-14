@@ -64,11 +64,13 @@ export default function SignIn() {
             profile_img,
             token,
             _id,
+            permission,
           } = res.data.data;
           login({
             user: { name, email, role, mobileCode, mobileNumber, profile_img },
             accessToken: token,
             userId: _id,
+            permission: permission,
           });
           setSnack(res.data.message);
           let requiredKey = [];
@@ -107,7 +109,10 @@ export default function SignIn() {
         p: 0,
         maxWidth: "unset",
         height: "100vh",
-        backgroundImage: "url('./images/wave-img2.png')",
+        backgroundColor: "white",
+        // backgroundImage: "url('./images/wave-img2.png')",
+        backgroundImage:
+          "url('https://img.freepik.com/free-photo/top-view-internet-communication-network-with-copy-space_23-2148779274.jpg?w=1920&t=st=1707805918~exp=1707806518~hmac=cbc078b47c19ef0f1581ee7a16bd8408ac4bf2859aaff328e65bc242ca0c2c08')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
@@ -121,11 +126,11 @@ export default function SignIn() {
         sx={{
           borderRadius: 2.5,
           p: 4.25,
-          bgcolor: "rgb(255 255 255 / 30%)",
+          bgcolor: "white",
           maxWidth: "430px",
           flexGrow: 1,
           backdropFilter: "blur(5px)",
-          boxShadow: "0 0 28px rgba(0,0,0,0.2)",
+          boxShadow: "0 0 15px rgba(0,0,0,0.1)",
         }}
       >
         <Box
@@ -148,7 +153,7 @@ export default function SignIn() {
             variant="h2"
             sx={{
               fontSize: "22px",
-              mb: 1.2,
+              mb: 1.4,
             }}
           >
             Welcome Back! 👋
@@ -156,7 +161,7 @@ export default function SignIn() {
           <Typography
             variant="subtitle2"
             sx={{
-              opacity: 0.7,
+              opacity: 0.5,
               lineHeight: 1.2,
             }}
           >
@@ -181,7 +186,7 @@ export default function SignIn() {
             autoComplete="off"
             sx={{
               "&>label,& input,&>div": { fontSize: "14px" },
-              "&>label": { top: "4px" },
+              "&>label": { top: "4px", color: "primary.main" },
               "& input": { py: 1.5 },
             }}
             onChange={formik.handleChange}
@@ -196,7 +201,7 @@ export default function SignIn() {
             label={"Password"}
             Inputstyle={{
               "&>div": { fontSize: "14px" },
-              "&>label": { top: "4px" },
+              "&>label": { top: "4px", color: "black" },
               "& input": {
                 py: 1.5,
                 pr: 5,
@@ -266,9 +271,10 @@ export default function SignIn() {
               marginLeft: "6px",
               cursor: "pointer",
               lineHeight: 1,
-              color: "#1677FF",
+              color: "#00ac8d",
               fontWeight: 500,
               fontSize: "14px",
+              textDecoration: "none",
             }}
           >
             Forgot password?
@@ -278,7 +284,7 @@ export default function SignIn() {
         <ThemeButton
           Text="sign in"
           type="submit"
-          btnColor="text.primary"
+          // btnColor="text.primary"
           buttonStyle={{
             width: "100%",
           }}

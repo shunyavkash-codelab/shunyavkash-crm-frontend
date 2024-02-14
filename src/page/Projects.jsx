@@ -38,7 +38,7 @@ export default function Project() {
   const [projectList, setProjectList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
   const { searchData } = useSearchData();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -66,7 +66,7 @@ export default function Project() {
         fetchProjects();
       }
     } catch (error) {
-      console.log(error, setSnack);
+      setSnack(error.response.data.message, "warning");
     }
   };
 
@@ -149,12 +149,15 @@ export default function Project() {
               BreadCrumbCurrentTitle="projects"
               style={{ mb: 0 }}
             />
-            <Link to="./add">
-              <ThemeButton
-                Text="Add Project"
-                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-              />
-            </Link>
+            {user.role !== 2 && (
+              <Link to="./add">
+                <ThemeButton
+                  Text="Add Project"
+                  secondary
+                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                />
+              </Link>
+            )}
           </Stack>
 
           {isLoading ? (
@@ -179,6 +182,9 @@ export default function Project() {
                     minWidth: 650,
                     textTransform: "capitalize",
                     textWrap: "nowrap",
+                    "& thead > tr > th": {
+                      backgroundColor: "#F8F9FA",
+                    },
                     "& th,& td": { borderBottom: 0 },
                     "& tbody tr": {
                       borderTop: "1px solid rgba(224, 224, 224, 1)",
@@ -188,7 +194,7 @@ export default function Project() {
                 >
                   <TableHead>
                     <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                      sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
                     >
                       <TableCell>
                         <TableSortLabel
@@ -267,12 +273,16 @@ export default function Project() {
                               display: "flex",
                               alignItems: "center",
                               gap: { xs: 1.25, sm: 1.5 },
-                              opacity: 0.3,
                               "& button": {
                                 p: 0,
                                 minWidth: "auto",
                                 color: "black",
-                                "&:hover": { color: "primary.main" },
+                                opacity: 0.5,
+                                transition: "all 0.5s",
+                                "&:hover": {
+                                  // color: "primary.main",
+                                  opacity: 1,
+                                },
                               },
                               "& svg": {
                                 fontSize: { xs: "20px", sm: "22px" },
@@ -281,26 +291,32 @@ export default function Project() {
                           >
                             <Link to={`./view/${row._id}`}>
                               <Button disableRipple>
-                                <VisibilityIcon />
+                                <VisibilityIcon
+                                  sx={{ color: "secondary.main" }}
+                                />
                               </Button>
                             </Link>
-                            <Link to={`./edit/${row._id}`}>
-                              <Button disableRipple>
-                                <CreateIcon />
+                            {user.role !== 2 && (
+                              <Link to={`./edit/${row._id}`}>
+                                <Button disableRipple>
+                                  <CreateIcon sx={{ color: "primary.main" }} />
+                                </Button>
+                              </Link>
+                            )}
+                            {user.role === 0 && (
+                              <Button
+                                disableRipple
+                                sx={{
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  "&:hover": { color: "primary.main" },
+                                }}
+                                onClick={() => deleteProject(row._id)}
+                              >
+                                <DeleteIcon sx={{ color: "error.main" }} />
                               </Button>
-                            </Link>
-                            <Button
-                              disableRipple
-                              sx={{
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              }}
-                              onClick={() => deleteProject(row._id)}
-                            >
-                              <DeleteIcon />
-                            </Button>
+                            )}
                           </Box>
                         </TableCell>
                       </TableRow>
@@ -311,7 +327,7 @@ export default function Project() {
             </>
           )}
           {/* pagination */}
-          {projectList.length && (
+          {projectList.length > 0 && (
             <ThemePagination
               totalpage={totalPage}
               onChange={handleChange}

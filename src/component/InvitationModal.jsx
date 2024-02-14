@@ -296,9 +296,12 @@ export default function InvitationModal({ open, setOpen }) {
                     onChange={formik.handleChange}
                     value={formik.values.designation}
                     error={
-                      formik.touched.designation && Boolean(formik.errors.designation)
+                      formik.touched.designation &&
+                      Boolean(formik.errors.designation)
                     }
-                    helperText={formik.touched.designation && formik.errors.designation}
+                    helperText={
+                      formik.touched.designation && formik.errors.designation
+                    }
                   />
                 </Box>
                 <Box

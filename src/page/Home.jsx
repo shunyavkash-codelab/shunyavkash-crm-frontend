@@ -124,43 +124,11 @@ export default function Home() {
             <Grid container spacing={2.5}>
               <Grid item xs={12} sm={6} xl={3}>
                 <CounterCards
-                  CardBgcolor={"rgb(22 119 255/ 10%)"}
+                  CardBgcolor={"rgba(74, 210, 146, 10%)"}
                   Title={"Clients"}
                   Counter={dashboardData.totalClient || 0}
                   Text={"lorem ipsum sit amet."}
                   Link={"/clients"}
-                  ArrowBgColor={"rgb(22 119 255 / 60%)"}
-                  titleStyle={{
-                    opacity: "100%",
-                  }}
-                  counterStyle={{
-                    fontSize: "30px",
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} xl={3}>
-                <CounterCards
-                  CardBgcolor={"rgba(248, 174, 0, 10%)"}
-                  Title={"projects"}
-                  Counter={dashboardData.totalProject || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/projects"}
-                  ArrowBgColor={"rgba(248, 174, 0, 60%)"}
-                  titleStyle={{
-                    opacity: "100%",
-                  }}
-                  counterStyle={{
-                    fontSize: "30px",
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} xl={3}>
-                <CounterCards
-                  CardBgcolor={"rgba(74, 210, 146, 10%)"}
-                  Title={"invoices"}
-                  Counter={dashboardData.totalInvoice || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/invoices"}
                   ArrowBgColor={"rgba(74, 210, 146, 60%)"}
                   titleStyle={{
                     opacity: "100%",
@@ -172,12 +140,44 @@ export default function Home() {
               </Grid>
               <Grid item xs={12} sm={6} xl={3}>
                 <CounterCards
-                  CardBgcolor={"rgba(244, 67, 54, 10%)"}
+                  CardBgcolor={"rgb(153 143 66 / 10%)"}
+                  Title={"projects"}
+                  Counter={dashboardData.totalProject || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/projects"}
+                  ArrowBgColor={"rgb(153 143 66 / 60%)"}
+                  titleStyle={{
+                    opacity: "100%",
+                  }}
+                  counterStyle={{
+                    fontSize: "30px",
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} xl={3}>
+                <CounterCards
+                  CardBgcolor={"rgb(53 113 51 / 10%)"}
+                  Title={"invoices"}
+                  Counter={dashboardData.totalInvoice || 0}
+                  Text={"lorem ipsum sit amet."}
+                  Link={"/invoices"}
+                  ArrowBgColor={"rgb(53 113 51 / 60%)"}
+                  titleStyle={{
+                    opacity: "100%",
+                  }}
+                  counterStyle={{
+                    fontSize: "30px",
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} xl={3}>
+                <CounterCards
+                  CardBgcolor={"rgb(33 63 177 / 10%)"}
                   Title={"employees"}
                   Counter={dashboardData.totalEmployee || 0}
                   Text={"lorem ipsum sit amet."}
                   Link={"/employees"}
-                  ArrowBgColor={"rgba(244, 67, 54, 60%)"}
+                  ArrowBgColor={"rgb(33 63 177 / 60%)"}
                   titleStyle={{
                     opacity: "100%",
                   }}
@@ -200,7 +200,7 @@ export default function Home() {
               <SectionHeader Title="Our Recent invoices" style={{ mb: 0 }} />
               <Stack direction="row" spacing={1}>
                 <ThemeButton
-                  transparent
+                  secondary
                   Text="Create Invoice"
                   startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
                   onClick={invoiceNumberGenerate}
@@ -235,7 +235,7 @@ export default function Home() {
                       minWidth: 650,
                       textTransform: "capitalize",
                       textWrap: "nowrap",
-                      "& th,& td": { borderBottom: 0 },
+                      "& th,& td": { borderBottom: 0, p: 2 },
                       "& tbody tr": {
                         borderTop: "1px solid rgba(224, 224, 224, 1)",
                       },
@@ -244,7 +244,7 @@ export default function Home() {
                   >
                     <TableHead>
                       <TableRow
-                        sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
+                        sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
                       >
                         <TableCell key={"Project Name"}>Project Name</TableCell>
                         <TableCell key={"Client"}>Client</TableCell>
@@ -313,12 +313,16 @@ export default function Home() {
                               alignItems="center"
                               spacing={{ xs: 1.25, sm: 1.5 }}
                               sx={{
-                                opacity: 0.3,
                                 "& button": {
                                   p: 0,
                                   minWidth: "auto",
                                   color: "black",
-                                  "&:hover": { color: "primary.main" },
+                                  opacity: 0.5,
+                                  transition: "all 0.5s",
+                                  "&:hover": {
+                                    // color: "primary.main",
+                                    opacity: 1,
+                                  },
                                 },
                                 "& svg": {
                                   fontSize: { xs: "20px", sm: "21px" },
@@ -331,7 +335,9 @@ export default function Home() {
                                   viewInvoice(row.invoiceNumber, row)
                                 }
                               >
-                                <VisibilityIcon />
+                                <VisibilityIcon
+                                  sx={{ color: "secondary.main" }}
+                                />
                               </Button>
                               {/* <Button disableRipple>
                                 <MarkAsPaidIcon />
@@ -342,7 +348,7 @@ export default function Home() {
                                   editInvoice(row.invoiceNumber, row)
                                 }
                               >
-                                <CreateIcon />
+                                <CreateIcon sx={{ color: "primary.main" }} />
                               </Button>
                             </Stack>
                           </TableCell>
