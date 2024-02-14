@@ -313,12 +313,16 @@ export default function Home() {
                               alignItems="center"
                               spacing={{ xs: 1.25, sm: 1.5 }}
                               sx={{
-                                opacity: 0.3,
                                 "& button": {
                                   p: 0,
                                   minWidth: "auto",
                                   color: "black",
-                                  "&:hover": { color: "primary.main" },
+                                  opacity: 0.5,
+                                  transition: "all 0.5s",
+                                  "&:hover": {
+                                    // color: "primary.main",
+                                    opacity: 1,
+                                  },
                                 },
                                 "& svg": {
                                   fontSize: { xs: "20px", sm: "21px" },
@@ -331,7 +335,9 @@ export default function Home() {
                                   viewInvoice(row.invoiceNumber, row)
                                 }
                               >
-                                <VisibilityIcon />
+                                <VisibilityIcon
+                                  sx={{ color: "secondary.main" }}
+                                />
                               </Button>
                               {/* <Button disableRipple>
                                 <MarkAsPaidIcon />
@@ -342,7 +348,7 @@ export default function Home() {
                                   editInvoice(row.invoiceNumber, row)
                                 }
                               >
-                                <CreateIcon />
+                                <CreateIcon sx={{ color: "primary.main" }} />
                               </Button>
                             </Stack>
                           </TableCell>

@@ -326,7 +326,7 @@ export default function LeavesRequests() {
                             },
                             "& .sick": {
                               bgcolor: "rgba(248, 174, 0, 15%)",
-                              color: "secondary.main",
+                              color: "rgba(248, 174, 0, 100%)",
                             },
                             "& .unpaid": {
                               bgcolor: "rgb(255 0 0 / 15%)",
@@ -541,6 +541,7 @@ export default function LeavesRequests() {
                                   minWidth: "auto",
                                   color: "error.main",
                                   opacity: 0.5,
+                                  transition: "all 0.5s",
                                   "&:hover": {
                                     // color: "primary.main",
                                     opacity: 1,

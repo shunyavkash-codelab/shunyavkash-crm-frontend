@@ -281,6 +281,7 @@ export default function Clients() {
                                   minWidth: "auto",
                                   color: "black",
                                   opacity: 0.5,
+                                  transition: "all 0.5s",
                                   "&:hover": {
                                     color: "primary.main",
                                     opacity: 1,

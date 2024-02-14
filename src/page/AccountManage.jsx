@@ -516,7 +516,7 @@ function AccountManage() {
                   <Table
                     className="projectTable"
                     sx={{
-                      textTransform: "capitalize",
+                      // textTransform: "capitalize",
                       textWrap: "nowrap",
                       "& thead > tr > th": {
                         backgroundColor: "#F8F9FA",
@@ -683,7 +683,10 @@ function AccountManage() {
                           <TableCell>
                             <Box
                               className="truncate line-clamp-2"
-                              sx={{ textWrap: "wrap" }}
+                              sx={{
+                                textWrap: "wrap",
+                                textTransform: "capitalize",
+                              }}
                             >
                               {account.invoiceType}
                             </Box>
@@ -731,6 +734,7 @@ function AccountManage() {
                                   p: 0,
                                   minWidth: "auto",
                                   color: "text.primary",
+                                  transition: "all 0.5s",
                                   "&:hover": {
                                     // color: "primary.main",
                                     opacity: 1,

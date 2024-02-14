@@ -211,6 +211,7 @@ export default function EmployeeListRaw({
                   minWidth: "unset",
                   color: "error.main",
                   opacity: 0.5,
+                  transition: "all 0.5s",
                   "&:hover": { opacity: 1 },
                 },
                 "& svg": {

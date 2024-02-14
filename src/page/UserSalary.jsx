@@ -555,18 +555,24 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                               display: "flex",
                               alignItems: "center",
                               gap: { xs: 1.25, sm: 1.5 },
-                              opacity: 0.3,
-                              "& button": {
+                              "& button, & a": {
                                 p: 0,
+                                opacity: 0.5,
                                 minWidth: "auto",
                                 color: "black",
-                                "&:hover": { color: "primary.main" },
+                                transition: "all 0.5s",
+                                "&:hover": {
+                                  // color: "primary.main",
+                                  opacity: 1,
+                                },
                               },
                               "& svg": { fontSize: { xs: "20px", sm: "21px" } },
                             }}
                           >
                             <a href={salary.pdf} target="_blank">
-                              <VisibilityIcon />
+                              <VisibilityIcon
+                                sx={{ color: "secondary.main" }}
+                              />
                             </a>
                           </Box>
                         </TableCell>
