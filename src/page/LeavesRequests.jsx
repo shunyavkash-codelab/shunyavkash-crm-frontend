@@ -466,6 +466,11 @@ export default function LeavesRequests() {
                                   cursor: "pointer",
                                   bgcolor: "rgba(74, 210, 146, 15%)",
                                   color: "success.main",
+                                  pointerEvents:
+                                    leaveRequest.userRole === 1 &&
+                                    user.role === 1
+                                      ? "none"
+                                      : "painted",
                                   // padding: "6px 16px 6px 16px !important",
                                 }}
                               >
@@ -500,6 +505,11 @@ export default function LeavesRequests() {
                                   cursor: "pointer",
                                   bgcolor: "rgba(225, 107, 22, 15%)",
                                   color: "review.main",
+                                  pointerEvents:
+                                    leaveRequest.userRole === 1 &&
+                                    user.role === 1
+                                      ? "none"
+                                      : "painted",
                                   // py: 0.75,
                                   // padding: "6px 16px 6px 16px !important",
                                 }}
