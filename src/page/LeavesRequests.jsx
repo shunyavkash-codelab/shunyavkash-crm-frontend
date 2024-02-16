@@ -572,22 +572,30 @@ export default function LeavesRequests() {
                     <ModalComponent
                       open={openDelete}
                       setOpen={setOpenDelete}
-                      modalTitle="Delete"
-                      modelStyle={{ maxWidth: "400px" }}
+                      modelStyle={{ maxWidth: "450px" }}
                     >
-                      {"Are you sure delete this leave request?"}
-                      <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-                        <ThemeButton
-                          success
-                          Text="Yes"
-                          type="submit"
-                          onClick={() => deleteLeave(selectLeaveReq)}
-                        />
-                        <ThemeButton
-                          discard
-                          Text="No"
-                          onClick={() => setOpenDelete(false)}
-                        />
+                      <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                        {"Are you sure delete this leave request?"}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: 2,
+                            mt: 2.5,
+                            justifyContent: "center",
+                          }}
+                        >
+                          <ThemeButton
+                            success
+                            Text="Yes"
+                            type="submit"
+                            onClick={() => deleteLeave(selectLeaveReq)}
+                          />
+                          <ThemeButton
+                            discard
+                            Text="No"
+                            onClick={() => setOpenDelete(false)}
+                          />
+                        </Box>
                       </Box>
                     </ModalComponent>
                   </TableBody>

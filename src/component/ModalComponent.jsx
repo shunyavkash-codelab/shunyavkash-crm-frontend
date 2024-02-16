@@ -35,26 +35,31 @@ export default function ModalComponent({ open, setOpen, ...props }) {
             }}
           >
             <Box
-              sx={{
-                display: { xs: "flex", sm: "block" },
-                alignItems: { xs: "center", sm: "start" },
-                justifyContent: { xs: "space-between", sm: "start" },
-                pb: { xs: 1.5, sm: 2.5 },
-                mb: 1.75,
-                borderBottom: "1px solid #f5f5f5",
-              }}
+              sx={
+                props.modalTitle && {
+                  display: { xs: "flex", sm: "block" },
+                  alignItems: { xs: "center", sm: "start" },
+                  justifyContent: { xs: "space-between", sm: "start" },
+                  pb: { xs: 1.5, sm: 2.5 },
+                  mb: 1.75,
+                  borderBottom: "1px solid #f5f5f5",
+                }
+              }
             >
-              <Typography
-                variant="h5"
-                sx={{
-                  textTransform: "capitalize",
-                  textAlign: { xs: "center", sm: "left" },
-                  fontSize: 20,
-                  fontWeight: "600",
-                }}
-              >
-                {props.modalTitle}
-              </Typography>
+              {props.modalTitle && (
+                <Typography
+                  variant="h5"
+                  sx={{
+                    textTransform: "capitalize",
+                    textAlign: { xs: "center", sm: "left" },
+                    fontSize: 20,
+                    fontWeight: "600",
+                  }}
+                >
+                  {props.modalTitle}
+                </Typography>
+              )}
+
               <Button
                 onClick={handleClose}
                 disableRipple

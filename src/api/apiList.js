@@ -44,7 +44,7 @@ export const APIS = {
     GENERATENUM: "/invoice/generate-invoice-number",
     ADD: "/invoice/add",
     EDIT: "/invoice/edit",
-    DELETE: (invoiceId) => `/invoice/${invoiceId}`,
+    DELETE: `/invoice`,
     CHECKINVOICENUMBER: (number) => `/invoice/check-invoice-number/${number}`,
     LIST: "/invoice/invoices",
   },
