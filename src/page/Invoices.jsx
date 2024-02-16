@@ -17,6 +17,7 @@ import {
   TextField,
   Stack,
   TableSortLabel,
+  Checkbox,
 } from "@mui/material";
 import SideBar from "../component/SideBar";
 import Header from "../component/Header";
@@ -59,7 +60,9 @@ export default function Invoices() {
   const [sortField, setSortField] = useState();
   const [orderBy, setOrderBy] = useState();
   const [openDelete, setOpenDelete] = useState(false);
-  const [selectInvoice, setSelectInvoice] = useState(false);
+  // const [selectInvoice, setSelectInvoice] = useState(false);
+  const [selectAllClick, setSelectAllClick] = useState(false);
+  const [numSelected, setNumSelected] = useState([]);
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -73,6 +76,15 @@ export default function Invoices() {
 
   const handleChange = (event) => {
     setDate(event.target.value);
+  };
+
+  const handleSelectAllChange = () => {
+    if (selectAllClick) {
+      setNumSelected([]);
+    } else {
+      const ids = invoiceList.map((data) => data._id);
+      setNumSelected(ids);
+    }
   };
 
   const invoiceNumberGenerate = async () => {
@@ -101,16 +113,18 @@ export default function Invoices() {
     navigate(`/invoices/edit/${invoiceNumber}`);
   };
 
-  const deleteInvoice = async (id) => {
+  const deleteInvoice = async () => {
     try {
       const res = await apiCall({
-        url: APIS.INVOICE.DELETE(id),
+        url: APIS.INVOICE.DELETE,
         method: "delete",
+        data: { ids: numSelected },
       });
       if (res.data.success === true) {
         setSnack(res.data.message);
         listInvoice();
         setOpenDelete(false);
+        setNumSelected([]);
       }
     } catch (error) {
       console.log(error, setSnack);
@@ -368,6 +382,16 @@ export default function Invoices() {
                 </Box>
               )}
             </Box>
+            {numSelected.length > 0 && (
+              <Button
+                disableRipple
+                onClick={() => {
+                  setOpenDelete(true);
+                }}
+              >
+                <DeleteIcon sx={{ color: "error.main" }} />
+              </Button>
+            )}
           </Box>
 
           {isLoading ? (
@@ -405,6 +429,24 @@ export default function Invoices() {
                     <TableRow
                       sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
                     >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          sx={{ color: "primary.main" }}
+                          indeterminate={
+                            numSelected.length > 0 &&
+                            numSelected.length < invoiceList.length
+                          }
+                          checked={numSelected.length === invoiceList.length}
+                          onChange={() => {
+                            setSelectAllClick(!selectAllClick);
+                            handleSelectAllChange();
+                          }}
+                          inputProps={{
+                            "aria-label": "select all desserts",
+                          }}
+                        />
+                      </TableCell>
                       <TableCell>
                         <TableSortLabel
                           active={sortField === "projectName"}
@@ -440,136 +482,176 @@ export default function Invoices() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {invoiceList.map((row) => (
-                      <TableRow
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                          "&:first-of-type td": {
-                            maxWidth: "250px",
-                            textWrap: "wrap",
-                          },
-                        }}
-                      >
-                        <TableCell value={row.projectId}>
-                          {row.projectName}
-                        </TableCell>
-                        <TableCell>{row.clientName}</TableCell>
-                        <TableCell>{row.userName}</TableCell>
-                        <TableCell>{row.invoiceNumber}</TableCell>
-                        <TableCell>
-                          {moment(row.invoiceDate).format("DD/MM/YYYY")}
-                        </TableCell>
-                        <TableCell
+                    {invoiceList.map((row, index) => {
+                      const labelId = `enhanced-table-checkbox-${index}`;
+                      return (
+                        <TableRow
                           sx={{
-                            "& .statusBtn": {
-                              color: "white",
-                              fontSize: "12px",
-                              p: 0.5,
-                              borderRadius: 1,
-                              maxWidth: "fit-content",
-                              lineHeight: 1,
-                            },
-                            "& .pending": {
-                              bgcolor: "secondary.main",
-                            },
-                            "& .success": {
-                              bgcolor: "success.main",
+                            "&:last-child td, &:last-child th": { border: 0 },
+                            "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                            "&:first-of-type td": {
+                              maxWidth: "250px",
+                              textWrap: "wrap",
                             },
                           }}
                         >
-                          <Box
-                            className={`statusBtn ${
-                              row.status === "success" ? "success" : "pending"
-                            }`}
-                          >
-                            {row.status}
-                          </Box>
-                          <Box
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              color="primary"
+                              sx={{ color: "primary.main" }}
+                              checked={
+                                selectAllClick || numSelected.includes(row._id)
+                              }
+                              inputProps={{
+                                "aria-labelledby": labelId,
+                              }}
+                              onClick={(e) => {
+                                if (e.target.checked) {
+                                  setNumSelected([...numSelected, row._id]);
+                                } else {
+                                  setSelectAllClick(false);
+                                  let newData = numSelected.filter(
+                                    (id) => id !== row._id
+                                  );
+                                  setNumSelected(newData);
+                                }
+                              }}
+                            />
+                          </TableCell>
+                          <TableCell value={row.projectId}>
+                            {row.projectName}
+                          </TableCell>
+                          <TableCell>{row.clientName}</TableCell>
+                          <TableCell>{row.userName}</TableCell>
+                          <TableCell>{row.invoiceNumber}</TableCell>
+                          <TableCell>
+                            {moment(row.invoiceDate).format("DD/MM/YYYY")}
+                          </TableCell>
+                          <TableCell
                             sx={{
-                              fontSize: "13px",
-                              lineHeight: 1,
-                              textWrap: "nowrap",
-                              mt: 0.75,
-                            }}
-                          >
-                            {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
-                          </Box>
-                        </TableCell>
-                        <TableCell>
-                          <span style={{ fontFamily: "monospace" }}>$</span>
-                          {row.totals.total?.toLocaleString()}
-                        </TableCell>
-                        <TableCell>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.5 },
-                              "& button,& a": {
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                opacity: 0.6,
-                                transition: "all 0.5s",
-                                "&:hover": { opacity: 1 },
+                              "& .statusBtn": {
+                                color: "white",
+                                fontSize: "12px",
+                                p: 0.5,
+                                borderRadius: 1,
+                                maxWidth: "fit-content",
+                                lineHeight: 1,
                               },
-                              "& svg": { fontSize: { xs: "20px", sm: "21px" } },
+                              "& .pending": {
+                                bgcolor: "secondary.main",
+                              },
+                              "& .success": {
+                                bgcolor: "success.main",
+                              },
                             }}
                           >
-                            <Button
-                              disableRipple
-                              onClick={() =>
-                                viewInvoice(row.invoiceNumber, row)
-                              }
+                            <Box
+                              className={`statusBtn ${
+                                row.status === "success" ? "success" : "pending"
+                              }`}
                             >
-                              <VisibilityIcon
-                                sx={{ color: "secondary.main" }}
-                              />
-                            </Button>
-                            {/* <Button disableRipple>
-                            <MarkAsPaidIcon />
-                          </Button> */}
-                            <Button
-                              disableRipple
-                              onClick={() =>
-                                editInvoice(row.invoiceNumber, row)
-                              }
-                            >
-                              <CreateIcon sx={{ color: "primary.main" }} />
-                            </Button>
-                            <Button
-                              disableRipple
-                              onClick={() => {
-                                setOpenDelete(true);
-                                setSelectInvoice(row._id);
+                              {row.status}
+                            </Box>
+                            <Box
+                              sx={{
+                                fontSize: "13px",
+                                lineHeight: 1,
+                                textWrap: "nowrap",
+                                mt: 0.75,
                               }}
                             >
-                              <DeleteIcon sx={{ color: "error.main" }} />
-                            </Button>
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                              {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
+                            </Box>
+                          </TableCell>
+                          <TableCell>
+                            <span style={{ fontFamily: "monospace" }}>$</span>
+                            {row.totals.total?.toLocaleString()}
+                          </TableCell>
+                          <TableCell>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: { xs: 1.25, sm: 1.5 },
+                                "& button,& a": {
+                                  p: 0,
+                                  minWidth: "auto",
+                                  color: "black",
+                                  opacity: 0.6,
+                                  transition: "all 0.5s",
+                                  "&:hover": { opacity: 1 },
+                                },
+                                "& svg": {
+                                  fontSize: { xs: "20px", sm: "21px" },
+                                },
+                              }}
+                            >
+                              <Button
+                                disableRipple
+                                onClick={() =>
+                                  viewInvoice(row.invoiceNumber, row)
+                                }
+                                disabled={numSelected.length > 0}
+                              >
+                                <VisibilityIcon
+                                  sx={{ color: "secondary.main" }}
+                                />
+                              </Button>
+                              {/* <Button disableRipple>
+                            <MarkAsPaidIcon />
+                          </Button> */}
+                              <Button
+                                disableRipple
+                                onClick={() =>
+                                  editInvoice(row.invoiceNumber, row)
+                                }
+                                disabled={numSelected.length > 0}
+                              >
+                                <CreateIcon sx={{ color: "primary.main" }} />
+                              </Button>
+                              <Button
+                                disableRipple
+                                onClick={() => {
+                                  setOpenDelete(true);
+                                  // setSelectInvoice(row._id);
+                                  setNumSelected([row._id]);
+                                }}
+                                disabled={numSelected.length > 0}
+                              >
+                                <DeleteIcon sx={{ color: "error.main" }} />
+                              </Button>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                     <ModalComponent
                       open={openDelete}
                       setOpen={setOpenDelete}
-                      modalTitle="Delete"
                       modelStyle={{ maxWidth: "400px" }}
                     >
-                      {"Are you sure delete this project?"}
-                      <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-                        <ThemeButton
-                          success
-                          Text="Yes"
-                          type="submit"
-                          onClick={() => deleteInvoice(selectInvoice)}
-                        />
-                        <ThemeButton
-                          discard
-                          Text="No"
-                          onClick={() => setOpenDelete(false)}
-                        />
+                      <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                        {"Are you sure delete this project?"}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: 2,
+                            mt: 2.5,
+                            justifyContent: "center",
+                          }}
+                        >
+                          <ThemeButton
+                            success
+                            Text="Yes"
+                            type="submit"
+                            onClick={() => deleteInvoice(numSelected)}
+                          />
+                          <ThemeButton
+                            discard
+                            Text="No"
+                            onClick={() => setOpenDelete(false)}
+                          />
+                        </Box>
                       </Box>
                     </ModalComponent>
                   </TableBody>

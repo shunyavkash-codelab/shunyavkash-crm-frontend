@@ -778,22 +778,32 @@ function AccountManage() {
                       <ModalComponent
                         open={openDelete}
                         setOpen={setOpenDelete}
-                        modalTitle="Delete"
                         modelStyle={{ maxWidth: "400px" }}
                       >
-                        {"Are you sure delete this transaction?"}
-                        <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-                          <ThemeButton
-                            success
-                            Text="Yes"
-                            type="submit"
-                            onClick={() => deleteTransaction(selectTransaction)}
-                          />
-                          <ThemeButton
-                            discard
-                            Text="No"
-                            onClick={() => setOpenDelete(false)}
-                          />
+                        <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                          {"Are you sure delete this transaction?"}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              gap: 2,
+                              mt: 2.5,
+                              justifyContent: "center",
+                            }}
+                          >
+                            <ThemeButton
+                              success
+                              Text="Yes"
+                              type="submit"
+                              onClick={() =>
+                                deleteTransaction(selectTransaction)
+                              }
+                            />
+                            <ThemeButton
+                              discard
+                              Text="No"
+                              onClick={() => setOpenDelete(false)}
+                            />
+                          </Box>
                         </Box>
                       </ModalComponent>
                     </TableBody>
