@@ -464,15 +464,17 @@ export default function MyProfile() {
                   color: "text.dark",
                 }}
               />
-              <Tab
-                disableRipple
-                disableElevation
-                label="Permission"
-                {...a11yProps(3)}
-                sx={{
-                  color: "text.dark",
-                }}
-              />
+              {user.role === 0 && (
+                <Tab
+                  disableRipple
+                  disableElevation
+                  label="Permission"
+                  {...a11yProps(3)}
+                  sx={{
+                    color: "text.dark",
+                  }}
+                />
+              )}
             </Tabs>
           </Box>
 
