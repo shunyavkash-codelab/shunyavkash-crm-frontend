@@ -90,16 +90,7 @@ const userRequired = [
 
 export default function MyProfile() {
   const { id } = useParams();
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
-  const {
-    accessToken,
-    userId,
-    user,
-    setProfile,
-    setUserProfile,
-    setUserProfileImg,
-  } = useAuth();
+  const { accessToken, userId, user } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
@@ -126,7 +117,7 @@ export default function MyProfile() {
       });
       if (res.status === 200) {
         setSnack(res.data.message);
-        setUserProfileImg(res.data.data.profile_img);
+        // setUserProfileImg(res.data.data.profile_img);
       }
     } catch (error) {
       let errorMessage = error.response.data.message;
@@ -206,7 +197,7 @@ export default function MyProfile() {
   }, []);
 
   useEffect(() => {
-    if (!setProfile && profileUser) {
+    if (profileUser) {
       let requiredKey = [];
       for (var key of userRequired) {
         if (!profileUser[key] || profileUser[key] === "") {
@@ -221,7 +212,7 @@ export default function MyProfile() {
           profileUser.propertyTax ||
           profileUser.electricityBill)
       ) {
-        setUserProfile(true);
+        // setUserProfile(true);
       }
     }
   }, [profileUser]);
@@ -241,780 +232,765 @@ export default function MyProfile() {
 
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <SectionHeader
-            Title={
-              profileUser?.role === 0
-                ? "my Profile"
-                : profileUser?.role === 1
-                ? "Manager Profile"
-                : "Employee Profile"
-            }
-            BreadCrumbPreviousLink="/members"
-            BreadCrumbPreviousTitle="Members"
-            BreadCrumbCurrentTitle={profileUser?.name}
-          />
+      <Box component="main">
+        <SectionHeader
+          Title={
+            profileUser?.role === 0
+              ? "my Profile"
+              : profileUser?.role === 1
+              ? "Manager Profile"
+              : "Employee Profile"
+          }
+          BreadCrumbPreviousLink="/members"
+          BreadCrumbPreviousTitle="Members"
+          BreadCrumbCurrentTitle={profileUser?.name}
+        />
 
+        <Box
+          sx={{
+            bgcolor: "white",
+            borderRadius: 4,
+            overflow: "hidden",
+            p: 3,
+            pb: 0,
+            mb: 3,
+          }}
+        >
           <Box
             sx={{
-              bgcolor: "white",
-              borderRadius: 4,
-              overflow: "hidden",
-              p: 3,
-              pb: 0,
-              mb: 3,
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
             }}
           >
             <Box
               sx={{
+                position: "relative",
+                borderRadius: "100%",
+                overflow: "hidden",
+                flexShrink: 0,
+              }}
+            >
+              <Avatar
+                sx={{
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "100%",
+                  bgcolor: "grey.light",
+                  boxShadow: "0 0 0 4px white",
+                }}
+                alt="avatar"
+                src={url ? url : isLoading}
+              />
+              <Button
+                disableRipple
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  backgroundColor: "rgba(0,0,0,0.4)",
+                  "&:hover": {
+                    backgroundColor: "rgba(0,0,0,0.5)",
+                  },
+                }}
+              >
+                <ReactFileReader
+                  fileTypes={[".png", ".jpg"]}
+                  base64={true}
+                  handleFiles={handleFiles}
+                  as={Button}
+                >
+                  <CameraAltIcon
+                    sx={{
+                      fontSize: 20,
+                      color: "white",
+                      display: "block",
+                    }}
+                  />
+                </ReactFileReader>
+              </Button>
+            </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
                 display: "flex",
-                alignItems: "center",
-                gap: 2,
+                justifyContent: "space-between",
+                alignItems: "flex-start",
               }}
             >
               <Box
                 sx={{
-                  position: "relative",
-                  borderRadius: "100%",
-                  overflow: "hidden",
-                  flexShrink: 0,
+                  display: "flex",
+                  alignItems: "flex-start",
+                  flexDirection: "column",
+                  gap: 1.25,
                 }}
               >
-                <Avatar
+                <Chip
+                  label={
+                    profileUser?.role === 0
+                      ? "Admin"
+                      : profileUser?.role === 1
+                      ? "Manager"
+                      : "Employee"
+                  }
+                  sx={{ height: "auto", py: "2px" }}
+                ></Chip>
+                <Typography
+                  variant="h5"
                   sx={{
-                    width: "100px",
-                    height: "100px",
-                    borderRadius: "100%",
-                    bgcolor: "grey.light",
-                    boxShadow: "0 0 0 4px white",
-                  }}
-                  alt="avatar"
-                  src={url ? url : isLoading}
-                />
-                <Button
-                  disableRipple
-                  sx={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    width: "100%",
-                    backgroundColor: "rgba(0,0,0,0.4)",
-                    "&:hover": {
-                      backgroundColor: "rgba(0,0,0,0.5)",
-                    },
+                    color: "black",
+                    fontWeight: 500,
+                    textTransform: "capitalize",
                   }}
                 >
-                  <ReactFileReader
-                    fileTypes={[".png", ".jpg"]}
-                    base64={true}
-                    handleFiles={handleFiles}
-                    as={Button}
-                  >
-                    <CameraAltIcon
-                      sx={{
-                        fontSize: 20,
-                        color: "white",
-                        display: "block",
-                      }}
-                    />
-                  </ReactFileReader>
-                </Button>
-              </Box>
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "flex-start",
-                }}
-              >
+                  {profileUser?.name}
+                </Typography>
                 <Box
                   sx={{
                     display: "flex",
-                    alignItems: "flex-start",
-                    flexDirection: "column",
-                    gap: 1.25,
+                    alignItems: "center",
+                    gap: 1.75,
                   }}
                 >
-                  <Chip
-                    label={
-                      profileUser?.role === 0
-                        ? "Admin"
-                        : profileUser?.role === 1
-                        ? "Manager"
-                        : "Employee"
-                    }
-                    sx={{ height: "auto", py: "2px" }}
-                  ></Chip>
                   <Typography
-                    variant="h5"
+                    variant="body1"
                     sx={{
-                      color: "black",
-                      fontWeight: 500,
+                      opacity: 0.5,
                       textTransform: "capitalize",
                     }}
                   >
-                    {profileUser?.name}
+                    {profileUser?.designation}
                   </Typography>
-                  <Box
+                  {/* Todo : This Button is visible for admin only */}
+                  <Chip
+                    label={changeStatus ? "Active" : "Deactive"}
+                    color={changeStatus ? "success" : "error"}
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1.75,
+                      height: "unset",
+                      "& span": {
+                        color: "white",
+                        padding: "3px 10px",
+                        fontSize: "12px",
+                      },
                     }}
-                  >
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        opacity: 0.5,
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {profileUser?.designation}
-                    </Typography>
-                    {/* Todo : This Button is visible for admin only */}
-                    <Chip
-                      label={changeStatus ? "Active" : "Deactive"}
-                      color={changeStatus ? "success" : "error"}
-                      sx={{
-                        height: "unset",
-                        "& span": {
-                          color: "white",
-                          padding: "3px 10px",
-                          fontSize: "12px",
-                        },
-                      }}
-                    />
-                  </Box>
+                  />
                 </Box>
-                {id && (
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <ThemeButton
-                      Text={changeStatus ? "deactive" : "active"}
-                      type="submit"
-                      btnColor={changeStatus ? "error.main" : "success.main"}
-                      onClick={() => handleChangeActiveDeactive()}
-                    />
-                    <ThemeButton
-                      error
-                      Text="delete"
-                      type="submit"
-                      onClick={() => handleChangeUserDelete()}
-                    />
-                  </Box>
-                )}
               </Box>
-            </Box>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              variant="scrollable"
-              scrollButtons={false}
-              sx={{
-                mt: 2,
-                "& .MuiTabs-flexContainer": {
-                  justifyContent: "flex-start",
-                  // px: 2,
-                  borderTop: "1px solid rgba(0,0,0,0.1)",
-                },
-                "& button": {
-                  textTransform: "capitalize",
-                  py: 2.25,
-                },
-              }}
-            >
-              <Tab
-                disableRipple
-                disableElevation
-                label="Details"
-                {...a11yProps(0)}
-                sx={{
-                  color: "text.dark",
-                }}
-              />
-              <Tab
-                disableRipple
-                disableElevation
-                label="Salary"
-                {...a11yProps(1)}
-                sx={{
-                  color: "text.dark",
-                }}
-              />
-              <Tab
-                disableRipple
-                disableElevation
-                label="Leave"
-                {...a11yProps(2)}
-                sx={{
-                  color: "text.dark",
-                }}
-              />
-              {user.role === 0 && (
-                <Tab
-                  disableRipple
-                  disableElevation
-                  label="Permission"
-                  {...a11yProps(3)}
-                  sx={{
-                    color: "text.dark",
-                  }}
-                />
+              {id && (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <ThemeButton
+                    Text={changeStatus ? "deactive" : "active"}
+                    type="submit"
+                    btnColor={changeStatus ? "error.main" : "success.main"}
+                    onClick={() => handleChangeActiveDeactive()}
+                  />
+                  <ThemeButton
+                    error
+                    Text="delete"
+                    type="submit"
+                    onClick={() => handleChangeUserDelete()}
+                  />
+                </Box>
               )}
-            </Tabs>
+            </Box>
           </Box>
-
-          <CustomTabPanel
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons={false}
             sx={{
-              "&>div>div": {
-                bgcolor: "white",
-                borderRadius: 4,
-                pt: 2,
-                pb: 3,
-                "&:not(:first-child)": {
-                  mt: 3,
-                },
+              mt: 2,
+              "& .MuiTabs-flexContainer": {
+                justifyContent: "flex-start",
+                // px: 2,
+                borderTop: "1px solid rgba(0,0,0,0.1)",
               },
-              "& .cardHeader": {
-                px: 3,
-                pb: 2,
-                mb: 3,
-                borderBottom: "1px solid rgba(0,0,0,0.06)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              },
-              "& .cardTitle": {
+              "& button": {
                 textTransform: "capitalize",
-                fontWeight: 600,
+                py: 2.25,
               },
             }}
-            value={value}
-            index={0}
           >
-            <Box>
-              <Box className="cardHeader">
-                <Typography className="cardTitle">
-                  {profileUser?.role === 0
-                    ? "Admin"
-                    : profileUser?.role === 1
-                    ? "Manager"
-                    : "Employee"}{" "}
-                  Details
-                </Typography>
-                {user.role === 0 && (
-                  <ThemeButton
-                    transparent
-                    smallRounded
-                    Text="edit"
-                    startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
-                    onClick={handleOpen.bind(null, "employee-detail")}
-                  />
-                )}
-              </Box>
-              <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"date of joining"}
-                    Text={joiningFormattedDate || "N/A"}
-                    Icon={<DateIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"employee id"}
-                    Text={profileUser?.employeeId || "N/A"}
-                    Icon={<Grid3x3Icon />}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"work email"}
-                    Text={profileUser?.email || "N/A"}
-                    Icon={<EmailOutlinedIcon />}
-                    TextStyle={{ wordBreak: "break-all" }}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"Job Title"}
-                    Text={profileUser?.designation || "N/A"}
-                    Icon={<AccountBoxOutlinedIcon />}
-                    TextStyle={{ textTransform: "capitalize" }}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"role"}
-                    Text={
-                      profileUser?.role === 0
-                        ? "admin"
-                        : profileUser?.role === 1
-                        ? "Manager"
-                        : profileUser?.role === 2
-                        ? "Employee"
-                        : "N/A"
-                    }
-                    Icon={<PermIdentityOutlinedIcon />}
-                    TextStyle={{ textTransform: "capitalize" }}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"CTC"}
-                    Text={profileUser?.ctc?.toLocaleString() || "N/A"}
-                    Icon={<CurrencyRupeeOutlinedIcon />}
-                    TextStyle={{ textTransform: "capitalize" }}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-
-            <Box>
-              <Box className="cardHeader">
-                <Typography className="cardTitle">Personal Details</Typography>
-                <ThemeButton
-                  transparent
-                  smallRounded
-                  Text="edit"
-                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
-                  onClick={handleOpen.bind(null, "personal-detail")}
-                />
-              </Box>
-              <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"full name"}
-                    Text={profileUser?.name || "N/A"}
-                    Icon={<PermIdentityOutlinedIcon />}
-                    TextStyle={{ textTransform: "capitalize" }}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"gender"}
-                    Text={profileUser?.gender || "N/A"}
-                    Icon={<WcOutlinedIcon />}
-                    TextStyle={{ textTransform: "capitalize" }}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"DOB"}
-                    Text={dobFormattedDate || "N/A"}
-                    Icon={<DateIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"hobbies"}
-                    Text={profileUser?.hobbies || "N/A"}
-                    Icon={<SportsSoccerOutlinedIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"phobia"}
-                    Text={profileUser?.phobia || "N/A"}
-                    Icon={<SickOutlinedIcon />}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-
-            <Box>
-              <Box className="cardHeader">
-                <Typography className="cardTitle">Contact Details</Typography>
-                <ThemeButton
-                  transparent
-                  smallRounded
-                  Text="edit"
-                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
-                  onClick={handleOpen.bind(null, "contact-detail")}
-                />
-              </Box>
-              <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"Phone number"}
-                    Text={profileUser?.mobileNumber || "N/A"}
-                    Icon={<PhoneOutlinedIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"whatsApp number"}
-                    Text={profileUser?.whatsappNumber || "N/A"}
-                    // Todo : Add whatsapp icon here
-                    Icon={<PhoneOutlinedIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"personal email"}
-                    Text={profileUser?.personalEmail || "N/A"}
-                    Icon={<EmailOutlinedIcon />}
-                    TextStyle={{ wordBreak: "break-all" }}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"Address"}
-                    Text={
-                      (profileUser?.address &&
-                        profileUser.address +
-                          " " +
-                          profileUser.address2 +
-                          " " +
-                          profileUser.landmark +
-                          "-" +
-                          profileUser.pincode) ||
-                      "N/A"
-                    }
-                    // Text={
-                    //   profileUser?.address?.split("\n").map((line, index) => (
-                    //     <React.Fragment key={index}>
-                    //       {line}
-                    //       {index < profileUser.address.split("\n").length - 1 && (
-                    //         <br />
-                    //       )}
-                    //     </React.Fragment>
-                    //   )) || "N/A"
-                    // }
-                    Icon={<HomeOutlinedIcon />}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-
-            <Box>
-              <Box className="cardHeader">
-                <Typography className="cardTitle">Family Details</Typography>
-                <ThemeButton
-                  transparent
-                  smallRounded
-                  Text="edit"
-                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
-                  onClick={handleOpen.bind(null, "family-detail")}
-                />
-              </Box>
-              <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"father's name"}
-                    Text={profileUser?.fatherName || "N/A"}
-                    Icon={<Man2OutlinedIcon />}
-                    TextStyle={{ textTransform: "capitalize" }}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"father's number"}
-                    Text={profileUser?.fatherNumber || "N/A"}
-                    Icon={<PhoneOutlinedIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                  <DetailsList
-                    Title={"mother's name"}
-                    Text={profileUser?.motherName || "N/A"}
-                    Icon={<Woman2OutlinedIcon />}
-                    TextStyle={{ textTransform: "capitalize" }}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-
-            <Box>
-              <Box className="cardHeader">
-                <Typography className="cardTitle">Document Details</Typography>
-                {(user.role === 1 || user.role === 2) && (
-                  <ThemeButton
-                    transparent
-                    smallRounded
-                    Text="edit"
-                    startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
-                    onClick={handleOpen.bind(null, "document-detail")}
-                  />
-                )}
-              </Box>
-              <Box
-                sx={{
-                  px: 3,
-                  display: "flex",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  gap: 1,
-                }}
-              >
-                {profileUser?.signature && (
-                  <Link
-                    to={profileUser?.signature}
-                    target="_blank"
-                    style={{
-                      textDecoration: "none",
-                      color: "#2a4062",
-                      opacity: "0.8",
-                      backgroundColor: "rgba(0,0,0,0.1)",
-                      borderRadius: 1,
-                      padding: "5px 10px",
-                      display: "inline-flex",
-                    }}
-                  >
-                    <DetailsList
-                      Title={"signature"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                      MainStyle={{ mb: 0 }}
-                    />
-                  </Link>
-                )}
-
-                {profileUser?.degreeCertification && (
-                  <Link
-                    to={profileUser.degreeCertification}
-                    target="_blank"
-                    style={{
-                      textDecoration: "none",
-                      color: "#2a4062",
-                      opacity: "0.8",
-                      backgroundColor: "rgba(0,0,0,0.1)",
-                      borderRadius: 1,
-                      padding: "5px 10px",
-                      display: "inline-flex",
-                    }}
-                    MainStyle={{ mb: 0 }}
-                  >
-                    <DetailsList
-                      Title={"HSC-SSC certification"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                      style={{
-                        textDecoration: "none",
-                        color: "#2a4062",
-                        opacity: "0.8",
-                        backgroundColor: "rgba(0,0,0,0.1)",
-                        borderRadius: 1,
-                        padding: "5px 10px",
-                        display: "inline-flex",
-                      }}
-                      MainStyle={{ mb: 0 }}
-                    />
-                  </Link>
-                )}
-                {profileUser?.adharCard && (
-                  <Link
-                    to={profileUser.adharCard}
-                    target="_blank"
-                    style={{
-                      textDecoration: "none",
-                      color: "#2a4062",
-                      opacity: "0.8",
-                      backgroundColor: "rgba(0,0,0,0.1)",
-                      borderRadius: 1,
-                      padding: "5px 10px",
-                      display: "inline-flex",
-                    }}
-                    MainStyle={{ mb: 0 }}
-                  >
-                    <DetailsList
-                      Title={"Adhar Card"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                      style={{
-                        textDecoration: "none",
-                        color: "#2a4062",
-                        opacity: "0.8",
-                        backgroundColor: "rgba(0,0,0,0.1)",
-                        borderRadius: 1,
-                        padding: "5px 10px",
-                        display: "inline-flex",
-                      }}
-                      MainStyle={{ mb: 0 }}
-                    />
-                  </Link>
-                )}
-                {profileUser?.addressProof && (
-                  <Link
-                    to={profileUser.addressProof}
-                    target="_blank"
-                    style={{
-                      textDecoration: "none",
-                      color: "#2a4062",
-                      opacity: "0.8",
-                      backgroundColor: "rgba(0,0,0,0.1)",
-                      borderRadius: 1,
-                      padding: "5px 10px",
-                      display: "inline-flex",
-                    }}
-                    MainStyle={{ mb: 0 }}
-                  >
-                    <DetailsList
-                      Title={"Adress Proof"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                      style={{
-                        textDecoration: "none",
-                        color: "#2a4062",
-                        opacity: "0.8",
-                        backgroundColor: "rgba(0,0,0,0.1)",
-                        borderRadius: 1,
-                        padding: "5px 10px",
-                        display: "inline-flex",
-                      }}
-                      MainStyle={{ mb: 0 }}
-                    />
-                  </Link>
-                )}
-                {profileUser?.propertyTax && (
-                  <Link
-                    to={profileUser.propertyTax}
-                    target="_blank"
-                    style={{
-                      textDecoration: "none",
-                      color: "#2a4062",
-                      opacity: "0.8",
-                      backgroundColor: "rgba(0,0,0,0.1)",
-                      borderRadius: 1,
-                      padding: "5px 10px",
-                      display: "inline-flex",
-                    }}
-                    MainStyle={{ mb: 0 }}
-                  >
-                    <DetailsList
-                      Title={"Property tax bill"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                      style={{
-                        textDecoration: "none",
-                        color: "#2a4062",
-                        opacity: "0.8",
-                        backgroundColor: "rgba(0,0,0,0.1)",
-                        borderRadius: 1,
-                        padding: "5px 10px",
-                        display: "inline-flex",
-                      }}
-                      MainStyle={{ mb: 0 }}
-                    />
-                  </Link>
-                )}
-                {profileUser?.electricityBill && (
-                  <Link
-                    to={profileUser.electricityBill}
-                    target="_blank"
-                    style={{
-                      textDecoration: "none",
-                      color: "#2a4062",
-                      opacity: "0.8",
-                      backgroundColor: "rgba(0,0,0,0.1)",
-                      borderRadius: 1,
-                      padding: "5px 10px",
-                      display: "inline-flex",
-                    }}
-                    MainStyle={{ mb: 0 }}
-                  >
-                    <DetailsList
-                      Title={"Electricity bill"}
-                      Icon={<FileDownloadOutlinedIcon />}
-                      style={{
-                        textDecoration: "none",
-                        color: "#2a4062",
-                        opacity: "0.8",
-                        backgroundColor: "rgba(0,0,0,0.1)",
-                        borderRadius: 1,
-                        padding: "5px 10px",
-                        display: "inline-flex",
-                      }}
-                      MainStyle={{ mb: 0 }}
-                    />
-                  </Link>
-                )}
-              </Box>
-            </Box>
-          </CustomTabPanel>
-
-          <CustomTabPanel value={value} index={1}>
-            <UserSalary
-              userId={id || userId}
-              userBank={userBank}
-              setUserBank={setUserBank}
+            <Tab
+              disableRipple
+              disableElevation
+              label="Details"
+              {...a11yProps(0)}
+              sx={{
+                color: "text.dark",
+              }}
             />
-          </CustomTabPanel>
-
-          <CustomTabPanel value={value} index={2}>
-            <UserLeave profileId={id || userId} />
-          </CustomTabPanel>
-
-          <CustomTabPanel value={value} index={3}>
-            <UserPermission profileId={id || userId} />
-          </CustomTabPanel>
-
-          <ModalComponent
-            open={open.open}
-            setOpen={() => setOpen({ type: "", open: false })}
-            modalTitle={
-              open.type === "employee-detail"
-                ? "Employment Details"
-                : open.type === "personal-detail"
-                ? "Personal Details"
-                : open.type === "contact-detail"
-                ? "Contact Details"
-                : open.type === "family-detail"
-                ? "Family Details"
-                : open.type === "document-detail" && "Document Details"
-            }
-          >
-            {open.type === "employee-detail" && (
-              <EmployeeDetailsForm
-                data={profileUser}
-                uniqId={id || userId}
-                setOpen={setOpen}
-                onSuccess={viewEmployees}
+            <Tab
+              disableRipple
+              disableElevation
+              label="Salary"
+              {...a11yProps(1)}
+              sx={{
+                color: "text.dark",
+              }}
+            />
+            <Tab
+              disableRipple
+              disableElevation
+              label="Leave"
+              {...a11yProps(2)}
+              sx={{
+                color: "text.dark",
+              }}
+            />
+            {user.role === 0 && (
+              <Tab
+                disableRipple
+                disableElevation
+                label="Permission"
+                {...a11yProps(3)}
+                sx={{
+                  color: "text.dark",
+                }}
               />
             )}
-            {open.type === "personal-detail" && (
-              <EmployeePersonalDetailForm
-                data={profileUser}
-                uniqId={id || userId}
-                setOpen={setOpen}
-                onSuccess={viewEmployees}
-              />
-            )}
-            {open.type === "contact-detail" && (
-              <EmployeeContactForm
-                data={profileUser}
-                uniqId={id || userId}
-                setOpen={setOpen}
-                onSuccess={viewEmployees}
-              />
-            )}
-            {open.type === "family-detail" && (
-              <EmployeeFamilyDetailForm
-                data={profileUser}
-                uniqId={id || userId}
-                setOpen={setOpen}
-                onSuccess={viewEmployees}
-              />
-            )}
-            {open.type === "document-detail" && (
-              <EmployeeDocumentDetailForm
-                data={profileUser}
-                uniqId={id || userId}
-                setOpen={setOpen}
-                onSuccess={viewEmployees}
-              />
-            )}
-          </ModalComponent>
+          </Tabs>
         </Box>
+
+        <CustomTabPanel
+          sx={{
+            "&>div>div": {
+              bgcolor: "white",
+              borderRadius: 4,
+              pt: 2,
+              pb: 3,
+              "&:not(:first-child)": {
+                mt: 3,
+              },
+            },
+            "& .cardHeader": {
+              px: 3,
+              pb: 2,
+              mb: 3,
+              borderBottom: "1px solid rgba(0,0,0,0.06)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            },
+            "& .cardTitle": {
+              textTransform: "capitalize",
+              fontWeight: 600,
+            },
+          }}
+          value={value}
+          index={0}
+        >
+          <Box>
+            <Box className="cardHeader">
+              <Typography className="cardTitle">
+                {profileUser?.role === 0
+                  ? "Admin"
+                  : profileUser?.role === 1
+                  ? "Manager"
+                  : "Employee"}{" "}
+                Details
+              </Typography>
+              {user.role === 0 && (
+                <ThemeButton
+                  transparent
+                  smallRounded
+                  Text="edit"
+                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
+                  onClick={handleOpen.bind(null, "employee-detail")}
+                />
+              )}
+            </Box>
+            <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"date of joining"}
+                  Text={joiningFormattedDate || "N/A"}
+                  Icon={<DateIcon />}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"employee id"}
+                  Text={profileUser?.employeeId || "N/A"}
+                  Icon={<Grid3x3Icon />}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"work email"}
+                  Text={profileUser?.email || "N/A"}
+                  Icon={<EmailOutlinedIcon />}
+                  TextStyle={{ wordBreak: "break-all" }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"Job Title"}
+                  Text={profileUser?.designation || "N/A"}
+                  Icon={<AccountBoxOutlinedIcon />}
+                  TextStyle={{ textTransform: "capitalize" }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"role"}
+                  Text={
+                    profileUser?.role === 0
+                      ? "admin"
+                      : profileUser?.role === 1
+                      ? "Manager"
+                      : profileUser?.role === 2
+                      ? "Employee"
+                      : "N/A"
+                  }
+                  Icon={<PermIdentityOutlinedIcon />}
+                  TextStyle={{ textTransform: "capitalize" }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"CTC"}
+                  Text={profileUser?.ctc?.toLocaleString() || "N/A"}
+                  Icon={<CurrencyRupeeOutlinedIcon />}
+                  TextStyle={{ textTransform: "capitalize" }}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+
+          <Box>
+            <Box className="cardHeader">
+              <Typography className="cardTitle">Personal Details</Typography>
+              <ThemeButton
+                transparent
+                smallRounded
+                Text="edit"
+                startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
+                onClick={handleOpen.bind(null, "personal-detail")}
+              />
+            </Box>
+            <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"full name"}
+                  Text={profileUser?.name || "N/A"}
+                  Icon={<PermIdentityOutlinedIcon />}
+                  TextStyle={{ textTransform: "capitalize" }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"gender"}
+                  Text={profileUser?.gender || "N/A"}
+                  Icon={<WcOutlinedIcon />}
+                  TextStyle={{ textTransform: "capitalize" }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"DOB"}
+                  Text={dobFormattedDate || "N/A"}
+                  Icon={<DateIcon />}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"hobbies"}
+                  Text={profileUser?.hobbies || "N/A"}
+                  Icon={<SportsSoccerOutlinedIcon />}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"phobia"}
+                  Text={profileUser?.phobia || "N/A"}
+                  Icon={<SickOutlinedIcon />}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+
+          <Box>
+            <Box className="cardHeader">
+              <Typography className="cardTitle">Contact Details</Typography>
+              <ThemeButton
+                transparent
+                smallRounded
+                Text="edit"
+                startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
+                onClick={handleOpen.bind(null, "contact-detail")}
+              />
+            </Box>
+            <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"Phone number"}
+                  Text={profileUser?.mobileNumber || "N/A"}
+                  Icon={<PhoneOutlinedIcon />}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"whatsApp number"}
+                  Text={profileUser?.whatsappNumber || "N/A"}
+                  // Todo : Add whatsapp icon here
+                  Icon={<PhoneOutlinedIcon />}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"personal email"}
+                  Text={profileUser?.personalEmail || "N/A"}
+                  Icon={<EmailOutlinedIcon />}
+                  TextStyle={{ wordBreak: "break-all" }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"Address"}
+                  Text={
+                    (profileUser?.address &&
+                      profileUser.address +
+                        " " +
+                        profileUser.address2 +
+                        " " +
+                        profileUser.landmark +
+                        "-" +
+                        profileUser.pincode) ||
+                    "N/A"
+                  }
+                  // Text={
+                  //   profileUser?.address?.split("\n").map((line, index) => (
+                  //     <React.Fragment key={index}>
+                  //       {line}
+                  //       {index < profileUser.address.split("\n").length - 1 && (
+                  //         <br />
+                  //       )}
+                  //     </React.Fragment>
+                  //   )) || "N/A"
+                  // }
+                  Icon={<HomeOutlinedIcon />}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+
+          <Box>
+            <Box className="cardHeader">
+              <Typography className="cardTitle">Family Details</Typography>
+              <ThemeButton
+                transparent
+                smallRounded
+                Text="edit"
+                startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
+                onClick={handleOpen.bind(null, "family-detail")}
+              />
+            </Box>
+            <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"father's name"}
+                  Text={profileUser?.fatherName || "N/A"}
+                  Icon={<Man2OutlinedIcon />}
+                  TextStyle={{ textTransform: "capitalize" }}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"father's number"}
+                  Text={profileUser?.fatherNumber || "N/A"}
+                  Icon={<PhoneOutlinedIcon />}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} xl={4}>
+                <DetailsList
+                  Title={"mother's name"}
+                  Text={profileUser?.motherName || "N/A"}
+                  Icon={<Woman2OutlinedIcon />}
+                  TextStyle={{ textTransform: "capitalize" }}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+
+          <Box>
+            <Box className="cardHeader">
+              <Typography className="cardTitle">Document Details</Typography>
+              {(user.role === 1 || user.role === 2) && (
+                <ThemeButton
+                  transparent
+                  smallRounded
+                  Text="edit"
+                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
+                  onClick={handleOpen.bind(null, "document-detail")}
+                />
+              )}
+            </Box>
+            <Box
+              sx={{
+                px: 3,
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: 1,
+              }}
+            >
+              {profileUser?.signature && (
+                <Link
+                  to={profileUser?.signature}
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
+                  }}
+                >
+                  <DetailsList
+                    Title={"signature"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+              )}
+
+              {profileUser?.degreeCertification && (
+                <Link
+                  to={profileUser.degreeCertification}
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
+                  }}
+                  MainStyle={{ mb: 0 }}
+                >
+                  <DetailsList
+                    Title={"HSC-SSC certification"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    style={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-flex",
+                    }}
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+              )}
+              {profileUser?.adharCard && (
+                <Link
+                  to={profileUser.adharCard}
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
+                  }}
+                  MainStyle={{ mb: 0 }}
+                >
+                  <DetailsList
+                    Title={"Adhar Card"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    style={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-flex",
+                    }}
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+              )}
+              {profileUser?.addressProof && (
+                <Link
+                  to={profileUser.addressProof}
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
+                  }}
+                  MainStyle={{ mb: 0 }}
+                >
+                  <DetailsList
+                    Title={"Adress Proof"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    style={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-flex",
+                    }}
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+              )}
+              {profileUser?.propertyTax && (
+                <Link
+                  to={profileUser.propertyTax}
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
+                  }}
+                  MainStyle={{ mb: 0 }}
+                >
+                  <DetailsList
+                    Title={"Property tax bill"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    style={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-flex",
+                    }}
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+              )}
+              {profileUser?.electricityBill && (
+                <Link
+                  to={profileUser.electricityBill}
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                    color: "#2a4062",
+                    opacity: "0.8",
+                    backgroundColor: "rgba(0,0,0,0.1)",
+                    borderRadius: 1,
+                    padding: "5px 10px",
+                    display: "inline-flex",
+                  }}
+                  MainStyle={{ mb: 0 }}
+                >
+                  <DetailsList
+                    Title={"Electricity bill"}
+                    Icon={<FileDownloadOutlinedIcon />}
+                    style={{
+                      textDecoration: "none",
+                      color: "#2a4062",
+                      opacity: "0.8",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                      borderRadius: 1,
+                      padding: "5px 10px",
+                      display: "inline-flex",
+                    }}
+                    MainStyle={{ mb: 0 }}
+                  />
+                </Link>
+              )}
+            </Box>
+          </Box>
+        </CustomTabPanel>
+
+        <CustomTabPanel value={value} index={1}>
+          <UserSalary
+            userId={id || userId}
+            userBank={userBank}
+            setUserBank={setUserBank}
+          />
+        </CustomTabPanel>
+
+        <CustomTabPanel value={value} index={2}>
+          <UserLeave profileId={id || userId} />
+        </CustomTabPanel>
+
+        <CustomTabPanel value={value} index={3}>
+          <UserPermission profileId={id || userId} />
+        </CustomTabPanel>
+
+        <ModalComponent
+          open={open.open}
+          setOpen={() => setOpen({ type: "", open: false })}
+          modalTitle={
+            open.type === "employee-detail"
+              ? "Employment Details"
+              : open.type === "personal-detail"
+              ? "Personal Details"
+              : open.type === "contact-detail"
+              ? "Contact Details"
+              : open.type === "family-detail"
+              ? "Family Details"
+              : open.type === "document-detail" && "Document Details"
+          }
+        >
+          {open.type === "employee-detail" && (
+            <EmployeeDetailsForm
+              data={profileUser}
+              uniqId={id || userId}
+              setOpen={setOpen}
+              onSuccess={viewEmployees}
+            />
+          )}
+          {open.type === "personal-detail" && (
+            <EmployeePersonalDetailForm
+              data={profileUser}
+              uniqId={id || userId}
+              setOpen={setOpen}
+              onSuccess={viewEmployees}
+            />
+          )}
+          {open.type === "contact-detail" && (
+            <EmployeeContactForm
+              data={profileUser}
+              uniqId={id || userId}
+              setOpen={setOpen}
+              onSuccess={viewEmployees}
+            />
+          )}
+          {open.type === "family-detail" && (
+            <EmployeeFamilyDetailForm
+              data={profileUser}
+              uniqId={id || userId}
+              setOpen={setOpen}
+              onSuccess={viewEmployees}
+            />
+          )}
+          {open.type === "document-detail" && (
+            <EmployeeDocumentDetailForm
+              data={profileUser}
+              uniqId={id || userId}
+              setOpen={setOpen}
+              onSuccess={viewEmployees}
+            />
+          )}
+        </ModalComponent>
       </Box>
     </>
   );

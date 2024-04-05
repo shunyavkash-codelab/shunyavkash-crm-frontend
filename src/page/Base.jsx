@@ -11,23 +11,8 @@ export default function Base() {
 
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <Box>Hello</Box>
-        </Box>
+      <Box component="main">
+        <Box>Hello</Box>
       </Box>
     </>
   );

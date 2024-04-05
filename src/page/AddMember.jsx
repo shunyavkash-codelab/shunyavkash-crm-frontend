@@ -33,9 +33,6 @@ import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
 
 export default function AddMember() {
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
-
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -160,90 +157,76 @@ export default function AddMember() {
 
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <SectionHeader
-            Title="Add Member"
-            BreadCrumbPreviousLink="/members"
-            BreadCrumbPreviousTitle="Members"
-            BreadCrumbCurrentTitle="Add Member"
-          />
+      <Box component="main">
+        <SectionHeader
+          Title="Add Member"
+          BreadCrumbPreviousLink="/members"
+          BreadCrumbPreviousTitle="Members"
+          BreadCrumbCurrentTitle="Add Member"
+        />
 
-          <FormikProvider value={formik}>
+        <FormikProvider value={formik}>
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={formik.handleSubmit}
+            sx={{
+              p: 2.5,
+              pt: 1.75,
+              backgroundColor: "white",
+              borderRadius: 2.5,
+            }}
+          >
             <Box
-              component="form"
-              noValidate
-              autoComplete="off"
-              onSubmit={formik.handleSubmit}
               sx={{
-                p: 2.5,
-                pt: 1.75,
-                backgroundColor: "white",
-                borderRadius: 2.5,
+                pt: 0.75,
+                "& fieldset": {
+                  borderRadius: 1.5,
+                },
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "repeat(1, 1fr)",
+                  sm: "repeat(2, 1fr)",
+                },
+                gap: 2.5,
               }}
             >
-              <Box
+              <TextField
+                fullWidth
+                size="small"
+                id="name"
+                label="Full Name"
+                autoComplete="off"
                 sx={{
-                  pt: 0.75,
-                  "& fieldset": {
-                    borderRadius: 1.5,
-                  },
-                  display: "grid",
-                  gridTemplateColumns: {
-                    xs: "repeat(1, 1fr)",
-                    sm: "repeat(2, 1fr)",
-                  },
-                  gap: 2.5,
+                  "&>label,& input,&>div": { fontSize: "14px" },
+                  "&>label": { top: "4px" },
+                  "& input": { textTransform: "capitalize", py: 1.5 },
                 }}
-              >
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="name"
-                  label="Full Name"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                    "&>label": { top: "4px" },
-                    "& input": { textTransform: "capitalize", py: 1.5 },
-                  }}
-                  onChange={formik.handleChange}
-                  value={formik.values.name}
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
-                />
+                onChange={formik.handleChange}
+                value={formik.values.name}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
+              />
 
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="email"
-                  label="Email"
-                  autoComplete="off"
-                  sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                    "&>label": { top: "4px" },
-                    "& input": { py: 1.5 },
-                  }}
-                  onChange={formik.handleChange}
-                  value={formik.values.email}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
+              <TextField
+                fullWidth
+                size="small"
+                id="email"
+                label="Email"
+                autoComplete="off"
+                sx={{
+                  "&>label,& input,&>div": { fontSize: "14px" },
+                  "&>label": { top: "4px" },
+                  "& input": { py: 1.5 },
+                }}
+                onChange={formik.handleChange}
+                value={formik.values.email}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+              />
 
-                {/* <Box
+              {/* <Box
                   sx={{
                     display: "flex",
                     "&:hover fieldset": {
@@ -323,251 +306,251 @@ export default function AddMember() {
                   />
                 </Box> */}
 
-                <Stack
-                  direction="row"
-                  sx={{
-                    "&:hover fieldset": {
-                      borderColor: "text.primary",
-                    },
-                  }}
-                >
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="mobileCode"
-                    autoComplete="off"
-                    defaultValue="+91"
-                    sx={{
-                      maxWidth: "75px",
-                      mr: "-1px",
-                      "& > div.Mui-error": {
-                        "& fieldset": {
-                          borderRightWidth: "1px",
-                        },
-                        "& input": {
-                          color: "error.main",
-                        },
-                      },
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "& input": {
-                        py: 1.5,
-                        textAlign: "center",
-                        bgcolor: "#f4f4f4",
-                        borderRadius: "6px 0 0 6px!important",
-                      },
-                      "& fieldset": {
-                        borderRight: 0,
-                        borderRadius: "6px 0 0 6px!important",
-                      },
-                    }}
-                    onChange={formik.handleChange}
-                  />
-
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="mobileNumber"
-                    placeholder="Mobile Number"
-                    autoComplete="off"
-                    inputProps={{ maxLength: 10 }}
-                    sx={{
-                      "& > div.Mui-error": {
-                        "& fieldset": {
-                          borderLeftWidth: "1px",
-                        },
-                        "& input::placeholder": {
-                          color: "error.main",
-                          opacity: 1,
-                        },
-                      },
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "& input": { py: 1.5 },
-                      "& fieldset": {
-                        borderLeft: 0,
-                        borderRadius: "0 6px 6px 0!important",
-                      },
-                    }}
-                    onChange={formik.handleChange}
-                  />
-                </Stack>
-
-                <FormControl
+              <Stack
+                direction="row"
+                sx={{
+                  "&:hover fieldset": {
+                    borderColor: "text.primary",
+                  },
+                }}
+              >
+                <TextField
                   fullWidth
                   size="small"
+                  id="mobileCode"
+                  autoComplete="off"
+                  defaultValue="+91"
                   sx={{
-                    "&>label": { fontSize: "14px", top: "4px" },
-                    "&>div>div": { py: 1.5 },
+                    maxWidth: "75px",
+                    mr: "-1px",
+                    "& > div.Mui-error": {
+                      "& fieldset": {
+                        borderRightWidth: "1px",
+                      },
+                      "& input": {
+                        color: "error.main",
+                      },
+                    },
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "& input": {
+                      py: 1.5,
+                      textAlign: "center",
+                      bgcolor: "#f4f4f4",
+                      borderRadius: "6px 0 0 6px!important",
+                    },
+                    "& fieldset": {
+                      borderRight: 0,
+                      borderRadius: "6px 0 0 6px!important",
+                    },
                   }}
+                  onChange={formik.handleChange}
+                />
+
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="mobileNumber"
+                  placeholder="Mobile Number"
+                  autoComplete="off"
+                  inputProps={{ maxLength: 10 }}
+                  sx={{
+                    "& > div.Mui-error": {
+                      "& fieldset": {
+                        borderLeftWidth: "1px",
+                      },
+                      "& input::placeholder": {
+                        color: "error.main",
+                        opacity: 1,
+                      },
+                    },
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "& input": { py: 1.5 },
+                    "& fieldset": {
+                      borderLeft: 0,
+                      borderRadius: "0 6px 6px 0!important",
+                    },
+                  }}
+                  onChange={formik.handleChange}
+                />
+              </Stack>
+
+              <FormControl
+                fullWidth
+                size="small"
+                sx={{
+                  "&>label": { fontSize: "14px", top: "4px" },
+                  "&>div>div": { py: 1.5 },
+                }}
+              >
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
                 >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
-                  >
-                    gender
-                  </InputLabel>
-                  <Field
-                    name="file"
-                    render={({ field, form }) => (
+                  gender
+                </InputLabel>
+                <Field
+                  name="file"
+                  render={({ field, form }) => (
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="gender"
+                      label="Gender"
+                      sx={{ fontSize: "14px" }}
+                      {...field}
+                      onChange={(event) => {
+                        form.setFieldValue("gender", event.target.value);
+                      }}
+                    >
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value={"Male"}
+                      >
+                        Male
+                      </MenuItem>
+                      <MenuItem
+                        sx={{ textTransform: "capitalize" }}
+                        value={"Female"}
+                      >
+                        Female
+                      </MenuItem>
+                    </Select>
+                  )}
+                />
+              </FormControl>
+
+              <FormControl
+                fullWidth
+                size="small"
+                sx={{
+                  "&>label": { fontSize: "14px", top: "4px" },
+                  "&>div>div": { py: 1.5 },
+                }}
+                error={formik.touched.role && Boolean(formik.errors.role)}
+              >
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
+                >
+                  Member Type
+                </InputLabel>
+                <Field
+                  name="file"
+                  render={({ field, form }) => (
+                    <>
                       <Select
-                        labelId="demo-simple-select-label"
-                        id="gender"
-                        label="Gender"
+                        id="role"
+                        label="Member Type"
                         sx={{ fontSize: "14px" }}
                         {...field}
                         onChange={(event) => {
-                          form.setFieldValue("gender", event.target.value);
+                          form.setFieldValue("role", event.target.value);
                         }}
                       >
                         <MenuItem
-                          sx={{ textTransform: "capitalize" }}
-                          value={"Male"}
+                          sx={{
+                            textTransform: "capitalize",
+                            fontSize: "14px",
+                          }}
+                          value={"manager"}
                         >
-                          Male
+                          manager
                         </MenuItem>
                         <MenuItem
-                          sx={{ textTransform: "capitalize" }}
-                          value={"Female"}
+                          sx={{
+                            textTransform: "capitalize",
+                            fontSize: "14px",
+                          }}
+                          value={"employee"}
                         >
-                          Female
+                          employee
                         </MenuItem>
                       </Select>
-                    )}
-                  />
-                </FormControl>
-
-                <FormControl
-                  fullWidth
-                  size="small"
-                  sx={{
-                    "&>label": { fontSize: "14px", top: "4px" },
-                    "&>div>div": { py: 1.5 },
-                  }}
-                  error={formik.touched.role && Boolean(formik.errors.role)}
-                >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="demo-simple-select-label"
+                      {formik.touched.role && Boolean(formik.errors.role) && (
+                        <FormHelperText error={true}>
+                          {formik.touched.role && formik.errors.role}
+                        </FormHelperText>
+                      )}
+                    </>
+                  )}
+                />
+              </FormControl>
+              <Autocomplete
+                id="free-solo-demo"
+                freeSolo
+                options={userList.map((option) => option.name)}
+                sx={{
+                  fontSize: "14px!important",
+                  "& .MuiAutocomplete-clearIndicator": {
+                    display: "none",
+                  },
+                }}
+                renderOption={(props, option) => (
+                  <Box
+                    component="li"
+                    sx={{
+                      "&": { fontSize: "14px", textTransform: "capitalize" },
+                    }}
+                    {...props}
                   >
-                    Member Type
-                  </InputLabel>
-                  <Field
-                    name="file"
-                    render={({ field, form }) => (
-                      <>
-                        <Select
-                          id="role"
-                          label="Member Type"
-                          sx={{ fontSize: "14px" }}
-                          {...field}
-                          onChange={(event) => {
-                            form.setFieldValue("role", event.target.value);
-                          }}
-                        >
-                          <MenuItem
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "14px",
-                            }}
-                            value={"manager"}
-                          >
-                            manager
-                          </MenuItem>
-                          <MenuItem
-                            sx={{
-                              textTransform: "capitalize",
-                              fontSize: "14px",
-                            }}
-                            value={"employee"}
-                          >
-                            employee
-                          </MenuItem>
-                        </Select>
-                        {formik.touched.role && Boolean(formik.errors.role) && (
-                          <FormHelperText error={true}>
-                            {formik.touched.role && formik.errors.role}
-                          </FormHelperText>
-                        )}
-                      </>
-                    )}
+                    {option}
+                  </Box>
+                )}
+                onChange={(event, newValue) => {
+                  formik.setFieldValue("reference", newValue); // Update Formik field value
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    onKeyUp={(e) => {
+                      let value = e.target.value;
+                      formik.setFieldValue("reference", value);
+                    }}
+                    sx={{
+                      "& input,&>div,&>label": { fontSize: "14px" },
+                      "&>label": { lineHeight: 1 },
+                      "&>div": { height: "44px", pl: "12px!important" },
+                      "& input": {
+                        textTransform: "capitalize",
+                        p: "0!important",
+                      },
+                    }}
+                    label="Reference"
                   />
-                </FormControl>
-                <Autocomplete
-                  id="free-solo-demo"
-                  freeSolo
-                  options={userList.map((option) => option.name)}
-                  sx={{
-                    fontSize: "14px!important",
-                    "& .MuiAutocomplete-clearIndicator": {
-                      display: "none",
-                    },
-                  }}
-                  renderOption={(props, option) => (
-                    <Box
-                      component="li"
-                      sx={{
-                        "&": { fontSize: "14px", textTransform: "capitalize" },
-                      }}
-                      {...props}
-                    >
-                      {option}
-                    </Box>
-                  )}
-                  onChange={(event, newValue) => {
-                    formik.setFieldValue("reference", newValue); // Update Formik field value
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      onKeyUp={(e) => {
-                        let value = e.target.value;
-                        formik.setFieldValue("reference", value);
-                      }}
-                      sx={{
-                        "& input,&>div,&>label": { fontSize: "14px" },
-                        "&>label": { lineHeight: 1 },
-                        "&>div": { height: "44px", pl: "12px!important" },
-                        "& input": {
-                          textTransform: "capitalize",
-                          p: "0!important",
-                        },
-                      }}
-                      label="Reference"
-                    />
-                  )}
-                />
+                )}
+              />
 
-                <PasswordField
-                  formik={formik}
-                  id={"password"}
-                  label={"Password"}
-                  Inputstyle={{
-                    "&>div": { fontSize: "14px" },
-                    "&>label": { top: "4px" },
-                    "& input": {
-                      py: 1.5,
-                      pr: 5,
-                    },
-                  }}
-                  Iconstyle={{ top: "13px" }}
-                />
+              <PasswordField
+                formik={formik}
+                id={"password"}
+                label={"Password"}
+                Inputstyle={{
+                  "&>div": { fontSize: "14px" },
+                  "&>label": { top: "4px" },
+                  "& input": {
+                    py: 1.5,
+                    pr: 5,
+                  },
+                }}
+                Iconstyle={{ top: "13px" }}
+              />
 
-                <PasswordField
-                  autoComplete="off"
-                  formik={formik}
-                  id={"confirm_password"}
-                  label={"Confirm Password"}
-                  Inputstyle={{
-                    "&>div": { fontSize: "14px" },
-                    "&>label": { top: "4px" },
-                    "& input": {
-                      py: 1.5,
-                      pr: 5,
-                    },
-                  }}
-                  Iconstyle={{ top: "13px" }}
-                />
+              <PasswordField
+                autoComplete="off"
+                formik={formik}
+                id={"confirm_password"}
+                label={"Confirm Password"}
+                Inputstyle={{
+                  "&>div": { fontSize: "14px" },
+                  "&>label": { top: "4px" },
+                  "& input": {
+                    py: 1.5,
+                    pr: 5,
+                  },
+                }}
+                Iconstyle={{ top: "13px" }}
+              />
 
-                {/* <TextField
+              {/* <TextField
                   fullWidth
                   size="small"
                   id="websiteURL"
@@ -583,23 +566,23 @@ export default function AddMember() {
                   value={formik.values.websiteURL}
                 /> */}
 
-                <Box>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{ lineHeight: 1, mb: 1.25 }}
-                  >
-                    Profile Image
-                  </Typography>
-                  <FileUploadButton
-                    formik={formik}
-                    id={"profile_img"}
-                    label={"Profile Image"}
-                    value={""}
-                  />
-                </Box>
+              <Box>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ lineHeight: 1, mb: 1.25 }}
+                >
+                  Profile Image
+                </Typography>
+                <FileUploadButton
+                  formik={formik}
+                  id={"profile_img"}
+                  label={"Profile Image"}
+                  value={""}
+                />
               </Box>
+            </Box>
 
-              {/* <Box
+            {/* <Box
                 sx={{
                   mt: 2.5,
                   "& fieldset": {
@@ -656,17 +639,16 @@ export default function AddMember() {
                 </Box>
               </Box> */}
 
-              <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-                <ThemeButton success Text="Create" type="submit" />
-                <ThemeButton
-                  discard
-                  Text="Discard"
-                  onClick={() => navigate("/members")}
-                />
-              </Box>
+            <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+              <ThemeButton success Text="Create" type="submit" />
+              <ThemeButton
+                discard
+                Text="Discard"
+                onClick={() => navigate("/members")}
+              />
             </Box>
-          </FormikProvider>
-        </Box>
+          </Box>
+        </FormikProvider>
       </Box>
     </>
   );
