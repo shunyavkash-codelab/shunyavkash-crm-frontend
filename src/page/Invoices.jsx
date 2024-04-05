@@ -43,8 +43,6 @@ import ModalComponent from "../component/ModalComponent.jsx";
 // const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
 export default function Invoices() {
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
   const [date, setDate] = useState("all");
   const { apiCall, isLoading } = useApi();
@@ -207,469 +205,456 @@ export default function Invoices() {
 
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            alignItems={{ sm: "center" }}
-            justifyContent={{ sm: "space-between" }}
-            columnGap={2}
-            rowGap={2.5}
-            sx={{
-              mb: 3.25,
-            }}
-          >
-            <SectionHeader
-              Title="Our Invoices"
-              BreadCrumbPreviousLink="/"
-              BreadCrumbPreviousTitle="Dashboard"
-              BreadCrumbCurrentTitle="Invoices"
-              style={{ mb: 0 }}
-            />
-            <ThemeButton
-              Text="Create Invoice"
-              secondary
-              startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-              onClick={invoiceNumberGenerate}
-            />
-          </Stack>
+      <Box component="main">
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems={{ sm: "center" }}
+          justifyContent={{ sm: "space-between" }}
+          columnGap={2}
+          rowGap={2.5}
+          sx={{
+            mb: 3.25,
+          }}
+        >
+          <SectionHeader
+            Title="Our Invoices"
+            BreadCrumbPreviousLink="/"
+            BreadCrumbPreviousTitle="Dashboard"
+            BreadCrumbCurrentTitle="Invoices"
+            style={{ mb: 0 }}
+          />
+          <ThemeButton
+            Text="Create Invoice"
+            startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+            onClick={invoiceNumberGenerate}
+          />
+        </Stack>
 
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 2.5,
+            mb: 3.25,
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
           <Box
+            component="form"
+            noValidate
+            autoComplete="off"
             sx={{
+              flexGrow: 1,
               display: "flex",
-              justifyContent: "space-between",
+              flexDirection: "column",
               gap: 2.5,
-              mb: 3.25,
-              flexDirection: { xs: "column", sm: "row" },
+              "& fieldset": { borderRadius: "6px" },
+              maxWidth: "320px",
             }}
           >
-            <Box
-              component="form"
-              noValidate
-              autoComplete="off"
+            <FormControl
+              size="small"
               sx={{
+                "&>label": { fontSize: "14px" },
                 flexGrow: 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: 2.5,
-                "& fieldset": { borderRadius: "6px" },
-                maxWidth: "320px",
               }}
             >
-              <FormControl
-                size="small"
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Date
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={date}
+                label="Date"
+                onChange={handleChange}
                 sx={{
-                  "&>label": { fontSize: "14px" },
-                  flexGrow: 1,
+                  fontSize: "14px",
+                  "&": {
+                    bgcolor: "white",
+                  },
                 }}
               >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"all"}
                 >
-                  Date
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={date}
-                  label="Date"
-                  onChange={handleChange}
+                  All
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastweek"}
+                >
+                  Last Week
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastmonth"}
+                >
+                  Last Month
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastyear"}
+                >
+                  Last Year
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"CustomRange"}
+                >
+                  Custom Range
+                </MenuItem>
+              </Select>
+            </FormControl>
+            {date === "CustomRange" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                  gap: 2.5,
+                  flexShrink: 0,
+                }}
+              >
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="from"
+                  label="From"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  value={from}
+                  onChange={(e) => setFrom(e.target.value)}
                   sx={{
-                    fontSize: "14px",
+                    "&>label,& input,&>div": { fontSize: "14px" },
                     "&": {
                       bgcolor: "white",
+                      borderRadius: 1.5,
                     },
                   }}
-                >
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"all"}
-                  >
-                    All
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastweek"}
-                  >
-                    Last Week
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastmonth"}
-                  >
-                    Last Month
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastyear"}
-                  >
-                    Last Year
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"CustomRange"}
-                  >
-                    Custom Range
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              {date === "CustomRange" && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: { xs: "column", sm: "row" },
-                    "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
-                    gap: 2.5,
-                    flexShrink: 0,
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="to"
+                  label="To"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
                   }}
-                >
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="from"
-                    label="From"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    value={from}
-                    onChange={(e) => setFrom(e.target.value)}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="to"
-                    label="To"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    value={to}
-                    onChange={(e) => setTo(e.target.value)}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                </Box>
-              )}
-            </Box>
-            {numSelected.length > 0 && (
-              <Button
-                disableRipple
-                onClick={() => {
-                  setOpenDelete(true);
-                }}
-              >
-                <DeleteIcon sx={{ color: "error.main" }} />
-              </Button>
+                  placeholder="mm/dd/yyyy"
+                  value={to}
+                  onChange={(e) => setTo(e.target.value)}
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&": {
+                      bgcolor: "white",
+                      borderRadius: 1.5,
+                    },
+                  }}
+                />
+              </Box>
             )}
           </Box>
+          {numSelected.length > 0 && (
+            <Button
+              disableRipple
+              onClick={() => {
+                setOpenDelete(true);
+              }}
+            >
+              <DeleteIcon sx={{ color: "error.main" }} />
+            </Button>
+          )}
+        </Box>
+      </Box>
 
-          {isLoading ? (
-            <LoadingIcon style={{ height: "50vh" }} />
-          ) : invoiceList.length === 0 ? (
-            <NoData />
-          ) : (
-            <>
-              <TableContainer
-                component={Paper}
-                sx={{
-                  border: "1px solid rgba(224, 224, 224, 1)",
-                  mx: { xs: "-10px", sm: 0 },
-                  width: { xs: "auto", sm: "auto" },
-                  borderRadius: 2.5,
-                }}
-              >
-                <Table
-                  className="projectTable"
-                  sx={{
-                    minWidth: 650,
-                    textTransform: "capitalize",
-                    textWrap: "nowrap",
-                    "& thead > tr > th": {
-                      backgroundColor: "#F8F9FA",
-                    },
-                    "& th,& td": { borderBottom: 0 },
-                    "& tbody tr": {
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
-                    },
-                  }}
-                  aria-label="simple table"
-                >
-                  <TableHead>
+      {/* <Typography
+            variant="subtitle2"
+            sx={{
+              opacity: 0.6,
+              lineHeight: 1,
+              mb: 1.75,
+            }}
+          >
+            {invoiceList.length} Invoices found
+          </Typography> */}
+
+      {isLoading ? (
+        <LoadingIcon style={{ height: "50vh" }} />
+      ) : invoiceList.length === 0 ? (
+        <NoData />
+      ) : (
+        <>
+          <TableContainer
+            component={Paper}
+            sx={{
+              border: "1px solid rgba(224, 224, 224, 1)",
+              mx: { xs: "-10px", sm: 0 },
+              width: { xs: "auto", sm: "auto" },
+              borderRadius: 2.5,
+            }}
+          >
+            <Table
+              className="projectTable"
+              sx={{
+                minWidth: 650,
+                textTransform: "capitalize",
+                textWrap: "nowrap",
+                "& thead > tr > th": {
+                  backgroundColor: "#F8F9FA",
+                },
+                "& th,& td": { borderBottom: 0 },
+                "& tbody tr": {
+                  borderTop: "1px solid rgba(224, 224, 224, 1)",
+                },
+              }}
+              aria-label="simple table"
+            >
+              <TableHead>
+                <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      color="primary"
+                      sx={{ color: "primary.main" }}
+                      indeterminate={
+                        numSelected.length > 0 &&
+                        numSelected.length < invoiceList.length
+                      }
+                      checked={numSelected.length === invoiceList.length}
+                      onChange={() => {
+                        setSelectAllClick(!selectAllClick);
+                        handleSelectAllChange();
+                      }}
+                      inputProps={{
+                        "aria-label": "select all desserts",
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TableSortLabel
+                      active={sortField === "projectName"}
+                      direction={orderBy || "asc"}
+                      onClick={() => createSortHandler("projectName")}
+                    >
+                      Project Name
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell>Client</TableCell>
+                  <TableCell>User</TableCell>
+                  <TableCell>
+                    <TableSortLabel
+                      active={sortField === "invoiceNumber"}
+                      direction={orderBy || "asc"}
+                      onClick={() => createSortHandler("invoiceNumber")}
+                    >
+                      Invoice No
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell>
+                    <TableSortLabel
+                      active={sortField === "invoiceDate"}
+                      direction={orderBy || "asc"}
+                      onClick={() => createSortHandler("invoiceDate")}
+                    >
+                      Invoice Date
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Total</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {invoiceList.map((row, index) => {
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  return (
                     <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&:first-of-type td": {
+                          maxWidth: "250px",
+                          textWrap: "wrap",
+                        },
+                      }}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
                           color="primary"
                           sx={{ color: "primary.main" }}
-                          indeterminate={
-                            numSelected.length > 0 &&
-                            numSelected.length < invoiceList.length
+                          checked={
+                            selectAllClick || numSelected.includes(row._id)
                           }
-                          checked={numSelected.length === invoiceList.length}
-                          onChange={() => {
-                            setSelectAllClick(!selectAllClick);
-                            handleSelectAllChange();
-                          }}
                           inputProps={{
-                            "aria-label": "select all desserts",
+                            "aria-labelledby": labelId,
+                          }}
+                          onClick={(e) => {
+                            if (e.target.checked) {
+                              setNumSelected([...numSelected, row._id]);
+                            } else {
+                              setSelectAllClick(false);
+                              let newData = numSelected.filter(
+                                (id) => id !== row._id
+                              );
+                              setNumSelected(newData);
+                            }
                           }}
                         />
                       </TableCell>
-                      <TableCell>
-                        <TableSortLabel
-                          active={sortField === "projectName"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("projectName")}
-                        >
-                          Project Name
-                        </TableSortLabel>
+                      <TableCell value={row.projectId}>
+                        {row.projectName}
                       </TableCell>
-                      <TableCell>Client</TableCell>
-                      <TableCell>User</TableCell>
+                      <TableCell>{row.clientName}</TableCell>
+                      <TableCell>{row.userName}</TableCell>
+                      <TableCell>{row.invoiceNumber}</TableCell>
                       <TableCell>
-                        <TableSortLabel
-                          active={sortField === "invoiceNumber"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("invoiceNumber")}
-                        >
-                          Invoice No
-                        </TableSortLabel>
+                        {moment(row.invoiceDate).format("DD/MM/YYYY")}
                       </TableCell>
-                      <TableCell>
-                        <TableSortLabel
-                          active={sortField === "invoiceDate"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("invoiceDate")}
+                      <TableCell
+                        sx={{
+                          "& .statusBtn": {
+                            color: "white",
+                            fontSize: "12px",
+                            p: 0.5,
+                            borderRadius: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
+                          },
+                          "& .pending": {
+                            bgcolor: "secondary.main",
+                          },
+                          "& .success": {
+                            bgcolor: "success.main",
+                          },
+                        }}
+                      >
+                        <Box
+                          className={`statusBtn ${
+                            row.status === "success" ? "success" : "pending"
+                          }`}
                         >
-                          Invoice Date
-                        </TableSortLabel>
-                      </TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell>Total</TableCell>
-                      <TableCell>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {invoiceList.map((row, index) => {
-                      const labelId = `enhanced-table-checkbox-${index}`;
-                      return (
-                        <TableRow
+                          {row.status}
+                        </Box>
+                        <Box
                           sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                            "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                            "&:first-of-type td": {
-                              maxWidth: "250px",
-                              textWrap: "wrap",
-                            },
+                            fontSize: "13px",
+                            lineHeight: 1,
+                            textWrap: "nowrap",
+                            mt: 0.75,
                           }}
                         >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              color="primary"
-                              sx={{ color: "primary.main" }}
-                              checked={
-                                selectAllClick || numSelected.includes(row._id)
-                              }
-                              inputProps={{
-                                "aria-labelledby": labelId,
-                              }}
-                              onClick={(e) => {
-                                if (e.target.checked) {
-                                  setNumSelected([...numSelected, row._id]);
-                                } else {
-                                  setSelectAllClick(false);
-                                  let newData = numSelected.filter(
-                                    (id) => id !== row._id
-                                  );
-                                  setNumSelected(newData);
-                                }
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell value={row.projectId}>
-                            {row.projectName}
-                          </TableCell>
-                          <TableCell>{row.clientName}</TableCell>
-                          <TableCell>{row.userName}</TableCell>
-                          <TableCell>{row.invoiceNumber}</TableCell>
-                          <TableCell>
-                            {moment(row.invoiceDate).format("DD/MM/YYYY")}
-                          </TableCell>
-                          <TableCell
-                            sx={{
-                              "& .statusBtn": {
-                                color: "white",
-                                fontSize: "12px",
-                                p: 0.5,
-                                borderRadius: 1,
-                                maxWidth: "fit-content",
-                                lineHeight: 1,
-                              },
-                              "& .pending": {
-                                bgcolor: "secondary.main",
-                              },
-                              "& .success": {
-                                bgcolor: "success.main",
-                              },
-                            }}
-                          >
-                            <Box
-                              className={`statusBtn ${
-                                row.status === "success" ? "success" : "pending"
-                              }`}
-                            >
-                              {row.status}
-                            </Box>
-                            <Box
-                              sx={{
-                                fontSize: "13px",
-                                lineHeight: 1,
-                                textWrap: "nowrap",
-                                mt: 0.75,
-                              }}
-                            >
-                              {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
-                            </Box>
-                          </TableCell>
-                          <TableCell>
-                            <span style={{ fontFamily: "monospace" }}>$</span>
-                            {row.totals.total?.toLocaleString()}
-                          </TableCell>
-                          <TableCell>
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: { xs: 1.25, sm: 1.5 },
-                                "& button,& a": {
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "black",
-                                  opacity: 0.6,
-                                  transition: "all 0.5s",
-                                  "&:hover": { opacity: 1 },
-                                },
-                                "& svg": {
-                                  fontSize: { xs: "20px", sm: "21px" },
-                                },
-                              }}
-                            >
-                              <Button
-                                disableRipple
-                                onClick={() =>
-                                  viewInvoice(row.invoiceNumber, row)
-                                }
-                                disabled={numSelected.length > 0}
-                              >
-                                <VisibilityIcon
-                                  sx={{ color: "secondary.main" }}
-                                />
-                              </Button>
-                              {/* <Button disableRipple>
-                            <MarkAsPaidIcon />
-                          </Button> */}
-                              <Button
-                                disableRipple
-                                onClick={() =>
-                                  editInvoice(row.invoiceNumber, row)
-                                }
-                                disabled={numSelected.length > 0}
-                              >
-                                <CreateIcon sx={{ color: "primary.main" }} />
-                              </Button>
-                              <Button
-                                disableRipple
-                                onClick={() => {
-                                  setOpenDelete(true);
-                                  // setSelectInvoice(row._id);
-                                  setNumSelected([row._id]);
-                                }}
-                                disabled={numSelected.length > 0}
-                              >
-                                <DeleteIcon sx={{ color: "error.main" }} />
-                              </Button>
-                            </Box>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                    <ModalComponent
-                      open={openDelete}
-                      setOpen={setOpenDelete}
-                      modelStyle={{ maxWidth: "400px" }}
-                    >
-                      <Box sx={{ textAlign: "center", fontSize: "20px" }}>
-                        {"Are you sure delete this project?"}
+                          {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
+                        </Box>
+                      </TableCell>
+                      <TableCell>
+                        <span style={{ fontFamily: "monospace" }}>$</span>
+                        {row.totals.total?.toLocaleString()}
+                      </TableCell>
+                      <TableCell>
                         <Box
                           sx={{
                             display: "flex",
-                            gap: 2,
-                            mt: 2.5,
-                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: { xs: 1.25, sm: 1.5 },
+                            "& button,& a": {
+                              p: 0,
+                              minWidth: "auto",
+                              color: "black",
+                              opacity: 0.6,
+                              transition: "all 0.5s",
+                              "&:hover": { opacity: 1 },
+                            },
+                            "& svg": {
+                              fontSize: { xs: "20px", sm: "21px" },
+                            },
                           }}
                         >
-                          <ThemeButton
-                            success
-                            Text="Yes"
-                            type="submit"
-                            onClick={() => deleteInvoice(numSelected)}
-                          />
-                          <ThemeButton
-                            discard
-                            Text="No"
-                            onClick={() => setOpenDelete(false)}
-                          />
+                          <Button
+                            disableRipple
+                            onClick={() => viewInvoice(row.invoiceNumber, row)}
+                            disabled={numSelected.length > 0}
+                          >
+                            <VisibilityIcon sx={{ color: "secondary.main" }} />
+                          </Button>
+                          {/* <Button disableRipple>
+                            <MarkAsPaidIcon />
+                          </Button> */}
+                          <Button
+                            disableRipple
+                            onClick={() => editInvoice(row.invoiceNumber, row)}
+                            disabled={numSelected.length > 0}
+                          >
+                            <CreateIcon sx={{ color: "primary.main" }} />
+                          </Button>
+                          <Button
+                            disableRipple
+                            onClick={() => {
+                              setOpenDelete(true);
+                              // setSelectInvoice(row._id);
+                              setNumSelected([row._id]);
+                            }}
+                            disabled={numSelected.length > 0}
+                          >
+                            <DeleteIcon sx={{ color: "error.main" }} />
+                          </Button>
                         </Box>
-                      </Box>
-                    </ModalComponent>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </>
-          )}
-          {/* pagination */}
-          {invoiceList.length > 0 && (
-            <ThemePagination
-              totalpage={totalPage}
-              onChange={handleChangeOnPageChange}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          )}
-        </Box>
-      </Box>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+                <ModalComponent
+                  open={openDelete}
+                  setOpen={setOpenDelete}
+                  modelStyle={{ maxWidth: "400px" }}
+                >
+                  <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                    {"Are you sure delete this project?"}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 2,
+                        mt: 2.5,
+                        justifyContent: "center",
+                      }}
+                    >
+                      <ThemeButton
+                        success
+                        Text="Yes"
+                        type="submit"
+                        onClick={() => deleteInvoice(numSelected)}
+                      />
+                      <ThemeButton
+                        discard
+                        Text="No"
+                        onClick={() => setOpenDelete(false)}
+                      />
+                    </Box>
+                  </Box>
+                </ModalComponent>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
+      {/* pagination */}
+      {invoiceList.length > 0 && (
+        <ThemePagination
+          totalpage={totalPage}
+          onChange={handleChangeOnPageChange}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      )}
     </>
   );
 }

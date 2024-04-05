@@ -26,46 +26,64 @@ import AccountManage from "./page/AccountManage";
 import AccountAdd from "./page/AccountAdd";
 import AddMember from "./page/AddMember";
 import InvoicePDF from "./page/InvoicePDF";
+import Layout from "./component/Layout";
 import MyLeave from "./page/MyLeave";
 import MySalary from "./page/MySalary";
 import Salary from "./page/Salary";
 
 const routes = createBrowserRouter([
+  {
+    Component: Layout,
+    children: [
+      { path: "/confirm-password", Component: ConfirmPassword },
+      { path: "/", Component: Home },
+      { path: "/employee-dashboard", Component: EmployeeDashboard },
+      { path: "/members", Component: Members },
+      { path: "/members/add", Component: AddMember },
+      { path: "/clients", Component: Clients },
+      { path: "/Clients/add", Component: AddClient },
+      { path: "/Clients/edit/:id", Component: AddClient },
+      { path: "/Clients/view/:id", Component: ViewClient },
+      { path: "/projects", Component: Projects },
+      { path: "/Projects/add", Component: AddProject },
+      { path: "/Projects/edit/:id", Component: AddProject },
+      { path: "/Projects/view/:id", Component: ViewProject },
+      { path: "/invoices", Component: Invoices },
+      { path: "/invoices/add/:invoiceNumber", Component: AddInvoice },
+      {
+        path: "/invoices/add/:invoiceNumber/preview",
+        Component: PreviewInvoice,
+      },
+      {
+        path: "/invoices/edit/:invoiceNumber/preview",
+        Component: PreviewInvoice,
+      },
+      { path: "/invoices/view/:invoiceNumber", Component: InvoicePDF },
+      { path: "/invoices/edit/:invoiceNumber", Component: AddInvoice },
+      { path: "/profile", Component: Profile },
+      { path: "/leaves-requests", Component: LeavesRequests },
+      { path: "/leaves", Component: Leaves },
+      { path: "/my-profile", Component: MyProfile },
+      { path: "/my-profile/:id", Component: MyProfile },
+      { path: "/my-salary", Component: MySalary },
+      { path: "/my-leave", Component: MyLeave },
+      { path: "/account-management", Component: AccountManage },
+      { path: "/account-management/add", Component: AccountAdd },
+      { path: "/account-management/edit/:id", Component: AccountAdd },
+      {
+        path: "/invoices/edit/:invoiceNumber/invoice-pdf",
+        Component: InvoicePDF,
+      },
+      {
+        path: "/invoices/add/:invoiceNumber/invoice-pdf",
+        Component: InvoicePDF,
+      },
+      { path: "/salary", Component: Salary },
+    ],
+  },
+  { path: "/forgot-password", Component: ForgotPassword },
   { path: "/signup", Component: SignUp },
   { path: "/signin", Component: SignIn },
-  { path: "/forgot-password", Component: ForgotPassword },
-  { path: "/confirm-password", Component: ConfirmPassword },
-  { path: "/", Component: Home },
-  { path: "/employee-dashboard", Component: EmployeeDashboard },
-  { path: "/members", Component: Members },
-  { path: "/members/add", Component: AddMember },
-  { path: "/clients", Component: Clients },
-  { path: "/Clients/add", Component: AddClient },
-  { path: "/Clients/edit/:id", Component: AddClient },
-  { path: "/Clients/view/:id", Component: ViewClient },
-  { path: "/projects", Component: Projects },
-  { path: "/Projects/add", Component: AddProject },
-  { path: "/Projects/edit/:id", Component: AddProject },
-  { path: "/Projects/view/:id", Component: ViewProject },
-  { path: "/invoices", Component: Invoices },
-  { path: "/invoices/add/:invoiceNumber", Component: AddInvoice },
-  { path: "/invoices/add/:invoiceNumber/preview", Component: PreviewInvoice },
-  { path: "/invoices/edit/:invoiceNumber/preview", Component: PreviewInvoice },
-  { path: "/invoices/view/:invoiceNumber", Component: InvoicePDF },
-  { path: "/invoices/edit/:invoiceNumber", Component: AddInvoice },
-  { path: "/profile", Component: Profile },
-  { path: "/leaves-requests", Component: LeavesRequests },
-  { path: "/leaves", Component: Leaves },
-  { path: "/my-profile", Component: MyProfile },
-  { path: "/my-profile/:id", Component: MyProfile },
-  { path: "/my-salary", Component: MySalary },
-  { path: "/my-leave", Component: MyLeave },
-  { path: "/account-management", Component: AccountManage },
-  { path: "/account-management/add", Component: AccountAdd },
-  { path: "/account-management/edit/:id", Component: AccountAdd },
-  { path: "/invoices/edit/:invoiceNumber/invoice-pdf", Component: InvoicePDF },
-  { path: "/invoices/add/:invoiceNumber/invoice-pdf", Component: InvoicePDF },
-  { path: "/salary", Component: Salary },
 ]);
 export default function Routes() {
   return (

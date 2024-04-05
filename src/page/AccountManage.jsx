@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import SideBar from "../component/SideBar";
 import { useAuth } from "../hooks/store/useAuth";
-import Header from "../component/Header";
 import SectionHeader from "../component/SectionHeader";
 import {
   Box,
@@ -55,8 +53,6 @@ import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 function AccountManage() {
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
   const [transactionList, setTransactionList] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
@@ -219,670 +215,646 @@ function AccountManage() {
 
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            alignItems={{ sm: "center" }}
-            justifyContent={{ sm: "space-between" }}
-            columnGap={2}
-            rowGap={2.5}
-            sx={{
-              mb: 3.25,
-            }}
+      <Box component="main">
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems={{ sm: "center" }}
+          justifyContent={{ sm: "space-between" }}
+          columnGap={2}
+          rowGap={2.5}
+          sx={{
+            mb: 3.25,
+          }}
+        >
+          <SectionHeader
+            Title="A/c Management"
+            BreadCrumbPreviousLink="/"
+            BreadCrumbPreviousTitle="Dashboard"
+            BreadCrumbCurrentTitle="Account"
+            style={{ mb: 0 }}
+          />
+          <Link
+            to="./add"
+            style={{ display: "inline-flex", textDecoration: "none" }}
           >
-            <SectionHeader
-              Title="A/c Management"
-              BreadCrumbPreviousLink="/"
-              BreadCrumbPreviousTitle="Dashboard"
-              BreadCrumbCurrentTitle="Account"
-              style={{ mb: 0 }}
+            <ThemeButton
+              Text="Add Entry"
+              startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
             />
-            <Link
-              to="./add"
-              style={{ display: "inline-flex", textDecoration: "none" }}
-            >
-              <ThemeButton
-                Text="Add Entry"
-                secondary
-                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-              />
-            </Link>
-          </Stack>
+          </Link>
+        </Stack>
 
-          <Grid container spacing={2.5}>
-            <Grid item xs={12} sm={6} xl={3}>
-              <CounterCards
-                Title="Total Sales"
-                Symbol="₹"
-                Counter={`${dashboard?.totalSales.toLocaleString() || 0}`}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} xl={3}>
-              <CounterCards
-                Title="Total Income"
-                Symbol="₹"
-                Counter={`${dashboard?.totalIncome.toLocaleString() || 0}`}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} xl={3}>
-              <CounterCards
-                Title="Total Expense"
-                Symbol="₹"
-                Counter={`${Math.abs(
-                  dashboard?.totalExpense || 0
-                ).toLocaleString()}`}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} xl={3}>
-              <CounterCards
-                Title="Total Balance"
-                Symbol="₹"
-                Counter={`${(
-                  dashboard?.totalIncome - dashboard?.totalExpense || 0
-                ).toLocaleString()}`}
-                counterStyle={{
-                  color:
-                    dashboard?.totalIncome - dashboard?.totalExpense > 0
-                      ? "success.main"
-                      : "review.main",
-                }}
-              />
-            </Grid>
+        <Grid container spacing={2.5}>
+          <Grid item xs={12} sm={6} xl={3}>
+            <CounterCards
+              Title="Total Sales"
+              Symbol="₹"
+              Counter={`${dashboard?.totalSales.toLocaleString() || 0}`}
+            />
           </Grid>
+          <Grid item xs={12} sm={6} xl={3}>
+            <CounterCards
+              Title="Total Income"
+              Symbol="₹"
+              Counter={`${dashboard?.totalIncome.toLocaleString() || 0}`}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} xl={3}>
+            <CounterCards
+              Title="Total Expense"
+              Symbol="₹"
+              Counter={`${Math.abs(
+                dashboard?.totalExpense || 0
+              ).toLocaleString()}`}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} xl={3}>
+            <CounterCards
+              Title="Total Balance"
+              Symbol="₹"
+              Counter={`${(
+                dashboard?.totalIncome - dashboard?.totalExpense || 0
+              ).toLocaleString()}`}
+              counterStyle={{
+                color:
+                  dashboard?.totalIncome - dashboard?.totalExpense > 0
+                    ? "success.main"
+                    : "review.main",
+              }}
+            />
+          </Grid>
+        </Grid>
+        <Box
+          sx={{
+            marginTop: "30px",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <Box
+            noValidate
+            autoComplete="off"
             sx={{
-              marginTop: "30px",
+              flexGrow: 1,
               display: "flex",
-              justifyContent: "space-between",
+              flexDirection: "column",
+              gap: 2.5,
+              "& fieldset": { borderRadius: "6px" },
+              maxWidth: "320px",
             }}
           >
-            <Box
-              noValidate
-              autoComplete="off"
+            <FormControl
+              size="small"
               sx={{
+                "&>label": { fontSize: "14px" },
                 flexGrow: 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: 2.5,
-                "& fieldset": { borderRadius: "6px" },
-                maxWidth: "320px",
               }}
             >
-              <FormControl
-                size="small"
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Date
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={date}
+                label="Date"
+                onChange={handleDateChange}
+                className="selectInput"
+                style={{ height: "auto" }}
                 sx={{
-                  "&>label": { fontSize: "14px" },
-                  flexGrow: 1,
+                  fontSize: "14px",
+                  "&": {
+                    bgcolor: "white",
+                  },
                 }}
               >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"all"}
                 >
-                  Date
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={date}
-                  label="Date"
-                  onChange={handleDateChange}
-                  className="selectInput"
-                  style={{ height: "auto" }}
-                  sx={{
-                    fontSize: "14px",
-                    "&": {
-                      bgcolor: "white",
-                    },
-                  }}
+                  All
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastweek"}
                 >
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"all"}
-                  >
-                    All
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastweek"}
-                  >
-                    Last Week
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastmonth"}
-                  >
-                    Last Month
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastyear"}
-                  >
-                    Last Year
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"CustomRange"}
-                  >
-                    Custom Range
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              {date === "CustomRange" && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: { xs: "column", sm: "row" },
-                    "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
-                    gap: 2.5,
-                    flexShrink: 0,
-                  }}
+                  Last Week
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastmonth"}
                 >
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="from"
-                    label="From"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    value={from}
-                    onChange={(e) => setFrom(e.target.value)}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="to"
-                    label="To"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    value={to}
-                    onChange={(e) => setTo(e.target.value)}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                </Box>
-              )}
-            </Box>
-            <Box
-              noValidate
-              autoComplete="off"
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: 2.5,
-                "& fieldset": { borderRadius: "6px" },
-                maxWidth: "200px",
-              }}
-            >
-              <FormControl
-                size="small"
+                  Last Month
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastyear"}
+                >
+                  Last Year
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"CustomRange"}
+                >
+                  Custom Range
+                </MenuItem>
+              </Select>
+            </FormControl>
+            {date === "CustomRange" && (
+              <Box
                 sx={{
-                  "&>label": { fontSize: "14px" },
-                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                  gap: 2.5,
+                  flexShrink: 0,
                 }}
               >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
-                >
-                  Filter
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={filter}
-                  label="Filter"
-                  onChange={handleFilterChange}
-                  className="selectInput"
-                  style={{ height: "auto" }}
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="from"
+                  label="From"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  value={from}
+                  onChange={(e) => setFrom(e.target.value)}
                   sx={{
-                    fontSize: "14px",
+                    "&>label,& input,&>div": { fontSize: "14px" },
                     "&": {
                       bgcolor: "white",
+                      borderRadius: 1.5,
                     },
                   }}
-                >
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"all"}
-                  >
-                    All
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"income"}
-                  >
-                    Income
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"expense"}
-                  >
-                    Expense
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="to"
+                  label="To"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  value={to}
+                  onChange={(e) => setTo(e.target.value)}
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&": {
+                      bgcolor: "white",
+                      borderRadius: 1.5,
+                    },
+                  }}
+                />
+              </Box>
+            )}
           </Box>
-          <Box sx={{ mt: 4 }}>
-            {isLoading ? (
-              <LoadingIcon style={{ height: "50vh" }} />
-            ) : transactionList.length === 0 ? (
-              <NoData />
-            ) : (
-              <>
-                <TableContainer
-                  component={Paper}
+          <Box
+            noValidate
+            autoComplete="off"
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2.5,
+              "& fieldset": { borderRadius: "6px" },
+              maxWidth: "200px",
+            }}
+          >
+            <FormControl
+              size="small"
+              sx={{
+                "&>label": { fontSize: "14px" },
+                flexGrow: 1,
+              }}
+            >
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Filter
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={filter}
+                label="Filter"
+                onChange={handleFilterChange}
+                className="selectInput"
+                style={{ height: "auto" }}
+                sx={{
+                  fontSize: "14px",
+                  "&": {
+                    bgcolor: "white",
+                  },
+                }}
+              >
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"all"}
+                >
+                  All
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"income"}
+                >
+                  Income
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"expense"}
+                >
+                  Expense
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </Box>
+        <Box sx={{ mt: 4 }}>
+          {isLoading ? (
+            <LoadingIcon style={{ height: "50vh" }} />
+          ) : transactionList.length === 0 ? (
+            <NoData />
+          ) : (
+            <>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  mx: { xs: "-10px", sm: 0 },
+                  width: { xs: "auto", sm: "auto" },
+                  borderRadius: 2.5,
+                }}
+              >
+                <Table
+                  className="projectTable"
                   sx={{
-                    mx: { xs: "-10px", sm: 0 },
-                    width: { xs: "auto", sm: "auto" },
-                    borderRadius: 2.5,
+                    // textTransform: "capitalize",
+                    textWrap: "nowrap",
+                    "& thead > tr > th": {
+                      backgroundColor: "#F8F9FA",
+                    },
+                    "& th,& td": {
+                      border: 0,
+                      padding: "14px",
+                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                      "&:not(:last-child)": {
+                        // borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                      },
+                    },
+                    "& tbody tr,& tfoot tr": {
+                      borderRight: "1px solid rgba(224, 224, 224, 1)",
+                    },
                   }}
                 >
-                  <Table
-                    className="projectTable"
-                    sx={{
-                      // textTransform: "capitalize",
-                      textWrap: "nowrap",
-                      "& thead > tr > th": {
-                        backgroundColor: "#F8F9FA",
-                      },
-                      "& th,& td": {
-                        border: 0,
-                        padding: "14px",
-                        borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        "&:not(:last-child)": {
-                          // borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                  <TableHead>
+                    <TableRow
+                      sx={{
+                        "& th": {
+                          lineHeight: 1,
+                          fontWeight: 600,
+                          padding: "14px",
                         },
-                      },
-                      "& tbody tr,& tfoot tr": {
-                        borderRight: "1px solid rgba(224, 224, 224, 1)",
-                      },
-                    }}
-                  >
-                    <TableHead>
+                      }}
+                    >
+                      <TableCell sx={{ width: "110px" }}>
+                        <TableSortLabel
+                          active={sortField === "date"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("date")}
+                        >
+                          Date
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell sx={{ width: "184px" }}>Title</TableCell>
+                      <TableCell sx={{ width: "370px" }}>Description</TableCell>
+                      <TableCell sx={{ width: "154px" }}>
+                        <TableSortLabel
+                          active={sortField === "paymentMethod"}
+                          direction={orderBy || "asc"}
+                          onClick={() => createSortHandler("paymentMethod")}
+                        >
+                          method
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell sx={{ width: "120px" }}>
+                        Invoice Type
+                      </TableCell>
+                      <TableCell sx={{ width: "120px" }}>
+                        Invoice Owner
+                      </TableCell>
+                      <TableCell sx={{ width: "120px" }}>
+                        Collaborator
+                      </TableCell>
+                      <TableCell sx={{ width: "120px" }}>
+                        Expense Type
+                      </TableCell>
+                      {filter !== "expense" && (
+                        <TableCell sx={{ width: "140px", textAlign: "center" }}>
+                          <TableSortLabel
+                            active={sortField === "amount"}
+                            direction={orderBy || "asc"}
+                            onClick={() => createSortHandler("amount")}
+                          >
+                            Income (₹)
+                          </TableSortLabel>
+                        </TableCell>
+                      )}
+                      {filter !== "income" && (
+                        <TableCell sx={{ width: "140px", textAlign: "center" }}>
+                          <TableSortLabel
+                            active={sortField === "amount"}
+                            direction={orderBy || "asc"}
+                            onClick={() => createSortHandler("amount")}
+                          >
+                            Expense (₹)
+                          </TableSortLabel>
+                        </TableCell>
+                      )}
+
+                      <TableCell sx={{ width: "100px", textAlign: "center" }}>
+                        actions
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {transactionList.map((account) => (
                       <TableRow
+                        key={account.key}
                         sx={{
-                          "& th": {
-                            lineHeight: 1,
-                            fontWeight: 600,
-                            padding: "14px",
-                          },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
                         }}
                       >
-                        <TableCell sx={{ width: "110px" }}>
-                          <TableSortLabel
-                            active={sortField === "date"}
-                            direction={orderBy || "asc"}
-                            onClick={() => createSortHandler("date")}
+                        <TableCell>
+                          {moment(account.date).format("DD/MM/YYYY")}
+                        </TableCell>
+
+                        <TableCell>
+                          <Box
+                            className="truncate line-clamp-1"
+                            sx={{ textWrap: "wrap" }}
                           >
-                            Date
-                          </TableSortLabel>
+                            {account.title}
+                          </Box>
                         </TableCell>
-                        <TableCell sx={{ width: "184px" }}>Title</TableCell>
-                        <TableCell sx={{ width: "370px" }}>
-                          Description
-                        </TableCell>
-                        <TableCell sx={{ width: "154px" }}>
-                          <TableSortLabel
-                            active={sortField === "paymentMethod"}
-                            direction={orderBy || "asc"}
-                            onClick={() => createSortHandler("paymentMethod")}
+                        <TableCell>
+                          <Box
+                            className="truncate line-clamp-2"
+                            sx={{ textWrap: "wrap" }}
                           >
-                            method
-                          </TableSortLabel>
+                            {account.description}
+                          </Box>
                         </TableCell>
-                        <TableCell sx={{ width: "120px" }}>
-                          Invoice Type
+                        <TableCell>
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={1}
+                          >
+                            <Box
+                              sx={{
+                                display: "inline-flex",
+                                "& span": { opacity: "0.5" },
+                              }}
+                            >
+                              {account.paymentMethod === "cash" ? (
+                                <CashIcon sx={{ color: "#43991e" }} />
+                              ) : account.paymentMethod === "bankTransfer" ? (
+                                <BankIcon sx={{ color: "#3a85ff" }} />
+                              ) : (
+                                <Stack
+                                  direction="row"
+                                  alignItems="center"
+                                  justifyContent="center"
+                                  sx={{
+                                    height: "24px",
+                                    width: "24px",
+                                  }}
+                                >
+                                  <img
+                                    src="/images/upi.svg"
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                    }}
+                                    alt="upi"
+                                  />
+                                </Stack>
+                              )}
+                            </Box>
+                            <span style={{ display: "inline-block" }}>
+                              {account.paymentMethod}
+                            </span>
+                          </Stack>
                         </TableCell>
-                        <TableCell sx={{ width: "120px" }}>
-                          Invoice Owner
+                        <TableCell>
+                          <Box
+                            className="truncate line-clamp-2"
+                            sx={{
+                              textWrap: "wrap",
+                              textTransform: "capitalize",
+                            }}
+                          >
+                            {account.invoiceType}
+                          </Box>
                         </TableCell>
-                        <TableCell sx={{ width: "120px" }}>
-                          Collaborator
+                        <TableCell>{account.invoiceOwner}</TableCell>
+                        <TableCell>
+                          {account.collaborator ? account.collaborator : "-"}
                         </TableCell>
-                        <TableCell sx={{ width: "120px" }}>
-                          Expense Type
+                        <TableCell>
+                          {account.expenseType ? account.expenseType : "-"}
                         </TableCell>
                         {filter !== "expense" && (
                           <TableCell
-                            sx={{ width: "140px", textAlign: "center" }}
+                            sx={{
+                              textAlign: "center",
+                              color: "success.main",
+                            }}
                           >
-                            <TableSortLabel
-                              active={sortField === "amount"}
-                              direction={orderBy || "asc"}
-                              onClick={() => createSortHandler("amount")}
-                            >
-                              Income (₹)
-                            </TableSortLabel>
+                            {account.type === "income"
+                              ? "₹" + account.amount.toLocaleString()
+                              : "-"}
                           </TableCell>
                         )}
                         {filter !== "income" && (
                           <TableCell
-                            sx={{ width: "140px", textAlign: "center" }}
-                          >
-                            <TableSortLabel
-                              active={sortField === "amount"}
-                              direction={orderBy || "asc"}
-                              onClick={() => createSortHandler("amount")}
-                            >
-                              Expense (₹)
-                            </TableSortLabel>
-                          </TableCell>
-                        )}
-
-                        <TableCell sx={{ width: "100px", textAlign: "center" }}>
-                          actions
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {transactionList.map((account) => (
-                        <TableRow
-                          key={account.key}
-                          sx={{
-                            "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                          }}
-                        >
-                          <TableCell>
-                            {moment(account.date).format("DD/MM/YYYY")}
-                          </TableCell>
-
-                          <TableCell>
-                            <Box
-                              className="truncate line-clamp-1"
-                              sx={{ textWrap: "wrap" }}
-                            >
-                              {account.title}
-                            </Box>
-                          </TableCell>
-                          <TableCell>
-                            <Box
-                              className="truncate line-clamp-2"
-                              sx={{ textWrap: "wrap" }}
-                            >
-                              {account.description}
-                            </Box>
-                          </TableCell>
-                          <TableCell>
-                            <Stack
-                              direction="row"
-                              alignItems="center"
-                              spacing={1}
-                            >
-                              <Box
-                                sx={{
-                                  display: "inline-flex",
-                                  "& span": { opacity: "0.5" },
-                                }}
-                              >
-                                {account.paymentMethod === "cash" ? (
-                                  <CashIcon sx={{ color: "#43991e" }} />
-                                ) : account.paymentMethod === "bankTransfer" ? (
-                                  <BankIcon sx={{ color: "#3a85ff" }} />
-                                ) : (
-                                  <Stack
-                                    direction="row"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    sx={{
-                                      height: "24px",
-                                      width: "24px",
-                                    }}
-                                  >
-                                    <img
-                                      src="/images/upi.svg"
-                                      style={{
-                                        width: "100%",
-                                        height: "100%",
-                                      }}
-                                      alt="upi"
-                                    />
-                                  </Stack>
-                                )}
-                              </Box>
-                              <span style={{ display: "inline-block" }}>
-                                {account.paymentMethod}
-                              </span>
-                            </Stack>
-                          </TableCell>
-                          <TableCell>
-                            <Box
-                              className="truncate line-clamp-2"
-                              sx={{
-                                textWrap: "wrap",
-                                textTransform: "capitalize",
-                              }}
-                            >
-                              {account.invoiceType}
-                            </Box>
-                          </TableCell>
-                          <TableCell>{account.invoiceOwner}</TableCell>
-                          <TableCell>
-                            {account.collaborator ? account.collaborator : "-"}
-                          </TableCell>
-                          <TableCell>
-                            {account.expenseType ? account.expenseType : "-"}
-                          </TableCell>
-                          {filter !== "expense" && (
-                            <TableCell
-                              sx={{
-                                textAlign: "center",
-                                color: "success.main",
-                              }}
-                            >
-                              {account.type === "income"
-                                ? "₹" + account.amount.toLocaleString()
-                                : "-"}
-                            </TableCell>
-                          )}
-                          {filter !== "income" && (
-                            <TableCell
-                              sx={{
-                                textAlign: "center",
-                                color: "review.main",
-                              }}
-                            >
-                              {account.type === "expense"
-                                ? "₹" + account.amount.toLocaleString()
-                                : "-"}
-                            </TableCell>
-                          )}
-                          <TableCell>
-                            <Stack
-                              direction="row"
-                              alignItems="center"
-                              justifyContent="center"
-                              spacing={1.5}
-                              sx={{
-                                "& button": {
-                                  opacity: 0.6,
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "text.primary",
-                                  transition: "all 0.5s",
-                                  "&:hover": {
-                                    // color: "primary.main",
-                                    opacity: 1,
-                                  },
-                                },
-                                "& svg": {
-                                  fontSize: { xs: "20px", sm: "21px" },
-                                },
-                              }}
-                            >
-                              <Button
-                                disableRipple
-                                onClick={() => {
-                                  handleOpen();
-                                  setSelectedTransaction(account);
-                                }}
-                              >
-                                <VisibilityIcon
-                                  sx={{ color: "secondary.main" }}
-                                />
-                              </Button>
-                              <Link to={`./edit/${account._id}`}>
-                                <Button disableRipple>
-                                  <CreateIcon sx={{ color: "primary.main" }} />
-                                </Button>
-                              </Link>
-                              <Button
-                                disableRipple
-                                onClick={() => {
-                                  setOpenDelete(true);
-                                  setSelectTransaction(account._id);
-                                }}
-                              >
-                                <DeleteIcon sx={{ color: "error.main" }} />
-                              </Button>
-                            </Stack>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                      <ModalComponent
-                        open={openDelete}
-                        setOpen={setOpenDelete}
-                        modelStyle={{ maxWidth: "400px" }}
-                      >
-                        <Box sx={{ textAlign: "center", fontSize: "20px" }}>
-                          {"Are you sure delete this transaction?"}
-                          <Box
                             sx={{
-                              display: "flex",
-                              gap: 2,
-                              mt: 2.5,
-                              justifyContent: "center",
+                              textAlign: "center",
+                              color: "review.main",
                             }}
                           >
-                            <ThemeButton
-                              success
-                              Text="Yes"
-                              type="submit"
-                              onClick={() =>
-                                deleteTransaction(selectTransaction)
-                              }
-                            />
-                            <ThemeButton
-                              discard
-                              Text="No"
-                              onClick={() => setOpenDelete(false)}
-                            />
-                          </Box>
+                            {account.type === "expense"
+                              ? "₹" + account.amount.toLocaleString()
+                              : "-"}
+                          </TableCell>
+                        )}
+                        <TableCell>
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            justifyContent="center"
+                            spacing={1.5}
+                            sx={{
+                              "& button": {
+                                opacity: 0.6,
+                                p: 0,
+                                minWidth: "auto",
+                                color: "text.primary",
+                                transition: "all 0.5s",
+                                "&:hover": {
+                                  // color: "primary.main",
+                                  opacity: 1,
+                                },
+                              },
+                              "& svg": {
+                                fontSize: { xs: "20px", sm: "21px" },
+                              },
+                            }}
+                          >
+                            <Button
+                              disableRipple
+                              onClick={() => {
+                                handleOpen();
+                                setSelectedTransaction(account);
+                              }}
+                            >
+                              <VisibilityIcon
+                                sx={{ color: "secondary.main" }}
+                              />
+                            </Button>
+                            <Link to={`./edit/${account._id}`}>
+                              <Button disableRipple>
+                                <CreateIcon sx={{ color: "primary.main" }} />
+                              </Button>
+                            </Link>
+                            <Button
+                              disableRipple
+                              onClick={() => {
+                                setOpenDelete(true);
+                                setSelectTransaction(account._id);
+                              }}
+                            >
+                              <DeleteIcon sx={{ color: "error.main" }} />
+                            </Button>
+                          </Stack>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    <ModalComponent
+                      open={openDelete}
+                      setOpen={setOpenDelete}
+                      modelStyle={{ maxWidth: "400px" }}
+                    >
+                      <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                        {"Are you sure delete this transaction?"}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: 2,
+                            mt: 2.5,
+                            justifyContent: "center",
+                          }}
+                        >
+                          <ThemeButton
+                            success
+                            Text="Yes"
+                            type="submit"
+                            onClick={() => deleteTransaction(selectTransaction)}
+                          />
+                          <ThemeButton
+                            discard
+                            Text="No"
+                            onClick={() => setOpenDelete(false)}
+                          />
                         </Box>
-                      </ModalComponent>
-                    </TableBody>
-                    <TableFooter>
-                      <TableRow
+                      </Box>
+                    </ModalComponent>
+                  </TableBody>
+                  <TableFooter>
+                    <TableRow
+                      sx={{
+                        "&>td": {
+                          fontWeight: 500,
+                          fontSize: "16px",
+                        },
+                      }}
+                    >
+                      <TableCell colSpan={7}></TableCell>
+                      <TableCell sx={{ color: "text.primary" }}>
+                        Total Balance:
+                      </TableCell>
+                      <TableCell
                         sx={{
-                          "&>td": {
-                            fontWeight: 500,
-                            fontSize: "16px",
-                          },
+                          color:
+                            totalAmount < 0 ? "review.main" : "success.main",
+                          textAlign: "center",
                         }}
                       >
-                        <TableCell colSpan={7}></TableCell>
-                        <TableCell sx={{ color: "text.primary" }}>
-                          Total Balance:
-                        </TableCell>
+                        ₹{Math.abs(totalAmount).toLocaleString()}
+                      </TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableFooter>
+                  <TableFooter>
+                    <TableRow
+                      sx={{
+                        "&>td": {
+                          fontWeight: 700,
+                          fontSize: "16px",
+                        },
+                      }}
+                    >
+                      <TableCell colSpan={7}></TableCell>
+                      <TableCell sx={{ color: "text.primary" }}>
+                        Total:
+                      </TableCell>
+                      {filter !== "expense" && (
                         <TableCell
                           sx={{
-                            color:
-                              totalAmount < 0 ? "review.main" : "success.main",
+                            color: "success.main",
                             textAlign: "center",
                           }}
                         >
-                          ₹{Math.abs(totalAmount).toLocaleString()}
+                          ₹{Math.abs(totalIncome).toLocaleString()}
                         </TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                      </TableRow>
-                    </TableFooter>
-                    <TableFooter>
-                      <TableRow
-                        sx={{
-                          "&>td": {
-                            fontWeight: 700,
-                            fontSize: "16px",
-                          },
-                        }}
-                      >
-                        <TableCell colSpan={7}></TableCell>
-                        <TableCell sx={{ color: "text.primary" }}>
-                          Total:
+                      )}
+                      {filter !== "income" && (
+                        <TableCell
+                          sx={{
+                            color: "review.main",
+                            textAlign: "center",
+                          }}
+                        >
+                          ₹{Math.abs(totalExpense).toLocaleString()}
                         </TableCell>
-                        {filter !== "expense" && (
-                          <TableCell
-                            sx={{
-                              color: "success.main",
-                              textAlign: "center",
-                            }}
-                          >
-                            ₹{Math.abs(totalIncome).toLocaleString()}
-                          </TableCell>
-                        )}
-                        {filter !== "income" && (
-                          <TableCell
-                            sx={{
-                              color: "review.main",
-                              textAlign: "center",
-                            }}
-                          >
-                            ₹{Math.abs(totalExpense).toLocaleString()}
-                          </TableCell>
-                        )}
-                        <TableCell></TableCell>
-                      </TableRow>
-                    </TableFooter>
-                  </Table>
-                </TableContainer>
-              </>
-            )}
-            {/* pagination */}
-            {transactionList.length > 0 && (
-              <ThemePagination
-                totalpage={totalPage}
-                onChange={handlePageChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            )}
-          </Box>
+                      )}
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableFooter>
+                </Table>
+              </TableContainer>
+            </>
+          )}
+          {/* pagination */}
+          {transactionList.length > 0 && (
+            <ThemePagination
+              totalpage={totalPage}
+              onChange={handlePageChange}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          )}
         </Box>
       </Box>
 

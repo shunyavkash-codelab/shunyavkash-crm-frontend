@@ -17,8 +17,6 @@ export default function AddClient() {
   const { id } = useParams();
   const location = useLocation();
 
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
@@ -175,103 +173,89 @@ export default function AddClient() {
 
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <SectionHeader
-            Title="Add Client"
-            BreadCrumbPreviousLink="/Clients"
-            BreadCrumbPreviousTitle="Clients"
-            BreadCrumbCurrentTitle="Add Client"
-          />
-          {(clientList || id === undefined) && (
-            <FormikProvider value={formik}>
+      <Box component="main">
+        <SectionHeader
+          Title="Add Client"
+          BreadCrumbPreviousLink="/Clients"
+          BreadCrumbPreviousTitle="Clients"
+          BreadCrumbCurrentTitle="Add Client"
+        />
+        {(clientList || id === undefined) && (
+          <FormikProvider value={formik}>
+            <Box
+              component="form"
+              noValidate
+              autoComplete="off"
+              onSubmit={(e) => {
+                e.preventDefault();
+                formik.handleSubmit();
+              }}
+              sx={{
+                p: 2.5,
+                pt: 1.75,
+                backgroundColor: "white",
+                borderRadius: 2.5,
+              }}
+            >
               <Box
-                component="form"
-                noValidate
-                autoComplete="off"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  formik.handleSubmit();
-                }}
                 sx={{
-                  p: 2.5,
-                  pt: 1.75,
-                  backgroundColor: "white",
-                  borderRadius: 2.5,
+                  pt: 0.75,
+                  flexGrow: { md: 0 },
+                  overflowY: { md: "auto" },
+                  "& fieldset": {
+                    borderRadius: 1.5,
+                  },
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "repeat(1, 1fr)",
+                    sm: "repeat(2, 1fr)",
+                  },
+                  gap: 2.5,
                 }}
               >
-                <Box
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="name"
+                  label="Full Name"
+                  autoComplete="off"
+                  defaultValue={clientList?.name}
                   sx={{
-                    pt: 0.75,
-                    flexGrow: { md: 0 },
-                    overflowY: { md: "auto" },
-                    "& fieldset": {
-                      borderRadius: 1.5,
-                    },
-                    display: "grid",
-                    gridTemplateColumns: {
-                      xs: "repeat(1, 1fr)",
-                      sm: "repeat(2, 1fr)",
-                    },
-                    gap: 2.5,
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { py: 1.5 },
                   }}
-                >
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="name"
-                    label="Full Name"
-                    autoComplete="off"
-                    defaultValue={clientList?.name}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&>label": { top: "4px" },
-                      "& input": { py: 1.5 },
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    InputProps={
-                      location.pathname.includes("/view/") && { readOnly: true }
-                    }
-                    error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
-                  />
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                  InputProps={
+                    location.pathname.includes("/view/") && { readOnly: true }
+                  }
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
+                />
 
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="email"
-                    label="Email"
-                    autoComplete="off"
-                    defaultValue={clientList?.email}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&>label": { top: "4px" },
-                      "& input": { py: 1.5 },
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.email}
-                    InputProps={
-                      location.pathname.includes("/view/") && { readOnly: true }
-                    }
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                  />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="email"
+                  label="Email"
+                  autoComplete="off"
+                  defaultValue={clientList?.email}
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { py: 1.5 },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.email}
+                  InputProps={
+                    location.pathname.includes("/view/") && { readOnly: true }
+                  }
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                />
 
-                  {/* <Box
+                {/* <Box
                     sx={{
                       display: "flex",
                       "&:hover fieldset": {
@@ -410,347 +394,342 @@ export default function AddClient() {
                     />
                   </Box> */}
 
-                  <Stack
-                    direction="row"
-                    sx={{
-                      "&:hover fieldset": {
-                        borderColor: "text.primary",
-                      },
-                    }}
-                  >
-                    <TextField
-                      fullWidth
-                      size="small"
-                      id="mobileCode"
-                      autoComplete="off"
-                      defaultValue={clientList ? clientList.mobileCode : "+91"}
-                      InputProps={
-                        location.pathname.includes("/view/") && {
-                          readOnly: true,
-                        }
-                      }
-                      sx={{
-                        maxWidth: "75px",
-                        mr: "-1px",
-                        "& > div.Mui-error": {
-                          "& fieldset": {
-                            borderRightWidth: "1px",
-                          },
-                          "& input": {
-                            color: "error.main",
-                          },
-                        },
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "& input": {
-                          py: 1.5,
-                          textAlign: "center",
-                          bgcolor: "#f4f4f4",
-                          borderRadius: "6px 0 0 6px!important",
-                        },
-                        "& fieldset": {
-                          borderRight: 0,
-                          borderRadius: "6px 0 0 6px!important",
-                        },
-                      }}
-                      onChange={formik.handleChange}
-                      value={formik.values.mobileCode}
-                      error={
-                        formik.touched.mobileCode &&
-                        Boolean(formik.errors.mobileCode)
-                      }
-                      helperText={
-                        formik.touched.mobileCode && formik.errors.mobileCode
-                      }
-                    />
-
-                    <TextField
-                      fullWidth
-                      size="small"
-                      id="mobileNumber"
-                      placeholder="Mobile Number"
-                      autoComplete="off"
-                      defaultValue={clientList?.mobileNumber}
-                      InputProps={
-                        location.pathname.includes("/view/") && {
-                          readOnly: true,
-                        }
-                      }
-                      sx={{
-                        "& > div.Mui-error": {
-                          "& fieldset": {
-                            borderLeftWidth: "1px",
-                          },
-                          "& input::placeholder": {
-                            color: "error.main",
-                            opacity: 1,
-                          },
-                        },
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "& input": { py: 1.5 },
-                        "& fieldset": {
-                          borderLeft: 0,
-                          borderRadius: "0 6px 6px 0!important",
-                        },
-                      }}
-                      onChange={formik.handleChange}
-                      value={formik.values.mobileNumber}
-                      error={
-                        formik.touched.mobileNumber &&
-                        Boolean(formik.errors.mobileNumber)
-                      }
-                      helperText={
-                        formik.touched.mobileNumber &&
-                        formik.errors.mobileNumber
-                      }
-                    />
-                  </Stack>
-
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="companyName"
-                    label="Company Name"
-                    autoComplete="off"
-                    defaultValue={clientList?.companyName}
-                    InputProps={
-                      location.pathname.includes("/view/") && { readOnly: true }
-                    }
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&>label": { top: "4px" },
-                      "& input": { py: 1.5 },
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.companyName}
-                  />
-
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="websiteURL"
-                    label="Website"
-                    autoComplete="off"
-                    defaultValue={clientList?.websiteURL}
-                    InputProps={
-                      location.pathname.includes("/view/") && { readOnly: true }
-                    }
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&>label": { top: "4px" },
-                      "& input": { py: 1.5 },
-                      gridColumn: { sm: "span 2" },
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.websiteURL}
-                    error={
-                      formik.touched.websiteURL &&
-                      Boolean(formik.errors.websiteURL)
-                    }
-                    helperText={
-                      formik.touched.websiteURL && formik.errors.websiteURL
-                    }
-                  />
-
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="address"
-                    label="Address"
-                    autoComplete="off"
-                    multiline
-                    rows={4}
-                    defaultValue={clientList?.address}
-                    InputProps={
-                      location.pathname.includes("/view/") && { readOnly: true }
-                    }
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&>label": { top: "4px" },
-                      "&>div": { py: 1.5 },
-                      gridColumn: { sm: "span 2" },
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.address}
-                  />
-
-                  <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
-                    <Typography
-                      variant="subtitle1"
-                      sx={{ lineHeight: 1, mb: 1.25 }}
-                    >
-                      Profile Image
-                    </Typography>
-                    <FileUploadButton
-                      formik={formik}
-                      id={"profile_img"}
-                      label={"Profile Image"}
-                      value={clientList.profile_img}
-                      view={location.pathname.includes("/view/") ? true : false}
-                    />
-                  </Box>
-
-                  <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
-                    <Typography
-                      variant="subtitle1"
-                      sx={{ lineHeight: 1, mb: 1.25 }}
-                    >
-                      Company Logo
-                    </Typography>
-                    <FileUploadButton
-                      formik={formik}
-                      id="companyLogo"
-                      label="Company Logo"
-                      value={clientList.companyLogo}
-                      view={location.pathname.includes("/view/") ? true : false}
-                    />
-                  </Box>
-                </Box>
-
-                <Box
+                <Stack
+                  direction="row"
                   sx={{
-                    mt: 3,
-                    py: 2.5,
-                    backgroundColor: "white",
-                    borderRadius: 2.5,
+                    "&:hover fieldset": {
+                      borderColor: "text.primary",
+                    },
                   }}
                 >
-                  <Typography
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileCode"
+                    autoComplete="off"
+                    defaultValue={clientList ? clientList.mobileCode : "+91"}
+                    InputProps={
+                      location.pathname.includes("/view/") && {
+                        readOnly: true,
+                      }
+                    }
                     sx={{
-                      textTransform: "capitalize",
-                      fontWeight: 600,
-                      pb: 2,
-                      mb: 3,
-                      borderBottom: "1px solid rgba(0,0,0,0.06)",
-                    }}
-                  >
-                    Add Bank Details
-                  </Typography>
-                  <Box
-                    sx={{
-                      pt: 0.75,
-                      flexGrow: { md: 0 },
-                      overflowY: { md: "auto" },
+                      maxWidth: "75px",
+                      mr: "-1px",
+                      "& > div.Mui-error": {
+                        "& fieldset": {
+                          borderRightWidth: "1px",
+                        },
+                        "& input": {
+                          color: "error.main",
+                        },
+                      },
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": {
+                        py: 1.5,
+                        textAlign: "center",
+                        bgcolor: "#f4f4f4",
+                        borderRadius: "6px 0 0 6px!important",
+                      },
                       "& fieldset": {
-                        borderRadius: 1.5,
+                        borderRight: 0,
+                        borderRadius: "6px 0 0 6px!important",
                       },
-                      display: "grid",
-                      gridTemplateColumns: {
-                        xs: "repeat(1, 1fr)",
-                        sm: "repeat(2, 1fr)",
-                      },
-                      gap: 2.5,
                     }}
+                    onChange={formik.handleChange}
+                    value={formik.values.mobileCode}
+                    error={
+                      formik.touched.mobileCode &&
+                      Boolean(formik.errors.mobileCode)
+                    }
+                    helperText={
+                      formik.touched.mobileCode && formik.errors.mobileCode
+                    }
+                  />
+
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="mobileNumber"
+                    placeholder="Mobile Number"
+                    autoComplete="off"
+                    defaultValue={clientList?.mobileNumber}
+                    InputProps={
+                      location.pathname.includes("/view/") && {
+                        readOnly: true,
+                      }
+                    }
+                    sx={{
+                      "& > div.Mui-error": {
+                        "& fieldset": {
+                          borderLeftWidth: "1px",
+                        },
+                        "& input::placeholder": {
+                          color: "error.main",
+                          opacity: 1,
+                        },
+                      },
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "& input": { py: 1.5 },
+                      "& fieldset": {
+                        borderLeft: 0,
+                        borderRadius: "0 6px 6px 0!important",
+                      },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.mobileNumber}
+                    error={
+                      formik.touched.mobileNumber &&
+                      Boolean(formik.errors.mobileNumber)
+                    }
+                    helperText={
+                      formik.touched.mobileNumber && formik.errors.mobileNumber
+                    }
+                  />
+                </Stack>
+
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="companyName"
+                  label="Company Name"
+                  autoComplete="off"
+                  defaultValue={clientList?.companyName}
+                  InputProps={
+                    location.pathname.includes("/view/") && { readOnly: true }
+                  }
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { py: 1.5 },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.companyName}
+                />
+
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="websiteURL"
+                  label="Website"
+                  autoComplete="off"
+                  defaultValue={clientList?.websiteURL}
+                  InputProps={
+                    location.pathname.includes("/view/") && { readOnly: true }
+                  }
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "& input": { py: 1.5 },
+                    gridColumn: { sm: "span 2" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.websiteURL}
+                  error={
+                    formik.touched.websiteURL &&
+                    Boolean(formik.errors.websiteURL)
+                  }
+                  helperText={
+                    formik.touched.websiteURL && formik.errors.websiteURL
+                  }
+                />
+
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="address"
+                  label="Address"
+                  autoComplete="off"
+                  multiline
+                  rows={4}
+                  defaultValue={clientList?.address}
+                  InputProps={
+                    location.pathname.includes("/view/") && { readOnly: true }
+                  }
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&>label": { top: "4px" },
+                    "&>div": { py: 1.5 },
+                    gridColumn: { sm: "span 2" },
+                  }}
+                  onChange={formik.handleChange}
+                  value={formik.values.address}
+                />
+
+                <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ lineHeight: 1, mb: 1.25 }}
                   >
-                    <TextField
-                      fullWidth
-                      size="small"
-                      id="bankName"
-                      label="Bank Name"
-                      autoComplete="off"
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "&>label": { top: "4px" },
-                        "& input": { py: 1.5, textTransform: "capitalize" },
-                      }}
-                      onChange={formik.handleChange}
-                      value={formik.values.bankName}
-                      error={
-                        formik.touched.bankName &&
-                        Boolean(formik.errors.bankName)
-                      }
-                      helperText={
-                        formik.touched.bankName && formik.errors.bankName
-                      }
-                    />
-
-                    <TextField
-                      fullWidth
-                      size="small"
-                      id="IFSC"
-                      label="IFSC"
-                      autoComplete="off"
-                      inputProps={{ maxLength: 11 }}
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "&>label": { top: "4px" },
-                        "& input": { py: 1.5, textTransform: "uppercase" },
-                      }}
-                      onChange={formik.handleChange}
-                      value={formik.values.IFSC}
-                      error={formik.touched.IFSC && Boolean(formik.errors.IFSC)}
-                      helperText={formik.touched.IFSC && formik.errors.IFSC}
-                    />
-
-                    <TextField
-                      fullWidth
-                      size="small"
-                      id="holderName"
-                      label="A/c Holder Name"
-                      autoComplete="off"
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "&>label": { top: "4px" },
-                        "& input": { py: 1.5, textTransform: "capitalize" },
-                      }}
-                      onChange={formik.handleChange}
-                      value={formik.values.holderName}
-                      error={
-                        formik.touched.holderName &&
-                        Boolean(formik.errors.holderName)
-                      }
-                      helperText={
-                        formik.touched.holderName && formik.errors.holderName
-                      }
-                    />
-
-                    <TextField
-                      fullWidth
-                      size="small"
-                      id="accountNumber"
-                      inputProps={{ maxLength: 14 }}
-                      label="A/c Number"
-                      autoComplete="off"
-                      sx={{
-                        "&>label,& input,&>div": { fontSize: "14px" },
-                        "&>label": { top: "4px" },
-                        "& input": { py: 1.5 },
-                      }}
-                      onChange={formik.handleChange}
-                      value={clientList.accountNumber}
-                      error={
-                        formik.touched.accountNumber &&
-                        Boolean(formik.errors.accountNumber)
-                      }
-                      helperText={
-                        formik.touched.accountNumber &&
-                        formik.errors.accountNumber
-                      }
-                    />
-                  </Box>
+                    Profile Image
+                  </Typography>
+                  <FileUploadButton
+                    formik={formik}
+                    id={"profile_img"}
+                    label={"Profile Image"}
+                    value={clientList.profile_img}
+                    view={location.pathname.includes("/view/") ? true : false}
+                  />
                 </Box>
 
-                {!location.pathname.includes("/view/") && (
-                  <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
-                    <ThemeButton
-                      success
-                      Text={
-                        location.pathname.includes("/edit/")
-                          ? "Update"
-                          : "Create"
-                      }
-                      type="submit"
-                    />
-                    <ThemeButton
-                      discard
-                      Text="Discard"
-                      onClick={() => navigate("/clients")}
-                    />
-                  </Box>
-                )}
+                <Box sx={{ gridColumn: { sm: "span 2", md: "span 1" } }}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ lineHeight: 1, mb: 1.25 }}
+                  >
+                    Company Logo
+                  </Typography>
+                  <FileUploadButton
+                    formik={formik}
+                    id="companyLogo"
+                    label="Company Logo"
+                    value={clientList.companyLogo}
+                    view={location.pathname.includes("/view/") ? true : false}
+                  />
+                </Box>
               </Box>
-            </FormikProvider>
-          )}
-        </Box>
+
+              <Box
+                sx={{
+                  mt: 3,
+                  py: 2.5,
+                  backgroundColor: "white",
+                  borderRadius: 2.5,
+                }}
+              >
+                <Typography
+                  sx={{
+                    textTransform: "capitalize",
+                    fontWeight: 600,
+                    pb: 2,
+                    mb: 3,
+                    borderBottom: "1px solid rgba(0,0,0,0.06)",
+                  }}
+                >
+                  Add Bank Details
+                </Typography>
+                <Box
+                  sx={{
+                    pt: 0.75,
+                    flexGrow: { md: 0 },
+                    overflowY: { md: "auto" },
+                    "& fieldset": {
+                      borderRadius: 1.5,
+                    },
+                    display: "grid",
+                    gridTemplateColumns: {
+                      xs: "repeat(1, 1fr)",
+                      sm: "repeat(2, 1fr)",
+                    },
+                    gap: 2.5,
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="bankName"
+                    label="Bank Name"
+                    autoComplete="off"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": { py: 1.5, textTransform: "capitalize" },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.bankName}
+                    error={
+                      formik.touched.bankName && Boolean(formik.errors.bankName)
+                    }
+                    helperText={
+                      formik.touched.bankName && formik.errors.bankName
+                    }
+                  />
+
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="IFSC"
+                    label="IFSC"
+                    autoComplete="off"
+                    inputProps={{ maxLength: 11 }}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": { py: 1.5, textTransform: "uppercase" },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.IFSC}
+                    error={formik.touched.IFSC && Boolean(formik.errors.IFSC)}
+                    helperText={formik.touched.IFSC && formik.errors.IFSC}
+                  />
+
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="holderName"
+                    label="A/c Holder Name"
+                    autoComplete="off"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": { py: 1.5, textTransform: "capitalize" },
+                    }}
+                    onChange={formik.handleChange}
+                    value={formik.values.holderName}
+                    error={
+                      formik.touched.holderName &&
+                      Boolean(formik.errors.holderName)
+                    }
+                    helperText={
+                      formik.touched.holderName && formik.errors.holderName
+                    }
+                  />
+
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="accountNumber"
+                    inputProps={{ maxLength: 14 }}
+                    label="A/c Number"
+                    autoComplete="off"
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&>label": { top: "4px" },
+                      "& input": { py: 1.5 },
+                    }}
+                    onChange={formik.handleChange}
+                    value={clientList.accountNumber}
+                    error={
+                      formik.touched.accountNumber &&
+                      Boolean(formik.errors.accountNumber)
+                    }
+                    helperText={
+                      formik.touched.accountNumber &&
+                      formik.errors.accountNumber
+                    }
+                  />
+                </Box>
+              </Box>
+
+              {!location.pathname.includes("/view/") && (
+                <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
+                  <ThemeButton
+                    success
+                    Text={
+                      location.pathname.includes("/edit/") ? "Update" : "Create"
+                    }
+                    type="submit"
+                  />
+                  <ThemeButton
+                    discard
+                    Text="Discard"
+                    onClick={() => navigate("/clients")}
+                  />
+                </Box>
+              )}
+            </Box>
+          </FormikProvider>
+        )}
       </Box>
     </>
   );
