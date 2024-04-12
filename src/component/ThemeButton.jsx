@@ -1,7 +1,12 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 function ThemeButton(props) {
+  const color = props.transparent
+    ? "primary.main"
+    : props.discard
+    ? "text.primary"
+    : "white";
   return (
     <>
       <Button
@@ -10,6 +15,7 @@ function ThemeButton(props) {
         startIcon={props.startIcon}
         endIcon={props.endIcon}
         type={props.type}
+        disabled={props.isLoading}
         sx={{
           maxHeight: "42px",
           position: "relative",
@@ -103,7 +109,11 @@ function ThemeButton(props) {
           ...props.buttonStyle,
         }}
       >
-        <span>{props.Text}</span>
+        {props.isLoading ? (
+          <CircularProgress size={20} sx={{ color: color }} />
+        ) : (
+          <span>{props.Text}</span>
+        )}
       </Button>
     </>
   );

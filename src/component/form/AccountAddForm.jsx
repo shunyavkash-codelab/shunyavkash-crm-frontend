@@ -8,7 +8,6 @@ import CustomRadioButton from "./input/CustomRadioButton";
 import CustomDate from "./input/CustomDate";
 import CustomInput from "./input/CustomInput";
 import CustomSelect from "./input/CustomSelect";
-import AddClientsModal from "../AddClientsModal";
 import CustomAutocomplete from "./input/CustomAutocomplete";
 import ImageUploder from "./ImageUploder";
 import ThemeButton from "../ThemeButton";
@@ -51,63 +50,66 @@ export default function AccountAddForm({
   isEdit,
   newClientId,
 }) {
-  const { apiCall } = useApi();
+  const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
 
-  const formik = useFormik({
-    validationSchema: Yup.object({
-      type: Yup.string().required("Transaction type is required."),
-      date: Yup.date().required("Date is required."),
-      title: Yup.string().required("Title is required."),
-      description: Yup.string().required("Description is required."),
-      amount: Yup.number().required("Amount is required."),
-      expenseType: Yup.string(),
-      invoiceOwner: Yup.string().required("InvoiceOwner is required."),
-      invoiceType: Yup.string().required("InvoiceType is required."),
-      paymentMethod: Yup.string().required("paymentMethod is required."),
-      collaborator: Yup.string(),
-    }),
-    enableReinitialize: true,
-    initialValues: {
-      type: viewTransaction?.type || "income",
-      date: viewTransaction?.date || "",
-      title: viewTransaction?.title || "",
-      description: viewTransaction?.description || "",
-      amount: viewTransaction?.amount || "",
-      expenseType: viewTransaction?.expenseType || "",
-      invoiceOwner: viewTransaction?.invoiceOwner || "",
-      invoiceType: viewTransaction?.invoiceType || "",
-      paymentMethod: viewTransaction?.paymentMethod || "",
-      collaborator: viewTransaction?.collaborator || "",
-      invoiceUpload: viewTransaction?.invoiceUpload || "",
-    },
+  const initialValues = {
+    type: viewTransaction?.type || "income",
+    date: viewTransaction?.date || "",
+    title: viewTransaction?.title || "",
+    description: viewTransaction?.description || "",
+    amount: viewTransaction?.amount || "",
+    expenseType: viewTransaction?.expenseType || "",
+    invoiceOwner: viewTransaction?.invoiceOwner || "",
+    invoiceType: viewTransaction?.invoiceType || "",
+    paymentMethod: viewTransaction?.paymentMethod || "",
+    collaborator: viewTransaction?.collaborator || "",
+    invoiceUpload: viewTransaction?.invoiceUpload || "",
+  };
 
-    onSubmit: async (values) => {
-      let formData = new FormData();
-      Object.entries(values).forEach(([key, value]) => {
-        if (value && key !== "invoiceUpload") {
-          formData.append(key, value);
-        }
-      });
-      formData.append("invoiceUpload", values.invoiceUpload);
-      try {
-        const res = await apiCall({
-          url: id ? APIS.ACCOUNTMANAGE.EDIT(id) : APIS.ACCOUNTMANAGE.ADD,
-          method: id ? "patch" : "post",
-          headers: "multipart/form-data",
-          data: formData,
-        });
-        if (res.data.success === true) {
-          setSnack(res.data.message);
-          navigate("/account-management");
-        }
-      } catch (error) {
-        let errorMessage =
-          error.response?.data?.message || "Something went wrong.";
-        setSnack(errorMessage, "warning");
+  async function addAccountDetail(values) {
+    let formData = new FormData();
+    Object.entries(values).forEach(([key, value]) => {
+      if (value && key !== "invoiceUpload") {
+        formData.append(key, value);
       }
-    },
+    });
+    formData.append("invoiceUpload", values.invoiceUpload);
+    try {
+      const res = await apiCall({
+        url: id ? APIS.ACCOUNTMANAGE.EDIT(id) : APIS.ACCOUNTMANAGE.ADD,
+        method: id ? "patch" : "post",
+        headers: "multipart/form-data",
+        data: formData,
+      });
+      if (res.data.success === true) {
+        setSnack(res.data.message);
+        navigate("/account-management");
+      }
+    } catch (error) {
+      let errorMessage =
+        error.response?.data?.message || "Something went wrong.";
+      setSnack(errorMessage, "warning");
+    }
+  }
+  const validationSchema = Yup.object({
+    type: Yup.string().required("Transaction type is required."),
+    date: Yup.date().required("Date is required."),
+    title: Yup.string().required("Title is required."),
+    description: Yup.string().required("Description is required."),
+    amount: Yup.number().required("Amount is required."),
+    expenseType: Yup.string(),
+    invoiceOwner: Yup.string().required("InvoiceOwner is required."),
+    invoiceType: Yup.string().required("InvoiceType is required."),
+    paymentMethod: Yup.string().required("paymentMethod is required."),
+    collaborator: Yup.string(),
+  });
+  const formik = useFormik({
+    validationSchema: validationSchema,
+    enableReinitialize: true,
+    initialValues: initialValues,
+    onSubmit: addAccountDetail,
   });
   useEffect(() => {
     if (newClientId) {
@@ -256,6 +258,7 @@ export default function AccountAddForm({
           </Grid>
           <Grid item xs={12}>
             <ThemeButton
+              isLoading={isLoading}
               success
               Text={isEdit ? "Edit Entry" : "Add Entry"}
               type="submit"

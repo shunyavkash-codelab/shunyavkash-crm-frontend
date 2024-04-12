@@ -22,13 +22,6 @@ function AccountAdd() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // useEffect(() => {
-  //   if (formik.values.type === "income") {
-  //     formik.setFieldValue("invoiceType", "outbound");
-  //   } else if (formik.values.type === "expense") {
-  //     formik.setFieldValue("invoiceType", "inbound");
-  //   }
-  // }, [formik, formik.values.type]);
   const getTransaction = useCallback(
     async (id) => {
       try {
@@ -46,6 +39,7 @@ function AccountAdd() {
     },
     [apiCall, setSnack]
   );
+
   const fetchClients = useCallback(async () => {
     try {
       const res = await apiCall({
