@@ -9,6 +9,7 @@ import { useSnack } from "../hooks/store/useSnack";
 
 import AccountAddForm from "../component/form/AccountAddForm";
 import AddClientsModal from "../component/AddClientsModal";
+import Loading from "../component/ui/Loading";
 
 function AccountAdd() {
   const [viewTransaction, setViewTransaction] = useState(false);
@@ -16,7 +17,7 @@ function AccountAdd() {
   const [newClientId, setNewClientId] = useState(null);
   const { id } = useParams();
   const [open, setOpen] = useState(false);
-  const { apiCall } = useApi();
+  const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
   const location = useLocation();
@@ -112,24 +113,28 @@ function AccountAdd() {
           BreadCrumbPreviousTitle="A/C Management"
           BreadCrumbCurrentTitle={isEdit ? "Edit Entry" : "Add Entry"}
         />
-        <Card
-          sx={{
-            p: 3,
-            border: 0,
-            borderRadius: 3,
-            boxShadow: "none",
-            maxWidth: 600,
-          }}
-        >
-          <AccountAddForm
-            viewTransaction={viewTransaction}
-            id={id}
-            deleteEmpandman={deleteEmpandman}
-            clientList={clientList}
-            isEdit={isEdit}
-            newClientId={newClientId}
-          />
-        </Card>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <Card
+            sx={{
+              p: 3,
+              border: 0,
+              borderRadius: 3,
+              boxShadow: "none",
+              maxWidth: 600,
+            }}
+          >
+            <AccountAddForm
+              viewTransaction={viewTransaction}
+              id={id}
+              deleteEmpandman={deleteEmpandman}
+              clientList={clientList}
+              isEdit={isEdit}
+              newClientId={newClientId}
+            />
+          </Card>
+        )}
       </Box>
 
       <AddClientsModal
