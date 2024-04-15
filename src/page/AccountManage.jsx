@@ -1,33 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SectionHeader from "../component/SectionHeader";
-import {
-  Box,
-  Button,
-  Grid,
-  Paper,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableFooter,
-  TableHead,
-  TableRow,
-  Tooltip,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  TableSortLabel,
-} from "@mui/material";
+import { Box, Grid, Stack, Tooltip } from "@mui/material";
 import ModalComponent from "../component/ModalComponent";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import CreateIcon from "@mui/icons-material/CreateOutlined";
 // import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import CashIcon from "@mui/icons-material/Payments";
-import BankIcon from "@mui/icons-material/AccountBalance";
 import DetailsList from "../component/employee/DetailsList";
 import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import InvoiceOwnerIcon from "@mui/icons-material/PermIdentityOutlined";
@@ -49,7 +25,6 @@ import { useSearchData } from "../hooks/store/useSearchData.js";
 import CounterCards from "../component/CounterCards.jsx";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import CustomSelect from "../component/form/input/CustomSelect";
 import CustomInput from "../component/form/input/CustomInput.jsx";
 import TransactionTable from "../component/table/TransactionTable.jsx";
@@ -491,10 +466,7 @@ function AccountManage() {
                 totalExpense={totalExpense}
                 handleOpen={handleOpen}
                 setSelectedTransaction={setSelectedTransaction}
-                openDelete={openDelete}
                 setOpenDelete={setOpenDelete}
-                deleteTransaction={deleteTransaction}
-                selectTransaction={selectTransaction}
                 setSelectTransaction={setSelectTransaction}
               />
             </>

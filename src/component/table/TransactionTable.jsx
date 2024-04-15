@@ -78,7 +78,6 @@ function CustomTableCell({
               color: "text.primary",
               transition: "all 0.5s",
               "&:hover": {
-                // color: "primary.main",
                 opacity: 1,
               },
             },
@@ -118,10 +117,7 @@ const TransactionTable = ({
   totalExpense,
   handleOpen,
   setSelectedTransaction,
-  openDelete,
   setOpenDelete,
-  deleteTransaction,
-  selectTransaction,
   setSelectTransaction,
 }) => {
   const TABLE_BODY = transactionList.map((account) => ({
@@ -328,8 +324,6 @@ const TransactionTable = ({
             <TableCell></TableCell>
           </TableRow>
         </TableFooter>
-        {/* TableHead, TableBody, and TableFooter components go here */}
-        {/* Make sure to adjust the JSX to use the props passed to TransactionTable */}
       </Table>
     </TableContainer>
   );
