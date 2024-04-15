@@ -1,27 +1,38 @@
-import React from "react";
 import { TextField } from "@mui/material";
+import React from "react";
 
-const CustomInput = ({ formik, name, label, type = "text", ...otherProps }) => {
+export default function CustomInput({
+  value,
+  onChange,
+  label,
+  id,
+  type,
+  placeholder,
+  rest = {},
+  fullWidth = true,
+}) {
   return (
     <TextField
-      fullWidth
-      id={name}
-      name={name}
-      label={label}
-      type={type}
-      value={formik.values[name]}
-      onChange={formik.handleChange}
+      fullWidth={fullWidth}
       size="small"
-      error={formik.touched[name] && Boolean(formik.errors[name])}
-      helperText={formik.touched[name] && formik.errors[name]}
+      id={id}
+      label={label}
+      autoComplete="off"
+      type={type}
+      InputLabelProps={{
+        shrink: true,
+      }}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
       sx={{
         "&>label,& input,&>div": { fontSize: "14px" },
-        "&>label": { top: "4px" },
-        "& input": { textTransform: "capitalize", py: 1.5 },
+        "&": {
+          bgcolor: "white",
+          borderRadius: 1.5,
+        },
       }}
-      {...otherProps}
+      {...rest}
     />
   );
-};
-
-export default CustomInput;
+}

@@ -4,11 +4,11 @@ import React, { useEffect } from "react";
 import * as Yup from "yup";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
-import CustomRadioButton from "./input/CustomRadioButton";
-import CustomDate from "./input/CustomDate";
-import CustomInput from "./input/CustomInput";
-import CustomSelect from "./input/CustomSelect";
-import CustomAutocomplete from "./input/CustomAutocomplete";
+import CustomRadioButton from "./formik/CustomRadioButton";
+import CustomDate from "./formik/CustomDate";
+import CustomInput from "./formik/CustomInput";
+import CustomSelect from "./formik/CustomSelect";
+import CustomAutocomplete from "./formik/CustomAutocomplete";
 import ImageUploder from "./ImageUploder";
 import ThemeButton from "../ThemeButton";
 import useApi from "../../hooks/useApi";

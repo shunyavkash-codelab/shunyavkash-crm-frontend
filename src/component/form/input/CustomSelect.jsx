@@ -1,51 +1,40 @@
 import React from "react";
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormHelperText,
-} from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-const CustomSelect = ({ formik, name, label, options, ...otherProps }) => {
+const CustomSelect = ({ labelId, id, value, label, onChange, options }) => {
   return (
     <FormControl
-      fullWidth
       size="small"
-      error={formik.touched[name] && Boolean(formik.errors[name])}
-      sx={{
-        "&>label": { fontSize: "14px", top: "4px" },
-        "&>div>div": { py: 1.5 },
-      }}
+      sx={{ "&>label": { fontSize: "14px" }, flexGrow: 1 }}
     >
-      <InputLabel
-        sx={{ textTransform: "capitalize", background: "#ffffff" }}
-        id={`${name}-label`}
-      >
+      <InputLabel sx={{ textTransform: "capitalize" }} id={labelId}>
         {label}
       </InputLabel>
       <Select
-        labelId={`${name}-label`}
-        id={name}
-        name={name}
-        value={formik.values[name]}
-        onChange={formik.handleChange}
-        sx={{ fontSize: "14px" }}
-        {...otherProps}
+        labelId={labelId}
+        id={id}
+        value={value}
+        label={label}
+        onChange={onChange}
+        className="selectInput"
+        style={{ height: "auto" }}
+        sx={{
+          fontSize: "14px",
+          "&": {
+            bgcolor: "white",
+          },
+        }}
       >
         {options.map((option) => (
           <MenuItem
             key={option.value}
+            sx={{ textTransform: "capitalize", fontSize: "14px" }}
             value={option.value}
-            sx={{ textTransform: "capitalize" }}
           >
             {option.label}
           </MenuItem>
         ))}
       </Select>
-      {formik.touched[name] && formik.errors[name] && (
-        <FormHelperText error={true}>{formik.errors[name]}</FormHelperText>
-      )}
     </FormControl>
   );
 };
