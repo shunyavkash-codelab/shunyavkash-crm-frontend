@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../hooks/store/useAuth";
 import SectionHeader from "../component/SectionHeader";
 import {
   Box,
@@ -58,7 +57,6 @@ function AccountManage() {
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpense, setTotalExpense] = useState(0);
   const [dashboard, setDashboard] = useState();
-  const { accessToken } = useAuth();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const { apiCall, isLoading } = useApi();
@@ -105,7 +103,7 @@ function AccountManage() {
       console.log(error, setSnack);
     }
   };
-  const viewAllTransaction = async () => {
+  const viewAllTransaction = useCallback(async () => {
     try {
       const res = await apiCall({
         url: APIS.ACCOUNTMANAGE.LIST,
@@ -143,8 +141,20 @@ function AccountManage() {
     } catch (error) {
       console.log(error, setSnack);
     }
-  };
-  const transactionDashboard = async () => {
+  }, [
+    apiCall,
+    date,
+    filter,
+    from,
+    orderBy,
+    page,
+    rowsPerPage,
+    searchData,
+    setSnack,
+    sortField,
+    to,
+  ]);
+  const transactionDashboard = useCallback(async () => {
     try {
       const res = await apiCall({
         url: APIS.ACCOUNTMANAGE.DASHBOARD,
@@ -156,11 +166,11 @@ function AccountManage() {
     } catch (error) {
       console.log(error, setSnack);
     }
-  };
+  }, [apiCall, setSnack]);
   useEffect(() => {
     transactionDashboard();
     viewAllTransaction();
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, transactionDashboard, viewAllTransaction]);
   useEffect(() => {
     if (searchData !== undefined) {
       const getData = setTimeout(async () => {
@@ -168,12 +178,12 @@ function AccountManage() {
       }, 1000);
       return () => clearTimeout(getData);
     }
-  }, [searchData]);
+  }, [searchData, viewAllTransaction]);
   useEffect(() => {
     if ((to && from) || filter) {
       viewAllTransaction();
     }
-  }, [to, from, filter]);
+  }, [to, from, filter, viewAllTransaction]);
   useEffect(() => {
     if (date === "CustomRange") {
       setFrom(moment().subtract(1, "days").endOf("day").format("YYYY-MM-DD"));
@@ -196,7 +206,7 @@ function AccountManage() {
     } else {
       viewAllTransaction();
     }
-  }, [date]);
+  }, [date, viewAllTransaction]);
   let acFormattedDate;
   if (selectedTransaction?.date) {
     let originalDate = moment(selectedTransaction?.date);
@@ -211,7 +221,7 @@ function AccountManage() {
     if (orderBy) {
       viewAllTransaction();
     }
-  }, [orderBy]);
+  }, [orderBy, viewAllTransaction]);
 
   return (
     <>
