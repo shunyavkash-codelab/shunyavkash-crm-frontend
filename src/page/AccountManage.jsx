@@ -27,6 +27,7 @@ import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 import CustomSelect from "../component/form/input/CustomSelect";
 import CustomInput from "../component/form/input/CustomInput.jsx";
 import TransactionTable from "../component/table/TransactionTable.jsx";
+import ViewTransaction from "../component/ViewComponent.jsx";
 
 const FILTER_OPTIONS = [
   { value: "all", label: "All" },
@@ -138,7 +139,6 @@ function AccountManage() {
     to,
   ]);
 
-  console.log(totalPage);
   const transactionDashboard = useCallback(async () => {
     try {
       const res = await apiCall({
@@ -485,102 +485,10 @@ function AccountManage() {
         modalTitle={selectedTransaction?.type}
         size="large"
       >
-        <Grid container rowSpacing={5} columnSpacing={1.5}>
-          <Grid item xs={12} sm={6} md={4}>
-            <DetailsList
-              Title={"Date"}
-              Text={acFormattedDate || "N/A"}
-              Icon={<DateIcon />}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <DetailsList
-              Title={"Title"}
-              Text={selectedTransaction?.title || "N/A"}
-              Icon={<TitleIcon />}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <DetailsList
-              Title={"Description"}
-              Text={selectedTransaction?.description || "N/A"}
-              Icon={<EmailIcon />}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <DetailsList
-              Title={"Amount"}
-              Text={"₹" + selectedTransaction?.amount || "N/A"}
-              Icon={<AccountBoxIcon />}
-            />
-          </Grid>
-          {/* todo = show only in Expance */}
-          <Grid item xs={12} sm={6} md={4}>
-            <DetailsList
-              Title={"Expense Type"}
-              Text={selectedTransaction?.expenseType || "N/A"}
-              Icon={<AccountBoxIcon />}
-              TextStyle={{ textTransform: "capitalize" }}
-            />
-          </Grid>
-          {/* todo = show only in Income */}
-          <Grid item xs={12} sm={6} md={4}>
-            <DetailsList
-              Title={"Collaborator"}
-              Text={selectedTransaction?.collaborator || "N/A"}
-              Icon={<CollaboratorIcon />}
-              TextStyle={{ textTransform: "capitalize" }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <DetailsList
-              Title={"Invoice Type"}
-              Text={selectedTransaction?.invoiceType || "N/A"}
-              Icon={<InvoiceTypeIcon />}
-              TextStyle={{ textTransform: "capitalize" }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <DetailsList
-              Title={"Invoice Owner"}
-              Text={selectedTransaction?.invoiceOwner || "N/A"}
-              Icon={<InvoiceOwnerIcon />}
-              TextStyle={{ textTransform: "capitalize" }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <DetailsList
-              Title={"Payment Method"}
-              Text={selectedTransaction?.paymentMethod || "N/A"}
-              Icon={<PaymentIcon />}
-              TextStyle={{ textTransform: "capitalize" }}
-            />
-          </Grid>
-          {selectedTransaction?.invoiceUpload && (
-            <Grid item xs={12} sm={6} md={4}>
-              <DetailsList
-                Title={"invoice"}
-                Icon={<InvoiceImageIcon />}
-                TextStyle={{ display: "none" }}
-              />
-              <Box>
-                <Tooltip title="Invoice" arrow>
-                  <img
-                    src={selectedTransaction.invoiceUpload}
-                    style={{
-                      height: "200px",
-                      width: "100%",
-                      objectFit: "cover",
-                      borderRadius: "6px",
-                      display: "block",
-                    }}
-                    alt="Invoice"
-                  />
-                </Tooltip>
-              </Box>
-            </Grid>
-          )}
-        </Grid>
+        <ViewTransaction
+          acFormattedDate={acFormattedDate}
+          selectedTransaction={selectedTransaction}
+        />
       </ModalComponent>
     </>
   );
