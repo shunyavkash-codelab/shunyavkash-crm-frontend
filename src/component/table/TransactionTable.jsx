@@ -3,107 +3,15 @@ import {
   TableContainer,
   Paper,
   Table,
-  TableHead,
   TableRow,
   TableCell,
-  TableSortLabel,
-  TableBody,
   TableFooter,
-  Box,
   Stack,
-  Button,
 } from "@mui/material";
-import moment from "moment";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import CreateIcon from "@mui/icons-material/CreateOutlined";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import CashIcon from "@mui/icons-material/Payments";
 import BankIcon from "@mui/icons-material/AccountBalance";
-import { Link } from "react-router-dom";
-
-function CustomTableCell({
-  value,
-  sx,
-  type,
-  format = "DD/MM/YYYY",
-  Icon,
-  onOpen,
-  onDelete,
-  onEdit,
-}) {
-  if (type === "date") {
-    return <TableCell sx={sx}>{moment(value).format(format)}</TableCell>;
-  }
-  if (type === "box") {
-    return (
-      <TableCell sx={sx}>
-        <Box className="truncate line-clamp-1" sx={{ textWrap: "wrap" }}>
-          {value}
-        </Box>
-      </TableCell>
-    );
-  }
-
-  if (type === "icon") {
-    return (
-      <TableCell sx={sx}>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Box
-            sx={{
-              display: "inline-flex",
-              "& span": { opacity: "0.5" },
-            }}
-          >
-            {Icon}
-          </Box>
-          <span>{value}</span>
-        </Stack>
-      </TableCell>
-    );
-  }
-
-  if (type === "edit") {
-    return (
-      <TableCell sx={sx}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          spacing={1.5}
-          sx={{
-            "& button": {
-              opacity: 0.6,
-              p: 0,
-              minWidth: "auto",
-              color: "text.primary",
-              transition: "all 0.5s",
-              "&:hover": {
-                opacity: 1,
-              },
-            },
-            "& svg": {
-              fontSize: { xs: "20px", sm: "21px" },
-            },
-          }}
-        >
-          <Button disableRipple onClick={onOpen}>
-            <VisibilityIcon sx={{ color: "secondary.main" }} />
-          </Button>
-          <Link to={onEdit}>
-            <Button disableRipple>
-              <CreateIcon sx={{ color: "primary.main" }} />
-            </Button>
-          </Link>
-          <Button disableRipple onClick={onDelete}>
-            <DeleteIcon sx={{ color: "error.main" }} />
-          </Button>
-        </Stack>
-      </TableCell>
-    );
-  }
-
-  return <TableCell sx={sx}>{value}</TableCell>;
-}
+import CustomTableBody from "./CustomTableBody";
+import CustomTableHeader from "./CustomTableHeader";
 
 const TransactionTable = ({
   transactionList,
@@ -222,51 +130,13 @@ const TransactionTable = ({
           },
         }}
       >
-        <TableHead>
-          <TableRow
-            sx={{
-              "& th": {
-                lineHeight: 1,
-                fontWeight: 600,
-                padding: "14px",
-              },
-            }}
-          >
-            {TABLE_HEADINGS.map((heading) => (
-              <TableCell
-                key={heading.id}
-                sx={{
-                  width: heading.width,
-                  display:
-                    heading.condition || heading.condition === undefined
-                      ? "table-cell"
-                      : "none",
-                }}
-              >
-                {heading.sortable ? (
-                  <TableSortLabel
-                    active={sortField === heading.id}
-                    direction={orderBy || "asc"}
-                    onClick={() => createSortHandler(heading.id)}
-                  >
-                    {heading.label}
-                  </TableSortLabel>
-                ) : (
-                  heading.label
-                )}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {TABLE_BODY.map((row) => (
-            <TableRow key={row.key}>
-              {row.row.map((cell, index) => (
-                <CustomTableCell {...cell} key={index} />
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
+        <CustomTableHeader
+          createSortHandler={createSortHandler}
+          headings={TABLE_HEADINGS}
+          orderBy={orderBy}
+          sortField={sortField}
+        />
+        <CustomTableBody records={TABLE_BODY} />
 
         <TableFooter>
           <TableRow
