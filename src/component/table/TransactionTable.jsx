@@ -29,10 +29,6 @@ const TransactionTable = ({
   setOpenDelete,
   setSelectTransaction,
   totalPage,
-  handlePageChange,
-  rowsPerPage,
-  onRowsPerPageChange,
-  page,
 }) => {
   const TABLE_BODY = records.map((account) => ({
     key: account._id,
@@ -207,14 +203,7 @@ const TransactionTable = ({
       </TableContainer>
       {/* pagination */}
       {records.length > 0 && (
-        <ThemePagination
-          totalPage={totalPage}
-          onChange={handlePageChange}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          count={records.length}
-          onRowsPerPageChange={onRowsPerPageChange}
-        />
+        <ThemePagination totalPage={totalPage} count={records.length} />
       )}
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import SectionHeader from "../component/SectionHeader";
 import { Box, Grid, Stack } from "@mui/material";
 import ModalComponent from "../component/ModalComponent";
@@ -35,9 +35,11 @@ function AccountManage() {
   const handleOpen = () => setOpen(true);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
+  const [params] = useSearchParams();
   const [selectedTransaction, setSelectedTransaction] = useState();
   const { searchData } = useSearchData();
-  const [page, setPage] = useState(1);
+  const page = +params.get("page") || 1;
+  const limit = +params.get("limit") || 10;
   const [totalPage, setTotalPage] = useState(1);
   const [date, setDate] = useState("all");
   const [filter, setFilter] = useState("all");
@@ -48,20 +50,13 @@ function AccountManage() {
   const [openDelete, setOpenDelete] = useState(false);
   const [selectTransaction, setSelectTransaction] = useState(false);
   // pagination
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handlePageChange = (_, newPage) => {
-    setPage(newPage);
-  };
   const handleDateChange = (event) => {
     setDate(event.target.value);
   };
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
-  };
+
   const deleteTransaction = async (id) => {
     try {
       const res = await apiCall({
@@ -87,7 +82,7 @@ function AccountManage() {
           orderBy: orderBy,
           search: searchData,
           page: searchData ? 1 : page,
-          limit: rowsPerPage,
+          limit: limit,
           from: date === "all" ? undefined : from,
           to: date === "all" ? undefined : to,
           filter: filter === "all" ? undefined : filter,
@@ -122,11 +117,11 @@ function AccountManage() {
     from,
     orderBy,
     page,
-    rowsPerPage,
     searchData,
     setSnack,
     sortField,
     to,
+    limit,
   ]);
 
   const transactionDashboard = useCallback(async () => {
@@ -145,7 +140,7 @@ function AccountManage() {
   useEffect(() => {
     transactionDashboard();
     viewAllTransaction();
-  }, [page, rowsPerPage, transactionDashboard, viewAllTransaction]);
+  }, [page, transactionDashboard, viewAllTransaction]);
   useEffect(() => {
     if (searchData !== undefined) {
       const getData = setTimeout(async () => {
@@ -459,10 +454,6 @@ function AccountManage() {
               setOpenDelete={setOpenDelete}
               setSelectTransaction={setSelectTransaction}
               totalPage={totalPage}
-              handlePageChange={handlePageChange}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              page={page}
             />
           )}
         </Box>
