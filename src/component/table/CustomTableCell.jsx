@@ -39,7 +39,7 @@ export default function CustomTableCell({
               "& span": { opacity: "0.5" },
             }}
           >
-            {Icon}
+            <Icon />
           </Box>
           <span>{value}</span>
         </Stack>

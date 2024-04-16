@@ -23,7 +23,6 @@ import InvoiceImageIcon from "@mui/icons-material/DescriptionOutlined";
 import NoData from "../component/NoData";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import CounterCards from "../component/CounterCards.jsx";
-import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 import CustomSelect from "../component/form/input/CustomSelect";
 import CustomInput from "../component/form/input/CustomInput.jsx";
@@ -138,6 +137,8 @@ function AccountManage() {
     sortField,
     to,
   ]);
+
+  console.log(totalPage);
   const transactionDashboard = useCallback(async () => {
     try {
       const res = await apiCall({
@@ -453,31 +454,25 @@ function AccountManage() {
           ) : transactionList.length === 0 ? (
             <NoData />
           ) : (
-            <>
-              <TransactionTable
-                transactionList={transactionList}
-                TABLE_HEADINGS={TABLE_HEADINGS}
-                sortField={sortField}
-                orderBy={orderBy}
-                createSortHandler={createSortHandler}
-                filter={filter}
-                totalAmount={totalAmount}
-                totalIncome={totalIncome}
-                totalExpense={totalExpense}
-                handleOpen={handleOpen}
-                setSelectedTransaction={setSelectedTransaction}
-                setOpenDelete={setOpenDelete}
-                setSelectTransaction={setSelectTransaction}
-              />
-            </>
-          )}
-          {/* pagination */}
-          {transactionList.length > 0 && (
-            <ThemePagination
-              totalpage={totalPage}
-              onChange={handlePageChange}
+            <TransactionTable
+              records={transactionList}
+              TABLE_HEADINGS={TABLE_HEADINGS}
+              sortField={sortField}
+              orderBy={orderBy}
+              createSortHandler={createSortHandler}
+              filter={filter}
+              totalAmount={totalAmount}
+              totalIncome={totalIncome}
+              totalExpense={totalExpense}
+              handleOpen={handleOpen}
+              setSelectedTransaction={setSelectedTransaction}
+              setOpenDelete={setOpenDelete}
+              setSelectTransaction={setSelectTransaction}
+              totalPage={totalPage}
+              handlePageChange={handlePageChange}
               rowsPerPage={rowsPerPage}
               onRowsPerPageChange={handleChangeRowsPerPage}
+              page={page}
             />
           )}
         </Box>

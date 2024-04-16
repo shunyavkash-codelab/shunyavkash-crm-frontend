@@ -12,9 +12,10 @@ import CashIcon from "@mui/icons-material/Payments";
 import BankIcon from "@mui/icons-material/AccountBalance";
 import CustomTableBody from "./CustomTableBody";
 import CustomTableHeader from "./CustomTableHeader";
+import ThemePagination from "../ThemePagination";
 
 const TransactionTable = ({
-  transactionList,
+  records,
   TABLE_HEADINGS,
   sortField,
   orderBy,
@@ -27,8 +28,13 @@ const TransactionTable = ({
   setSelectedTransaction,
   setOpenDelete,
   setSelectTransaction,
+  totalPage,
+  handlePageChange,
+  rowsPerPage,
+  onRowsPerPageChange,
+  page,
 }) => {
-  const TABLE_BODY = transactionList.map((account) => ({
+  const TABLE_BODY = records.map((account) => ({
     key: account._id,
     row: [
       { type: "date", value: account.date },
@@ -56,7 +62,7 @@ const TransactionTable = ({
                 }}
               >
                 {" "}
-                <img src="/images/upi.svg" alt="upi" />{" "}
+                <img src="/images/upi.svg" width={"100%"} alt="upi" />{" "}
               </Stack>
             );
           }
@@ -106,96 +112,111 @@ const TransactionTable = ({
   }));
 
   return (
-    <TableContainer
-      component={Paper}
-      sx={{
-        mx: { xs: "-10px", sm: 0 },
-        width: { xs: "auto", sm: "auto" },
-        borderRadius: 2.5,
-      }}
-    >
-      <Table
-        className="projectTable"
+    <>
+      <TableContainer
+        component={Paper}
         sx={{
-          "& thead > tr > th": {
-            backgroundColor: "#F8F9FA",
-          },
-          "& th,& td": {
-            border: 0,
-            padding: "14px",
-            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-          },
-          "& tbody tr,& tfoot tr": {
-            borderRight: "1px solid rgba(224, 224, 224, 1)",
-          },
+          mx: { xs: "-10px", sm: 0 },
+          width: { xs: "auto", sm: "auto" },
+          borderRadius: 2.5,
         }}
       >
-        <CustomTableHeader
-          createSortHandler={createSortHandler}
-          headings={TABLE_HEADINGS}
-          orderBy={orderBy}
-          sortField={sortField}
-        />
-        <CustomTableBody records={TABLE_BODY} />
+        <Table
+          className="projectTable"
+          sx={{
+            "& thead > tr > th": {
+              backgroundColor: "#F8F9FA",
+            },
+            "& th,& td": {
+              border: 0,
+              padding: "14px",
+              borderBottom: "1px solid rgba(224, 224, 224, 1)",
+            },
+            "& tbody tr,& tfoot tr": {
+              borderRight: "1px solid rgba(224, 224, 224, 1)",
+            },
+          }}
+        >
+          <CustomTableHeader
+            createSortHandler={createSortHandler}
+            headings={TABLE_HEADINGS}
+            orderBy={orderBy}
+            sortField={sortField}
+          />
+          <CustomTableBody records={TABLE_BODY} />
 
-        <TableFooter>
-          <TableRow
-            sx={{
-              "&>td": {
-                fontWeight: 500,
-                fontSize: "16px",
-              },
-            }}
-          >
-            <TableCell colSpan={7}></TableCell>
-            <TableCell sx={{ color: "text.primary" }}>Total Balance:</TableCell>
-            <TableCell
+          <TableFooter>
+            <TableRow
               sx={{
-                color: totalAmount < 0 ? "review.main" : "success.main",
-                textAlign: "center",
+                "&>td": {
+                  fontWeight: 500,
+                  fontSize: "16px",
+                },
               }}
             >
-              ₹{Math.abs(totalAmount).toLocaleString()}
-            </TableCell>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
-          </TableRow>
+              <TableCell colSpan={7}></TableCell>
+              <TableCell sx={{ color: "text.primary" }}>
+                Total Balance:
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: totalAmount < 0 ? "review.main" : "success.main",
+                  textAlign: "center",
+                }}
+              >
+                ₹{Math.abs(totalAmount).toLocaleString()}
+              </TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+            </TableRow>
 
-          <TableRow
-            sx={{
-              "&>td": {
-                fontWeight: 700,
-                fontSize: "16px",
-              },
-            }}
-          >
-            <TableCell colSpan={7}></TableCell>
-            <TableCell sx={{ color: "text.primary" }}>Total:</TableCell>
-            {filter !== "expense" && (
-              <TableCell
-                sx={{
-                  color: "success.main",
-                  textAlign: "center",
-                }}
-              >
-                ₹{Math.abs(totalIncome).toLocaleString()}
-              </TableCell>
-            )}
-            {filter !== "income" && (
-              <TableCell
-                sx={{
-                  color: "review.main",
-                  textAlign: "center",
-                }}
-              >
-                ₹{Math.abs(totalExpense).toLocaleString()}
-              </TableCell>
-            )}
-            <TableCell></TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+            <TableRow
+              sx={{
+                "&>td": {
+                  fontWeight: 700,
+                  fontSize: "16px",
+                },
+              }}
+            >
+              <TableCell colSpan={7}></TableCell>
+              <TableCell sx={{ color: "text.primary" }}>Total:</TableCell>
+              {filter !== "expense" && (
+                <TableCell
+                  sx={{
+                    color: "success.main",
+                    textAlign: "center",
+                  }}
+                >
+                  ₹{Math.abs(totalIncome).toLocaleString()}
+                </TableCell>
+              )}
+              {filter !== "income" && (
+                <TableCell
+                  sx={{
+                    color: "review.main",
+                    textAlign: "center",
+                  }}
+                >
+                  ₹{Math.abs(totalExpense).toLocaleString()}
+                </TableCell>
+              )}
+              <TableCell></TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+      {/* pagination */}
+      {records.length > 0 && (
+        <ThemePagination
+          totalPage={totalPage}
+          onChange={handlePageChange}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          count={records.length}
+          onRowsPerPageChange={onRowsPerPageChange}
+        />
+      )}
+    </>
   );
 };
 

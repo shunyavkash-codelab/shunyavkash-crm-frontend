@@ -10,19 +10,18 @@ function ThemePagination(props) {
         justifyContent={{ xs: "space-between", xl: "space-between" }}
         sx={{ position: { xl: "relative" }, mt: 2.5, px: 2.5 }}
       >
-        {props.totalpage > 1 && (
-          <Pagination count={props.totalpage} onChange={props.onChange} />
+        {+props.count > 1 && (
+          <Pagination count={+props.count || 0} onChange={props.onChange} />
         )}
 
         <TablePagination
           component="div"
-          rowsPerPage={props.rowsPerPage}
+          rowsPerPage={+props.rowsPerPage}
+          count={+props.count || 0}
           onRowsPerPageChange={props.onRowsPerPageChange}
+          onPageChange={props.onChange}
+          page={props.count || props.count <= 0 ? 0 : props.page}
           sx={{
-            // position: { xl: "absolute" },
-            // top: { xl: "50%" },
-            // transform: { xl: "translateY(-50%)" },
-            // right: { xl: 0 },
             marginLeft: "auto",
             "&>div": {
               p: 0,
