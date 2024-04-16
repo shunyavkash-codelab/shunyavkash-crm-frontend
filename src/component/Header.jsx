@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   InputBase,
@@ -30,6 +30,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
   let location = useLocation();
   const open = Boolean(anchorEl);
   const { setSearchData } = useSearchData();
+  const [search, setSearch] = useState("");
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -45,6 +46,15 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
 
   const [modalOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      setSearchData(search);
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [search, setSearchData]);
 
   return (
     <>
@@ -146,7 +156,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                     },
                   }}
                   onChange={(e) => {
-                    setSearchData(e.target.value);
+                    setSearch(e.target.value);
                   }}
                 />
               </Box>

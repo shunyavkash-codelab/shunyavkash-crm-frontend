@@ -45,7 +45,7 @@ function AccountManage() {
   const [filter, setFilter] = useState("all");
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
-  const [sortField, setSortField] = useState();
+  const [sortField, setSortField] = useState("date");
   const [orderBy, setOrderBy] = useState();
   const [openDelete, setOpenDelete] = useState(false);
   const [selectTransaction, setSelectTransaction] = useState(false);
@@ -78,23 +78,24 @@ function AccountManage() {
         url: APIS.ACCOUNTMANAGE.LIST,
         method: "get",
         params: {
-          sortField: sortField || "date",
+          sortField: sortField,
           orderBy: orderBy,
           search: searchData,
           page: searchData ? 1 : page,
           limit: limit,
-          from: date === "all" ? undefined : from,
-          to: date === "all" ? undefined : to,
+          from: from,
+          to: to,
           filter: filter === "all" ? undefined : filter,
         },
       });
       if (res.data.success === true) {
-        setTransactionList(res.data.data.data);
-        setTotalPage(res.data.data.pagination.pages);
+        let data = res.data.data;
+        setTransactionList(data.data);
+        setTotalPage(data.pagination.pages);
         let total = 0,
           totalExp = 0,
           totalInc = 0;
-        for (var trans of res.data.data.data) {
+        for (var trans of data.data) {
           if (trans.type === "expense") {
             total = total - trans.amount;
             totalExp = totalExp - trans.amount;
@@ -112,7 +113,6 @@ function AccountManage() {
     }
   }, [
     apiCall,
-    date,
     filter,
     from,
     orderBy,
@@ -139,44 +139,55 @@ function AccountManage() {
   }, [apiCall, setSnack]);
   useEffect(() => {
     transactionDashboard();
+  }, [transactionDashboard]);
+  useEffect(() => {
     viewAllTransaction();
-  }, [page, transactionDashboard, viewAllTransaction]);
+  }, [viewAllTransaction]);
   useEffect(() => {
-    if (searchData !== undefined) {
-      const getData = setTimeout(async () => {
-        viewAllTransaction();
-      }, 1000);
-      return () => clearTimeout(getData);
-    }
-  }, [searchData, viewAllTransaction]);
-  useEffect(() => {
-    if ((to && from) || filter) {
-      viewAllTransaction();
-    }
-  }, [to, from, filter, viewAllTransaction]);
-  useEffect(() => {
+    let fromValue, toValue;
     if (date === "CustomRange") {
-      setFrom(moment().subtract(1, "days").endOf("day").format("YYYY-MM-DD"));
-      setTo(moment().format("YYYY-MM-DD"));
+      fromValue = moment()
+        .subtract(1, "days")
+        .endOf("day")
+        .format("YYYY-MM-DD");
+      toValue = moment().format("YYYY-MM-DD");
     } else if (date === "lastweek") {
-      setFrom(
-        moment().subtract(1, "weeks").startOf("week").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "weeks").endOf("week").format("YYYY-MM-DD"));
+      fromValue = moment()
+        .subtract(1, "weeks")
+        .startOf("week")
+        .format("YYYY-MM-DD");
+
+      toValue = moment()
+        .subtract(1, "weeks")
+        .endOf("week")
+        .format("YYYY-MM-DD");
     } else if (date === "lastmonth") {
-      setFrom(
-        moment().subtract(1, "months").startOf("month").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "months").endOf("month").format("YYYY-MM-DD"));
+      fromValue = moment()
+        .subtract(1, "months")
+        .startOf("month")
+        .format("YYYY-MM-DD");
+      toValue = moment()
+        .subtract(1, "months")
+        .endOf("month")
+        .format("YYYY-MM-DD");
     } else if (date === "lastyear") {
-      setFrom(
-        moment().subtract(1, "years").startOf("year").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
-    } else {
-      viewAllTransaction();
+      fromValue = moment()
+        .subtract(1, "years")
+        .startOf("year")
+        .format("YYYY-MM-DD");
+
+      toValue = moment()
+        .subtract(1, "years")
+        .endOf("year")
+        .format("YYYY-MM-DD");
+    } else if (date === "all") {
+      fromValue = undefined;
+      toValue = undefined;
     }
-  }, [date, viewAllTransaction]);
+    setFrom(fromValue);
+    setTo(toValue);
+  }, [date]);
+
   let acFormattedDate;
   if (selectedTransaction?.date) {
     let originalDate = moment(selectedTransaction?.date);
@@ -187,11 +198,6 @@ function AccountManage() {
     setSortField(id);
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
-  useEffect(() => {
-    if (orderBy) {
-      viewAllTransaction();
-    }
-  }, [orderBy, viewAllTransaction]);
 
   const CARDS = [
     {
