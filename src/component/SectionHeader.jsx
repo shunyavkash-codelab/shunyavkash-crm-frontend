@@ -1,10 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Box, Stack, Typography } from "@mui/material";
+import ThemeButton from "./ThemeButton";
+import PlusIcon from "@mui/icons-material/Close";
 
 function SectionHeader(props) {
   return (
-    <>
+    <Stack
+      direction={{ xs: "column", sm: "row" }}
+      alignItems={{ sm: "center" }}
+      justifyContent={{ sm: "space-between" }}
+      columnGap={2}
+      rowGap={2.5}
+      sx={{
+        mb: 3.25,
+      }}
+    >
       <Box sx={{ textTransform: "capitalize", mb: 3.25, ...props.style }}>
         <Typography variant="h5">{props.Title}</Typography>
         {props.BreadCrumbPreviousTitle && props.BreadCrumbCurrentTitle && (
@@ -17,7 +28,7 @@ function SectionHeader(props) {
             }}
           >
             <Link
-              to={props.BreadCrumbPreviousLink || "javascript:void(0);"}
+              to={props.BreadCrumbPreviousLink}
               style={{ textDecoration: "none" }}
             >
               <Typography
@@ -39,7 +50,19 @@ function SectionHeader(props) {
           </Stack>
         )}
       </Box>
-    </>
+
+      {props.createButtonTitle && (
+        <Link
+          to={props.createLink}
+          style={{ display: "inline-flex", textDecoration: "none" }}
+        >
+          <ThemeButton
+            Text={props.createButtonTitle}
+            startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+          />
+        </Link>
+      )}
+    </Stack>
   );
 }
 

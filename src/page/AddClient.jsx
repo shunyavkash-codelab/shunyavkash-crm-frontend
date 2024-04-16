@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box, TextField, Typography, Stack } from "@mui/material";
-import { useAuth } from "../hooks/store/useAuth";
 import FileUploadButton from "../component/FileUploadButton";
 import { FormikProvider, useFormik } from "formik";
 import useApi from "../hooks/useApi";
@@ -17,13 +14,10 @@ export default function AddClient() {
   const { id } = useParams();
   const location = useLocation();
 
-  const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
   const navigate = useNavigate();
   const [clientList, setClientList] = useState(false);
-  // const [countryList, setCountryList] = useState([]);
-  // const [country, setCountry] = useState(null);
 
   // yup data validator schhema
   const schema = Yup.object({
@@ -137,19 +131,22 @@ export default function AddClient() {
   // });
 
   // get client list
-  const fetchClient = async (id) => {
-    try {
-      const res = await apiCall({
-        url: APIS.CLIENT.VIEW(id),
-        method: "get",
-      });
-      if (res.data.success === true) {
-        setClientList(res.data.data);
+  const fetchClient = useCallback(
+    async (id) => {
+      try {
+        const res = await apiCall({
+          url: APIS.CLIENT.VIEW(id),
+          method: "get",
+        });
+        if (res.data.success === true) {
+          setClientList(res.data.data);
+        }
+      } catch (error) {
+        console.log(error, setSnack);
       }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+    },
+    [apiCall, setSnack]
+  );
 
   // get country list
   // const fetchCountry = async () => {
@@ -167,9 +164,11 @@ export default function AddClient() {
   // };
 
   useEffect(() => {
-    if (id !== undefined) fetchClient(id);
+    if (id !== undefined) {
+      fetchClient(id);
+    }
     // fetchCountry();
-  }, []);
+  }, [fetchClient, id]);
 
   return (
     <>

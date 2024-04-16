@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import SectionHeader from "../component/SectionHeader";
-import { Box, Grid, Stack } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import ModalComponent from "../component/ModalComponent";
 // import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import PlusIcon from "@mui/icons-material/Close";
 import ThemeButton from "../component/ThemeButton";
 import { APIS } from "../api/apiList";
 import useApi from "../hooks/useApi";
@@ -288,34 +287,15 @@ function AccountManage() {
   return (
     <>
       <Box component="main">
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          alignItems={{ sm: "center" }}
-          justifyContent={{ sm: "space-between" }}
-          columnGap={2}
-          rowGap={2.5}
-          sx={{
-            mb: 3.25,
-          }}
-        >
-          <SectionHeader
-            Title="A/c Management"
-            BreadCrumbPreviousLink="/"
-            BreadCrumbPreviousTitle="Dashboard"
-            BreadCrumbCurrentTitle="Account"
-            style={{ mb: 0 }}
-          />
-          <Link
-            to="./add"
-            style={{ display: "inline-flex", textDecoration: "none" }}
-          >
-            <ThemeButton
-              Text="Add Entry"
-              startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-            />
-          </Link>
-        </Stack>
-
+        <SectionHeader
+          Title="A/c Management"
+          BreadCrumbPreviousLink="/"
+          BreadCrumbPreviousTitle="Dashboard"
+          BreadCrumbCurrentTitle="Account"
+          style={{ mb: 0 }}
+          createButtonTitle="Add Entry"
+          createLink="./add"
+        />
         <ModalComponent
           open={openDelete}
           setOpen={setOpenDelete}
