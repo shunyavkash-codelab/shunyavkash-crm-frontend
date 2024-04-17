@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Box, IconButton, Button, styled } from "@mui/material";
+import { Box, IconButton, Button, styled, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Field } from "formik";
@@ -17,10 +17,22 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function FileUploadButton({ formik, id, label, value, view }) {
+export default function FileUploadButton({
+  formik,
+  id,
+  label,
+  value,
+  view,
+  title,
+}) {
   const [file, setFile] = useState(value);
   return (
     <>
+      {title && (
+        <Typography variant="subtitle1" sx={{ lineHeight: 1, mb: 1.25 }}>
+          {title}
+        </Typography>
+      )}
       {file ? (
         <>
           <Box
@@ -118,10 +130,8 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
         >
           {label}
           {/* {view === false && ( */}
-          <Field
-            name="file"
-            fileTypes={[".png", ".jpg"]}
-            render={({ field, form }) => (
+          <Field name="file" fileTypes={[".png", ".jpg"]}>
+            {({ field, form }) => (
               <VisuallyHiddenInput
                 {...field}
                 id="test"
@@ -133,7 +143,7 @@ export default function FileUploadButton({ formik, id, label, value, view }) {
                 }}
               />
             )}
-          />
+          </Field>
           {/* )} */}
         </Button>
       )}

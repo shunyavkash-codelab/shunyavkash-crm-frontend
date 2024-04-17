@@ -17,7 +17,6 @@ const CustomInput = ({ formik, name, label, type = "text", ...otherProps }) => {
       sx={{
         "&>label,& input,&>div": { fontSize: "14px" },
         "&>label": { top: "4px" },
-        "& input": { textTransform: "capitalize", py: 1.5 },
       }}
       {...otherProps}
     />

@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, CircularProgress } from "@mui/material";
 
-function ThemeButton(props) {
-  const color = props.transparent
+function ThemeButton({ isLoading, ...props }) {
+  const color = props?.transparent
     ? "primary.main"
-    : props.discard
+    : props?.discard
     ? "text.primary"
     : "white";
   return (
@@ -15,7 +15,7 @@ function ThemeButton(props) {
         startIcon={props.startIcon}
         endIcon={props.endIcon}
         type={props.type}
-        disabled={props.isLoading}
+        disabled={isLoading}
         sx={{
           maxHeight: "42px",
           position: "relative",
@@ -27,26 +27,26 @@ function ThemeButton(props) {
           overflow: "hidden",
           textTransform: "capitalize",
           fontWeight: "400",
-          color: props.transparent
+          color: props?.transparent
             ? "primary.main"
-            : props.discard
+            : props?.discard
             ? "text.primary"
             : "white",
           borderColor: props.success
             ? "success.main"
             : props.error
             ? "error.main"
-            : props.discard
+            : props?.discard
             ? "#e4e4e4"
             : props.secondary
             ? "secondary.main"
             : props.btnColor || "primary.main",
-          bgcolor: !props.transparent
+          bgcolor: !props?.transparent
             ? props.success
               ? "success.main"
               : props.error
               ? "error.main"
-              : props.discard
+              : props?.discard
               ? "#e4e4e4"
               : props.secondary
               ? "secondary.main"
@@ -68,36 +68,36 @@ function ThemeButton(props) {
           //     : "white",
           // },
           "&:hover": {
-            color: props.transparent
+            color: props?.transparent
               ? "secondary.main"
               : props.success
               ? "primary.main"
               : props.error
               ? "error.main"
-              : props.discard
+              : props?.discard
               ? "text.primary"
               : props.secondary
               ? "text.white"
               : props.btnColor || "text.white",
-            bgcolor: !props.transparent
+            bgcolor: !props?.transparent
               ? props.success
                 ? "success.light"
                 : props.error
                 ? "error.main"
-                : props.discard
+                : props?.discard
                 ? "#e4e4e4"
                 : props.secondary
                 ? "primary.main"
                 : props.btnColor || "secondary.main"
               : "",
-            borderColor: props.transparent
+            borderColor: props?.transparent
               ? "secondary.main"
-              : !props.transparent
+              : !props?.transparent
               ? props.success
                 ? "success.main"
                 : props.error
                 ? "error.main"
-                : props.discard
+                : props?.discard
                 ? "#e4e4e4"
                 : props.secondary
                 ? "primary.main"
@@ -109,7 +109,7 @@ function ThemeButton(props) {
           ...props.buttonStyle,
         }}
       >
-        {props.isLoading ? (
+        {isLoading ? (
           <CircularProgress size={20} sx={{ color: color }} />
         ) : (
           <span>{props.Text}</span>
