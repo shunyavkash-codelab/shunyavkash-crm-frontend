@@ -577,9 +577,7 @@ export default function Invoices() {
                                   p: 0,
                                   minWidth: "auto",
                                   color: "black",
-                                  opacity: 0.6,
                                   transition: "all 0.5s",
-                                  "&:hover": { opacity: 1 },
                                 },
                                 "& svg": {
                                   fontSize: { xs: "20px", sm: "21px" },

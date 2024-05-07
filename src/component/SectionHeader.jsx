@@ -17,7 +17,7 @@ function SectionHeader(props) {
             }}
           >
             <Link
-              to={props.BreadCrumbPreviousLink || "javascript:void(0);"}
+              to={props.BreadCrumbPreviousLink || "javascript:void(0)"}
               style={{ textDecoration: "none" }}
             >
               <Typography

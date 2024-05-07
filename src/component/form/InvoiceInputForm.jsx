@@ -152,7 +152,7 @@ export default function InvoiceInputForm({
                 display: { xs: "flex", sm: "block" },
                 alignItems: { xs: "center", sm: "start" },
                 justifyContent: { xs: "space-between", sm: "start" },
-                mb: 3.75,
+                mb: 3.5,
               }}
             >
               <Typography
@@ -207,7 +207,8 @@ export default function InvoiceInputForm({
                       display: "grid",
                       gap: 2.25,
                       width: "100%",
-                      marginBottom: "10px",
+                      marginBottom: "20px",
+                      textTransform: "capitalize",
                     }}
                   >
                     <TextField

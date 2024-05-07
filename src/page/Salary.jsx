@@ -569,12 +569,7 @@ export default function MyProfile() {
                                 p: 0,
                                 minWidth: "auto",
                                 color: "black",
-                                opacity: 0.6,
                                 transition: "all 0.5s",
-                                "&:hover": {
-                                  // color: "primary.main",
-                                  opacity: 1,
-                                },
                               },
                               "& svg": {
                                 fontSize: { xs: "20px", sm: "21px" },
@@ -619,8 +614,14 @@ export default function MyProfile() {
                     >
                       <Box sx={{ textAlign: "center", fontSize: "20px" }}>
                         {"Are you sure delete this salary?"}
-                        <Box sx={{ display: "flex", gap: 2, mt: 2.5,
-                    justifyContent: "center" }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: 2,
+                            mt: 2.5,
+                            justifyContent: "center",
+                          }}
+                        >
                           <ThemeButton
                             success
                             Text="Yes"

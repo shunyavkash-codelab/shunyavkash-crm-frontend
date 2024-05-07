@@ -564,7 +564,7 @@ function AccountManage() {
                             direction={orderBy || "asc"}
                             onClick={() => createSortHandler("paymentMethod")}
                           >
-                            method
+                            Method
                           </TableSortLabel>
                         </TableCell>
                         <TableCell sx={{ width: "120px" }}>
@@ -606,8 +606,13 @@ function AccountManage() {
                           </TableCell>
                         )}
 
-                        <TableCell sx={{ width: "100px", textAlign: "center" }}>
-                          actions
+                        <TableCell
+                          sx={{
+                            width: "100px",
+                            textAlign: "center",
+                          }}
+                        >
+                          Actions
                         </TableCell>
                       </TableRow>
                     </TableHead>
@@ -731,15 +736,10 @@ function AccountManage() {
                               spacing={1.5}
                               sx={{
                                 "& button": {
-                                  opacity: 0.6,
                                   p: 0,
                                   minWidth: "auto",
                                   color: "text.primary",
                                   transition: "all 0.5s",
-                                  "&:hover": {
-                                    // color: "primary.main",
-                                    opacity: 1,
-                                  },
                                 },
                                 "& svg": {
                                   fontSize: { xs: "20px", sm: "21px" },

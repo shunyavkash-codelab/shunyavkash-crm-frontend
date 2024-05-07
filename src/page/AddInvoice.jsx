@@ -2017,8 +2017,8 @@ export default function AddInvoice() {
                     address2: values.address2,
                     landmark: values.landmark,
                     pincode: values.pincode,
-                    mobileNumber: values.mobileNumber,
-                    email: values.email,
+                    "Ref.mobileNumber": values.mobileNumber,
+                    "Ref.email": values.email,
                   },
                 ]}
                 onSuccess={fetchAdmin}

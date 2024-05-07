@@ -543,12 +543,7 @@ export default function LeavesRequests() {
                                   p: 0,
                                   minWidth: "auto",
                                   color: "error.main",
-                                  opacity: 0.5,
                                   transition: "all 0.5s",
-                                  "&:hover": {
-                                    // color: "primary.main",
-                                    opacity: 1,
-                                  },
                                 },
                                 "& svg": {
                                   fontSize: { xs: "20px", sm: "21px" },
