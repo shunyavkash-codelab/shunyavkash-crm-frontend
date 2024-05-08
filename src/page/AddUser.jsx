@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import {
   Box,
   FormControl,
@@ -14,7 +10,6 @@ import {
   Autocomplete,
   InputAdornment,
 } from "@mui/material";
-import { useAuth } from "../hooks/store/useAuth";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import { useNavigate } from "react-router-dom";
@@ -26,10 +21,7 @@ import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
 
 export default function AddUser() {
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
   const [userList, setUserList] = useState([]);
-  const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
   const navigate = useNavigate();

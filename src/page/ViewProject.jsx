@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Chip, Grid } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
-import { useAuth } from "../hooks/store/useAuth.js";
 import { useNavigate, useParams } from "react-router-dom";
 import ClientNameIcon from "@mui/icons-material/PersonOutlined";
 import DescriptionIcon from "@mui/icons-material/DescriptionOutlined";
@@ -21,7 +18,6 @@ import SectionHeader from "../component/SectionHeader.jsx";
 
 export default function ViewProject() {
   const { apiCall, isLoading } = useApi();
-  const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const [projectList, setProjectList] = useState(false);
   const { id } = useParams();

@@ -10,11 +10,8 @@ import {
   TableRow,
   Typography,
   Stack,
-  TableSortLabel,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import { APIS } from "../api/apiList";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
@@ -33,7 +30,7 @@ import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 
 export default function Leaves() {
   const [approveList, setApproveList] = useState([]);
-  const { accessToken, user } = useAuth();
+  const { user } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const [page, setPage] = useState(1);
@@ -133,7 +130,7 @@ export default function Leaves() {
     approveLeaveList();
   }, [page, rowsPerPage]);
   useEffect(() => {
-    if (searchData !== undefined) {
+    if (searchData !== "") {
       const getData = setTimeout(async () => {
         approveLeaveList();
       }, 1000);
@@ -165,6 +162,7 @@ export default function Leaves() {
             BreadCrumbPreviousLink="/"
             BreadCrumbPreviousTitle="Dashboard"
             BreadCrumbCurrentTitle="Leaves"
+            stackSx={{ mb: 0 }}
           />
           {user.role !== 0 && (
             <ThemeButton

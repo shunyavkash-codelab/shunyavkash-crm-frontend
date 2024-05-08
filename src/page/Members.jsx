@@ -14,12 +14,8 @@ import {
   Tab,
   Tabs,
   Stack,
-  TablePagination,
-  Pagination,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import PlusIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import EmployeeListRaw from "../component/EmployeeListRaw";
@@ -187,8 +183,9 @@ export default function Members() {
 
   // serech data
   useEffect(() => {
-    if (searchData !== undefined) {
+    if (searchData !== "") {
       const getData = setTimeout(async () => {
+        console.log("first");
         if (value === 0) fetchManager();
         else if (value === 1) fetchEmployees();
         else if (value === 2) fetchInvited();
@@ -224,6 +221,7 @@ export default function Members() {
             BreadCrumbPreviousTitle="Dashboard"
             BreadCrumbCurrentTitle="Member"
             style={{ mb: 0 }}
+            stackSx={{ mb: 0 }}
           />
           {user.role === 0 && (
             <Link to="./add">

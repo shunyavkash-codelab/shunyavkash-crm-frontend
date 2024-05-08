@@ -13,8 +13,6 @@ import {
   Stack,
   Grid,
 } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import CounterCards from "../component/CounterCards";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
@@ -34,7 +32,7 @@ export default function Home() {
   const [dashboardData, setDashboardData] = useState(false);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken, user } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [invoiceList, setInvoiceList] = useState([]);
   const { setInvoiceData } = useInvoiceStore();
@@ -103,7 +101,7 @@ export default function Home() {
     <>
       {user.role === 0 ? (
         <Box component="main">
-          <SectionHeader Title="dashboard" />
+          <SectionHeader Title="dashboard" stackSx={{ mb: 0 }} />
 
           <Grid container spacing={2.5}>
             <Grid item xs={12} sm={6} xl={3}>

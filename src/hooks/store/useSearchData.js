@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
 export const useSearchData = create((set) => ({
-  searchData: undefined,
+  searchData: "",
   setSearchData: (data) => set(() => ({ searchData: data })),
 }));

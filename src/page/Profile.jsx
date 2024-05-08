@@ -3,8 +3,6 @@ import { Box, Typography, Avatar, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -166,7 +164,7 @@ export default function Profile() {
   const { setSnack } = useSnack();
 
   const [value, setValue] = useState(0);
-  const { accessToken, userId, setUserDatail } = useAuth();
+  const { userId, setUserDatail } = useAuth();
   const [profileList, setProfileList] = useState(false);
   const [url, setUrl] = useState(profileList?.profile_img);
 

@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import {
   Box,
-  Typography,
   TableContainer,
   Paper,
   Table,
@@ -13,7 +9,6 @@ import {
   TableCell,
   TableBody,
 } from "@mui/material";
-import { useAuth } from "../hooks/store/useAuth";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList.js";
 import { useSearchData } from "../hooks/store/useSearchData.js";
@@ -24,7 +19,6 @@ import NoData from "../component/NoData.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
 
 export default function Employees() {
-  const { accessToken } = useAuth();
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const [employeesList, setEmployeesList] = useState([]);

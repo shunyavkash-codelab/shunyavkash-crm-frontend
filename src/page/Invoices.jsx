@@ -19,9 +19,6 @@ import {
   TableSortLabel,
   Checkbox,
 } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
-import { useAuth } from "../hooks/store/useAuth";
 import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
@@ -43,7 +40,6 @@ import ModalComponent from "../component/ModalComponent.jsx";
 // const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
 export default function Invoices() {
-  const { accessToken } = useAuth();
   const [date, setDate] = useState("all");
   const { apiCall, isLoading } = useApi();
   const navigate = useNavigate();
@@ -157,7 +153,7 @@ export default function Invoices() {
     resetInvoiceStore();
   }, [page, rowsPerPage]);
   useEffect(() => {
-    if (searchData !== undefined) {
+    if (searchData !== "") {
       const getData = setTimeout(async () => {
         listInvoice();
       }, 1000);
@@ -222,6 +218,7 @@ export default function Invoices() {
             BreadCrumbPreviousTitle="Dashboard"
             BreadCrumbCurrentTitle="Invoices"
             style={{ mb: 0 }}
+            stackSx={{ mb: 0 }}
           />
           <ThemeButton
             Text="Create Invoice"
@@ -376,9 +373,8 @@ export default function Invoices() {
             </Button>
           )}
         </Box>
-      </Box>
 
-      {/* <Typography
+        {/* <Typography
             variant="subtitle2"
             sx={{
               opacity: 0.6,
@@ -389,272 +385,279 @@ export default function Invoices() {
             {invoiceList.length} Invoices found
           </Typography> */}
 
-      {isLoading ? (
-        <LoadingIcon style={{ height: "50vh" }} />
-      ) : invoiceList.length === 0 ? (
-        <NoData />
-      ) : (
-        <>
-          <TableContainer
-            component={Paper}
-            sx={{
-              border: "1px solid rgba(224, 224, 224, 1)",
-              mx: { xs: "-10px", sm: 0 },
-              width: { xs: "auto", sm: "auto" },
-              borderRadius: 2.5,
-            }}
-          >
-            <Table
-              className="projectTable"
+        {isLoading ? (
+          <LoadingIcon style={{ height: "50vh" }} />
+        ) : invoiceList.length === 0 ? (
+          <NoData />
+        ) : (
+          <>
+            <TableContainer
+              component={Paper}
               sx={{
-                minWidth: 650,
-                textTransform: "capitalize",
-                textWrap: "nowrap",
-                "& thead > tr > th": {
-                  backgroundColor: "#F8F9FA",
-                },
-                "& th,& td": { borderBottom: 0 },
-                "& tbody tr": {
-                  borderTop: "1px solid rgba(224, 224, 224, 1)",
-                },
+                border: "1px solid rgba(224, 224, 224, 1)",
+                mx: { xs: "-10px", sm: 0 },
+                width: { xs: "auto", sm: "auto" },
+                borderRadius: 2.5,
               }}
-              aria-label="simple table"
             >
-              <TableHead>
-                <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      sx={{ color: "primary.main" }}
-                      indeterminate={
-                        numSelected.length > 0 &&
-                        numSelected.length < invoiceList.length
-                      }
-                      checked={numSelected.length === invoiceList.length}
-                      onChange={() => {
-                        setSelectAllClick(!selectAllClick);
-                        handleSelectAllChange();
-                      }}
-                      inputProps={{
-                        "aria-label": "select all desserts",
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TableSortLabel
-                      active={sortField === "projectName"}
-                      direction={orderBy || "asc"}
-                      onClick={() => createSortHandler("projectName")}
-                    >
-                      Project Name
-                    </TableSortLabel>
-                  </TableCell>
-                  <TableCell>Client</TableCell>
-                  <TableCell>User</TableCell>
-                  <TableCell>
-                    <TableSortLabel
-                      active={sortField === "invoiceNumber"}
-                      direction={orderBy || "asc"}
-                      onClick={() => createSortHandler("invoiceNumber")}
-                    >
-                      Invoice No
-                    </TableSortLabel>
-                  </TableCell>
-                  <TableCell>
-                    <TableSortLabel
-                      active={sortField === "invoiceDate"}
-                      direction={orderBy || "asc"}
-                      onClick={() => createSortHandler("invoiceDate")}
-                    >
-                      Invoice Date
-                    </TableSortLabel>
-                  </TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Total</TableCell>
-                  <TableCell>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {invoiceList.map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-of-type td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
-                      }}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          sx={{ color: "primary.main" }}
-                          checked={
-                            selectAllClick || numSelected.includes(row._id)
-                          }
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                          onClick={(e) => {
-                            if (e.target.checked) {
-                              setNumSelected([...numSelected, row._id]);
-                            } else {
-                              setSelectAllClick(false);
-                              let newData = numSelected.filter(
-                                (id) => id !== row._id
-                              );
-                              setNumSelected(newData);
-                            }
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell value={row.projectId}>
-                        {row.projectName}
-                      </TableCell>
-                      <TableCell>{row.clientName}</TableCell>
-                      <TableCell>{row.userName}</TableCell>
-                      <TableCell>{row.invoiceNumber}</TableCell>
-                      <TableCell>
-                        {moment(row.invoiceDate).format("DD/MM/YYYY")}
-                      </TableCell>
-                      <TableCell
+              <Table
+                className="projectTable"
+                sx={{
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& thead > tr > th": {
+                    backgroundColor: "#F8F9FA",
+                  },
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
+                }}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        color="primary"
+                        sx={{ color: "primary.main" }}
+                        indeterminate={
+                          numSelected.length > 0 &&
+                          numSelected.length < invoiceList.length
+                        }
+                        checked={numSelected.length === invoiceList.length}
+                        onChange={() => {
+                          setSelectAllClick(!selectAllClick);
+                          handleSelectAllChange();
+                        }}
+                        inputProps={{
+                          "aria-label": "select all desserts",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <TableSortLabel
+                        active={sortField === "projectName"}
+                        direction={orderBy || "asc"}
+                        onClick={() => createSortHandler("projectName")}
+                      >
+                        Project Name
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell>Client</TableCell>
+                    <TableCell>User</TableCell>
+                    <TableCell>
+                      <TableSortLabel
+                        active={sortField === "invoiceNumber"}
+                        direction={orderBy || "asc"}
+                        onClick={() => createSortHandler("invoiceNumber")}
+                      >
+                        Invoice No
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell>
+                      <TableSortLabel
+                        active={sortField === "invoiceDate"}
+                        direction={orderBy || "asc"}
+                        onClick={() => createSortHandler("invoiceDate")}
+                      >
+                        Invoice Date
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Total</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {invoiceList.map((row, index) => {
+                    const labelId = `enhanced-table-checkbox-${index}`;
+                    return (
+                      <TableRow
                         sx={{
-                          "& .statusBtn": {
-                            color: "white",
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                          },
-                          "& .pending": {
-                            bgcolor: "secondary.main",
-                          },
-                          "& .success": {
-                            bgcolor: "success.main",
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                          "&:first-of-type td": {
+                            maxWidth: "250px",
+                            textWrap: "wrap",
                           },
                         }}
                       >
-                        <Box
-                          className={`statusBtn ${
-                            row.status === "success" ? "success" : "pending"
-                          }`}
-                        >
-                          {row.status}
-                        </Box>
-                        <Box
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            color="primary"
+                            sx={{ color: "primary.main" }}
+                            checked={
+                              selectAllClick || numSelected.includes(row._id)
+                            }
+                            inputProps={{
+                              "aria-labelledby": labelId,
+                            }}
+                            onClick={(e) => {
+                              if (e.target.checked) {
+                                setNumSelected([...numSelected, row._id]);
+                              } else {
+                                setSelectAllClick(false);
+                                let newData = numSelected.filter(
+                                  (id) => id !== row._id
+                                );
+                                setNumSelected(newData);
+                              }
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell value={row.projectId}>
+                          {row.projectName}
+                        </TableCell>
+                        <TableCell>{row.clientName}</TableCell>
+                        <TableCell>{row.userName}</TableCell>
+                        <TableCell>{row.invoiceNumber}</TableCell>
+                        <TableCell>
+                          {moment(row.invoiceDate).format("DD/MM/YYYY")}
+                        </TableCell>
+                        <TableCell
                           sx={{
-                            fontSize: "13px",
-                            lineHeight: 1,
-                            textWrap: "nowrap",
-                            mt: 0.75,
+                            "& .statusBtn": {
+                              color: "white",
+                              fontSize: "12px",
+                              p: 0.5,
+                              borderRadius: 1,
+                              maxWidth: "fit-content",
+                              lineHeight: 1,
+                            },
+                            "& .pending": {
+                              bgcolor: "secondary.main",
+                            },
+                            "& .success": {
+                              bgcolor: "success.main",
+                            },
                           }}
                         >
-                          {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
-                        </Box>
-                      </TableCell>
-                      <TableCell>
-                        <span style={{ fontFamily: "monospace" }}>$</span>
-                        {row.totals.total?.toLocaleString()}
-                      </TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: { xs: 1.25, sm: 1.5 },
-                            "& button,& a": {
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              opacity: 0.6,
-                              transition: "all 0.5s",
-                              "&:hover": { opacity: 1 },
-                            },
-                            "& svg": {
-                              fontSize: { xs: "20px", sm: "21px" },
-                            },
-                          }}
-                        >
-                          <Button
-                            disableRipple
-                            onClick={() => viewInvoice(row.invoiceNumber, row)}
-                            disabled={numSelected.length > 0}
+                          <Box
+                            className={`statusBtn ${
+                              row.status === "success" ? "success" : "pending"
+                            }`}
                           >
-                            <VisibilityIcon sx={{ color: "secondary.main" }} />
-                          </Button>
-                          {/* <Button disableRipple>
+                            {row.status}
+                          </Box>
+                          <Box
+                            sx={{
+                              fontSize: "13px",
+                              lineHeight: 1,
+                              textWrap: "nowrap",
+                              mt: 0.75,
+                            }}
+                          >
+                            {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
+                          </Box>
+                        </TableCell>
+                        <TableCell>
+                          <span style={{ fontFamily: "monospace" }}>$</span>
+                          {row.totals.total?.toLocaleString()}
+                        </TableCell>
+                        <TableCell>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: { xs: 1.25, sm: 1.5 },
+                              "& button,& a": {
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                opacity: 0.6,
+                                transition: "all 0.5s",
+                                "&:hover": { opacity: 1 },
+                              },
+                              "& svg": {
+                                fontSize: { xs: "20px", sm: "21px" },
+                              },
+                            }}
+                          >
+                            <Button
+                              disableRipple
+                              onClick={() =>
+                                viewInvoice(row.invoiceNumber, row)
+                              }
+                              disabled={numSelected.length > 0}
+                            >
+                              <VisibilityIcon
+                                sx={{ color: "secondary.main" }}
+                              />
+                            </Button>
+                            {/* <Button disableRipple>
                             <MarkAsPaidIcon />
                           </Button> */}
-                          <Button
-                            disableRipple
-                            onClick={() => editInvoice(row.invoiceNumber, row)}
-                            disabled={numSelected.length > 0}
-                          >
-                            <CreateIcon sx={{ color: "primary.main" }} />
-                          </Button>
-                          <Button
-                            disableRipple
-                            onClick={() => {
-                              setOpenDelete(true);
-                              // setSelectInvoice(row._id);
-                              setNumSelected([row._id]);
-                            }}
-                            disabled={numSelected.length > 0}
-                          >
-                            <DeleteIcon sx={{ color: "error.main" }} />
-                          </Button>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-                <ModalComponent
-                  open={openDelete}
-                  setOpen={setOpenDelete}
-                  modelStyle={{ maxWidth: "400px" }}
-                >
-                  <Box sx={{ textAlign: "center", fontSize: "20px" }}>
-                    {"Are you sure delete this project?"}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: 2,
-                        mt: 2.5,
-                        justifyContent: "center",
-                      }}
-                    >
-                      <ThemeButton
-                        success
-                        Text="Yes"
-                        type="submit"
-                        onClick={() => deleteInvoice(numSelected)}
-                      />
-                      <ThemeButton
-                        discard
-                        Text="No"
-                        onClick={() => setOpenDelete(false)}
-                      />
+                            <Button
+                              disableRipple
+                              onClick={() =>
+                                editInvoice(row.invoiceNumber, row)
+                              }
+                              disabled={numSelected.length > 0}
+                            >
+                              <CreateIcon sx={{ color: "primary.main" }} />
+                            </Button>
+                            <Button
+                              disableRipple
+                              onClick={() => {
+                                setOpenDelete(true);
+                                // setSelectInvoice(row._id);
+                                setNumSelected([row._id]);
+                              }}
+                              disabled={numSelected.length > 0}
+                            >
+                              <DeleteIcon sx={{ color: "error.main" }} />
+                            </Button>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                  <ModalComponent
+                    open={openDelete}
+                    setOpen={setOpenDelete}
+                    modelStyle={{ maxWidth: "400px" }}
+                  >
+                    <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                      {"Are you sure delete this project?"}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 2,
+                          mt: 2.5,
+                          justifyContent: "center",
+                        }}
+                      >
+                        <ThemeButton
+                          success
+                          Text="Yes"
+                          type="submit"
+                          onClick={() => deleteInvoice(numSelected)}
+                        />
+                        <ThemeButton
+                          discard
+                          Text="No"
+                          onClick={() => setOpenDelete(false)}
+                        />
+                      </Box>
                     </Box>
-                  </Box>
-                </ModalComponent>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      )}
-      {/* pagination */}
-      {invoiceList.length > 0 && (
-        <ThemePagination
-          totalpage={totalPage}
-          onChange={handleChangeOnPageChange}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      )}
+                  </ModalComponent>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
+        {/* pagination */}
+        {invoiceList.length > 0 && (
+          <ThemePagination
+            totalpage={totalPage}
+            onChange={handleChangeOnPageChange}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        )}
+      </Box>
     </>
   );
 }

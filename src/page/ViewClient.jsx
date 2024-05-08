@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Chip, Avatar, Grid } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
-import { useAuth } from "../hooks/store/useAuth.js";
 import PhoneIcon from "@mui/icons-material/PhoneIphone";
 import CompanyIcon from "@mui/icons-material/BusinessOutlined";
 import AddressIcon from "@mui/icons-material/LocationOnOutlined";
@@ -15,11 +12,9 @@ import DetailsList from "../component/employee/DetailsList.jsx";
 import WebsiteIcon from "@mui/icons-material/LanguageOutlined";
 import ProjectsIcon from "../component/icons/ProjectsIcon.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
-import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 
 export default function ViewClient() {
-  const { accessToken } = useAuth();
-  const { apiCall, isLoading } = useApi();
+  const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const [clientList, setClientList] = useState(false);
   const { id } = useParams();

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../hooks/store/useAuth";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import useApi from "../hooks/useApi";
@@ -8,8 +7,6 @@ import { APIS } from "../api/apiList";
 import moment from "moment";
 import { Box } from "@mui/material";
 import ThemeButton from "../component/ThemeButton";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import SectionHeader from "../component/SectionHeader";
 import html2pdf from "html2pdf.js";
 
@@ -19,7 +16,6 @@ export default function InvoicePDF() {
   }, []);
 
   const [base64Sign, setBase64Sign] = useState(false);
-  const { accessToken } = useAuth();
   const { invoiceNumber } = useParams();
   // const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
   const { invoiceData } = useInvoiceStore();

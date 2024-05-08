@@ -10,13 +10,8 @@ import {
   TableHead,
   TableRow,
   Paper,
-  TablePagination,
-  Pagination,
-  Stack,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import { BarChart } from "@mui/x-charts/BarChart";
 import TaskDetail from "../component/employee/TaskDetail";
 import TaskCard from "../component/employee/TaskCard";
@@ -24,10 +19,12 @@ import SectionHeader from "../component/SectionHeader";
 import ThemePagination from "../component/ThemePagination";
 
 export default function EmployeeDashboard() {
-  const { accessToken, user } = useAuth();
+  const { user } = useAuth();
 
   // pagination
+  // eslint-disable-next-line no-unused-vars
   const [page, setPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
   const [totalPage, setTotalPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const handleChangePage = (event, newPage) => {
