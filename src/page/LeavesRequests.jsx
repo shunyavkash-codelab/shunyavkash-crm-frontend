@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../hooks/store/useAuth";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import ModalComponent from "../component/ModalComponent";
 import {
   Box,
@@ -42,10 +40,8 @@ import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 export default function LeavesRequests() {
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
   const [leaveId, setLeaveId] = useState(false);
-  const { accessToken, user } = useAuth();
+  const { user } = useAuth();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -156,7 +152,7 @@ export default function LeavesRequests() {
     leaveList();
   }, [page, rowsPerPage]);
   useEffect(() => {
-    if (searchData !== undefined) {
+    if (searchData !== "") {
       const getData = setTimeout(async () => {
         leaveList();
       }, 1000);
@@ -175,60 +171,47 @@ export default function LeavesRequests() {
   }, [orderBy]);
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <SectionHeader
-            Title="Leaves Requests"
-            BreadCrumbPreviousLink="/"
-            BreadCrumbPreviousTitle="Dashboard"
-            BreadCrumbCurrentTitle="Leaves Requests"
-          />
+      <Box component="main">
+        <SectionHeader
+          Title="Leaves Requests"
+          BreadCrumbPreviousLink="/"
+          BreadCrumbPreviousTitle="Dashboard"
+          BreadCrumbCurrentTitle="Leaves Requests"
+          stackSx={{ mb: 0 }}
+        />
 
-          <Grid container spacing={2.5}>
-            <Grid item xs={6} md={3} lg={2.4}>
-              <CounterCards
-                Title="Total Requests"
-                Counter={dashboard.total || 0}
-              />
-            </Grid>
-            <Grid item xs={6} md={3} lg={2.4}>
-              <CounterCards
-                Title="Casual Leaves"
-                Counter={dashboard.casual || 0}
-              />
-            </Grid>
-            <Grid item xs={6} md={3} lg={2.4}>
-              <CounterCards Title="Sick Leaves" Counter={dashboard.sick || 0} />
-            </Grid>
-            <Grid item xs={6} md={3} lg={2.4}>
-              <CounterCards
-                Title="Unpaid Leaves"
-                Counter={dashboard.unpaid || 0}
-              />
-            </Grid>
-            <Grid item xs={6} md={3} lg={2.4}>
-              <CounterCards Title="Paid Leaves" Counter={dashboard.paid || 0} />
-            </Grid>
+        <Grid container spacing={2.5}>
+          <Grid item xs={6} md={3} lg={2.4}>
+            <CounterCards
+              Title="Total Requests"
+              Counter={dashboard.total || 0}
+            />
           </Grid>
+          <Grid item xs={6} md={3} lg={2.4}>
+            <CounterCards
+              Title="Casual Leaves"
+              Counter={dashboard.casual || 0}
+            />
+          </Grid>
+          <Grid item xs={6} md={3} lg={2.4}>
+            <CounterCards Title="Sick Leaves" Counter={dashboard.sick || 0} />
+          </Grid>
+          <Grid item xs={6} md={3} lg={2.4}>
+            <CounterCards
+              Title="Unpaid Leaves"
+              Counter={dashboard.unpaid || 0}
+            />
+          </Grid>
+          <Grid item xs={6} md={3} lg={2.4}>
+            <CounterCards Title="Paid Leaves" Counter={dashboard.paid || 0} />
+          </Grid>
+        </Grid>
 
-          <Typography
-            sx={{ textTransform: "capitalize", fontWeight: 600, mt: 4, mb: 2 }}
-          >
-            Members Leave Requests
-          </Typography>
+        <Typography
+          sx={{ textTransform: "capitalize", fontWeight: 600, mt: 4, mb: 2 }}
+        >
+          Members Leave Requests
+        </Typography>
 
           {isLoading ? (
             <LoadingIcon style={{ height: "50vh" }} />
@@ -608,56 +591,54 @@ export default function LeavesRequests() {
             />
           )}
 
-          <ModalComponent
-            open={open}
-            setOpen={setOpen}
-            modalTitle="Give Reason"
-            sx={{ padding: "6px" }}
-          >
-            <Box component="form" onSubmit={formik.handleSubmit}>
-              <TextField
-                fullWidth
-                multiline
-                rows={4}
-                size="normal"
-                name="description"
-                placeholder="Description"
-                autoComplete="off"
-                onChange={formik.handleChange}
-                value={formik.values.description}
-                sx={{
-                  "&>label,& input,&>div": { fontSize: "14px" },
-                }}
-                error={
-                  formik.touched.description &&
-                  Boolean(formik.errors.description)
-                }
-                helperText={
-                  formik.touched.description && formik.errors.description
-                }
+        <ModalComponent
+          open={open}
+          setOpen={setOpen}
+          modalTitle="Give Reason"
+          sx={{ padding: "6px" }}
+        >
+          <Box component="form" onSubmit={formik.handleSubmit}>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              size="normal"
+              name="description"
+              placeholder="Description"
+              autoComplete="off"
+              onChange={formik.handleChange}
+              value={formik.values.description}
+              sx={{
+                "&>label,& input,&>div": { fontSize: "14px" },
+              }}
+              error={
+                formik.touched.description && Boolean(formik.errors.description)
+              }
+              helperText={
+                formik.touched.description && formik.errors.description
+              }
+            />
+            <Stack
+              direction="row"
+              justifyContent="center"
+              spacing={2}
+              sx={{ mt: 2 }}
+            >
+              <ThemeButton
+                success
+                Text="approve"
+                onClick={() => formik.setFieldValue("status", "approve")}
+                type="submit"
               />
-              <Stack
-                direction="row"
-                justifyContent="center"
-                spacing={2}
-                sx={{ mt: 2 }}
-              >
-                <ThemeButton
-                  success
-                  Text="approve"
-                  onClick={() => formik.setFieldValue("status", "approve")}
-                  type="submit"
-                />
-                <ThemeButton
-                  error
-                  Text="unapprove"
-                  onClick={() => formik.setFieldValue("status", "unapprove")}
-                  type="submit"
-                />
-              </Stack>
-            </Box>
-          </ModalComponent>
-        </Box>
+              <ThemeButton
+                error
+                Text="unapprove"
+                onClick={() => formik.setFieldValue("status", "unapprove")}
+                type="submit"
+              />
+            </Stack>
+          </Box>
+        </ModalComponent>
       </Box>
     </>
   );

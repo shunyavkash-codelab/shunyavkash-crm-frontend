@@ -16,10 +16,7 @@ import {
   Stack,
   TableSortLabel,
 } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import PlusIcon from "@mui/icons-material/Close";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
@@ -35,12 +32,10 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import ModalComponent from "../component/ModalComponent.jsx";
 
 export default function Clients() {
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
   const [clientList, setClientList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken, user } = useAuth();
+  const {  user } = useAuth();
   const { searchData } = useSearchData();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -100,7 +95,7 @@ export default function Clients() {
     fetchclientData();
   }, [page, rowsPerPage]);
   useEffect(() => {
-    if (searchData !== undefined) {
+    if (searchData !== "") {
       const getData = setTimeout(async () => {
         fetchclientData();
       }, 1000);
@@ -120,49 +115,16 @@ export default function Clients() {
 
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        setPage={setPage}
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            alignItems={{ sm: "center" }}
-            justifyContent={{ sm: "space-between" }}
-            columnGap={2}
-            rowGap={2.5}
-            sx={{
-              mb: 3.25,
-            }}
-          >
-            <SectionHeader
-              Title="Our Clients"
-              BreadCrumbPreviousLink="/"
-              BreadCrumbPreviousTitle="Dashboard"
-              BreadCrumbCurrentTitle="Clients"
-              style={{ mb: 0 }}
-            />
-            {user.role === 0 && (
-              <Link to="./add">
-                <ThemeButton
-                  Text="Add client"
-                  secondary
-                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                />
-              </Link>
-            )}
-          </Stack>
+      <Box component="main">
+        <SectionHeader
+          Title="Our Clients"
+          BreadCrumbPreviousLink="/"
+          BreadCrumbPreviousTitle="Dashboard"
+          BreadCrumbCurrentTitle="Clients"
+          createButtonTitle="Add client"
+          createLink="./add"
+          style={{ mb: 0 }}
+        />
 
           {isLoading ? (
             <LoadingIcon style={{ height: "50vh" }} />

@@ -3,8 +3,6 @@ import { Box, Typography, Avatar, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -161,12 +159,12 @@ export default function Profile() {
     setUrl(files);
     formik.setFieldValue("profile_img", files?.fileList[0]);
   };
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
+
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
-  const [showSidebar, setShowSidebar] = useState(false);
+
   const [value, setValue] = useState(0);
-  const { accessToken, userId, setUserDatail } = useAuth();
+  const { userId, setUserDatail } = useAuth();
   const [profileList, setProfileList] = useState(false);
   const [url, setUrl] = useState(profileList?.profile_img);
 
@@ -264,260 +262,240 @@ export default function Profile() {
 
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <SectionHeader Title="My Account" />
-          <Box
+      <Box component="main">
+        <SectionHeader Title="My Account" />
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: "flex",
+            alignItems: "start",
+            height: "auto",
+            flexDirection: { xs: "column", sm: "column", md: "row" },
+            gap: 4,
+          }}
+        >
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={value}
+            onChange={handleChange}
+            aria-label="Vertical tabs example"
             sx={{
-              flexGrow: 1,
-              display: "flex",
-              alignItems: "start",
-              height: "auto",
-              flexDirection: { xs: "column", sm: "column", md: "row" },
-              gap: 4,
+              width: { xs: "100%", sm: "100%", md: "25%" },
+              maxWidth: { xs: "100%", sm: "100%", md: 250 },
+              padding: { xs: 1.5, sm: 1.5, md: 2 },
+              pl: 0,
+              borderRight: 1,
+              borderColor: "divider",
+              bgcolor: "background.paper",
+              borderRadius: { xs: 4, sm: 6 },
+              border: "1px solid rgba(224, 224, 224, 1)",
+              flexShrink: 0,
+              "& .MuiTabs-flexContainer": {
+                flexDirection: { xs: "row", sm: "row", md: "column" },
+                overflow: { xs: "auto", sm: "auto", md: "hidden" },
+              },
+              "& .MuiTabScrollButton-root": {
+                display: "none",
+              },
+              "& .MuiTabs-indicator": {
+                display: { xs: "none", sm: "none", md: "block" },
+              },
+              "& .MuiTab-labelIcon": {
+                textAlign: "left",
+                justifyContent: "start",
+                minHeight: "auto",
+                textTransform: "capitalize",
+              },
             }}
           >
-            <Tabs
-              orientation="vertical"
-              variant="scrollable"
-              value={value}
-              onChange={handleChange}
-              aria-label="Vertical tabs example"
-              sx={{
-                width: { xs: "100%", sm: "100%", md: "25%" },
-                maxWidth: { xs: "100%", sm: "100%", md: 250 },
-                padding: { xs: 1.5, sm: 1.5, md: 2 },
-                pl: 0,
-                borderRight: 1,
-                borderColor: "divider",
-                bgcolor: "background.paper",
-                borderRadius: { xs: 4, sm: 6 },
-                border: "1px solid rgba(224, 224, 224, 1)",
-                flexShrink: 0,
-                "& .MuiTabs-flexContainer": {
-                  flexDirection: { xs: "row", sm: "row", md: "column" },
-                  overflow: { xs: "auto", sm: "auto", md: "hidden" },
-                },
-                "& .MuiTabScrollButton-root": {
-                  display: "none",
-                },
-                "& .MuiTabs-indicator": {
-                  display: { xs: "none", sm: "none", md: "block" },
-                },
-                "& .MuiTab-labelIcon": {
-                  textAlign: "left",
-                  justifyContent: "start",
-                  minHeight: "auto",
-                  textTransform: "capitalize",
-                },
-              }}
-            >
-              <Tab
-                icon={<PersonOutlineOutlinedIcon />}
-                label="Personal Info"
-                iconPosition="start"
-                {...a11yProps(0)}
-              />
-              <Tab
-                icon={<LocationOnOutlinedIcon />}
-                label="Address"
-                {...a11yProps(1)}
-                iconPosition="start"
-              />
-              <Tab
-                icon={<LockOutlinedIcon />}
-                label="Password"
-                {...a11yProps(2)}
-                iconPosition="start"
-              />
-              <Tab
-                icon={<AccountBalanceOutlinedIcon />}
-                label="Bank Details"
-                {...a11yProps(3)}
-                iconPosition="start"
-              />
-            </Tabs>
-            <Box
-              sx={{
-                maxWidth: 650,
-                borderRight: 1,
-                borderColor: "divider",
-                bgcolor: "background.paper",
-                borderRadius: { xs: 4, sm: 6 },
-                border: "1px solid rgba(224, 224, 224, 1)",
-                flexGrow: 1,
-              }}
-            >
-              <TabPanel value={value} index={0}>
-                <Box component="form" onSubmit={formik.handleSubmit}>
-                  {profileList && (
-                    <>
-                      <Typography
-                        variant="h4"
-                        gutterBottom
-                        sx={{ fontSize: 16 }}
+            <Tab
+              icon={<PersonOutlineOutlinedIcon />}
+              label="Personal Info"
+              iconPosition="start"
+              {...a11yProps(0)}
+            />
+            <Tab
+              icon={<LocationOnOutlinedIcon />}
+              label="Address"
+              {...a11yProps(1)}
+              iconPosition="start"
+            />
+            <Tab
+              icon={<LockOutlinedIcon />}
+              label="Password"
+              {...a11yProps(2)}
+              iconPosition="start"
+            />
+            <Tab
+              icon={<AccountBalanceOutlinedIcon />}
+              label="Bank Details"
+              {...a11yProps(3)}
+              iconPosition="start"
+            />
+          </Tabs>
+          <Box
+            sx={{
+              maxWidth: 650,
+              borderRight: 1,
+              borderColor: "divider",
+              bgcolor: "background.paper",
+              borderRadius: { xs: 4, sm: 6 },
+              border: "1px solid rgba(224, 224, 224, 1)",
+              flexGrow: 1,
+            }}
+          >
+            <TabPanel value={value} index={0}>
+              <Box component="form" onSubmit={formik.handleSubmit}>
+                {profileList && (
+                  <>
+                    <Typography variant="h4" gutterBottom sx={{ fontSize: 16 }}>
+                      Personal Info
+                    </Typography>
+                    <Stack
+                      direction="row"
+                      sx={{ marginTop: 2, alignItems: "center", gap: 1.5 }}
+                    >
+                      <ReactFileReader
+                        fileTypes={[".png", ".jpg"]}
+                        base64={true}
+                        name="profile_img"
+                        handleFiles={handleFiles}
                       >
-                        Personal Info
-                      </Typography>
-                      <Stack
-                        direction="row"
-                        sx={{ marginTop: 2, alignItems: "center", gap: 1.5 }}
-                      >
-                        <ReactFileReader
-                          fileTypes={[".png", ".jpg"]}
-                          base64={true}
-                          name="profile_img"
-                          handleFiles={handleFiles}
+                        <Badge
+                          overlap="circular"
+                          anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "right",
+                          }}
+                          badgeContent={<SmallAvatar sx={{ fontSize: 10 }} />}
+                        ></Badge>
+                      </ReactFileReader>
+                      <Avatar
+                        alt="Travis Howard"
+                        src={url?.base64 || profileList.profile_img}
+                        sx={{ width: 64, height: 64 }}
+                      />
+                      <Stack direction="column">
+                        <Typography
+                          variant="div"
+                          gutterBottom
+                          sx={{ fontSize: 16, fontWeight: "600" }}
                         >
-                          <Badge
-                            overlap="circular"
-                            anchorOrigin={{
-                              vertical: "bottom",
-                              horizontal: "right",
-                            }}
-                            badgeContent={<SmallAvatar sx={{ fontSize: 10 }} />}
-                          ></Badge>
-                        </ReactFileReader>
-                        <Avatar
-                          alt="Travis Howard"
-                          src={url?.base64 || profileList.profile_img}
-                          sx={{ width: 64, height: 64 }}
-                        />
-                        <Stack direction="column">
-                          <Typography
-                            variant="div"
-                            gutterBottom
-                            sx={{ fontSize: 16, fontWeight: "600" }}
-                          >
-                            {profileList.name}
-                          </Typography>
-                          <Typography
-                            variant="div"
-                            sx={{
-                              fontSize: 12,
-                              color: "#848484",
-                              fontWeight: "500",
-                            }}
-                          >
-                            {profileList.email}
-                          </Typography>
-                        </Stack>
+                          {profileList.name}
+                        </Typography>
+                        <Typography
+                          variant="div"
+                          sx={{
+                            fontSize: 12,
+                            color: "#848484",
+                            fontWeight: "500",
+                          }}
+                        >
+                          {profileList.email}
+                        </Typography>
                       </Stack>
+                    </Stack>
 
-                      <Grid
-                        container
-                        rowSpacing={2}
-                        columnSpacing={2}
-                        mt={2}
-                        sx={{
-                          "& .MuiFormLabel-root, & .MuiInputBase-input": {
-                            fontSize: "14px",
-                          },
-                        }}
-                      >
-                        <Grid item xs={12} sm={6}>
-                          <Box>
-                            <TextField
-                              id="outlined-basic"
-                              label="Full Name"
-                              variant="outlined"
-                              name="name"
-                              sx={{ width: "100%", fontSize: "14px" }}
-                              InputLabelProps={{
-                                shrink: true,
-                              }}
-                              placeholder="Name"
-                              onChange={formik.handleChange}
-                              value={formik.values.name}
-                              error={
-                                formik.touched.name &&
-                                Boolean(formik.errors.name)
-                              }
-                              helperText={
-                                formik.touched.name && formik.errors.name
-                              }
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box>
-                            <TextField
-                              id="outlined-basic"
-                              label="Email"
-                              variant="outlined"
-                              type="email"
-                              name="email"
-                              sx={{ width: "100%", fontSize: "14px" }}
-                              InputLabelProps={{
-                                shrink: true,
-                              }}
-                              placeholder="Email"
-                              defaultValue={profileList.email}
-                              // onChange={formik.handleChange}
-                              // Value={formik..email}
-                              disabled
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box>
-                            <TextField
-                              id="outlined-basic"
-                              label="Company"
-                              variant="outlined"
-                              name="companyName"
-                              sx={{ width: "100%", fontSize: "14px" }}
-                              InputLabelProps={{
-                                shrink: true,
-                              }}
-                              placeholder="Company Name"
-                              onChange={formik.handleChange}
-                              value={formik.values.companyName}
-                              error={
-                                formik.touched.companyName &&
-                                Boolean(formik.errors.companyName)
-                              }
-                              helperText={
-                                formik.touched.companyName &&
-                                formik.errors.companyName
-                              }
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12}>
-                          <Stack direction="row" spacing={2}>
-                            <ThemeButton Text="Save" type="submit" />
-                            <ThemeButton discard Text="discard" />
-                          </Stack>
-                        </Grid>
+                    <Grid
+                      container
+                      rowSpacing={2}
+                      columnSpacing={2}
+                      mt={2}
+                      sx={{
+                        "& .MuiFormLabel-root, & .MuiInputBase-input": {
+                          fontSize: "14px",
+                        },
+                      }}
+                    >
+                      <Grid item xs={12} sm={6}>
+                        <Box>
+                          <TextField
+                            id="outlined-basic"
+                            label="Full Name"
+                            variant="outlined"
+                            name="name"
+                            sx={{ width: "100%", fontSize: "14px" }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            placeholder="Name"
+                            onChange={formik.handleChange}
+                            value={formik.values.name}
+                            error={
+                              formik.touched.name && Boolean(formik.errors.name)
+                            }
+                            helperText={
+                              formik.touched.name && formik.errors.name
+                            }
+                          />
+                        </Box>
                       </Grid>
-                    </>
-                  )}
-                </Box>
-              </TabPanel>
-              <TabPanel value={value} index={1}>
-                <AddressForm profileList={profileList} />
-              </TabPanel>
-              <TabPanel value={value} index={2}>
-                <ChangePasswordForm profileList={profileList} />
-              </TabPanel>
-              <TabPanel value={value} index={3}>
-                <BankDetailForm />
-              </TabPanel>
-            </Box>
+                      <Grid item xs={12} sm={6}>
+                        <Box>
+                          <TextField
+                            id="outlined-basic"
+                            label="Email"
+                            variant="outlined"
+                            type="email"
+                            name="email"
+                            sx={{ width: "100%", fontSize: "14px" }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            placeholder="Email"
+                            defaultValue={profileList.email}
+                            // onChange={formik.handleChange}
+                            // Value={formik..email}
+                            disabled
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box>
+                          <TextField
+                            id="outlined-basic"
+                            label="Company"
+                            variant="outlined"
+                            name="companyName"
+                            sx={{ width: "100%", fontSize: "14px" }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            placeholder="Company Name"
+                            onChange={formik.handleChange}
+                            value={formik.values.companyName}
+                            error={
+                              formik.touched.companyName &&
+                              Boolean(formik.errors.companyName)
+                            }
+                            helperText={
+                              formik.touched.companyName &&
+                              formik.errors.companyName
+                            }
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Stack direction="row" spacing={2}>
+                          <ThemeButton Text="Save" type="submit" />
+                          <ThemeButton discard Text="discard" />
+                        </Stack>
+                      </Grid>
+                    </Grid>
+                  </>
+                )}
+              </Box>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <AddressForm profileList={profileList} />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <ChangePasswordForm profileList={profileList} />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <BankDetailForm />
+            </TabPanel>
           </Box>
         </Box>
       </Box>

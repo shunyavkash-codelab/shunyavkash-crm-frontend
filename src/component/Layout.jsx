@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import SideBar from "./SideBar";
 import { useAuth } from "../hooks/store/useAuth";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
+import Header from "./Header";
+import { Outlet } from "react-router-dom";
+import { Box } from "@mui/material";
 
-export default function Base() {
+export default function Layout() {
   let [sideBarWidth, setSidebarWidth] = useState("240px");
   const [showSidebar, setShowSidebar] = useState(false);
   const { accessToken } = useAuth();
@@ -25,9 +26,7 @@ export default function Base() {
         setShowSidebar={setShowSidebar}
       />
       <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <Box>Hello</Box>
-        </Box>
+        <Outlet />
       </Box>
     </>
   );

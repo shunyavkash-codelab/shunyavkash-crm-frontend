@@ -13,8 +13,6 @@ import {
   Stack,
   Grid,
 } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import CounterCards from "../component/CounterCards";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
@@ -31,12 +29,10 @@ import SectionHeader from "../component/SectionHeader";
 import LoadingIcon from "../component/icons/LoadingIcon";
 
 export default function Home() {
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
   const [dashboardData, setDashboardData] = useState(false);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken, user } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [invoiceList, setInvoiceList] = useState([]);
   const { setInvoiceData } = useInvoiceStore();
@@ -103,116 +99,102 @@ export default function Home() {
 
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
       {user.role === 0 ? (
-        <Box sx={{ ml: { lg: sideBarWidth } }}>
-          <Box component="main">
-            <SectionHeader Title="dashboard" />
+        <Box component="main">
+          <SectionHeader Title="dashboard" stackSx={{ mb: 0 }} />
 
-            <Grid container spacing={2.5}>
-              <Grid item xs={12} sm={6} xl={3}>
-                <CounterCards
-                  CardBgcolor={"rgba(74, 210, 146, 10%)"}
-                  Title={"Clients"}
-                  Counter={dashboardData.totalClient || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/clients"}
-                  ArrowBgColor={"rgba(74, 210, 146, 60%)"}
-                  titleStyle={{
-                    opacity: "100%",
-                  }}
-                  counterStyle={{
-                    fontSize: "30px",
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} xl={3}>
-                <CounterCards
-                  CardBgcolor={"rgb(153 143 66 / 10%)"}
-                  Title={"projects"}
-                  Counter={dashboardData.totalProject || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/projects"}
-                  ArrowBgColor={"rgb(153 143 66 / 60%)"}
-                  titleStyle={{
-                    opacity: "100%",
-                  }}
-                  counterStyle={{
-                    fontSize: "30px",
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} xl={3}>
-                <CounterCards
-                  CardBgcolor={"rgb(53 113 51 / 10%)"}
-                  Title={"invoices"}
-                  Counter={dashboardData.totalInvoice || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/invoices"}
-                  ArrowBgColor={"rgb(53 113 51 / 60%)"}
-                  titleStyle={{
-                    opacity: "100%",
-                  }}
-                  counterStyle={{
-                    fontSize: "30px",
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} xl={3}>
-                <CounterCards
-                  CardBgcolor={"rgb(33 63 177 / 10%)"}
-                  Title={"employees"}
-                  Counter={dashboardData.totalEmployee || 0}
-                  Text={"lorem ipsum sit amet."}
-                  Link={"/employees"}
-                  ArrowBgColor={"rgb(33 63 177 / 60%)"}
-                  titleStyle={{
-                    opacity: "100%",
-                  }}
-                  counterStyle={{
-                    fontSize: "30px",
-                  }}
-                />
-              </Grid>
+          <Grid container spacing={2.5}>
+            <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                CardBgcolor={"rgba(74, 210, 146, 10%)"}
+                Title={"Clients"}
+                Counter={dashboardData.totalClient || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/clients"}
+                ArrowBgColor={"rgba(74, 210, 146, 60%)"}
+                titleStyle={{
+                  opacity: "100%",
+                }}
+                counterStyle={{
+                  fontSize: "30px",
+                }}
+              />
             </Grid>
+            <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                CardBgcolor={"rgb(153 143 66 / 10%)"}
+                Title={"projects"}
+                Counter={dashboardData.totalProject || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/projects"}
+                ArrowBgColor={"rgb(153 143 66 / 60%)"}
+                titleStyle={{
+                  opacity: "100%",
+                }}
+                counterStyle={{
+                  fontSize: "30px",
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                CardBgcolor={"rgb(53 113 51 / 10%)"}
+                Title={"invoices"}
+                Counter={dashboardData.totalInvoice || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/invoices"}
+                ArrowBgColor={"rgb(53 113 51 / 60%)"}
+                titleStyle={{
+                  opacity: "100%",
+                }}
+                counterStyle={{
+                  fontSize: "30px",
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                CardBgcolor={"rgb(33 63 177 / 10%)"}
+                Title={"employees"}
+                Counter={dashboardData.totalEmployee || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/employees"}
+                ArrowBgColor={"rgb(33 63 177 / 60%)"}
+                titleStyle={{
+                  opacity: "100%",
+                }}
+                counterStyle={{
+                  fontSize: "30px",
+                }}
+              />
+            </Grid>
+          </Grid>
 
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              alignItems={{ sm: "center" }}
-              justifyContent={{ sm: "space-between" }}
-              flexWrap="wrap"
-              columnGap={2}
-              rowGap={2.5}
-              sx={{ mb: 3.25, mt: 8 }}
-            >
-              <SectionHeader Title="Our Recent invoices" style={{ mb: 0 }} />
-              <Stack direction="row" spacing={1}>
-                <ThemeButton
-                  secondary
-                  Text="Create Invoice"
-                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                  onClick={invoiceNumberGenerate}
-                />
-                <Link
-                  to="./invoices"
-                  style={{ display: "inline-flex", textDecoration: "none" }}
-                >
-                  <ThemeButton Text="View all" />
-                </Link>
-              </Stack>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ sm: "center" }}
+            justifyContent={{ sm: "space-between" }}
+            flexWrap="wrap"
+            columnGap={2}
+            rowGap={2.5}
+            sx={{ mb: 3.25, mt: 8 }}
+          >
+            <SectionHeader Title="Our Recent invoices" style={{ mb: 0 }} />
+            <Stack direction="row" spacing={1}>
+              <ThemeButton
+                secondary
+                Text="Create Invoice"
+                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+                onClick={invoiceNumberGenerate}
+              />
+              <Link
+                to="./invoices"
+                style={{ display: "inline-flex", textDecoration: "none" }}
+              >
+                <ThemeButton Text="View all" />
+              </Link>
             </Stack>
+          </Stack>
 
             {isLoading ? (
               <LoadingIcon style={{ height: "50vh" }} />
@@ -337,24 +319,23 @@ export default function Home() {
                               {/* <Button disableRipple>
                                 <MarkAsPaidIcon />
                               </Button> */}
-                              <Button
-                                disableRipple
-                                onClick={() =>
-                                  editInvoice(row.invoiceNumber, row)
-                                }
-                              >
-                                <CreateIcon sx={{ color: "primary.main" }} />
-                              </Button>
-                            </Stack>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </>
-            )}
-          </Box>
+                            <Button
+                              disableRipple
+                              onClick={() =>
+                                editInvoice(row.invoiceNumber, row)
+                              }
+                            >
+                              <CreateIcon sx={{ color: "primary.main" }} />
+                            </Button>
+                          </Stack>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </>
+          )}
         </Box>
       ) : (
         navigate("/employee-dashboard")

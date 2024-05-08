@@ -18,8 +18,6 @@ import {
   TableSortLabel,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
@@ -41,9 +39,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 
 export default function MyProfile() {
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, userId, user } = useAuth();
+  const { userId, user } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const [date, setDate] = useState("all");
@@ -173,7 +169,7 @@ export default function MyProfile() {
   }, [date]);
 
   useEffect(() => {
-    if (searchData !== undefined) {
+    if (searchData !== "") {
       const getData = setTimeout(async () => {
         viewAllSalary();
       }, 1000);
@@ -266,181 +262,167 @@ export default function MyProfile() {
 
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            alignItems={{ sm: "center" }}
-            justifyContent={{ sm: "space-between" }}
-            columnGap={2}
-            rowGap={2.5}
-          >
-            <SectionHeader
-              Title={"Salary"}
-              BreadCrumbPreviousLink="/"
-              BreadCrumbPreviousTitle="Dashboard"
-              BreadCrumbCurrentTitle="Salary"
+      <Box component="main">
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems={{ sm: "center" }}
+          justifyContent={{ sm: "space-between" }}
+          columnGap={2}
+          rowGap={2.5}
+        >
+          <SectionHeader
+            Title={"Salary"}
+            BreadCrumbPreviousLink="/"
+            BreadCrumbPreviousTitle="Dashboard"
+            BreadCrumbCurrentTitle="Salary"
+            stackSx={{ mb: 0 }}
+          />
+          {/* Todos : This button visable only admin */}
+          {user.role === 0 && (
+            <ThemeButton
+              Text="Add Salary"
+              startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+              onClick={handleOpenSalary}
             />
-            {/* Todos : This button visable only admin */}
-            {user.role === 0 && (
-              <ThemeButton
-                Text="Add Salary"
-                secondary
-                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                onClick={handleOpenSalary}
-              />
-            )}
-          </Stack>
+          )}
+        </Stack>
 
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 2.5,
+            mb: 3.25,
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
           <Box
+            component="form"
+            noValidate
+            autoComplete="off"
             sx={{
+              flexGrow: 1,
               display: "flex",
-              justifyContent: "space-between",
+              flexDirection: "column",
               gap: 2.5,
-              mb: 3.25,
-              flexDirection: { xs: "column", sm: "row" },
+              "& fieldset": { borderRadius: "6px" },
+              maxWidth: "320px",
             }}
           >
-            <Box
-              component="form"
-              noValidate
-              autoComplete="off"
+            <FormControl
+              size="small"
               sx={{
+                "&>label": { fontSize: "14px" },
                 flexGrow: 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: 2.5,
-                "& fieldset": { borderRadius: "6px" },
-                maxWidth: "320px",
               }}
             >
-              <FormControl
-                size="small"
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Date
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={date}
+                label="Date"
+                onChange={handleChange}
                 sx={{
-                  "&>label": { fontSize: "14px" },
-                  flexGrow: 1,
+                  fontSize: "14px",
+                  "&": {
+                    bgcolor: "white",
+                  },
                 }}
               >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"all"}
                 >
-                  Date
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={date}
-                  label="Date"
-                  onChange={handleChange}
+                  All
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastmonth"}
+                >
+                  Last Month
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastquarter"}
+                >
+                  Last Quarter
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastyear"}
+                >
+                  Last Year
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"CustomRange"}
+                >
+                  Custom Range
+                </MenuItem>
+              </Select>
+            </FormControl>
+            {date === "CustomRange" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                  gap: 2.5,
+                  flexShrink: 0,
+                }}
+              >
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="from"
+                  label="From"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  value={from}
+                  onChange={(e) => setFrom(e.target.value)}
                   sx={{
-                    fontSize: "14px",
+                    "&>label,& input,&>div": { fontSize: "14px" },
                     "&": {
                       bgcolor: "white",
+                      borderRadius: 1.5,
                     },
                   }}
-                >
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"all"}
-                  >
-                    All
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastmonth"}
-                  >
-                    Last Month
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastquarter"}
-                  >
-                    Last Quarter
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastyear"}
-                  >
-                    Last Year
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"CustomRange"}
-                  >
-                    Custom Range
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              {date === "CustomRange" && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: { xs: "column", sm: "row" },
-                    "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
-                    gap: 2.5,
-                    flexShrink: 0,
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="to"
+                  label="To"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
                   }}
-                >
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="from"
-                    label="From"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    value={from}
-                    onChange={(e) => setFrom(e.target.value)}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="to"
-                    label="To"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    value={to}
-                    onChange={(e) => setTo(e.target.value)}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                </Box>
-              )}
-            </Box>
+                  placeholder="mm/dd/yyyy"
+                  value={to}
+                  onChange={(e) => setTo(e.target.value)}
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&": {
+                      bgcolor: "white",
+                      borderRadius: 1.5,
+                    },
+                  }}
+                />
+              </Box>
+            )}
           </Box>
+        </Box>
 
           {isLoading ? (
             <LoadingIcon style={{ height: "50vh" }} />

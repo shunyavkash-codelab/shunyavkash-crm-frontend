@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import UserSalary from "./UserSalary";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import SectionHeader from "../component/SectionHeader";
 import { Box, Stack } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
@@ -10,10 +8,8 @@ import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 
 export default function MySalary() {
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
   const [userBank, setUserBank] = useState(false);
-  const { accessToken, userId } = useAuth();
+  const { userId } = useAuth();
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
 
@@ -35,45 +31,31 @@ export default function MySalary() {
   }, []);
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            alignItems={{ sm: "center" }}
-            justifyContent={{ sm: "space-between" }}
-            columnGap={2}
-            rowGap={2.5}
-            sx={{
-              mb: 3.25,
-            }}
-          >
-            <SectionHeader
-              Title="My Salary"
-              BreadCrumbPreviousLink="/"
-              BreadCrumbPreviousTitle="Dashboard"
-              BreadCrumbCurrentTitle="My Salary"
-              style={{ mb: 0 }}
-            />
-          </Stack>
-          <UserSalary
-            userId={userId}
-            userBank={userBank}
-            setUserBank={setUserBank}
+      <Box component="main">
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems={{ sm: "center" }}
+          justifyContent={{ sm: "space-between" }}
+          columnGap={2}
+          rowGap={2.5}
+          sx={{
+            mb: 3.25,
+          }}
+        >
+          <SectionHeader
+            Title="My Salary"
+            BreadCrumbPreviousLink="/"
+            BreadCrumbPreviousTitle="Dashboard"
+            BreadCrumbCurrentTitle="My Salary"
+            style={{ mb: 0 }}
+            stackSx={{ mb: 0 }}
           />
-        </Box>
+        </Stack>
+        <UserSalary
+          userId={userId}
+          userBank={userBank}
+          setUserBank={setUserBank}
+        />
       </Box>
     </>
   );

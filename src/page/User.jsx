@@ -14,8 +14,6 @@ import {
   Avatar,
   Stack,
 } from "@mui/material";
-import SideBar from "../component/SideBar.jsx";
-import Header from "../component/Header.jsx";
 import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import useApi from "../hooks/useApi.js";
@@ -28,12 +26,10 @@ import ThemeButton from "../component/ThemeButton.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
 
 export default function User() {
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
   const [userList, setUserList] = useState([]);
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken, user } = useAuth();
+  const { user } = useAuth();
   const { searchData } = useSearchData();
 
   const fetchUsers = async () => {
@@ -54,7 +50,7 @@ export default function User() {
     fetchUsers();
   }, []);
   useEffect(() => {
-    if (searchData !== undefined) {
+    if (searchData !== "") {
       const getData = setTimeout(async () => {
         fetchUsers();
       }, 1000);
@@ -63,171 +59,156 @@ export default function User() {
   }, [searchData]);
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            alignItems={{ sm: "center" }}
-            justifyContent={{ sm: "space-between" }}
-            columnGap={2}
-            rowGap={2.5}
-            sx={{
-              mb: 3.25,
-            }}
-          >
-            <SectionHeader
-              Title=" Our Manager"
-              BreadCrumbPreviousLink="/"
-              BreadCrumbPreviousTitle="Dashboard"
-              BreadCrumbCurrentTitle="Manager"
-              style={{ mb: 0 }}
-            />
-            {user.role === 0 && (
-              <Link to="./add">
-                <ThemeButton
-                  Text="Add Manager"
-                  startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                />
-              </Link>
-            )}
-          </Stack>
+      <Box component="main">
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems={{ sm: "center" }}
+          justifyContent={{ sm: "space-between" }}
+          columnGap={2}
+          rowGap={2.5}
+          sx={{
+            mb: 3.25,
+          }}
+        >
+          <SectionHeader
+            Title=" Our Manager"
+            BreadCrumbPreviousLink="/"
+            BreadCrumbPreviousTitle="Dashboard"
+            BreadCrumbCurrentTitle="Manager"
+            style={{ mb: 0 }}
+          />
+          {user.role === 0 && (
+            <Link to="./add">
+              <ThemeButton
+                Text="Add Manager"
+                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+              />
+            </Link>
+          )}
+        </Stack>
 
-          {userList.length === 0 ? (
-            <NoData />
-          ) : (
-            <>
-              <TableContainer
-                component={Paper}
+        {userList.length === 0 ? (
+          <NoData />
+        ) : (
+          <>
+            <TableContainer
+              component={Paper}
+              sx={{
+                border: "1px solid rgba(224, 224, 224, 1)",
+                mx: { xs: "-10px", sm: 0 },
+                width: { xs: "auto", sm: "auto" },
+                borderRadius: 2.5,
+              }}
+            >
+              <Table
+                className="userTable"
                 sx={{
-                  border: "1px solid rgba(224, 224, 224, 1)",
-                  mx: { xs: "-10px", sm: 0 },
-                  width: { xs: "auto", sm: "auto" },
-                  borderRadius: 2.5,
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
                 }}
+                aria-label="simple table"
               >
-                <Table
-                  className="userTable"
-                  sx={{
-                    minWidth: 650,
-                    textTransform: "capitalize",
-                    textWrap: "nowrap",
-                    "& th,& td": { borderBottom: 0 },
-                    "& tbody tr": {
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
-                    },
-                  }}
-                  aria-label="simple table"
-                >
-                  <TableHead>
+                <TableHead>
+                  <TableRow
+                    sx={{
+                      "&>th": { lineHeight: 1, fontWeight: 700 },
+                    }}
+                  >
+                    <TableCell>user</TableCell>
+                    <TableCell>Company Name</TableCell>
+                    <TableCell>Mobile Number</TableCell>
+                    <TableCell>Gender</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {userList.map((row) => (
                     <TableRow
+                      key={row.name}
                       sx={{
-                        "&>th": { lineHeight: 1, fontWeight: 700 },
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
                       }}
                     >
-                      <TableCell>user</TableCell>
-                      <TableCell>Company Name</TableCell>
-                      <TableCell>Mobile Number</TableCell>
-                      <TableCell>Gender</TableCell>
-                      <TableCell>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {userList.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          <Box
+                      <TableCell component="th" scope="row">
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.75,
+                          }}
+                        >
+                          <Avatar
                             sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1.75,
+                              width: "36px",
+                              height: "36px",
                             }}
-                          >
-                            <Avatar
+                            alt={row.name}
+                            src={row.profile_img}
+                          />
+                          <Box>
+                            <Typography
                               sx={{
-                                width: "36px",
-                                height: "36px",
+                                mb: 0.75,
+                                lineHeight: 1,
+                                fontWeight: 600,
+                                fontSize: { xs: "14px", sm: "16px" },
                               }}
-                              alt={row.name}
-                              src={row.profile_img}
-                            />
-                            <Box>
-                              <Typography
-                                sx={{
-                                  mb: 0.75,
-                                  lineHeight: 1,
-                                  fontWeight: 600,
-                                  fontSize: { xs: "14px", sm: "16px" },
-                                }}
-                              >
-                                {row.name}
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  lineHeight: 1,
-                                  textTransform: "lowercase",
-                                  fontSize: { xs: "12px", sm: "14px" },
-                                }}
-                              >
-                                {row.email}
-                              </Typography>
-                            </Box>
+                            >
+                              {row.name}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                lineHeight: 1,
+                                textTransform: "lowercase",
+                                fontSize: { xs: "12px", sm: "14px" },
+                              }}
+                            >
+                              {row.email}
+                            </Typography>
                           </Box>
-                        </TableCell>
-                        <TableCell>{row.companyName}</TableCell>
-                        <TableCell>{row.mobileNumber}</TableCell>
-                        <TableCell>{row.gender}</TableCell>
-                        <TableCell>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.5 },
-                              opacity: 0.3,
-                              "& button": {
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              },
-                              "& svg": {
-                                fontSize: { xs: "20px", sm: "22px" },
-                              },
-                            }}
-                          >
-                            <Link to={`./view/${row._id}`}>
-                              <Button disableRipple>
-                                <VisibilityIcon />
-                              </Button>
-                            </Link>
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </>
-          )}
-        </Box>
+                        </Box>
+                      </TableCell>
+                      <TableCell>{row.companyName}</TableCell>
+                      <TableCell>{row.mobileNumber}</TableCell>
+                      <TableCell>{row.gender}</TableCell>
+                      <TableCell>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: { xs: 1.25, sm: 1.5 },
+                            opacity: 0.3,
+                            "& button": {
+                              p: 0,
+                              minWidth: "auto",
+                              color: "black",
+                              "&:hover": { color: "primary.main" },
+                            },
+                            "& svg": {
+                              fontSize: { xs: "20px", sm: "22px" },
+                            },
+                          }}
+                        >
+                          <Link to={`./view/${row._id}`}>
+                            <Button disableRipple>
+                              <VisibilityIcon />
+                            </Button>
+                          </Link>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
       </Box>
     </>
   );
