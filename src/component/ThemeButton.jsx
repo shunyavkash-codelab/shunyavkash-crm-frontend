@@ -67,7 +67,7 @@ function ThemeButton(props) {
               : props.success
               ? "primary.main"
               : props.error
-              ? "error.main"
+              ? "white"
               : props.discard
               ? "text.primary"
               : props.secondary
@@ -77,7 +77,7 @@ function ThemeButton(props) {
               ? props.success
                 ? "success.light"
                 : props.error
-                ? "error.main"
+                ? "error.light"
                 : props.discard
                 ? "#e4e4e4"
                 : props.secondary

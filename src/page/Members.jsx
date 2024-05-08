@@ -16,6 +16,10 @@ import {
   Stack,
   TablePagination,
   Pagination,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import SideBar from "../component/SideBar";
@@ -89,6 +93,8 @@ export default function Members() {
   const { setSnack } = useSnack();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+  const [jobRoleList, setJobRoleList] = useState([]);
+  const [selectJobRole, setSelectJobRole] = useState("all");
 
   // pagination
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -123,6 +129,7 @@ export default function Members() {
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
+          filter: selectJobRole === "all" ? undefined : selectJobRole,
         },
       });
       if (res.data.success === true) {
@@ -143,6 +150,7 @@ export default function Members() {
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
+          filter: selectJobRole === "all" ? undefined : selectJobRole,
         },
       });
       if (res.data.success === true) {
@@ -163,6 +171,7 @@ export default function Members() {
           search: searchData,
           page: searchData ? 1 : page,
           limit: rowsPerPage,
+          filter: selectJobRole === "all" ? undefined : selectJobRole,
         },
       });
       if (res.data.success === true) {
@@ -174,9 +183,24 @@ export default function Members() {
     }
   };
 
+  const fetchJobRoles = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.USER.JOBROLES,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setJobRoleList(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+    }
+  };
+
   useEffect(() => {
     fetchManager();
     fetchEmployees();
+    fetchJobRoles();
     if (user.role === 0) fetchInvited();
     fetchDashboard();
   }, []);
@@ -185,7 +209,7 @@ export default function Members() {
     if (value === 0) fetchManager();
     else if (value === 1) fetchEmployees();
     else if (value === 2) fetchInvited();
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, selectJobRole]);
 
   // serech data
   useEffect(() => {
@@ -284,57 +308,118 @@ export default function Members() {
               mt: 3,
             }}
           >
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="basic tabs example"
-              sx={{
-                minHeight: "38px",
-                // borderBottom: "1px solid #f2f2f2",
-                "& .MuiTabs-flexContainer": {
-                  justifyContent: "flex-start",
-                },
-                "& button": {
-                  textTransform: "capitalize",
-                  py: 0,
-                  minHeight: "unset",
-                },
-              }}
-            >
-              <Tab
-                disableRipple
-                disableElevation
-                label="Manager"
-                {...a11yProps(0)}
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
                 sx={{
-                  color: "primary.main",
-                  px: 2.5,
+                  minHeight: "38px",
+                  // borderBottom: "1px solid #f2f2f2",
+                  "& .MuiTabs-flexContainer": {
+                    justifyContent: "flex-start",
+                  },
+                  "& button": {
+                    textTransform: "capitalize",
+                    py: 0,
+                    minHeight: "unset",
+                  },
                 }}
-              />
-              <Tab
-                disableRipple
-                disableElevation
-                label="Employee"
-                {...a11yProps(1)}
-                sx={{
-                  color: "primary.main",
-                  px: 2.5,
-                }}
-              />
-              {user.role === 0 && (
+              >
                 <Tab
                   disableRipple
                   disableElevation
-                  label="Invited Members"
-                  {...a11yProps(2)}
+                  label="Manager"
+                  {...a11yProps(0)}
                   sx={{
                     color: "primary.main",
                     px: 2.5,
                   }}
                 />
-              )}
-            </Tabs>
-
+                <Tab
+                  disableRipple
+                  disableElevation
+                  label="Employee"
+                  {...a11yProps(1)}
+                  sx={{
+                    color: "primary.main",
+                    px: 2.5,
+                  }}
+                />
+                {user.role === 0 && (
+                  <Tab
+                    disableRipple
+                    disableElevation
+                    label="Invited Members"
+                    {...a11yProps(2)}
+                    sx={{
+                      color: "primary.main",
+                      px: 2.5,
+                    }}
+                  />
+                )}
+              </Tabs>
+              <Box
+                component="form"
+                noValidate
+                autoComplete="off"
+                sx={{
+                  minHeight: "38px",
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "end",
+                  gap: 2.5,
+                  "& fieldset": { borderRadius: "6px" },
+                  maxWidth: "140px",
+                  margin: "0 15px 5px",
+                }}
+              >
+                <FormControl
+                  size="small"
+                  sx={{
+                    "&>label": { fontSize: "14px" },
+                    flexGrow: 1,
+                  }}
+                >
+                  <InputLabel
+                    sx={{ textTransform: "capitalize" }}
+                    id="date-wise-select-label"
+                  >
+                    Job Role
+                  </InputLabel>
+                  <Select
+                    labelId="date-wise-select-label"
+                    id="demo-simple-select"
+                    value={selectJobRole}
+                    label="Date"
+                    onChange={(e) => setSelectJobRole(e.target.value)}
+                    sx={{
+                      fontSize: "14px",
+                      "&": {
+                        bgcolor: "white",
+                      },
+                    }}
+                  >
+                    <MenuItem
+                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                      value={"all"}
+                    >
+                      All
+                    </MenuItem>
+                    {jobRoleList.length > 0 &&
+                      jobRoleList.map((jobrole) => (
+                        <MenuItem
+                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                          value={jobrole._id}
+                        >
+                          {jobrole._id}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
+              </Box>
+            </Box>
             {/* Manager */}
             <CustomTabPanel value={value} index={0}>
               {isLoading ? (
@@ -378,9 +463,18 @@ export default function Members() {
                           }}
                         >
                           <TableCell sx={{ width: "400px" }}>Manager</TableCell>
-                          <TableCell>mobile number</TableCell>
-                          <TableCell sx={{ width: "250px" }}>Role</TableCell>
-                          <TableCell sx={{ width: "140px" }}>status</TableCell>
+                          <TableCell sx={{ width: "400px" }}>
+                            mobile number
+                          </TableCell>
+
+                          <TableCell sx={{ width: "250px" }}>
+                            {user.role === 0 ? "Role" : "Job Role"}
+                          </TableCell>
+                          {user.role === 0 && (
+                            <TableCell sx={{ width: "140px" }}>
+                              status
+                            </TableCell>
+                          )}
                           {user.role === 0 && (
                             <TableCell sx={{ width: "140px" }}>
                               Actions
@@ -457,9 +551,17 @@ export default function Members() {
                           <TableCell sx={{ width: "400px" }}>
                             employee
                           </TableCell>
-                          <TableCell>mobile number</TableCell>
-                          <TableCell sx={{ width: "250px" }}>Role</TableCell>
-                          <TableCell sx={{ width: "140px" }}>status</TableCell>
+                          <TableCell sx={{ width: "400px" }}>
+                            mobile number
+                          </TableCell>
+                          <TableCell sx={{ width: "250px" }}>
+                            {user.role === 0 ? "Role" : "Job Role"}
+                          </TableCell>
+                          {user.role === 0 && (
+                            <TableCell sx={{ width: "140px" }}>
+                              status
+                            </TableCell>
+                          )}
                           {user.role === 0 && (
                             <TableCell sx={{ width: "140px" }}>
                               Actions

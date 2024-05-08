@@ -383,14 +383,19 @@ export default function Invoices() {
               )}
             </Box>
             {numSelected.length > 0 && (
-              <Button
-                disableRipple
-                onClick={() => {
-                  setOpenDelete(true);
-                }}
-              >
-                <DeleteIcon sx={{ color: "error.main" }} />
-              </Button>
+              // <Button
+              //   disableRipple
+              //   onClick={() => {
+              //     setOpenDelete(true);
+              //   }}
+              // >
+              //   <DeleteIcon sx={{ color: "error.main" }} />
+              // </Button>
+              <ThemeButton
+                Text="Delete Selected"
+                error
+                onClick={invoiceNumberGenerate}
+              />
             )}
           </Box>
 

@@ -28,6 +28,7 @@ import { useAuth } from "../hooks/store/useAuth.js";
 import NoData from "../component/NoData.jsx";
 import CounterCards from "../component/CounterCards.jsx";
 import AddLeaveForm from "../component/form/AddLeaveForm.jsx";
+import dayjs from "dayjs";
 
 function UserLeave({ profileId }) {
   const [open, setOpen] = React.useState(false);
@@ -66,7 +67,7 @@ function UserLeave({ profileId }) {
     enableReinitialize: true,
     initialValues: {
       leaveType: "",
-      startDate: moment().format("MM/DD/YYYY"),
+      startDate: dayjs().format("MM/DD/YYYY"),
       startDayType: "full day",
       endDate: undefined,
       endDayType: undefined,
@@ -84,6 +85,7 @@ function UserLeave({ profileId }) {
         if (res.data.success === true) {
           setSnack(res.data.message);
           setLeaveList([res.data.data, ...leaveList]);
+          formik.resetForm();
           setOpen(false);
         }
       } catch (error) {
@@ -340,9 +342,9 @@ function UserLeave({ profileId }) {
                               lineHeight: 1,
                               bgcolor:
                                 leave.status === "unapprove"
-                                  ? "review.main"
+                                  ? "warning.main"
                                   : leave.status === "pending"
-                                  ? "error.light"
+                                  ? "review.light"
                                   : "success.main",
                               "&:hover": {
                                 bgcolor:

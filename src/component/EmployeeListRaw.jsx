@@ -128,80 +128,86 @@ export default function EmployeeListRaw({
         </TableCell>
         <TableCell>{row.mobileNumber || "N/A"}</TableCell>
         <TableCell>
-          <FormControl
-            fullWidth
-            size="small"
+          {user.role === 0 ? (
+            <FormControl
+              fullWidth
+              size="small"
+              sx={{
+                "&>label": { fontSize: "14px" },
+              }}
+              disabled={user.role !== 0}
+            >
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Role
+              </InputLabel>
+              <Select
+                id="role"
+                label="Role"
+                sx={{ fontSize: "14px", "& > div": { py: "7px" } }}
+                defaultValue={
+                  row?.role === 0
+                    ? "SuperAdmin"
+                    : row?.role === 1
+                    ? "Manager"
+                    : "Employee"
+                }
+                onChange={(event) => setRole(event.target.value)}
+              >
+                <MenuItem
+                  sx={{
+                    textTransform: "capitalize",
+                    fontSize: "14px",
+                  }}
+                  value={"Manager"}
+                >
+                  manager
+                </MenuItem>
+                <MenuItem
+                  sx={{
+                    textTransform: "capitalize",
+                    fontSize: "14px",
+                  }}
+                  value={"Employee"}
+                >
+                  employee
+                </MenuItem>
+              </Select>
+            </FormControl>
+          ) : (
+            row.designation
+          )}
+        </TableCell>
+        {user.role === 0 && (
+          <TableCell
             sx={{
-              "&>label": { fontSize: "14px" },
+              "& .statusBtn": {
+                color: "white",
+                fontSize: "12px",
+                p: 0.5,
+                borderRadius: 1,
+                maxWidth: "fit-content",
+                lineHeight: 1,
+              },
+              "& .notAccepted": {
+                bgcolor: "secondary.main",
+              },
+              "& .accepted": {
+                bgcolor: "success.main",
+              },
             }}
-            disabled={user.role !== 0}
           >
-            <InputLabel
-              sx={{ textTransform: "capitalize" }}
-              id="demo-simple-select-label"
+            <Box
+              className={`statusBtn ${
+                row.invitationStatus === 0 ? "notAccepted" : "accepted"
+              }`}
             >
-              Role
-            </InputLabel>
-            <Select
-              id="role"
-              label="Role"
-              sx={{ fontSize: "14px", "& > div": { py: "7px" } }}
-              defaultValue={
-                row?.role === 0
-                  ? "SuperAdmin"
-                  : row?.role === 1
-                  ? "Manager"
-                  : "Employee"
-              }
-              onChange={(event) => setRole(event.target.value)}
-            >
-              <MenuItem
-                sx={{
-                  textTransform: "capitalize",
-                  fontSize: "14px",
-                }}
-                value={"Manager"}
-              >
-                manager
-              </MenuItem>
-              <MenuItem
-                sx={{
-                  textTransform: "capitalize",
-                  fontSize: "14px",
-                }}
-                value={"Employee"}
-              >
-                employee
-              </MenuItem>
-            </Select>
-          </FormControl>
-        </TableCell>
-        <TableCell
-          sx={{
-            "& .statusBtn": {
-              color: "white",
-              fontSize: "12px",
-              p: 0.5,
-              borderRadius: 1,
-              maxWidth: "fit-content",
-              lineHeight: 1,
-            },
-            "& .notAccepted": {
-              bgcolor: "secondary.main",
-            },
-            "& .accepted": {
-              bgcolor: "success.main",
-            },
-          }}
-        >
-          <Box
-            className={`statusBtn ${
-              row.invitationStatus === 0 ? "notAccepted" : "accepted"
-            }`}
-          >
-            {row.invitationStatus === 0 ? "Not accepted" : "Accepted"}
-          </Box>
-        </TableCell>
+              {row.invitationStatus === 0 ? "Not accepted" : "Accepted"}
+            </Box>
+          </TableCell>
+        )}
         {user.role === 0 && (
           <TableCell>
             <Box
@@ -213,9 +219,7 @@ export default function EmployeeListRaw({
                   p: 0,
                   minWidth: "unset",
                   color: "error.main",
-                  opacity: 0.5,
                   transition: "all 0.5s",
-                  "&:hover": { opacity: 1 },
                 },
                 "& svg": {
                   fontSize: { xs: "20px", sm: "22px" },
@@ -244,14 +248,7 @@ export default function EmployeeListRaw({
               )}
 
               <Tooltip title="Delete" arrow>
-                <Button
-                  disableRipple
-                  sx={{
-                    transition: "all 0.4s ease-in-out",
-                    "&:not(:hover)": { opacity: 0.2 },
-                  }}
-                  onClick={() => setOpenDelete(true)}
-                >
+                <Button disableRipple onClick={() => setOpenDelete(true)}>
                   <DeleteIcon />
                 </Button>
               </Tooltip>

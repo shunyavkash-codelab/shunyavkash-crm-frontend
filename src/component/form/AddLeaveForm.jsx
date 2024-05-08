@@ -208,51 +208,7 @@ export default function AddLeaveForm({ formik }) {
               )}
           </FormControl>
         </Grid>
-        <Grid item xs={12} sx={{ pb: "8px" }}>
-          <FormControlLabel
-            label="Take more day leave"
-            sx={{
-              userSelect: "none",
-              gap: 1,
-              m: 0,
-              "& .MuiFormControlLabel-label": {
-                fontSize: "14px",
-              },
-            }}
-            control={
-              <Checkbox
-                onClick={(e) =>
-                  formik.setFieldValue("moreDay", e.target.checked)
-                }
-                disableRipple
-                sx={{
-                  p: 0,
-                  position: "relative",
-                  borderRadius: "4px",
-                  width: "18px",
-                  height: "18px",
-                  border: "2px solid",
-                  borderColor: "text.primary",
-                  "& svg": { opacity: 0 },
-                  "&:before": {
-                    content: "'✓'",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%,-50%)",
-                    opacity: 0,
-                    transition: "all 0.2s ease-in-out",
-                    color: "text.primary",
-                    fontSize: "80%",
-                  },
-                  "&.Mui-checked:before": {
-                    opacity: 1,
-                  },
-                }}
-              />
-            }
-          />
-        </Grid>
+
         {formik.values.moreDay && (
           <>
             <Grid item xs={12} sm={6}>
@@ -345,6 +301,51 @@ export default function AddLeaveForm({ formik }) {
             </Grid>
           </>
         )}
+        <Grid item xs={12} sx={{ pb: "8px" }}>
+          <FormControlLabel
+            label="Take more day leave"
+            sx={{
+              userSelect: "none",
+              gap: 1,
+              m: 0,
+              "& .MuiFormControlLabel-label": {
+                fontSize: "14px",
+              },
+            }}
+            control={
+              <Checkbox
+                onClick={(e) =>
+                  formik.setFieldValue("moreDay", e.target.checked)
+                }
+                disableRipple
+                sx={{
+                  p: 0,
+                  position: "relative",
+                  borderRadius: "4px",
+                  width: "18px",
+                  height: "18px",
+                  border: "2px solid",
+                  borderColor: "text.primary",
+                  "& svg": { opacity: 0 },
+                  "&:before": {
+                    content: "'✓'",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%,-50%)",
+                    opacity: 0,
+                    transition: "all 0.2s ease-in-out",
+                    color: "text.primary",
+                    fontSize: "80%",
+                  },
+                  "&.Mui-checked:before": {
+                    opacity: 1,
+                  },
+                }}
+              />
+            }
+          />
+        </Grid>
 
         <Grid item xs={12}>
           <FormControl fullWidth sx={{ "&>div": { fontSize: "14px" } }}>
