@@ -126,209 +126,206 @@ export default function Project() {
           createLink="./add"
         />
 
-          {isLoading ? (
-            <LoadingIcon style={{ height: "50vh" }} />
-          ) : projectList.length === 0 ? (
-            <NoData />
-          ) : (
-            <>
-              <TableContainer
-                component={Paper}
+        {isLoading ? (
+          <LoadingIcon style={{ height: "50vh" }} />
+        ) : projectList.length === 0 ? (
+          <NoData />
+        ) : (
+          <>
+            <TableContainer
+              component={Paper}
+              sx={{
+                border: "1px solid rgba(224, 224, 224, 1)",
+                mx: { xs: "-10px", sm: 0 },
+                width: { xs: "auto", sm: "auto" },
+                borderRadius: 2.5,
+              }}
+            >
+              <Table
+                className="projectTable"
+                id={"tableData"}
                 sx={{
-                  border: "1px solid rgba(224, 224, 224, 1)",
-                  mx: { xs: "-10px", sm: 0 },
-                  width: { xs: "auto", sm: "auto" },
-                  borderRadius: 2.5,
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& thead > tr > th": {
+                    backgroundColor: "#F8F9FA",
+                  },
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
                 }}
+                aria-label="simple table"
               >
-                <Table
-                  className="projectTable"
-                  id={"tableData"}
-                  sx={{
-                    minWidth: 650,
-                    textTransform: "capitalize",
-                    textWrap: "nowrap",
-                    "& thead > tr > th": {
-                      backgroundColor: "#F8F9FA",
-                    },
-                    "& th,& td": { borderBottom: 0 },
-                    "& tbody tr": {
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
-                    },
-                  }}
-                  aria-label="simple table"
-                >
-                  <TableHead>
-                    <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
-                    >
-                      <TableCell>
-                        <TableSortLabel
-                          active={sortField === "name"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("name")}
-                        >
-                          Project Name
-                        </TableSortLabel>
-                      </TableCell>
-                      <TableCell>Client</TableCell>
-                      <TableCell>Manager</TableCell>
-                      <TableCell>
-                        <TableSortLabel
-                          active={sortField === "startDate"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("startDate")}
-                        >
-                          Start date
-                        </TableSortLabel>
-                      </TableCell>
-                      <TableCell>End date</TableCell>
-                      <TableCell>Currency/hour</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {projectList.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                          "&>*": { p: 1.5 },
-                        }}
+                <TableHead>
+                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
+                    <TableCell>
+                      <TableSortLabel
+                        active={sortField === "name"}
+                        direction={orderBy || "asc"}
+                        onClick={() => createSortHandler("name")}
                       >
-                        <TableCell>{row.name}</TableCell>
-                        <TableCell>{row.clientName}</TableCell>
-                        <TableCell>{row.userName}</TableCell>
-                        <TableCell>
-                          {moment(row.startDate).format("MMM D, YYYY")}
-                        </TableCell>
-                        <TableCell>
-                          {moment(row.endDate).format("MMM D, YYYY")}
-                        </TableCell>
-                        <TableCell>
-                          {row.currency}
-                          {row.perHourCharge}/hour
-                        </TableCell>
-                        <TableCell>
-                          <Box
-                            sx={{
-                              fontSize: "12px",
-                              p: 0.5,
-                              borderRadius: 1,
-                              maxWidth: "fit-content",
-                              lineHeight: 1,
-                              color: "white",
-                              bgcolor:
-                                row.status === "completed"
-                                  ? "success.main"
-                                  : row.status === "inReview"
-                                  ? "review.main"
-                                  : row.status === "inProgress"
-                                  ? "secondary.main"
-                                  : "grey.dark",
-                            }}
-                          >
-                            {row.status}
-                          </Box>
-                        </TableCell>
-                        <TableCell>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.5 },
-                              "& button": {
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                transition: "all 0.5s",
-                              },
-                              "& svg": {
-                                fontSize: { xs: "20px", sm: "22px" },
-                              },
-                            }}
-                          >
-                            <Link to={`./view/${row._id}`}>
-                              <Button disableRipple>
-                                <VisibilityIcon
-                                  sx={{ color: "secondary.main" }}
-                                />
-                              </Button>
-                            </Link>
-                            {user.role !== 2 && (
-                              <Link to={`./edit/${row._id}`}>
-                                <Button disableRipple>
-                                  <CreateIcon sx={{ color: "primary.main" }} />
-                                </Button>
-                              </Link>
-                            )}
-                            {user.role === 0 && (
-                              <Button
-                                disableRipple
-                                sx={{
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "black",
-                                  "&:hover": { color: "primary.main" },
-                                }}
-                                onClick={() => {
-                                  setOpenDelete(true);
-                                  setSelectProject(row._id);
-                                }}
-                              >
-                                <DeleteIcon sx={{ color: "error.main" }} />
-                              </Button>
-                            )}
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                    <ModalComponent
-                      open={openDelete}
-                      setOpen={setOpenDelete}
-                      modelStyle={{ maxWidth: "400px" }}
+                        Project Name
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell>Client</TableCell>
+                    <TableCell>Manager</TableCell>
+                    <TableCell>
+                      <TableSortLabel
+                        active={sortField === "startDate"}
+                        direction={orderBy || "asc"}
+                        onClick={() => createSortHandler("startDate")}
+                      >
+                        Start date
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell>End date</TableCell>
+                    <TableCell>Currency/hour</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {projectList.map((row) => (
+                    <TableRow
+                      key={row.name}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&>*": { p: 1.5 },
+                      }}
                     >
-                      <Box sx={{ textAlign: "center", fontSize: "20px" }}>
-                        {"Are you sure delete this project?"}
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell>{row.clientName}</TableCell>
+                      <TableCell>{row.userName}</TableCell>
+                      <TableCell>
+                        {moment(row.startDate).format("MMM D, YYYY")}
+                      </TableCell>
+                      <TableCell>
+                        {moment(row.endDate).format("MMM D, YYYY")}
+                      </TableCell>
+                      <TableCell>
+                        {row.currency}
+                        {row.perHourCharge}/hour
+                      </TableCell>
+                      <TableCell>
+                        <Box
+                          sx={{
+                            fontSize: "12px",
+                            p: 0.5,
+                            borderRadius: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
+                            color: "white",
+                            bgcolor:
+                              row.status === "completed"
+                                ? "success.main"
+                                : row.status === "inReview"
+                                ? "review.main"
+                                : row.status === "inProgress"
+                                ? "secondary.main"
+                                : "grey.dark",
+                          }}
+                        >
+                          {row.status}
+                        </Box>
+                      </TableCell>
+                      <TableCell>
                         <Box
                           sx={{
                             display: "flex",
-                            gap: 2,
-                            mt: 2.5,
-                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: { xs: 1.25, sm: 1.5 },
+                            "& button": {
+                              p: 0,
+                              minWidth: "auto",
+                              color: "black",
+                              transition: "all 0.5s",
+                            },
+                            "& svg": {
+                              fontSize: { xs: "20px", sm: "22px" },
+                            },
                           }}
                         >
-                          <ThemeButton
-                            success
-                            Text="Yes"
-                            type="submit"
-                            onClick={() => deleteProject(selectProject)}
-                          />
-                          <ThemeButton
-                            discard
-                            Text="No"
-                            onClick={() => setOpenDelete(false)}
-                          />
+                          <Link to={`./view/${row._id}`}>
+                            <Button disableRipple>
+                              <VisibilityIcon
+                                sx={{ color: "secondary.main" }}
+                              />
+                            </Button>
+                          </Link>
+                          {user.role !== 2 && (
+                            <Link to={`./edit/${row._id}`}>
+                              <Button disableRipple>
+                                <CreateIcon sx={{ color: "primary.main" }} />
+                              </Button>
+                            </Link>
+                          )}
+                          {user.role === 0 && (
+                            <Button
+                              disableRipple
+                              sx={{
+                                p: 0,
+                                minWidth: "auto",
+                                color: "black",
+                                "&:hover": { color: "primary.main" },
+                              }}
+                              onClick={() => {
+                                setOpenDelete(true);
+                                setSelectProject(row._id);
+                              }}
+                            >
+                              <DeleteIcon sx={{ color: "error.main" }} />
+                            </Button>
+                          )}
                         </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  <ModalComponent
+                    open={openDelete}
+                    setOpen={setOpenDelete}
+                    modelStyle={{ maxWidth: "400px" }}
+                  >
+                    <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                      {"Are you sure delete this project?"}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 2,
+                          mt: 2.5,
+                          justifyContent: "center",
+                        }}
+                      >
+                        <ThemeButton
+                          success
+                          Text="Yes"
+                          type="submit"
+                          onClick={() => deleteProject(selectProject)}
+                        />
+                        <ThemeButton
+                          discard
+                          Text="No"
+                          onClick={() => setOpenDelete(false)}
+                        />
                       </Box>
-                    </ModalComponent>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </>
-          )}
-          {/* pagination */}
-          {projectList.length > 0 && (
-            <ThemePagination
-              totalpage={totalPage}
-              onChange={handleChange}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          )}
-        </Box>
+                    </Box>
+                  </ModalComponent>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
+        {/* pagination */}
+        {projectList.length > 0 && (
+          <ThemePagination
+            totalpage={totalPage}
+            onChange={handleChange}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        )}
       </Box>
     </>
   );
