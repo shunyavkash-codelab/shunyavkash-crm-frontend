@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
-import { Button, FormHelperText } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
+import { useParams, useLocation } from "react-router-dom";
+import { FormHelperText } from "@mui/material";
 import AddClientsModal from "../component/AddClientsModal";
 import {
   Box,
@@ -11,11 +9,9 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography,
   Autocomplete,
 } from "@mui/material";
 // import { useTheme } from "@emotion/react";
-import { useAuth } from "../hooks/store/useAuth";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +26,6 @@ import SectionHeader from "../component/SectionHeader";
 
 export default function AddProject() {
   const [clientList, setClientList] = useState([]);
-  const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
   const navigate = useNavigate();
@@ -155,6 +150,7 @@ export default function AddProject() {
           BreadCrumbPreviousLink="/projects"
           BreadCrumbPreviousTitle="Projects"
           BreadCrumbCurrentTitle="Add Project"
+          stackSx={{ mb: 0 }}
         />
 
         {(projectData || id === undefined) && (

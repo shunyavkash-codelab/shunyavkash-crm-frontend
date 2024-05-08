@@ -14,8 +14,6 @@ import {
   Avatar,
   Stack,
 } from "@mui/material";
-import SideBar from "../component/SideBar.jsx";
-import Header from "../component/Header.jsx";
 import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import useApi from "../hooks/useApi.js";
@@ -31,7 +29,7 @@ export default function User() {
   const [userList, setUserList] = useState([]);
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken, user } = useAuth();
+  const { user } = useAuth();
   const { searchData } = useSearchData();
 
   const fetchUsers = async () => {
@@ -52,7 +50,7 @@ export default function User() {
     fetchUsers();
   }, []);
   useEffect(() => {
-    if (searchData !== undefined) {
+    if (searchData !== "") {
       const getData = setTimeout(async () => {
         fetchUsers();
       }, 1000);

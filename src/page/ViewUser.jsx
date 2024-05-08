@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
-import SideBar from "../component/SideBar.jsx";
-import Header from "../component/Header.jsx";
 import useApi from "../hooks/useApi.js";
 import { useSnack } from "../hooks/store/useSnack.js";
 import { APIS } from "../api/apiList.js";
-import { useAuth } from "../hooks/store/useAuth.js";
 import PhoneIcon from "@mui/icons-material/PhoneIphone";
 import CompanyIcon from "@mui/icons-material/BusinessOutlined";
 import { useParams } from "react-router-dom";
@@ -15,7 +11,6 @@ import SectionHeader from "../component/SectionHeader.jsx";
 
 export default function ViewUser() {
   const { apiCall } = useApi();
-  const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const [userList, setUserList] = useState([]);
   const { id } = useParams();

@@ -18,8 +18,6 @@ import {
   TableSortLabel,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
@@ -41,9 +39,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 
 export default function MyProfile() {
-  let [sideBarWidth, setSidebarWidth] = useState("240px");
-  const [showSidebar, setShowSidebar] = useState(false);
-  const { accessToken, userId, user } = useAuth();
+  const { userId, user } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const [date, setDate] = useState("all");
@@ -173,7 +169,7 @@ export default function MyProfile() {
   }, [date]);
 
   useEffect(() => {
-    if (searchData !== undefined) {
+    if (searchData !== "") {
       const getData = setTimeout(async () => {
         viewAllSalary();
       }, 1000);
@@ -266,390 +262,377 @@ export default function MyProfile() {
 
   return (
     <>
-      <SideBar
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-        accessToken={accessToken}
-      />
-      <Header
-        sideBarWidth={sideBarWidth}
-        setSidebarWidth={setSidebarWidth}
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
-      <Box sx={{ ml: { lg: sideBarWidth } }}>
-        <Box component="main">
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            alignItems={{ sm: "center" }}
-            justifyContent={{ sm: "space-between" }}
-            columnGap={2}
-            rowGap={2.5}
-          >
-            <SectionHeader
-              Title={"Salary"}
-              BreadCrumbPreviousLink="/"
-              BreadCrumbPreviousTitle="Dashboard"
-              BreadCrumbCurrentTitle="Salary"
+      <Box component="main">
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems={{ sm: "center" }}
+          justifyContent={{ sm: "space-between" }}
+          columnGap={2}
+          rowGap={2.5}
+        >
+          <SectionHeader
+            Title={"Salary"}
+            BreadCrumbPreviousLink="/"
+            BreadCrumbPreviousTitle="Dashboard"
+            BreadCrumbCurrentTitle="Salary"
+            stackSx={{ mb: 0 }}
+          />
+          {/* Todos : This button visable only admin */}
+          {user.role === 0 && (
+            <ThemeButton
+              Text="Add Salary"
+              startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
+              onClick={handleOpenSalary}
             />
-            {/* Todos : This button visable only admin */}
-            {user.role === 0 && (
-              <ThemeButton
-                Text="Add Salary"
-                secondary
-                startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-                onClick={handleOpenSalary}
-              />
-            )}
-          </Stack>
+          )}
+        </Stack>
 
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 2.5,
+            mb: 3.25,
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
           <Box
+            component="form"
+            noValidate
+            autoComplete="off"
             sx={{
+              flexGrow: 1,
               display: "flex",
-              justifyContent: "space-between",
+              flexDirection: "column",
               gap: 2.5,
-              mb: 3.25,
-              flexDirection: { xs: "column", sm: "row" },
+              "& fieldset": { borderRadius: "6px" },
+              maxWidth: "320px",
             }}
           >
-            <Box
-              component="form"
-              noValidate
-              autoComplete="off"
+            <FormControl
+              size="small"
               sx={{
+                "&>label": { fontSize: "14px" },
                 flexGrow: 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: 2.5,
-                "& fieldset": { borderRadius: "6px" },
-                maxWidth: "320px",
               }}
             >
-              <FormControl
-                size="small"
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Date
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={date}
+                label="Date"
+                onChange={handleChange}
                 sx={{
-                  "&>label": { fontSize: "14px" },
-                  flexGrow: 1,
+                  fontSize: "14px",
+                  "&": {
+                    bgcolor: "white",
+                  },
                 }}
               >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"all"}
                 >
-                  Date
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={date}
-                  label="Date"
-                  onChange={handleChange}
+                  All
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastmonth"}
+                >
+                  Last Month
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastquarter"}
+                >
+                  Last Quarter
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastyear"}
+                >
+                  Last Year
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"CustomRange"}
+                >
+                  Custom Range
+                </MenuItem>
+              </Select>
+            </FormControl>
+            {date === "CustomRange" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                  gap: 2.5,
+                  flexShrink: 0,
+                }}
+              >
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="from"
+                  label="From"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  value={from}
+                  onChange={(e) => setFrom(e.target.value)}
                   sx={{
-                    fontSize: "14px",
+                    "&>label,& input,&>div": { fontSize: "14px" },
                     "&": {
                       bgcolor: "white",
+                      borderRadius: 1.5,
                     },
                   }}
-                >
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"all"}
-                  >
-                    All
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastmonth"}
-                  >
-                    Last Month
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastquarter"}
-                  >
-                    Last Quarter
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastyear"}
-                  >
-                    Last Year
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"CustomRange"}
-                  >
-                    Custom Range
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              {date === "CustomRange" && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: { xs: "column", sm: "row" },
-                    "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
-                    gap: 2.5,
-                    flexShrink: 0,
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="to"
+                  label="To"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
                   }}
-                >
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="from"
-                    label="From"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    value={from}
-                    onChange={(e) => setFrom(e.target.value)}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="to"
-                    label="To"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    value={to}
-                    onChange={(e) => setTo(e.target.value)}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                </Box>
-              )}
-            </Box>
+                  placeholder="mm/dd/yyyy"
+                  value={to}
+                  onChange={(e) => setTo(e.target.value)}
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&": {
+                      bgcolor: "white",
+                      borderRadius: 1.5,
+                    },
+                  }}
+                />
+              </Box>
+            )}
           </Box>
+        </Box>
 
-          {isLoading ? (
-            <LoadingIcon style={{ height: "50vh" }} />
-          ) : salaryList.length === 0 ? (
-            <NoData />
-          ) : (
-            <>
-              <TableContainer
-                component={Paper}
+        {isLoading ? (
+          <LoadingIcon style={{ height: "50vh" }} />
+        ) : salaryList.length === 0 ? (
+          <NoData />
+        ) : (
+          <>
+            <TableContainer
+              component={Paper}
+              sx={{
+                border: "1px solid rgba(224, 224, 224, 1)",
+                mx: { xs: "-10px", sm: 0 },
+                width: { xs: "auto", sm: "auto" },
+                borderRadius: 2.5,
+              }}
+            >
+              <Table
+                className="projectTable"
                 sx={{
-                  border: "1px solid rgba(224, 224, 224, 1)",
-                  mx: { xs: "-10px", sm: 0 },
-                  width: { xs: "auto", sm: "auto" },
-                  borderRadius: 2.5,
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& thead > tr > th": {
+                    backgroundColor: "#F8F9FA",
+                  },
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
                 }}
+                aria-label="simple table"
               >
-                <Table
-                  className="projectTable"
-                  sx={{
-                    minWidth: 650,
-                    textTransform: "capitalize",
-                    textWrap: "nowrap",
-                    "& thead > tr > th": {
-                      backgroundColor: "#F8F9FA",
-                    },
-                    "& th,& td": { borderBottom: 0 },
-                    "& tbody tr": {
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
-                    },
-                  }}
-                  aria-label="simple table"
-                >
-                  <TableHead>
+                <TableHead>
+                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
+                    <TableCell>
+                      <TableSortLabel
+                        active={sortField === "date"}
+                        direction={orderBy || "asc"}
+                        onClick={() => createSortHandler("date")}
+                      >
+                        Date
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell>
+                      <TableSortLabel
+                        active={sortField === "employee"}
+                        direction={orderBy || "asc"}
+                        onClick={() => createSortHandler("employee")}
+                      >
+                        Member Name
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell>
+                      <TableSortLabel
+                        active={sortField === "status"}
+                        direction={orderBy || "asc"}
+                        onClick={() => createSortHandler("status")}
+                      >
+                        Status
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell>
+                      <TableSortLabel
+                        active={sortField === "amount"}
+                        direction={orderBy || "asc"}
+                        onClick={() => createSortHandler("amount")}
+                      >
+                        Salary Amount
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell>Incentive</TableCell>
+                    <TableCell>Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {salaryList.map((salary) => (
                     <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                        "&:first-of-type td": {
+                          maxWidth: "250px",
+                          textWrap: "wrap",
+                        },
+                      }}
                     >
                       <TableCell>
-                        <TableSortLabel
-                          active={sortField === "date"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("date")}
+                        {moment(salary.date).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell>{salary.employee}</TableCell>
+                      <TableCell>
+                        <Box
+                          sx={{
+                            color: "white",
+                            fontSize: "12px",
+                            p: 0.5,
+                            borderRadius: 1,
+                            maxWidth: "fit-content",
+                            lineHeight: 1,
+                            bgcolor:
+                              salary.status === "paid"
+                                ? "success.main"
+                                : "review.main",
+                          }}
                         >
-                          Date
-                        </TableSortLabel>
+                          {salary.status}
+                        </Box>
                       </TableCell>
                       <TableCell>
-                        <TableSortLabel
-                          active={sortField === "employee"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("employee")}
-                        >
-                          Member Name
-                        </TableSortLabel>
+                        <span style={{ fontFamily: "monospace" }}>₹</span>
+                        {salary.amount.toLocaleString()}
                       </TableCell>
                       <TableCell>
-                        <TableSortLabel
-                          active={sortField === "status"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("status")}
-                        >
-                          Status
-                        </TableSortLabel>
+                        <span style={{ fontFamily: "monospace" }}>₹</span>
+                        {salary.incentive?.toLocaleString() || 0}
                       </TableCell>
                       <TableCell>
-                        <TableSortLabel
-                          active={sortField === "amount"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("amount")}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: { xs: 1.25, sm: 1.5 },
+                            "& button,& a": {
+                              p: 0,
+                              minWidth: "auto",
+                              color: "black",
+                              opacity: 0.6,
+                              transition: "all 0.5s",
+                              "&:hover": {
+                                // color: "primary.main",
+                                opacity: 1,
+                              },
+                            },
+                            "& svg": {
+                              fontSize: { xs: "20px", sm: "21px" },
+                            },
+                          }}
                         >
-                          Salary Amount
-                        </TableSortLabel>
-                      </TableCell>
-                      <TableCell>Incentive</TableCell>
-                      <TableCell>Action</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {salaryList.map((salary) => (
-                      <TableRow
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                          "&:first-of-type td": {
-                            maxWidth: "250px",
-                            textWrap: "wrap",
-                          },
-                        }}
-                      >
-                        <TableCell>
-                          {moment(salary.date).format("DD/MM/YYYY")}
-                        </TableCell>
-                        <TableCell>{salary.employee}</TableCell>
-                        <TableCell>
-                          <Box
-                            sx={{
-                              color: "white",
-                              fontSize: "12px",
-                              p: 0.5,
-                              borderRadius: 1,
-                              maxWidth: "fit-content",
-                              lineHeight: 1,
-                              bgcolor:
-                                salary.status === "paid"
-                                  ? "success.main"
-                                  : "review.main",
-                            }}
-                          >
-                            {salary.status}
-                          </Box>
-                        </TableCell>
-                        <TableCell>
-                          <span style={{ fontFamily: "monospace" }}>₹</span>
-                          {salary.amount.toLocaleString()}
-                        </TableCell>
-                        <TableCell>
-                          <span style={{ fontFamily: "monospace" }}>₹</span>
-                          {salary.incentive?.toLocaleString() || 0}
-                        </TableCell>
-                        <TableCell>
-                          <Box
-                            sx={{
+                          <a
+                            href={salary.pdf}
+                            target="_blank"
+                            style={{
                               display: "flex",
                               alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.5 },
-                              "& button,& a": {
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                opacity: 0.6,
-                                transition: "all 0.5s",
-                                "&:hover": {
-                                  // color: "primary.main",
-                                  opacity: 1,
-                                },
-                              },
-                              "& svg": {
-                                fontSize: { xs: "20px", sm: "21px" },
-                              },
                             }}
                           >
-                            <a
-                              href={salary.pdf}
-                              target="_blank"
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                              }}
-                            >
-                              <VisibilityIcon
-                                sx={{ color: "secondary.main" }}
-                              />
-                            </a>
-                            <Button
-                              disableRipple
-                              onClick={() => handleOpenSalary(salary)}
-                            >
-                              <CreateIcon sx={{ color: "primary.main" }} />
-                            </Button>
-                            <Button
-                              disableRipple
-                              onClick={() => {
-                                setOpenDelete(true);
-                                setSelectSalary(salary._id);
-                              }}
-                            >
-                              <DeleteIcon sx={{ color: "error.main" }} />
-                            </Button>
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                    <ModalComponent
-                      open={openDelete}
-                      setOpen={setOpenDelete}
-                      modelStyle={{ maxWidth: "400px" }}
-                    >
-                      <Box sx={{ textAlign: "center", fontSize: "20px" }}>
-                        {"Are you sure delete this salary?"}
-                        <Box sx={{ display: "flex", gap: 2, mt: 2.5,
-                    justifyContent: "center" }}>
-                          <ThemeButton
-                            success
-                            Text="Yes"
-                            type="submit"
-                            onClick={() => deleteSalary(selectSalary)}
-                          />
-                          <ThemeButton
-                            discard
-                            Text="No"
-                            onClick={() => setOpenDelete(false)}
-                          />
+                            <VisibilityIcon sx={{ color: "secondary.main" }} />
+                          </a>
+                          <Button
+                            disableRipple
+                            onClick={() => handleOpenSalary(salary)}
+                          >
+                            <CreateIcon sx={{ color: "primary.main" }} />
+                          </Button>
+                          <Button
+                            disableRipple
+                            onClick={() => {
+                              setOpenDelete(true);
+                              setSelectSalary(salary._id);
+                            }}
+                          >
+                            <DeleteIcon sx={{ color: "error.main" }} />
+                          </Button>
                         </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  <ModalComponent
+                    open={openDelete}
+                    setOpen={setOpenDelete}
+                    modelStyle={{ maxWidth: "400px" }}
+                  >
+                    <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                      {"Are you sure delete this salary?"}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 2,
+                          mt: 2.5,
+                          justifyContent: "center",
+                        }}
+                      >
+                        <ThemeButton
+                          success
+                          Text="Yes"
+                          type="submit"
+                          onClick={() => deleteSalary(selectSalary)}
+                        />
+                        <ThemeButton
+                          discard
+                          Text="No"
+                          onClick={() => setOpenDelete(false)}
+                        />
                       </Box>
-                    </ModalComponent>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </>
-          )}
-          {/* pagination */}
-          {salaryList.length > 0 && (
-            <ThemePagination
-              totalpage={totalPage}
-              onChange={handlePageChange}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          )}
-        </Box>
+                    </Box>
+                  </ModalComponent>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
+        {/* pagination */}
+        {salaryList.length > 0 && (
+          <ThemePagination
+            totalpage={totalPage}
+            onChange={handlePageChange}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        )}
       </Box>
 
       <ModalComponent

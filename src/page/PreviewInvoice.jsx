@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   Box,
@@ -10,13 +10,9 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button,
   Divider,
   Stack,
 } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
-import { useAuth } from "../hooks/store/useAuth";
 import { usePDF } from "react-to-pdf";
 import { useInvoiceStore } from "../hooks/store/useInvoiceStore";
 import useApi from "../hooks/useApi";
@@ -27,7 +23,6 @@ import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
 
 export default function PreviewInvoice() {
-  const { accessToken } = useAuth();
   const { invoiceNumber } = useParams();
   const { toPDF, targetRef } = usePDF({ filename: `${invoiceNumber}.pdf` });
   const { invoiceData } = useInvoiceStore();

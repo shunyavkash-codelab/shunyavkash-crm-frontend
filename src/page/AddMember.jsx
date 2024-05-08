@@ -1,12 +1,5 @@
-import React, {
-  useEffect,
-  // useEffect,
-  useState,
-} from "react";
-import { Link } from "react-router-dom";
-import { Button, FormHelperText, Stack } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
+import React, { useEffect, useState } from "react";
+import { FormHelperText, Stack } from "@mui/material";
 import {
   Box,
   FormControl,
@@ -18,7 +11,6 @@ import {
   Autocomplete,
   // InputAdornment,
 } from "@mui/material";
-import { useAuth } from "../hooks/store/useAuth";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import { useNavigate } from "react-router-dom";
@@ -26,18 +18,12 @@ import { Field, FormikProvider, useFormik } from "formik";
 import { APIS } from "../api/apiList";
 import FileUploadButton from "../component/FileUploadButton";
 import * as Yup from "yup";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import PasswordField from "../component/PasswordField";
 import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
 
 export default function AddMember() {
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const [userList, setUserList] = useState([]);
-  const { accessToken } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
   const navigate = useNavigate();
@@ -145,15 +131,6 @@ export default function AddMember() {
     fetchUsers();
     // fetchCountry();
   }, []);
-  // });
-
-  const [reference, setRefrence] = useState([
-    "The Shawshank Redemption",
-    "The Godfather",
-    "The Godfather: Part II",
-    "The Dark Knight",
-    "Inception",
-  ]);
 
   return (
     <>
@@ -163,6 +140,7 @@ export default function AddMember() {
           BreadCrumbPreviousLink="/members"
           BreadCrumbPreviousTitle="Members"
           BreadCrumbCurrentTitle="Add Member"
+          stackSx={{ mb: 0 }}
         />
 
         <FormikProvider value={formik}>

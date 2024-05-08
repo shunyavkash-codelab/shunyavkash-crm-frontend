@@ -106,6 +106,7 @@ function AccountAdd() {
           BreadCrumbPreviousLink="/account-management"
           BreadCrumbPreviousTitle="A/C Management"
           BreadCrumbCurrentTitle={isEdit ? "Edit Entry" : "Add Entry"}
+          stackSx={{ mb: 0 }}
         />
         {isLoading ? (
           <Loading />

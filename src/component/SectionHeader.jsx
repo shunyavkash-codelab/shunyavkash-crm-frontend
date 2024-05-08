@@ -6,7 +6,7 @@ import PlusIcon from "@mui/icons-material/Close";
 
 function SectionHeader(props) {
   return (
-    <Stack
+      <Stack
       direction={{ xs: "column", sm: "row" }}
       alignItems={{ sm: "center" }}
       justifyContent={{ sm: "space-between" }}
@@ -14,6 +14,7 @@ function SectionHeader(props) {
       rowGap={2.5}
       sx={{
         mb: 3.25,
+        ...props.stackSx,
       }}
     >
       <Box sx={{ textTransform: "capitalize", mb: 3.25, ...props.style }}>

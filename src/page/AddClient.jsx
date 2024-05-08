@@ -65,6 +65,7 @@ export default function AddClient() {
           BreadCrumbPreviousLink="/Clients"
           BreadCrumbPreviousTitle="Clients"
           BreadCrumbCurrentTitle="Add Client"
+          stackSx={{ mb: 0 }}
         />
         {(clientList || id === undefined) && (
           <AddClientForm

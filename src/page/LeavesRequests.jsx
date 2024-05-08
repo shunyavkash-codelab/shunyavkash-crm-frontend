@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../hooks/store/useAuth";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import ModalComponent from "../component/ModalComponent";
 import {
   Box,
@@ -43,7 +41,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 export default function LeavesRequests() {
   const [leaveId, setLeaveId] = useState(false);
-  const { accessToken, user } = useAuth();
+  const { user } = useAuth();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -154,7 +152,7 @@ export default function LeavesRequests() {
     leaveList();
   }, [page, rowsPerPage]);
   useEffect(() => {
-    if (searchData !== undefined) {
+    if (searchData !== "") {
       const getData = setTimeout(async () => {
         leaveList();
       }, 1000);
@@ -179,6 +177,7 @@ export default function LeavesRequests() {
           BreadCrumbPreviousLink="/"
           BreadCrumbPreviousTitle="Dashboard"
           BreadCrumbCurrentTitle="Leaves Requests"
+          stackSx={{ mb: 0 }}
         />
 
         <Grid container spacing={2.5}>

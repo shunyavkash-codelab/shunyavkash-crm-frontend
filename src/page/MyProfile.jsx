@@ -10,8 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
 import PropTypes from "prop-types";
 import DateIcon from "@mui/icons-material/DateRangeOutlined";
 import DetailsList from "../component/employee/DetailsList";
@@ -90,7 +88,7 @@ const userRequired = [
 
 export default function MyProfile() {
   const { id } = useParams();
-  const { accessToken, userId, user } = useAuth();
+  const { userId, user } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const navigate = useNavigate();

@@ -11,12 +11,8 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Stack,
   TableSortLabel,
 } from "@mui/material";
-import SideBar from "../component/SideBar";
-import Header from "../component/Header";
-import PlusIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import { useSnack } from "../hooks/store/useSnack";
@@ -37,7 +33,7 @@ export default function Project() {
   const [projectList, setProjectList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { accessToken, user } = useAuth();
+  const { user } = useAuth();
   const { searchData } = useSearchData();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -100,7 +96,7 @@ export default function Project() {
   }, [page, rowsPerPage]);
 
   useEffect(() => {
-    if (searchData !== undefined) {
+    if (searchData !== "") {
       const getData = setTimeout(async () => {
         fetchProjects();
       }, 1000);
@@ -120,30 +116,15 @@ export default function Project() {
   return (
     <>
       <Box component="main">
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          alignItems={{ sm: "center" }}
-          justifyContent={{ sm: "space-between" }}
-          columnGap={2}
-          rowGap={2.5}
-          sx={{
-            mb: 3.25,
-          }}
-        >
-          <SectionHeader
-            Title="Our Projects"
-            BreadCrumbPreviousLink="/"
-            BreadCrumbPreviousTitle="Dashboard"
-            BreadCrumbCurrentTitle="projects"
-            style={{ mb: 0 }}
-          />
-          <Link to="./add">
-            <ThemeButton
-              Text="Add Project"
-              startIcon={<PlusIcon sx={{ transform: "rotate(45deg)" }} />}
-            />
-          </Link>
-        </Stack>
+        <SectionHeader
+          Title="Our Projects"
+          BreadCrumbPreviousLink="/"
+          BreadCrumbPreviousTitle="Dashboard"
+          BreadCrumbCurrentTitle="projects"
+          style={{ mb: 0 }}
+          createButtonTitle="Add Project"
+          createLink="./add"
+        />
 
         {isLoading ? (
           <LoadingIcon style={{ height: "50vh" }} />

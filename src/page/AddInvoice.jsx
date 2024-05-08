@@ -50,7 +50,7 @@ const fifteenDaysAgo = new Date();
 fifteenDaysAgo.setDate(currentDate.getDate() + 15);
 
 export default function AddInvoice() {
-  const { accessToken, userId } = useAuth();
+  const { userId } = useAuth();
   const { setSnack } = useSnack();
   const { apiCall } = useApi();
   const navigate = useNavigate();
@@ -466,6 +466,7 @@ export default function AddInvoice() {
                       : "Add Invoice"
                   }
                   style={{ textAlign: "center" }}
+                  stackSx={{ mb: 0 }}
                 />
                 <Form style={{ position: "relative" }}>
                   <Box
