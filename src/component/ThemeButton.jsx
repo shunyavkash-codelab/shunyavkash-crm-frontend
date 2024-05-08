@@ -73,8 +73,8 @@ function ThemeButton({ isLoading, ...props }) {
               : props.success
               ? "primary.main"
               : props.error
-              ? "error.main"
-              : props?.discard
+              ? "white"
+              : props.discard
               ? "text.primary"
               : props.secondary
               ? "text.white"
@@ -83,8 +83,8 @@ function ThemeButton({ isLoading, ...props }) {
               ? props.success
                 ? "success.light"
                 : props.error
-                ? "error.main"
-                : props?.discard
+                ? "error.light"
+                : props.discard
                 ? "#e4e4e4"
                 : props.secondary
                 ? "primary.main"

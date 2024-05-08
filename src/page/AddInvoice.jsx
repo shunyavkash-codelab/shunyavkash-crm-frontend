@@ -210,7 +210,7 @@ export default function AddInvoice() {
   // Bank Details
   const handleBankChange = async (formik, event) => {
     const bankId = event.target.value;
-    if (Array.isArray(adminList.bank)) {
+    if (Array.isArray(adminList.bank) && bankId !== "customBank") {
       const bankD = adminList.bank.find((bank) => bank._id === bankId);
       if (bankD) {
         formik.setFieldValue("accountNumber", bankD.accountNumber);
@@ -222,7 +222,8 @@ export default function AddInvoice() {
         setBankDetails(false);
       }
     } else {
-      console.log("adminList.bank is not an array");
+      setBankDetails(false);
+      formik.resetForm();
     }
   };
 

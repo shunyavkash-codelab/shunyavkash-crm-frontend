@@ -227,152 +227,157 @@ export default function Invoices() {
           />
         </Stack>
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 2.5,
-            mb: 3.25,
-            flexDirection: { xs: "column", sm: "row" },
-          }}
-        >
           <Box
-            component="form"
-            noValidate
-            autoComplete="off"
             sx={{
-              flexGrow: 1,
               display: "flex",
-              flexDirection: "column",
+              justifyContent: "space-between",
               gap: 2.5,
-              "& fieldset": { borderRadius: "6px" },
-              maxWidth: "320px",
+              mb: 3.25,
+              flexDirection: { xs: "column", sm: "row" },
             }}
           >
-            <FormControl
-              size="small"
+            <Box
+              component="form"
+              noValidate
+              autoComplete="off"
               sx={{
-                "&>label": { fontSize: "14px" },
                 flexGrow: 1,
+                display: "flex",
+                flexDirection: "column",
+                gap: 2.5,
+                "& fieldset": { borderRadius: "6px" },
+                maxWidth: "320px",
               }}
             >
-              <InputLabel
-                sx={{ textTransform: "capitalize" }}
-                id="demo-simple-select-label"
-              >
-                Date
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={date}
-                label="Date"
-                onChange={handleChange}
+              <FormControl
+                size="small"
                 sx={{
-                  fontSize: "14px",
-                  "&": {
-                    bgcolor: "white",
-                  },
+                  "&>label": { fontSize: "14px" },
+                  flexGrow: 1,
                 }}
               >
-                <MenuItem
-                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                  value={"all"}
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="demo-simple-select-label"
                 >
-                  All
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                  value={"lastweek"}
-                >
-                  Last Week
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                  value={"lastmonth"}
-                >
-                  Last Month
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                  value={"lastyear"}
-                >
-                  Last Year
-                </MenuItem>
-                <MenuItem
-                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                  value={"CustomRange"}
-                >
-                  Custom Range
-                </MenuItem>
-              </Select>
-            </FormControl>
-            {date === "CustomRange" && (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: { xs: "column", sm: "row" },
-                  "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
-                  gap: 2.5,
-                  flexShrink: 0,
-                }}
-              >
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="from"
-                  label="From"
-                  autoComplete="off"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  placeholder="mm/dd/yyyy"
-                  value={from}
-                  onChange={(e) => setFrom(e.target.value)}
+                  Date
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={date}
+                  label="Date"
+                  onChange={handleChange}
                   sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
+                    fontSize: "14px",
                     "&": {
                       bgcolor: "white",
-                      borderRadius: 1.5,
                     },
                   }}
-                />
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="to"
-                  label="To"
-                  autoComplete="off"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  placeholder="mm/dd/yyyy"
-                  value={to}
-                  onChange={(e) => setTo(e.target.value)}
+                >
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"all"}
+                  >
+                    All
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastweek"}
+                  >
+                    Last Week
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastmonth"}
+                  >
+                    Last Month
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"lastyear"}
+                  >
+                    Last Year
+                  </MenuItem>
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"CustomRange"}
+                  >
+                    Custom Range
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              {date === "CustomRange" && (
+                <Box
                   sx={{
-                    "&>label,& input,&>div": { fontSize: "14px" },
-                    "&": {
-                      bgcolor: "white",
-                      borderRadius: 1.5,
-                    },
+                    display: "flex",
+                    flexDirection: { xs: "column", sm: "row" },
+                    "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                    gap: 2.5,
+                    flexShrink: 0,
                   }}
-                />
-              </Box>
+                >
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="from"
+                    label="From"
+                    autoComplete="off"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="mm/dd/yyyy"
+                    value={from}
+                    onChange={(e) => setFrom(e.target.value)}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&": {
+                        bgcolor: "white",
+                        borderRadius: 1.5,
+                      },
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="to"
+                    label="To"
+                    autoComplete="off"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="mm/dd/yyyy"
+                    value={to}
+                    onChange={(e) => setTo(e.target.value)}
+                    sx={{
+                      "&>label,& input,&>div": { fontSize: "14px" },
+                      "&": {
+                        bgcolor: "white",
+                        borderRadius: 1.5,
+                      },
+                    }}
+                  />
+                </Box>
+              )}
+            </Box>
+            {numSelected.length > 0 && (
+              // <Button
+              //   disableRipple
+              //   onClick={() => {
+              //     setOpenDelete(true);
+              //   }}
+              // >
+              //   <DeleteIcon sx={{ color: "error.main" }} />
+              // </Button>
+              <ThemeButton
+                Text="Delete Selected"
+                error
+                onClick={invoiceNumberGenerate}
+              />
             )}
           </Box>
-          {numSelected.length > 0 && (
-            <Button
-              disableRipple
-              onClick={() => {
-                setOpenDelete(true);
-              }}
-            >
-              <DeleteIcon sx={{ color: "error.main" }} />
-            </Button>
-          )}
-        </Box>
 
           {isLoading ? (
             <LoadingIcon style={{ height: "50vh" }} />

@@ -15,6 +15,7 @@ export const APIS = {
     ALLUSER: "/user/get-all-user",
     EMPLOYEELIST: "/user/get-all-employees",
     INVITEDLIST: "/user/get-invited-user",
+    JOBROLES: "/user/job-roles",
     DELETE: (employeeId) => `/user/${employeeId}`,
   },
   CLIENT: {

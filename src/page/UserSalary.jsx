@@ -68,7 +68,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
       );
     }
   };
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState("all");
   const { user } = useAuth();
   const { id } = useParams();
   const { apiCall, isLoading } = useApi();
@@ -211,8 +211,8 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
           sortField: "date",
           page: page,
           limit: rowsPerPage,
-          from: from,
-          to: to,
+          from: date === "all" ? undefined : from,
+          to: date === "all" ? undefined : to,
         },
       });
       if (res.data.success === true) {
@@ -263,6 +263,8 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
         moment().subtract(1, "years").startOf("year").format("YYYY-MM-DD")
       );
       setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
+    } else if (date === "all") {
+      viewUserSalary(userId);
     }
   }, [date]);
 
@@ -425,6 +427,12 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                     },
                   }}
                 >
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"all"}
+                  >
+                    All
+                  </MenuItem>
                   <MenuItem
                     sx={{ textTransform: "capitalize", fontSize: "14px" }}
                     value={"lastmonth"}
