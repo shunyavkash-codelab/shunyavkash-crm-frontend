@@ -97,7 +97,7 @@ export default function FileUploadButton({
       ) : (
         <Button
           disableRipple
-          disableElevation
+          disableelevation="true"
           component="label"
           variant="contained"
           id={id}

@@ -167,7 +167,7 @@ export default function InvoiceInputForm({
               <Button
                 onClick={handleClose}
                 disableRipple
-                disableElevation
+                disableelevation="true"
                 id="cancle_icon"
                 sx={{
                   color: "white",

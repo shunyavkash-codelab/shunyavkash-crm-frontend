@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import {
   Box,
   Typography,
@@ -14,8 +19,6 @@ import {
   Tab,
   Tabs,
   Stack,
-  TablePagination,
-  Pagination,
   FormControl,
   InputLabel,
   Select,
@@ -71,7 +74,7 @@ function a11yProps(index) {
 }
 
 export default function Members() {
-  const { accessToken, user } = useAuth();
+  const { user } = useAuth();
   const [managerList, setManagerList] = useState([]);
   const [dashboard, setDashboard] = useState([]);
   const { inviteMemberStore } = useInviteMemberStore();
@@ -85,21 +88,20 @@ export default function Members() {
   const [employeesList, setEmployeesList] = useState([]);
   const [invitedList, setInvitedList] = useState([]);
   const { apiCall, isLoading } = useApi();
-  const { searchData } = useSearchData();
+  const { searchData, setSearchData } = useSearchData();
   const { setSnack } = useSnack();
-  const [page, setPage] = useState(1);
+  const [params] = useSearchParams();
+  const page = +params.get("page") || 1;
+  const limit = +params.get("limit") || 10;
   const [totalPage, setTotalPage] = useState(1);
   const [jobRoleList, setJobRoleList] = useState([]);
   const [selectJobRole, setSelectJobRole] = useState("all");
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // pagination
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handleChangeOnPageChange = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
+  const handlePageChange = () => {
+    params.set("page", 1);
+    navigate({ pathname: location.pathname, search: params.toString() });
   };
 
   const fetchDashboard = async () => {
@@ -116,68 +118,77 @@ export default function Members() {
     }
   };
 
-  const fetchManager = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.USER.MANAGERLIST,
-        method: "get",
-        params: {
-          search: searchData,
-          page: searchData ? 1 : page,
-          limit: rowsPerPage,
-          filter: selectJobRole === "all" ? undefined : selectJobRole,
-        },
-      });
-      if (res.data.success === true) {
-        setManagerList(res.data.data.data);
-        setTotalPage(res.data.data.pagination.pages);
+  const fetchManager = useCallback(
+    async (search) => {
+      try {
+        const res = await apiCall({
+          url: APIS.USER.MANAGERLIST,
+          method: "get",
+          params: {
+            search: search,
+            page: page,
+            limit: limit,
+            filter: selectJobRole === "all" ? undefined : selectJobRole,
+          },
+        });
+        if (res.data.success === true) {
+          setManagerList(res.data.data.data);
+          setTotalPage(res.data.data.pagination.pages);
+        }
+      } catch (error) {
+        console.log(error, setSnack);
       }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+    },
+    [apiCall, limit, page, selectJobRole, setSnack]
+  );
 
-  const fetchEmployees = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.USER.EMPLOYEELIST,
-        method: "get",
-        params: {
-          search: searchData,
-          page: searchData ? 1 : page,
-          limit: rowsPerPage,
-          filter: selectJobRole === "all" ? undefined : selectJobRole,
-        },
-      });
-      if (res.data.success === true) {
-        setEmployeesList(res.data.data.data);
-        setTotalPage(res.data.data.pagination.pages);
+  const fetchEmployees = useCallback(
+    async (search) => {
+      try {
+        const res = await apiCall({
+          url: APIS.USER.EMPLOYEELIST,
+          method: "get",
+          params: {
+            search: search,
+            page: page,
+            limit: limit,
+            filter: selectJobRole === "all" ? undefined : selectJobRole,
+          },
+        });
+        if (res.data.success === true) {
+          setEmployeesList(res.data.data.data);
+          setTotalPage(res.data.data.pagination.pages);
+        }
+      } catch (error) {
+        console.log(error, setSnack);
       }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+    },
+    [apiCall, limit, page, selectJobRole, setSnack]
+  );
 
-  const fetchInvited = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.USER.INVITEDLIST,
-        method: "get",
-        params: {
-          search: searchData,
-          page: searchData ? 1 : page,
-          limit: rowsPerPage,
-          filter: selectJobRole === "all" ? undefined : selectJobRole,
-        },
-      });
-      if (res.data.success === true) {
-        setInvitedList(res.data.data.data);
-        setTotalPage(res.data.data.pagination.pages);
+  const fetchInvited = useCallback(
+    async (search) => {
+      try {
+        const res = await apiCall({
+          url: APIS.USER.INVITEDLIST,
+          method: "get",
+          params: {
+            search: search,
+            page: page,
+            limit: limit,
+            filter: selectJobRole === "all" ? undefined : selectJobRole,
+          },
+        });
+        if (res.data.success === true) {
+          setInvitedList(res.data.data.data);
+          setTotalPage(res.data.data.pagination.pages);
+        }
+      } catch (error) {
+        console.log(error, setSnack);
       }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+    },
+    [apiCall, limit, page, selectJobRole, setSnack]
+  );
 
   const fetchJobRoles = async () => {
     try {
@@ -194,31 +205,40 @@ export default function Members() {
   };
 
   useEffect(() => {
-    fetchManager();
-    fetchEmployees();
-    fetchJobRoles();
-    if (user.role === 0) fetchInvited();
-    fetchDashboard();
+    setSearchData("");
   }, []);
 
   useEffect(() => {
-    if (value === 0) fetchManager();
-    else if (value === 1) fetchEmployees();
-    else if (value === 2) fetchInvited();
-  }, [page, rowsPerPage, selectJobRole]);
-
-  // serech data
-  useEffect(() => {
-    if (searchData !== "") {
+    if (searchData) {
       const getData = setTimeout(async () => {
-        console.log("first");
-        if (value === 0) fetchManager();
-        else if (value === 1) fetchEmployees();
-        else if (value === 2) fetchInvited();
+        if (page !== 1) {
+          handlePageChange();
+        } else {
+          if (value === 0) fetchManager(searchData);
+          else if (value === 1) fetchEmployees(searchData);
+          else if (value === 2 && user.role === 0) fetchInvited(searchData);
+        }
       }, 1000);
-      return () => clearTimeout(getData);
+      return () => {
+        clearTimeout(getData);
+      };
+    } else {
+      fetchJobRoles();
+      fetchManager();
+      fetchEmployees();
+      if (user.role === 0) fetchInvited();
     }
   }, [searchData]);
+
+  useEffect(() => {
+    fetchDashboard();
+  }, []);
+
+  // useEffect(() => {
+  //   if (value === 0) fetchManager();
+  //   else if (value === 1) fetchEmployees();
+  //   else if (value === 2) fetchInvited();
+  // }, [page, selectJobRole]);
 
   // employee
   useEffect(() => {
@@ -282,301 +302,290 @@ export default function Members() {
           </Grid>
         </Grid>
 
-          <Box
-            sx={{
-              bgcolor: "white",
-              borderRadius: 3,
-              py: 3,
-              px: 0,
-              mt: 3,
-            }}
-          >
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="basic tabs example"
+        <Box
+          sx={{
+            bgcolor: "white",
+            borderRadius: 3,
+            py: 3,
+            px: 0,
+            mt: 3,
+          }}
+        >
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+              sx={{
+                minHeight: "38px",
+                // borderBottom: "1px solid #f2f2f2",
+                "& .MuiTabs-flexContainer": {
+                  justifyContent: "flex-start",
+                },
+                "& button": {
+                  textTransform: "capitalize",
+                  py: 0,
+                  minHeight: "unset",
+                },
+              }}
+            >
+              <Tab
+                disableRipple
+                disableelevation="true"
+                label="Manager"
+                {...a11yProps(0)}
                 sx={{
-                  minHeight: "38px",
-                  // borderBottom: "1px solid #f2f2f2",
-                  "& .MuiTabs-flexContainer": {
-                    justifyContent: "flex-start",
-                  },
-                  "& button": {
-                    textTransform: "capitalize",
-                    py: 0,
-                    minHeight: "unset",
-                  },
+                  color: "primary.main",
+                  px: 2.5,
                 }}
-              >
-                <Tab
-                  disableRipple
-                  disableElevation
-                  label="Manager"
-                  {...a11yProps(0)}
-                  sx={{
-                    color: "primary.main",
-                    px: 2.5,
-                  }}
-                />
-                <Tab
-                  disableRipple
-                  disableElevation
-                  label="Employee"
-                  {...a11yProps(1)}
-                  sx={{
-                    color: "primary.main",
-                    px: 2.5,
-                  }}
-                />
-                {user.role === 0 && (
-                  <Tab
-                    disableRipple
-                    disableElevation
-                    label="Invited Members"
-                    {...a11yProps(2)}
-                    sx={{
-                      color: "primary.main",
-                      px: 2.5,
-                    }}
-                  />
-                )}
-              </Tabs>
-              <Box
-                component="form"
-                noValidate
-                autoComplete="off"
+              />
+              <Tab
+                disableRipple
+                disableelevation="true"
+                label="Employee"
+                {...a11yProps(1)}
                 sx={{
-                  minHeight: "38px",
+                  color: "primary.main",
+                  px: 2.5,
+                }}
+              />
+              {user.role === 0 && (
+                <Tab
+                  disableRipple
+                  disableelevation="true"
+                  label="Invited Members"
+                  {...a11yProps(2)}
+                  sx={{
+                    color: "primary.main",
+                    px: 2.5,
+                  }}
+                />
+              )}
+            </Tabs>
+            <Box
+              component="form"
+              noValidate
+              autoComplete="off"
+              sx={{
+                minHeight: "38px",
+                flexGrow: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "end",
+                gap: 2.5,
+                "& fieldset": { borderRadius: "6px" },
+                maxWidth: "140px",
+                margin: "0 15px 5px",
+              }}
+            >
+              <FormControl
+                size="small"
+                sx={{
+                  "&>label": { fontSize: "14px" },
                   flexGrow: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "end",
-                  gap: 2.5,
-                  "& fieldset": { borderRadius: "6px" },
-                  maxWidth: "140px",
-                  margin: "0 15px 5px",
                 }}
               >
-                <FormControl
-                  size="small"
+                <InputLabel
+                  sx={{ textTransform: "capitalize" }}
+                  id="date-wise-select-label"
+                >
+                  Job Role
+                </InputLabel>
+                <Select
+                  labelId="date-wise-select-label"
+                  id="demo-simple-select"
+                  value={selectJobRole}
+                  label="Date"
+                  onChange={(e) => setSelectJobRole(e.target.value)}
                   sx={{
-                    "&>label": { fontSize: "14px" },
-                    flexGrow: 1,
+                    fontSize: "14px",
+                    "&": {
+                      bgcolor: "white",
+                    },
                   }}
                 >
-                  <InputLabel
-                    sx={{ textTransform: "capitalize" }}
-                    id="date-wise-select-label"
+                  <MenuItem
+                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                    value={"all"}
                   >
-                    Job Role
-                  </InputLabel>
-                  <Select
-                    labelId="date-wise-select-label"
-                    id="demo-simple-select"
-                    value={selectJobRole}
-                    label="Date"
-                    onChange={(e) => setSelectJobRole(e.target.value)}
+                    All
+                  </MenuItem>
+                  {jobRoleList.length > 0 &&
+                    jobRoleList.map((jobrole) => (
+                      <MenuItem
+                        sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                        value={jobrole._id}
+                        key={jobrole._id}
+                      >
+                        {jobrole._id}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Box>
+          </Box>
+          {/* Manager */}
+          <CustomTabPanel value={value} index={0}>
+            {isLoading ? (
+              <LoadingIcon style={{ height: "50vh" }} />
+            ) : managerList.length === 0 ? (
+              <Box p={2.5}>
+                <NoData />
+              </Box>
+            ) : (
+              <>
+                <TableContainer
+                  component={Paper}
+                  sx={{
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                    mx: { xs: "-10px", sm: 0 },
+                    width: { xs: "auto", sm: "auto" },
+                    borderRadius: 0,
+                    boxShadow: 0,
+                  }}
+                >
+                  <Table
+                    className="userTable"
                     sx={{
-                      fontSize: "14px",
-                      "&": {
-                        bgcolor: "white",
+                      minWidth: 650,
+                      textTransform: "capitalize",
+                      textWrap: "nowrap",
+                      "& th,& td": {
+                        borderBottom: 0,
+                      },
+                      "& tbody tr": {
+                        borderTop: "1px solid rgba(224, 224, 224, 1)",
                       },
                     }}
+                    aria-label="simple table"
                   >
-                    <MenuItem
-                      sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                      value={"all"}
-                    >
-                      All
-                    </MenuItem>
-                    {jobRoleList.length > 0 &&
-                      jobRoleList.map((jobrole) => (
-                        <MenuItem
-                          sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                          value={jobrole._id}
-                        >
-                          {jobrole._id}
-                        </MenuItem>
+                    <TableHead>
+                      <TableRow
+                        sx={{
+                          "&>th": { lineHeight: 1, fontWeight: 600 },
+                        }}
+                      >
+                        <TableCell sx={{ width: "400px" }}>Manager</TableCell>
+                        <TableCell sx={{ width: "400px" }}>
+                          mobile number
+                        </TableCell>
+
+                        <TableCell sx={{ width: "250px" }}>
+                          {user.role === 0 ? "Role" : "Job Role"}
+                        </TableCell>
+                        {user.role === 0 && (
+                          <TableCell sx={{ width: "140px" }}>status</TableCell>
+                        )}
+                        {user.role === 0 && (
+                          <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                        )}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {managerList.map((row) => (
+                        <EmployeeListRaw
+                          row={row}
+                          uniqId={row._id}
+                          setEmployeesList={setManagerList}
+                          dataList={managerList}
+                          user={user}
+                          key={row._id}
+                        />
                       ))}
-                  </Select>
-                </FormControl>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </>
+            )}
+            {/* pagination */}
+            {managerList.length > 0 && (
+              <ThemePagination
+                totalpage={totalPage}
+                count={managerList.length}
+              />
+            )}
+          </CustomTabPanel>
+
+          {/* Employee */}
+          <CustomTabPanel value={value} index={1}>
+            {isLoading ? (
+              <LoadingIcon style={{ height: "50vh" }} />
+            ) : employeesList.length === 0 ? (
+              <Box p={2.5}>
+                <NoData />
               </Box>
-            </Box>
-            {/* Manager */}
-            <CustomTabPanel value={value} index={0}>
-              {isLoading ? (
-                <LoadingIcon style={{ height: "50vh" }} />
-              ) : managerList.length === 0 ? (
-                <Box p={2.5}>
-                  <NoData />
-                </Box>
-              ) : (
-                <>
-                  <TableContainer
-                    component={Paper}
+            ) : (
+              <>
+                <TableContainer
+                  component={Paper}
+                  sx={{
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                    borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                    mx: { xs: "-10px", sm: 0 },
+                    width: { xs: "auto", sm: "auto" },
+                    borderRadius: 0,
+                    boxShadow: 0,
+                  }}
+                >
+                  <Table
+                    className="userTable"
                     sx={{
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
-                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                      mx: { xs: "-10px", sm: 0 },
-                      width: { xs: "auto", sm: "auto" },
-                      borderRadius: 0,
-                      boxShadow: 0,
+                      minWidth: 650,
+                      textTransform: "capitalize",
+                      textWrap: "nowrap",
+                      "& th,& td": { borderBottom: 0 },
+                      "& tbody tr": {
+                        borderTop: "1px solid rgba(224, 224, 224, 1)",
+                      },
                     }}
+                    aria-label="simple table"
                   >
-                    <Table
-                      className="userTable"
-                      sx={{
-                        minWidth: 650,
-                        textTransform: "capitalize",
-                        textWrap: "nowrap",
-                        "& th,& td": {
-                          borderBottom: 0,
-                        },
-                        "& tbody tr": {
-                          borderTop: "1px solid rgba(224, 224, 224, 1)",
-                        },
-                      }}
-                      aria-label="simple table"
-                    >
-                      <TableHead>
-                        <TableRow
-                          sx={{
-                            "&>th": { lineHeight: 1, fontWeight: 600 },
-                          }}
-                        >
-                          <TableCell sx={{ width: "400px" }}>Manager</TableCell>
-                          <TableCell sx={{ width: "400px" }}>
-                            mobile number
-                          </TableCell>
-
-                          <TableCell sx={{ width: "250px" }}>
-                            {user.role === 0 ? "Role" : "Job Role"}
-                          </TableCell>
-                          {user.role === 0 && (
-                            <TableCell sx={{ width: "140px" }}>
-                              status
-                            </TableCell>
-                          )}
-                          {user.role === 0 && (
-                            <TableCell sx={{ width: "140px" }}>
-                              Actions
-                            </TableCell>
-                          )}
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {managerList.map((row) => (
-                          <EmployeeListRaw
-                            row={row}
-                            uniqId={row._id}
-                            setEmployeesList={setManagerList}
-                            dataList={managerList}
-                            user={user}
-                          />
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </>
-              )}
-              {/* pagination */}
-              {managerList.length > 0 && (
-                <ThemePagination
-                  totalpage={totalPage}
-                  onChange={handleChangeOnPageChange}
-                  rowsPerPage={rowsPerPage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              )}
-            </CustomTabPanel>
-
-            {/* Employee */}
-            <CustomTabPanel value={value} index={1}>
-              {isLoading ? (
-                <LoadingIcon style={{ height: "50vh" }} />
-              ) : employeesList.length === 0 ? (
-                <Box p={2.5}>
-                  <NoData />
-                </Box>
-              ) : (
-                <>
-                  <TableContainer
-                    component={Paper}
-                    sx={{
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
-                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                      mx: { xs: "-10px", sm: 0 },
-                      width: { xs: "auto", sm: "auto" },
-                      borderRadius: 0,
-                      boxShadow: 0,
-                    }}
-                  >
-                    <Table
-                      className="userTable"
-                      sx={{
-                        minWidth: 650,
-                        textTransform: "capitalize",
-                        textWrap: "nowrap",
-                        "& th,& td": { borderBottom: 0 },
-                        "& tbody tr": {
-                          borderTop: "1px solid rgba(224, 224, 224, 1)",
-                        },
-                      }}
-                      aria-label="simple table"
-                    >
-                      <TableHead>
-                        <TableRow
-                          sx={{
-                            "&>th": { lineHeight: 1, fontWeight: 600 },
-                          }}
-                        >
-                          <TableCell sx={{ width: "400px" }}>
-                            employee
-                          </TableCell>
-                          <TableCell sx={{ width: "400px" }}>
-                            mobile number
-                          </TableCell>
-                          <TableCell sx={{ width: "250px" }}>
-                            {user.role === 0 ? "Role" : "Job Role"}
-                          </TableCell>
-                          {user.role === 0 && (
-                            <TableCell sx={{ width: "140px" }}>
-                              status
-                            </TableCell>
-                          )}
-                          {user.role === 0 && (
-                            <TableCell sx={{ width: "140px" }}>
-                              Actions
-                            </TableCell>
-                          )}
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {employeesList.map((row) => (
-                          <EmployeeListRaw
-                            row={row}
-                            uniqId={row._id}
-                            setEmployeesList={setEmployeesList}
-                            employeesList={employeesList}
-                            user={user}
-                          />
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </>
-              )}
-              {/* pagination */}
-              {employeesList.length > 0 && (
-                <ThemePagination
-                  totalpage={totalPage}
-                  onChange={handleChangeOnPageChange}
-                  rowsPerPage={rowsPerPage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              )}
-            </CustomTabPanel>
+                    <TableHead>
+                      <TableRow
+                        sx={{
+                          "&>th": { lineHeight: 1, fontWeight: 600 },
+                        }}
+                      >
+                        <TableCell sx={{ width: "400px" }}>employee</TableCell>
+                        <TableCell sx={{ width: "400px" }}>
+                          mobile number
+                        </TableCell>
+                        <TableCell sx={{ width: "250px" }}>
+                          {user.role === 0 ? "Role" : "Job Role"}
+                        </TableCell>
+                        {user.role === 0 && (
+                          <TableCell sx={{ width: "140px" }}>status</TableCell>
+                        )}
+                        {user.role === 0 && (
+                          <TableCell sx={{ width: "140px" }}>Actions</TableCell>
+                        )}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {employeesList.map((row) => (
+                        <EmployeeListRaw
+                          row={row}
+                          uniqId={row._id}
+                          setEmployeesList={setEmployeesList}
+                          employeesList={employeesList}
+                          user={user}
+                          key={row._id}
+                        />
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </>
+            )}
+            {/* pagination */}
+            {employeesList.length > 0 && (
+              <ThemePagination
+                totalpage={totalPage}
+                count={employeesList.length}
+              />
+            )}
+          </CustomTabPanel>
 
           {/* Invited */}
           <CustomTabPanel value={value} index={2}>
@@ -633,6 +642,7 @@ export default function Members() {
                           setEmployeesList={setEmployeesList}
                           invitedList={invitedList}
                           user={user}
+                          key={row._id}
                         />
                       ))}
                     </TableBody>
@@ -643,10 +653,8 @@ export default function Members() {
             {/* pagination */}
             {invitedList.length > 0 && (
               <ThemePagination
-                totalpage={totalPage}
-                onChange={handleChangeOnPageChange}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+                totalPage={totalPage}
+                count={invitedList.length}
               />
             )}
           </CustomTabPanel>
