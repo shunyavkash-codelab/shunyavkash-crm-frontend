@@ -29,7 +29,7 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
   const navigate = useNavigate();
   let location = useLocation();
   const open = Boolean(anchorEl);
-  const { setSearchData } = useSearchData();
+  const { setSearchData, searchData } = useSearchData();
   const [search, setSearch] = useState("");
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,15 +46,16 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
 
   const [modalOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  useEffect(() => {
-    let timeout = setTimeout(() => {
-      setSearchData(search);
-    }, 500);
+  // useEffect(() => {
+  //   let timeout = setTimeout(() => {
+  //     setSearchData(searchData || search);
+  //     setSearch(searchData);
+  //   }, 500);
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [search, setSearchData]);
+  //   return () => {
+  //     clearTimeout(timeout);
+  //   };
+  // }, [search, setSearchData, searchData]);
 
   return (
     <>
@@ -155,8 +156,9 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
                       },
                     },
                   }}
+                  value={searchData}
                   onChange={(e) => {
-                    setSearch(e.target.value);
+                    setSearchData(e.target.value);
                   }}
                 />
               </Box>

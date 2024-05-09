@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import SectionHeader from "../component/SectionHeader";
 import { Box, Grid } from "@mui/material";
 import ModalComponent from "../component/ModalComponent";
@@ -36,7 +36,7 @@ function AccountManage() {
   const { setSnack } = useSnack();
   const [params] = useSearchParams();
   const [selectedTransaction, setSelectedTransaction] = useState();
-  const { searchData } = useSearchData();
+  const { searchData, setSearchData } = useSearchData();
   const page = +params.get("page") || 1;
   const limit = +params.get("limit") || 10;
   const [totalPage, setTotalPage] = useState(1);
@@ -48,12 +48,19 @@ function AccountManage() {
   const [orderBy, setOrderBy] = useState();
   const [openDelete, setOpenDelete] = useState(false);
   const [selectTransaction, setSelectTransaction] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
   // pagination
   const handleDateChange = (event) => {
     setDate(event.target.value);
   };
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
+  };
+
+  const handlePageChange = () => {
+    params.set("page", 1);
+    navigate({ pathname: location.pathname, search: params.toString() });
   };
 
   const deleteTransaction = async (id) => {
@@ -71,57 +78,53 @@ function AccountManage() {
       console.log(error, setSnack);
     }
   };
-  const viewAllTransaction = useCallback(async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.ACCOUNTMANAGE.LIST,
-        method: "get",
-        params: {
-          sortField: sortField,
-          orderBy: orderBy,
-          search: searchData,
-          page: searchData ? 1 : page,
-          limit: limit,
-          from: from,
-          to: to,
-          filter: filter === "all" ? undefined : filter,
-        },
-      });
-      if (res.data.success === true) {
-        let data = res.data.data;
-        setTransactionList(data.data);
-        setTotalPage(data.pagination.pages);
-        let total = 0,
-          totalExp = 0,
-          totalInc = 0;
-        for (var trans of data.data) {
-          if (trans.type === "expense") {
-            total = total - trans.amount;
-            totalExp = totalExp - trans.amount;
-          } else {
-            total = total + trans.amount;
-            totalInc = totalInc + trans.amount;
+  const viewAllTransaction = useCallback(
+    async (search) => {
+      try {
+        const res = await apiCall({
+          url: APIS.ACCOUNTMANAGE.LIST,
+          method: "get",
+          params: {
+            sortField: sortField,
+            orderBy: orderBy,
+            search: search,
+            page: page,
+            limit: limit,
+            from: from,
+            to: to,
+            filter: filter === "all" ? undefined : filter,
+          },
+        });
+        if (res.data.success === true) {
+          let data = res.data.data;
+          setTransactionList(data.data);
+          setTotalPage(data.pagination.pages);
+          let total = 0,
+            totalExp = 0,
+            totalInc = 0;
+          for (var trans of data.data) {
+            if (trans.type === "expense") {
+              total = total - trans.amount;
+              totalExp = totalExp - trans.amount;
+            } else {
+              total = total + trans.amount;
+              totalInc = totalInc + trans.amount;
+            }
           }
+          setTotalExpense(totalExp);
+          setTotalIncome(totalInc);
+          setTotalAmount(total);
         }
-        setTotalExpense(totalExp);
-        setTotalIncome(totalInc);
-        setTotalAmount(total);
+      } catch (error) {
+        console.log(error, setSnack);
       }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  }, [
-    apiCall,
-    filter,
-    from,
-    orderBy,
-    page,
-    searchData,
-    setSnack,
-    sortField,
-    to,
-    limit,
-  ]);
+    },
+    [apiCall, filter, from, orderBy, page, setSnack, sortField, to, limit]
+  );
+
+  useEffect(() => {
+    setSearchData("");
+  }, []);
 
   const transactionDashboard = useCallback(async () => {
     try {
@@ -140,8 +143,17 @@ function AccountManage() {
     transactionDashboard();
   }, [transactionDashboard]);
   useEffect(() => {
-    viewAllTransaction();
-  }, [viewAllTransaction]);
+    if (searchData) {
+      const getData = setTimeout(async () => {
+        page !== 1 ? handlePageChange() : viewAllTransaction(searchData);
+      }, 1000);
+      return () => {
+        clearTimeout(getData);
+      };
+    } else {
+      viewAllTransaction();
+    }
+  }, [searchData, viewAllTransaction]);
   useEffect(() => {
     let fromValue, toValue;
     if (date === "CustomRange") {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   InputLabel,
@@ -37,14 +37,16 @@ import AddSalaryForm from "../component/form/AddSalaryForm.jsx";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 export default function MyProfile() {
   const { userId, user } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const [date, setDate] = useState("all");
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [page, setPage] = useState(1);
+  const [params] = useSearchParams();
+  const page = +params.get("page") || 1;
+  const limit = +params.get("limit") || 10;
   const [totalPage, setTotalPage] = useState(1);
   const [openSalary, setOpenSalary] = useState(false);
   const [selectSalary, setSelectSalary] = useState(false);
@@ -52,22 +54,22 @@ export default function MyProfile() {
   const [salaryList, setSalaryList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [userBank, setUserBank] = useState();
-  const { searchData } = useSearchData();
+  const { searchData, setSearchData } = useSearchData();
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
   const [sortField, setSortField] = useState();
   const [orderBy, setOrderBy] = useState();
   const [openDelete, setOpenDelete] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handlePageChange = () => {
+    params.set("page", 1);
+    navigate({ pathname: location.pathname, search: params.toString() });
+  };
 
   const handleChange = (event) => {
     setDate(event.target.value);
-  };
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
   };
 
   const handleOpenSalary = (salary) => {
@@ -88,10 +90,6 @@ export default function MyProfile() {
       console.log(error, setSnack);
     }
   };
-  useEffect(() => {
-    fetchUsers();
-    viewAllSalary();
-  }, []);
 
   useEffect(() => {
     if (selectSalary.employee) {
@@ -118,64 +116,96 @@ export default function MyProfile() {
     }
   };
 
-  const viewAllSalary = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.SALARY.ALL,
-        method: "get",
-        params: {
-          sortField: sortField || "date",
-          orderBy: orderBy,
-          page: page,
-          limit: rowsPerPage,
-          from: date === "all" ? undefined : from,
-          to: date === "all" ? undefined : to,
-          search: searchData,
-        },
-      });
-      if (res.data.success === true) {
-        setSalaryList(res.data.data.data);
-        setTotalPage(res.data.data.pagination.pages);
+  const viewAllSalary = useCallback(
+    async (search) => {
+      try {
+        const res = await apiCall({
+          url: APIS.SALARY.ALL,
+          method: "get",
+          params: {
+            sortField: sortField || "date",
+            orderBy: orderBy,
+            page: page,
+            limit: limit,
+            from: from,
+            to: to,
+            search: search,
+          },
+        });
+        if (res.data.success === true) {
+          setSalaryList(res.data.data.data);
+          setTotalPage(res.data.data.pagination.pages);
+        }
+      } catch (error) {
+        console.log(error, setSnack);
       }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+    },
+    [apiCall, from, limit, orderBy, page, setSnack, sortField, to]
+  );
 
   useEffect(() => {
-    if (to && from) {
-      viewAllSalary();
-    }
-  }, [to, from]);
+    setSearchData("");
+  }, []);
+
   useEffect(() => {
-    if (date === "lastquarter") {
-      setFrom(
-        moment().subtract(4, "months").startOf("month").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "months").endOf("month").format("YYYY-MM-DD"));
-    } else if (date === "lastmonth") {
-      setFrom(
-        moment().subtract(1, "months").startOf("month").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "months").endOf("month").format("YYYY-MM-DD"));
-    } else if (date === "lastyear") {
-      setFrom(
-        moment().subtract(1, "years").startOf("year").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
+    if (searchData) {
+      const getData = setTimeout(async () => {
+        page !== 1 ? handlePageChange() : viewAllSalary(searchData);
+      }, 1000);
+      return () => {
+        clearTimeout(getData);
+      };
     } else {
       viewAllSalary();
     }
-  }, [date]);
+  }, [searchData, viewAllSalary]);
 
   useEffect(() => {
-    if (searchData !== "") {
-      const getData = setTimeout(async () => {
-        viewAllSalary();
-      }, 1000);
-      return () => clearTimeout(getData);
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    let fromValue, toValue;
+    if (date === "CustomRange") {
+      fromValue = moment()
+        .subtract(1, "days")
+        .endOf("day")
+        .format("YYYY-MM-DD");
+      toValue = moment().format("YYYY-MM-DD");
+    } else if (date === "lastquarter") {
+      fromValue = moment()
+        .subtract(4, "months")
+        .startOf("month")
+        .format("YYYY-MM-DD");
+      toValue = moment()
+        .subtract(1, "months")
+        .endOf("month")
+        .format("YYYY-MM-DD");
+    } else if (date === "lastmonth") {
+      fromValue = moment()
+        .subtract(1, "months")
+        .startOf("month")
+        .format("YYYY-MM-DD");
+      toValue = moment()
+        .subtract(1, "months")
+        .endOf("month")
+        .format("YYYY-MM-DD");
+    } else if (date === "lastyear") {
+      fromValue = moment()
+        .subtract(1, "years")
+        .startOf("year")
+        .format("YYYY-MM-DD");
+
+      toValue = moment()
+        .subtract(1, "years")
+        .endOf("year")
+        .format("YYYY-MM-DD");
+    } else if (date === "all") {
+      handlePageChange();
     }
-  }, [searchData]);
+    setFrom(fromValue);
+    setTo(toValue);
+  }, [date]);
 
   const formikSalary = useFormik({
     validationSchema: Yup.object({
@@ -254,11 +284,6 @@ export default function MyProfile() {
     setSortField(id);
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
-  useEffect(() => {
-    if (orderBy) {
-      viewAllSalary();
-    }
-  }, [orderBy]);
 
   return (
     <>
@@ -621,12 +646,7 @@ export default function MyProfile() {
         )}
         {/* pagination */}
         {salaryList.length > 0 && (
-          <ThemePagination
-            totalpage={totalPage}
-            onChange={handlePageChange}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <ThemePagination totalPage={totalPage} count={salaryList.length} />
         )}
       </Box>
 
