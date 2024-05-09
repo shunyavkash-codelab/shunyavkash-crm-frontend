@@ -331,7 +331,7 @@ export default function Members() {
             >
               <Tab
                 disableRipple
-                disableElevation
+                disableelevation="true"
                 label="Manager"
                 {...a11yProps(0)}
                 sx={{
@@ -341,7 +341,7 @@ export default function Members() {
               />
               <Tab
                 disableRipple
-                disableElevation
+                disableelevation="true"
                 label="Employee"
                 {...a11yProps(1)}
                 sx={{
@@ -352,7 +352,7 @@ export default function Members() {
               {user.role === 0 && (
                 <Tab
                   disableRipple
-                  disableElevation
+                  disableelevation="true"
                   label="Invited Members"
                   {...a11yProps(2)}
                   sx={{
@@ -415,6 +415,7 @@ export default function Members() {
                       <MenuItem
                         sx={{ textTransform: "capitalize", fontSize: "14px" }}
                         value={jobrole._id}
+                        key={jobrole._id}
                       >
                         {jobrole._id}
                       </MenuItem>
@@ -489,6 +490,7 @@ export default function Members() {
                           setEmployeesList={setManagerList}
                           dataList={managerList}
                           user={user}
+                          key={row._id}
                         />
                       ))}
                     </TableBody>
@@ -568,6 +570,7 @@ export default function Members() {
                           setEmployeesList={setEmployeesList}
                           employeesList={employeesList}
                           user={user}
+                          key={row._id}
                         />
                       ))}
                     </TableBody>
@@ -639,6 +642,7 @@ export default function Members() {
                           setEmployeesList={setEmployeesList}
                           invitedList={invitedList}
                           user={user}
+                          key={row._id}
                         />
                       ))}
                     </TableBody>
