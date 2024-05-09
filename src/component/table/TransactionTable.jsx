@@ -13,6 +13,7 @@ import BankIcon from "@mui/icons-material/AccountBalance";
 import CustomTableBody from "./CustomTableBody";
 import CustomTableHeader from "./CustomTableHeader";
 import ThemePagination from "../ThemePagination";
+import { useNavigate } from "react-router-dom";
 
 const TransactionTable = ({
   records,
@@ -30,6 +31,7 @@ const TransactionTable = ({
   setSelectTransaction,
   totalPage,
 }) => {
+  const navigate = useNavigate();
   const TABLE_BODY = records.map((account) => ({
     key: account._id,
     row: [
@@ -94,7 +96,7 @@ const TransactionTable = ({
       {
         type: "edit",
         value: account.type,
-        onEdit: `./edit/${account._id}`,
+        onEdit: () => navigate(`./edit/${account._id}`),
         onOpen: () => {
           handleOpen();
           setSelectedTransaction(account);

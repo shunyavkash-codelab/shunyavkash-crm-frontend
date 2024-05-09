@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import moment from "moment";
 import {
   Box,
@@ -34,22 +34,21 @@ export default function Project() {
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const { user } = useAuth();
-  const { searchData } = useSearchData();
-  const [page, setPage] = useState(1);
+  const { searchData, setSearchData } = useSearchData();
+  const [params] = useSearchParams();
+  const page = +params.get("page") || 1;
+  const limit = +params.get("limit") || 10;
   const [totalPage, setTotalPage] = useState(1);
   const [sortField, setSortField] = useState();
   const [orderBy, setOrderBy] = useState();
   const [openDelete, setOpenDelete] = useState(false);
   const [selectProject, setSelectProject] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // pagination
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handleChange = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
+  const handlePageChange = () => {
+    params.set("page", 1);
+    navigate({ pathname: location.pathname, search: params.toString() });
   };
 
   const deleteProject = async (id) => {
@@ -68,15 +67,15 @@ export default function Project() {
     }
   };
 
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async (search) => {
     try {
       const res = await apiCall({
         url: APIS.PROJECT.LIST,
         method: "get",
         params: {
-          search: searchData,
+          search: search,
           page,
-          limit: rowsPerPage,
+          limit: limit,
           sortField: sortField,
           orderBy: orderBy,
         },
@@ -89,30 +88,29 @@ export default function Project() {
       console.log(error, setSnack);
       handleApiError(error, setSnack);
     }
-  };
+  },[apiCall, limit, orderBy, page, setSnack, sortField]);
 
   useEffect(() => {
-    fetchProjects();
-  }, [page, rowsPerPage]);
+    setSearchData("");
+  }, []);
 
   useEffect(() => {
-    if (searchData !== "") {
+    if (searchData) {
       const getData = setTimeout(async () => {
-        fetchProjects();
+        page !== 1 ? handlePageChange() : fetchProjects(searchData);
       }, 1000);
-      return () => clearTimeout(getData);
+      return () => {
+        clearTimeout(getData);
+      };
+    } else {
+      fetchProjects();
     }
-  }, [searchData]);
+  }, [fetchProjects, page, searchData]);
 
   const createSortHandler = (id) => {
     setSortField(id);
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
-  useEffect(() => {
-    if (orderBy) {
-      fetchProjects();
-    }
-  }, [orderBy]);
   return (
     <>
       <Box component="main">
@@ -320,10 +318,8 @@ export default function Project() {
         {/* pagination */}
         {projectList.length > 0 && (
           <ThemePagination
-            totalpage={totalPage}
-            onChange={handleChange}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+            totalPage={totalPage}
+            count={projectList.length}
           />
         )}
       </Box>

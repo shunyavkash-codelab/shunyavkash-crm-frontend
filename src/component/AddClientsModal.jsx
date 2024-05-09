@@ -129,7 +129,7 @@ export default function AddClientsModal({
               <Button
                 onClick={handleClose}
                 disableRipple
-                disableElevation
+                disableelevation="true"
                 id="cencel_icon"
                 sx={{
                   color: "white",

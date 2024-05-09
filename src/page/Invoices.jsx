@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
   Box,
-  Button,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Paper,
   FormControl,
   InputLabel,
@@ -16,12 +12,8 @@ import {
   Select,
   TextField,
   Stack,
-  TableSortLabel,
-  Checkbox,
 } from "@mui/material";
 import PlusIcon from "@mui/icons-material/Close";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import CreateIcon from "@mui/icons-material/CreateOutlined";
 // import MarkAsPaidIcon from "@mui/icons-material/CheckCircleOutlined";
 import useApi from "../hooks/useApi";
 import { APIS } from "../api/apiList";
@@ -34,8 +26,9 @@ import SectionHeader from "../component/SectionHeader";
 import { useSearchData } from "../hooks/store/useSearchData.js";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import ModalComponent from "../component/ModalComponent.jsx";
+import InvoiceListTableRow from "../component/table/InvoiceListTableRow.jsx";
+import CustomTableHeader from "../component/table/CustomTableHeader.jsx";
 
 // const gridItems = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -46,27 +39,19 @@ export default function Invoices() {
   const { setSnack } = useSnack();
   const [invoiceList, setInvoiceList] = useState([]);
   const { setInvoiceData, resetInvoiceStore } = useInvoiceStore();
-  const { searchData } = useSearchData();
-  const [page, setPage] = useState(1);
+  const { searchData, setSearchData } = useSearchData();
+  const [params] = useSearchParams();
+  const page = +params.get("page") || 1;
+  const limit = +params.get("limit") || 10;
   const [totalPage, setTotalPage] = useState(1);
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
   const [sortField, setSortField] = useState();
   const [orderBy, setOrderBy] = useState();
   const [openDelete, setOpenDelete] = useState(false);
-  // const [selectInvoice, setSelectInvoice] = useState(false);
   const [selectAllClick, setSelectAllClick] = useState(false);
   const [numSelected, setNumSelected] = useState([]);
-
-  // pagination
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handleChangeOnPageChange = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
-  };
+  const location = useLocation();
 
   const handleChange = (event) => {
     setDate(event.target.value);
@@ -107,6 +92,11 @@ export default function Invoices() {
     navigate(`/invoices/edit/${invoiceNumber}`);
   };
 
+  const handlePageChange = () => {
+    params.set("page", 1);
+    navigate({ pathname: location.pathname, search: params.toString() });
+  };
+
   const deleteInvoice = async () => {
     try {
       const res = await apiCall({
@@ -125,79 +115,134 @@ export default function Invoices() {
     }
   };
 
-  const listInvoice = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.INVOICE.LIST,
-        method: "get",
-        params: {
-          sortField: sortField || "invoiceDate",
-          orderBy: orderBy,
-          search: searchData,
-          page: searchData ? 1 : page,
-          limit: rowsPerPage,
-          from: date === "all" ? undefined : from,
-          to: date === "all" ? undefined : to,
-        },
-      });
-      if (res.data.success === true) {
-        setInvoiceList(res.data.data.data);
-        setTotalPage(res.data.data.pagination.pages);
+  const listInvoice = useCallback(
+    async (search) => {
+      try {
+        const res = await apiCall({
+          url: APIS.INVOICE.LIST,
+          method: "get",
+          params: {
+            sortField: sortField || "invoiceDate",
+            orderBy: orderBy,
+            search: search,
+            page: page,
+            limit: limit,
+            from: from,
+            to: to,
+          },
+        });
+        if (res.data.success === true) {
+          setInvoiceList(res.data.data.data);
+          setTotalPage(res.data.data.pagination.pages);
+        }
+      } catch (error) {
+        console.log(error, setSnack);
       }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+    },
+    [apiCall, from, limit, orderBy, page, setSnack, sortField, to]
+  );
+
   useEffect(() => {
-    listInvoice();
-    resetInvoiceStore();
-  }, [page, rowsPerPage]);
+    setSearchData("");
+  }, []);
+
   useEffect(() => {
-    if (searchData !== "") {
+    if (searchData) {
       const getData = setTimeout(async () => {
-        listInvoice();
+        page !== 1 ? handlePageChange() : listInvoice(searchData);
+        resetInvoiceStore();
       }, 1000);
-      return () => clearTimeout(getData);
-    }
-  }, [searchData]);
-  useEffect(() => {
-    if (to && from) {
-      listInvoice();
-    }
-  }, [to, from]);
-  useEffect(() => {
-    if (date === "CustomRange") {
-      setFrom(moment().subtract(1, "days").endOf("day").format("YYYY-MM-DD"));
-      setTo(moment().format("YYYY-MM-DD"));
-    } else if (date === "lastweek") {
-      setFrom(
-        moment().subtract(1, "weeks").startOf("week").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "weeks").endOf("week").format("YYYY-MM-DD"));
-    } else if (date === "lastmonth") {
-      setFrom(
-        moment().subtract(1, "months").startOf("month").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "months").endOf("month").format("YYYY-MM-DD"));
-    } else if (date === "lastyear") {
-      setFrom(
-        moment().subtract(1, "years").startOf("year").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
+      return () => {
+        clearTimeout(getData);
+      };
     } else {
       listInvoice();
+      resetInvoiceStore();
     }
+  }, [listInvoice, searchData, resetInvoiceStore]);
+
+  useEffect(() => {
+    let fromValue, toValue;
+    if (date === "CustomRange") {
+      fromValue = moment()
+        .subtract(1, "days")
+        .endOf("day")
+        .format("YYYY-MM-DD");
+      toValue = moment().format("YYYY-MM-DD");
+    } else if (date === "lastweek") {
+      fromValue = moment()
+        .subtract(1, "weeks")
+        .startOf("week")
+        .format("YYYY-MM-DD");
+
+      toValue = moment()
+        .subtract(1, "weeks")
+        .endOf("week")
+        .format("YYYY-MM-DD");
+    } else if (date === "lastmonth") {
+      fromValue = moment()
+        .subtract(1, "months")
+        .startOf("month")
+        .format("YYYY-MM-DD");
+      toValue = moment()
+        .subtract(1, "months")
+        .endOf("month")
+        .format("YYYY-MM-DD");
+    } else if (date === "lastyear") {
+      fromValue = moment()
+        .subtract(1, "years")
+        .startOf("year")
+        .format("YYYY-MM-DD");
+
+      toValue = moment()
+        .subtract(1, "years")
+        .endOf("year")
+        .format("YYYY-MM-DD");
+    } else if (date === "all") {
+      handlePageChange();
+    }
+    setFrom(fromValue);
+    setTo(toValue);
   }, [date]);
 
   const createSortHandler = (id) => {
     setSortField(id);
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
-  useEffect(() => {
-    if (orderBy) {
-      listInvoice();
-    }
-  }, [orderBy]);
+
+  const TABLE_HEADINGS = [
+    { id: "checkbox", label: "", sortable: false },
+    { id: "projectName", label: "Project Name", sortable: true },
+    { id: "client", label: "Client", sortable: false },
+    { id: "user", label: "User", sortable: false },
+    {
+      id: "invoiceNumber",
+      label: "Invoice No",
+      sortable: true,
+    },
+    { id: "invoiceDate", label: "Invoice Date", sortable: true },
+    {
+      id: "invoiceDueDate",
+      label: "Due Date",
+      sortable: true,
+    },
+    {
+      id: "status",
+      label: "Status",
+      sortable: false,
+    },
+    {
+      id: "total",
+      label: "Total",
+      sortable: false,
+    },
+    {
+      id: "actions",
+      label: "Actions",
+      sortable: false,
+      textAlign: "center",
+    },
+  ];
 
   return (
     <>
@@ -227,429 +272,243 @@ export default function Invoices() {
           />
         </Stack>
 
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 2.5,
+            mb: 3.25,
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
           <Box
+            component="form"
+            noValidate
+            autoComplete="off"
             sx={{
+              flexGrow: 1,
               display: "flex",
-              justifyContent: "space-between",
+              flexDirection: "column",
               gap: 2.5,
-              mb: 3.25,
-              flexDirection: { xs: "column", sm: "row" },
+              "& fieldset": { borderRadius: "6px" },
+              maxWidth: "320px",
             }}
           >
-            <Box
-              component="form"
-              noValidate
-              autoComplete="off"
+            <FormControl
+              size="small"
               sx={{
+                "&>label": { fontSize: "14px" },
                 flexGrow: 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: 2.5,
-                "& fieldset": { borderRadius: "6px" },
-                maxWidth: "320px",
               }}
             >
-              <FormControl
-                size="small"
+              <InputLabel
+                sx={{ textTransform: "capitalize" }}
+                id="demo-simple-select-label"
+              >
+                Date
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={date}
+                label="Date"
+                onChange={handleChange}
                 sx={{
-                  "&>label": { fontSize: "14px" },
-                  flexGrow: 1,
+                  fontSize: "14px",
+                  "&": {
+                    bgcolor: "white",
+                  },
                 }}
               >
-                <InputLabel
-                  sx={{ textTransform: "capitalize" }}
-                  id="demo-simple-select-label"
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"all"}
                 >
-                  Date
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={date}
-                  label="Date"
-                  onChange={handleChange}
+                  All
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastweek"}
+                >
+                  Last Week
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastmonth"}
+                >
+                  Last Month
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"lastyear"}
+                >
+                  Last Year
+                </MenuItem>
+                <MenuItem
+                  sx={{ textTransform: "capitalize", fontSize: "14px" }}
+                  value={"CustomRange"}
+                >
+                  Custom Range
+                </MenuItem>
+              </Select>
+            </FormControl>
+            {date === "CustomRange" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
+                  gap: 2.5,
+                  flexShrink: 0,
+                }}
+              >
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="from"
+                  label="From"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder="mm/dd/yyyy"
+                  value={from}
+                  onChange={(e) => setFrom(e.target.value)}
                   sx={{
-                    fontSize: "14px",
+                    "&>label,& input,&>div": { fontSize: "14px" },
                     "&": {
                       bgcolor: "white",
+                      borderRadius: 1.5,
                     },
                   }}
-                >
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"all"}
-                  >
-                    All
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastweek"}
-                  >
-                    Last Week
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastmonth"}
-                  >
-                    Last Month
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"lastyear"}
-                  >
-                    Last Year
-                  </MenuItem>
-                  <MenuItem
-                    sx={{ textTransform: "capitalize", fontSize: "14px" }}
-                    value={"CustomRange"}
-                  >
-                    Custom Range
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              {date === "CustomRange" && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: { xs: "column", sm: "row" },
-                    "& > *": { maxWidth: { xs: "100%", sm: "50%" } },
-                    gap: 2.5,
-                    flexShrink: 0,
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  id="to"
+                  label="To"
+                  autoComplete="off"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
                   }}
-                >
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="from"
-                    label="From"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    value={from}
-                    onChange={(e) => setFrom(e.target.value)}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                  <TextField
-                    fullWidth
-                    size="small"
-                    id="to"
-                    label="To"
-                    autoComplete="off"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="mm/dd/yyyy"
-                    value={to}
-                    onChange={(e) => setTo(e.target.value)}
-                    sx={{
-                      "&>label,& input,&>div": { fontSize: "14px" },
-                      "&": {
-                        bgcolor: "white",
-                        borderRadius: 1.5,
-                      },
-                    }}
-                  />
-                </Box>
-              )}
-            </Box>
-            {numSelected.length > 0 && (
-              // <Button
-              //   disableRipple
-              //   onClick={() => {
-              //     setOpenDelete(true);
-              //   }}
-              // >
-              //   <DeleteIcon sx={{ color: "error.main" }} />
-              // </Button>
-              <ThemeButton
-                Text="Delete Selected"
-                error
-                onClick={invoiceNumberGenerate}
-              />
+                  placeholder="mm/dd/yyyy"
+                  value={to}
+                  onChange={(e) => setTo(e.target.value)}
+                  sx={{
+                    "&>label,& input,&>div": { fontSize: "14px" },
+                    "&": {
+                      bgcolor: "white",
+                      borderRadius: 1.5,
+                    },
+                  }}
+                />
+              </Box>
             )}
           </Box>
+          {numSelected.length > 0 && (
+            <ThemeButton
+              Text="Delete Selected"
+              error
+              onClick={invoiceNumberGenerate}
+            />
+          )}
+        </Box>
 
-          {isLoading ? (
-            <LoadingIcon style={{ height: "50vh" }} />
-          ) : invoiceList.length === 0 ? (
-            <NoData />
-          ) : (
-            <>
-              <TableContainer
-                component={Paper}
+        {isLoading ? (
+          <LoadingIcon style={{ height: "50vh" }} />
+        ) : invoiceList.length === 0 ? (
+          <NoData />
+        ) : (
+          <>
+            <TableContainer
+              component={Paper}
+              sx={{
+                border: "1px solid rgba(224, 224, 224, 1)",
+                mx: { xs: "-10px", sm: 0 },
+                width: { xs: "auto", sm: "auto" },
+                borderRadius: 2.5,
+              }}
+            >
+              <Table
+                className="projectTable"
                 sx={{
-                  border: "1px solid rgba(224, 224, 224, 1)",
-                  mx: { xs: "-10px", sm: 0 },
-                  width: { xs: "auto", sm: "auto" },
-                  borderRadius: 2.5,
+                  minWidth: 650,
+                  textTransform: "capitalize",
+                  textWrap: "nowrap",
+                  "& thead > tr > th": {
+                    backgroundColor: "#F8F9FA",
+                  },
+                  "& th,& td": { borderBottom: 0 },
+                  "& tbody tr": {
+                    borderTop: "1px solid rgba(224, 224, 224, 1)",
+                  },
                 }}
+                aria-label="simple table"
               >
-                <Table
-                  className="projectTable"
-                  sx={{
-                    minWidth: 650,
-                    textTransform: "capitalize",
-                    textWrap: "nowrap",
-                    "& thead > tr > th": {
-                      backgroundColor: "#F8F9FA",
-                    },
-                    "& th,& td": { borderBottom: 0 },
-                    "& tbody tr": {
-                      borderTop: "1px solid rgba(224, 224, 224, 1)",
-                    },
-                  }}
-                  aria-label="simple table"
-                >
-                  <TableHead>
-                    <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          sx={{ color: "primary.main" }}
-                          indeterminate={
-                            numSelected.length > 0 &&
-                            numSelected.length < invoiceList.length
-                          }
-                          checked={numSelected.length === invoiceList.length}
-                          onChange={() => {
-                            setSelectAllClick(!selectAllClick);
-                            handleSelectAllChange();
-                          }}
-                          inputProps={{
-                            "aria-label": "select all desserts",
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <TableSortLabel
-                          active={sortField === "projectName"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("projectName")}
-                        >
-                          Project Name
-                        </TableSortLabel>
-                      </TableCell>
-                      <TableCell>Client</TableCell>
-                      <TableCell>User</TableCell>
-                      <TableCell>
-                        <TableSortLabel
-                          active={sortField === "invoiceNumber"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("invoiceNumber")}
-                        >
-                          Invoice No
-                        </TableSortLabel>
-                      </TableCell>
-                      <TableCell>
-                        <TableSortLabel
-                          active={sortField === "invoiceDate"}
-                          direction={orderBy || "asc"}
-                          onClick={() => createSortHandler("invoiceDate")}
-                        >
-                          Invoice Date
-                        </TableSortLabel>
-                      </TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell>Total</TableCell>
-                      <TableCell>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {invoiceList.map((row, index) => {
-                      const labelId = `enhanced-table-checkbox-${index}`;
-                      return (
-                        <TableRow
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                            "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                            "&:first-of-type td": {
-                              maxWidth: "250px",
-                              textWrap: "wrap",
-                            },
-                          }}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              color="primary"
-                              sx={{ color: "primary.main" }}
-                              checked={
-                                selectAllClick || numSelected.includes(row._id)
-                              }
-                              inputProps={{
-                                "aria-labelledby": labelId,
-                              }}
-                              onClick={(e) => {
-                                if (e.target.checked) {
-                                  setNumSelected([...numSelected, row._id]);
-                                } else {
-                                  setSelectAllClick(false);
-                                  let newData = numSelected.filter(
-                                    (id) => id !== row._id
-                                  );
-                                  setNumSelected(newData);
-                                }
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell value={row.projectId}>
-                            {row.projectName}
-                          </TableCell>
-                          <TableCell>{row.clientName}</TableCell>
-                          <TableCell>{row.userName}</TableCell>
-                          <TableCell>{row.invoiceNumber}</TableCell>
-                          <TableCell>
-                            {moment(row.invoiceDate).format("DD/MM/YYYY")}
-                          </TableCell>
-                          <TableCell
-                            sx={{
-                              "& .statusBtn": {
-                                color: "white",
-                                fontSize: "12px",
-                                p: 0.5,
-                                borderRadius: 1,
-                                maxWidth: "fit-content",
-                                lineHeight: 1,
-                              },
-                              "& .pending": {
-                                bgcolor: "secondary.main",
-                              },
-                              "& .success": {
-                                bgcolor: "success.main",
-                              },
-                            }}
-                          >
-                            <Box
-                              className={`statusBtn ${
-                                row.status === "success" ? "success" : "pending"
-                              }`}
-                            >
-                              {row.status}
-                            </Box>
-                            <Box
-                              sx={{
-                                fontSize: "13px",
-                                lineHeight: 1,
-                                textWrap: "nowrap",
-                                mt: 0.75,
-                              }}
-                            >
-                              {moment(row.invoiceDueDate).format("DD/MM/YYYY")}
-                            </Box>
-                          </TableCell>
-                          <TableCell>
-                            <span style={{ fontFamily: "monospace" }}>$</span>
-                            {row.totals.total?.toLocaleString()}
-                          </TableCell>
-                          <TableCell>
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: { xs: 1.25, sm: 1.5 },
-                                "& button,& a": {
-                                  p: 0,
-                                  minWidth: "auto",
-                                  color: "black",
-                                  transition: "all 0.5s",
-                                },
-                                "& svg": {
-                                  fontSize: { xs: "20px", sm: "21px" },
-                                },
-                              }}
-                            >
-                              <Button
-                                disableRipple
-                                onClick={() =>
-                                  viewInvoice(row.invoiceNumber, row)
-                                }
-                                disabled={numSelected.length > 0}
-                              >
-                                <VisibilityIcon
-                                  sx={{ color: "secondary.main" }}
-                                />
-                              </Button>
-                              {/* <Button disableRipple>
-                            <MarkAsPaidIcon />
-                          </Button> */}
-                            <Button
-                              disableRipple
-                              onClick={() =>
-                                editInvoice(row.invoiceNumber, row)
-                              }
-                              disabled={numSelected.length > 0}
-                            >
-                              <CreateIcon sx={{ color: "primary.main" }} />
-                            </Button>
-                            <Button
-                              disableRipple
-                              onClick={() => {
-                                setOpenDelete(true);
-                                // setSelectInvoice(row._id);
-                                setNumSelected([row._id]);
-                              }}
-                              disabled={numSelected.length > 0}
-                            >
-                              <DeleteIcon sx={{ color: "error.main" }} />
-                            </Button>
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                  <ModalComponent
-                    open={openDelete}
-                    setOpen={setOpenDelete}
-                    modelStyle={{ maxWidth: "400px" }}
-                  >
-                    <Box sx={{ textAlign: "center", fontSize: "20px" }}>
-                      {"Are you sure delete this project?"}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          gap: 2,
-                          mt: 2.5,
-                          justifyContent: "center",
-                        }}
-                      >
-                        <ThemeButton
-                          success
-                          Text="Yes"
-                          type="submit"
-                          onClick={() => deleteInvoice(numSelected)}
-                        />
-                        <ThemeButton
-                          discard
-                          Text="No"
-                          onClick={() => setOpenDelete(false)}
-                        />
-                      </Box>
-                    </Box>
-                  </ModalComponent>
+                <CustomTableHeader
+                  createSortHandler={createSortHandler}
+                  headings={TABLE_HEADINGS}
+                  orderBy={orderBy}
+                  sortField={sortField}
+                  numSelected={numSelected}
+                  selectAllClick={selectAllClick}
+                  setSelectAllClick={setSelectAllClick}
+                  handleSelectAllChange={handleSelectAllChange}
+                  dataList={invoiceList}
+                />
+                <TableBody>
+                  {invoiceList.map((invoice, index) => (
+                    <InvoiceListTableRow
+                      invoice={invoice}
+                      setSelectAllClick={setSelectAllClick}
+                      selectAllClick={selectAllClick}
+                      setNumSelected={setNumSelected}
+                      numSelected={numSelected}
+                      index={index}
+                      editInvoice={editInvoice}
+                      viewInvoice={viewInvoice}
+                      setOpenDelete={setOpenDelete}
+                    />
+                  ))}
                 </TableBody>
+                <ModalComponent
+                  open={openDelete}
+                  setOpen={setOpenDelete}
+                  modelStyle={{ maxWidth: "400px" }}
+                >
+                  <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                    {"Are you sure delete this project?"}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 2,
+                        mt: 2.5,
+                        justifyContent: "center",
+                      }}
+                    >
+                      <ThemeButton
+                        success
+                        Text="Yes"
+                        type="submit"
+                        onClick={() => deleteInvoice(numSelected)}
+                      />
+                      <ThemeButton
+                        discard
+                        Text="No"
+                        onClick={() => setOpenDelete(false)}
+                      />
+                    </Box>
+                  </Box>
+                </ModalComponent>
               </Table>
             </TableContainer>
           </>
         )}
         {/* pagination */}
         {invoiceList.length > 0 && (
-          <ThemePagination
-            totalpage={totalPage}
-            onChange={handleChangeOnPageChange}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <ThemePagination totalPage={totalPage} count={invoiceList.length} />
         )}
       </Box>
     </>

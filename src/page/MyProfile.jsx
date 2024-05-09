@@ -414,7 +414,7 @@ export default function MyProfile() {
           >
             <Tab
               disableRipple
-              disableElevation
+              disableelevation="true"
               label="Details"
               {...a11yProps(0)}
               sx={{
@@ -423,7 +423,7 @@ export default function MyProfile() {
             />
             <Tab
               disableRipple
-              disableElevation
+              disableelevation="true"
               label="Salary"
               {...a11yProps(1)}
               sx={{
@@ -432,7 +432,7 @@ export default function MyProfile() {
             />
             <Tab
               disableRipple
-              disableElevation
+              disableelevation="true"
               label="Leave"
               {...a11yProps(2)}
               sx={{
@@ -442,7 +442,7 @@ export default function MyProfile() {
             {user.role === 0 && (
               <Tab
                 disableRipple
-                disableElevation
+                disableelevation="true"
                 label="Permission"
                 {...a11yProps(3)}
                 sx={{

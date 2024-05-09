@@ -113,7 +113,7 @@ export default function InvitationModal({ open, setOpen }) {
               <Button
                 onClick={() => setOpen(false)}
                 disableRipple
-                disableElevation
+                disableelevation="true"
                 id="cancle_icon"
                 sx={{
                   color: "white",

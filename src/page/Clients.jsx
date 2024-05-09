@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import {
   Box,
   Typography,
@@ -36,22 +41,21 @@ export default function Clients() {
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const { user } = useAuth();
-  const { searchData } = useSearchData();
-  const [page, setPage] = useState(1);
+  const { searchData, setSearchData } = useSearchData();
+  const [params] = useSearchParams();
+  const page = +params.get("page") || 1;
+  const limit = +params.get("limit") || 10;
   const [totalPage, setTotalPage] = useState(1);
   const [sortField, setSortField] = useState();
   const [orderBy, setOrderBy] = useState();
   const [openDelete, setOpenDelete] = useState(false);
   const [selectClient, setSelectClient] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // pagination
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handleChange = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
+  const handlePageChange = () => {
+    params.set("page", 1);
+    navigate({ pathname: location.pathname, search: params.toString() });
   };
 
   const deleteClient = async (id) => {
@@ -70,48 +74,52 @@ export default function Clients() {
     }
   };
 
-  const fetchclientData = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.CLIENT.LIST,
-        method: "get",
-        params: {
-          search: searchData,
-          page: searchData ? 1 : page,
-          limit: rowsPerPage,
-          sortField: sortField,
-          orderBy: orderBy,
-        },
-      });
-      if (res.data.success === true) {
-        setClientList(res.data.data.data);
-        setTotalPage(res.data.data.pagination.pages);
+  const fetchclientData = useCallback(
+    async (search) => {
+      try {
+        const res = await apiCall({
+          url: APIS.CLIENT.LIST,
+          method: "get",
+          params: {
+            search: search,
+            page: page,
+            limit: limit,
+            sortField: sortField,
+            orderBy: orderBy,
+          },
+        });
+        if (res.data.success === true) {
+          setClientList(res.data.data.data);
+          setTotalPage(res.data.data.pagination.pages);
+        }
+      } catch (error) {
+        console.log(error, setSnack);
       }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+    },
+    [apiCall, limit, orderBy, page, setSnack, sortField]
+  );
+
   useEffect(() => {
-    fetchclientData();
-  }, [page, rowsPerPage]);
+    setSearchData("");
+  }, []);
+
   useEffect(() => {
-    if (searchData !== "") {
+    if (searchData) {
       const getData = setTimeout(async () => {
-        fetchclientData();
+        page !== 1 ? handlePageChange() : fetchclientData(searchData);
       }, 1000);
-      return () => clearTimeout(getData);
+      return () => {
+        clearTimeout(getData);
+      };
+    } else {
+      fetchclientData();
     }
-  }, [searchData]);
+  }, [fetchclientData, searchData]);
 
   const createSortHandler = (id) => {
     setSortField(id);
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
-  useEffect(() => {
-    if (orderBy) {
-      fetchclientData();
-    }
-  }, [orderBy]);
 
   return (
     <>
@@ -319,12 +327,7 @@ export default function Clients() {
         )}
         {/* pagination */}
         {clientList.length > 0 && (
-          <ThemePagination
-            totalpage={totalPage}
-            onChange={handleChange}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          <ThemePagination totalPage={totalPage} count={clientList.length} />
         )}
       </Box>
     </>

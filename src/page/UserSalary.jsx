@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -36,7 +36,12 @@ import { APIS } from "../api/apiList.js";
 import useApi from "../hooks/useApi.js";
 import { useSnack } from "../hooks/store/useSnack.js";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import moment from "moment";
 import ThemeButton from "../component/ThemeButton";
 import PlusIcon from "@mui/icons-material/Close";
@@ -54,8 +59,9 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
   const [userList, setUserList] = useState([]);
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [page, setPage] = useState(1);
+  const [params] = useSearchParams();
+  const page = +params.get("page") || 1;
+  const limit = +params.get("limit") || 10;
   const [totalPage, setTotalPage] = useState(1);
   const handleOpenBank = () => setOpenBank(true);
   const handleOpenSalary = () => {
@@ -73,6 +79,8 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
   const { id } = useParams();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
+  const navigate = useNavigate();
+  const location = useLocation();
   // add and edit bank
   const formikBank = useFormik({
     validationSchema: Yup.object({
@@ -156,15 +164,13 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
     },
   });
 
+  const handlePageChange = () => {
+    params.set("page", 1);
+    navigate({ pathname: location.pathname, search: params.toString() });
+  };
+
   const handleChange = (event) => {
     setDate(event.target.value);
-  };
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
   };
 
   // const salaries = [
@@ -202,27 +208,30 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
   //   },
   // ];
 
-  const viewUserSalary = async (userId) => {
-    try {
-      const res = await apiCall({
-        url: APIS.SALARY.GET(userId),
-        method: "get",
-        params: {
-          sortField: "date",
-          page: page,
-          limit: rowsPerPage,
-          from: date === "all" ? undefined : from,
-          to: date === "all" ? undefined : to,
-        },
-      });
-      if (res.data.success === true) {
-        setSalaryList(res.data.data.data);
-        setTotalPage(res.data.data.pagination.pages);
+  const viewUserSalary = useCallback(
+    async (userId) => {
+      try {
+        const res = await apiCall({
+          url: APIS.SALARY.GET(userId),
+          method: "get",
+          params: {
+            sortField: "date",
+            page: page,
+            limit: limit,
+            from: from,
+            to: to,
+          },
+        });
+        if (res.data.success === true) {
+          setSalaryList(res.data.data.data);
+          setTotalPage(res.data.data.pagination.pages);
+        }
+      } catch (error) {
+        console.log(error, setSnack);
       }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+    },
+    [apiCall, from, page, limit, setSnack, to]
+  );
 
   const fetchUsers = async () => {
     try {
@@ -243,29 +252,40 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
   }, []);
 
   useEffect(() => {
-    if (to && from) {
-      viewUserSalary(userId);
-    }
-  }, [to, from]);
-  useEffect(() => {
+    let fromValue, toValue;
     if (date === "lastquarter") {
-      setFrom(
-        moment().subtract(4, "months").startOf("month").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "months").endOf("month").format("YYYY-MM-DD"));
+      fromValue = moment()
+        .subtract(4, "months")
+        .startOf("month")
+        .format("YYYY-MM-DD");
+      toValue = moment()
+        .subtract(1, "months")
+        .endOf("month")
+        .format("YYYY-MM-DD");
     } else if (date === "lastmonth") {
-      setFrom(
-        moment().subtract(1, "months").startOf("month").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "months").endOf("month").format("YYYY-MM-DD"));
+      fromValue = moment()
+        .subtract(1, "months")
+        .startOf("month")
+        .format("YYYY-MM-DD");
+      toValue = moment()
+        .subtract(1, "months")
+        .endOf("month")
+        .format("YYYY-MM-DD");
     } else if (date === "lastyear") {
-      setFrom(
-        moment().subtract(1, "years").startOf("year").format("YYYY-MM-DD")
-      );
-      setTo(moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD"));
+      fromValue = moment()
+        .subtract(1, "years")
+        .startOf("year")
+        .format("YYYY-MM-DD");
+
+      toValue = moment()
+        .subtract(1, "years")
+        .endOf("year")
+        .format("YYYY-MM-DD");
     } else if (date === "all") {
-      viewUserSalary(userId);
+      handlePageChange();
     }
+    setFrom(fromValue);
+    setTo(toValue);
   }, [date]);
 
   return (
@@ -593,12 +613,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
           )}
           {/* pagination */}
           {salaryList.length > 0 && (
-            <ThemePagination
-              totalpage={totalPage}
-              onChange={handlePageChange}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            <ThemePagination totalPage={totalPage} count={salaryList.length} />
           )}
         </Box>
       </Box>

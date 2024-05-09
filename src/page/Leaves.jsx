@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Paper,
@@ -27,27 +27,27 @@ import * as Yup from "yup";
 import ModalComponent from "../component/ModalComponent.jsx";
 import AddLeaveForm from "../component/form/AddLeaveForm.jsx";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 export default function Leaves() {
   const [approveList, setApproveList] = useState([]);
   const { user } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const [page, setPage] = useState(1);
+  const [params] = useSearchParams();
+  const page = +params.get("page") || 1;
+  const limit = +params.get("limit") || 10;
   const [totalPage, setTotalPage] = useState(1);
-  const { searchData } = useSearchData();
+  const { searchData, setSearchData } = useSearchData();
   const [open, setOpen] = useState(false);
   const [sortField, setSortField] = useState();
   const [orderBy, setOrderBy] = useState();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // pagination
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const handleChange = (event, newPage) => {
-    setPage(newPage);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
+  const handlePageChange = () => {
+    params.set("page", 1);
+    navigate({ pathname: location.pathname, search: params.toString() });
   };
 
   const formik = useFormik({
@@ -104,49 +104,53 @@ export default function Leaves() {
     },
   });
 
-  const approveLeaveList = async () => {
-    try {
-      const res = await apiCall({
-        url: APIS.LEAVE.APPROVELIST,
-        method: "get",
-        params: {
-          search: searchData,
-          page: searchData ? 1 : page,
-          limit: rowsPerPage,
-          date: moment().format(),
-          sortField: sortField,
-          orderBy: orderBy,
-        },
-      });
-      if (res.data.success === true) {
-        setApproveList(res.data.data.data);
-        setTotalPage(res.data.data.pagination.pages);
+  const approveLeaveList = useCallback(
+    async (search) => {
+      try {
+        const res = await apiCall({
+          url: APIS.LEAVE.APPROVELIST,
+          method: "get",
+          params: {
+            search: search,
+            page: page,
+            limit: limit,
+            date: moment().format(),
+            sortField: sortField,
+            orderBy: orderBy,
+          },
+        });
+        if (res.data.success === true) {
+          setApproveList(res.data.data.data);
+          setTotalPage(res.data.data.pagination.pages);
+        }
+      } catch (error) {
+        console.log(error, setSnack);
       }
-    } catch (error) {
-      console.log(error, setSnack);
-    }
-  };
+    },
+    [apiCall, limit, orderBy, page, setSnack, sortField]
+  );
+
   useEffect(() => {
-    approveLeaveList();
-  }, [page, rowsPerPage]);
+    setSearchData("");
+  }, []);
+
   useEffect(() => {
-    if (searchData !== "") {
+    if (searchData) {
       const getData = setTimeout(async () => {
-        approveLeaveList();
+        page !== 1 ? handlePageChange() : approveLeaveList(searchData);
       }, 1000);
-      return () => clearTimeout(getData);
+      return () => {
+        clearTimeout(getData);
+      };
+    } else {
+      approveLeaveList();
     }
-  }, [searchData]);
+  }, [approveLeaveList, searchData]);
 
   const createSortHandler = (id) => {
     setSortField(id);
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
-  useEffect(() => {
-    if (orderBy) {
-      approveLeaveList();
-    }
-  }, [orderBy]);
   return (
     <>
       <Box component="main">
@@ -338,12 +342,12 @@ export default function Leaves() {
               </Table>
             </TableContainer>
             {/* pagination */}
-            <ThemePagination
-              totalpage={totalPage}
-              onChange={handleChange}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            {approveLeaveList.length > 0 && (
+              <ThemePagination
+                totalPage={totalPage}
+                count={approveLeaveList.length}
+              />
+            )}
           </>
         )}
       </Box>

@@ -1,10 +1,11 @@
 import React from "react";
-import { Box, Button, Stack, TableCell } from "@mui/material";
+import { Box, Button, Checkbox, Stack, TableCell } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import CustomSelect from "../form/input/CustomSelect";
 
 export default function CustomTableCell({
   value,
@@ -15,6 +16,14 @@ export default function CustomTableCell({
   onOpen,
   onDelete,
   onEdit,
+  id,
+  name,
+  label,
+  options,
+  handleSelectChange,
+  checked,
+  labelId,
+  handleCheck,
 }) {
   if (type === "date") {
     return <TableCell sx={sx}>{moment(value).format(format)}</TableCell>;
@@ -74,15 +83,45 @@ export default function CustomTableCell({
           <Button disableRipple onClick={onOpen}>
             <VisibilityIcon sx={{ color: "secondary.main" }} />
           </Button>
-          <Link to={onEdit}>
-            <Button disableRipple>
-              <CreateIcon sx={{ color: "primary.main" }} />
-            </Button>
-          </Link>
+          <Button disableRipple onClick={onEdit}>
+            <CreateIcon sx={{ color: "primary.main" }} />
+          </Button>
           <Button disableRipple onClick={onDelete}>
             <DeleteIcon sx={{ color: "error.main" }} />
           </Button>
         </Stack>
+      </TableCell>
+    );
+  }
+
+  if (type === "select") {
+    return (
+      <TableCell>
+        <CustomSelect
+          name={name}
+          labelId={labelId}
+          label={label}
+          options={options}
+          onChange={handleSelectChange}
+          value={value}
+          id={id}
+        />
+      </TableCell>
+    );
+  }
+
+  if (type === "checkbox") {
+    return (
+      <TableCell padding="checkbox">
+        <Checkbox
+          color="primary"
+          sx={{ color: "primary.main" }}
+          checked={checked}
+          inputProps={{
+            "aria-labelledby": labelId,
+          }}
+          onClick={handleCheck}
+        />
       </TableCell>
     );
   }
