@@ -51,6 +51,7 @@ import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import ThemePagination from "../component/ThemePagination.jsx";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 import AddSalaryForm from "../component/form/AddSalaryForm.jsx";
+import CustomTableHeader from "../component/table/CustomTableHeader.jsx";
 
 export default function UserSalary({ userId, userBank, setUserBank }) {
   const [openBank, setOpenBank] = useState(false);
@@ -287,6 +288,36 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
     setFrom(fromValue);
     setTo(toValue);
   }, [date]);
+
+  const TABLE_HEADINGS = [
+    {
+      id: "date",
+      label: "Date",
+      sortable: false,
+    },
+    { id: "employee", label: "Member Name", sortable: false },
+    {
+      id: "status",
+      label: "Status",
+      sortable: false,
+    },
+    {
+      id: "amount",
+      label: "Salary Amount",
+      sortable: false,
+    },
+    {
+      id: "incentive",
+      label: "Incentive",
+      sortable: false,
+    },
+    {
+      id: "actions",
+      label: "Actions",
+      sortable: false,
+      textAlign: "center",
+    },
+  ];
 
   return (
     <>
@@ -529,18 +560,7 @@ export default function UserSalary({ userId, userBank, setUserBank }) {
                   }}
                   aria-label="simple table"
                 >
-                  <TableHead>
-                    <TableRow
-                      sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}
-                    >
-                      <TableCell>Date</TableCell>
-                      <TableCell>Member Name</TableCell>
-                      <TableCell>Salary Amount</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell>Incentive</TableCell>
-                      <TableCell>Action</TableCell>
-                    </TableRow>
-                  </TableHead>
+                  <CustomTableHeader headings={TABLE_HEADINGS} />
                   <TableBody>
                     {salaryList.map((salary) => (
                       <TableRow

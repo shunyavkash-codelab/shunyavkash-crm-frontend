@@ -29,6 +29,7 @@ import NoData from "../component/NoData.jsx";
 import CounterCards from "../component/CounterCards.jsx";
 import AddLeaveForm from "../component/form/AddLeaveForm.jsx";
 import dayjs from "dayjs";
+import CustomTableHeader from "../component/table/CustomTableHeader.jsx";
 
 function UserLeave({ profileId }) {
   const [open, setOpen] = React.useState(false);
@@ -126,6 +127,32 @@ function UserLeave({ profileId }) {
     leaveDashboard();
     viewUserLeave(profileId);
   }, []);
+
+  const TABLE_HEADINGS = [
+    { id: "leaveType", label: "Type", sortable: false },
+    { id: "reason", label: "Reason", sortable: false },
+    {
+      id: "createdAt",
+      label: "Apply Date",
+      sortable: false,
+    },
+    {
+      id: "startDate",
+      label: "Start Date",
+      sortable: false,
+    },
+    {
+      id: "endDate",
+      label: "End Date",
+      sortable: false,
+    },
+    {
+      id: "status",
+      label: "Status",
+      sortable: false,
+    },
+  ];
+
   return (
     <>
       <Grid container spacing={2.5}>
@@ -207,17 +234,7 @@ function UserLeave({ profileId }) {
                 }}
                 aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
-                    <TableCell>Leave Type</TableCell>
-                    <TableCell>Reason</TableCell>
-                    <TableCell>Apply Date</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
-                    {/* Todo: Admin ni status ni row na aave */}
-                    <TableCell>Status</TableCell>
-                  </TableRow>
-                </TableHead>
+                <CustomTableHeader headings={TABLE_HEADINGS} />
                 <TableBody>
                   {leaveList.map((leave) => (
                     <TableRow
