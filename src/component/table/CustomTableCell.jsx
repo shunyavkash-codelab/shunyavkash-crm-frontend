@@ -3,7 +3,6 @@ import { Box, Button, Checkbox, Stack, TableCell } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import { Link } from "react-router-dom";
 import moment from "moment";
 import CustomSelect from "../form/input/CustomSelect";
 
@@ -15,12 +14,14 @@ export default function CustomTableCell({
   Icon,
   onOpen,
   onDelete,
+  deleteIcon,
   onEdit,
   id,
   name,
   label,
   options,
   handleSelectChange,
+  textSX,
   checked,
   labelId,
   handleCheck,
@@ -86,9 +87,11 @@ export default function CustomTableCell({
           <Button disableRipple onClick={onEdit}>
             <CreateIcon sx={{ color: "primary.main" }} />
           </Button>
-          <Button disableRipple onClick={onDelete}>
-            <DeleteIcon sx={{ color: "error.main" }} />
-          </Button>
+          {deleteIcon && (
+            <Button disableRipple onClick={onDelete}>
+              <DeleteIcon sx={{ color: "error.main" }} />
+            </Button>
+          )}
         </Stack>
       </TableCell>
     );
@@ -105,6 +108,7 @@ export default function CustomTableCell({
           onChange={handleSelectChange}
           value={value}
           id={id}
+          textSX={textSX}
         />
       </TableCell>
     );

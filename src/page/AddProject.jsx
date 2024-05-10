@@ -241,6 +241,7 @@ export default function AddProject() {
                         >
                           {clientList.map((item) => (
                             <MenuItem
+                              key={item._id}
                               sx={{
                                 textTransform: "capitalize",
                                 fontSize: "14px",

@@ -184,7 +184,7 @@ export default function Clients() {
                 <TableBody>
                   {clientList.map((row) => (
                     <TableRow
-                      key={row.name}
+                      key={row._id}
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
                         "&>td": { fontSize: { xs: "12px", sm: "14px" } },
@@ -237,6 +237,7 @@ export default function Clients() {
                             <Chip
                               label={pro}
                               sx={{ maxWidth: "fit-content" }}
+                              key={pro}
                             />
                           ))}
                         </Stack>

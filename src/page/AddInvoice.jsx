@@ -701,7 +701,7 @@ export default function AddInvoice() {
                             >
                               {clientList.map((clientName) => (
                                 <MenuItem
-                                  key={clientName.name}
+                                  key={clientName._id}
                                   sx={{ textTransform: "capitalize" }}
                                   value={clientName._id}
                                 >
@@ -1184,6 +1184,7 @@ export default function AddInvoice() {
                                     adminList.bank.map((bank) => (
                                       <MenuItem
                                         sx={{ textTransform: "capitalize" }}
+                                        key={bank._id}
                                         value={bank._id}
                                         onClick={() =>
                                           bankOpen && setBankOpen(false)
@@ -1482,7 +1483,7 @@ export default function AddInvoice() {
                               opacity: 1,
                             },
                           }}
-                          defaultChecked={invoiceData?.watermark}
+                          defaultChecked={values.watermark}
                         />
                       }
                     />

@@ -525,6 +525,7 @@ export default function MyProfile() {
                 <TableBody>
                   {salaryList.map((salary) => (
                     <TableRow
+                      key={salary._id}
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
                         "&>td": { fontSize: { xs: "12px", sm: "14px" } },

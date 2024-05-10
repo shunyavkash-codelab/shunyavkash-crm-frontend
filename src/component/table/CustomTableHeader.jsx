@@ -29,53 +29,51 @@ export default function CustomTableHeader({
           },
         }}
       >
-        {headings.map((heading) => (
-          <>
-            {heading.id === "checkbox" ? (
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  sx={{ color: "primary.main", width: "24px" }}
-                  indeterminate={
-                    numSelected.length > 0 &&
-                    numSelected.length < dataList.length
-                  }
-                  checked={numSelected.length === dataList.length}
-                  onChange={() => {
-                    setSelectAllClick(!selectAllClick);
-                    handleSelectAllChange();
-                  }}
-                  inputProps={{
-                    "aria-label": "select all desserts",
-                  }}
-                />
-              </TableCell>
-            ) : (
-              <TableCell
-                key={heading.id}
-                sx={{
-                  width: heading.width,
-                  display:
-                    heading.condition || heading.condition === undefined
-                      ? "table-cell"
-                      : "none",
+        {headings.map((heading) =>
+          heading.id === "checkbox" ? (
+            <TableCell padding="checkbox" key={heading.id}>
+              <Checkbox
+                color="primary"
+                sx={{ color: "primary.main", width: "24px" }}
+                indeterminate={
+                  numSelected?.length > 0 &&
+                  numSelected?.length < dataList.length
+                }
+                checked={numSelected?.length === dataList.length}
+                onChange={() => {
+                  setSelectAllClick(!selectAllClick);
+                  handleSelectAllChange();
                 }}
-              >
-                {heading.sortable ? (
-                  <TableSortLabel
-                    active={sortField === heading.id}
-                    direction={orderBy || "asc"}
-                    onClick={() => createSortHandler(heading.id)}
-                  >
-                    {heading.label}
-                  </TableSortLabel>
-                ) : (
-                  heading.label
-                )}
-              </TableCell>
-            )}
-          </>
-        ))}
+                inputProps={{
+                  "aria-label": "select all desserts",
+                }}
+              />
+            </TableCell>
+          ) : (
+            <TableCell
+              key={heading.id}
+              sx={{
+                width: heading.width,
+                display:
+                  heading.condition || heading.condition === undefined
+                    ? "table-cell"
+                    : "none",
+              }}
+            >
+              {heading.sortable ? (
+                <TableSortLabel
+                  active={sortField === heading.id}
+                  direction={orderBy || "asc"}
+                  onClick={() => createSortHandler(heading.id)}
+                >
+                  {heading.label}
+                </TableSortLabel>
+              ) : (
+                heading.label
+              )}
+            </TableCell>
+          )
+        )}
       </TableRow>
     </TableHead>
   );

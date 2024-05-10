@@ -85,8 +85,8 @@ export const theme = createTheme({
       // contrastText: "#FFFFFF",
     },
     warning: {
-      main: "#D14343",
-      light: "#DA6868",
+      main: "#F8AE00",
+      light: "rgba(248, 174, 0, 80%)",
       // dark: "#922E2E",
       // contrastText: "#FFFFFF",
     },

@@ -342,9 +342,9 @@ function UserLeave({ profileId }) {
                               lineHeight: 1,
                               bgcolor:
                                 leave.status === "unapprove"
-                                  ? "warning.main"
+                                  ? "review.main"
                                   : leave.status === "pending"
-                                  ? "review.light"
+                                  ? "warning.light"
                                   : "success.main",
                               "&:hover": {
                                 bgcolor:
