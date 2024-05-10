@@ -948,8 +948,24 @@ export default function AddInvoice() {
                                         taskDetail={taskDetail}
                                       />
                                     ))}
+
+                                    <ThemeButton
+                                      Text="Add task"
+                                      btnColor="text.primary"
+                                      buttonStyle={{
+                                        maxHeight: "36px",
+                                        m: 1,
+                                        "&:hover": {
+                                          color: "white",
+                                          bgcolor: "primary.light",
+                                        },
+                                      }}
+                                      onClick={() => {
+                                        push(taskInitialValues);
+                                      }}
+                                    />
                                   </TableBody>
-                                  <Box sx={{ m: 1 }}>
+                                  {/* <Box   sx={{ m: 1 }}>
                                     <ThemeButton
                                       Text="Add task"
                                       btnColor="text.primary"
@@ -960,7 +976,7 @@ export default function AddInvoice() {
                                         push(taskInitialValues);
                                       }}
                                     />
-                                  </Box>
+                                  </Box> */}
                                 </>
                               )}
                             </FieldArray>
@@ -977,14 +993,14 @@ export default function AddInvoice() {
                           ml: "auto",
                           maxWidth: "fit-content",
                           "&>*": {
-                            "&:not(:first-child)": { mt: 1.75 },
+                            "&:not(:first-of-type)": { mt: 1.75 },
                             pl: 1.75,
                             display: "flex",
                             justifyContent: "space-between",
                             gap: 6.25,
                             "&>*": {
                               lineHeight: "1!important",
-                              "&:first-child": {
+                              "&:first-of-type": {
                                 textTransform: "capitalize",
                               },
                               "&:last-child": {

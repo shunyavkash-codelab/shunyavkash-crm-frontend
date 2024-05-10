@@ -375,6 +375,7 @@ export default function AddMember() {
                       label="Gender"
                       sx={{ fontSize: "14px" }}
                       {...field}
+                      value={formik.values.gender}
                       onChange={(event) => {
                         form.setFieldValue("gender", event.target.value);
                       }}
@@ -419,6 +420,7 @@ export default function AddMember() {
                         id="role"
                         label="Member Type"
                         sx={{ fontSize: "14px" }}
+                        value={formik.values.role}
                         {...field}
                         onChange={(event) => {
                           form.setFieldValue("role", event.target.value);
