@@ -13,13 +13,11 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Paper,
   Avatar,
   Chip,
   Stack,
-  TableSortLabel,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
@@ -35,6 +33,7 @@ import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import ModalComponent from "../component/ModalComponent.jsx";
+import CustomTableHeader from "../component/table/CustomTableHeader.jsx";
 
 export default function Clients() {
   const [clientList, setClientList] = useState([]);
@@ -121,6 +120,26 @@ export default function Clients() {
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
 
+  const TABLE_HEADINGS = [
+    {
+      id: "name",
+      label: "Name",
+      sortable: true,
+    },
+    { id: "companyName", label: "Company Name", sortable: false },
+    {
+      id: "projectName",
+      label: "Project",
+      sortable: false,
+    },
+    {
+      id: "actions",
+      label: "Actions",
+      sortable: false,
+      textAlign: "center",
+    },
+  ];
+
   return (
     <>
       <Box component="main">
@@ -165,22 +184,12 @@ export default function Clients() {
                 }}
                 aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "name"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("name")}
-                      >
-                        Name
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>Company Name</TableCell>
-                    <TableCell>Project</TableCell>
-                    {user.role === 0 && <TableCell>Actions</TableCell>}
-                  </TableRow>
-                </TableHead>
+                <CustomTableHeader
+                  createSortHandler={createSortHandler}
+                  headings={TABLE_HEADINGS}
+                  orderBy={orderBy}
+                  sortField={sortField}
+                 />
                 <TableBody>
                   {clientList.map((row) => (
                     <TableRow

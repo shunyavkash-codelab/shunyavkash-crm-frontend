@@ -8,14 +8,12 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Paper,
   Stack,
   FormControl,
   Button,
   TextField,
-  TableSortLabel,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import { APIS } from "../api/apiList.js";
@@ -38,6 +36,7 @@ import { useSearchData } from "../hooks/store/useSearchData.js";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import CustomTableHeader from "../component/table/CustomTableHeader.jsx";
 
 export default function MyProfile() {
   const { userId, user } = useAuth();
@@ -285,6 +284,36 @@ export default function MyProfile() {
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
 
+  const TABLE_HEADINGS = [
+    {
+      id: "date",
+      label: "Date",
+      sortable: true,
+    },
+    { id: "employee", label: "Member Name", sortable: true },
+    {
+      id: "status",
+      label: "Status",
+      sortable: true,
+    },
+    {
+      id: "amount",
+      label: "Salary Amount",
+      sortable: true,
+    },
+    {
+      id: "incentive",
+      label: "Incentive",
+      sortable: false,
+    },
+    {
+      id: "actions",
+      label: "Actions",
+      sortable: false,
+      textAlign: "center",
+    },
+  ];
+
   return (
     <>
       <Box component="main">
@@ -480,48 +509,12 @@ export default function MyProfile() {
                 }}
                 aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "date"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("date")}
-                      >
-                        Date
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "employee"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("employee")}
-                      >
-                        Member Name
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "status"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("status")}
-                      >
-                        Status
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "amount"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("amount")}
-                      >
-                        Salary Amount
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>Incentive</TableCell>
-                    <TableCell>Action</TableCell>
-                  </TableRow>
-                </TableHead>
+                <CustomTableHeader
+                  createSortHandler={createSortHandler}
+                  headings={TABLE_HEADINGS}
+                  orderBy={orderBy}
+                  sortField={sortField}
+                />
                 <TableBody>
                   {salaryList.map((salary) => (
                     <TableRow

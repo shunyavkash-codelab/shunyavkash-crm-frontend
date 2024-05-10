@@ -1,5 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import moment from "moment";
 import {
   Box,
@@ -8,10 +13,8 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Paper,
-  TableSortLabel,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
@@ -28,6 +31,7 @@ import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import ModalComponent from "../component/ModalComponent";
+import CustomTableHeader from "../component/table/CustomTableHeader";
 
 export default function Project() {
   const [projectList, setProjectList] = useState([]);
@@ -67,28 +71,31 @@ export default function Project() {
     }
   };
 
-  const fetchProjects = useCallback(async (search) => {
-    try {
-      const res = await apiCall({
-        url: APIS.PROJECT.LIST,
-        method: "get",
-        params: {
-          search: search,
-          page,
-          limit: limit,
-          sortField: sortField,
-          orderBy: orderBy,
-        },
-      });
-      if (res.data.success === true) {
-        setProjectList(res.data.data.data);
-        setTotalPage(res.data.data.pagination.pages);
+  const fetchProjects = useCallback(
+    async (search) => {
+      try {
+        const res = await apiCall({
+          url: APIS.PROJECT.LIST,
+          method: "get",
+          params: {
+            search: search,
+            page,
+            limit: limit,
+            sortField: sortField,
+            orderBy: orderBy,
+          },
+        });
+        if (res.data.success === true) {
+          setProjectList(res.data.data.data);
+          setTotalPage(res.data.data.pagination.pages);
+        }
+      } catch (error) {
+        console.log(error, setSnack);
+        handleApiError(error, setSnack);
       }
-    } catch (error) {
-      console.log(error, setSnack);
-      handleApiError(error, setSnack);
-    }
-  },[apiCall, limit, orderBy, page, setSnack, sortField]);
+    },
+    [apiCall, limit, orderBy, page, setSnack, sortField]
+  );
 
   useEffect(() => {
     setSearchData("");
@@ -111,6 +118,47 @@ export default function Project() {
     setSortField(id);
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
+
+  const TABLE_HEADINGS = [
+    {
+      id: "name",
+      label: "Project Name",
+      sortable: true,
+    },
+    { id: "clientName", label: "Client", sortable: false },
+    {
+      id: "userName",
+      label: "Manager",
+      sortable: false,
+    },
+    {
+      id: "startDate",
+      label: "Start date",
+      sortable: true,
+    },
+    {
+      id: "endDate",
+      label: "End date",
+      sortable: false,
+    },
+    {
+      id: "perHourCharge",
+      label: "Currency/hour",
+      sortable: false,
+    },
+    {
+      id: "status",
+      label: "Status",
+      sortable: false,
+    },
+    {
+      id: "actions",
+      label: "Actions",
+      sortable: false,
+      textAlign: "center",
+    },
+  ];
+
   return (
     <>
       <Box component="main">
@@ -156,34 +204,12 @@ export default function Project() {
                 }}
                 aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "name"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("name")}
-                      >
-                        Project Name
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>Client</TableCell>
-                    <TableCell>Manager</TableCell>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "startDate"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("startDate")}
-                      >
-                        Start date
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>End date</TableCell>
-                    <TableCell>Currency/hour</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
+                <CustomTableHeader
+                  createSortHandler={createSortHandler}
+                  headings={TABLE_HEADINGS}
+                  orderBy={orderBy}
+                  sortField={sortField}
+                />
                 <TableBody>
                   {projectList.map((row) => (
                     <TableRow
@@ -317,10 +343,7 @@ export default function Project() {
         )}
         {/* pagination */}
         {projectList.length > 0 && (
-          <ThemePagination
-            totalPage={totalPage}
-            count={projectList.length}
-          />
+          <ThemePagination totalPage={totalPage} count={projectList.length} />
         )}
       </Box>
     </>

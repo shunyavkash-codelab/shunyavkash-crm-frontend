@@ -15,9 +15,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
-  TableSortLabel,
   TextField,
   Tooltip,
   Typography,
@@ -39,6 +37,7 @@ import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import CustomTableHeader from "../component/table/CustomTableHeader.jsx";
 
 export default function LeavesRequests() {
   const [leaveId, setLeaveId] = useState(false);
@@ -176,6 +175,43 @@ export default function LeavesRequests() {
     setSortField(id);
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
+
+  const TABLE_HEADINGS = [
+    {
+      id: "userName",
+      label: "Member",
+      sortable: false,
+    },
+    { id: "leaveType", label: "Type", sortable: true },
+    { id: "reason", label: "Reason", sortable: false },
+    {
+      id: "createdAt",
+      label: "Apply Date",
+      sortable: true,
+    },
+    {
+      id: "startDate",
+      label: "Start Date",
+      sortable: true,
+    },
+    {
+      id: "endDate",
+      label: "End Date",
+      sortable: false,
+    },
+    {
+      id: "status",
+      label: "Status",
+      sortable: true,
+    },
+    {
+      id: "actions",
+      label: "Actions",
+      sortable: false,
+      textAlign: "center",
+    },
+  ];
+
   return (
     <>
       <Box component="main">
@@ -251,50 +287,12 @@ export default function LeavesRequests() {
                 }}
                 aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
-                    <TableCell>Member</TableCell>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "leaveType"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("leaveType")}
-                      >
-                        Type
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>Reason</TableCell>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "createdAt"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("createdAt")}
-                      >
-                        Apply Date
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "startDate"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("startDate")}
-                      >
-                        Start Date
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>End Date</TableCell>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "status"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("status")}
-                      >
-                        Status
-                      </TableSortLabel>
-                    </TableCell>
-                    {user.role === 0 && <TableCell>Action</TableCell>}
-                  </TableRow>
-                </TableHead>
+                <CustomTableHeader
+                  createSortHandler={createSortHandler}
+                  headings={TABLE_HEADINGS}
+                  orderBy={orderBy}
+                  sortField={sortField}
+                />
                 <TableBody>
                   {allLeaveList.map((leaveRequest) => (
                     <TableRow

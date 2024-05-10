@@ -7,13 +7,9 @@ import {
 } from "react-router-dom";
 import {
   Box,
-  Typography,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Paper,
   Grid,
   Tab,
@@ -39,6 +35,7 @@ import NoData from "../component/NoData.jsx";
 import CounterCards from "../component/CounterCards.jsx";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
+import CustomTableHeader from "../component/table/CustomTableHeader.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -230,12 +227,6 @@ export default function Members() {
     fetchDashboard();
   }, []);
 
-  // useEffect(() => {
-  //   if (value === 0) fetchManager();
-  //   else if (value === 1) fetchEmployees();
-  //   else if (value === 2) fetchInvited();
-  // }, [page, selectJobRole]);
-
   // employee
   useEffect(() => {
     if (inviteMemberStore) {
@@ -243,6 +234,27 @@ export default function Members() {
       setInvitedList([...[inviteMemberStore], ...invitedList]);
     }
   }, [inviteMemberStore]);
+
+  const TABLE_HEADINGS = [
+    {
+      id: "employee",
+      label: value === 0 ? "Manager" : "Employee",
+      sortable: false,
+    },
+    { id: "mobile", label: "Mobile Number", sortable: false },
+    {
+      id: "role",
+      label: user.role === 0 ? "Role" : "Job Role",
+      sortable: false,
+    },
+    user.role === 0 && { id: "status", label: "Status", sortable: false },
+    user.role === 0 && {
+      id: "actions",
+      label: "Actions",
+      sortable: false,
+      textAlign: "center",
+    },
+  ];
 
   return (
     <>
@@ -456,28 +468,7 @@ export default function Members() {
                     }}
                     aria-label="simple table"
                   >
-                    <TableHead>
-                      <TableRow
-                        sx={{
-                          "&>th": { lineHeight: 1, fontWeight: 600 },
-                        }}
-                      >
-                        <TableCell sx={{ width: "400px" }}>Manager</TableCell>
-                        <TableCell sx={{ width: "400px" }}>
-                          mobile number
-                        </TableCell>
-
-                        <TableCell sx={{ width: "250px" }}>
-                          {user.role === 0 ? "Role" : "Job Role"}
-                        </TableCell>
-                        {user.role === 0 && (
-                          <TableCell sx={{ width: "140px" }}>status</TableCell>
-                        )}
-                        {user.role === 0 && (
-                          <TableCell sx={{ width: "140px" }}>Actions</TableCell>
-                        )}
-                      </TableRow>
-                    </TableHead>
+                    <CustomTableHeader headings={TABLE_HEADINGS} />
                     <TableBody>
                       {managerList.map((row) => (
                         <EmployeeListRaw
@@ -537,27 +528,7 @@ export default function Members() {
                     }}
                     aria-label="simple table"
                   >
-                    <TableHead>
-                      <TableRow
-                        sx={{
-                          "&>th": { lineHeight: 1, fontWeight: 600 },
-                        }}
-                      >
-                        <TableCell sx={{ width: "400px" }}>employee</TableCell>
-                        <TableCell sx={{ width: "400px" }}>
-                          mobile number
-                        </TableCell>
-                        <TableCell sx={{ width: "250px" }}>
-                          {user.role === 0 ? "Role" : "Job Role"}
-                        </TableCell>
-                        {user.role === 0 && (
-                          <TableCell sx={{ width: "140px" }}>status</TableCell>
-                        )}
-                        {user.role === 0 && (
-                          <TableCell sx={{ width: "140px" }}>Actions</TableCell>
-                        )}
-                      </TableRow>
-                    </TableHead>
+                    <CustomTableHeader headings={TABLE_HEADINGS} />
                     <TableBody>
                       {employeesList.map((row) => (
                         <EmployeeListRaw
@@ -617,19 +588,7 @@ export default function Members() {
                     }}
                     aria-label="simple table"
                   >
-                    <TableHead>
-                      <TableRow
-                        sx={{
-                          "&>th": { lineHeight: 1, fontWeight: 600 },
-                        }}
-                      >
-                        <TableCell sx={{ width: "400px" }}>employee</TableCell>
-                        <TableCell>mobile number</TableCell>
-                        <TableCell sx={{ width: "250px" }}>Role</TableCell>
-                        <TableCell sx={{ width: "140px" }}>status</TableCell>
-                        <TableCell sx={{ width: "140px" }}>Actions</TableCell>
-                      </TableRow>
-                    </TableHead>
+                    <CustomTableHeader headings={TABLE_HEADINGS} />
                     <TableBody>
                       {invitedList.map((row) => (
                         <EmployeeListRaw

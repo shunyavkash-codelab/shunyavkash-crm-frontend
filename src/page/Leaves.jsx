@@ -6,7 +6,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography,
   Stack,
@@ -28,6 +27,7 @@ import ModalComponent from "../component/ModalComponent.jsx";
 import AddLeaveForm from "../component/form/AddLeaveForm.jsx";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import CustomTableHeader from "../component/table/CustomTableHeader.jsx";
 
 export default function Leaves() {
   const [approveList, setApproveList] = useState([]);
@@ -151,6 +151,27 @@ export default function Leaves() {
     setSortField(id);
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
+
+  const TABLE_HEADINGS = [
+    {
+      id: "userName",
+      label: "Member",
+      sortable: false,
+    },
+    { id: "leaveType", label: "Type", sortable: false },
+    { id: "reason", label: "Reason", sortable: false },
+    {
+      id: "startDate",
+      label: "Start Date",
+      sortable: false,
+    },
+    {
+      id: "endDate",
+      label: "End Date",
+      sortable: false,
+    },
+  ];
+
   return (
     <>
       <Box component="main">
@@ -206,6 +227,9 @@ export default function Leaves() {
                   minWidth: 650,
                   textTransform: "capitalize",
                   textWrap: "nowrap",
+                  "& thead > tr > th": {
+                    backgroundColor: "#F8F9FA",
+                  },
                   "& th,& td": { borderBottom: 0 },
                   "& tbody tr": {
                     borderTop: "1px solid rgba(224, 224, 224, 1)",
@@ -213,15 +237,12 @@ export default function Leaves() {
                 }}
                 aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 700 } }}>
-                    <TableCell>Member</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Reason</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
-                  </TableRow>
-                </TableHead>
+                <CustomTableHeader
+                  createSortHandler={createSortHandler}
+                  headings={TABLE_HEADINGS}
+                  orderBy={orderBy}
+                  sortField={sortField}
+                />
                 <TableBody>
                   {approveList.map((leaveRequest) => (
                     <TableRow
@@ -252,7 +273,7 @@ export default function Leaves() {
                           },
                           "& .sick": {
                             bgcolor: "rgba(248, 174, 0, 15%)",
-                            color: "secondary.main",
+                            color: "warning.main",
                           },
                           "& .unpaid": {
                             bgcolor: "rgba(225, 107, 22, 15%)",
