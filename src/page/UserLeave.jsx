@@ -173,233 +173,226 @@ function UserLeave({ profileId }) {
         </Grid>
       </Grid>
 
-      <Box sx={{ bgcolor: "white", borderRadius: 4, mt: 3, pt: 2, pb: 3 }}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{
+          mb: 0,
+          pb: 2,
+          mt: 3,
+        }}
+      >
+        <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
+          My Leaves
+        </Typography>
+        {userId == profileId && (
+          <ThemeButton
+            transparent
+            smallRounded
+            Text="apply Leave"
+            startIcon={
+              <PlusIcon
+                sx={{
+                  fontSize: "16px!important",
+                  transform: "rotate(45deg)",
+                }}
+              />
+            }
+            onClick={handleOpen}
+          />
+        )}
+      </Stack>
+      {leaveList.length > 0 ? (
+        <TableContainer
+          component={Paper}
           sx={{
-            px: 2,
-            mb: 0,
-            pb: 2,
-            // borderBottom: "1px solid rgba(0,0,0,0.06)",
+            border: "1px solid rgba(224, 224, 224, 1)",
+            mx: { xs: "-10px", sm: 0 },
+            width: { xs: "auto", sm: "auto" },
+            borderRadius: 2.5,
           }}
         >
-          <Typography sx={{ textTransform: "capitalize", fontWeight: 600 }}>
-            My Leaves
-          </Typography>
-          {userId == profileId && (
-            <ThemeButton
-              transparent
-              smallRounded
-              Text="apply Leave"
-              startIcon={
-                <PlusIcon
-                  sx={{
-                    fontSize: "16px!important",
-                    transform: "rotate(45deg)",
-                  }}
-                />
-              }
-              onClick={handleOpen}
-            />
-          )}
-        </Stack>
-        <Box sx={{ px: 0 }}>
-          {leaveList.length > 0 ? (
-            <TableContainer
-              component={Paper}
-              sx={{
+          <Table
+            className="projectTable"
+            sx={{
+              minWidth: 650,
+              textTransform: "capitalize",
+              textWrap: "nowrap",
+              "& thead > tr > th": {
+                backgroundColor: "#F8F9FA",
+              },
+              "& th,& td": { borderBottom: 0 },
+              "& tbody tr": {
                 borderTop: "1px solid rgba(224, 224, 224, 1)",
-                borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                mx: { xs: "-10px", sm: 0 },
-                width: { xs: "auto", sm: "auto" },
-                borderRadius: 0,
-                boxShadow: 0,
-              }}
-            >
-              <Table
-                className="projectTable"
-                sx={{
-                  minWidth: 650,
-                  textTransform: "capitalize",
-                  textWrap: "nowrap",
-                  "& thead > tr > th": {
-                    backgroundColor: "#F8F9FA",
-                  },
-                  "& th,& td": { borderBottom: 0 },
-                  "& tbody tr": {
-                    borderTop: "1px solid rgba(224, 224, 224, 1)",
-                  },
-                }}
-                aria-label="simple table"
-              >
-                <CustomTableHeader headings={TABLE_HEADINGS} />
-                <TableBody>
-                  {leaveList.map((leave) => (
-                    <TableRow
-                      key={leave.key}
+              },
+            }}
+            aria-label="simple table"
+          >
+            <CustomTableHeader headings={TABLE_HEADINGS} />
+            <TableBody>
+              {leaveList.map((leave) => (
+                <TableRow
+                  key={leave.key}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    "&>td": { fontSize: { xs: "12px", sm: "14px" } },
+                    "&:first-of-type td": {
+                      maxWidth: "250px",
+                      textWrap: "wrap",
+                    },
+                  }}
+                >
+                  <TableCell>
+                    <Box
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-of-type td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
+                        fontSize: "12px",
+                        p: 0.5,
+                        borderRadius: 1,
+                        maxWidth: "fit-content",
+                        lineHeight: 1,
+                        bgcolor:
+                          leave.leaveType === "casual"
+                            ? "rgba(94, 115, 141, 15%)"
+                            : leave.leaveType === "sick"
+                            ? "rgba(248, 174, 0, 15%)"
+                            : leave.leaveType === "unpaid"
+                            ? "rgba(225, 107, 22, 15%)"
+                            : "rgba(74, 210, 146, 15%)",
+                        color:
+                          leave.leaveType === "casual"
+                            ? "grey.dark"
+                            : leave.leaveType === "sick"
+                            ? "#f8ae00"
+                            : leave.leaveType === "unpaid"
+                            ? "review.main"
+                            : "success.main",
                       }}
                     >
-                      <TableCell>
-                        <Box
+                      {leave.leaveType}
+                    </Box>
+                  </TableCell>
+                  <TableCell>{leave.reason}</TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1.75,
+                      }}
+                    >
+                      {moment(leave.createdAt).format("DD/MM/YYYY")}
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1.75,
+                      }}
+                    >
+                      <Box>
+                        {moment(leave.startDate).format("DD/MM/YYYY")}
+                        <Typography
                           sx={{
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
+                            marginTop: "3px",
                             lineHeight: 1,
-                            bgcolor:
-                              leave.leaveType === "casual"
-                                ? "rgba(94, 115, 141, 15%)"
-                                : leave.leaveType === "sick"
-                                ? "rgba(248, 174, 0, 15%)"
-                                : leave.leaveType === "unpaid"
-                                ? "rgba(225, 107, 22, 15%)"
-                                : "rgba(74, 210, 146, 15%)",
-                            color:
-                              leave.leaveType === "casual"
-                                ? "grey.dark"
-                                : leave.leaveType === "sick"
-                                ? "#f8ae00"
-                                : leave.leaveType === "unpaid"
-                                ? "review.main"
-                                : "success.main",
+                            textAlign: "center",
+                            fontSize: "12px",
+                            color: "darkgray",
                           }}
                         >
-                          {leave.leaveType}
-                        </Box>
-                      </TableCell>
-                      <TableCell>{leave.reason}</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1.75,
-                          }}
-                        >
-                          {moment(leave.createdAt).format("DD/MM/YYYY")}
-                        </Box>
-                      </TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1.75,
-                          }}
-                        >
-                          <Box>
-                            {moment(leave.startDate).format("DD/MM/YYYY")}
-                            <Typography
-                              sx={{
-                                marginTop: "3px",
-                                lineHeight: 1,
-                                textAlign: "center",
-                                fontSize: "12px",
-                                color: "darkgray",
-                              }}
-                            >
-                              ({leave.startDayType})
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            marginLeft: !leave?.endDate && "32px",
-                            gap: 1.75,
-                          }}
-                        >
-                          {leave.endDate ? (
-                            <Box>
-                              {moment(leave.endDate).format("DD/MM/YYYY")}
-                              <Typography
-                                sx={{
-                                  marginTop: "3px",
-                                  lineHeight: 1,
-                                  textAlign: "center",
-                                  fontSize: "12px",
-                                  color: "darkgray",
-                                }}
-                              >
-                                ({leave.endDayType})
-                              </Typography>
-                            </Box>
-                          ) : (
-                            "-"
-                          )}
-                        </Box>
-                      </TableCell>
-                      {/* Admin ni status ni row na aave */}
-                      <TableCell>
-                        <Tooltip title={leave.description} arrow>
-                          <Button
-                            disableRipple
+                          ({leave.startDayType})
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginLeft: !leave?.endDate && "32px",
+                        gap: 1.75,
+                      }}
+                    >
+                      {leave.endDate ? (
+                        <Box>
+                          {moment(leave.endDate).format("DD/MM/YYYY")}
+                          <Typography
                             sx={{
-                              textTransform: "capitalize",
-                              color: "white",
-                              fontSize: "12px",
-                              fontWeight: "500",
-                              py: 0.5,
-                              px: 1,
-                              borderRadius: 1,
-                              maxWidth: "fit-content",
+                              marginTop: "3px",
                               lineHeight: 1,
-                              bgcolor:
-                                leave.status === "unapprove"
-                                  ? "review.main"
-                                  : leave.status === "pending"
-                                  ? "warning.light"
-                                  : "success.main",
-                              "&:hover": {
-                                bgcolor:
-                                  leave.status === "unapprove"
-                                    ? "review.main"
-                                    : leave.status === "pending"
-                                    ? "warning.light"
-                                    : "success.main",
-                              },
-                              "& .MuiButton-endIcon": {
-                                ml: "3px",
-                                mr: 0,
-                              },
+                              textAlign: "center",
+                              fontSize: "12px",
+                              color: "darkgray",
                             }}
-                            endIcon={
-                              leave.status !== "pending" && (
-                                <InfoIcon sx={{ fontSize: "18px!important" }} />
-                              )
-                            }
                           >
-                            <span style={{ display: "inline-block" }}>
-                              {leave.status}
-                            </span>
-                          </Button>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <Box p={2.5}>
-              <NoData />
-            </Box>
-          )}
+                            ({leave.endDayType})
+                          </Typography>
+                        </Box>
+                      ) : (
+                        "-"
+                      )}
+                    </Box>
+                  </TableCell>
+                  {/* Admin ni status ni row na aave */}
+                  <TableCell>
+                    <Tooltip title={leave.description} arrow>
+                      <Button
+                        disableRipple
+                        sx={{
+                          textTransform: "capitalize",
+                          color: "white",
+                          fontSize: "12px",
+                          fontWeight: "500",
+                          py: 0.5,
+                          px: 1,
+                          borderRadius: 1,
+                          maxWidth: "fit-content",
+                          lineHeight: 1,
+                          bgcolor:
+                            leave.status === "unapprove"
+                              ? "review.main"
+                              : leave.status === "pending"
+                              ? "warning.light"
+                              : "success.main",
+                          "&:hover": {
+                            bgcolor:
+                              leave.status === "unapprove"
+                                ? "review.main"
+                                : leave.status === "pending"
+                                ? "warning.light"
+                                : "success.main",
+                          },
+                          "& .MuiButton-endIcon": {
+                            ml: "3px",
+                            mr: 0,
+                          },
+                        }}
+                        endIcon={
+                          leave.status !== "pending" && (
+                            <InfoIcon sx={{ fontSize: "18px!important" }} />
+                          )
+                        }
+                      >
+                        <span style={{ display: "inline-block" }}>
+                          {leave.status}
+                        </span>
+                      </Button>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Box p={2.5}>
+          <NoData />
         </Box>
-      </Box>
+      )}
 
       <ModalComponent
         open={open}

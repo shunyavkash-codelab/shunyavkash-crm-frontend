@@ -204,7 +204,7 @@ export default function LeavesRequests() {
       label: "Status",
       sortable: true,
     },
-    {
+    user.role === 0 && {
       id: "actions",
       label: "Actions",
       sortable: false,

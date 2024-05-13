@@ -132,7 +132,7 @@ export default function Clients() {
       label: "Project",
       sortable: false,
     },
-    {
+    user.role === 0 && {
       id: "actions",
       label: "Actions",
       sortable: false,
@@ -189,7 +189,7 @@ export default function Clients() {
                   headings={TABLE_HEADINGS}
                   orderBy={orderBy}
                   sortField={sortField}
-                 />
+                />
                 <TableBody>
                   {clientList.map((row) => (
                     <TableRow
