@@ -29,18 +29,19 @@ export default function CustomTableHeader({
           },
         }}
       >
-        {headings.map((heading) => (
-          <>
-            {heading.id === "checkbox" ? (
-              <TableCell padding="checkbox">
+        {headings.map(
+          (heading) =>
+            heading &&
+            (heading.id === "checkbox" ? (
+              <TableCell padding="checkbox" key={heading.id}>
                 <Checkbox
                   color="primary"
                   sx={{ color: "primary.main", width: "24px" }}
                   indeterminate={
-                    numSelected.length > 0 &&
-                    numSelected.length < dataList.length
+                    numSelected?.length > 0 &&
+                    numSelected?.length < dataList.length
                   }
-                  checked={numSelected.length === dataList.length}
+                  checked={numSelected?.length === dataList.length}
                   onChange={() => {
                     setSelectAllClick(!selectAllClick);
                     handleSelectAllChange();
@@ -73,9 +74,8 @@ export default function CustomTableHeader({
                   heading.label
                 )}
               </TableCell>
-            )}
-          </>
-        ))}
+            ))
+        )}
       </TableRow>
     </TableHead>
   );

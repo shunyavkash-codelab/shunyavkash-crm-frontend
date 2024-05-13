@@ -1,5 +1,11 @@
 import React from "react";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 
 const CustomSelect = ({
   labelId,
@@ -36,10 +42,12 @@ const CustomSelect = ({
         {options.map((option) => (
           <MenuItem
             key={option.value}
-            sx={{ textTransform: "capitalize", fontSize: "14px", ...textSX }}
+            sx={{ textTransform: "capitalize", fontSize: "14px" }}
             value={option.value}
           >
-            {option.label}
+            <Typography component={"span"} sx={{ ...option.sx }}>
+              {option.label}
+            </Typography>
           </MenuItem>
         ))}
       </Select>

@@ -81,7 +81,7 @@ export default function SignUp() {
         <Box>
           <Box
             sx={{
-              "&>*:not(:first-child)": { mt: 2 },
+              "&>*:not(:first-of-type)": { mt: 2 },
             }}
           >
             <TextField
