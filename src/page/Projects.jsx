@@ -1,23 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
-import moment from "moment";
-import {
-  Box,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Paper,
-} from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import CreateIcon from "@mui/icons-material/CreateOutlined";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Box, Table, TableContainer, Paper } from "@mui/material";
 import { useSnack } from "../hooks/store/useSnack";
 import useApi from "../hooks/useApi";
 import handleApiError from "../utils/handleApiError";
@@ -29,9 +12,9 @@ import ThemeButton from "../component/ThemeButton";
 import SectionHeader from "../component/SectionHeader";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import ModalComponent from "../component/ModalComponent";
 import CustomTableHeader from "../component/table/CustomTableHeader";
+import CustomTableBody from "../component/table/CustomTableBody";
 
 export default function Project() {
   const [projectList, setProjectList] = useState([]);
@@ -159,6 +142,55 @@ export default function Project() {
     },
   ];
 
+  const TABLE_BODY = projectList.map((project) => ({
+    key: project._id,
+    row: [
+      { type: "box", value: project.name },
+      { type: "box", value: project.clientName },
+      { type: "box", value: project.userName },
+      { type: "date", value: project.startDate },
+      { type: "date", value: project.endDate },
+      {
+        type: "box",
+        value: project.currency + project.perHourCharge + "/hour",
+      },
+      {
+        type: "box",
+        value: project.status,
+        textSX: {
+          fontSize: "12px",
+          p: 0.5,
+          borderRadius: 1,
+          maxWidth: "fit-content",
+          lineHeight: 1,
+          color: "white",
+          bgcolor:
+            project.status === "completed"
+              ? "success.main"
+              : project.status === "inReview"
+              ? "review.main"
+              : project.status === "inProgress"
+              ? "secondary.main"
+              : "grey.dark",
+        },
+      },
+      user.role === 0 && {
+        type: "edit",
+        value: project.type,
+        onEdit: () => navigate(`./edit/${project._id}`),
+        onOpen: () => {
+          navigate(`./view/${project._id}`);
+          // setSelectedTransaction(project);
+        },
+        deleteIcon: true,
+        onDelete: () => {
+          setOpenDelete(true);
+          setSelectProject(project._id);
+        },
+      },
+    ],
+  }));
+
   return (
     <>
       <Box component="main">
@@ -210,133 +242,36 @@ export default function Project() {
                   orderBy={orderBy}
                   sortField={sortField}
                 />
-                <TableBody>
-                  {projectList.map((row) => (
-                    <TableRow
-                      key={row.name}
+                <CustomTableBody records={TABLE_BODY} />
+                <ModalComponent
+                  open={openDelete}
+                  setOpen={setOpenDelete}
+                  modelStyle={{ maxWidth: "400px" }}
+                >
+                  <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                    {"Are you sure delete this project?"}
+                    <Box
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&>*": { p: 1.5 },
+                        display: "flex",
+                        gap: 2,
+                        mt: 2.5,
+                        justifyContent: "center",
                       }}
                     >
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell>{row.clientName}</TableCell>
-                      <TableCell>{row.userName}</TableCell>
-                      <TableCell>
-                        {moment(row.startDate).format("MMM D, YYYY")}
-                      </TableCell>
-                      <TableCell>
-                        {moment(row.endDate).format("MMM D, YYYY")}
-                      </TableCell>
-                      <TableCell>
-                        {row.currency}
-                        {row.perHourCharge}/hour
-                      </TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                            color: "white",
-                            bgcolor:
-                              row.status === "completed"
-                                ? "success.main"
-                                : row.status === "inReview"
-                                ? "review.main"
-                                : row.status === "inProgress"
-                                ? "secondary.main"
-                                : "grey.dark",
-                          }}
-                        >
-                          {row.status}
-                        </Box>
-                      </TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: { xs: 1.25, sm: 1.5 },
-                            "& button": {
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              transition: "all 0.5s",
-                            },
-                            "& svg": {
-                              fontSize: { xs: "20px", sm: "22px" },
-                            },
-                          }}
-                        >
-                          <Link to={`./view/${row._id}`}>
-                            <Button disableRipple>
-                              <VisibilityIcon
-                                sx={{ color: "secondary.main" }}
-                              />
-                            </Button>
-                          </Link>
-                          {user.role !== 2 && (
-                            <Link to={`./edit/${row._id}`}>
-                              <Button disableRipple>
-                                <CreateIcon sx={{ color: "primary.main" }} />
-                              </Button>
-                            </Link>
-                          )}
-                          {user.role === 0 && (
-                            <Button
-                              disableRipple
-                              sx={{
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              }}
-                              onClick={() => {
-                                setOpenDelete(true);
-                                setSelectProject(row._id);
-                              }}
-                            >
-                              <DeleteIcon sx={{ color: "error.main" }} />
-                            </Button>
-                          )}
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  <ModalComponent
-                    open={openDelete}
-                    setOpen={setOpenDelete}
-                    modelStyle={{ maxWidth: "400px" }}
-                  >
-                    <Box sx={{ textAlign: "center", fontSize: "20px" }}>
-                      {"Are you sure delete this project?"}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          gap: 2,
-                          mt: 2.5,
-                          justifyContent: "center",
-                        }}
-                      >
-                        <ThemeButton
-                          success
-                          Text="Yes"
-                          type="submit"
-                          onClick={() => deleteProject(selectProject)}
-                        />
-                        <ThemeButton
-                          discard
-                          Text="No"
-                          onClick={() => setOpenDelete(false)}
-                        />
-                      </Box>
+                      <ThemeButton
+                        success
+                        Text="Yes"
+                        type="submit"
+                        onClick={() => deleteProject(selectProject)}
+                      />
+                      <ThemeButton
+                        discard
+                        Text="No"
+                        onClick={() => setOpenDelete(false)}
+                      />
                     </Box>
-                  </ModalComponent>
-                </TableBody>
+                  </Box>
+                </ModalComponent>
               </Table>
             </TableContainer>
           </>

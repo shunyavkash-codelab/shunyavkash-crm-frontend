@@ -480,7 +480,7 @@ export default function Invoices() {
                   modelStyle={{ maxWidth: "400px" }}
                 >
                   <Box sx={{ textAlign: "center", fontSize: "20px" }}>
-                    {"Are you sure delete this project?"}
+                    {"Are you sure delete this invoice?"}
                     <Box
                       sx={{
                         display: "flex",

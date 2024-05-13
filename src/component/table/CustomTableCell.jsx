@@ -1,5 +1,14 @@
 import React from "react";
-import { Box, Button, Checkbox, Stack, TableCell } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Chip,
+  Stack,
+  TableCell,
+  Typography,
+} from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import CreateIcon from "@mui/icons-material/CreateOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
@@ -32,8 +41,65 @@ export default function CustomTableCell({
   if (type === "box") {
     return (
       <TableCell sx={sx}>
-        <Box className="truncate line-clamp-1" sx={{ textWrap: "wrap" }}>
+        <Box
+          className="truncate line-clamp-1"
+          sx={{ textWrap: "wrap", ...textSX }}
+        >
           {value}
+        </Box>
+      </TableCell>
+    );
+  }
+
+  if (type === "multi-items") {
+    return (
+      <TableCell sx={sx}>
+        {value.map((pro) => (
+          <Chip label={pro} sx={{ maxWidth: "fit-content" }} key={pro} />
+        ))}
+      </TableCell>
+    );
+  }
+
+  if (type === "avatar+name") {
+    return (
+      <TableCell sx={sx}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1.75,
+          }}
+        >
+          <Avatar
+            sx={{
+              width: "36px",
+              height: "36px",
+            }}
+            alt={value.name}
+            src={value.profile_img}
+          />
+          <Box>
+            <Typography
+              sx={{
+                mb: 0.75,
+                lineHeight: 1,
+                fontWeight: 500,
+                fontSize: { xs: "14px", sm: "16px" },
+              }}
+            >
+              {value.name}
+            </Typography>
+            <Typography
+              sx={{
+                lineHeight: 1,
+                textTransform: "lowercase",
+                fontSize: { xs: "12px", sm: "14px" },
+              }}
+            >
+              {value.email}
+            </Typography>
+          </Box>
         </Box>
       </TableCell>
     );
@@ -63,18 +129,18 @@ export default function CustomTableCell({
         <Stack
           direction="row"
           alignItems="center"
-          justifyContent="center"
+          // justifyContent="center"
           spacing={1.5}
           sx={{
             "& button": {
-              opacity: 0.6,
+              // opacity: 0.6,
               p: 0,
               minWidth: "auto",
               color: "text.primary",
               transition: "all 0.5s",
-              "&:hover": {
-                opacity: 1,
-              },
+              // "&:hover": {
+              //   opacity: 1,
+              // },
             },
             "& svg": {
               fontSize: { xs: "20px", sm: "21px" },
