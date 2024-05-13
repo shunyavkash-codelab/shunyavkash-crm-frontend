@@ -575,7 +575,7 @@ export default function InvoicePDF() {
                                               "1px solid rgba(0,0,0,0.1)",
                                           },
                                           "&>*": {
-                                            "&:first-child td": {
+                                            "&:first-of-type td": {
                                               borderRadius: "10px 0 0 10px",
                                             },
                                             "&:last-child td": {

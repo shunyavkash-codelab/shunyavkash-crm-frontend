@@ -171,7 +171,7 @@ export default function SignIn() {
 
         <Box
           sx={{
-            "&>*:not(:first-child)": {
+            "&>*:not(:first-of-type)": {
               mt: 2,
             },
           }}

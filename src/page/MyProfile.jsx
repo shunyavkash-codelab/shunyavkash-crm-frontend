@@ -460,7 +460,7 @@ export default function MyProfile() {
               borderRadius: 4,
               pt: 2,
               pb: 3,
-              "&:not(:first-child)": {
+              "&:not(:first-of-type)": {
                 mt: 3,
               },
             },

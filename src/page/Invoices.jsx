@@ -229,7 +229,7 @@ export default function Invoices() {
     {
       id: "status",
       label: "Status",
-      sortable: false,
+      sortable: true,
     },
     {
       id: "total",
@@ -470,6 +470,7 @@ export default function Invoices() {
                       editInvoice={editInvoice}
                       viewInvoice={viewInvoice}
                       setOpenDelete={setOpenDelete}
+                      key={invoice._id}
                     />
                   ))}
                 </TableBody>
@@ -479,7 +480,7 @@ export default function Invoices() {
                   modelStyle={{ maxWidth: "400px" }}
                 >
                   <Box sx={{ textAlign: "center", fontSize: "20px" }}>
-                    {"Are you sure delete this project?"}
+                    {"Are you sure delete this invoice?"}
                     <Box
                       sx={{
                         display: "flex",

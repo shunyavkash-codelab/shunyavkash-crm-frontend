@@ -5,17 +5,11 @@ import {
   Select,
   MenuItem,
   Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Paper,
   Stack,
   FormControl,
-  Button,
   TextField,
-  TableSortLabel,
 } from "@mui/material";
 import { useAuth } from "../hooks/store/useAuth";
 import { APIS } from "../api/apiList.js";
@@ -27,7 +21,6 @@ import SectionHeader from "../component/SectionHeader.jsx";
 import PlusIcon from "@mui/icons-material/Close";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
 import NoData from "../component/NoData.jsx";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import ThemePagination from "../component/ThemePagination.jsx";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -35,9 +28,9 @@ import dayjs from "dayjs";
 import ModalComponent from "../component/ModalComponent.jsx";
 import AddSalaryForm from "../component/form/AddSalaryForm.jsx";
 import { useSearchData } from "../hooks/store/useSearchData.js";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import CreateIcon from "@mui/icons-material/CreateOutlined";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import CustomTableHeader from "../component/table/CustomTableHeader.jsx";
+import CustomTableBody from "../component/table/CustomTableBody.jsx";
 
 export default function MyProfile() {
   const { userId, user } = useAuth();
@@ -285,6 +278,76 @@ export default function MyProfile() {
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
 
+  const TABLE_HEADINGS = [
+    {
+      id: "date",
+      label: "Date",
+      sortable: true,
+    },
+    { id: "employee", label: "Member Name", sortable: true },
+    {
+      id: "status",
+      label: "Status",
+      sortable: true,
+    },
+    {
+      id: "amount",
+      label: "Salary Amount",
+      sortable: true,
+    },
+    {
+      id: "incentive",
+      label: "Incentive",
+      sortable: false,
+    },
+    {
+      id: "actions",
+      label: "Actions",
+      sortable: false,
+      textAlign: "center",
+    },
+  ];
+
+  const TABLE_BODY = salaryList.map((salary) => ({
+    key: salary._id,
+    row: [
+      { type: "date", value: salary.date },
+      { type: "box", value: salary.employee },
+      {
+        type: "box",
+        value: salary.status,
+        textSX: {
+          color: "white",
+          fontSize: "12px",
+          p: 0.5,
+          borderRadius: 1,
+          maxWidth: "fit-content",
+          lineHeight: 1,
+          bgcolor: salary.status === "paid" ? "success.main" : "review.main",
+        },
+      },
+      { type: "box", value: "₹" + salary.amount.toLocaleString() },
+      { type: "box", value: "₹" + (salary.incentive?.toLocaleString() || 0) },
+      user.role === 0 && {
+        type: "edit",
+        value: salary.type,
+        onEdit: () => {
+          handleOpenSalary(salary);
+          // setOpenSalary(true);
+          // setSelectSalary(salary);
+        },
+        onOpen: () => {
+          navigate(salary.pdf);
+        },
+        deleteIcon: true,
+        onDelete: () => {
+          setOpenDelete(true);
+          setSelectSalary(salary._id);
+        },
+      },
+    ],
+  }));
+
   return (
     <>
       <Box component="main">
@@ -480,166 +543,42 @@ export default function MyProfile() {
                 }}
                 aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "date"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("date")}
-                      >
-                        Date
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "employee"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("employee")}
-                      >
-                        Member Name
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "status"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("status")}
-                      >
-                        Status
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "amount"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("amount")}
-                      >
-                        Salary Amount
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>Incentive</TableCell>
-                    <TableCell>Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {salaryList.map((salary) => (
-                    <TableRow
+                <CustomTableHeader
+                  createSortHandler={createSortHandler}
+                  headings={TABLE_HEADINGS}
+                  orderBy={orderBy}
+                  sortField={sortField}
+                />
+                <CustomTableBody records={TABLE_BODY} />
+                <ModalComponent
+                  open={openDelete}
+                  setOpen={setOpenDelete}
+                  modelStyle={{ maxWidth: "400px" }}
+                >
+                  <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                    {"Are you sure delete this salary?"}
+                    <Box
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&:first-of-type td": {
-                          maxWidth: "250px",
-                          textWrap: "wrap",
-                        },
+                        display: "flex",
+                        gap: 2,
+                        mt: 2.5,
+                        justifyContent: "center",
                       }}
                     >
-                      <TableCell>
-                        {moment(salary.date).format("DD/MM/YYYY")}
-                      </TableCell>
-                      <TableCell>{salary.employee}</TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            color: "white",
-                            fontSize: "12px",
-                            p: 0.5,
-                            borderRadius: 1,
-                            maxWidth: "fit-content",
-                            lineHeight: 1,
-                            bgcolor:
-                              salary.status === "paid"
-                                ? "success.main"
-                                : "review.main",
-                          }}
-                        >
-                          {salary.status}
-                        </Box>
-                      </TableCell>
-                      <TableCell>
-                        <span style={{ fontFamily: "monospace" }}>₹</span>
-                        {salary.amount.toLocaleString()}
-                      </TableCell>
-                      <TableCell>
-                        <span style={{ fontFamily: "monospace" }}>₹</span>
-                        {salary.incentive?.toLocaleString() || 0}
-                      </TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: { xs: 1.25, sm: 1.5 },
-                            "& button,& a": {
-                              p: 0,
-                              minWidth: "auto",
-                              color: "black",
-                              transition: "all 0.5s",
-                            },
-                            "& svg": {
-                              fontSize: { xs: "20px", sm: "21px" },
-                            },
-                          }}
-                        >
-                          <a
-                            href={salary.pdf}
-                            target="_blank"
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                            }}
-                          >
-                            <VisibilityIcon sx={{ color: "secondary.main" }} />
-                          </a>
-                          <Button
-                            disableRipple
-                            onClick={() => handleOpenSalary(salary)}
-                          >
-                            <CreateIcon sx={{ color: "primary.main" }} />
-                          </Button>
-                          <Button
-                            disableRipple
-                            onClick={() => {
-                              setOpenDelete(true);
-                              setSelectSalary(salary._id);
-                            }}
-                          >
-                            <DeleteIcon sx={{ color: "error.main" }} />
-                          </Button>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  <ModalComponent
-                    open={openDelete}
-                    setOpen={setOpenDelete}
-                    modelStyle={{ maxWidth: "400px" }}
-                  >
-                    <Box sx={{ textAlign: "center", fontSize: "20px" }}>
-                      {"Are you sure delete this salary?"}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          gap: 2,
-                          mt: 2.5,
-                          justifyContent: "center",
-                        }}
-                      >
-                        <ThemeButton
-                          success
-                          Text="Yes"
-                          type="submit"
-                          onClick={() => deleteSalary(selectSalary)}
-                        />
-                        <ThemeButton
-                          discard
-                          Text="No"
-                          onClick={() => setOpenDelete(false)}
-                        />
-                      </Box>
+                      <ThemeButton
+                        success
+                        Text="Yes"
+                        type="submit"
+                        onClick={() => deleteSalary(selectSalary)}
+                      />
+                      <ThemeButton
+                        discard
+                        Text="No"
+                        onClick={() => setOpenDelete(false)}
+                      />
                     </Box>
-                  </ModalComponent>
-                </TableBody>
+                  </Box>
+                </ModalComponent>
               </Table>
             </TableContainer>
           </>

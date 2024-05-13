@@ -101,6 +101,7 @@ const TransactionTable = ({
           handleOpen();
           setSelectedTransaction(account);
         },
+        deleteIcon: true,
         onDelete: () => {
           setOpenDelete(true);
           setSelectTransaction(account._id);

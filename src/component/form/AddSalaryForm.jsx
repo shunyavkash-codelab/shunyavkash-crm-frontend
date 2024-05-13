@@ -169,7 +169,7 @@ export default function AddSalaryForm({ formikSalary, userList }) {
               )}
             >
               {userList.map((member) => (
-                <MenuItem value={member._id}>
+                <MenuItem value={member._id} key={member._id}>
                   <BadgeAvatar
                     // Member nu status check karavu & Status ma active or inactive nakhavu
                     Status={member.isActive == true ? "active" : "inactive"}

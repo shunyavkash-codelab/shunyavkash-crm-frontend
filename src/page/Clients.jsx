@@ -1,28 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
-import {
-  Box,
-  Typography,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Avatar,
-  Chip,
-  Stack,
-  TableSortLabel,
-} from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
-import CreateIcon from "@mui/icons-material/CreateOutlined";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Box, Table, TableContainer, Paper } from "@mui/material";
 import useApi from "../hooks/useApi";
 import { useSnack } from "../hooks/store/useSnack";
 import { APIS } from "../api/apiList.js";
@@ -33,8 +11,9 @@ import ThemeButton from "../component/ThemeButton.jsx";
 import SectionHeader from "../component/SectionHeader.jsx";
 import ThemePagination from "../component/ThemePagination";
 import LoadingIcon from "../component/icons/LoadingIcon.jsx";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import ModalComponent from "../component/ModalComponent.jsx";
+import CustomTableHeader from "../component/table/CustomTableHeader.jsx";
+import CustomTableBody from "../component/table/CustomTableBody.jsx";
 
 export default function Clients() {
   const [clientList, setClientList] = useState([]);
@@ -121,6 +100,56 @@ export default function Clients() {
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
   };
 
+  const TABLE_HEADINGS = [
+    {
+      id: "name",
+      label: "Name",
+      sortable: true,
+    },
+    { id: "companyName", label: "Company Name", sortable: false },
+    {
+      id: "projectName",
+      label: "Project",
+      sortable: false,
+    },
+    user.role === 0 && {
+      id: "actions",
+      label: "Actions",
+      sortable: false,
+      textAlign: "center",
+    },
+  ];
+
+  const TABLE_BODY = clientList.map((client) => ({
+    key: client._id,
+    row: [
+      {
+        type: "avatar+name",
+        value: {
+          name: client.name,
+          profile_img: client.profile_img,
+          email: client.email,
+        },
+      },
+      { type: "box", value: client.companyName },
+      { type: "multi-items", value: client.projectName },
+      user.role === 0 && {
+        type: "edit",
+        value: client.type,
+        onEdit: () => navigate(`./edit/${client._id}`),
+        onOpen: () => {
+          navigate(`./view/${client._id}`);
+          // setSelectedTransaction(client);
+        },
+        deleteIcon: true,
+        onDelete: () => {
+          setOpenDelete(true);
+          setSelectClient(client._id);
+        },
+      },
+    ],
+  }));
+
   return (
     <>
       <Box component="main">
@@ -165,162 +194,42 @@ export default function Clients() {
                 }}
                 aria-label="simple table"
               >
-                <TableHead>
-                  <TableRow sx={{ "& th": { lineHeight: 1, fontWeight: 600 } }}>
-                    <TableCell>
-                      <TableSortLabel
-                        active={sortField === "name"}
-                        direction={orderBy || "asc"}
-                        onClick={() => createSortHandler("name")}
-                      >
-                        Name
-                      </TableSortLabel>
-                    </TableCell>
-                    <TableCell>Company Name</TableCell>
-                    <TableCell>Project</TableCell>
-                    {user.role === 0 && <TableCell>Actions</TableCell>}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {clientList.map((row) => (
-                    <TableRow
-                      key={row.name}
+                <CustomTableHeader
+                  createSortHandler={createSortHandler}
+                  headings={TABLE_HEADINGS}
+                  orderBy={orderBy}
+                  sortField={sortField}
+                />
+                <CustomTableBody records={TABLE_BODY} />
+                <ModalComponent
+                  open={openDelete}
+                  setOpen={setOpenDelete}
+                  modelStyle={{ maxWidth: "400px" }}
+                >
+                  <Box sx={{ textAlign: "center", fontSize: "20px" }}>
+                    {"Are you sure delete this client?"}
+                    <Box
                       sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        "&>td": { fontSize: { xs: "12px", sm: "14px" } },
-                        "&>*": { p: 1.5 },
+                        display: "flex",
+                        gap: 2,
+                        mt: 2.5,
+                        justifyContent: "center",
                       }}
                     >
-                      <TableCell component="th" scope="row">
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1.75,
-                          }}
-                        >
-                          <Avatar
-                            sx={{
-                              width: "36px",
-                              height: "36px",
-                            }}
-                            alt={row.name}
-                            src={row.profile_img}
-                          />
-                          <Box>
-                            <Typography
-                              sx={{
-                                mb: 0.75,
-                                lineHeight: 1,
-                                fontWeight: 500,
-                                fontSize: { xs: "14px", sm: "16px" },
-                              }}
-                            >
-                              {row.name}
-                            </Typography>
-                            <Typography
-                              sx={{
-                                lineHeight: 1,
-                                textTransform: "lowercase",
-                                fontSize: { xs: "12px", sm: "14px" },
-                              }}
-                            >
-                              {row.email}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </TableCell>
-                      <TableCell>{row.companyName}</TableCell>
-                      <TableCell>
-                        <Stack sx={{}}>
-                          {row.projectName.map((pro) => (
-                            <Chip
-                              label={pro}
-                              sx={{ maxWidth: "fit-content" }}
-                            />
-                          ))}
-                        </Stack>
-                      </TableCell>
-                      {user.role === 0 && (
-                        <TableCell>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: { xs: 1.25, sm: 1.5 },
-                              "& button": {
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                transition: "all 0.5s",
-                              },
-                              "& svg": {
-                                fontSize: { xs: "20px", sm: "22px" },
-                              },
-                            }}
-                          >
-                            <Link to={`./view/${row._id}`}>
-                              <Button disableRipple>
-                                <VisibilityIcon
-                                  sx={{ color: "secondary.main" }}
-                                />
-                              </Button>
-                            </Link>
-                            <Link to={`./edit/${row._id}`}>
-                              <Button disableRipple>
-                                <CreateIcon sx={{ color: "primary.main" }} />
-                              </Button>
-                            </Link>
-                            <Button
-                              disableRipple
-                              sx={{
-                                p: 0,
-                                minWidth: "auto",
-                                color: "black",
-                                "&:hover": { color: "primary.main" },
-                              }}
-                              onClick={() => {
-                                setOpenDelete(true);
-                                setSelectClient(row._id);
-                              }}
-                            >
-                              <DeleteIcon sx={{ color: "error.main" }} />
-                            </Button>
-                          </Box>
-                        </TableCell>
-                      )}
-                    </TableRow>
-                  ))}
-                  <ModalComponent
-                    open={openDelete}
-                    setOpen={setOpenDelete}
-                    modelStyle={{ maxWidth: "400px" }}
-                  >
-                    <Box sx={{ textAlign: "center", fontSize: "20px" }}>
-                      {"Are you sure delete this client?"}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          gap: 2,
-                          mt: 2.5,
-                          justifyContent: "center",
-                        }}
-                      >
-                        <ThemeButton
-                          success
-                          Text="Yes"
-                          type="submit"
-                          onClick={() => deleteClient(selectClient)}
-                        />
-                        <ThemeButton
-                          discard
-                          Text="No"
-                          onClick={() => setOpenDelete(false)}
-                        />
-                      </Box>
+                      <ThemeButton
+                        success
+                        Text="Yes"
+                        type="submit"
+                        onClick={() => deleteClient(selectClient)}
+                      />
+                      <ThemeButton
+                        discard
+                        Text="No"
+                        onClick={() => setOpenDelete(false)}
+                      />
                     </Box>
-                  </ModalComponent>
-                </TableBody>
+                  </Box>
+                </ModalComponent>
               </Table>
             </TableContainer>
           </>
