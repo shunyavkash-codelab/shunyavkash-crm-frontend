@@ -13,6 +13,8 @@ import handleApiError from "../utils/handleApiError";
 import { APIS } from "../api/apiList";
 import ProjectsIcon from "@mui/icons-material/FileCopyOutlined";
 import InvoicesIcon from "@mui/icons-material/ReceiptOutlined";
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import moment from "moment";
 
 export default function Notifications() {
   const [notificationList, setNotificationList] = useState([]);
@@ -87,7 +89,13 @@ export default function Notifications() {
           profile_img: notification.sender_info.profile_img,
           email: notification.text,
           type: notification.type,
-          textname: notification.textname,
+          textname:
+            notification.type === "my-salary"
+              ? moment(notification.salary_info.date)
+                  .subtract(1, "months")
+                  .endOf("month")
+                  .format("MMMM - YYYY")
+              : notification.textname,
           date: getTimeLapse(notification.createdAt),
           href: ["clients", "projects"].includes(notification.type)
             ? `/${notification.type}/view/${notification.itemId}`
@@ -99,6 +107,9 @@ export default function Notifications() {
           }
           if (notification.type === "invoices") {
             return <InvoicesIcon />;
+          }
+          if (notification.type === "my-salary") {
+            return <AccountBalanceWalletOutlinedIcon />;
           }
         },
       },
