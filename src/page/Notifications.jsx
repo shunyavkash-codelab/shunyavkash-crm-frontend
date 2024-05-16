@@ -86,7 +86,9 @@ export default function Notifications() {
       {
         type: "avatar+name",
         value: {
-          profile_img: notification.sender_info.profile_img,
+          profile_img: notification.client_info
+            ? notification.client_info.profile_img
+            : notification.sender_info.profile_img,
           email: notification.text,
           type: notification.type,
           textname:
