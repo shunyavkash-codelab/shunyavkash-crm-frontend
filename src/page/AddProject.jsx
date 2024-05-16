@@ -63,6 +63,7 @@ export default function AddProject() {
     enableReinitialize: true,
     onSubmit: async (values) => {
       try {
+        console.log(values);
         // values.currency = currencyValue?.symbol;
         const res = await apiCall({
           url: id ? APIS.PROJECT.EDIT(id) : APIS.PROJECT.ADD,

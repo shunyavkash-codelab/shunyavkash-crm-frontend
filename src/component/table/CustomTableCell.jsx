@@ -14,6 +14,7 @@ import CreateIcon from "@mui/icons-material/CreateOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import moment from "moment";
 import CustomSelect from "../form/input/CustomSelect";
+import { Link } from "react-router-dom";
 
 export default function CustomTableCell({
   value,
@@ -71,34 +72,73 @@ export default function CustomTableCell({
             gap: 1.75,
           }}
         >
-          <Avatar
-            sx={{
-              width: "36px",
-              height: "36px",
-            }}
-            alt={value.name}
-            src={value.profile_img}
-          />
+          {["project", "invoice"].includes(value.type) ? (
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Box
+                sx={{
+                  display: "inline-flex",
+                  "& span": { opacity: "0.5" },
+                }}
+              >
+                <Icon />
+              </Box>
+              <span>{Icon}</span>
+            </Stack>
+          ) : (
+            <Avatar
+              sx={{
+                width: "36px",
+                height: "36px",
+              }}
+              alt={value.name}
+              src={value.profile_img}
+            />
+          )}
           <Box>
-            <Typography
-              sx={{
-                mb: 0.75,
-                lineHeight: 1,
-                fontWeight: 500,
-                fontSize: { xs: "14px", sm: "16px" },
-              }}
-            >
-              {value.name}
-            </Typography>
-            <Typography
-              sx={{
-                lineHeight: 1,
-                textTransform: "lowercase",
-                fontSize: { xs: "12px", sm: "14px" },
-              }}
-            >
-              {value.email}
-            </Typography>
+            {value.name && (
+              <Typography
+                sx={{
+                  mb: 0.75,
+                  lineHeight: 1,
+                  fontWeight: 500,
+                  fontSize: { xs: "14px", sm: "16px" },
+                }}
+              >
+                {value.name}
+              </Typography>
+            )}
+            {value.email && (
+              <Typography
+                sx={{
+                  lineHeight: 1,
+                  textTransform: "lowercase",
+                  fontSize: { xs: "12px", sm: "14px" },
+                }}
+              >
+                <Link
+                  to={value.href}
+                  style={{
+                    fontWeight: 900,
+                    textTransform: "capitalize",
+                    color: "#002a4d",
+                    textDecoration: "none",
+                  }}
+                >
+                  {value.textname}
+                </Link>
+                {value.email}
+                <span
+                  style={{
+                    lineHeight: 1,
+                    fontSize: { xs: "12px", sm: "14px" },
+                    color: "#808080ab",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {value.date}
+                </span>
+              </Typography>
+            )}
           </Box>
         </Box>
       </TableCell>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   InputBase,
@@ -19,18 +19,22 @@ import { useAuth } from "../hooks/store/useAuth";
 import { useSearchData } from "../hooks/store/useSearchData";
 import InvitationModal from "../component/InvitationModal";
 import ThemeButton from "./ThemeButton";
+import NotificationIcon from "./icons/NotificationIcon";
+import { socket } from "../Socket";
+import { APIS } from "../api/apiList";
+import handleApiError from "../utils/handleApiError";
 
 export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
   const [anchorEl, setAnchorEl] = useState(null);
   // const { apiCall, isLoading } = useApi();
-  const { isLoading } = useApi();
+  const { apiCall, isLoading } = useApi();
   const { user, logout } = useAuth();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
   let location = useLocation();
   const open = Boolean(anchorEl);
   const { setSearchData, searchData } = useSearchData();
-  const [search, setSearch] = useState("");
+  const [count, setCount] = useState(0);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -46,16 +50,34 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
 
   const [modalOpen, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  // useEffect(() => {
-  //   let timeout = setTimeout(() => {
-  //     setSearchData(searchData || search);
-  //     setSearch(searchData);
-  //   }, 500);
 
-  //   return () => {
-  //     clearTimeout(timeout);
-  //   };
-  // }, [search, setSearchData, searchData]);
+  const fetchNotifications = useCallback(async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.NOTIFICATION.COUNT,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setCount(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+      handleApiError(error, setSnack);
+    }
+  }, [apiCall, setSnack]);
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  useEffect(() => {
+    socket.on("notification_count", () => {
+      setCount(count + 1);
+    });
+    return () => {
+      socket.off("notification_count");
+    };
+  }, [count]);
 
   return (
     <>
@@ -169,9 +191,47 @@ export default function Header({ sideBarWidth, showSidebar, setShowSidebar }) {
               display: "flex",
               alignItems: "center",
               gap: 1,
-              position: "relative",
             }}
           >
+            <Button
+              sx={{
+                position: "relative",
+                minWidth: "28px",
+                height: "28px",
+                marginRight: "10px",
+                padding: 0,
+              }}
+              onClick={() => {
+                setCount(0);
+                navigate("./notification");
+              }}
+            >
+              <NotificationIcon
+                style={{ height: "28px", width: "28px", color: "#00ac8d" }}
+              />
+              {count !== 0 && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "1.5rem",
+                    height: "1.5rem",
+                    fontSize: "0.75rem",
+                    fontWeight: "bold",
+                    color: "white",
+                    bgcolor: "#ef4444",
+                    border: "2px solid white",
+                    borderRadius: "9999px",
+                    top: "-0.8rem",
+                    right: "-0.5rem",
+                  }}
+                >
+                  {count}
+                </Box>
+              )}
+            </Button>
             {user.role === 0 && (
               <ThemeButton Text="invite" secondary onClick={handleOpen} />
             )}
