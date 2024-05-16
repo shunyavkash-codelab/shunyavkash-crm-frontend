@@ -72,7 +72,7 @@ export default function CustomTableCell({
             gap: 1.75,
           }}
         >
-          {["project", "invoice"].includes(value.type) ? (
+          {["projects", "invoices"].includes(value.type) ? (
             <Stack direction="row" alignItems="center" spacing={1}>
               <Box
                 sx={{
