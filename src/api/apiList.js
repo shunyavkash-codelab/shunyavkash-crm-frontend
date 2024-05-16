@@ -91,4 +91,8 @@ export const APIS = {
     DELETE: (transactionId) => `transaction/${transactionId}`,
     DASHBOARD: "transaction/dashboard",
   },
+  NOTIFICATION: {
+    LIST: "/notification",
+    COUNT: "/notification/unread-count",
+  },
 };

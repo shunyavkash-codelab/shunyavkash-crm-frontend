@@ -30,6 +30,7 @@ import Layout from "./component/Layout";
 import MyLeave from "./page/MyLeave";
 import MySalary from "./page/MySalary";
 import Salary from "./page/Salary";
+import Notifications from "./page/Notifications";
 
 const routes = createBrowserRouter([
   {
@@ -79,6 +80,7 @@ const routes = createBrowserRouter([
         Component: InvoicePDF,
       },
       { path: "/salary", Component: Salary },
+      { path: "/notification", Component: Notifications },
     ],
   },
   { path: "/forgot-password", Component: ForgotPassword },
