@@ -94,10 +94,10 @@ export default function Notifications() {
             : `/${notification.type}`,
         },
         Icon: () => {
-          if (notification.type === "project") {
+          if (notification.type === "projects") {
             return <ProjectsIcon />;
           }
-          if (notification.type === "invoice") {
+          if (notification.type === "invoices") {
             return <InvoicesIcon />;
           }
         },
