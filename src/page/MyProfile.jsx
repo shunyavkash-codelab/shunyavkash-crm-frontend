@@ -88,7 +88,7 @@ const userRequired = [
 
 export default function MyProfile() {
   const { id } = useParams();
-  const { userId, user } = useAuth();
+  const { userId, user, permission } = useAuth();
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
   const navigate = useNavigate();
@@ -491,7 +491,7 @@ export default function MyProfile() {
                   : "Employee"}{" "}
                 Details
               </Typography>
-              {user.role === 0 && (
+              {(permission.member.write || user.role === 0) && (
                 <ThemeButton
                   transparent
                   smallRounded
@@ -562,13 +562,15 @@ export default function MyProfile() {
           <Box>
             <Box className="cardHeader">
               <Typography className="cardTitle">Personal Details</Typography>
-              <ThemeButton
-                transparent
-                smallRounded
-                Text="edit"
-                startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
-                onClick={handleOpen.bind(null, "personal-detail")}
-              />
+              {userId === id && (
+                <ThemeButton
+                  transparent
+                  smallRounded
+                  Text="edit"
+                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
+                  onClick={handleOpen.bind(null, "personal-detail")}
+                />
+              )}
             </Box>
             <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
               <Grid item xs={12} md={6} xl={4}>
@@ -614,13 +616,15 @@ export default function MyProfile() {
           <Box>
             <Box className="cardHeader">
               <Typography className="cardTitle">Contact Details</Typography>
-              <ThemeButton
-                transparent
-                smallRounded
-                Text="edit"
-                startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
-                onClick={handleOpen.bind(null, "contact-detail")}
-              />
+              {userId === id && (
+                <ThemeButton
+                  transparent
+                  smallRounded
+                  Text="edit"
+                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
+                  onClick={handleOpen.bind(null, "contact-detail")}
+                />
+              )}
             </Box>
             <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
               <Grid item xs={12} md={6} xl={4}>
@@ -679,13 +683,15 @@ export default function MyProfile() {
           <Box>
             <Box className="cardHeader">
               <Typography className="cardTitle">Family Details</Typography>
-              <ThemeButton
-                transparent
-                smallRounded
-                Text="edit"
-                startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
-                onClick={handleOpen.bind(null, "family-detail")}
-              />
+              {userId === id && (
+                <ThemeButton
+                  transparent
+                  smallRounded
+                  Text="edit"
+                  startIcon={<EditIcon sx={{ fontSize: "16px!important" }} />}
+                  onClick={handleOpen.bind(null, "family-detail")}
+                />
+              )}
             </Box>
             <Grid container rowSpacing={5} columnSpacing={2.5} sx={{ px: 3 }}>
               <Grid item xs={12} md={6} xl={4}>
@@ -717,7 +723,7 @@ export default function MyProfile() {
           <Box>
             <Box className="cardHeader">
               <Typography className="cardTitle">Document Details</Typography>
-              {(user.role === 1 || user.role === 2) && (
+              {userId === id && (
                 <ThemeButton
                   transparent
                   smallRounded
@@ -930,7 +936,7 @@ export default function MyProfile() {
         </CustomTabPanel>
 
         <CustomTabPanel value={value} index={3}>
-          <UserPermission profileId={id || userId} />
+          <UserPermission profileId={id || userId} profileUser={profileUser} />
         </CustomTabPanel>
 
         <ModalComponent

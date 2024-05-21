@@ -11,8 +11,9 @@ import useApi from "../hooks/useApi.js";
 import { useSnack } from "../hooks/store/useSnack.js";
 import { useFormik } from "formik";
 import ThemeButton from "../component/ThemeButton.jsx";
+import { useAuth } from "../hooks/store/useAuth.js";
 
-function UserPermission({ profileId }) {
+function UserPermission({ profileId, profileUser }) {
   const { apiCall } = useApi();
   const { setSnack } = useSnack();
   const [userPermission, setUserPermission] = useState(false);
@@ -421,112 +422,120 @@ function UserPermission({ profileId }) {
                 />
               </Stack>
             </Stack>
-            <Stack direction={"row"}>
-              <Typography
-                sx={{
-                  textTransform: "capitalize",
-                  fontWeight: 600,
-                  width: "150px",
-                  fontSize: "14px",
-                  color: "#2a4062",
-                  opacity: 0.5,
-                }}
-              >
-                leave requests
-              </Typography>
-              <Stack direction={"row"} gap={"15px"}>
-                <FormControlLabel
-                  label="Read"
+            {profileUser.role !== 2 && (
+              <Stack direction={"row"}>
+                <Typography
                   sx={{
-                    userSelect: "none",
-                    gap: 1,
-                    m: 0,
-                    "& .MuiFormControlLabel-label": {
-                      fontSize: "14px",
-                    },
+                    textTransform: "capitalize",
+                    fontWeight: 600,
+                    width: "150px",
+                    fontSize: "14px",
+                    color: "#2a4062",
+                    opacity: 0.5,
                   }}
-                  control={
-                    <Checkbox
-                      onClick={(e) => {
-                        formik.setFieldValue("leaveReqRead", e.target.checked);
-                        setChanges(true);
-                      }}
-                      disableRipple
-                      checked={formik.values.leaveReqRead ? true : false}
-                      sx={{
-                        p: 0,
-                        position: "relative",
-                        borderRadius: "4px",
-                        width: "18px",
-                        height: "18px",
-                        border: "2px solid",
-                        borderColor: "text.primary",
-                        "& svg": { opacity: 0 },
-                        "&:before": {
-                          content: "'✓'",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          transform: "translate(-50%,-50%)",
-                          opacity: 0,
-                          transition: "all 0.2s ease-in-out",
-                          color: "text.primary",
-                          fontSize: "80%",
-                        },
-                        "&.Mui-checked:before": {
-                          opacity: 1,
-                        },
-                      }}
-                    />
-                  }
-                />
-                <FormControlLabel
-                  label="Write"
-                  sx={{
-                    userSelect: "none",
-                    gap: 1,
-                    m: 0,
-                    "& .MuiFormControlLabel-label": {
-                      fontSize: "14px",
-                    },
-                  }}
-                  control={
-                    <Checkbox
-                      onClick={(e) => {
-                        formik.setFieldValue("leaveReqWrite", e.target.checked);
-                        setChanges(true);
-                      }}
-                      disableRipple
-                      checked={formik.values.leaveReqWrite ? true : false}
-                      sx={{
-                        p: 0,
-                        position: "relative",
-                        borderRadius: "4px",
-                        width: "18px",
-                        height: "18px",
-                        border: "2px solid",
-                        borderColor: "text.primary",
-                        "& svg": { opacity: 0 },
-                        "&:before": {
-                          content: "'✓'",
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          transform: "translate(-50%,-50%)",
-                          opacity: 0,
-                          transition: "all 0.2s ease-in-out",
-                          color: "text.primary",
-                          fontSize: "80%",
-                        },
-                        "&.Mui-checked:before": {
-                          opacity: 1,
-                        },
-                      }}
-                    />
-                  }
-                />
+                >
+                  leave requests
+                </Typography>
+                <Stack direction={"row"} gap={"15px"}>
+                  <FormControlLabel
+                    label="Read"
+                    sx={{
+                      userSelect: "none",
+                      gap: 1,
+                      m: 0,
+                      "& .MuiFormControlLabel-label": {
+                        fontSize: "14px",
+                      },
+                    }}
+                    control={
+                      <Checkbox
+                        onClick={(e) => {
+                          formik.setFieldValue(
+                            "leaveReqRead",
+                            e.target.checked
+                          );
+                          setChanges(true);
+                        }}
+                        disableRipple
+                        checked={formik.values.leaveReqRead ? true : false}
+                        sx={{
+                          p: 0,
+                          position: "relative",
+                          borderRadius: "4px",
+                          width: "18px",
+                          height: "18px",
+                          border: "2px solid",
+                          borderColor: "text.primary",
+                          "& svg": { opacity: 0 },
+                          "&:before": {
+                            content: "'✓'",
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%,-50%)",
+                            opacity: 0,
+                            transition: "all 0.2s ease-in-out",
+                            color: "text.primary",
+                            fontSize: "80%",
+                          },
+                          "&.Mui-checked:before": {
+                            opacity: 1,
+                          },
+                        }}
+                      />
+                    }
+                  />
+                  <FormControlLabel
+                    label="Write"
+                    sx={{
+                      userSelect: "none",
+                      gap: 1,
+                      m: 0,
+                      "& .MuiFormControlLabel-label": {
+                        fontSize: "14px",
+                      },
+                    }}
+                    control={
+                      <Checkbox
+                        onClick={(e) => {
+                          formik.setFieldValue(
+                            "leaveReqWrite",
+                            e.target.checked
+                          );
+                          setChanges(true);
+                        }}
+                        disableRipple
+                        checked={formik.values.leaveReqWrite ? true : false}
+                        sx={{
+                          p: 0,
+                          position: "relative",
+                          borderRadius: "4px",
+                          width: "18px",
+                          height: "18px",
+                          border: "2px solid",
+                          borderColor: "text.primary",
+                          "& svg": { opacity: 0 },
+                          "&:before": {
+                            content: "'✓'",
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%,-50%)",
+                            opacity: 0,
+                            transition: "all 0.2s ease-in-out",
+                            color: "text.primary",
+                            fontSize: "80%",
+                          },
+                          "&.Mui-checked:before": {
+                            opacity: 1,
+                          },
+                        }}
+                      />
+                    }
+                  />
+                </Stack>
               </Stack>
-            </Stack>
+            )}
             {changes && (
               <Box sx={{ display: "flex", gap: 2, mt: 2.5 }}>
                 <ThemeButton success Text={"Update"} type="submit" />
