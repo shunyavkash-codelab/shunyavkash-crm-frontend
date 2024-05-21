@@ -28,6 +28,7 @@ export default function EmployeeListRaw({
   dataList,
   type,
   user,
+  permission,
 }) {
   const [openDelete, setOpenDelete] = useState(false);
   const [role, setRole] = useState();
@@ -108,9 +109,13 @@ export default function EmployeeListRaw({
                   lineHeight: 1,
                   fontWeight: 600,
                   fontSize: { xs: "14px", sm: "16px" },
-                  cursor: user.role === 0 && "pointer",
+                  cursor:
+                    (permission?.member.write || user.role === 0) && "pointer",
                 }}
-                onClick={() => user.role === 0 && handleNavigate(row._id)}
+                onClick={() =>
+                  (permission?.member.write || user.role === 0) &&
+                  handleNavigate(row._id)
+                }
               >
                 {row.name}
               </Typography>

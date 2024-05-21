@@ -67,7 +67,7 @@ function a11yProps(index) {
 }
 
 export default function Members() {
-  const { user } = useAuth();
+  const { user, permission } = useAuth();
   const [managerList, setManagerList] = useState([]);
   const [dashboard, setDashboard] = useState([]);
   const { inviteMemberStore } = useInviteMemberStore();
@@ -477,6 +477,7 @@ export default function Members() {
                           setEmployeesList={setManagerList}
                           dataList={managerList}
                           user={user}
+                          permission={permission}
                           key={row._id}
                         />
                       ))}

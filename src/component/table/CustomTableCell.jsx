@@ -25,6 +25,7 @@ export default function CustomTableCell({
   onOpen,
   onDelete,
   deleteIcon,
+  editIcon,
   onEdit,
   id,
   name,
@@ -190,9 +191,11 @@ export default function CustomTableCell({
           <Button disableRipple onClick={onOpen}>
             <VisibilityIcon sx={{ color: "secondary.main" }} />
           </Button>
-          <Button disableRipple onClick={onEdit}>
-            <CreateIcon sx={{ color: "primary.main" }} />
-          </Button>
+          {editIcon && (
+            <Button disableRipple onClick={onEdit}>
+              <CreateIcon sx={{ color: "primary.main" }} />
+            </Button>
+          )}
           {deleteIcon && (
             <Button disableRipple onClick={onDelete}>
               <DeleteIcon sx={{ color: "error.main" }} />

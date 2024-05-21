@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -17,9 +17,18 @@ import TaskDetail from "../component/employee/TaskDetail";
 import TaskCard from "../component/employee/TaskCard";
 import SectionHeader from "../component/SectionHeader";
 import ThemePagination from "../component/ThemePagination";
+import CounterCards from "../component/CounterCards";
+import { useSnack } from "../hooks/store/useSnack";
+import useApi from "../hooks/useApi";
+import { useNavigate } from "react-router-dom";
+import { APIS } from "../api/apiList";
 
 export default function EmployeeDashboard() {
   const { user } = useAuth();
+  const [dashboardData, setDashboardData] = useState(false);
+  const { apiCall, isLoading } = useApi();
+  const { setSnack } = useSnack();
+  const navigate = useNavigate();
 
   // pagination
   // eslint-disable-next-line no-unused-vars
@@ -35,13 +44,32 @@ export default function EmployeeDashboard() {
     setPage(1);
   };
 
+  const fetchDashboardData = async () => {
+    try {
+      const res = await apiCall({
+        url: APIS.DASHBOARD.DATA,
+        method: "get",
+      });
+      if (res.data.success === true) {
+        setDashboardData(res.data.data);
+      }
+    } catch (error) {
+      console.log(error, setSnack);
+      // handleApiError(error, setSnack);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
   return (
     <>
       {user.role !== 0 && (
         <Box component="main">
           <SectionHeader Title="Employee Dashboard" />
 
-          <Grid
+          {/* <Grid
             container
             rowSpacing={2}
             columnSpacing={2}
@@ -119,6 +147,72 @@ export default function EmployeeDashboard() {
                   />
                 </Box>
               </Box>
+            </Grid>
+          </Grid> */}
+          <Grid container spacing={2.5}>
+            {/* <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                CardBgcolor={"rgba(74, 210, 146, 10%)"}
+                Title={"Clients"}
+                Counter={dashboardData.totalClient || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/clients"}
+                ArrowBgColor={"rgba(74, 210, 146, 60%)"}
+                titleStyle={{
+                  opacity: "100%",
+                }}
+                counterStyle={{
+                  fontSize: "30px",
+                }}
+              />
+            </Grid> */}
+            <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                CardBgcolor={"rgb(153 143 66 / 10%)"}
+                Title={"projects"}
+                Counter={dashboardData.totalProject || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/projects"}
+                ArrowBgColor={"rgb(153 143 66 / 60%)"}
+                titleStyle={{
+                  opacity: "100%",
+                }}
+                counterStyle={{
+                  fontSize: "30px",
+                }}
+              />
+            </Grid>
+            {/* <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                CardBgcolor={"rgb(53 113 51 / 10%)"}
+                Title={"invoices"}
+                Counter={dashboardData.totalInvoice || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/invoices"}
+                ArrowBgColor={"rgb(53 113 51 / 60%)"}
+                titleStyle={{
+                  opacity: "100%",
+                }}
+                counterStyle={{
+                  fontSize: "30px",
+                }}
+              />
+            </Grid> */}
+            <Grid item xs={12} sm={6} xl={3}>
+              <CounterCards
+                CardBgcolor={"rgb(33 63 177 / 10%)"}
+                Title={"employees"}
+                Counter={dashboardData.totalEmployee || 0}
+                Text={"lorem ipsum sit amet."}
+                Link={"/employees"}
+                ArrowBgColor={"rgb(33 63 177 / 60%)"}
+                titleStyle={{
+                  opacity: "100%",
+                }}
+                counterStyle={{
+                  fontSize: "30px",
+                }}
+              />
             </Grid>
           </Grid>
 

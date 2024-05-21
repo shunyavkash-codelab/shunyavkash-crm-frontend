@@ -19,7 +19,7 @@ export default function Clients() {
   const [clientList, setClientList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { user } = useAuth();
+  const { user, permission } = useAuth();
   const { searchData, setSearchData } = useSearchData();
   const [params] = useSearchParams();
   const page = +params.get("page") || 1;
@@ -112,7 +112,7 @@ export default function Clients() {
       label: "Project",
       sortable: false,
     },
-    user.role === 0 && {
+    {
       id: "actions",
       label: "Actions",
       sortable: false,
@@ -133,15 +133,16 @@ export default function Clients() {
       },
       { type: "box", value: client.companyName },
       { type: "multi-items", value: client.projectName },
-      user.role === 0 && {
+      {
         type: "edit",
         value: client.type,
+        editIcon: permission.client.write,
         onEdit: () => navigate(`./edit/${client._id}`),
         onOpen: () => {
           navigate(`./view/${client._id}`);
           // setSelectedTransaction(client);
         },
-        deleteIcon: true,
+        deleteIcon: user.role === 0,
         onDelete: () => {
           setOpenDelete(true);
           setSelectClient(client._id);
@@ -158,7 +159,7 @@ export default function Clients() {
           BreadCrumbPreviousLink="/"
           BreadCrumbPreviousTitle="Dashboard"
           BreadCrumbCurrentTitle="Clients"
-          createButtonTitle="Add client"
+          createButtonTitle={permission.client?.write && "Add client"}
           createLink="./add"
           style={{ mb: 0 }}
         />

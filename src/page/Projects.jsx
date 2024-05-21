@@ -20,7 +20,7 @@ export default function Project() {
   const [projectList, setProjectList] = useState([]);
   const { apiCall, isLoading } = useApi();
   const { setSnack } = useSnack();
-  const { user } = useAuth();
+  const { user, permission } = useAuth();
   const { searchData, setSearchData } = useSearchData();
   const [params] = useSearchParams();
   const page = +params.get("page") || 1;
@@ -174,15 +174,16 @@ export default function Project() {
               : "grey.dark",
         },
       },
-      user.role === 0 && {
+      {
         type: "edit",
         value: project.type,
+        editIcon: permission.project.write,
         onEdit: () => navigate(`./edit/${project._id}`),
         onOpen: () => {
           navigate(`./view/${project._id}`);
           // setSelectedTransaction(project);
         },
-        deleteIcon: true,
+        deleteIcon: user.role === 0,
         onDelete: () => {
           setOpenDelete(true);
           setSelectProject(project._id);
@@ -200,7 +201,7 @@ export default function Project() {
           BreadCrumbPreviousTitle="Dashboard"
           BreadCrumbCurrentTitle="projects"
           style={{ mb: 0 }}
-          createButtonTitle="Add Project"
+          createButtonTitle={permission.project?.write && "Add Project"}
           createLink="./add"
         />
 
